@@ -49,6 +49,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2024-10-14
+
+### Fixed
+- Fixed Equipment section using GetItemLinkTraitInfo() instead of GetItemTrait()
+- Fixed Combat Stats using proper STAT_SOFT_CAP_OPTION_PENALIZED parameter
+- Removed enchantment column from Equipment (causing errors)
+- Added automatic text selection - text is pre-selected when window opens
+- Fixed EditBox to allow text selection (added editEnabled and mouseEnabled)
+- Added SelectAll() and TakeFocus() to automatically select text
+- Improved error messages to show actual error details
+- Added nil checks throughout all data collection functions
+
+### Changed
+- Simplified equipment table (removed problematic enchantment column)
+- Changed instructions text to "Text is pre-selected - just press Ctrl+C to copy!"
+- Auto-select all text when window opens (no need for Ctrl+A)
+- Companions table simplified (removed rapport column)
+
 ## [1.0.1] - 2024-10-14
 
 ### Fixed

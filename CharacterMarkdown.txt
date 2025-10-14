@@ -1,6 +1,6 @@
 ## Title: Character Markdown
 ## Author: lvavasour
-## Version: 1.0.1
+## Version: 1.0.2
 ## APIVersion: 101043 101044
 ## SavedVariables: CharacterMarkdownSettings
 ## Description: Exports comprehensive character data in markdown format via /markdown command

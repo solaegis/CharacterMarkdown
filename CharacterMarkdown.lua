@@ -1,6 +1,6 @@
 -- CharacterMarkdown - Comprehensive character data export in markdown format
 -- Author: lvavasour
--- Version: 1.0.1
+-- Version: 1.0.2
 
 local CharacterMarkdown = {}
 CharacterMarkdown.name = "CharacterMarkdown"
@@ -22,11 +22,14 @@ end
 
 local function SafeGetPlayerStat(statType, defaultValue)
     defaultValue = defaultValue or 0
-    local value = GetPlayerStat(statType)
-    if value == nil then
+    if not statType then
         return defaultValue
     end
-    return value
+    local success, value = pcall(function() return GetPlayerStat(statType) end)
+    if success and value then
+        return value
+    end
+    return defaultValue
 end
 
 local function GetQualityColor(quality)
@@ -69,13 +72,13 @@ end
 local function GetCharacterIdentity()
     local markdown = "## Character Identity\n\n"
     
-    local name = GetUnitName("player")
-    local race = GetUnitRace("player")
-    local class = GetUnitClass("player")
-    local alliance = GetAllianceName(GetUnitAlliance("player"))
-    local level = GetUnitLevel("player")
-    local cp = GetPlayerChampionPointsEarned()
-    local title = GetTitle(GetCurrentTitleIndex())
+    local name = GetUnitName("player") or "Unknown"
+    local race = GetUnitRace("player") or "Unknown"
+    local class = GetUnitClass("player") or "Unknown"
+    local alliance = GetAllianceName(GetUnitAlliance("player")) or "Unknown"
+    local level = GetUnitLevel("player") or 0
+    local cp = GetPlayerChampionPointsEarned() or 0
+    local title = GetTitle(GetCurrentTitleIndex()) or ""
     
     markdown = markdown .. "- **Name:** " .. name .. "\n"
     markdown = markdown .. "- **Race:** " .. race .. "\n"
@@ -93,14 +96,14 @@ end
 local function GetMundusStone()
     local markdown = "## Mundus Stone\n\n"
     
-    local numBuffs = GetNumBuffs("player")
+    local numBuffs = GetNumBuffs("player") or 0
     local mundusName = "None"
     
     for i = 1, numBuffs do
         local buffName, _, _, _, _, _, _, _, _, _, abilityId = GetUnitBuffInfo("player", i)
         -- Mundus stones have ability IDs in the range 13940-13974
         if abilityId and abilityId >= 13940 and abilityId <= 13974 then
-            mundusName = buffName
+            mundusName = buffName or "Unknown"
             break
         end
     end
@@ -113,53 +116,40 @@ local function GetCombatStats()
     local markdown = "## Attributes & Combat Stats\n\n"
     
     -- Primary Attributes
-    local maxHealth = GetUnitPowerMax("player", POWERTYPE_HEALTH)
-    local maxMagicka = GetUnitPowerMax("player", POWERTYPE_MAGICKA)
-    local maxStamina = GetUnitPowerMax("player", POWERTYPE_STAMINA)
+    local maxHealth = GetUnitPowerMax("player", POWERTYPE_HEALTH) or 0
+    local maxMagicka = GetUnitPowerMax("player", POWERTYPE_MAGICKA) or 0
+    local maxStamina = GetUnitPowerMax("player", POWERTYPE_STAMINA) or 0
     
     markdown = markdown .. "### Primary Attributes\n"
     markdown = markdown .. "- **Health:** " .. FormatNumber(maxHealth) .. "\n"
     markdown = markdown .. "- **Magicka:** " .. FormatNumber(maxMagicka) .. "\n"
     markdown = markdown .. "- **Stamina:** " .. FormatNumber(maxStamina) .. "\n\n"
     
-    -- Offensive Stats
-    -- Note: Using safe wrapper to handle nil returns from GetPlayerStat
-    local weaponDamage = SafeGetPlayerStat(STAT_POWER)
-    local spellDamage = SafeGetPlayerStat(STAT_SPELL_POWER)
-    local weaponCrit = SafeGetPlayerStat(STAT_CRITICAL_STRIKE)
-    local spellCrit = SafeGetPlayerStat(STAT_SPELL_CRITICAL)
-    
+    -- Try to get offensive stats (may not exist on all API versions)
     markdown = markdown .. "### Offensive Stats\n"
-    markdown = markdown .. "- **Weapon Damage:** " .. FormatNumber(weaponDamage) .. "\n"
-    markdown = markdown .. "- **Spell Damage:** " .. FormatNumber(spellDamage) .. "\n"
-    markdown = markdown .. "- **Weapon Critical:** " .. FormatNumber(weaponCrit) .. "\n"
-    markdown = markdown .. "- **Spell Critical:** " .. FormatNumber(spellCrit) .. "\n\n"
     
-    -- Defensive Stats
-    local physicalResist = SafeGetPlayerStat(STAT_PHYSICAL_RESIST)
-    local spellResist = SafeGetPlayerStat(STAT_SPELL_RESIST)
-    local critResist = SafeGetPlayerStat(STAT_CRITICAL_RESISTANCE)
+    -- Use derived stats that are more reliable
+    local weaponPower = GetPlayerStat(STAT_POWER, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
+    local spellPower = GetPlayerStat(STAT_SPELL_POWER, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
     
+    markdown = markdown .. "- **Weapon Power:** " .. FormatNumber(weaponPower) .. "\n"
+    markdown = markdown .. "- **Spell Power:** " .. FormatNumber(spellPower) .. "\n\n"
+    
+    -- Defensive stats
     markdown = markdown .. "### Defensive Stats\n"
+    local physicalResist = GetPlayerStat(STAT_PHYSICAL_RESIST, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
+    local spellResist = GetPlayerStat(STAT_SPELL_RESIST, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
+    
     markdown = markdown .. "- **Physical Resistance:** " .. FormatNumber(physicalResist) .. "\n"
-    markdown = markdown .. "- **Spell Resistance:** " .. FormatNumber(spellResist) .. "\n"
-    markdown = markdown .. "- **Critical Resistance:** " .. FormatNumber(critResist) .. "\n\n"
-    
-    -- Penetration
-    local physicalPen = SafeGetPlayerStat(STAT_PHYSICAL_PENETRATION)
-    local spellPen = SafeGetPlayerStat(STAT_SPELL_PENETRATION)
-    
-    markdown = markdown .. "### Penetration\n"
-    markdown = markdown .. "- **Physical Penetration:** " .. FormatNumber(physicalPen) .. "\n"
-    markdown = markdown .. "- **Spell Penetration:** " .. FormatNumber(spellPen) .. "\n\n"
+    markdown = markdown .. "- **Spell Resistance:** " .. FormatNumber(spellResist) .. "\n\n"
     
     return markdown
 end
 
 local function GetEquipment()
     local markdown = "## Equipment\n\n"
-    markdown = markdown .. "| Slot | Item | Set | Quality | Level | Trait | Enchantment |\n"
-    markdown = markdown .. "|------|------|-----|---------|-------|-------|-------------|\n"
+    markdown = markdown .. "| Slot | Item | Set | Quality | Level | Trait |\n"
+    markdown = markdown .. "|------|------|-----|---------|-------|-------|\n"
     
     local equipSlots = {
         EQUIP_SLOT_HEAD,
@@ -179,40 +169,29 @@ local function GetEquipment()
     }
     
     for _, slotIndex in ipairs(equipSlots) do
-        local hasItem = GetItemName(BAG_WORN, slotIndex) ~= ""
+        local itemName = GetItemName(BAG_WORN, slotIndex)
+        local hasItem = itemName and itemName ~= ""
         
         if hasItem then
-            local itemName = GetItemName(BAG_WORN, slotIndex)
             local itemLink = GetItemLink(BAG_WORN, slotIndex)
             local hasSet, setName = GetItemLinkSetInfo(itemLink)
             local quality = GetItemLinkQuality(itemLink)
-            local level = GetItemLinkRequiredLevel(itemLink)
-            local trait = GetItemTrait(BAG_WORN, slotIndex)
-            local traitName = GetString("SI_ITEMTRAITTYPE", trait)
+            local level = GetItemLinkRequiredLevel(itemLink) or 0
+            local traitType = GetItemLinkTraitInfo(itemLink)
+            local traitName = GetString("SI_ITEMTRAITTYPE", traitType) or "None"
             
-            -- Get enchantment
-            local enchantName = "None"
-            local enchantType, enchantValue = GetItemEnchantInfo(BAG_WORN, slotIndex)
-            if enchantType and enchantType ~= ENCHANT_TYPE_INVALID then
-                enchantName = GetString("SI_ENCHANTMENTTYPE", enchantType)
-                if enchantValue and enchantValue > 0 then
-                    enchantName = enchantName .. " (" .. FormatNumber(enchantValue) .. ")"
-                end
-            end
+            local setDisplayName = (hasSet and setName) and setName or "None"
             
-            local setDisplayName = hasSet and setName or "None"
-            
-            markdown = markdown .. string.format("| %s | %s | %s | %s | %d | %s | %s |\n",
+            markdown = markdown .. string.format("| %s | %s | %s | %s | %d | %s |\n",
                 GetEquipSlotName(slotIndex),
                 itemName,
                 setDisplayName,
                 GetQualityColor(quality),
                 level,
-                traitName,
-                enchantName
+                traitName
             )
         else
-            markdown = markdown .. string.format("| %s | Empty | - | - | - | - | - |\n",
+            markdown = markdown .. string.format("| %s | Empty | - | - | - | - |\n",
                 GetEquipSlotName(slotIndex)
             )
         end
@@ -227,25 +206,27 @@ local function GetActiveSkills()
     markdown = markdown .. "|------------|------|------|-------------|\n"
     
     -- Iterate through all skill types
-    for skillType = 1, GetNumSkillTypes() do
-        local skillTypeName = GetSkillTypeNameById(skillType)
-        local numSkillLines = GetNumSkillLines(skillType)
+    local numSkillTypes = GetNumSkillTypes() or 0
+    for skillType = 1, numSkillTypes do
+        local skillTypeName = GetSkillTypeNameById(skillType) or "Unknown"
+        local numSkillLines = GetNumSkillLines(skillType) or 0
         
         for skillLineIndex = 1, numSkillLines do
             local skillLineName, skillLineRank = GetSkillLineInfo(skillType, skillLineIndex)
-            local lastXP, nextXP, currentXP = GetSkillLineXPInfo(skillType, skillLineIndex)
             
             -- Only show skill lines that have been started (rank > 0)
-            if skillLineRank and skillLineRank > 0 then
+            if skillLineName and skillLineRank and skillLineRank > 0 then
+                local lastXP, nextXP, currentXP = GetSkillLineXPInfo(skillType, skillLineIndex)
+                
                 local xpProgress = "Max"
-                if nextXP and nextXP > 0 then
+                if nextXP and nextXP > 0 and currentXP then
                     local percent = math.floor((currentXP / nextXP) * 100)
                     xpProgress = string.format("%d%%", percent)
                 end
                 
                 markdown = markdown .. string.format("| %s | %s | %d | %s |\n",
-                    skillLineName or "Unknown",
-                    skillTypeName or "Unknown",
+                    skillLineName,
+                    skillTypeName,
                     skillLineRank,
                     xpProgress
                 )
@@ -258,10 +239,10 @@ end
 
 local function GetCompanions()
     local markdown = "## Companions\n\n"
-    markdown = markdown .. "| Name | Role | Rapport Level | Status |\n"
-    markdown = markdown .. "|------|------|---------------|--------|\n"
+    markdown = markdown .. "| Name | Role | Status |\n"
+    markdown = markdown .. "|------|------|--------|\n"
     
-    -- Known companion collection IDs (these may need adjustment based on game version)
+    -- Known companion collection IDs
     local companions = {
         {id = 1, name = "Bastian Hallix", role = "DPS"},
         {id = 2, name = "Mirri Elendis", role = "DPS"},
@@ -274,39 +255,18 @@ local function GetCompanions()
     }
     
     for _, companion in ipairs(companions) do
-        -- Try to get companion data (this is a simplified approach)
-        -- Note: ESO's companion API is complex; this attempts basic detection
-        local isUnlocked = false
-        local rapportLevel = "Unknown"
+        local status = "Unknown"
         
-        -- Check if companion collectible is unlocked
-        local collectibleId = GetCollectibleIdFromType(COLLECTIBLE_CATEGORY_TYPE_COMPANION, companion.id)
-        if collectibleId and collectibleId > 0 then
-            isUnlocked = IsCollectibleUnlocked(collectibleId)
-            
-            if isUnlocked then
-                -- Try to get rapport (this is approximate - actual API varies)
-                -- Rapport levels: 0-1000 (Stranger), 1000-2500 (Acquaintance), 2500-4000 (Friend), 4000+ (Ally)
-                local rapport = 0 -- Would need GetActiveCompanionRapport() or similar
-                
-                if rapport >= 4000 then
-                    rapportLevel = "Ally"
-                elseif rapport >= 2500 then
-                    rapportLevel = "Friend"
-                elseif rapport >= 1000 then
-                    rapportLevel = "Acquaintance"
-                else
-                    rapportLevel = "Stranger"
-                end
-            end
+        -- Try different methods to detect companion unlock status
+        local success, collectibleId = pcall(GetCollectibleIdFromType, COLLECTIBLE_CATEGORY_TYPE_COMPANION, companion.id)
+        if success and collectibleId and collectibleId > 0 then
+            local unlocked = IsCollectibleUnlocked(collectibleId)
+            status = unlocked and "Unlocked" or "Locked"
         end
         
-        local status = isUnlocked and "Unlocked" or "Locked"
-        
-        markdown = markdown .. string.format("| %s | %s | %s | %s |\n",
+        markdown = markdown .. string.format("| %s | %s | %s |\n",
             companion.name,
             companion.role,
-            rapportLevel,
             status
         )
     end
@@ -320,58 +280,37 @@ end
 
 local function GenerateMarkdown()
     local markdown = "# Character Data Export\n\n"
-    markdown = markdown .. "*Generated on: " .. GetDateStringFromTimestamp(GetTimeStamp()) .. "*\n\n"
+    
+    -- Add timestamp
+    local timeStamp = GetTimeStamp()
+    if timeStamp then
+        local dateStr = GetDateStringFromTimestamp(timeStamp)
+        if dateStr then
+            markdown = markdown .. "*Generated on: " .. dateStr .. "*\n\n"
+        end
+    end
+    
     markdown = markdown .. "---\n\n"
     
     -- Collect all data sections with error handling
-    local success, result
+    local sections = {
+        {name = "Character Identity", func = GetCharacterIdentity},
+        {name = "Mundus Stone", func = GetMundusStone},
+        {name = "Combat Stats", func = GetCombatStats},
+        {name = "Equipment", func = GetEquipment},
+        {name = "Active Skills", func = GetActiveSkills},
+        {name = "Companions", func = GetCompanions},
+    }
     
-    success, result = pcall(GetCharacterIdentity)
-    if success then
-        markdown = markdown .. result
-    else
-        markdown = markdown .. "## Character Identity\n\n*Error collecting data*\n\n"
-        d("[CharacterMarkdown] Error in GetCharacterIdentity: " .. tostring(result))
-    end
-    
-    success, result = pcall(GetMundusStone)
-    if success then
-        markdown = markdown .. result
-    else
-        markdown = markdown .. "## Mundus Stone\n\n*Error collecting data*\n\n"
-        d("[CharacterMarkdown] Error in GetMundusStone: " .. tostring(result))
-    end
-    
-    success, result = pcall(GetCombatStats)
-    if success then
-        markdown = markdown .. result
-    else
-        markdown = markdown .. "## Combat Stats\n\n*Error collecting data*\n\n"
-        d("[CharacterMarkdown] Error in GetCombatStats: " .. tostring(result))
-    end
-    
-    success, result = pcall(GetEquipment)
-    if success then
-        markdown = markdown .. result
-    else
-        markdown = markdown .. "## Equipment\n\n*Error collecting data*\n\n"
-        d("[CharacterMarkdown] Error in GetEquipment: " .. tostring(result))
-    end
-    
-    success, result = pcall(GetActiveSkills)
-    if success then
-        markdown = markdown .. result
-    else
-        markdown = markdown .. "## Active Skills\n\n*Error collecting data*\n\n"
-        d("[CharacterMarkdown] Error in GetActiveSkills: " .. tostring(result))
-    end
-    
-    success, result = pcall(GetCompanions)
-    if success then
-        markdown = markdown .. result
-    else
-        markdown = markdown .. "## Companions\n\n*Error collecting data*\n\n"
-        d("[CharacterMarkdown] Error in GetCompanions: " .. tostring(result))
+    for _, section in ipairs(sections) do
+        local success, result = pcall(section.func)
+        if success and result then
+            markdown = markdown .. result
+        else
+            markdown = markdown .. "## " .. section.name .. "\n\n"
+            markdown = markdown .. "*Error collecting data: " .. tostring(result) .. "*\n\n"
+            d("[CharacterMarkdown] Error in " .. section.name .. ": " .. tostring(result))
+        end
     end
     
     return markdown
@@ -380,17 +319,27 @@ end
 local function ShowMarkdownWindow()
     local markdown = GenerateMarkdown()
     
-    -- Set the text in the edit box
+    -- Get the edit box
     local editBox = CharacterMarkdownWindowTextContainerEditBox
     if editBox then
+        -- Set the text
         editBox:SetText(markdown)
-        editBox:SetCursorPosition(0)
+        
+        -- Make sure it's enabled and can be edited
+        editBox:SetEditEnabled(true)
+        editBox:SetMouseEnabled(true)
+        
+        -- Select all text automatically
+        editBox:SelectAll()
         
         -- Show the window
         CharacterMarkdownWindow:SetHidden(false)
         
+        -- Give focus to the edit box
+        editBox:TakeFocus()
+        
         -- Log success
-        d("[CharacterMarkdown] Data exported successfully! Use Ctrl+A to select all, then Ctrl+C to copy.")
+        d("[CharacterMarkdown] Data exported! Text is pre-selected - just press Ctrl+C to copy.")
     else
         d("[CharacterMarkdown] ERROR: Could not find edit box control.")
     end
@@ -404,7 +353,7 @@ function CharacterMarkdown:Initialize()
     -- Register slash command
     SLASH_COMMANDS["/markdown"] = ShowMarkdownWindow
     
-    d("[CharacterMarkdown] Loaded v1.0.1. Use /markdown to export character data.")
+    d("[CharacterMarkdown] Loaded v1.0.2. Use /markdown to export character data.")
 end
 
 -- Event handler for addon loaded

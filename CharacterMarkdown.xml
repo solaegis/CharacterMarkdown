@@ -32,7 +32,7 @@
                 </Control>
                 
                 <!-- Instructions -->
-                <Label name="$(parent)Instructions" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_SELECTED" text="Press Ctrl+A to select all, then Ctrl+C to copy">
+                <Label name="$(parent)Instructions" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_SELECTED" text="Text is pre-selected - just press Ctrl+C to copy!">
                     <Dimensions x="760" y="24" />
                     <Anchor point="TOP" relativeTo="$(parent)Title" relativePoint="BOTTOM" offsetY="10" />
                 </Label>
@@ -47,7 +47,7 @@
                             <AnchorFill />
                         </Backdrop>
                         
-                        <EditBox name="$(parent)EditBox" font="ZoFontGameSmall" multiLine="true" maxInputCharacters="50000">
+                        <EditBox name="$(parent)EditBox" font="ZoFontGameSmall" multiLine="true" maxInputCharacters="50000" editEnabled="true" mouseEnabled="true">
                             <Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
                             <Anchor point="BOTTOMRIGHT" offsetX="-5" offsetY="-5" />
                         </EditBox>
