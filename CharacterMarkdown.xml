@@ -1,0 +1,59 @@
+<GuiXml>
+    <Controls>
+        <!-- Main Window -->
+        <TopLevelControl name="CharacterMarkdownWindow" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true">
+            <Dimensions x="800" y="600" />
+            <Anchor point="CENTER" relativeTo="GuiRoot" />
+            
+            <!-- Background -->
+            <Controls>
+                <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop">
+                    <AnchorFill />
+                </Backdrop>
+                
+                <!-- Title Bar -->
+                <Control name="$(parent)Title">
+                    <Dimensions x="800" y="40" />
+                    <Anchor point="TOP" />
+                    
+                    <Controls>
+                        <Label name="$(parent)Label" font="ZoFontWinH3" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" text="Character Markdown Export">
+                            <Anchor point="LEFT" offsetX="20" />
+                        </Label>
+                        
+                        <!-- Close Button -->
+                        <Button name="$(parent)Close" inherits="ZO_CloseButton">
+                            <Anchor point="RIGHT" offsetX="-10" />
+                            <OnClicked>
+                                CharacterMarkdownWindow:SetHidden(true)
+                            </OnClicked>
+                        </Button>
+                    </Controls>
+                </Control>
+                
+                <!-- Instructions -->
+                <Label name="$(parent)Instructions" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_SELECTED" text="Press Ctrl+A to select all, then Ctrl+C to copy">
+                    <Dimensions x="760" y="24" />
+                    <Anchor point="TOP" relativeTo="$(parent)Title" relativePoint="BOTTOM" offsetY="10" />
+                </Label>
+                
+                <!-- Scrollable Text Box -->
+                <Control name="$(parent)TextContainer">
+                    <Dimensions x="760" y="490" />
+                    <Anchor point="TOP" relativeTo="$(parent)Instructions" relativePoint="BOTTOM" offsetY="10" />
+                    
+                    <Controls>
+                        <Backdrop name="$(parent)BG" inherits="ZO_EditBackdrop">
+                            <AnchorFill />
+                        </Backdrop>
+                        
+                        <EditBox name="$(parent)EditBox" font="ZoFontGameSmall" multiLine="true" maxInputCharacters="50000">
+                            <Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
+                            <Anchor point="BOTTOMRIGHT" offsetX="-5" offsetY="-5" />
+                        </EditBox>
+                    </Controls>
+                </Control>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

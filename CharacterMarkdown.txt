@@ -1,0 +1,9 @@
+## Title: Character Markdown
+## Author: lvavasour
+## Version: 1.0.0
+## APIVersion: 101043 101044
+## SavedVariables: CharacterMarkdownSettings
+## Description: Exports comprehensive character data in markdown format via /markdown command
+
+CharacterMarkdown.xml
+CharacterMarkdown.lua
