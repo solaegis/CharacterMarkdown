@@ -1,0 +1,419 @@
+version: '3'
+
+# CharacterMarkdown - Developer Task Automation
+# Requires: Task (https://taskfile.dev)
+# Install: brew install go-task/tap/go-task
+
+vars:
+  ADDON_NAME: CharacterMarkdown
+  VERSION:
+    sh: grep "## Version:" {{.ADDON_NAME}}.txt | cut -d' ' -f3
+  ESO_ADDONS_DIR: "{{.HOME}}/Documents/Elder Scrolls Online/live/AddOns"
+  DIST_DIR: "./dist"
+  REQUIRED_FILES: "{{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml {{.ADDON_NAME}}.lua README.md LICENSE"
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  # ==========================================
+  # INSTALLATION TASKS
+  # ==========================================
+
+  install:
+    desc: Install addon to ESO AddOns directory (copy)
+    cmds:
+      - echo "Installing {{.ADDON_NAME}} to ESO..."
+      - mkdir -p "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
+      - cp {{.REQUIRED_FILES}} "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}/"
+      - echo "✓ Installed to {{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
+    sources:
+      - "{{.ADDON_NAME}}.txt"
+      - "{{.ADDON_NAME}}.xml"
+      - "{{.ADDON_NAME}}.lua"
+
+  install:dev:
+    desc: Install addon as symlink for live development
+    cmds:
+      - echo "Creating development symlink..."
+      - rm -rf "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
+      - ln -s "{{.PWD}}" "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
+      - echo "✓ Development symlink created"
+      - echo "  Edit files here, use /reloadui in-game to test"
+
+  uninstall:
+    desc: Remove addon from ESO AddOns directory
+    cmds:
+      - echo "Removing {{.ADDON_NAME}} from ESO..."
+      - rm -rf "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
+      - echo "✓ Uninstalled"
+
+  # ==========================================
+  # VALIDATION TASKS
+  # ==========================================
+
+  validate:
+    desc: Validate addon files and structure
+    cmds:
+      - task: validate:files
+      - task: validate:manifest
+      - task: validate:lua
+      - echo "✓ All validations passed"
+
+  validate:files:
+    desc: Check that all required files exist
+    cmds:
+      - echo "Checking required files..."
+      - |
+        for file in {{.REQUIRED_FILES}}; do
+          if [ ! -f "$file" ]; then
+            echo "✗ Missing required file: $file"
+            exit 1
+          fi
+        done
+      - echo "  ✓ All required files present"
+    silent: true
+
+  validate:manifest:
+    desc: Validate addon manifest (txt file)
+    cmds:
+      - echo "Validating manifest..."
+      - |
+        if ! grep -q "## Title:" {{.ADDON_NAME}}.txt; then
+          echo "✗ Missing Title in manifest"
+          exit 1
+        fi
+        if ! grep -q "## Version:" {{.ADDON_NAME}}.txt; then
+          echo "✗ Missing Version in manifest"
+          exit 1
+        fi
+        if ! grep -q "## APIVersion:" {{.ADDON_NAME}}.txt; then
+          echo "✗ Missing APIVersion in manifest"
+          exit 1
+        fi
+      - echo "  ✓ Manifest valid"
+    silent: true
+
+  validate:lua:
+    desc: Check Lua syntax
+    cmds:
+      - echo "Checking Lua syntax..."
+      - luac -p {{.ADDON_NAME}}.lua || (echo "✗ Lua syntax errors found" && exit 1)
+      - echo "  ✓ Lua syntax valid"
+    silent: true
+
+  # ==========================================
+  # BUILD & PACKAGING TASKS
+  # ==========================================
+
+  build:
+    desc: Build distribution package
+    deps: [validate]
+    cmds:
+      - task: clean
+      - echo "Building {{.ADDON_NAME}} v{{.VERSION}}..."
+      - mkdir -p {{.DIST_DIR}}/{{.ADDON_NAME}}
+      - cp {{.REQUIRED_FILES}} {{.DIST_DIR}}/{{.ADDON_NAME}}/
+      - echo "✓ Build complete: {{.DIST_DIR}}/{{.ADDON_NAME}}"
+
+  package:
+    desc: Create release ZIP file
+    deps: [build]
+    cmds:
+      - echo "Packaging {{.ADDON_NAME}} v{{.VERSION}}..."
+      - cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}.zip {{.ADDON_NAME}}
+      - echo "✓ Package created: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
+
+  package:esoui:
+    desc: Create ESOUI-compatible package
+    deps: [build]
+    cmds:
+      - echo "Creating ESOUI package..."
+      - cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip {{.ADDON_NAME}}
+      - echo "✓ ESOUI package: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip"
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - echo "Cleaning build artifacts..."
+      - rm -rf {{.DIST_DIR}}
+      - echo "✓ Clean complete"
+
+  # ==========================================
+  # VERSION MANAGEMENT
+  # ==========================================
+
+  version:
+    desc: Show current version
+    cmds:
+      - echo "Current version: {{.VERSION}}"
+    silent: true
+
+  version:bump:
+    desc: Bump version number (usage: task version:bump -- <major|minor|patch>)
+    vars:
+      BUMP_TYPE: '{{.CLI_ARGS | default "patch"}}'
+    cmds:
+      - echo "Bumping {{.BUMP_TYPE}} version..."
+      - |
+        CURRENT="{{.VERSION}}"
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+        
+        case "{{.BUMP_TYPE}}" in
+          major)
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+            ;;
+          minor)
+            MINOR=$((MINOR + 1))
+            PATCH=0
+            ;;
+          patch|*)
+            PATCH=$((PATCH + 1))
+            ;;
+        esac
+        
+        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+        echo "  $CURRENT → $NEW_VERSION"
+        
+        # Update manifest
+        sed -i.bak "s/## Version: .*/## Version: $NEW_VERSION/" {{.ADDON_NAME}}.txt
+        rm {{.ADDON_NAME}}.txt.bak
+        
+        # Update CHANGELOG
+        DATE=$(date +%Y-%m-%d)
+        sed -i.bak "s/## \[Unreleased\]/## [Unreleased]\n\n## [$NEW_VERSION] - $DATE/" CHANGELOG.md
+        rm CHANGELOG.md.bak
+        
+        echo "✓ Version bumped to $NEW_VERSION"
+
+  # ==========================================
+  # GIT TASKS
+  # ==========================================
+
+  git:status:
+    desc: Show git status and pending changes
+    cmds:
+      - git status
+      - echo ""
+      - echo "Uncommitted changes:"
+      - git diff --stat
+
+  git:commit:
+    desc: Stage and commit changes (usage: task git:commit -- "commit message")
+    cmds:
+      - git add .
+      - git commit -m "{{.CLI_ARGS}}"
+      - echo "✓ Changes committed"
+
+  git:tag:
+    desc: Create version tag
+    cmds:
+      - git tag -a v{{.VERSION}} -m "Release version {{.VERSION}}"
+      - echo "✓ Tag v{{.VERSION}} created"
+      - echo "  Push with: git push origin v{{.VERSION}}"
+
+  # ==========================================
+  # RELEASE TASKS
+  # ==========================================
+
+  release:
+    desc: Create full release (build, package, tag)
+    deps: [validate]
+    cmds:
+      - task: package
+      - task: git:tag
+      - echo ""
+      - echo "✓ Release v{{.VERSION}} ready!"
+      - echo ""
+      - echo "Next steps:"
+      - echo "  1. Push tag: git push origin v{{.VERSION}}"
+      - echo "  2. Upload: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
+      - echo "  3. Create GitHub release"
+      - echo "  4. Upload to ESOUI (see MINION_UPLOAD.md)"
+
+  release:github:
+    desc: Create GitHub release (requires gh CLI)
+    deps: [package]
+    cmds:
+      - echo "Creating GitHub release v{{.VERSION}}..."
+      - gh release create v{{.VERSION}} {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip --title "v{{.VERSION}}" --notes-file CHANGELOG.md
+      - echo "✓ GitHub release created"
+
+  # ==========================================
+  # TESTING TASKS
+  # ==========================================
+
+  test:
+    desc: Run all tests
+    cmds:
+      - task: validate
+      - echo "✓ All tests passed"
+
+  test:syntax:
+    desc: Check Lua syntax only
+    cmds:
+      - luac -p {{.ADDON_NAME}}.lua
+
+  test:install:
+    desc: Test installation workflow
+    cmds:
+      - task: uninstall
+      - task: install
+      - echo "✓ Installation test complete"
+
+  # ==========================================
+  # DEVELOPMENT TASKS
+  # ==========================================
+
+  dev:
+    desc: Start development mode (symlink install + watch for changes)
+    cmds:
+      - task: install:dev
+      - echo ""
+      - echo "Development mode active!"
+      - echo "  - Edit files in this directory"
+      - echo "  - Use /reloadui in ESO to test changes"
+      - echo "  - Press Ctrl+C to stop watching"
+      - echo ""
+      - task: dev:watch
+
+  dev:watch:
+    desc: Watch for file changes
+    cmds:
+      - |
+        echo "Watching for changes..."
+        fswatch -o {{.ADDON_NAME}}.lua {{.ADDON_NAME}}.xml | while read; do
+          echo "[$(date +%H:%M:%S)] Files changed - use /reloadui in ESO"
+        done
+
+  dev:lint:
+    desc: Lint Lua code (requires luacheck)
+    cmds:
+      - echo "Linting Lua code..."
+      - luacheck {{.ADDON_NAME}}.lua --std max --globals EVENT_MANAGER SLASH_COMMANDS d GetUnitName GetPlayerStat
+      - echo "✓ Lint complete"
+
+  # ==========================================
+  # DOCUMENTATION TASKS
+  # ==========================================
+
+  docs:
+    desc: Generate documentation
+    cmds:
+      - echo "Documentation files:"
+      - echo "  - README.md (user guide)"
+      - echo "  - INSTALL.md (installation)"
+      - echo "  - PROJECT_SUMMARY.md (technical)"
+      - echo "  - CHANGELOG.md (versions)"
+      - echo "  - MINION_UPLOAD.md (deployment)"
+
+  docs:serve:
+    desc: Serve documentation locally (requires Python)
+    cmds:
+      - echo "Serving docs at http://localhost:8000"
+      - python3 -m http.server 8000
+
+  # ==========================================
+  # UTILITY TASKS
+  # ==========================================
+
+  info:
+    desc: Show addon information
+    cmds:
+      - |
+        echo "Addon Information"
+        echo "================="
+        echo "Name:        {{.ADDON_NAME}}"
+        echo "Version:     {{.VERSION}}"
+        echo "Location:    {{.PWD}}"
+        echo "ESO Install: {{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
+        echo ""
+        echo "Files:"
+        ls -lh {{.REQUIRED_FILES}}
+
+  size:
+    desc: Show file sizes and package size
+    cmds:
+      - echo "File Sizes:"
+      - du -h {{.REQUIRED_FILES}}
+      - echo ""
+      - echo "Total package size:"
+      - du -sh .
+      - echo ""
+      - echo "Distribution size:"
+      - du -sh {{.DIST_DIR}} 2>/dev/null || echo "  (not built yet - run 'task build')"
+
+  backup:
+    desc: Create backup of current addon
+    cmds:
+      - echo "Creating backup..."
+      - tar czf backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz {{.REQUIRED_FILES}}
+      - echo "✓ Backup created"
+
+  # ==========================================
+  # MINION TASKS
+  # ==========================================
+
+  minion:prepare:
+    desc: Prepare package for Minion upload
+    deps: [package:esoui]
+    cmds:
+      - echo "Package ready for Minion:"
+      - echo "  {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip"
+      - echo ""
+      - echo "See MINION_UPLOAD.md for upload instructions"
+
+  minion:verify:
+    desc: Verify package meets Minion requirements
+    cmds:
+      - echo "Verifying Minion package requirements..."
+      - |
+        if [ ! -f "{{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip" ]; then
+          echo "✗ Package not found. Run: task minion:prepare"
+          exit 1
+        fi
+      - echo "  ✓ Package exists"
+      - |
+        SIZE=$(stat -f%z "{{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip" 2>/dev/null || stat -c%s "{{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip")
+        if [ $SIZE -gt 10485760 ]; then
+          echo "  ⚠ Warning: Package >10MB (${SIZE} bytes)"
+        else
+          echo "  ✓ Package size OK (${SIZE} bytes)"
+        fi
+      - echo "  ✓ Ready for Minion upload"
+
+  # ==========================================
+  # HELP TASKS
+  # ==========================================
+
+  help:install:
+    desc: Show installation help
+    cmds:
+      - echo "Installation Commands:"
+      - echo "  task install          - Copy addon to ESO"
+      - echo "  task install:dev      - Symlink for development"
+      - echo "  task uninstall        - Remove from ESO"
+
+  help:release:
+    desc: Show release workflow help
+    cmds:
+      - echo "Release Workflow:"
+      - echo "  1. task version:bump -- patch   (or minor/major)"
+      - echo "  2. task git:commit -- 'message'"
+      - echo "  3. task release"
+      - echo "  4. git push && git push --tags"
+      - echo "  5. task release:github (optional)"
+
+  help:dev:
+    desc: Show development help
+    cmds:
+      - echo "Development Workflow:"
+      - echo "  1. task install:dev     - Setup dev mode"
+      - echo "  2. Edit .lua/.xml files"
+      - echo "  3. /reloadui in ESO     - Test changes"
+      - echo "  4. task validate        - Check before commit"

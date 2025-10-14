@@ -1,0 +1,8 @@
+# Python Dependencies for CharacterMarkdown Development
+
+# Browser automation for ESOUI uploads
+playwright==1.40.0
+python-dotenv==1.0.0
+
+# Optional: Development tools
+requests==2.31.0
