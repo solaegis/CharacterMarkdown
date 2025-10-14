@@ -129,16 +129,22 @@ local function GetCombatStats()
     markdown = markdown .. "### Offensive Stats\n"
     
     -- Use derived stats that are more reliable
-    local weaponPower = GetPlayerStat(STAT_POWER, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
-    local spellPower = GetPlayerStat(STAT_SPELL_POWER, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
+    local success1, weaponPower = pcall(GetPlayerStat, STAT_POWER, STAT_SOFT_CAP_OPTION_PENALIZED)
+    weaponPower = (success1 and weaponPower) or 0
+    
+    local success2, spellPower = pcall(GetPlayerStat, STAT_SPELL_POWER, STAT_SOFT_CAP_OPTION_PENALIZED)
+    spellPower = (success2 and spellPower) or 0
     
     markdown = markdown .. "- **Weapon Power:** " .. FormatNumber(weaponPower) .. "\n"
     markdown = markdown .. "- **Spell Power:** " .. FormatNumber(spellPower) .. "\n\n"
     
     -- Defensive stats
     markdown = markdown .. "### Defensive Stats\n"
-    local physicalResist = GetPlayerStat(STAT_PHYSICAL_RESIST, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
-    local spellResist = GetPlayerStat(STAT_SPELL_RESIST, STAT_SOFT_CAP_OPTION_PENALIZED) or 0
+    local success3, physicalResist = pcall(GetPlayerStat, STAT_PHYSICAL_RESIST, STAT_SOFT_CAP_OPTION_PENALIZED)
+    physicalResist = (success3 and physicalResist) or 0
+    
+    local success4, spellResist = pcall(GetPlayerStat, STAT_SPELL_RESIST, STAT_SOFT_CAP_OPTION_PENALIZED)
+    spellResist = (success4 and spellResist) or 0
     
     markdown = markdown .. "- **Physical Resistance:** " .. FormatNumber(physicalResist) .. "\n"
     markdown = markdown .. "- **Spell Resistance:** " .. FormatNumber(spellResist) .. "\n\n"
