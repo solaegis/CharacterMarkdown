@@ -1,6 +1,6 @@
 -- CharacterMarkdown - Comprehensive character data export in markdown format
 -- Author: lvavasour
--- Version: 1.0.0
+-- Version: 1.0.1
 
 local CharacterMarkdown = {}
 CharacterMarkdown.name = "CharacterMarkdown"
@@ -18,6 +18,15 @@ local function FormatNumber(number)
         if k == 0 then break end
     end
     return formatted
+end
+
+local function SafeGetPlayerStat(statType, defaultValue)
+    defaultValue = defaultValue or 0
+    local value = GetPlayerStat(statType)
+    if value == nil then
+        return defaultValue
+    end
+    return value
 end
 
 local function GetQualityColor(quality)
@@ -90,7 +99,7 @@ local function GetMundusStone()
     for i = 1, numBuffs do
         local buffName, _, _, _, _, _, _, _, _, _, abilityId = GetUnitBuffInfo("player", i)
         -- Mundus stones have ability IDs in the range 13940-13974
-        if abilityId >= 13940 and abilityId <= 13974 then
+        if abilityId and abilityId >= 13940 and abilityId <= 13974 then
             mundusName = buffName
             break
         end
@@ -114,10 +123,11 @@ local function GetCombatStats()
     markdown = markdown .. "- **Stamina:** " .. FormatNumber(maxStamina) .. "\n\n"
     
     -- Offensive Stats
-    local weaponDamage = GetPlayerStat(STAT_POWER)
-    local spellDamage = GetPlayerStat(STAT_SPELL_POWER)
-    local weaponCrit = GetPlayerStat(STAT_CRITICAL_STRIKE)
-    local spellCrit = GetPlayerStat(STAT_SPELL_CRITICAL)
+    -- Note: Using safe wrapper to handle nil returns from GetPlayerStat
+    local weaponDamage = SafeGetPlayerStat(STAT_POWER)
+    local spellDamage = SafeGetPlayerStat(STAT_SPELL_POWER)
+    local weaponCrit = SafeGetPlayerStat(STAT_CRITICAL_STRIKE)
+    local spellCrit = SafeGetPlayerStat(STAT_SPELL_CRITICAL)
     
     markdown = markdown .. "### Offensive Stats\n"
     markdown = markdown .. "- **Weapon Damage:** " .. FormatNumber(weaponDamage) .. "\n"
@@ -126,9 +136,9 @@ local function GetCombatStats()
     markdown = markdown .. "- **Spell Critical:** " .. FormatNumber(spellCrit) .. "\n\n"
     
     -- Defensive Stats
-    local physicalResist = GetPlayerStat(STAT_PHYSICAL_RESIST)
-    local spellResist = GetPlayerStat(STAT_SPELL_RESIST)
-    local critResist = GetPlayerStat(STAT_CRITICAL_RESISTANCE)
+    local physicalResist = SafeGetPlayerStat(STAT_PHYSICAL_RESIST)
+    local spellResist = SafeGetPlayerStat(STAT_SPELL_RESIST)
+    local critResist = SafeGetPlayerStat(STAT_CRITICAL_RESISTANCE)
     
     markdown = markdown .. "### Defensive Stats\n"
     markdown = markdown .. "- **Physical Resistance:** " .. FormatNumber(physicalResist) .. "\n"
@@ -136,8 +146,8 @@ local function GetCombatStats()
     markdown = markdown .. "- **Critical Resistance:** " .. FormatNumber(critResist) .. "\n\n"
     
     -- Penetration
-    local physicalPen = GetPlayerStat(STAT_PHYSICAL_PENETRATION)
-    local spellPen = GetPlayerStat(STAT_SPELL_PENETRATION)
+    local physicalPen = SafeGetPlayerStat(STAT_PHYSICAL_PENETRATION)
+    local spellPen = SafeGetPlayerStat(STAT_SPELL_PENETRATION)
     
     markdown = markdown .. "### Penetration\n"
     markdown = markdown .. "- **Physical Penetration:** " .. FormatNumber(physicalPen) .. "\n"
@@ -226,16 +236,16 @@ local function GetActiveSkills()
             local lastXP, nextXP, currentXP = GetSkillLineXPInfo(skillType, skillLineIndex)
             
             -- Only show skill lines that have been started (rank > 0)
-            if skillLineRank > 0 then
+            if skillLineRank and skillLineRank > 0 then
                 local xpProgress = "Max"
-                if nextXP > 0 then
+                if nextXP and nextXP > 0 then
                     local percent = math.floor((currentXP / nextXP) * 100)
                     xpProgress = string.format("%d%%", percent)
                 end
                 
                 markdown = markdown .. string.format("| %s | %s | %d | %s |\n",
-                    skillLineName,
-                    skillTypeName,
+                    skillLineName or "Unknown",
+                    skillTypeName or "Unknown",
                     skillLineRank,
                     xpProgress
                 )
@@ -313,13 +323,56 @@ local function GenerateMarkdown()
     markdown = markdown .. "*Generated on: " .. GetDateStringFromTimestamp(GetTimeStamp()) .. "*\n\n"
     markdown = markdown .. "---\n\n"
     
-    -- Collect all data sections
-    markdown = markdown .. GetCharacterIdentity()
-    markdown = markdown .. GetMundusStone()
-    markdown = markdown .. GetCombatStats()
-    markdown = markdown .. GetEquipment()
-    markdown = markdown .. GetActiveSkills()
-    markdown = markdown .. GetCompanions()
+    -- Collect all data sections with error handling
+    local success, result
+    
+    success, result = pcall(GetCharacterIdentity)
+    if success then
+        markdown = markdown .. result
+    else
+        markdown = markdown .. "## Character Identity\n\n*Error collecting data*\n\n"
+        d("[CharacterMarkdown] Error in GetCharacterIdentity: " .. tostring(result))
+    end
+    
+    success, result = pcall(GetMundusStone)
+    if success then
+        markdown = markdown .. result
+    else
+        markdown = markdown .. "## Mundus Stone\n\n*Error collecting data*\n\n"
+        d("[CharacterMarkdown] Error in GetMundusStone: " .. tostring(result))
+    end
+    
+    success, result = pcall(GetCombatStats)
+    if success then
+        markdown = markdown .. result
+    else
+        markdown = markdown .. "## Combat Stats\n\n*Error collecting data*\n\n"
+        d("[CharacterMarkdown] Error in GetCombatStats: " .. tostring(result))
+    end
+    
+    success, result = pcall(GetEquipment)
+    if success then
+        markdown = markdown .. result
+    else
+        markdown = markdown .. "## Equipment\n\n*Error collecting data*\n\n"
+        d("[CharacterMarkdown] Error in GetEquipment: " .. tostring(result))
+    end
+    
+    success, result = pcall(GetActiveSkills)
+    if success then
+        markdown = markdown .. result
+    else
+        markdown = markdown .. "## Active Skills\n\n*Error collecting data*\n\n"
+        d("[CharacterMarkdown] Error in GetActiveSkills: " .. tostring(result))
+    end
+    
+    success, result = pcall(GetCompanions)
+    if success then
+        markdown = markdown .. result
+    else
+        markdown = markdown .. "## Companions\n\n*Error collecting data*\n\n"
+        d("[CharacterMarkdown] Error in GetCompanions: " .. tostring(result))
+    end
     
     return markdown
 end
@@ -351,7 +404,7 @@ function CharacterMarkdown:Initialize()
     -- Register slash command
     SLASH_COMMANDS["/markdown"] = ShowMarkdownWindow
     
-    d("[CharacterMarkdown] Loaded. Use /markdown to export character data.")
+    d("[CharacterMarkdown] Loaded v1.0.1. Use /markdown to export character data.")
 end
 
 -- Event handler for addon loaded

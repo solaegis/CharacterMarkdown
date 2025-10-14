@@ -49,6 +49,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2024-10-14
+
+### Fixed
+- Added SafeGetPlayerStat() wrapper to handle nil returns from GetPlayerStat()
+- Added nil checks for abilityId in mundus stone detection
+- Added nil checks for skill line data
+- Wrapped all data collection functions in pcall() for better error handling
+- Fixed crash when STAT constants return nil values
+
+### Changed
+- Improved error messages with specific function names
+- Changed version display in initialization message
+
 ### Planned
 - Multi-character export (all alts in single document)
 - Export presets (customize which sections to include)

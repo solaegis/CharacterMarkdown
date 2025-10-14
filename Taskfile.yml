@@ -113,27 +113,30 @@ tasks:
     desc: Build distribution package
     deps: [validate]
     cmds:
-      - task: clean
-      - echo "Building {{.ADDON_NAME}} v{{.VERSION}}..."
-      - mkdir -p {{.DIST_DIR}}/{{.ADDON_NAME}}
-      - cp {{.REQUIRED_FILES}} {{.DIST_DIR}}/{{.ADDON_NAME}}/
-      - echo "✓ Build complete: {{.DIST_DIR}}/{{.ADDON_NAME}}"
+      - |
+        task clean
+        echo "Building {{.ADDON_NAME}} v{{.VERSION}}..."
+        mkdir -p {{.DIST_DIR}}/{{.ADDON_NAME}}
+        cp {{.REQUIRED_FILES}} {{.DIST_DIR}}/{{.ADDON_NAME}}/
+        echo "✓ Build complete: {{.DIST_DIR}}/{{.ADDON_NAME}}"
 
   package:
     desc: Create release ZIP file
     deps: [build]
     cmds:
-      - echo "Packaging {{.ADDON_NAME}} v{{.VERSION}}..."
-      - cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}.zip {{.ADDON_NAME}}
-      - echo "✓ Package created: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
+      - |
+        echo "Packaging {{.ADDON_NAME}} v{{.VERSION}}..."
+        cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}.zip {{.ADDON_NAME}}
+        echo "✓ Package created: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
 
   package:esoui:
     desc: Create ESOUI-compatible package
     deps: [build]
     cmds:
-      - echo "Creating ESOUI package..."
-      - cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip {{.ADDON_NAME}}
-      - echo "✓ ESOUI package: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip"
+      - |
+        echo "Creating ESOUI package..."
+        cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip {{.ADDON_NAME}}
+        echo "✓ ESOUI package: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip"
 
   clean:
     desc: Remove build artifacts
@@ -149,19 +152,21 @@ tasks:
   version:
     desc: Show current version
     cmds:
-      - echo "Current version: {{.VERSION}}"
+      - |
+        echo "Current version: {{.VERSION}}"
     silent: true
 
   version:bump:
-    desc: Bump version number (usage: task version:bump -- <major|minor|patch>)
+    desc: "Bump version number (usage: task version:bump -- <major|minor|patch>)"
     vars:
       BUMP_TYPE: '{{.CLI_ARGS | default "patch"}}'
     cmds:
-      - echo "Bumping {{.BUMP_TYPE}} version..."
+      - |
+        echo "Bumping {{.BUMP_TYPE}} version..."
       - |
         CURRENT="{{.VERSION}}"
         IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
-        
+
         case "{{.BUMP_TYPE}}" in
           major)
             MAJOR=$((MAJOR + 1))
@@ -176,19 +181,19 @@ tasks:
             PATCH=$((PATCH + 1))
             ;;
         esac
-        
+
         NEW_VERSION="$MAJOR.$MINOR.$PATCH"
         echo "  $CURRENT → $NEW_VERSION"
-        
+
         # Update manifest
         sed -i.bak "s/## Version: .*/## Version: $NEW_VERSION/" {{.ADDON_NAME}}.txt
         rm {{.ADDON_NAME}}.txt.bak
-        
+
         # Update CHANGELOG
         DATE=$(date +%Y-%m-%d)
         sed -i.bak "s/## \[Unreleased\]/## [Unreleased]\n\n## [$NEW_VERSION] - $DATE/" CHANGELOG.md
         rm CHANGELOG.md.bak
-        
+
         echo "✓ Version bumped to $NEW_VERSION"
 
   # ==========================================
@@ -202,20 +207,23 @@ tasks:
       - echo ""
       - echo "Uncommitted changes:"
       - git diff --stat
+    silent: true
 
   git:commit:
-    desc: Stage and commit changes (usage: task git:commit -- "commit message")
+    desc: "Stage and commit changes (usage: task git:commit -- \"commit message\")"
     cmds:
-      - git add .
-      - git commit -m "{{.CLI_ARGS}}"
-      - echo "✓ Changes committed"
+      - |
+        git add .
+        git commit -m "{{.CLI_ARGS}}"
+        echo "✓ Changes committed"
 
   git:tag:
     desc: Create version tag
     cmds:
-      - git tag -a v{{.VERSION}} -m "Release version {{.VERSION}}"
-      - echo "✓ Tag v{{.VERSION}} created"
-      - echo "  Push with: git push origin v{{.VERSION}}"
+      - |
+        git tag -a v{{.VERSION}} -m "Release version {{.VERSION}}"
+        echo "✓ Tag v{{.VERSION}} created"
+        echo "  Push with: git push origin v{{.VERSION}}"
 
   # ==========================================
   # RELEASE TASKS
@@ -227,22 +235,24 @@ tasks:
     cmds:
       - task: package
       - task: git:tag
-      - echo ""
-      - echo "✓ Release v{{.VERSION}} ready!"
-      - echo ""
-      - echo "Next steps:"
-      - echo "  1. Push tag: git push origin v{{.VERSION}}"
-      - echo "  2. Upload: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
-      - echo "  3. Create GitHub release"
-      - echo "  4. Upload to ESOUI (see MINION_UPLOAD.md)"
+      - |
+        echo ""
+        echo "✓ Release v{{.VERSION}} ready!"
+        echo ""
+        echo "Next steps:"
+        echo "  1. Push tag: git push origin v{{.VERSION}}"
+        echo "  2. Upload: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
+        echo "  3. Create GitHub release"
+        echo "  4. Upload to ESOUI (see MINION_UPLOAD.md)"
 
   release:github:
     desc: Create GitHub release (requires gh CLI)
     deps: [package]
     cmds:
-      - echo "Creating GitHub release v{{.VERSION}}..."
-      - gh release create v{{.VERSION}} {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip --title "v{{.VERSION}}" --notes-file CHANGELOG.md
-      - echo "✓ GitHub release created"
+      - |
+        echo "Creating GitHub release v{{.VERSION}}..."
+        gh release create v{{.VERSION}} {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip --title "v{{.VERSION}}" --notes-file CHANGELOG.md
+        echo "✓ GitHub release created"
 
   # ==========================================
   # TESTING TASKS
@@ -311,6 +321,7 @@ tasks:
       - echo "  - PROJECT_SUMMARY.md (technical)"
       - echo "  - CHANGELOG.md (versions)"
       - echo "  - MINION_UPLOAD.md (deployment)"
+    silent: true
 
   docs:serve:
     desc: Serve documentation locally (requires Python)
@@ -335,6 +346,7 @@ tasks:
         echo ""
         echo "Files:"
         ls -lh {{.REQUIRED_FILES}}
+    silent: true
 
   size:
     desc: Show file sizes and package size
@@ -347,6 +359,7 @@ tasks:
       - echo ""
       - echo "Distribution size:"
       - du -sh {{.DIST_DIR}} 2>/dev/null || echo "  (not built yet - run 'task build')"
+    silent: true
 
   backup:
     desc: Create backup of current addon
@@ -398,6 +411,7 @@ tasks:
       - echo "  task install          - Copy addon to ESO"
       - echo "  task install:dev      - Symlink for development"
       - echo "  task uninstall        - Remove from ESO"
+    silent: true
 
   help:release:
     desc: Show release workflow help
@@ -408,6 +422,7 @@ tasks:
       - echo "  3. task release"
       - echo "  4. git push && git push --tags"
       - echo "  5. task release:github (optional)"
+    silent: true
 
   help:dev:
     desc: Show development help
@@ -417,3 +432,4 @@ tasks:
       - echo "  2. Edit .lua/.xml files"
       - echo "  3. /reloadui in ESO     - Test changes"
       - echo "  4. task validate        - Check before commit"
+    silent: true
