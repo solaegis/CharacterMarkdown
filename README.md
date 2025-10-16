@@ -1,187 +1,421 @@
-# Character Markdown
+# Character Markdown v2.0.1 - Visual Enhancement Edition
 
-A comprehensive ESO addon that exports detailed character data in markdown format for easy sharing, analysis, or documentation.
+Comprehensive ESO character profile exporter with dual format support, enhanced visual styling, and ESO Plus detection.
 
-## Features
+## 🎨 New Features in v2.0
 
-- **Complete Character Profile**: Name, race, class, alliance, level, champion points, title
-- **Combat Statistics**: Full offensive and defensive stats including damage, critical ratings, resistances, and penetration
-- **Equipment Details**: All 14 equipment slots with item names, set bonuses, quality, level, traits, and enchantments
-- **Active Skill Lines**: All unlocked skill lines with progression tracking
-- **Mundus Stone**: Currently active mundus buff
-- **Companion Status**: All companions with unlock status, roles, and rapport levels
-- **Copy-Paste Ready**: Clean markdown output in a scrollable UI window
+### Multiple Format Support
+- **GitHub Format** (Default) - Full HTML/CSS styling, color gradients, badges, collapsible sections
+- **VS Code Format** - Pure markdown with ASCII art, enhanced box drawing, ANSI-compatible colors
+- **Discord Format** - Discord-optimized markdown with clickable links, compact layout, and character count warnings
+- **Quick Format** - Ultra-compact one-line summary
 
-## Installation
+### Visual Enhancements
+- 📊 Progress bars for skill progression and CP allocation
+- 🎨 Color-coded stats with visual health indicators
+- 📦 Enhanced box drawing with multiple styles (single, double, rounded, heavy)
+- 🏷️ Status badges and indicators
+- 📋 Collapsible sections for large skill lists (GitHub)
+- 💡 Callout boxes for warnings, tips, and information
+- 🎯 Smart layout with responsive grids and cards
 
-1. **Download or Clone** this repository
-2. **Locate your ESO AddOns folder**:
-   - **Windows**: `Documents/Elder Scrolls Online/live/AddOns/`
-   - **Mac**: `Documents/Elder Scrolls Online/live/AddOns/`
-3. **Copy the entire `CharacterMarkdown` folder** into your AddOns directory
-4. **Launch ESO** and ensure addons are enabled in the character select screen
-
-## Usage
-
-### Basic Usage
-
-1. Log in to any character
-2. Type `/markdown` in the chat window
-3. A window will appear with your character data in markdown format
-4. Press **Ctrl+A** (or **Cmd+A** on Mac) to select all text
-5. Press **Ctrl+C** (or **Cmd+C** on Mac) to copy
-6. Paste into your preferred application (Discord, Reddit, Google Docs, etc.)
-
-### Output Example
-
-```markdown
-## Character Identity
-
-- **Name:** Valandril Stormblade
-- **Race:** High Elf
-- **Class:** Sorcerer
-- **Alliance:** Aldmeri Dominion
-- **Level:** 50
-- **Champion Points:** 1,847
-- **Title:** The Flawless Conqueror
-
-## Mundus Stone
-
-- **Active Mundus:** The Thief
-
-## Attributes & Combat Stats
-
-### Primary Attributes
-- **Health:** 18,940
-- **Magicka:** 42,387
-- **Stamina:** 12,456
-...
+### Command System
+```bash
+/markdown          # Generate profile (uses current default format)
+/markdown github   # Generate GitHub-optimized profile
+/markdown vscode   # Generate VS Code-optimized profile
+/markdown discord  # Generate Discord-optimized profile with clickable links
+/markdown quick    # Generate quick one-line summary
+/markdown help     # Show command usage
 ```
 
-## Technical Details
+### Auto-Save Feature
+Profiles are automatically saved to `SavedVariables/CharacterMarkdown.lua` when:
+- Client exits normally
+- Player logs out
+- Addon is unloaded
 
-### API Version
-- Supports API versions 101043 and 101044 (update as needed)
+## 📦 Installation
 
-### File Structure
+### Standard Installation
+1. Download the addon
+2. Extract to `Documents/Elder Scrolls Online/live/AddOns/CharacterMarkdown/`
+3. Ensure these files are present:
+   - `CharacterMarkdown_v2.txt` (manifest)
+   - `CharacterMarkdown_v2.lua` (main code)
+   - `CharacterMarkdown_Templates.lua` (visual templates part 1)
+   - `CharacterMarkdown_Templates_Part2.lua` (visual templates part 2)
+   - `CharacterMarkdown.xml` (UI definition)
+
+### Upgrading from v1.x
+Simply replace existing files. Settings and saved profiles are preserved.
+
+## 🎯 Usage
+
+### Basic Workflow
+1. Log into ESO with your character
+2. Type `/markdown` or `/markdown github` in chat
+3. Profile window opens with pre-selected text
+4. Press `Ctrl+C` to copy to clipboard
+5. Paste into your markdown viewer of choice
+6. Profile auto-saves on exit
+
+### Format Selection
+
+#### GitHub Format (Default)
+Perfect for:
+- GitHub READMEs and wikis
+- Websites supporting HTML in markdown
+- Rich documentation platforms
+- Maximum visual appeal
+
+Features:
+- Full color support with hex codes
+- CSS-styled cards and grids
+- Collapsible `<details>` sections
+- HTML tables with custom styling
+- Progress bars with gradients
+- Badges and shields
+
+#### VS Code Format
+Perfect for:
+- VS Code markdown preview
+- Plain text environments
+- Terminal-based viewers
+- Maximum compatibility
+
+Features:
+- Pure markdown (no HTML)
+- Enhanced ASCII box drawing
+- Unicode progress bars
+- Emoji-based color coding
+- Tree diagrams
+- Bordered sections
+
+#### Discord Format
+Perfect for:
+- Discord chat messages
+- Discord embeds
+- Guild/clan communication
+- Quick character sharing
+
+Features:
+- **Comprehensive Clickable UESP Links:**
+  - All skill bar abilities
+  - All skill lines (Class, Weapon, Armor, World, Guild, Alliance War, Racial, Craft)
+  - Equipment sets
+  - Races, classes, and alliances
+  - Companion names (Tanlorin, Bastian Hallix, Mirri Elendis, etc.)
+  - Mundus stones
+  - Champion Point skills
+- Compact layout optimized for Discord's UI
+- Better visual separation between sections
+- Character count warnings (Discord has 2000 char limit)
+- Emoji icons and status indicators
+- Code blocks for stats and ultimates
+
+### Viewing Your Markdown
+
+**GitHub Format:**
+- Paste directly into GitHub READMEs, issues, or wikis
+- Preview at [Markdown Live Preview](https://markdownlivepreview.com/) - instant rendering with full HTML/CSS support
+- Use any GitHub-compatible markdown viewer
+
+**VS Code Format:**
+- Open VS Code
+- Create a new `.md` file
+- Paste content
+- Press `Ctrl+Shift+V` (Windows/Linux) or `Cmd+Shift+V` (Mac) for preview
+
+**Discord Format:**
+- Paste directly into any Discord channel
+- Links will be clickable and emojis will render
+- Split into multiple messages if over 2000 characters
+
+### Keyboard Shortcuts
+- `Ctrl+C` - Copy selected text (while window is focused)
+- `Esc` - Close profile window
+
+## 📊 Profile Sections
+
+### Header
+- Character name with decorative borders
+- Race, class, alliance with color coding
+- Level and Champion Points
+- ESO Plus subscription status (👑 Active / ❌ Inactive)
+- Active title
+- Generation timestamp
+
+### Character Overview
+- Identity card (race, class, alliance, title)
+- ESO Plus status detection (uses official `IsESOPlusSubscriber()` API)
+- Progression summary (level, CP)
+- Visual stat cards
+
+### DLC & Chapter Access
+- Automatic detection of accessible DLCs and Chapters
+- Shows Summerset, Morrowind, Elsweyr, Greymoor, Blackwood, High Isle, Necrom, and more
+- For ESO Plus: All DLCs marked as accessible
+- For non-ESO Plus: Individual ownership detection using zone accessibility
+- Visual indicators: ✅ Accessible, 🔒 Locked
+
+### Mundus Stone
+- Active buff detection
+- Recommendations if not active
+- Visual status indicators
+
+### Champion Points
+- Summary cards (Total, Allocated, Available)
+- Warning alerts for unspent points
+- Discipline breakdown with progress bars
+- Per-constellation allocation tables
+- Visual percentage indicators
+
+### Combat Arsenal
+- Front and back bar layouts
+- Ultimate abilities
+- 5 ability slots per bar
+- Empty slot indicators
+- Enhanced box styling
+
+### Character Statistics
+- Resource pools (Health, Magicka, Stamina)
+- Offensive stats (Weapon/Spell Power)
+- Defensive stats (Resistances)
+- Visual resource bars (GitHub)
+- Three-column grid layout
+
+### Equipment Loadout
+- Set summary with piece counts
+- Full bonus indicators
+- Per-item details with emoji icons
+- Quality color coding
+- Trait information
+- Backup bar equipment
+
+### Skill Line Progression
+- All skill categories (Class, Weapon, Armor, World, Guild, etc.)
+- Rank and XP progress indicators
+- Maxed skill indicators (✅)
+- Unlocked but minimal progress (🔒)
+- Progress bars for active skills
+- Collapsible lists for large categories (GitHub)
+
+### Active Companion
+- Companion name and level
+- Ability loadout
+- Equipment details
+- Quality indicators
+
+## 🎨 Visual Enhancement Details
+
+### Progress Bars
 ```
-CharacterMarkdown/
-├── CharacterMarkdown.txt   # Addon manifest
-├── CharacterMarkdown.xml   # UI window definition
-├── CharacterMarkdown.lua   # Main logic and data collection
-└── README.md              # This file
+GitHub:  ██████████ 100%
+VS Code: ▓▓▓▓▓▓▓▓▓▓ 100%
 ```
 
-### Data Collection
+### Status Indicators
+- 🟢 Excellent
+- 🟡 Good  
+- 🟠 Warning
+- 🔴 Critical
+- ✅ Maxed
+- ⚠️ Empty/Missing
 
-The addon uses official ESO API functions:
-- `GetUnitName()`, `GetUnitRace()`, `GetUnitClass()` - Character identity
-- `GetPlayerStat()` - Combat statistics
-- `GetItemLink()`, `GetItemLinkSetInfo()` - Equipment data
-- `GetSkillLineInfo()` - Skill progression
-- `GetUnitBuffInfo()` - Active buffs (mundus detection)
-- `IsCollectibleUnlocked()` - Companion unlock status
+### Box Styles
+- **Single**: `┌─┐│└─┘` - Default, clean
+- **Double**: `╔═╗║╚═╝` - Emphasis, headers
+- **Rounded**: `╭─╮│╰─╯` - Modern, friendly
+- **Heavy**: `┏━┓┃┗━┛` - Strong emphasis
 
-### Performance Considerations
+### Color Coding
 
-- **On-Demand Generation**: Data is only collected when `/markdown` is executed
-- **No Background Processing**: Zero performance impact during normal gameplay
-- **Minimal Memory**: ~50KB memory footprint when window is closed
-- **No Saved Variables Bloat**: Optional settings storage only
+#### GitHub Format
+- Health bars: `#aa0000` (red gradient)
+- Magicka bars: `#0000aa` (blue gradient)
+- Stamina bars: `#00aa00` (green gradient)
+- Excellent status: `#00ff00`
+- Warning status: `#ffaa00`
+- Critical status: `#ff0000`
+- Alliance colors:
+  - Aldmeri Dominion: `#F4D03F` (gold)
+  - Daggerfall Covenant: `#5DADE2` (blue)
+  - Ebonheart Pact: `#E74C3C` (red)
 
-## Customization
+#### VS Code Format
+- Emoji-based color indicators
+- ANSI-compatible when possible
+- Visual symbols for status
 
-### Modifying Output Format
+## 💾 File Structure
 
-Edit `CharacterMarkdown.lua` to customize the markdown structure:
-
+### SavedVariables Format
 ```lua
--- Example: Add custom section
-local function GetCustomData()
-    local markdown = "## My Custom Section\n\n"
-    -- Your data collection here
-    return markdown
-end
-
--- Then add to GenerateMarkdown()
-markdown = markdown .. GetCustomData()
+CharacterMarkdownSettings = {
+    currentFormat = "github",  -- Last used format
+    lastExport = {
+        timestamp = 1234567890,
+        characterName = "CharacterName",
+        format = "github",
+        markdown = "...full markdown content..."
+    }
+}
 ```
 
-### Changing Window Appearance
+### File Location
+`Documents/Elder Scrolls Online/live/SavedVariables/CharacterMarkdown.lua`
 
-Edit `CharacterMarkdown.xml` to modify UI:
+## 🔧 Configuration
 
-```xml
-<!-- Change window size -->
-<Dimensions x="1000" y="700" />
-
-<!-- Change font -->
-font="ZoFontGameLarge"
+### Changing Default Format
+Edit `SavedVariables/CharacterMarkdown.lua`:
+```lua
+CharacterMarkdownSettings = {
+    currentFormat = "vscode"  -- or "github"
+}
 ```
 
-## Known Limitations
+Or simply use the command with your preferred format - it becomes the new default.
 
-1. **Companion Rapport**: Current implementation shows approximate rapport detection. For exact values, additional API integration needed.
-2. **Character Limit**: Output is limited to ~50,000 characters (well above typical usage)
-3. **Active Character Only**: Exports current character only; multi-character export requires separate executions
-4. **No Automatic Updates**: Data snapshot is static; re-run `/markdown` after equipment/skill changes
+## 🐛 Troubleshooting
 
-## Troubleshooting
+### Templates Not Loading
+**Symptom**: Profile generates but looks basic/minimal
 
-### Window doesn't appear
-- Check AddOns are enabled at character select
-- Verify folder is named exactly `CharacterMarkdown`
-- Check for errors with `/reloadui`
+**Solution**:
+1. Ensure all template files are present
+2. Check load order in manifest (.txt file)
+3. Look for warnings in chat on addon load
 
-### Missing data sections
-- Ensure you're using a supported API version (101043+)
-- Check for conflicting addons that override UI elements
+### Empty Sections
+**Symptom**: Some sections show "No data" or are missing
 
-### Copy-paste issues
-- Use Ctrl+A then Ctrl+C (don't click-drag to select)
-- For very long outputs, copy in chunks if your application has paste limits
+**Common Causes**:
+- Data not available (e.g., no companion summoned)
+- Need to open relevant UI first (e.g., Champion menu for detailed CP)
+- Protected functions blocked in combat
 
-## Future Enhancements
+**Solution**: 
+- Ensure you're out of combat
+- Open and close relevant game menus
+- Try generating profile again
+
+### Copy Not Working
+**Symptom**: Ctrl+C doesn't copy text
+
+**Solution**:
+1. Click inside the text box first
+2. Ensure text is selected (should be auto-selected)
+3. Try manually selecting text with mouse
+4. Use right-click → Copy if available
+
+### Window Not Showing
+**Symptom**: Command runs but no window appears
+
+**Solution**:
+1. Check if window is off-screen (try resetting UI)
+2. Look for error messages in chat
+3. Verify CharacterMarkdown.xml is present
+4. `/reloadui` and try again
+
+## 📝 Template Customization
+
+Advanced users can customize templates by editing:
+- `CharacterMarkdown_Templates.lua` - Headers, overview, mundus, CP
+- `CharacterMarkdown_Templates_Part2.lua` - Combat, equipment, skills, companion
+
+Key functions:
+```lua
+Templates.GenerateHeader(characterData, format)
+Templates.GenerateOverview(characterData, format)
+Templates.GenerateMundusStone(mundusData, format)
+Templates.GenerateChampionPoints(cpData, format)
+TemplatesPart2.GenerateCombatArsenal(skillBarData, format)
+TemplatesPart2.GenerateCombatStats(statsData, format)
+TemplatesPart2.GenerateEquipment(equipmentData, format)
+TemplatesPart2.GenerateSkillProgression(skillData, format)
+TemplatesPart2.GenerateCompanion(companionData, format)
+```
+
+## 🎯 Future Enhancements
 
 Planned features:
-- [ ] Multi-character export (all alts in one document)
-- [ ] Saved presets (export specific sections)
-- [ ] Direct file export option
-- [ ] HTML export format
-- [ ] Skill ability details (not just skill lines)
-- [ ] Inventory summary option
+- Export to PDF
+- Direct GitHub Gist upload
+- Build analyzer integration
+- Comparison mode (multiple characters)
+- Historical tracking
+- DPS parse integration
+- Guild roster export
 
-## Contributing
+## 📜 Changelog
 
-Contributions welcome! Areas needing improvement:
-- Companion rapport accurate detection
-- Additional combat stats (sustain, recovery rates)
-- Localization support (currently English only)
+### v2.0.1 (2025-10-15)
+- **NEW**: ESO Plus detection and display
+  - Uses official `IsESOPlusSubscriber()` API function for accurate detection
+  - Shows in Character Overview table (✅ Active / ❌ Inactive)
+  - Displays in Discord format header with crown emoji (👑 ESO Plus)
+  - Includes in quick summary format with crown indicator
+  - Works across all output formats
+- **NEW**: DLC & Chapter Access detection
+  - Automatically detects which DLCs/Chapters are accessible
+  - Works for both ESO Plus and non-ESO Plus users
+  - Shows Summerset, Morrowind, Elsweyr, Greymoor, Blackwood, High Isle, Necrom, and more
+  - Individual ownership detection for non-ESO Plus users
+- **FIXED**: Ability rank suffixes (I, II, III, IV) now stripped from UESP links
+- **FIXED**: Apostrophe encoding in UESP URLs corrected
+- Added Markdown Live Preview reference (markdownlivepreview.com)
 
-## Support
+### v2.0.0 (2025-10-14)
+- **BREAKING**: Complete visual overhaul
+- Added dual format support (GitHub/VS Code)
+- Enhanced all visual elements
+- Added auto-save on exit
+- New command system with format selection
+- Progress bars for skills and CP
+- Color-coded stats and indicators
+- Collapsible sections (GitHub)
+- Enhanced box drawing
+- Status badges and callouts
+- Improved equipment grid layout
+- Better skill tree visualization
 
-- **Issues**: Report bugs or request features via GitHub issues
-- **ESOUI**: [Link to ESOUI page if published]
-- **Discord**: [Your Discord if applicable]
+### v1.0.6 (Previous)
+- Basic markdown export
+- Single window with copy functionality
+- Core data collection
 
-## License
+## 🤝 Contributing
 
-MIT License - Free to use, modify, and distribute.
+Contributions welcome! Areas of interest:
+- Additional visual themes
+- New output formats
+- Data analysis features
+- Performance optimizations
+- Bug fixes
 
-## Credits
+## 📄 License
 
-- **Author**: lvavasour
-- **ESO API**: ZeniMax Online Studios
-- **Community**: ESO addon developer community
+See LICENSE file for details.
 
-## Changelog
+## 🙏 Credits
 
-### Version 1.0.0 (2024-10-14)
-- Initial release
-- Core character identity export
-- Combat stats (offensive, defensive, penetration)
-- Equipment table with full details
-- Active skill lines tracking
-- Mundus stone detection
-- Companion unlock status
-- Clean markdown UI with copy-paste functionality
+- **Author**: solaegis
+- **ESO UI Framework**: ZeniMax Online Studios
+- **Community**: ESOUI.com forums
+
+## 📞 Support
+
+- **Issues**: GitHub Issues
+- **Forum**: ESOUI.com
+- **In-game**: @solaegis
+
+---
+
+<div align="center">
+
+**Character Markdown v2.0.1**  
+*Enhanced Visual Profiles for Elder Scrolls Online*
+
+</div>

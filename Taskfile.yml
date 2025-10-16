@@ -10,7 +10,7 @@ vars:
     sh: grep "## Version:" {{.ADDON_NAME}}.txt | cut -d' ' -f3
   ESO_ADDONS_DIR: "{{.HOME}}/Documents/Elder Scrolls Online/live/AddOns"
   DIST_DIR: "./dist"
-  REQUIRED_FILES: "{{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml {{.ADDON_NAME}}.lua README.md LICENSE"
+  REQUIRED_FILES: "{{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua README.md LICENSE"
 
 tasks:
   default:
@@ -30,10 +30,7 @@ tasks:
       - mkdir -p "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
       - cp {{.REQUIRED_FILES}} "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}/"
       - echo "✓ Installed to {{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
-    sources:
-      - "{{.ADDON_NAME}}.txt"
-      - "{{.ADDON_NAME}}.xml"
-      - "{{.ADDON_NAME}}.lua"
+    silent: true
 
   install:dev:
     desc: Install addon as symlink for live development
@@ -43,6 +40,7 @@ tasks:
       - ln -s "{{.PWD}}" "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
       - echo "✓ Development symlink created"
       - echo "  Edit files here, use /reloadui in-game to test"
+    silent: true
 
   uninstall:
     desc: Remove addon from ESO AddOns directory
@@ -50,6 +48,17 @@ tasks:
       - echo "Removing {{.ADDON_NAME}} from ESO..."
       - rm -rf "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
       - echo "✓ Uninstalled"
+    silent: true
+
+  uninstall:dev:
+    desc: Remove development symlink and install addon normally
+    cmds:
+      - echo "Removing development symlink..."
+      - rm -rf "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
+      - echo "✓ Symlink removed"
+      - echo ""
+      - task: install
+    silent: true
 
   # ==========================================
   # VALIDATION TASKS
@@ -62,6 +71,7 @@ tasks:
       - task: validate:manifest
       - task: validate:lua
       - echo "✓ All validations passed"
+    silent: true
 
   validate:files:
     desc: Check that all required files exist
@@ -101,8 +111,9 @@ tasks:
     desc: Check Lua syntax
     cmds:
       - echo "Checking Lua syntax..."
-      - luac -p {{.ADDON_NAME}}.lua || (echo "✗ Lua syntax errors found" && exit 1)
-      - echo "  ✓ Lua syntax valid"
+      - luac -p {{.ADDON_NAME}}.lua || (echo "✗ Lua syntax errors found in {{.ADDON_NAME}}.lua" && exit 1)
+      - luac -p {{.ADDON_NAME}}_Settings.lua || (echo "✗ Lua syntax errors found in {{.ADDON_NAME}}_Settings.lua" && exit 1)
+      - echo "  ✓ All Lua files syntax valid"
     silent: true
 
   # ==========================================
@@ -119,6 +130,7 @@ tasks:
         mkdir -p {{.DIST_DIR}}/{{.ADDON_NAME}}
         cp {{.REQUIRED_FILES}} {{.DIST_DIR}}/{{.ADDON_NAME}}/
         echo "✓ Build complete: {{.DIST_DIR}}/{{.ADDON_NAME}}"
+    silent: true
 
   package:
     desc: Create release ZIP file
@@ -128,6 +140,7 @@ tasks:
         echo "Packaging {{.ADDON_NAME}} v{{.VERSION}}..."
         cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}.zip {{.ADDON_NAME}}
         echo "✓ Package created: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
+    silent: true
 
   package:esoui:
     desc: Create ESOUI-compatible package
@@ -137,6 +150,7 @@ tasks:
         echo "Creating ESOUI package..."
         cd {{.DIST_DIR}} && zip -r {{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip {{.ADDON_NAME}}
         echo "✓ ESOUI package: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip"
+    silent: true
 
   clean:
     desc: Remove build artifacts
@@ -144,6 +158,7 @@ tasks:
       - echo "Cleaning build artifacts..."
       - rm -rf {{.DIST_DIR}}
       - echo "✓ Clean complete"
+    silent: true
 
   # ==========================================
   # VERSION MANAGEMENT
@@ -195,6 +210,7 @@ tasks:
         rm CHANGELOG.md.bak
 
         echo "✓ Version bumped to $NEW_VERSION"
+    silent: true
 
   # ==========================================
   # GIT TASKS
@@ -216,6 +232,7 @@ tasks:
         git add .
         git commit -m "{{.CLI_ARGS}}"
         echo "✓ Changes committed"
+    silent: true
 
   git:tag:
     desc: Create version tag
@@ -224,6 +241,7 @@ tasks:
         git tag -a v{{.VERSION}} -m "Release version {{.VERSION}}"
         echo "✓ Tag v{{.VERSION}} created"
         echo "  Push with: git push origin v{{.VERSION}}"
+    silent: true
 
   # ==========================================
   # RELEASE TASKS
@@ -243,7 +261,8 @@ tasks:
         echo "  1. Push tag: git push origin v{{.VERSION}}"
         echo "  2. Upload: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
         echo "  3. Create GitHub release"
-        echo "  4. Upload to ESOUI (see MINION_UPLOAD.md)"
+        echo "  4. Upload to ESOUI/Minion"
+    silent: true
 
   release:github:
     desc: Create GitHub release (requires gh CLI)
@@ -253,6 +272,7 @@ tasks:
         echo "Creating GitHub release v{{.VERSION}}..."
         gh release create v{{.VERSION}} {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip --title "v{{.VERSION}}" --notes-file CHANGELOG.md
         echo "✓ GitHub release created"
+    silent: true
 
   # ==========================================
   # TESTING TASKS
@@ -263,11 +283,13 @@ tasks:
     cmds:
       - task: validate
       - echo "✓ All tests passed"
+    silent: true
 
   test:syntax:
     desc: Check Lua syntax only
     cmds:
-      - luac -p {{.ADDON_NAME}}.lua
+      - luac -p {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua
+    silent: true
 
   test:install:
     desc: Test installation workflow
@@ -275,6 +297,7 @@ tasks:
       - task: uninstall
       - task: install
       - echo "✓ Installation test complete"
+    silent: true
 
   # ==========================================
   # DEVELOPMENT TASKS
@@ -291,22 +314,25 @@ tasks:
       - echo "  - Press Ctrl+C to stop watching"
       - echo ""
       - task: dev:watch
+    silent: true
 
   dev:watch:
     desc: Watch for file changes
     cmds:
       - |
         echo "Watching for changes..."
-        fswatch -o {{.ADDON_NAME}}.lua {{.ADDON_NAME}}.xml | while read; do
+        fswatch -o {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua {{.ADDON_NAME}}.xml | while read; do
           echo "[$(date +%H:%M:%S)] Files changed - use /reloadui in ESO"
         done
+    silent: true
 
   dev:lint:
     desc: Lint Lua code (requires luacheck)
     cmds:
       - echo "Linting Lua code..."
-      - luacheck {{.ADDON_NAME}}.lua --std max --globals EVENT_MANAGER SLASH_COMMANDS d GetUnitName GetPlayerStat
+      - luacheck {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua --std max --globals EVENT_MANAGER SLASH_COMMANDS d GetUnitName GetPlayerStat
       - echo "✓ Lint complete"
+    silent: true
 
   # ==========================================
   # DOCUMENTATION TASKS
@@ -317,10 +343,7 @@ tasks:
     cmds:
       - echo "Documentation files:"
       - echo "  - README.md (user guide)"
-      - echo "  - INSTALL.md (installation)"
-      - echo "  - PROJECT_SUMMARY.md (technical)"
       - echo "  - CHANGELOG.md (versions)"
-      - echo "  - MINION_UPLOAD.md (deployment)"
     silent: true
 
   docs:serve:
@@ -328,6 +351,7 @@ tasks:
     cmds:
       - echo "Serving docs at http://localhost:8000"
       - python3 -m http.server 8000
+    silent: true
 
   # ==========================================
   # UTILITY TASKS
@@ -367,6 +391,7 @@ tasks:
       - echo "Creating backup..."
       - tar czf backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz {{.REQUIRED_FILES}}
       - echo "✓ Backup created"
+    silent: true
 
   # ==========================================
   # MINION TASKS
@@ -379,7 +404,8 @@ tasks:
       - echo "Package ready for Minion:"
       - echo "  {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}-esoui.zip"
       - echo ""
-      - echo "See MINION_UPLOAD.md for upload instructions"
+      - echo "Upload manually to ESOUI.com or use Minion client"
+    silent: true
 
   minion:verify:
     desc: Verify package meets Minion requirements
@@ -399,6 +425,7 @@ tasks:
           echo "  ✓ Package size OK (${SIZE} bytes)"
         fi
       - echo "  ✓ Ready for Minion upload"
+    silent: true
 
   # ==========================================
   # HELP TASKS
@@ -411,6 +438,7 @@ tasks:
       - echo "  task install          - Copy addon to ESO"
       - echo "  task install:dev      - Symlink for development"
       - echo "  task uninstall        - Remove from ESO"
+      - echo "  task uninstall:dev    - Remove symlink and install normally"
     silent: true
 
   help:release:
