@@ -1,0 +1,319 @@
+-- =====================================================
+-- OPTIMIZED LAYOUT GENERATORS FOR CHARACTERMARKDOWN
+-- =====================================================
+-- This module contains optimized markdown generation functions
+-- that provide more concise, visually appealing output for GitHub format
+-- 
+-- To enable: Set CharacterMarkdownSettings.useOptimizedLayout = true
+
+local OptimizedLayout = {}
+
+-- =====================================================
+-- HELPER: Generate optimized overview section
+-- Combines: overview + progression + currency + riding + inventory + collectibles
+-- =====================================================
+function OptimizedLayout.GenerateOverview(characterData, progressionData, currencyData, ridingData, inventoryData, collectiblesData, roleData, locationData, format)
+    local md = "## Character Overview\n\n"
+    
+    -- Combined info table (3-column layout for better space usage)
+    md = md .. "| | | |\n"
+    md = md .. "|:---|:---|:---|\n"
+    
+    -- Row 1: Core identity
+    local raceText = CreateRaceLink(characterData.race, format)
+    local classText = CreateClassLink(characterData.class, format)
+    md = md .. "| **" .. raceText .. " " .. classText .. "** | Level " .. (characterData.level or 0) .. " | CP " .. FormatNumber(characterData.cp or 0) .. " |\n"
+    
+    -- Row 2: Status indicators
+    local esoPlusText = characterData.esoPlus and "✅ ESO Plus" or ""
+    local titleText = (characterData.title and characterData.title ~= "") and ("*" .. characterData.title .. "*") or ""
+    local locationText = locationData and CreateZoneLink(locationData.zone, format) or ""
+    md = md .. "| " .. esoPlusText .. " | " .. titleText .. " | " .. locationText .. " |\n"
+    
+    -- Row 3: Progression stats
+    local skillPts = (progressionData.skillPoints > 0) and (progressionData.skillPoints .. " SP available") or ""
+    local achievementText = FormatNumber(progressionData.achievementPoints) .. " / " .. FormatNumber(progressionData.totalAchievements) .. " (" .. progressionData.achievementPercent .. "%)"
+    md = md .. "| " .. skillPts .. " | **Achievements:** " .. achievementText .. " | |\n"
+    
+    -- Row 4: Resources (inline - only meaningful currencies)
+    local currencies = {}
+    table.insert(currencies, FormatNumber(currencyData.gold) .. " gold")
+    if currencyData.telVar > 0 then table.insert(currencies, FormatNumber(currencyData.telVar) .. " Tel Var") end
+    if currencyData.transmuteCrystals > 0 then table.insert(currencies, FormatNumber(currencyData.transmuteCrystals) .. " Transmutes") end
+    if currencyData.eventTickets > 0 then table.insert(currencies, currencyData.eventTickets .. " Event Tickets") end
+    
+    -- Split currencies across columns
+    local currencyPart1 = currencies[1] or ""
+    local currencyPart2 = currencies[2] or ""
+    local currencyPart3 = (#currencies > 2) and (currencies[3] .. (currencies[4] and (", " .. currencies[4]) or "")) or ""
+    md = md .. "| **" .. currencyPart1 .. "** | " .. currencyPart2 .. " | " .. currencyPart3 .. " |\n"
+    
+    -- Row 5: Inventory
+    local backpackText = inventoryData.backpackUsed .. "/" .. inventoryData.backpackMax .. " (" .. inventoryData.backpackPercent .. "%)"
+    local bankText = inventoryData.bankUsed .. "/" .. inventoryData.bankMax .. " (" .. inventoryData.bankPercent .. "%)"
+    local craftBagText = inventoryData.hasCraftingBag and "✅ Craft Bag" or ""
+    md = md .. "| **Backpack:** " .. backpackText .. " | **Bank:** " .. bankText .. " | " .. craftBagText .. " |\n"
+    
+    -- Row 6: Riding (if not all maxed, show status)
+    if not ridingData.allMaxed then
+        local ridingText = "Speed " .. ridingData.speed .. "/60, Stamina " .. ridingData.stamina .. "/60, Capacity " .. ridingData.capacity .. "/60"
+        local trainingText = ridingData.trainingAvailable and "⚠️ Training ready" or ""
+        md = md .. "| **Riding:** " .. ridingText .. " | " .. trainingText .. " | |\n"
+    else
+        md = md .. "| **Riding:** ✅ All maxed (60/60/60) | | |\n"
+    end
+    
+    -- Row 7: Collectibles summary (single line)
+    local totalCollectibles = collectiblesData.mounts + collectiblesData.pets + collectiblesData.costumes + collectiblesData.houses
+    local collectText = totalCollectibles .. " items (" .. collectiblesData.mounts .. " mounts, " .. collectiblesData.pets .. " pets, " .. collectiblesData.costumes .. " costumes, " .. collectiblesData.houses .. " houses)"
+    md = md .. "| **Collectibles:** " .. collectText .. " | | |\n"
+    
+    md = md .. "\n"
+    return md
+end
+
+-- =====================================================
+-- HELPER: Generate optimized skill bars
+-- Unified side-by-side view in single table
+-- =====================================================
+function OptimizedLayout.GenerateSkillBars(skillBarData, format)
+    local md = "## Combat Arsenal\n\n"
+    
+    if not skillBarData or #skillBarData < 2 then
+        return md .. "*No skill bar data available*\n\n"
+    end
+    
+    local frontBar = skillBarData[1]
+    local backBar = skillBarData[2]
+    
+    -- Unified table
+    md = md .. "| Bar | Ultimate | Ability 1 | Ability 2 | Ability 3 | Ability 4 | Ability 5 |\n"
+    md = md .. "|:----|:---------|:----------|:----------|:----------|:----------|:----------|\n"
+    
+    -- Front bar row
+    local frontUlt = CreateAbilityLink(frontBar.ultimate, frontBar.ultimateId, format)
+    md = md .. "| **🗡️ Front** | " .. frontUlt
+    for _, ability in ipairs(frontBar.abilities) do
+        local abilityText = CreateAbilityLink(ability.name, ability.id, format)
+        md = md .. " | " .. abilityText
+    end
+    md = md .. " |\n"
+    
+    -- Back bar row
+    local backUlt = CreateAbilityLink(backBar.ultimate, backBar.ultimateId, format)
+    md = md .. "| **🔮 Back** | " .. backUlt
+    for _, ability in ipairs(backBar.abilities) do
+        local abilityText = CreateAbilityLink(ability.name, ability.id, format)
+        md = md .. " | " .. abilityText
+    end
+    md = md .. " |\n\n"
+    
+    return md
+end
+
+-- =====================================================
+-- HELPER: Generate optimized equipment
+-- Condensed layout, remove redundant columns
+-- =====================================================
+function OptimizedLayout.GenerateEquipment(equipmentData, format)
+    local md = "## Equipment\n\n"
+    
+    -- Sets summary (inline, single line)
+    if equipmentData.sets and #equipmentData.sets > 0 then
+        local setsSummary = {}
+        for _, set in ipairs(equipmentData.sets) do
+            local indicator = (set.count >= 5) and "✅" or (set.count >= 2 and "⚠️") or "❌"
+            local setLink = CreateSetLink(set.name, format)
+            table.insert(setsSummary, indicator .. " " .. setLink .. " (" .. set.count .. ")")
+        end
+        md = md .. "**Sets:** " .. table.concat(setsSummary, " • ") .. "\n\n"
+    end
+    
+    -- Condensed equipment table (3 columns only: Slot, Item+Set, Quality+Trait)
+    if equipmentData.items and #equipmentData.items > 0 then
+        md = md .. "| Slot | Item (Set) | Quality • Trait |\n"
+        md = md .. "|:-----|:-----------|:----------------|\n"
+        for _, item in ipairs(equipmentData.items) do
+            local setLink = CreateSetLink(item.setName, format)
+            local setInfo = (setLink and setLink ~= "-") and (" (" .. setLink .. ")") or ""
+            local qualityTrait = (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal") .. " • " .. (item.trait or "None")
+            md = md .. "| " .. (item.emoji or "📦") .. " " .. (item.slotName or "Unknown") .. " | "
+            md = md .. (item.name or "-") .. setInfo .. " | "
+            md = md .. qualityTrait .. " |\n"
+        end
+        md = md .. "\n"
+    end
+    
+    return md
+end
+
+-- =====================================================
+-- HELPER: Generate optimized skills
+-- Filter maxed skills, show only in-progress
+-- =====================================================
+function OptimizedLayout.GenerateSkills(skillData, format)
+    local md = "## Skill Progression\n\n"
+    
+    -- Count maxed skills per category
+    local maxedSummary = {}
+    local hasNonMaxed = false
+    
+    for _, category in ipairs(skillData) do
+        local maxedCount = 0
+        local totalCount = 0
+        local nonMaxedSkills = {}
+        
+        if category.skills then
+            for _, skill in ipairs(category.skills) do
+                totalCount = totalCount + 1
+                if skill.maxed then
+                    maxedCount = maxedCount + 1
+                else
+                    hasNonMaxed = true
+                    table.insert(nonMaxedSkills, skill)
+                end
+            end
+        end
+        
+        if maxedCount > 0 then
+            table.insert(maxedSummary, {
+                category = category.name,
+                emoji = category.emoji,
+                maxedCount = maxedCount
+            })
+        end
+        
+        -- Store non-maxed for display
+        category.nonMaxedSkills = nonMaxedSkills
+    end
+    
+    -- Show maxed summary first (collapsed)
+    if #maxedSummary > 0 then
+        md = md .. "**Maxed Skills:** "
+        local summaryParts = {}
+        for _, summary in ipairs(maxedSummary) do
+            table.insert(summaryParts, (summary.emoji or "⚔️") .. " " .. summary.category .. " (" .. summary.maxedCount .. ")")
+        end
+        md = md .. table.concat(summaryParts, " • ") .. "\n\n"
+    end
+    
+    -- Show only non-maxed skills (expanded)
+    if hasNonMaxed then
+        md = md .. "### Skills In Progress\n\n"
+        for _, category in ipairs(skillData) do
+            if category.nonMaxedSkills and #category.nonMaxedSkills > 0 then
+                md = md .. "**" .. (category.emoji or "⚔️") .. " " .. category.name .. ":**  \n"
+                for _, skill in ipairs(category.nonMaxedSkills) do
+                    local skillNameLinked = CreateSkillLineLink(skill.name, format)
+                    local progressText = skill.progress and (" (" .. skill.progress .. "%)") or ""
+                    md = md .. "📈 " .. skillNameLinked .. " R" .. (skill.rank or 0) .. progressText .. "  \n"
+                end
+                md = md .. "\n"
+            end
+        end
+    else
+        md = md .. "*All skills maxed!*\n\n"
+    end
+    
+    return md
+end
+
+-- =====================================================
+-- HELPER: Generate optimized companion
+-- Concise expanded format - all data visible but compact
+-- =====================================================
+function OptimizedLayout.GenerateCompanion(companionData, format)
+    if not companionData.active then
+        return ""  -- Skip section entirely if no companion
+    end
+    
+    local md = "## Companion\n\n"
+    local companionNameLinked = CreateCompanionLink(companionData.name, format)
+    
+    -- Line 1: Name, Level, Ultimate
+    local ultimateText = companionData.skills and CreateAbilityLink(companionData.skills.ultimate, companionData.skills.ultimateId, format) or "[Empty]"
+    md = md .. "**" .. companionNameLinked .. "** • Level " .. (companionData.level or 0) .. " • Ultimate: " .. ultimateText .. "\n\n"
+    
+    -- Line 2: Abilities inline (comma-separated)
+    if companionData.skills and companionData.skills.abilities then
+        local abilityLinks = {}
+        for i, ability in ipairs(companionData.skills.abilities) do
+            local abilityText = CreateAbilityLink(ability.name, ability.id, format)
+            table.insert(abilityLinks, abilityText)
+        end
+        md = md .. "**Abilities:** " .. table.concat(abilityLinks, " • ") .. "\n\n"
+    end
+    
+    -- Equipment: compact 3-column table
+    if companionData.equipment and #companionData.equipment > 0 then
+        md = md .. "| Slot | Item | Level • Quality |\n"
+        md = md .. "|:-----|:-----|:----------------|\n"
+        for _, item in ipairs(companionData.equipment) do
+            local levelQuality = "L" .. item.level .. " • " .. item.quality
+            md = md .. "| " .. item.slot .. " | " .. item.name .. " | " .. levelQuality .. " |\n"
+        end
+        md = md .. "\n"
+    end
+    
+    return md
+end
+
+-- =====================================================
+-- HELPER: Generate optimized champion points
+-- More compact CP display
+-- =====================================================
+function OptimizedLayout.GenerateChampionPoints(cpData, format)
+    local md = "## Champion Points\n\n"
+    
+    local totalCP = cpData.total or 0
+    if totalCP < 10 then
+        return md .. "*Champion Point system unlocks at Level 50*\n\n"
+    end
+    
+    local spentCP = cpData.spent or 0
+    local availableCP = totalCP - spentCP
+    
+    -- Inline summary
+    md = md .. "**Total:** " .. FormatNumber(totalCP) .. " • **Spent:** " .. FormatNumber(spentCP) .. " • **Available:** " .. FormatNumber(availableCP) .. "\n\n"
+    
+    -- Disciplines (condensed bullet format)
+    if cpData.disciplines and #cpData.disciplines > 0 then
+        for _, discipline in ipairs(cpData.disciplines) do
+            md = md .. "**" .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. "** (" .. FormatNumber(discipline.total) .. " points):  \n"
+            if discipline.skills and #discipline.skills > 0 then
+                local skillParts = {}
+                for _, skill in ipairs(discipline.skills) do
+                    local skillText = CreateCPSkillLink(skill.name, format)
+                    table.insert(skillParts, skillText .. " (" .. skill.points .. ")")
+                end
+                md = md .. table.concat(skillParts, " • ") .. "\n\n"
+            end
+        end
+    end
+    
+    return md
+end
+
+-- =====================================================
+-- HELPER: Generate optimized combat stats
+-- Single inline summary instead of large table
+-- =====================================================
+function OptimizedLayout.GenerateCombatStats(statsData, characterData)
+    local md = "## Combat Stats\n\n"
+    
+    -- Attributes inline
+    md = md .. "**Attributes:** Magicka " .. characterData.attributes.magicka .. " • Health " .. characterData.attributes.health .. " • Stamina " .. characterData.attributes.stamina .. "\n\n"
+    
+    -- Resources
+    md = md .. "**Resources:** Health " .. FormatNumber(statsData.health or 0) .. " • Magicka " .. FormatNumber(statsData.magicka or 0) .. " • Stamina " .. FormatNumber(statsData.stamina or 0) .. "\n\n"
+    
+    -- Power
+    md = md .. "**Power:** Weapon " .. FormatNumber(statsData.weaponPower or 0) .. " • Spell " .. FormatNumber(statsData.spellPower or 0) .. "\n\n"
+    
+    -- Resistances
+    md = md .. "**Resistances:** Physical " .. FormatNumber(statsData.physicalResist or 0) .. " • Spell " .. FormatNumber(statsData.spellResist or 0) .. "\n\n"
+    
+    return md
+end
+
+return OptimizedLayout

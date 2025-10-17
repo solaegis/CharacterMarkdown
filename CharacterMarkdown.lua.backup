@@ -2412,15 +2412,8 @@ local function CommandHandler(args)
     if editBox and scroll then
         editBox:SetText(markdown)
         
-        -- Force text color to bright white
-        local r, g, b = GetInterfaceColor(INTERFACE_COLOR_TYPE_TEXT_COLORS, INTERFACE_TEXT_COLOR_NORMAL)
-        d("[CharacterMarkdown] Setting color: R=" .. r .. " G=" .. g .. " B=" .. b)
-        editBox:SetColor(r, g, b, 1)
-        
-        -- Also try setting the font color directly
-        editBox:SetFont("ZoFontGameSmall")
-        
-        d("[CharacterMarkdown] Text color set")
+        -- Force text color to pure bright white
+        editBox:SetColor(1, 1, 1, 1)  -- R=1, G=1, B=1, A=1 (pure white, fully opaque)
         
         editBox:SetEditEnabled(true)
         editBox:SetMouseEnabled(true)

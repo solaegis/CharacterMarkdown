@@ -17,7 +17,7 @@
                     <Anchor point="TOP" />
                     
                     <Controls>
-                        <Label name="$(parent)Label" font="ZoFontWinH3" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" text="Character Markdown Export">
+                        <Label name="$(parent)Label" font="ZoFontWinH3" text="Character Markdown Export">
                             <Anchor point="LEFT" offsetX="20" />
                         </Label>
                         
@@ -32,7 +32,7 @@
                 </Control>
                 
                 <!-- Instructions -->
-                <Label name="$(parent)Instructions" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_SELECTED" text="Text is pre-selected - just press Ctrl+C to copy!">
+                <Label name="$(parent)Instructions" font="ZoFontGame" text="Text is pre-selected - just press Ctrl+C to copy!">
                     <Dimensions x="760" y="24" />
                     <Anchor point="TOP" relativeTo="$(parent)Title" relativePoint="BOTTOM" offsetY="10" />
                 </Label>
@@ -53,8 +53,8 @@
                             <Anchor point="BOTTOMRIGHT" offsetX="-5" offsetY="-5" />
                             
                             <Controls>
-                                <!-- EditBox configured for proper selection and wrapping -->
-                                <EditBox name="$(parent)EditBox" font="ZoFontGameSmall" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" multiLine="true" maxInputCharacters="500000" newLineEnabled="true">
+                                <!-- EditBox - color will be set via Lua -->
+                                <EditBox name="$(parent)EditBox" font="ZoFontGameSmall" multiLine="true" maxInputCharacters="500000" newLineEnabled="true">
                                     <Dimensions x="740" />
                                 </EditBox>
                             </Controls>

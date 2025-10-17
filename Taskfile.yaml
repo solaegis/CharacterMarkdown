@@ -10,7 +10,7 @@ vars:
     sh: grep "## Version:" {{.ADDON_NAME}}.txt | cut -d' ' -f3
   ESO_ADDONS_DIR: "{{.HOME}}/Documents/Elder Scrolls Online/live/AddOns"
   DIST_DIR: "./dist"
-  REQUIRED_FILES: "{{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua README.md LICENSE"
+  REQUIRED_FILES: "{{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml src/ README.md LICENSE"
 
 tasks:
   default:
@@ -27,8 +27,9 @@ tasks:
     desc: Install addon to ESO AddOns directory (copy)
     cmds:
       - echo "Installing {{.ADDON_NAME}} to ESO..."
-      - mkdir -p "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
-      - cp {{.REQUIRED_FILES}} "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}/"
+      - mkdir -p "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}/src"
+      - cp {{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml README.md LICENSE "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}/"
+      - cp -r src/ "{{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}/src"
       - echo "✓ Installed to {{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
     silent: true
 
@@ -78,12 +79,16 @@ tasks:
     cmds:
       - echo "Checking required files..."
       - |
-        for file in {{.REQUIRED_FILES}}; do
+        for file in {{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml README.md LICENSE; do
           if [ ! -f "$file" ]; then
             echo "✗ Missing required file: $file"
             exit 1
           fi
         done
+        if [ ! -d "src" ]; then
+          echo "✗ Missing required directory: src"
+          exit 1
+        fi
       - echo "  ✓ All required files present"
     silent: true
 
@@ -111,8 +116,10 @@ tasks:
     desc: Check Lua syntax
     cmds:
       - echo "Checking Lua syntax..."
-      - luac -p {{.ADDON_NAME}}.lua || (echo "✗ Lua syntax errors found in {{.ADDON_NAME}}.lua" && exit 1)
-      - luac -p {{.ADDON_NAME}}_Settings.lua || (echo "✗ Lua syntax errors found in {{.ADDON_NAME}}_Settings.lua" && exit 1)
+      - |
+        find src -name "*.lua" -type f | while read file; do
+          luac -p "$file" || (echo "✗ Lua syntax errors found in $file" && exit 1)
+        done
       - echo "  ✓ All Lua files syntax valid"
     silent: true
 
@@ -128,7 +135,8 @@ tasks:
         task clean
         echo "Building {{.ADDON_NAME}} v{{.VERSION}}..."
         mkdir -p {{.DIST_DIR}}/{{.ADDON_NAME}}
-        cp {{.REQUIRED_FILES}} {{.DIST_DIR}}/{{.ADDON_NAME}}/
+        cp {{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml README.md LICENSE {{.DIST_DIR}}/{{.ADDON_NAME}}/
+        cp -r src/ {{.DIST_DIR}}/{{.ADDON_NAME}}/
         echo "✓ Build complete: {{.DIST_DIR}}/{{.ADDON_NAME}}"
     silent: true
 
@@ -288,7 +296,8 @@ tasks:
   test:syntax:
     desc: Check Lua syntax only
     cmds:
-      - luac -p {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua
+      - |
+        find src -name "*.lua" -type f -exec luac -p {} \;
     silent: true
 
   test:install:
@@ -321,7 +330,7 @@ tasks:
     cmds:
       - |
         echo "Watching for changes..."
-        fswatch -o {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua {{.ADDON_NAME}}.xml | while read; do
+        fswatch -o {{.ADDON_NAME}}.xml src/ | while read; do
           echo "[$(date +%H:%M:%S)] Files changed - use /reloadui in ESO"
         done
     silent: true
@@ -330,7 +339,7 @@ tasks:
     desc: Lint Lua code (requires luacheck)
     cmds:
       - echo "Linting Lua code..."
-      - luacheck {{.ADDON_NAME}}.lua {{.ADDON_NAME}}_Settings.lua --std max --globals EVENT_MANAGER SLASH_COMMANDS d GetUnitName GetPlayerStat
+      - luacheck src/ --std max --globals EVENT_MANAGER SLASH_COMMANDS d GetUnitName GetPlayerStat
       - echo "✓ Lint complete"
     silent: true
 
@@ -368,15 +377,21 @@ tasks:
         echo "Location:    {{.PWD}}"
         echo "ESO Install: {{.ESO_ADDONS_DIR}}/{{.ADDON_NAME}}"
         echo ""
-        echo "Files:"
-        ls -lh {{.REQUIRED_FILES}}
+        echo "Core Files:"
+        ls -lh {{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml README.md LICENSE
+        echo ""
+        echo "Source Files:"
+        find src -name "*.lua" -type f | sort
     silent: true
 
   size:
     desc: Show file sizes and package size
     cmds:
       - echo "File Sizes:"
-      - du -h {{.REQUIRED_FILES}}
+      - du -h {{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml README.md LICENSE
+      - echo ""
+      - echo "Source Directory:"
+      - du -sh src/
       - echo ""
       - echo "Total package size:"
       - du -sh .
@@ -389,7 +404,7 @@ tasks:
     desc: Create backup of current addon
     cmds:
       - echo "Creating backup..."
-      - tar czf backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz {{.REQUIRED_FILES}}
+      - tar czf backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz {{.ADDON_NAME}}.txt {{.ADDON_NAME}}.xml README.md LICENSE src/
       - echo "✓ Backup created"
     silent: true
 
