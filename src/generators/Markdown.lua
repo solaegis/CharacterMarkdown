@@ -38,6 +38,23 @@ local function GenerateMarkdown(format)
     
     format = format or "github"
     
+    -- Verify collectors are loaded
+    if not CM.collectors then
+        d("[CharacterMarkdown] ❌ FATAL: CM.collectors namespace doesn't exist!")
+        d("[CharacterMarkdown] The addon did not load correctly. Try /reloadui")
+        return "ERROR: Addon not loaded. Type /reloadui and try again."
+    end
+    
+    -- Check if a critical collector exists (test case)
+    if not CM.collectors.CollectCharacterData then
+        d("[CharacterMarkdown] ❌ FATAL: Collectors not loaded!")
+        d("[CharacterMarkdown] Available in CM.collectors:")
+        for k, v in pairs(CM.collectors) do
+            d("[CharacterMarkdown]   - " .. k)
+        end
+        return "ERROR: Collectors not loaded. Type /reloadui and try again."
+    end
+    
     -- Collect all data with error handling
     local characterData = CM.collectors.CollectCharacterData()
     local dlcData = CM.collectors.CollectDLCAccess()
