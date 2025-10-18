@@ -1,0 +1,218 @@
+name: Release CharacterMarkdown
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    
+    steps:
+      # ========================================================================
+      # 1. Checkout Repository
+      # ========================================================================
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for changelog extraction
+
+      # ========================================================================
+      # 2. Extract Version from Git Tag
+      # ========================================================================
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "ZIP_NAME=CharacterMarkdown-${VERSION}.zip" >> $GITHUB_OUTPUT
+          echo "📦 Version: $VERSION"
+
+      # ========================================================================
+      # 3. Setup Lua Environment (LuaJIT for Lua 5.1 compatibility)
+      # ========================================================================
+      - name: Setup LuaJIT
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "luajit-2.1.0-beta3"
+
+      - name: Setup LuaRocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install Luacheck
+        run: luarocks install luacheck
+
+      # ========================================================================
+      # 4. Run Tests
+      # ========================================================================
+      - name: Run Luacheck
+        run: |
+          echo "🔍 Running Luacheck..."
+          luacheck src/ --exclude-files "*.backup"
+
+      - name: Validate manifest
+        run: |
+          echo "✅ Validating manifest..."
+          luajit scripts/validate-manifest.lua CharacterMarkdown.txt
+
+      # ========================================================================
+      # 5. Update Manifest Versions
+      # ========================================================================
+      - name: Update manifest version
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          DATE_VERSION=$(date +'%Y%m%d')
+          
+          echo "📝 Updating CharacterMarkdown.txt"
+          sed -i "s/^## Version: .*/## Version: $VERSION/g" CharacterMarkdown.txt
+          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/g" CharacterMarkdown.txt
+          
+          echo "📝 Creating CharacterMarkdown.addon"
+          cp CharacterMarkdown.txt CharacterMarkdown.addon
+          
+          echo "✅ Manifest updated:"
+          echo "   Version: $VERSION"
+          echo "   AddOnVersion: $DATE_VERSION"
+
+      # ========================================================================
+      # 6. Create Release ZIP
+      # ========================================================================
+      - name: Create release ZIP
+        run: |
+          echo "📦 Building release package..."
+          
+          # Create build directory
+          BUILD_DIR="/tmp/CharacterMarkdown"
+          mkdir -p "$BUILD_DIR"
+          
+          # Read .build-ignore and create rsync exclude arguments
+          EXCLUDE_ARGS=""
+          while IFS= read -r pattern; do
+            # Skip empty lines and comments
+            [[ -z "$pattern" || "$pattern" =~ ^# ]] && continue
+            EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=$pattern"
+          done < .build-ignore
+          
+          # Copy files excluding patterns
+          rsync -a --quiet \
+            $EXCLUDE_ARGS \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='build' \
+            --exclude='dist' \
+            . "$BUILD_DIR/"
+          
+          # Create ZIP from temp directory
+          cd /tmp
+          zip -r -q "$GITHUB_WORKSPACE/${{ steps.version.outputs.ZIP_NAME }}" "CharacterMarkdown"
+          
+          echo "✅ Created: ${{ steps.version.outputs.ZIP_NAME }}"
+          
+          # Verify ZIP structure
+          echo "📋 ZIP contents:"
+          unzip -l "$GITHUB_WORKSPACE/${{ steps.version.outputs.ZIP_NAME }}" | head -20
+
+      - name: Validate ZIP structure
+        run: |
+          bash scripts/validate-zip.sh "${{ steps.version.outputs.ZIP_NAME }}"
+
+      # ========================================================================
+      # 7. Extract Changelog for Release Notes
+      # ========================================================================
+      - name: Extract changelog
+        run: |
+          echo "📝 Extracting changelog for v${{ steps.version.outputs.VERSION }}"
+          
+          # Extract the latest version section from CHANGELOG.md
+          awk '
+            /^## \['"${{ steps.version.outputs.VERSION }}"'\]/ { found=1; print; next }
+            /^## \[/ { if (found) exit }
+            found { print }
+          ' CHANGELOG.md > release_notes.md
+          
+          # Fallback if extraction failed
+          if [ ! -s release_notes.md ]; then
+            echo "## CharacterMarkdown v${{ steps.version.outputs.VERSION }}" > release_notes.md
+            echo "" >> release_notes.md
+            echo "See [CHANGELOG.md](CHANGELOG.md) for full release notes." >> release_notes.md
+          fi
+          
+          echo "📋 Release notes:"
+          cat release_notes.md
+
+      # ========================================================================
+      # 8. Create GitHub Release
+      # ========================================================================
+      - name: Create GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          name: "CharacterMarkdown v${{ steps.version.outputs.VERSION }}"
+          tag: "v${{ steps.version.outputs.VERSION }}"
+          artifacts: "${{ steps.version.outputs.ZIP_NAME }}"
+          artifactContentType: application/zip
+          bodyFile: release_notes.md
+          allowUpdates: true
+          makeLatest: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ========================================================================
+      # 9. Upload to ESOUI (PRODUCTION READY)
+      # ========================================================================
+      - name: Upload to ESOUI
+        uses: m00nyONE/esoui-upload@v2
+        with:
+          # =================================================================
+          # 🔧 CONFIGURATION REQUIRED:
+          # 1. Add ESOUI_API_KEY to GitHub Secrets:
+          #    Settings → Secrets → Actions → New repository secret
+          #    Name: ESOUI_API_KEY
+          #    Value: [Your token from https://www.esoui.com/downloads/filecpl.php?action=apitokens]
+          #
+          # 2. Replace ADDON_ID after first manual upload:
+          #    After uploading v2.1.0 manually to ESOUI, get the ID from:
+          #    https://www.esoui.com/downloads/info####-CharacterMarkdown.html
+          #                                        ^^^^
+          #    Replace 'XXXX' below with your actual ID (numbers only)
+          # =================================================================
+          
+          api_key: ${{ secrets.ESOUI_API_KEY }}
+          addon_id: 'XXXX'  # TODO: Replace with your ESOUI addon ID after first manual upload
+          
+          # Version from Git tag
+          version: ${{ steps.version.outputs.VERSION }}
+          
+          # Release artifacts
+          zip_file: ${{ steps.version.outputs.ZIP_NAME }}
+          changelog_file: 'CHANGELOG.md'
+          
+          # ESO compatibility version (update as ESO patches release)
+          # Format: MAJOR.MINOR.PATCH (e.g., 11.0.0 for Gold Road)
+          # Get current from: /script d(GetAPIVersion()) in ESO
+          compatibility: '11.0.0'
+          
+          # Test mode: set to 'true' for dry-run, 'false' for production
+          test: false
+
+      # ========================================================================
+      # 10. Success Notification
+      # ========================================================================
+      - name: Release summary
+        if: success()
+        run: |
+          echo "🎉 Release v${{ steps.version.outputs.VERSION }} complete!"
+          echo ""
+          echo "✅ GitHub Release: https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.VERSION }}"
+          echo "✅ ESOUI Upload: Submitted (check https://www.esoui.com/downloads/author.php)"
+          echo ""
+          echo "📦 Artifacts:"
+          echo "   - ${{ steps.version.outputs.ZIP_NAME }}"
+          echo ""
+          echo "🔗 Next steps:"
+          echo "   1. Verify GitHub release looks correct"
+          echo "   2. Check ESOUI for successful upload"
+          echo "   3. Test addon in-game after approval"

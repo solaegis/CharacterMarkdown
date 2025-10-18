@@ -9,6 +9,315 @@ local CreateAllianceLink, CreateMundusLink, CreateCPSkillLink, CreateSkillLineLi
 local CreateCompanionLink, CreateZoneLink, CreateCampaignLink, CreateBuffLink
 local FormatNumber
 
+-- Forward declarations for section generators (defined later in file)
+local GenerateQuickSummary, GenerateHeader, GenerateOverview, GenerateProgression
+local GenerateCurrency, GenerateRidingSkills, GenerateInventory, GeneratePvP
+local GenerateCollectibles, GenerateCrafting, GenerateAttributes, GenerateBuffs
+local GenerateCustomNotes, GenerateDLCAccess, GenerateMundus, GenerateChampionPoints
+local GenerateSkillBars, GenerateCombatStats, GenerateEquipment, GenerateSkills
+local GenerateCompanion, GenerateFooter
+
+-- =====================================================
+-- SECTION GENERATOR IMPLEMENTATIONS
+-- =====================================================
+
+-- Note: These are assigned to the forward-declared variables above
+-- This allows them to be called from GenerateMarkdown() before their full definitions
+
+GenerateQuickSummary = function(characterData, equipmentData)
+    local name = characterData.name or "Unknown"
+    local level = characterData.level >= 50 and "L50" or "L" .. (characterData.level or 0)
+    local cp = characterData.cp > 0 and (" CP" .. FormatNumber(characterData.cp)) or ""
+    local race = (characterData.race or ""):sub(1, 4)
+    local class = (characterData.class or ""):sub(1, 2)
+    local esoPlusIndicator = characterData.esoPlus and " 👑" or ""
+    
+    local sets = ""
+    if equipmentData.sets and #equipmentData.sets > 0 then
+        local topSets = {}
+        for i = 1, math.min(2, #equipmentData.sets) do
+            table.insert(topSets, equipmentData.sets[i].name .. "(" .. equipmentData.sets[i].count .. ")")
+        end
+        sets = " • " .. table.concat(topSets, ", ")
+    end
+    
+    return string.format("%s • %s%s%s • %s %s%s",
+        name, level, cp, esoPlusIndicator, race, class, sets)
+end
+
+GenerateHeader = function(characterData, format)
+    local markdown = ""
+    
+    if format == "discord" then
+        markdown = markdown .. "# **" .. (characterData.name or "Unknown") .. "**\n"
+        local raceText = CreateRaceLink(characterData.race, format)
+        local classText = CreateClassLink(characterData.class, format)
+        local allianceText = CreateAllianceLink(characterData.alliance, format)
+        markdown = markdown .. raceText .. " " .. classText .. 
+                              " • L" .. (characterData.level or 0)
+        if characterData.cp > 0 then
+            markdown = markdown .. " • CP" .. FormatNumber(characterData.cp)
+        end
+        if characterData.esoPlus then
+            markdown = markdown .. " • 👑 ESO Plus"
+        end
+        markdown = markdown .. "\n*" .. allianceText .. "*\n"
+    else
+        markdown = markdown .. "# " .. (characterData.name or "Unknown") .. "\n\n"
+        local raceText = CreateRaceLink(characterData.race, format)
+        local classText = CreateClassLink(characterData.class, format)
+        local allianceText = CreateAllianceLink(characterData.alliance, format)
+        markdown = markdown .. "**" .. raceText .. " " .. classText .. "**  \n"
+        markdown = markdown .. "**Level " .. (characterData.level or 0) .. "** • **CP " .. FormatNumber(characterData.cp or 0) .. "**  \n"
+        markdown = markdown .. "*" .. allianceText .. "*\n\n"
+        markdown = markdown .. "---\n\n"
+    end
+    
+    return markdown
+end
+
+GenerateOverview = function(characterData, roleData, locationData, buffsData, settings, format)
+    local markdown = ""
+    
+    markdown = markdown .. "## 📊 Character Overview\n\n"
+    markdown = markdown .. "| Attribute | Value |\n"
+    markdown = markdown .. "|:----------|:------|\n"
+    local raceText = CreateRaceLink(characterData.race, format)
+    local classText = CreateClassLink(characterData.class, format)
+    local allianceText = CreateAllianceLink(characterData.alliance, format)
+    markdown = markdown .. "| **Race** | " .. raceText .. " |\n"
+    markdown = markdown .. "| **Class** | " .. classText .. " |\n"
+    markdown = markdown .. "| **Alliance** | " .. allianceText .. " |\n"
+    markdown = markdown .. "| **Level** | " .. (characterData.level or 0) .. " |\n"
+    markdown = markdown .. "| **Champion Points** | " .. FormatNumber(characterData.cp or 0) .. " |\n"
+    
+    -- ESO Plus status
+    local esoPlusStatus = characterData.esoPlus and "✅ Active" or "❌ Inactive"
+    markdown = markdown .. "| **ESO Plus** | " .. esoPlusStatus .. " |\n"
+    
+    if characterData.title and characterData.title ~= "" then
+        markdown = markdown .. "| **Title** | *" .. characterData.title .. "* |\n"
+    end
+    
+    -- Role
+    if settings.includeRole ~= false and roleData and roleData.selected ~= "None" then
+        markdown = markdown .. "| **Role** | " .. roleData.emoji .. " " .. roleData.selected .. " |\n"
+    end
+    
+    -- Location
+    if settings.includeLocation ~= false and locationData then
+        local zoneText = CreateZoneLink(locationData.zone, format)
+        markdown = markdown .. "| **Location** | " .. zoneText .. " |\n"
+    end
+    
+    -- Attributes
+    if settings.includeAttributes ~= false and characterData.attributes then
+        markdown = markdown .. "| **🎯 Attributes** | Magicka: " .. characterData.attributes.magicka .. 
+                              " • Health: " .. characterData.attributes.health ..
+                              " • Stamina: " .. characterData.attributes.stamina .. " |\n"
+    end
+    
+    -- Active Buffs
+    if settings.includeBuffs ~= false and buffsData and (buffsData.food or buffsData.potion or #buffsData.other > 0) then
+        local buffParts = {}
+        if buffsData.food then
+            local foodLink = CreateBuffLink(buffsData.food, format)
+            table.insert(buffParts, "Food: " .. foodLink)
+        end
+        if buffsData.potion then
+            local potionLink = CreateBuffLink(buffsData.potion, format)
+            table.insert(buffParts, "Potion: " .. potionLink)
+        end
+        if #buffsData.other > 0 then
+            local otherBuffs = {}
+            for _, buff in ipairs(buffsData.other) do
+                local buffLink = CreateBuffLink(buff, format)
+                table.insert(otherBuffs, buffLink)
+            end
+            table.insert(buffParts, table.concat(otherBuffs, ", "))
+        end
+        markdown = markdown .. "| **🍖 Active Buffs** | " .. table.concat(buffParts, " • ") .. " |\n"
+    end
+    
+    -- Riding Skills
+    if settings.includeRidingSkills ~= false and ridingData then
+        local ridingParts = {}
+        table.insert(ridingParts, "Speed: " .. ridingData.speed .. "/60" .. (ridingData.speed >= 60 and " ✅" or ""))
+        table.insert(ridingParts, "Stamina: " .. ridingData.stamina .. "/60" .. (ridingData.stamina >= 60 and " ✅" or ""))
+        table.insert(ridingParts, "Capacity: " .. ridingData.capacity .. "/60" .. (ridingData.capacity >= 60 and " ✅" or ""))
+        markdown = markdown .. "| **🐎 Riding** | " .. table.concat(ridingParts, " • ") .. " |\n"
+    end
+    
+    -- PvP
+    if settings.includePvP ~= false and pvpData then
+        markdown = markdown .. "| **⚔️ Alliance War Rank** | " .. pvpData.rankName .. " (Rank " .. pvpData.rank .. ") |\n"
+    end
+    
+    markdown = markdown .. "\n"
+    
+    return markdown
+end
+
+GenerateProgression = function(progressionData, format)
+    local markdown = ""
+    
+    if format == "discord" then
+        markdown = markdown .. "**Progression:**\n"
+        if progressionData.skillPoints > 0 then
+            markdown = markdown .. "• Skill Points Available: " .. progressionData.skillPoints .. "\n"
+        end
+        if progressionData.attributePoints > 0 then
+            markdown = markdown .. "• Attribute Points Available: " .. progressionData.attributePoints .. "\n"
+        end
+        markdown = markdown .. "• Achievement Score: " .. FormatNumber(progressionData.achievementPoints) .. 
+                              " / " .. FormatNumber(progressionData.totalAchievements) .. 
+                              " (" .. progressionData.achievementPercent .. "%)\n"
+        if progressionData.isVampire then
+            markdown = markdown .. "• 🧛 Vampire (Stage " .. progressionData.vampireStage .. ")\n"
+        end
+        if progressionData.isWerewolf then
+            markdown = markdown .. "• 🐺 Werewolf\n"
+        end
+        if progressionData.enlightenment.max > 0 then
+            markdown = markdown .. "• Enlightenment: " .. FormatNumber(progressionData.enlightenment.current) .. 
+                                  " / " .. FormatNumber(progressionData.enlightenment.max) .. 
+                                  " (" .. progressionData.enlightenment.percent .. "%)\n"
+        end
+        markdown = markdown .. "\n"
+    else
+        markdown = markdown .. "## 📈 Character Progression\n\n"
+        markdown = markdown .. "| Category | Value |\n"
+        markdown = markdown .. "|:---------|:------|\n"
+        if progressionData.skillPoints > 0 then
+            markdown = markdown .. "| **⭐ Skill Points Available** | " .. progressionData.skillPoints .. " |\n"
+        end
+        if progressionData.attributePoints > 0 then
+            markdown = markdown .. "| **⭐ Attribute Points Available** | " .. progressionData.attributePoints .. " |\n"
+        end
+        markdown = markdown .. "| **🏆 Achievement Score** | " .. FormatNumber(progressionData.achievementPoints) .. 
+                              " / " .. FormatNumber(progressionData.totalAchievements) .. 
+                              " (" .. progressionData.achievementPercent .. "%) |\n"
+        if progressionData.isVampire then
+            markdown = markdown .. "| **🧛 Vampire** | Stage " .. progressionData.vampireStage .. " |\n"
+        end
+        if progressionData.isWerewolf then
+            markdown = markdown .. "| **🐺 Werewolf** | Active |\n"
+        end
+        if progressionData.enlightenment.max > 0 then
+            markdown = markdown .. "| **✨ Enlightenment** | " .. FormatNumber(progressionData.enlightenment.current) .. 
+                                  " / " .. FormatNumber(progressionData.enlightenment.max) .. 
+                                  " (" .. progressionData.enlightenment.percent .. "%) |\n"
+        end
+        markdown = markdown .. "\n"
+    end
+    
+    return markdown
+end
+
+GenerateCurrency = function(currencyData, format)
+    local markdown = ""
+    
+    if format == "discord" then
+        markdown = markdown .. "**Currency:**\n"
+        markdown = markdown .. "• Gold: " .. FormatNumber(currencyData.gold) .. "\n"
+        if currencyData.alliancePoints > 0 then
+            markdown = markdown .. "• AP: " .. FormatNumber(currencyData.alliancePoints) .. "\n"
+        end
+        if currencyData.telVar > 0 then
+            markdown = markdown .. "• Tel Var: " .. FormatNumber(currencyData.telVar) .. "\n"
+        end
+        if currencyData.transmuteCrystals > 0 then
+            markdown = markdown .. "• Transmutes: " .. FormatNumber(currencyData.transmuteCrystals) .. "\n"
+        end
+        if currencyData.writs > 0 then
+            markdown = markdown .. "• Writs: " .. FormatNumber(currencyData.writs) .. "\n"
+        end
+        if currencyData.eventTickets > 0 then
+            markdown = markdown .. "• Event Tickets: " .. FormatNumber(currencyData.eventTickets) .. "\n"
+        end
+        if currencyData.undauntedKeys > 0 then
+            markdown = markdown .. "• Undaunted Keys: " .. FormatNumber(currencyData.undauntedKeys) .. "\n"
+        end
+        markdown = markdown .. "\n"
+    else
+        markdown = markdown .. "## 💰 Currency & Resources\n\n"
+        markdown = markdown .. "| Currency | Amount |\n"
+        markdown = markdown .. "|:---------|-------:|\n"
+        markdown = markdown .. "| **💰 Gold** | " .. FormatNumber(currencyData.gold) .. " |\n"
+        if currencyData.alliancePoints > 0 then
+            markdown = markdown .. "| **⚔️ Alliance Points** | " .. FormatNumber(currencyData.alliancePoints) .. " |\n"
+        end
+        if currencyData.telVar > 0 then
+            markdown = markdown .. "| **🔷 Tel Var Stones** | " .. FormatNumber(currencyData.telVar) .. " |\n"
+        end
+        if currencyData.transmuteCrystals > 0 then
+            markdown = markdown .. "| **💎 Transmute Crystals** | " .. FormatNumber(currencyData.transmuteCrystals) .. " |\n"
+        end
+        if currencyData.writs > 0 then
+            markdown = markdown .. "| **📜 Writ Vouchers** | " .. FormatNumber(currencyData.writs) .. " |\n"
+        end
+        if currencyData.eventTickets > 0 then
+            markdown = markdown .. "| **🎫 Event Tickets** | " .. FormatNumber(currencyData.eventTickets) .. " |\n"
+        end
+        if currencyData.undauntedKeys > 0 then
+            markdown = markdown .. "| **🔑 Undaunted Keys** | " .. FormatNumber(currencyData.undauntedKeys) .. " |\n"
+        end
+        if currencyData.crowns > 0 then
+            markdown = markdown .. "| **👑 Crowns** | " .. FormatNumber(currencyData.crowns) .. " |\n"
+        end
+        if currencyData.crownGems > 0 then
+            markdown = markdown .. "| **💠 Crown Gems** | " .. FormatNumber(currencyData.crownGems) .. " |\n"
+        end
+        if currencyData.sealsOfEndeavor > 0 then
+            markdown = markdown .. "| **🏅 Seals of Endeavor** | " .. FormatNumber(currencyData.sealsOfEndeavor) .. " |\n"
+        end
+        markdown = markdown .. "\n"
+    end
+    
+    return markdown
+end
+
+GenerateRidingSkills = function(ridingData, format)
+    local markdown = ""
+    
+    if format == "discord" then
+        markdown = markdown .. "**Riding Skills:**\n"
+        markdown = markdown .. "• Speed: " .. ridingData.speed .. "/60"
+        if ridingData.speed >= 60 then markdown = markdown .. " ✅" end
+        markdown = markdown .. "\n"
+        markdown = markdown .. "• Stamina: " .. ridingData.stamina .. "/60"
+        if ridingData.stamina >= 60 then markdown = markdown .. " ✅" end
+        markdown = markdown .. "\n"
+        markdown = markdown .. "• Capacity: " .. ridingData.capacity .. "/60"
+        if ridingData.capacity >= 60 then markdown = markdown .. " ✅" end
+        markdown = markdown .. "\n"
+        if ridingData.allMaxed then
+            markdown = markdown .. "✅ All maxed!\n"
+        elseif ridingData.trainingAvailable then
+            markdown = markdown .. "⚠️ Training available\n"
+        end
+        markdown = markdown .. "\n"
+    else
+        markdown = markdown .. "## 🐎 Riding Skills\n\n"
+        markdown = markdown .. "| Skill | Progress | Status |\n"
+        markdown = markdown .. "|:------|:---------|:-------|\n"
+        local speedStatus = ridingData.speed >= 60 and "✅ Maxed" or "📈 Training"
+        local staminaStatus = ridingData.stamina >= 60 and "✅ Maxed" or "📈 Training"
+        local capacityStatus = ridingData.capacity >= 60 and "✅ Maxed" or "📈 Training"
+        markdown = markdown .. "| **Speed** | " .. ridingData.speed .. " / 60 | " .. speedStatus .. " |\n"
+        markdown = markdown .. "| **Stamina** | " .. ridingData.stamina .. " / 60 | " .. staminaStatus .. " |\n"
+        markdown = markdown .. "| **Capacity** | " .. ridingData.capacity .. " / 60 | " .. capacityStatus .. " |\n"
+        markdown = markdown .. "\n"
+        if ridingData.allMaxed then
+            markdown = markdown .. "✅ **All riding skills maxed!**\n\n"
+        elseif ridingData.trainingAvailable then
+            markdown = markdown .. "⚠️ **Riding training available now**\n\n"
+        end
+    end
+    
+    return markdown
+end
+
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
@@ -91,7 +400,7 @@ local function GenerateMarkdown(format)
     
     -- Overview (skip for Discord)
     if format ~= "discord" then
-        markdown = markdown .. GenerateOverview(characterData, roleData, locationData, settings, format)
+        markdown = markdown .. GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, settings, format)
     end
     
     -- Progression
@@ -104,8 +413,8 @@ local function GenerateMarkdown(format)
         markdown = markdown .. GenerateCurrency(currencyData, format)
     end
     
-    -- Riding Skills
-    if settings.includeRidingSkills ~= false then
+    -- Riding Skills (Discord only - for other formats it's in Overview table)
+    if format == "discord" and settings.includeRidingSkills ~= false then
         markdown = markdown .. GenerateRidingSkills(ridingData, format)
     end
     
@@ -114,8 +423,8 @@ local function GenerateMarkdown(format)
         markdown = markdown .. GenerateInventory(inventoryData, format)
     end
     
-    -- PvP
-    if settings.includePvP ~= false then
+    -- PvP (Discord only - for other formats it's in Overview table)
+    if format == "discord" and settings.includePvP ~= false then
         markdown = markdown .. GeneratePvP(pvpData, format)
     end
     
@@ -129,14 +438,15 @@ local function GenerateMarkdown(format)
         markdown = markdown .. GenerateCrafting(craftingData, format)
     end
     
-    -- Attributes
-    if settings.includeAttributes ~= false then
-        markdown = markdown .. GenerateAttributes(characterData, format)
-    end
-    
-    -- Buffs
-    if settings.includeBuffs ~= false then
-        markdown = markdown .. GenerateBuffs(buffsData, format)
+    -- Attributes and Buffs are now in Overview table for non-Discord formats
+    -- For Discord format, still generate them as separate sections
+    if format == "discord" then
+        if settings.includeAttributes ~= false then
+            markdown = markdown .. GenerateAttributes(characterData, format)
+        end
+        if settings.includeBuffs ~= false then
+            markdown = markdown .. GenerateBuffs(buffsData, format)
+        end
     end
     
     -- Custom Notes
@@ -154,8 +464,10 @@ local function GenerateMarkdown(format)
         markdown = markdown .. GenerateDLCAccess(dlcData, format)
     end
     
-    -- Mundus
-    markdown = markdown .. GenerateMundus(mundusData, format)
+    -- Mundus (Discord only - for other formats it's in Overview table)
+    if format == "discord" then
+        markdown = markdown .. GenerateMundus(mundusData, format)
+    end
     
     -- Champion Points
     if settings.includeChampionPoints ~= false then
@@ -163,7 +475,9 @@ local function GenerateMarkdown(format)
     end
     
     -- Skill Bars
-    markdown = markdown .. GenerateSkillBars(skillBarData, format)
+    if settings.includeSkillBars ~= false then
+        markdown = markdown .. GenerateSkillBars(skillBarData, format)
+    end
     
     -- Combat Stats
     if settings.includeCombatStats ~= false then
@@ -197,7 +511,7 @@ CM.generators.GenerateMarkdown = GenerateMarkdown
 -- SECTION GENERATORS
 -- =====================================================
 
-local function GenerateQuickSummary(characterData, equipmentData)
+function GenerateQuickSummary(characterData, equipmentData)
     local name = characterData.name or "Unknown"
     local level = characterData.level >= 50 and "L50" or "L" .. (characterData.level or 0)
     local cp = characterData.cp > 0 and (" CP" .. FormatNumber(characterData.cp)) or ""
@@ -218,7 +532,7 @@ local function GenerateQuickSummary(characterData, equipmentData)
         name, level, cp, esoPlusIndicator, race, class, sets)
 end
 
-local function GenerateHeader(characterData, format)
+function GenerateHeader(characterData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -249,35 +563,76 @@ local function GenerateHeader(characterData, format)
     return markdown
 end
 
-local function GenerateOverview(characterData, roleData, locationData, settings, format)
+function GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, settings, format)
     local markdown = ""
     
     markdown = markdown .. "## 📊 Character Overview\n\n"
     markdown = markdown .. "| Attribute | Value |\n"
     markdown = markdown .. "|:----------|:------|\n"
-    local raceText = CreateRaceLink(characterData.race, format)
-    local classText = CreateClassLink(characterData.class, format)
-    local allianceText = CreateAllianceLink(characterData.alliance, format)
-    markdown = markdown .. "| **Race** | " .. raceText .. " |\n"
-    markdown = markdown .. "| **Class** | " .. classText .. " |\n"
-    markdown = markdown .. "| **Alliance** | " .. allianceText .. " |\n"
+    
+    -- Level row
     markdown = markdown .. "| **Level** | " .. (characterData.level or 0) .. " |\n"
+    
+    -- Champion Points row
     markdown = markdown .. "| **Champion Points** | " .. FormatNumber(characterData.cp or 0) .. " |\n"
+    
+    -- Class row with link
+    local classText = CreateClassLink(characterData.class, format)
+    markdown = markdown .. "| **Class** | " .. classText .. " |\n"
+    
+    -- Race row with link
+    local raceText = CreateRaceLink(characterData.race, format)
+    markdown = markdown .. "| **Race** | " .. raceText .. " |\n"
+    
+    -- Alliance row with link
+    local allianceText = CreateAllianceLink(characterData.alliance, format)
+    markdown = markdown .. "| **Alliance** | " .. allianceText .. " |\n"
+    
+    -- Title row (if present)
+    if characterData.title and characterData.title ~= "" then
+        markdown = markdown .. "| **Title** | *" .. characterData.title .. "* |\n"
+    end
     
     -- ESO Plus status
     local esoPlusStatus = characterData.esoPlus and "✅ Active" or "❌ Inactive"
     markdown = markdown .. "| **ESO Plus** | " .. esoPlusStatus .. " |\n"
     
-    if characterData.title and characterData.title ~= "" then
-        markdown = markdown .. "| **Title** | *" .. characterData.title .. "* |\n"
+    -- Attributes row
+    if settings.includeAttributes ~= false and characterData.attributes then
+        markdown = markdown .. "| **🎯 Attributes** | Magicka: " .. characterData.attributes.magicka .. 
+                              " • Health: " .. characterData.attributes.health ..
+                              " • Stamina: " .. characterData.attributes.stamina .. " |\n"
     end
     
-    -- Role
-    if settings.includeRole ~= false and roleData and roleData.selected ~= "None" then
-        markdown = markdown .. "| **Role** | " .. roleData.emoji .. " " .. roleData.selected .. " |\n"
+    -- Mundus Stone row
+    if mundusData and mundusData.active then
+        local mundusText = CreateMundusLink(mundusData.name, format)
+        markdown = markdown .. "| **🪨 Mundus Stone** | " .. mundusText .. " |\n"
     end
     
-    -- Location
+    -- Active Buffs row
+    if settings.includeBuffs ~= false and buffsData and (buffsData.food or buffsData.potion or #buffsData.other > 0) then
+        local buffParts = {}
+        if buffsData.food then
+            local foodLink = CreateBuffLink(buffsData.food, format)
+            table.insert(buffParts, "Food: " .. foodLink)
+        end
+        if buffsData.potion then
+            local potionLink = CreateBuffLink(buffsData.potion, format)
+            table.insert(buffParts, "Potion: " .. potionLink)
+        end
+        if #buffsData.other > 0 then
+            local otherBuffs = {}
+            for _, buff in ipairs(buffsData.other) do
+                local buffLink = CreateBuffLink(buff, format)
+                table.insert(otherBuffs, buffLink)
+            end
+            table.insert(buffParts, "Other: " .. table.concat(otherBuffs, ", "))
+        end
+        markdown = markdown .. "| **🍖 Active Buffs** | " .. table.concat(buffParts, " • ") .. " |\n"
+    end
+    
+    -- Location row
     if settings.includeLocation ~= false and locationData then
         local zoneText = CreateZoneLink(locationData.zone, format)
         markdown = markdown .. "| **Location** | " .. zoneText .. " |\n"
@@ -288,7 +643,7 @@ local function GenerateOverview(characterData, roleData, locationData, settings,
     return markdown
 end
 
-local function GenerateProgression(progressionData, format)
+function GenerateProgression(progressionData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -344,7 +699,7 @@ local function GenerateProgression(progressionData, format)
     return markdown
 end
 
-local function GenerateCurrency(currencyData, format)
+function GenerateCurrency(currencyData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -407,7 +762,7 @@ local function GenerateCurrency(currencyData, format)
     return markdown
 end
 
-local function GenerateRidingSkills(ridingData, format)
+function GenerateRidingSkills(ridingData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -448,7 +803,7 @@ local function GenerateRidingSkills(ridingData, format)
     return markdown
 end
 
-local function GenerateInventory(inventoryData, format)
+GenerateInventory = function(inventoryData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -478,7 +833,7 @@ local function GenerateInventory(inventoryData, format)
     return markdown
 end
 
-local function GeneratePvP(pvpData, format)
+GeneratePvP = function(pvpData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -504,47 +859,87 @@ local function GeneratePvP(pvpData, format)
     return markdown
 end
 
-local function GenerateCollectibles(collectiblesData, format)
+GenerateCollectibles = function(collectiblesData, format)
     local markdown = ""
     
+    -- Check if we have detailed data enabled
+    local hasDetailedData = collectiblesData.hasDetailedData
+    local settings = CharacterMarkdownSettings or {}
+    local includeDetailed = settings.includeCollectiblesDetailed or false
+    
     if format == "discord" then
+        -- Discord: Always show summary counts only (no detailed lists)
         markdown = markdown .. "**Collectibles:**\n"
-        if collectiblesData.mounts > 0 then
-            markdown = markdown .. "• Mounts: " .. collectiblesData.mounts .. "\n"
-        end
-        if collectiblesData.pets > 0 then
-            markdown = markdown .. "• Pets: " .. collectiblesData.pets .. "\n"
-        end
-        if collectiblesData.costumes > 0 then
-            markdown = markdown .. "• Costumes: " .. collectiblesData.costumes .. "\n"
-        end
-        if collectiblesData.houses > 0 then
-            markdown = markdown .. "• Houses: " .. collectiblesData.houses .. "\n"
+        
+        if collectiblesData.categories then
+            for _, key in ipairs({"mounts", "pets", "costumes", "houses", "emotes", "mementos", "skins", "polymorphs", "personalities"}) do
+                local category = collectiblesData.categories[key]
+                if category and category.total > 0 then
+                    local owned = #category.owned
+                    markdown = markdown .. category.emoji .. " " .. category.name .. ": (" .. owned .. " of " .. category.total .. ")\n"
+                end
+            end
         end
         markdown = markdown .. "\n"
     else
+        -- GitHub/VSCode: Show collapsible detailed lists if enabled
         markdown = markdown .. "## 🎨 Collectibles\n\n"
-        markdown = markdown .. "| Type | Count |\n"
-        markdown = markdown .. "|:-----|------:|\n"
-        if collectiblesData.mounts > 0 then
-            markdown = markdown .. "| **🐴 Mounts** | " .. collectiblesData.mounts .. " |\n"
+        
+        if not includeDetailed or not hasDetailedData then
+            -- Fallback: Show simple count table if detailed not enabled
+            markdown = markdown .. "| Type | Count |\n"
+            markdown = markdown .. "|:-----|------:|\n"
+            if collectiblesData.mounts > 0 then
+                markdown = markdown .. "| **🐴 Mounts** | " .. collectiblesData.mounts .. " |\n"
+            end
+            if collectiblesData.pets > 0 then
+                markdown = markdown .. "| **🐾 Pets** | " .. collectiblesData.pets .. " |\n"
+            end
+            if collectiblesData.costumes > 0 then
+                markdown = markdown .. "| **👗 Costumes** | " .. collectiblesData.costumes .. " |\n"
+            end
+            if collectiblesData.houses > 0 then
+                markdown = markdown .. "| **🏠 Houses** | " .. collectiblesData.houses .. " |\n"
+            end
+            markdown = markdown .. "\n"
+        else
+            -- Detailed mode: Show collapsible sections with (X of Y) format
+            if collectiblesData.categories then
+                for _, key in ipairs({"mounts", "pets", "costumes", "houses", "emotes", "mementos", "skins", "polymorphs", "personalities"}) do
+                    local category = collectiblesData.categories[key]
+                    if category and category.total > 0 then
+                        local owned = #category.owned
+                        
+                        -- Collapsible section header
+                        markdown = markdown .. "<details>\n"
+                        markdown = markdown .. "<summary>" .. category.emoji .. " " .. category.name .. 
+                                              " (" .. owned .. " of " .. category.total .. ")</summary>\n\n"
+                        
+                        -- List owned collectibles (alphabetically sorted)
+                        if owned > 0 then
+                            for _, collectible in ipairs(category.owned) do
+                                markdown = markdown .. "- " .. collectible.name
+                                -- Add rarity if available
+                                if collectible.quality then
+                                    markdown = markdown .. " [" .. collectible.quality .. "]"
+                                end
+                                markdown = markdown .. "\n"
+                            end
+                        else
+                            markdown = markdown .. "*No " .. category.name:lower() .. " owned*\n"
+                        end
+                        
+                        markdown = markdown .. "</details>\n\n"
+                    end
+                end
+            end
         end
-        if collectiblesData.pets > 0 then
-            markdown = markdown .. "| **🐾 Pets** | " .. collectiblesData.pets .. " |\n"
-        end
-        if collectiblesData.costumes > 0 then
-            markdown = markdown .. "| **👗 Costumes** | " .. collectiblesData.costumes .. " |\n"
-        end
-        if collectiblesData.houses > 0 then
-            markdown = markdown .. "| **🏠 Houses** | " .. collectiblesData.houses .. " |\n"
-        end
-        markdown = markdown .. "\n"
     end
     
     return markdown
 end
 
-local function GenerateCrafting(craftingData, format)
+GenerateCrafting = function(craftingData, format)
     local markdown = ""
     
     -- Only show section if there's data to display
@@ -582,7 +977,7 @@ local function GenerateCrafting(craftingData, format)
     return markdown
 end
 
-local function GenerateAttributes(characterData, format)
+GenerateAttributes = function(characterData, format)
     local markdown = ""
     
     if not characterData.attributes then
@@ -605,7 +1000,7 @@ local function GenerateAttributes(characterData, format)
     return markdown
 end
 
-local function GenerateBuffs(buffsData, format)
+GenerateBuffs = function(buffsData, format)
     local markdown = ""
     
     if not buffsData.food and not buffsData.potion and #buffsData.other == 0 then
@@ -653,7 +1048,7 @@ local function GenerateBuffs(buffsData, format)
     return markdown
 end
 
-local function GenerateCustomNotes(customNotes, format)
+GenerateCustomNotes = function(customNotes, format)
     local markdown = ""
     
     if format == "discord" then
@@ -666,7 +1061,7 @@ local function GenerateCustomNotes(customNotes, format)
     return markdown
 end
 
-local function GenerateDLCAccess(dlcData, format)
+GenerateDLCAccess = function(dlcData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -714,7 +1109,7 @@ local function GenerateDLCAccess(dlcData, format)
     return markdown
 end
 
-local function GenerateMundus(mundusData, format)
+GenerateMundus = function(mundusData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -737,7 +1132,7 @@ local function GenerateMundus(mundusData, format)
     return markdown
 end
 
-local function GenerateChampionPoints(cpData, format)
+GenerateChampionPoints = function(cpData, format)
     local markdown = ""
     
     local totalCP = cpData.total or 0
@@ -801,7 +1196,7 @@ local function GenerateChampionPoints(cpData, format)
     return markdown
 end
 
-local function GenerateSkillBars(skillBarData, format)
+GenerateSkillBars = function(skillBarData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -836,7 +1231,7 @@ local function GenerateSkillBars(skillBarData, format)
     return markdown
 end
 
-local function GenerateCombatStats(statsData, format)
+GenerateCombatStats = function(statsData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -870,7 +1265,7 @@ local function GenerateCombatStats(statsData, format)
     return markdown
 end
 
-local function GenerateEquipment(equipmentData, format)
+GenerateEquipment = function(equipmentData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -934,7 +1329,7 @@ local function GenerateEquipment(equipmentData, format)
     return markdown
 end
 
-local function GenerateSkills(skillData, format)
+GenerateSkills = function(skillData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -982,7 +1377,7 @@ local function GenerateSkills(skillData, format)
     return markdown
 end
 
-local function GenerateCompanion(companionData, format)
+GenerateCompanion = function(companionData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -1035,7 +1430,7 @@ local function GenerateCompanion(companionData, format)
     return markdown
 end
 
-local function GenerateFooter(format, currentLength)
+GenerateFooter = function(format, currentLength)
     local markdown = ""
     
     -- Calculate character count for warnings
@@ -1045,30 +1440,14 @@ local function GenerateFooter(format, currentLength)
         markdown = markdown .. "<div align=\"center\">\n\n"
         markdown = markdown .. "**Generated by Character Markdown v" .. CM.version .. "**\n\n"
         markdown = markdown .. "*Format: " .. format:upper() .. "*\n\n"
-        if charCount > 8000 then
-            markdown = markdown .. "*⚠️ Large profile (" .. FormatNumber(charCount) .. " chars) - ESO clipboard may truncate*\n\n"
-            markdown = markdown .. "*Tip: Disable some sections in settings to reduce size*\n\n"
-        end
-        markdown = markdown .. "</div>\n\n\n"
+        markdown = markdown .. "</div>\n\n"
     else
         markdown = markdown .. "\n```\n"
         markdown = markdown .. string.rep("━", 80) .. "\n"
         markdown = markdown .. string.rep(" ", 20) .. "Generated by Character Markdown v" .. CM.version .. "\n"
         markdown = markdown .. string.rep(" ", 30) .. "Format: " .. format:upper() .. "\n"
-        markdown = markdown .. string.rep(" ", 25) .. "Character Count: " .. FormatNumber(charCount) .. " chars\n"
-        
-        -- Add warnings based on size
-        if format == "discord" and charCount > 2000 then
-            markdown = markdown .. string.rep(" ", 18) .. "⚠️ Exceeds Discord limit - split required\n"
-        end
-        
-        if charCount > 8000 then
-            markdown = markdown .. string.rep(" ", 15) .. "⚠️ ESO clipboard may truncate at ~8,000 chars\n"
-            markdown = markdown .. string.rep(" ", 15) .. "Disable sections in settings to reduce size\n"
-        end
-        
         markdown = markdown .. string.rep("━", 80) .. "\n"
-        markdown = markdown .. "```\n\n\n"
+        markdown = markdown .. "```\n\n"
     end
     
     return markdown

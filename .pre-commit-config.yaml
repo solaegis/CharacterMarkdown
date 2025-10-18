@@ -1,0 +1,116 @@
+# CharacterMarkdown Pre-commit Hooks
+# https://pre-commit.com
+
+repos:
+  # ===========================================================================
+  # Lua Linting with Luacheck
+  # ===========================================================================
+  - repo: https://github.com/luarocks/luacheck
+    rev: v1.2.0
+    hooks:
+      - id: luacheck
+        name: Luacheck (Lua static analysis)
+        args:
+          - --config=.luacheckrc
+          - --exclude-files=*.backup
+        files: \.lua$
+        # BLOCK on failures (exit non-zero stops commit)
+        fail_fast: true
+
+  # ===========================================================================
+  # General File Quality
+  # ===========================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # Remove trailing whitespace (auto-fix)
+      - id: trailing-whitespace
+        name: Remove trailing whitespace
+        args: [--markdown-linebreak-ext=md]
+        
+      # Ensure files end with newline (auto-fix)
+      - id: end-of-file-fixer
+        name: Ensure newline at end of file
+        
+      # Check for large files (warn, don't block)
+      - id: check-added-large-files
+        name: Check for large files
+        args: [--maxkb=5000]  # 5MB limit (ESO SavedVariables soft limit)
+        
+      # Check YAML syntax
+      - id: check-yaml
+        name: Validate YAML syntax
+        files: \.(yaml|yml)$
+        
+      # Check for merge conflicts
+      - id: check-merge-conflict
+        name: Check for merge conflict markers
+        
+      # Detect private keys (security)
+      - id: detect-private-key
+        name: Detect private keys
+        
+      # Mixed line endings
+      - id: mixed-line-ending
+        name: Ensure consistent line endings
+        args: [--fix=lf]
+
+  # ===========================================================================
+  # Custom Validation Scripts
+  # ===========================================================================
+  - repo: local
+    hooks:
+      # Validate ESO addon manifest
+      - id: validate-manifest
+        name: Validate CharacterMarkdown.txt manifest
+        entry: lua5.1 scripts/validate-manifest.lua
+        language: system
+        files: ^CharacterMarkdown\.txt$
+        pass_filenames: true
+        # BLOCK on failures
+        fail_fast: true
+        
+      # Ensure no debug print statements in production code
+      - id: no-debug-prints
+        name: Check for debug print statements
+        entry: |
+          bash -c 'if grep -rn "print(" src/ --include="*.lua" | grep -v "-- DEBUG:"; then echo "❌ Found debug print() statements (use d() or add -- DEBUG: comment)"; exit 1; fi'
+        language: system
+        files: \.lua$
+        pass_filenames: false
+        # WARN only (allow commit with message)
+        verbose: true
+        
+      # Check manifest version consistency
+      - id: version-sync
+        name: Check manifest and CHANGELOG version sync
+        entry: |
+          bash -c '
+            MANIFEST_VERSION=$(grep "^## Version:" CharacterMarkdown.txt | awk "{print \$3}");
+            CHANGELOG_VERSION=$(grep "^## \[" CHANGELOG.md | head -1 | sed -E "s/^## \[([0-9.]+)\].*/\1/");
+            if [ "$MANIFEST_VERSION" != "$CHANGELOG_VERSION" ]; then
+              echo "⚠️  Version mismatch:";
+              echo "   Manifest: $MANIFEST_VERSION";
+              echo "   CHANGELOG: $CHANGELOG_VERSION";
+              echo "   Update CHANGELOG.md or CharacterMarkdown.txt";
+              exit 1;
+            fi
+          '
+        language: system
+        files: ^(CharacterMarkdown\.txt|CHANGELOG\.md)$
+        pass_filenames: false
+        # WARN only
+        verbose: true
+
+# ===========================================================================
+# Global Configuration
+# ===========================================================================
+default_install_hook_types:
+  - pre-commit
+  - pre-push
+
+# Fail fast: stop on first failure
+fail_fast: false
+
+# Minimum pre-commit version required
+minimum_pre_commit_version: '3.0.0'

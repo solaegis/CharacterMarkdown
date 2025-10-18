@@ -2,7 +2,7 @@
     <Controls>
         <!-- Main Window -->
         <TopLevelControl name="CharacterMarkdownWindow" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true">
-            <Dimensions x="800" y="600" />
+            <Dimensions x="800" y="650" />
             <Anchor point="CENTER" relativeTo="GuiRoot" />
             
             <!-- Background -->
@@ -17,7 +17,7 @@
                     <Anchor point="TOP" />
                     
                     <Controls>
-                        <Label name="$(parent)Label" font="ZoFontWinH3" text="Character Markdown Export">
+                        <Label name="$(parent)Label" font="ZoFontWinH3" text="Character Markdown Export" color="FFFFFFFF">
                             <Anchor point="LEFT" offsetX="20" />
                         </Label>
                         
@@ -32,33 +32,78 @@
                 </Control>
                 
                 <!-- Instructions -->
-                <Label name="$(parent)Instructions" font="ZoFontGame" text="Text is pre-selected - just press Ctrl+C to copy!">
+                <Label name="$(parent)Instructions" font="ZoFontGame" text="Click 'Select All', then Ctrl+A, then Ctrl+C to copy!" color="FFFFFFFF">
                     <Dimensions x="760" y="24" />
                     <Anchor point="TOP" relativeTo="$(parent)Title" relativePoint="BOTTOM" offsetY="10" />
                 </Label>
                 
-                <!-- Scrollable Text Box -->
+                <!-- Text Display Area (NO SCROLL - Direct EditBox) -->
                 <Control name="$(parent)TextContainer">
                     <Dimensions x="760" y="490" />
                     <Anchor point="TOP" relativeTo="$(parent)Instructions" relativePoint="BOTTOM" offsetY="10" />
                     
                     <Controls>
-                        <Backdrop name="$(parent)BG" inherits="ZO_EditBackdrop">
+                        <!-- Dark background with subtle border -->
+                        <Backdrop name="$(parent)BG" centerColor="1a1a1a" edgeColor="666666">
                             <AnchorFill />
+                            <Edge edgeSize="2" />
                         </Backdrop>
                         
-                        <!-- Scroll container for text -->
-                        <Scroll name="$(parent)Scroll" mouseWheelEnabled="true">
-                            <Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
-                            <Anchor point="BOTTOMRIGHT" offsetX="-5" offsetY="-5" />
-                            
+                        <!-- Direct EditBox without scroll wrapper - READ ONLY -->
+                        <EditBox name="$(parent)EditBox" font="ZoFontChat" multiLine="true" maxInputCharacters="1000000" newLineEnabled="true" readonly="true">
+                            <Anchor point="TOPLEFT" offsetX="10" offsetY="10" />
+                            <Anchor point="BOTTOMRIGHT" offsetX="-10" offsetY="-10" />
+                        </EditBox>
+                    </Controls>
+                </Control>
+                
+                <!-- Action Buttons -->
+                <Control name="$(parent)ButtonContainer">
+                    <Dimensions x="760" y="40" />
+                    <Anchor point="TOP" relativeTo="$(parent)TextContainer" relativePoint="BOTTOM" offsetY="10" />
+                    
+                    <Controls>
+                        <!-- Select All Button -->
+                        <Button name="$(parent)SelectAllButton" inherits="ZO_DefaultButton">
+                            <Dimensions x="150" y="30" />
+                            <Anchor point="CENTER" offsetX="-160" />
+                            <OnClicked>
+                                CharacterMarkdown_CopyToClipboard()
+                            </OnClicked>
                             <Controls>
-                                <!-- EditBox - color will be set via Lua -->
-                                <EditBox name="$(parent)EditBox" font="ZoFontGameSmall" multiLine="true" maxInputCharacters="500000" newLineEnabled="true">
-                                    <Dimensions x="740" />
-                                </EditBox>
+                                <Label name="$(parent)Label" font="ZoFontGame" text="Select All" color="FFFFFFFF">
+                                    <Anchor point="CENTER" />
+                                </Label>
                             </Controls>
-                        </Scroll>
+                        </Button>
+                        
+                        <!-- Dismiss Button -->
+                        <Button name="$(parent)Dismiss" inherits="ZO_DefaultButton">
+                            <Dimensions x="150" y="30" />
+                            <Anchor point="CENTER" />
+                            <OnClicked>
+                                CharacterMarkdownWindow:SetHidden(true)
+                            </OnClicked>
+                            <Controls>
+                                <Label name="$(parent)Label" font="ZoFontGame" text="Dismiss" color="FFFFFFFF">
+                                    <Anchor point="CENTER" />
+                                </Label>
+                            </Controls>
+                        </Button>
+                        
+                        <!-- ReloadUI Button -->
+                        <Button name="$(parent)ReloadUI" inherits="ZO_DefaultButton">
+                            <Dimensions x="150" y="30" />
+                            <Anchor point="CENTER" offsetX="160" />
+                            <OnClicked>
+                                ReloadUI()
+                            </OnClicked>
+                            <Controls>
+                                <Label name="$(parent)Label" font="ZoFontGame" text="ReloadUI" color="FFFFFFFF">
+                                    <Anchor point="CENTER" />
+                                </Label>
+                            </Controls>
+                        </Button>
                     </Controls>
                 </Control>
             </Controls>

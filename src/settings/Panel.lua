@@ -87,7 +87,7 @@ function CharacterMarkdown.Settings.Panel:AddFormatSection(options)
         tooltip = "Select the default output format for /markdown command",
         choices = {"GitHub", "VS Code", "Discord", "Quick Summary"},
         choicesValues = {"github", "vscode", "discord", "quick"},
-        getFunc = function() return CharacterMarkdownSettings.currentFormat end,
+        getFunc = function() return CharacterMarkdownSettings.currentFormat or "github" end,
         setFunc = function(value)
             CharacterMarkdownSettings.currentFormat = value
             if CharacterMarkdown then CharacterMarkdown.currentFormat = value end
@@ -145,6 +145,16 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         tooltip = "Show Champion Point allocation and discipline breakdown",
         getFunc = function() return CharacterMarkdownSettings.includeChampionPoints end,
         setFunc = function(value) CharacterMarkdownSettings.includeChampionPoints = value end,
+        width = "half",
+        default = true,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Skill Bars",
+        tooltip = "Show front and back bar abilities with ultimates",
+        getFunc = function() return CharacterMarkdownSettings.includeSkillBars end,
+        setFunc = function(value) CharacterMarkdownSettings.includeSkillBars = value end,
         width = "half",
         default = true,
     })
@@ -467,9 +477,48 @@ function CharacterMarkdown.Settings.Panel:AddActions(options)
         name = "Generate Profile Now",
         tooltip = "Open the copy window with current settings",
         func = function()
-            if CharacterMarkdown and CharacterMarkdown.CommandHandler then
-                CharacterMarkdown.CommandHandler("")
+            if SLASH_COMMANDS and SLASH_COMMANDS["/markdown"] then
+                SLASH_COMMANDS["/markdown"]("")
+            else
+                d("[CharacterMarkdown] ❌ Command not available - try /reloadui")
             end
+        end,
+        width = "half",
+    })
+    
+    table.insert(options, {
+        type = "button",
+        name = "Enable All Sections",
+        tooltip = "Turn on all content sections (Champion Points, Equipment, Currency, etc.)",
+        func = function()
+            -- Core sections
+            CharacterMarkdownSettings.includeChampionPoints = true
+            CharacterMarkdownSettings.includeSkillBars = true
+            CharacterMarkdownSettings.includeSkills = true
+            CharacterMarkdownSettings.includeEquipment = true
+            CharacterMarkdownSettings.includeCompanion = true
+            CharacterMarkdownSettings.includeCombatStats = true
+            CharacterMarkdownSettings.includeBuffs = true
+            CharacterMarkdownSettings.includeAttributes = true
+            CharacterMarkdownSettings.includeRole = true
+            CharacterMarkdownSettings.includeLocation = true
+            
+            -- Extended sections
+            CharacterMarkdownSettings.includeDLCAccess = true
+            CharacterMarkdownSettings.includeCurrency = true
+            CharacterMarkdownSettings.includeProgression = true
+            CharacterMarkdownSettings.includeRidingSkills = true
+            CharacterMarkdownSettings.includeInventory = true
+            CharacterMarkdownSettings.includePvP = true
+            CharacterMarkdownSettings.includeCollectibles = true
+            CharacterMarkdownSettings.includeCrafting = true
+            
+            -- Links
+            CharacterMarkdownSettings.enableAbilityLinks = true
+            CharacterMarkdownSettings.enableSetLinks = true
+            
+            d("[CharacterMarkdown] ✅ All sections enabled!")
+            SCENE_MANAGER:Show("gameMenuInGame")  -- Refresh UI
         end,
         width = "half",
     })

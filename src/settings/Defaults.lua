@@ -13,6 +13,7 @@ CharacterMarkdown.Settings.Defaults = {}
 -- Core build sections (DEFAULT: ENABLED)
 CharacterMarkdown.Settings.Defaults.CORE = {
     includeChampionPoints = true,
+    includeSkillBars = true,
     includeSkills = true,
     includeEquipment = true,
     includeCompanion = true,
@@ -32,6 +33,7 @@ CharacterMarkdown.Settings.Defaults.EXTENDED = {
     includeInventory = true,
     includePvP = true,
     includeCollectibles = true,
+    includeCollectiblesDetailed = false,  -- Show detailed lists of owned collectibles (off by default due to length)
     includeCrafting = true,
 }
 

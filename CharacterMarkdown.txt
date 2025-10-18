@@ -46,6 +46,7 @@ src/settings/Panel.lua
 
 ## UI components
 CharacterMarkdown.xml
+src/ui/Window.lua
 
 ## Final initialization
 src/Init.lua

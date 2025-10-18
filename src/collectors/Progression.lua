@@ -27,16 +27,23 @@ local function CollectChampionPointData()
                 if disciplineId then
                     local disciplineName = GetChampionDisciplineName(disciplineId) or "Unknown"
                     
-                    -- Add emoji based on discipline name
-                    local emoji = "⚔️"
-                    if disciplineName:find("Craft") then
-                        emoji = "⚒️"
-                    elseif disciplineName:find("Fitness") or disciplineName:find("Warfare") then
-                        emoji = "💪"
+                    -- Map discipline by ID (ESO API: 1=Craft, 2=Warfare, 3=Fitness)
+                    local emoji = "⚔️"  -- Default fallback
+                    local displayName = disciplineName
+                    
+                    if disciplineId == 1 then
+                        emoji = "⚒️"  -- Craft (Green/Thief)
+                        displayName = "Craft"
+                    elseif disciplineId == 2 then
+                        emoji = "⚔️"  -- Warfare (Blue/Mage)
+                        displayName = "Warfare"
+                    elseif disciplineId == 3 then
+                        emoji = "💪"  -- Fitness (Red/Warrior)
+                        displayName = "Fitness"
                     end
                     
                     local disciplineData = { 
-                        name = disciplineName, 
+                        name = displayName, 
                         emoji = emoji,
                         skills = {}, 
                         total = 0 

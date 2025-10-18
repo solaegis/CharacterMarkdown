@@ -73,28 +73,116 @@ CM.collectors.CollectRoleData = CollectRoleData
 -- COLLECTIBLES
 -- =====================================================
 
+-- Category definitions
+local COLLECTIBLE_CATEGORIES = {
+    {type = COLLECTIBLE_CATEGORY_TYPE_MOUNT, key = "mounts", emoji = "🐴", name = "Mounts"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_VANITY_PET, key = "pets", emoji = "🐾", name = "Pets"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_COSTUME, key = "costumes", emoji = "👗", name = "Costumes"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_HOUSE, key = "houses", emoji = "🏠", name = "Houses"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_EMOTE, key = "emotes", emoji = "🎭", name = "Emotes"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_MEMENTO, key = "mementos", emoji = "🎪", name = "Mementos"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_SKIN, key = "skins", emoji = "🎨", name = "Skins"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_POLYMORPH, key = "polymorphs", emoji = "🦎", name = "Polymorphs"},
+    {type = COLLECTIBLE_CATEGORY_TYPE_PERSONALITY, key = "personalities", emoji = "🎭", name = "Personalities"},
+}
+
+-- Quality names mapping (if quality info is available)
+local QUALITY_NAMES = {
+    [0] = "Normal",
+    [1] = "Fine",
+    [2] = "Superior",
+    [3] = "Epic",
+    [4] = "Legendary",
+    [5] = "Mythic",
+}
+
 local function CollectCollectiblesData()
-    local collectibles = {}
+    local collectibles = {
+        categories = {},
+        hasDetailedData = false
+    }
     
-    local success1, mountCount = pcall(function()
-        return GetTotalCollectiblesByCategoryType(COLLECTIBLE_CATEGORY_TYPE_MOUNT)
-    end)
-    collectibles.mounts = (success1 and mountCount) or 0
+    -- Get settings to check if detailed collection is enabled
+    local settings = CharacterMarkdownSettings or {}
+    local includeDetailed = settings.includeCollectiblesDetailed or false
     
-    local success2, petCount = pcall(function()
-        return GetTotalCollectiblesByCategoryType(COLLECTIBLE_CATEGORY_TYPE_VANITY_PET)
-    end)
-    collectibles.pets = (success2 and petCount) or 0
+    for _, category in ipairs(COLLECTIBLE_CATEGORIES) do
+        local categoryData = {
+            name = category.name,
+            emoji = category.emoji,
+            owned = {},
+            total = 0
+        }
+        
+        local success, total = pcall(function()
+            return GetTotalCollectiblesByCategoryType(category.type)
+        end)
+        
+        if success and total then
+            categoryData.total = total
+            
+            -- If detailed mode is enabled, collect individual collectibles
+            if includeDetailed then
+                for i = 1, total do
+                    local collectibleSuccess, collectibleId = pcall(function()
+                        return GetCollectibleIdFromType(category.type, i)
+                    end)
+                    
+                    if collectibleSuccess and collectibleId then
+                        local infoSuccess, name, _, _, unlocked = pcall(function()
+                            return GetCollectibleInfo(collectibleId)
+                        end)
+                        
+                        if infoSuccess and unlocked then
+                            -- Get nickname if available (for mounts/pets)
+                            local nickname = ""
+                            local nicknameSuccess, nick = pcall(function()
+                                return GetCollectibleNickname(collectibleId)
+                            end)
+                            if nicknameSuccess and nick and nick ~= "" then
+                                nickname = nick
+                            end
+                            
+                            local displayName = (nickname ~= "" and nickname) or name or "Unknown"
+                            
+                            -- Try to get quality/rarity if available
+                            local quality = nil
+                            local qualitySuccess, qual = pcall(function()
+                                return GetCollectibleQuality(collectibleId)
+                            end)
+                            if qualitySuccess and qual then
+                                quality = QUALITY_NAMES[qual] or nil
+                            end
+                            
+                            table.insert(categoryData.owned, {
+                                id = collectibleId,
+                                name = displayName,
+                                fullName = name,
+                                quality = quality
+                            })
+                        end
+                    end
+                end
+                
+                -- Sort alphabetically by name
+                table.sort(categoryData.owned, function(a, b)
+                    return a.name < b.name
+                end)
+                
+                collectibles.hasDetailedData = true
+            end
+        else
+            categoryData.total = 0
+        end
+        
+        collectibles.categories[category.key] = categoryData
+    end
     
-    local success3, costumeCount = pcall(function()
-        return GetTotalCollectiblesByCategoryType(COLLECTIBLE_CATEGORY_TYPE_COSTUME)
-    end)
-    collectibles.costumes = (success3 and costumeCount) or 0
-    
-    local success4, houseCount = pcall(function()
-        return GetTotalCollectiblesByCategoryType(COLLECTIBLE_CATEGORY_TYPE_HOUSE)
-    end)
-    collectibles.houses = (success4 and houseCount) or 0
+    -- Legacy fields for backward compatibility (simple count mode)
+    collectibles.mounts = collectibles.categories.mounts.total or 0
+    collectibles.pets = collectibles.categories.pets.total or 0
+    collectibles.costumes = collectibles.categories.costumes.total or 0
+    collectibles.houses = collectibles.categories.houses.total or 0
     
     return collectibles
 end
