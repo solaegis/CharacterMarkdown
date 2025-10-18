@@ -6,9 +6,6 @@ CharacterMarkdown = CharacterMarkdown or {}
 CharacterMarkdown.Settings = CharacterMarkdown.Settings or {}
 CharacterMarkdown.Settings.Panel = {}
 
--- Settings panel reference
-local settingsPanel = nil
-
 -- =====================================================
 -- PANEL REGISTRATION
 -- =====================================================
@@ -40,7 +37,7 @@ function CharacterMarkdown.Settings.Panel:Initialize()
         registerForDefaults = true,
     }
     
-    settingsPanel = LAM:RegisterAddonPanel("CharacterMarkdownSettings", panelData)
+    LAM:RegisterAddonPanel("CharacterMarkdownSettings", panelData)
     
     -- Register options
     local optionsData = self:BuildOptionsData()

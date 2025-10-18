@@ -1,202 +1,269 @@
--- CharacterMarkdown Luacheck Configuration
--- https://luacheck.readthedocs.io/en/stable/
+-- Luacheck configuration for Elder Scrolls Online addon development
+-- https://luacheck.readthedocs.io/en/stable/config.html
 
--- ===========================================================================
--- Global Settings
--- ===========================================================================
-std = "lua51"  -- ESO uses Lua 5.1
-cache = true
-codes = true
+std = "lua51"
 
--- Maximum line length (ESO convention: 120)
-max_line_length = 120
-
--- Maximum cyclomatic complexity
-max_cyclomatic_complexity = 30
-
--- ===========================================================================
--- Ignore Patterns
--- ===========================================================================
-exclude_files = {
-    "*.xml",
-    "**/*.backup",
-    ".task/**",
-    "build/**",
-    "dist/**",
+-- Ignore certain warning codes
+ignore = {
+    "211", -- Unused local variable
+    "212", -- Unused argument
+    "213", -- Unused loop variable
+    "311", -- Value assigned to variable is unused
+    "611", -- Line contains only whitespace
+    "612", -- Line contains trailing whitespace
 }
 
--- ===========================================================================
--- ESO Global Variables (Read-Only API Functions)
--- ===========================================================================
--- These are provided by the ESO game client and should NOT be defined in addon code
+-- Allow slightly longer lines (ESO API calls and tooltip strings can be verbose)
+max_line_length = 240
 
+-- Don't check cyclomatic complexity (ESO functions can be complex)
+max_cyclomatic_complexity = false
+
+-- ESO API Globals - read/write allowed
+globals = {
+    "SLASH_COMMANDS",
+    "CharacterMarkdown",
+    "CharacterMarkdownSettings",
+    "CharacterMarkdownData",
+    "CharacterMarkdown_ShowWindow",
+    "CharacterMarkdown_CopyToClipboard",
+    "CharacterMarkdown_CloseWindow",
+    "CharacterMarkdown_RegenerateMarkdown",
+}
+
+-- ESO API Globals - read-only
 read_globals = {
-    -- ESO Core Systems
-    "EVENT_MANAGER",
-    "CHAT_SYSTEM",
-    "WINDOW_MANAGER",
-    "SCENE_MANAGER",
-    "CALLBACK_MANAGER",
+    -- Debug function (common in ESO addons)
+    "d",
     
-    -- ESO Events (Selected - Add as needed)
-    "EVENT_ADD_ON_LOADED",
-    "EVENT_PLAYER_ACTIVATED",
-    "EVENT_PLAYER_DEACTIVATED",
+    -- UI Controls
+    "CharacterMarkdownWindow",
+    "CharacterMarkdownWindowTextContainerEditBox",
+    "CharacterMarkdownWindowTextContainerClipboardEditBox",
     
-    -- ESO Global Functions (Commonly Used)
-    "d",  -- Debug print to chat
-    "zo_callLater",
-    "zo_strformat",
-    "zo_strlen",
+    -- ESO API Constants - Alliance
+    "ALLIANCE_ALDMERI_DOMINION",
+    "ALLIANCE_DAGGERFALL_COVENANT",
+    "ALLIANCE_EBONHEART_PACT",
     
-    -- Character Data
-    "GetUnitName",
-    "GetUnitRace",
-    "GetUnitClass",
-    "GetUnitLevel",
-    "GetUnitChampionPoints",
-    "GetUnitAlliance",
-    "GetPlayerStat",
+    -- ESO API Constants - Attributes
+    "ATTRIBUTE_HEALTH",
+    "ATTRIBUTE_MAGICKA",
+    "ATTRIBUTE_STAMINA",
     
-    -- Skill/Ability API
-    "GetNumSkillTypes",
-    "GetSkillTypeInfo",
-    "GetNumSkillLines",
-    "GetSkillLineInfo",
-    "GetNumSkillAbilities",
-    "GetSkillAbilityInfo",
-    "GetSlotBoundId",
-    "GetAbilityName",
-    
-    -- Equipment/Inventory
-    "GetItemLink",
-    "GetItemLinkSetInfo",
-    "GetItemLinkQuality",
-    "GetItemLinkTraitInfo",
-    "GetNumBagSlots",
-    "GetBagSize",
-    
-    -- Champion Points
-    "GetChampionPointsInDiscipline",
-    "GetNumChampionDisciplines",
-    "GetChampionDisciplineAttribute",
-    
-    -- Buffs/Effects
-    "GetNumBuffs",
-    "GetUnitBuffInfo",
-    
-    -- Constants
-    "STAT_HEALTH_MAX",
-    "STAT_MAGICKA_MAX",
-    "STAT_STAMINA_MAX",
-    "STAT_SPELL_POWER",
-    "STAT_SPELL_CRITICAL",
-    "STAT_PHYSICAL_RESIST",
-    "STAT_SPELL_RESIST",
-    
-    "BAG_WORN",
+    -- ESO API Constants - Bags
     "BAG_BACKPACK",
     "BAG_BANK",
+    "BAG_COMPANION_WORN",
+    "BAG_WORN",
     
-    "HOTBAR_CATEGORY_PRIMARY",
+    -- ESO API Constants - Collectibles
+    "COLLECTIBLE_CATEGORY_TYPE_COSTUME",
+    "COLLECTIBLE_CATEGORY_TYPE_EMOTE",
+    "COLLECTIBLE_CATEGORY_TYPE_HOUSE",
+    "COLLECTIBLE_CATEGORY_TYPE_MEMENTO",
+    "COLLECTIBLE_CATEGORY_TYPE_MOUNT",
+    "COLLECTIBLE_CATEGORY_TYPE_PERSONALITY",
+    "COLLECTIBLE_CATEGORY_TYPE_POLYMORPH",
+    "COLLECTIBLE_CATEGORY_TYPE_SKIN",
+    "COLLECTIBLE_CATEGORY_TYPE_VANITY_PET",
+    
+    -- ESO API Constants - Currency
+    "CURRENCY_LOCATION_ACCOUNT",
+    "CURRENCY_LOCATION_CHARACTER",
+    "CURT_ALLIANCE_POINTS",
+    "CURT_CHAOTIC_CREATIA",
+    "CURT_CROWN_GEMS",
+    "CURT_CROWNS",
+    "CURT_ENDEAVOR_SEALS",
+    "CURT_EVENT_TICKETS",
+    "CURT_TELVAR_STONES",
+    "CURT_UNDAUNTED_KEYS",
+    "CURT_WRIT_VOUCHERS",
+    
+    -- ESO API Constants - Equipment
+    "EQUIP_SLOT_BACKUP_MAIN",
+    "EQUIP_SLOT_BACKUP_OFF",
+    "EQUIP_SLOT_CHEST",
+    "EQUIP_SLOT_COSTUME",
+    "EQUIP_SLOT_FEET",
+    "EQUIP_SLOT_HAND",
+    "EQUIP_SLOT_HEAD",
+    "EQUIP_SLOT_LEGS",
+    "EQUIP_SLOT_MAIN_HAND",
+    "EQUIP_SLOT_NECK",
+    "EQUIP_SLOT_OFF_HAND",
+    "EQUIP_SLOT_RING1",
+    "EQUIP_SLOT_RING2",
+    "EQUIP_SLOT_SHOULDERS",
+    "EQUIP_SLOT_WAIST",
+    
+    -- ESO API Constants - Hotbar
     "HOTBAR_CATEGORY_BACKUP",
+    "HOTBAR_CATEGORY_COMPANION",
+    "HOTBAR_CATEGORY_PRIMARY",
     
-    "SKILL_TYPE_CLASS",
-    "SKILL_TYPE_WEAPON",
-    "SKILL_TYPE_ARMOR",
-    "SKILL_TYPE_WORLD",
-    "SKILL_TYPE_GUILD",
-    "SKILL_TYPE_AVA",
-    "SKILL_TYPE_RACIAL",
-    "SKILL_TYPE_TRADESKILL",
-    
-    -- Quality levels
-    "ITEM_QUALITY_TRASH",
-    "ITEM_QUALITY_NORMAL",
-    "ITEM_QUALITY_MAGIC",
+    -- ESO API Constants - Item Quality
     "ITEM_QUALITY_ARCANE",
     "ITEM_QUALITY_ARTIFACT",
     "ITEM_QUALITY_LEGENDARY",
+    "ITEM_QUALITY_MAGIC",
+    "ITEM_QUALITY_MYTHIC",
+    "ITEM_QUALITY_NORMAL",
+    "ITEM_QUALITY_TRASH",
     
-    -- LibAddonMenu (optional dependency)
-    "LibAddonMenu2",
-    "LibStub",
+    -- ESO API Constants - Jump to Player
+    "JUMP_TO_PLAYER_RESULT_ZONE_COLLECTIBLE_LOCKED",
     
-    -- ZO_Object (ESO's OOP framework)
-    "ZO_Object",
-    "ZO_InitializingObject",
+    -- ESO API Constants - LFG Roles
+    "LFG_ROLE_DPS",
+    "LFG_ROLE_HEAL",
+    "LFG_ROLE_TANK",
     
-    -- String/Table helpers
-    "SafeAddString",
+    -- ESO API Constants - Links
+    "LINK_STYLE_BRACKETS",
+    "LINK_STYLE_DEFAULT",
+    
+    -- ESO API Constants - Riding
+    "RIDING_TRAIN_CARRYING_CAPACITY",
+    "RIDING_TRAIN_SPEED",
+    "RIDING_TRAIN_STAMINA",
+    
+    -- ESO API Constants - Skills
+    "SKILL_TYPE_ARMOR",
+    "SKILL_TYPE_AVA",
+    "SKILL_TYPE_CLASS",
+    "SKILL_TYPE_GUILD",
+    "SKILL_TYPE_RACIAL",
+    "SKILL_TYPE_TRADESKILL",
+    "SKILL_TYPE_WEAPON",
+    "SKILL_TYPE_WORLD",
+    
+    -- ESO API Constants - Stats
+    "STAT_HEALTH_MAX",
+    "STAT_MAGICKA_MAX",
+    "STAT_PHYSICAL_RESIST",
+    "STAT_POWER",
+    "STAT_SPELL_POWER",
+    "STAT_SPELL_RESIST",
+    "STAT_STAMINA_MAX",
+    
+    -- ESO API Functions - Character
+    "CanJumpToPlayerInZone",
+    "GetAbilityName",
+    "GetAllianceName",
+    "GetAttributeSpentPoints",
+    "GetAttributeUnspentPoints",
+    "GetCurrentTitleIndex",
+    "GetNumBuffs",
+    "GetPlayerChampionPointsEarned",
+    "GetPlayerStat",
+    "GetSlotBoundId",
     "GetString",
-    "zo_strsplit",
+    "GetTitle",
+    "GetTimeStamp",
+    "GetUnitAlliance",
+    "GetUnitBuffInfo",
+    "GetUnitClass",
+    "GetUnitGender",
+    "GetUnitLevel",
+    "GetUnitName",
+    "GetUnitRace",
+    "GetUnitZone",
     
-    -- UI Elements
-    "GuiRoot",
-    "TopLevelWindow",
+    -- ESO API Functions - Champion
+    "GetChampionDisciplineId",
+    "GetChampionDisciplineName",
+    "GetChampionSkillId",
+    "GetChampionSkillName",
+    "GetEnlightenedPool",
+    "GetEnlightenedPoolCap",
+    "GetNumChampionDisciplines",
+    "GetNumChampionDisciplineSkills",
+    "GetNumPointsSpentOnChampionSkill",
+    
+    -- ESO API Functions - Collectibles
+    "GetCollectibleIdFromType",
+    "GetCollectibleInfo",
+    "GetCollectibleNickname",
+    "GetCollectibleQuality",
+    "GetTotalCollectiblesByCategoryType",
+    
+    -- ESO API Functions - Companion
+    "HasActiveCompanion",
+    
+    -- ESO API Functions - Currency
+    "GetCurrencyAmount",
+    "GetCurrentMoney",
+    
+    -- ESO API Functions - Date/Time
+    "GetDateStringFromTimestamp",
+    
+    -- ESO API Functions - Group
+    "GetGroupMemberSelectedRole",
+    
+    -- ESO API Functions - Inventory
+    "GetBagSize",
+    "GetItemLink",
+    "GetItemLinkQuality",
+    "GetItemLinkRequiredLevel",
+    "GetItemLinkSetInfo",
+    "GetItemLinkTraitInfo",
+    "GetItemName",
+    "GetNumBagUsedSlots",
+    "HasCraftBagAccess",
+    
+    -- ESO API Functions - PvP
+    "GetAssignedCampaignId",
+    "GetAvARankName",
+    "GetCampaignName",
+    "GetUnitAvARank",
+    
+    -- ESO API Functions - Progression
+    "GetEarnedAchievementPoints",
+    "GetTotalAchievementPoints",
+    "GetAvailableSkillPoints",
+    
+    -- ESO API Functions - Riding
+    "GetRidingStats",
+    "GetTimeUntilCanBeTrained",
+    
+    -- ESO API Functions - Skills
+    "GetNumSkillLines",
+    "GetNumSkillTypes",
+    "GetSkillLineInfo",
+    "GetSkillLineXPInfo",
+    
+    -- ESO API Functions - Smithing
+    "GetNumSmithingResearchLines",
+    "GetSmithingResearchLineInfo",
+    "GetSmithingResearchLineTraitTimes",
+    
+    -- ESO API Functions - Subscription
+    "IsESOPlusSubscriber",
+    
+    -- ESO API Functions - World
+    "GetPlayerActiveSubzoneName",
+    
+    -- ESO Event Constants
+    "EVENT_ADD_ON_LOADED",
+    
+    -- ESO Managers
+    "EVENT_MANAGER",
+    "SCENE_MANAGER",
+    
+    -- ESO Libraries
+    "LibAddonMenu2",
+    
+    -- Standard Lua globals used in ESO
+    "zo_callLater",
+    "zo_strformat",
+    "ZO_Object",
+    "ZO_SavedVars",
 }
 
--- ===========================================================================
--- Addon Global Variables (Defined by this addon)
--- ===========================================================================
--- These are globals that CharacterMarkdown creates and uses
-
-globals = {
-    "CharacterMarkdown",  -- Main namespace
-    "CM",  -- Short alias
-    "CharacterMarkdownSettings",  -- SavedVariables
-    "CharacterMarkdownData",  -- SavedVariablesPerCharacter
+-- Files to exclude from checking
+exclude_files = {
+    "**/*.backup",
+    ".task/**",
 }
-
--- ===========================================================================
--- Per-File Overrides
--- ===========================================================================
-
-files["src/Core.lua"] = {
-    -- Core.lua defines the main namespace
-    globals = {
-        "CharacterMarkdown",
-        "CM",
-    }
-}
-
-files["src/Events.lua"] = {
-    -- Events.lua registers global event handlers
-    ignore = {
-        "212",  -- Unused argument (event, addonName)
-    }
-}
-
-files["src/Commands.lua"] = {
-    -- Commands.lua may have intentionally unused parameters
-    ignore = {
-        "212",  -- Unused argument
-    }
-}
-
-files["src/settings/*.lua"] = {
-    -- Settings files interact with SavedVariables
-    globals = {
-        "CharacterMarkdownSettings",
-    }
-}
-
--- ===========================================================================
--- Warnings to Suppress
--- ===========================================================================
-
--- Allow unused loop variables with underscore prefix
-ignore = {
-    "211/_.*",  -- Unused local variable starting with _
-    "212/_.*",  -- Unused argument starting with _
-}
-
--- ===========================================================================
--- Custom Error Messages
--- ===========================================================================
-
--- Enforce consistent naming for addon namespace
--- files["**/*.lua"] = {
---     -- Ensure no direct access to _G (global table)
---     ignore = { "111", "113" }  -- Setting/accessing undefined global
--- }

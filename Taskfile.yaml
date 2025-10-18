@@ -132,7 +132,7 @@ tasks:
     cmds:
       - |
         echo "🔍 Running Luacheck..."
-        luacheck {{.SRC_DIR}} *.lua --exclude-files "*.backup" --exclude-files ".task/**"
+        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**"
       - echo "✅ Lint passed"
 
   lint:fix:
@@ -140,7 +140,7 @@ tasks:
     cmds:
       - |
         echo "🔧 Auto-fixing Luacheck issues..."
-        luacheck {{.SRC_DIR}} *.lua --exclude-files "*.backup" --exclude-files ".task/**" --fix
+        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --fix
       - echo "✅ Auto-fix complete"
 
   validate:

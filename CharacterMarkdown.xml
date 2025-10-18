@@ -63,10 +63,24 @@
                     <Anchor point="TOP" relativeTo="$(parent)TextContainer" relativePoint="BOTTOM" offsetY="10" />
                     
                     <Controls>
+                        <!-- Regenerate Button -->
+                        <Button name="$(parent)RegenerateButton" inherits="ZO_DefaultButton">
+                            <Dimensions x="150" y="30" />
+                            <Anchor point="CENTER" offsetX="-240" />
+                            <OnClicked>
+                                CharacterMarkdown_RegenerateMarkdown()
+                            </OnClicked>
+                            <Controls>
+                                <Label name="$(parent)Label" font="ZoFontGame" text="Regenerate" color="FFFFFFFF">
+                                    <Anchor point="CENTER" />
+                                </Label>
+                            </Controls>
+                        </Button>
+                        
                         <!-- Select All Button -->
                         <Button name="$(parent)SelectAllButton" inherits="ZO_DefaultButton">
                             <Dimensions x="150" y="30" />
-                            <Anchor point="CENTER" offsetX="-160" />
+                            <Anchor point="CENTER" offsetX="-80" />
                             <OnClicked>
                                 CharacterMarkdown_CopyToClipboard()
                             </OnClicked>
@@ -80,7 +94,7 @@
                         <!-- Dismiss Button -->
                         <Button name="$(parent)Dismiss" inherits="ZO_DefaultButton">
                             <Dimensions x="150" y="30" />
-                            <Anchor point="CENTER" />
+                            <Anchor point="CENTER" offsetX="80" />
                             <OnClicked>
                                 CharacterMarkdownWindow:SetHidden(true)
                             </OnClicked>
@@ -94,7 +108,7 @@
                         <!-- ReloadUI Button -->
                         <Button name="$(parent)ReloadUI" inherits="ZO_DefaultButton">
                             <Dimensions x="150" y="30" />
-                            <Anchor point="CENTER" offsetX="160" />
+                            <Anchor point="CENTER" offsetX="240" />
                             <OnClicked>
                                 ReloadUI()
                             </OnClicked>

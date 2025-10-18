@@ -45,7 +45,7 @@ GenerateQuickSummary = function(characterData, equipmentData)
         name, level, cp, esoPlusIndicator, race, class, sets)
 end
 
-GenerateHeader = function(characterData, format)
+GenerateHeader = function(characterData, cpData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -57,6 +57,14 @@ GenerateHeader = function(characterData, format)
                               " • L" .. (characterData.level or 0)
         if characterData.cp > 0 then
             markdown = markdown .. " • CP" .. FormatNumber(characterData.cp)
+            -- Add CP discipline breakdown for Discord
+            if cpData and cpData.disciplines and #cpData.disciplines > 0 then
+                local disciplineParts = {}
+                for _, discipline in ipairs(cpData.disciplines) do
+                    table.insert(disciplineParts, discipline.name .. " " .. discipline.total)
+                end
+                markdown = markdown .. " (" .. table.concat(disciplineParts, " • ") .. ")"
+            end
         end
         if characterData.esoPlus then
             markdown = markdown .. " • 👑 ESO Plus"
@@ -68,7 +76,18 @@ GenerateHeader = function(characterData, format)
         local classText = CreateClassLink(characterData.class, format)
         local allianceText = CreateAllianceLink(characterData.alliance, format)
         markdown = markdown .. "**" .. raceText .. " " .. classText .. "**  \n"
-        markdown = markdown .. "**Level " .. (characterData.level or 0) .. "** • **CP " .. FormatNumber(characterData.cp or 0) .. "**  \n"
+        
+        -- Build CP line with discipline breakdown
+        local cpLine = "**Level " .. (characterData.level or 0) .. "** • **CP " .. FormatNumber(characterData.cp or 0) .. "**"
+        if cpData and cpData.disciplines and #cpData.disciplines > 0 then
+            local disciplineParts = {}
+            for _, discipline in ipairs(cpData.disciplines) do
+                table.insert(disciplineParts, discipline.name .. " " .. discipline.total)
+            end
+            cpLine = cpLine .. " (" .. table.concat(disciplineParts, " • ") .. ")"
+        end
+        markdown = markdown .. cpLine .. "  \n"
+        
         markdown = markdown .. "*" .. allianceText .. "*\n\n"
         markdown = markdown .. "---\n\n"
     end
@@ -76,7 +95,7 @@ GenerateHeader = function(characterData, format)
     return markdown
 end
 
-GenerateOverview = function(characterData, roleData, locationData, buffsData, settings, format)
+GenerateOverview = function(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, settings, format)
     local markdown = ""
     
     markdown = markdown .. "## 📊 Character Overview\n\n"
@@ -396,7 +415,7 @@ local function GenerateMarkdown(format)
     local markdown = ""
     
     -- Header
-    markdown = markdown .. GenerateHeader(characterData, format)
+    markdown = markdown .. GenerateHeader(characterData, cpData, format)
     
     -- Overview (skip for Discord)
     if format ~= "discord" then
@@ -532,7 +551,7 @@ function GenerateQuickSummary(characterData, equipmentData)
         name, level, cp, esoPlusIndicator, race, class, sets)
 end
 
-function GenerateHeader(characterData, format)
+function GenerateHeader(characterData, cpData, format)
     local markdown = ""
     
     if format == "discord" then
@@ -544,20 +563,23 @@ function GenerateHeader(characterData, format)
                               " • L" .. (characterData.level or 0)
         if characterData.cp > 0 then
             markdown = markdown .. " • CP" .. FormatNumber(characterData.cp)
+            -- Add CP discipline breakdown for Discord
+            if cpData and cpData.disciplines and #cpData.disciplines > 0 then
+                local disciplineParts = {}
+                for _, discipline in ipairs(cpData.disciplines) do
+                    table.insert(disciplineParts, discipline.name .. " " .. discipline.total)
+                end
+                markdown = markdown .. " (" .. table.concat(disciplineParts, " • ") .. ")"
+            end
         end
         if characterData.esoPlus then
             markdown = markdown .. " • 👑 ESO Plus"
         end
         markdown = markdown .. "\n*" .. allianceText .. "*\n"
     else
+        -- GitHub/VSCode: Just character name as main header
+        -- (The detailed overview is now fully contained in the Character Overview table)
         markdown = markdown .. "# " .. (characterData.name or "Unknown") .. "\n\n"
-        local raceText = CreateRaceLink(characterData.race, format)
-        local classText = CreateClassLink(characterData.class, format)
-        local allianceText = CreateAllianceLink(characterData.alliance, format)
-        markdown = markdown .. "**" .. raceText .. " " .. classText .. "**  \n"
-        markdown = markdown .. "**Level " .. (characterData.level or 0) .. "** • **CP " .. FormatNumber(characterData.cp or 0) .. "**  \n"
-        markdown = markdown .. "*" .. allianceText .. "*\n\n"
-        markdown = markdown .. "---\n\n"
     end
     
     return markdown

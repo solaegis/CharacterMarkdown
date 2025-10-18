@@ -102,6 +102,60 @@ function CharacterMarkdown_CopyToClipboard()
 end
 
 -- =====================================================
+-- REGENERATE MARKDOWN FUNCTION (Called from XML button)
+-- =====================================================
+
+function CharacterMarkdown_RegenerateMarkdown()
+    if not CM or not CM.generators or not CM.generators.GenerateMarkdown then
+        d("[CharacterMarkdown] ❌ ERROR: Generator not available")
+        return
+    end
+    
+    d("[CharacterMarkdown] 🔄 Regenerating markdown...")
+    
+    -- Get current format (default to github if not stored)
+    local format = CM.currentFormat or "github"
+    
+    -- Clear the window
+    if editBoxControl then
+        editBoxControl:SetText("")
+    end
+    
+    -- Regenerate markdown
+    local success, markdown = pcall(CM.generators.GenerateMarkdown, format)
+    
+    if not success then
+        d("[CharacterMarkdown] ❌ ERROR: Failed to regenerate markdown")
+        d("[CharacterMarkdown] Error: " .. tostring(markdown))
+        return
+    end
+    
+    if not markdown or markdown == "" then
+        d("[CharacterMarkdown] ❌ ERROR: Generated markdown is empty")
+        return
+    end
+    
+    -- Update stored markdown
+    currentMarkdown = markdown
+    
+    -- Update the EditBox
+    editBoxControl:SetEditEnabled(true)
+    editBoxControl:SetText(markdown)
+    editBoxControl:SetColor(1, 1, 1, 1)
+    editBoxControl:SetEditEnabled(false)
+    
+    -- Select all text and take focus
+    zo_callLater(function()
+        editBoxControl:SelectAll()
+        editBoxControl:TakeFocus()
+        
+        local markdownLength = string.len(markdown)
+        d("[CharacterMarkdown] ✅ Regenerated " .. markdownLength .. " characters")
+        d("[CharacterMarkdown] ✅ Text selected and ready to copy")
+    end, 100)
+end
+
+-- =====================================================
 -- SHOW WINDOW FUNCTION
 -- =====================================================
 
@@ -113,6 +167,9 @@ function CharacterMarkdown_ShowWindow(markdown, format)
     end
     
     format = format or "github"
+    
+    -- Store current format for regeneration
+    CM.currentFormat = format
     
     -- Initialize controls if needed
     if not InitializeWindowControls() then
