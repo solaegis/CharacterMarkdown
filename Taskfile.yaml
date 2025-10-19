@@ -13,6 +13,7 @@ vars:
   # Directories
   ESO_LIVE_ADDONS: "{{.HOME}}/Documents/Elder Scrolls Online/live/AddOns"
   ESO_PTS_ADDONS: "{{.HOME}}/Documents/Elder Scrolls Online/pts/AddOns"
+  ESO_LIVE_SAVEDVARS: "{{.HOME}}/Documents/Elder Scrolls Online/live/SavedVariables"
   BUILD_DIR: build
   DIST_DIR: dist
   SRC_DIR: src
@@ -121,6 +122,19 @@ tasks:
         echo "✅ Symlink removed"
         echo ""
       - task: install:live
+    silent: true
+
+  clean:savedvars:
+    desc: Remove saved variables file for clean reinstall
+    cmds:
+      - |
+        echo "🗑️  Removing saved variables..."
+        if [ -f "{{.ESO_LIVE_SAVEDVARS}}/{{.ADDON_NAME}}.lua" ]; then
+          rm -f "{{.ESO_LIVE_SAVEDVARS}}/{{.ADDON_NAME}}.lua"
+          echo "✅ Saved variables removed"
+        else
+          echo "ℹ️  No saved variables file found"
+        fi
     silent: true
 
   # =============================================================================
@@ -601,6 +615,7 @@ tasks:
       - echo "  task uninstall:live    - Remove from ESO Live"
       - echo "  task uninstall:pts     - Remove from ESO PTS"
       - echo "  task uninstall:dev     - Remove symlink"
+      - echo "  task clean:savedvars   - Remove saved variables for clean reinstall"
     silent: true
 
   help:release:

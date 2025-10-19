@@ -10,12 +10,44 @@ local CreateCompanionLink, CreateZoneLink, CreateCampaignLink, CreateBuffLink
 local FormatNumber
 
 -- Forward declarations for section generators (defined later in file)
-local GenerateQuickSummary, GenerateHeader, GenerateOverview, GenerateProgression
+local GenerateQuickSummary, GenerateHeader, GenerateQuickStats, GenerateAttentionNeeded
+local GenerateOverview, GenerateProgression
 local GenerateCurrency, GenerateRidingSkills, GenerateInventory, GeneratePvP
 local GenerateCollectibles, GenerateCrafting, GenerateAttributes, GenerateBuffs
 local GenerateCustomNotes, GenerateDLCAccess, GenerateMundus, GenerateChampionPoints
 local GenerateSkillBars, GenerateCombatStats, GenerateEquipment, GenerateSkills
 local GenerateCompanion, GenerateFooter
+
+-- =====================================================
+-- HELPER FUNCTIONS
+-- =====================================================
+
+-- Generate a text-based progress bar
+local function GenerateProgressBar(percent, width)
+    width = width or 10
+    local filled = math.floor((percent / 100) * width)
+    local empty = width - filled
+    return string.rep("█", filled) .. string.rep("░", empty)
+end
+
+-- Create a compact skill status indicator
+local function GetSkillStatusEmoji(rank, progress)
+    if rank >= 50 or progress >= 100 then
+        return "✅"
+    elseif rank >= 40 or progress >= 80 then
+        return "🔶"
+    elseif rank >= 20 or progress >= 40 then
+        return "📈"
+    else
+        return "🔰"
+    end
+end
+
+-- Format plural correctly
+local function Pluralize(count, singular, plural)
+    plural = plural or (singular .. "s")
+    return count == 1 and singular or plural
+end
 
 -- =====================================================
 -- SECTION GENERATOR IMPLEMENTATIONS
@@ -91,6 +123,125 @@ GenerateHeader = function(characterData, cpData, format)
         markdown = markdown .. "*" .. allianceText .. "*\n\n"
         markdown = markdown .. "---\n\n"
     end
+    
+    return markdown
+end
+
+GenerateQuickStats = function(characterData, progressionData, currencyData, equipmentData, cpData, inventoryData, format)
+    local markdown = ""
+    
+    markdown = markdown .. "## 🎯 Quick Stats\n\n"
+    
+    -- Determine primary role based on attributes
+    local attrs = characterData.attributes or {magicka = 0, health = 0, stamina = 0}
+    local primaryRole = "Balanced"
+    if attrs.magicka > attrs.stamina and attrs.magicka > attrs.health then
+        primaryRole = "Magicka DPS"
+    elseif attrs.stamina > attrs.magicka and attrs.stamina > attrs.health then
+        primaryRole = "Stamina DPS"
+    elseif attrs.health > attrs.magicka and attrs.health > attrs.stamina then
+        primaryRole = "Tank"
+    end
+    
+    -- Get primary sets
+    local primarySets = "None"
+    if equipmentData.sets and #equipmentData.sets > 0 then
+        local setParts = {}
+        for i = 1, math.min(2, #equipmentData.sets) do
+            local set = equipmentData.sets[i]
+            if set.count >= 5 then
+                table.insert(setParts, set.name)
+            end
+        end
+        if #setParts > 0 then
+            primarySets = table.concat(setParts, " + ")
+        else
+            primarySets = equipmentData.sets[1].name .. " (Partial)"
+        end
+    end
+    
+    -- Check for bank capacity warning
+    local bankStatus = "OK"
+    if inventoryData and inventoryData.bankPercent >= 100 then
+        bankStatus = "⚠️ **FULL**"
+    elseif inventoryData and inventoryData.bankPercent >= 90 then
+        bankStatus = "⚠️ Nearly Full"
+    end
+    
+    markdown = markdown .. "| Combat | Progression | Economy |\n"
+    markdown = markdown .. "|:-------|:------------|:--------|\n"
+    markdown = markdown .. "| **Build**: " .. primaryRole .. " | "
+    markdown = markdown .. "**CP**: " .. FormatNumber(cpData.total or 0)
+    if cpData.total and cpData.spent then
+        local available = cpData.total - cpData.spent
+        if available > 0 then
+            markdown = markdown .. " (" .. available .. " available)"
+        end
+    end
+    markdown = markdown .. " | "
+    markdown = markdown .. "**Gold**: " .. FormatNumber(currencyData.gold) .. " |\n"
+    
+    markdown = markdown .. "| **Primary Sets**: " .. primarySets .. " | "
+    markdown = markdown .. "**Skill Points**: " .. (progressionData.skillPoints or 0) 
+    if progressionData.skillPoints and progressionData.skillPoints > 0 then
+        markdown = markdown .. " available"
+    else
+        markdown = markdown .. " ✅"
+    end
+    markdown = markdown .. " | "
+    markdown = markdown .. "**Bank**: " .. bankStatus .. " |\n"
+    
+    markdown = markdown .. "| **Attributes**: " .. attrs.magicka .. " / " .. attrs.health .. " / " .. attrs.stamina .. " | "
+    markdown = markdown .. "**Achievements**: " .. (progressionData.achievementPercent or 0) .. "% | "
+    markdown = markdown .. "**Transmutes**: " .. FormatNumber(currencyData.transmuteCrystals or 0) .. " |\n"
+    
+    markdown = markdown .. "\n"
+    return markdown
+end
+
+GenerateAttentionNeeded = function(progressionData, inventoryData, ridingData, format)
+    local warnings = {}
+    
+    -- Check for skill points
+    if progressionData.skillPoints and progressionData.skillPoints > 0 then
+        local plural = Pluralize(progressionData.skillPoints, "point", "points")
+        table.insert(warnings, "🎯 **" .. progressionData.skillPoints .. " skill " .. plural .. " available** - Ready to spend")
+    end
+    
+    -- Check for attribute points
+    if progressionData.attributePoints and progressionData.attributePoints > 0 then
+        local plural = Pluralize(progressionData.attributePoints, "point", "points")
+        table.insert(warnings, "⭐ **" .. progressionData.attributePoints .. " attribute " .. plural .. " available** - Allocate to Magicka/Health/Stamina")
+    end
+    
+    -- Check for bank capacity
+    if inventoryData and inventoryData.bankPercent >= 100 then
+        table.insert(warnings, "🏦 **Bank is full** (" .. inventoryData.bankUsed .. "/" .. inventoryData.bankMax .. ") - Clear space or items will be lost")
+    elseif inventoryData and inventoryData.bankPercent >= 95 then
+        table.insert(warnings, "🏦 **Bank nearly full** (" .. inventoryData.bankUsed .. "/" .. inventoryData.bankMax .. ") - " .. (inventoryData.bankMax - inventoryData.bankUsed) .. " slots remaining")
+    end
+    
+    -- Check for backpack capacity
+    if inventoryData and inventoryData.backpackPercent >= 95 then
+        table.insert(warnings, "🎒 **Backpack nearly full** (" .. inventoryData.backpackUsed .. "/" .. inventoryData.backpackMax .. ") - " .. (inventoryData.backpackMax - inventoryData.backpackUsed) .. " slots remaining")
+    end
+    
+    -- Check for riding training
+    if ridingData and ridingData.trainingAvailable and not ridingData.allMaxed then
+        table.insert(warnings, "🐎 **Riding training available** - Visit a stable master")
+    end
+    
+    -- Only show section if there are warnings
+    if #warnings == 0 then
+        return ""
+    end
+    
+    local markdown = ""
+    markdown = markdown .. "## ⚠️ Attention Needed\n\n"
+    for _, warning in ipairs(warnings) do
+        markdown = markdown .. "- " .. warning .. "\n"
+    end
+    markdown = markdown .. "\n"
     
     return markdown
 end
@@ -417,14 +568,19 @@ local function GenerateMarkdown(format)
     -- Header
     markdown = markdown .. GenerateHeader(characterData, cpData, format)
     
-    -- Overview (skip for Discord)
-    if format ~= "discord" then
-        markdown = markdown .. GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, settings, format)
+    -- Quick Stats Summary (non-Discord only)
+    if format ~= "discord" and settings.includeQuickStats ~= false then
+        markdown = markdown .. GenerateQuickStats(characterData, progressionData, currencyData, equipmentData, cpData, inventoryData, format)
     end
     
-    -- Progression
-    if settings.includeProgression ~= false then
-        markdown = markdown .. GenerateProgression(progressionData, format)
+    -- Attention Needed (non-Discord only)
+    if format ~= "discord" and settings.includeAttentionNeeded ~= false then
+        markdown = markdown .. GenerateAttentionNeeded(progressionData, inventoryData, ridingData, format)
+    end
+    
+    -- Overview (skip for Discord) - now includes vampire/werewolf/enlightenment
+    if format ~= "discord" then
+        markdown = markdown .. GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, progressionData, settings, format)
     end
     
     -- Currency
@@ -554,8 +710,14 @@ end
 function GenerateHeader(characterData, cpData, format)
     local markdown = ""
     
+    -- Build name with title if present
+    local nameWithTitle = characterData.name or "Unknown"
+    if characterData.title and characterData.title ~= "" then
+        nameWithTitle = nameWithTitle .. ", *" .. characterData.title .. "*"
+    end
+    
     if format == "discord" then
-        markdown = markdown .. "# **" .. (characterData.name or "Unknown") .. "**\n"
+        markdown = markdown .. "# **" .. nameWithTitle .. "**\n"
         local raceText = CreateRaceLink(characterData.race, format)
         local classText = CreateClassLink(characterData.class, format)
         local allianceText = CreateAllianceLink(characterData.alliance, format)
@@ -577,15 +739,14 @@ function GenerateHeader(characterData, cpData, format)
         end
         markdown = markdown .. "\n*" .. allianceText .. "*\n"
     else
-        -- GitHub/VSCode: Just character name as main header
-        -- (The detailed overview is now fully contained in the Character Overview table)
-        markdown = markdown .. "# " .. (characterData.name or "Unknown") .. "\n\n"
+        -- GitHub/VSCode: Character name with title as main header
+        markdown = markdown .. "# " .. nameWithTitle .. "\n\n"
     end
     
     return markdown
 end
 
-function GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, settings, format)
+function GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, progressionData, settings, format)
     local markdown = ""
     
     markdown = markdown .. "## 📊 Character Overview\n\n"
@@ -610,12 +771,7 @@ function GenerateOverview(characterData, roleData, locationData, buffsData, mund
     local allianceText = CreateAllianceLink(characterData.alliance, format)
     markdown = markdown .. "| **Alliance** | " .. allianceText .. " |\n"
     
-    -- Title row (if present)
-    if characterData.title and characterData.title ~= "" then
-        markdown = markdown .. "| **Title** | *" .. characterData.title .. "* |\n"
-    end
-    
-    -- ESO Plus status
+    -- ESO Plus status (Title is now in header, so removed from here)
     local esoPlusStatus = characterData.esoPlus and "✅ Active" or "❌ Inactive"
     markdown = markdown .. "| **ESO Plus** | " .. esoPlusStatus .. " |\n"
     
@@ -654,6 +810,23 @@ function GenerateOverview(characterData, roleData, locationData, buffsData, mund
         markdown = markdown .. "| **🍖 Active Buffs** | " .. table.concat(buffParts, " • ") .. " |\n"
     end
     
+    -- Vampire status (if vampire)
+    if progressionData and progressionData.isVampire then
+        markdown = markdown .. "| **🧛 Vampire** | Stage " .. (progressionData.vampireStage or 1) .. " |\n"
+    end
+    
+    -- Werewolf status (if werewolf)
+    if progressionData and progressionData.isWerewolf then
+        markdown = markdown .. "| **🐺 Werewolf** | Active |\n"
+    end
+    
+    -- Enlightenment (if active)
+    if progressionData and progressionData.enlightenment and progressionData.enlightenment.max > 0 then
+        markdown = markdown .. "| **✨ Enlightenment** | " .. FormatNumber(progressionData.enlightenment.current) .. 
+                              " / " .. FormatNumber(progressionData.enlightenment.max) .. 
+                              " (" .. progressionData.enlightenment.percent .. "%) |\n"
+    end
+    
     -- Location row
     if settings.includeLocation ~= false and locationData then
         local zoneText = CreateZoneLink(locationData.zone, format)
@@ -668,49 +841,34 @@ end
 function GenerateProgression(progressionData, format)
     local markdown = ""
     
+    -- Only show unique data not covered in Quick Stats/Attention Needed
+    -- (Skill points, attribute points, and achievements are now handled elsewhere)
+    
     if format == "discord" then
-        markdown = markdown .. "**Progression:**\n"
-        if progressionData.skillPoints > 0 then
-            markdown = markdown .. "• Skill Points Available: " .. progressionData.skillPoints .. "\n"
-        end
-        if progressionData.attributePoints > 0 then
-            markdown = markdown .. "• Attribute Points Available: " .. progressionData.attributePoints .. "\n"
-        end
-        markdown = markdown .. "• Achievement Score: " .. FormatNumber(progressionData.achievementPoints) .. 
-                              " / " .. FormatNumber(progressionData.totalAchievements) .. 
-                              " (" .. progressionData.achievementPercent .. "%)\n"
+        markdown = markdown .. "**Character Status:**\n"
         if progressionData.isVampire then
             markdown = markdown .. "• 🧛 Vampire (Stage " .. progressionData.vampireStage .. ")\n"
         end
         if progressionData.isWerewolf then
             markdown = markdown .. "• 🐺 Werewolf\n"
         end
-        if progressionData.enlightenment.max > 0 then
-            markdown = markdown .. "• Enlightenment: " .. FormatNumber(progressionData.enlightenment.current) .. 
+        if progressionData.enlightenment and progressionData.enlightenment.max > 0 then
+            markdown = markdown .. "• ✨ Enlightenment: " .. FormatNumber(progressionData.enlightenment.current) .. 
                                   " / " .. FormatNumber(progressionData.enlightenment.max) .. 
                                   " (" .. progressionData.enlightenment.percent .. "%)\n"
         end
         markdown = markdown .. "\n"
     else
-        markdown = markdown .. "## 📈 Character Progression\n\n"
+        markdown = markdown .. "## 🌙 Character Status\n\n"
         markdown = markdown .. "| Category | Value |\n"
         markdown = markdown .. "|:---------|:------|\n"
-        if progressionData.skillPoints > 0 then
-            markdown = markdown .. "| **⭐ Skill Points Available** | " .. progressionData.skillPoints .. " |\n"
-        end
-        if progressionData.attributePoints > 0 then
-            markdown = markdown .. "| **⭐ Attribute Points Available** | " .. progressionData.attributePoints .. " |\n"
-        end
-        markdown = markdown .. "| **🏆 Achievement Score** | " .. FormatNumber(progressionData.achievementPoints) .. 
-                              " / " .. FormatNumber(progressionData.totalAchievements) .. 
-                              " (" .. progressionData.achievementPercent .. "%) |\n"
         if progressionData.isVampire then
             markdown = markdown .. "| **🧛 Vampire** | Stage " .. progressionData.vampireStage .. " |\n"
         end
         if progressionData.isWerewolf then
             markdown = markdown .. "| **🐺 Werewolf** | Active |\n"
         end
-        if progressionData.enlightenment.max > 0 then
+        if progressionData.enlightenment and progressionData.enlightenment.max > 0 then
             markdown = markdown .. "| **✨ Enlightenment** | " .. FormatNumber(progressionData.enlightenment.current) .. 
                                   " / " .. FormatNumber(progressionData.enlightenment.max) .. 
                                   " (" .. progressionData.enlightenment.percent .. "%) |\n"
@@ -1194,17 +1352,29 @@ GenerateChampionPoints = function(cpData, format)
             markdown = markdown .. "|:---------|------:|\n"
             markdown = markdown .. "| **Total** | " .. FormatNumber(totalCP) .. " |\n"
             markdown = markdown .. "| **Spent** | " .. FormatNumber(spentCP) .. " |\n"
-            markdown = markdown .. "| **Available** | " .. FormatNumber(availableCP) .. " |\n"
+            if availableCP > 0 then
+                markdown = markdown .. "| **Available** | " .. FormatNumber(availableCP) .. " ⚠️ |\n"
+            else
+                markdown = markdown .. "| **Available** | " .. FormatNumber(availableCP) .. " |\n"
+            end
             markdown = markdown .. "\n"
             
             if cpData.disciplines and #cpData.disciplines > 0 then
+                -- Calculate max possible points per discipline (CP 3.0 system allows up to 660 per tree)
+                local maxPerDiscipline = 660
+                
                 for _, discipline in ipairs(cpData.disciplines) do
+                    local disciplinePercent = math.floor((discipline.total / maxPerDiscipline) * 100)
+                    local progressBar = GenerateProgressBar(disciplinePercent, 12)
+                    
                     markdown = markdown .. "### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. 
-                                         " (" .. FormatNumber(discipline.total) .. " points)\n\n"
+                                         " (" .. FormatNumber(discipline.total) .. "/" .. maxPerDiscipline .. " points) " .. 
+                                         progressBar .. " " .. disciplinePercent .. "%\n\n"
                     if discipline.skills and #discipline.skills > 0 then
                         for _, skill in ipairs(discipline.skills) do
                             local skillText = CreateCPSkillLink(skill.name, format)
-                            markdown = markdown .. "- **" .. skillText .. "**: " .. skill.points .. " points\n"
+                            local pointText = skill.points == 1 and "point" or "points"
+                            markdown = markdown .. "- **" .. skillText .. "**: " .. skill.points .. " " .. pointText .. "\n"
                         end
                         markdown = markdown .. "\n"
                     end
@@ -1234,8 +1404,26 @@ GenerateSkillBars = function(skillBarData, format)
         end
     else
         markdown = markdown .. "## ⚔️ Combat Arsenal\n\n"
+        
+        -- Determine weapon types from bar names for better labels
+        local barLabels = {
+            {emoji = "🗡️", suffix = ""},
+            {emoji = "🔮", suffix = ""}
+        }
+        
+        -- Try to detect weapon types from bar names
         for barIdx, bar in ipairs(skillBarData) do
-            markdown = markdown .. "### " .. bar.name .. "\n\n"
+            local barName = bar.name or ""
+            if barName:find("Backup") or barName:find("Back Bar") then
+                barLabels[barIdx].suffix = " (Backup)"
+            elseif barName:find("Main") or barName:find("Front") then
+                barLabels[barIdx].suffix = " (Main Hand)"
+            end
+        end
+        
+        for barIdx, bar in ipairs(skillBarData) do
+            local label = barLabels[barIdx] or {emoji = "⚔️", suffix = ""}
+            markdown = markdown .. "### " .. label.emoji .. " " .. bar.name .. "\n\n"
             
             -- Ultimate with link
             local ultimateText = CreateAbilityLink(bar.ultimate, bar.ultimateId, format)
@@ -1248,6 +1436,8 @@ GenerateSkillBars = function(skillBarData, format)
             end
             markdown = markdown .. "\n"
         end
+        
+        markdown = markdown .. "---\n\n"
     end
     
     return markdown
@@ -1300,51 +1490,105 @@ GenerateEquipment = function(equipmentData, format)
                 markdown = markdown .. indicator .. " " .. setLink .. " (" .. set.count .. ")\n"
             end
         end
+        
+        -- Equipment list
+        if equipmentData.items and #equipmentData.items > 0 then
+            markdown = markdown .. "\n**Equipment:**\n"
+            for _, item in ipairs(equipmentData.items) do
+                if item.name and item.name ~= "-" then
+                    local setLink = CreateSetLink(item.setName, format)
+                    markdown = markdown .. (item.emoji or "📦") .. " " .. item.name
+                    if setLink and setLink ~= "-" then
+                        markdown = markdown .. " (" .. setLink .. ")"
+                    end
+                    markdown = markdown .. "\n"
+                end
+            end
+        end
     else
         markdown = markdown .. "## 🎒 Equipment\n\n"
     
-        -- Armor sets
+        -- Armor sets - reorganized by status
         if equipmentData.sets and #equipmentData.sets > 0 then
             markdown = markdown .. "### 🛡️ Armor Sets\n\n"
+            
+            -- Group sets by completion status
+            local activeSets = {}
+            local partialSets = {}
+            
             for _, set in ipairs(equipmentData.sets) do
-                local indicator = set.count >= 5 and "✅" or set.count >= 2 and "⚠️" or "❌"
-                local setLink = CreateSetLink(set.name, format)
-                markdown = markdown .. "- " .. indicator .. " **" .. setLink .. "**: " .. set.count .. " pieces\n"
+                if set.count >= 5 then
+                    table.insert(activeSets, set)
+                else
+                    table.insert(partialSets, set)
+                end
             end
-            markdown = markdown .. "\n"
-        end
-    end
-
-    -- Equipment list
-    if format == "discord" and equipmentData.items and #equipmentData.items > 0 then
-        -- Discord: Compact equipment list
-        markdown = markdown .. "\n**Equipment:**\n"
-        for _, item in ipairs(equipmentData.items) do
-            if item.name and item.name ~= "-" then
-                local setLink = CreateSetLink(item.setName, format)
-                markdown = markdown .. (item.emoji or "📦") .. " " .. item.name
-                if setLink and setLink ~= "-" then
-                    markdown = markdown .. " (" .. setLink .. ")"
+            
+            -- Show active sets (5+ pieces)
+            if #activeSets > 0 then
+                markdown = markdown .. "#### ✅ Active Sets (5-piece bonuses)\n\n"
+                for _, set in ipairs(activeSets) do
+                    local setLink = CreateSetLink(set.name, format)
+                    markdown = markdown .. "- ✅ **" .. setLink .. "** (" .. set.count .. "/5 pieces)"
+                    
+                    -- List which slots for this set
+                    if equipmentData.items then
+                        local slots = {}
+                        for _, item in ipairs(equipmentData.items) do
+                            if item.setName == set.name then
+                                table.insert(slots, item.slotName)
+                            end
+                        end
+                        if #slots > 0 then
+                            markdown = markdown .. " - " .. table.concat(slots, ", ")
+                        end
+                    end
+                    markdown = markdown .. "\n"
+                end
+                markdown = markdown .. "\n"
+            end
+            
+            -- Show partial sets
+            if #partialSets > 0 then
+                markdown = markdown .. "#### ⚠️ Partial Sets\n\n"
+                for _, set in ipairs(partialSets) do
+                    local setLink = CreateSetLink(set.name, format)
+                    markdown = markdown .. "- ⚠️ **" .. setLink .. "** (" .. set.count .. "/5 pieces)"
+                    
+                    -- List which slots for this set
+                    if equipmentData.items then
+                        local slots = {}
+                        for _, item in ipairs(equipmentData.items) do
+                            if item.setName == set.name then
+                                table.insert(slots, item.slotName)
+                            end
+                        end
+                        if #slots > 0 then
+                            markdown = markdown .. " - " .. table.concat(slots, ", ")
+                        end
+                    end
+                    markdown = markdown .. "\n"
                 end
                 markdown = markdown .. "\n"
             end
         end
-    elseif format ~= "discord" and equipmentData.items and #equipmentData.items > 0 then
-        markdown = markdown .. "### 📋 Equipment Details\n\n"
-        markdown = markdown .. "| Slot | Item | Set | Quality | Trait |\n"
-        markdown = markdown .. "|:-----|:-----|:----|:--------|:------|\n"
-        for _, item in ipairs(equipmentData.items) do
-            local setLink = CreateSetLink(item.setName, format)
-            markdown = markdown .. "| " .. (item.emoji or "📦") .. " **" .. (item.slotName or "Unknown") .. "** | "
-            markdown = markdown .. (item.name or "-") .. " | "
-            markdown = markdown .. setLink .. " | "
-            markdown = markdown .. (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal") .. " | "
-            markdown = markdown .. (item.trait or "None") .. " |\n"
+        
+        -- Equipment details table
+        if equipmentData.items and #equipmentData.items > 0 then
+            markdown = markdown .. "### 📋 Equipment Details\n\n"
+            markdown = markdown .. "| Slot | Item | Set | Quality | Trait |\n"
+            markdown = markdown .. "|:-----|:-----|:----|:--------|:------|\n"
+            for _, item in ipairs(equipmentData.items) do
+                local setLink = CreateSetLink(item.setName, format)
+                markdown = markdown .. "| " .. (item.emoji or "📦") .. " **" .. (item.slotName or "Unknown") .. "** | "
+                markdown = markdown .. (item.name or "-") .. " | "
+                markdown = markdown .. setLink .. " | "
+                markdown = markdown .. (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal") .. " | "
+                markdown = markdown .. (item.trait or "None") .. " |\n"
+            end
+            markdown = markdown .. "\n"
         end
-        markdown = markdown .. "\n"
-    end
-    
-    if format ~= "discord" then
+        
         markdown = markdown .. "---\n\n"
     end
     
@@ -1378,18 +1622,61 @@ GenerateSkills = function(skillData, format)
         for _, category in ipairs(skillData) do
             markdown = markdown .. "### " .. (category.emoji or "⚔️") .. " " .. category.name .. "\n\n"
             if category.skills and #category.skills > 0 then
+                -- Group skills by status
+                local maxedSkills = {}
+                local inProgressSkills = {}
+                local lowLevelSkills = {}
+                
                 for _, skill in ipairs(category.skills) do
-                    local status = skill.maxed and "✅" or "📈"
-                    local skillNameLinked = CreateSkillLineLink(skill.name, format)
-                    markdown = markdown .. "- " .. status .. " **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0)
-                    if skill.progress and not skill.maxed then
-                        markdown = markdown .. " (" .. skill.progress .. "%)"
-                    elseif skill.maxed then
-                        markdown = markdown .. " (Maxed)"
+                    if skill.maxed or (skill.rank and skill.rank >= 50) then
+                        table.insert(maxedSkills, skill)
+                    elseif skill.rank and skill.rank >= 20 then
+                        table.insert(inProgressSkills, skill)
+                    else
+                        table.insert(lowLevelSkills, skill)
+                    end
+                end
+                
+                -- Show maxed skills first (compact)
+                if #maxedSkills > 0 then
+                    local maxedNames = {}
+                    for _, skill in ipairs(maxedSkills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name, format)
+                        table.insert(maxedNames, "**" .. skillNameLinked .. "**")
+                    end
+                    markdown = markdown .. "#### ✅ Maxed\n"
+                    markdown = markdown .. table.concat(maxedNames, ", ") .. "\n\n"
+                end
+                
+                -- Show in-progress skills with progress bars
+                if #inProgressSkills > 0 then
+                    if #maxedSkills > 0 then
+                        markdown = markdown .. "#### 📈 In Progress\n"
+                    end
+                    for _, skill in ipairs(inProgressSkills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name, format)
+                        local progressPercent = skill.progress or 0
+                        local progressBar = GenerateProgressBar(progressPercent, 10)
+                        markdown = markdown .. "- **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0) .. 
+                                              " " .. progressBar .. " " .. progressPercent .. "%\n"
                     end
                     markdown = markdown .. "\n"
                 end
-                markdown = markdown .. "\n"
+                
+                -- Show low-level skills
+                if #lowLevelSkills > 0 then
+                    if #maxedSkills > 0 or #inProgressSkills > 0 then
+                        markdown = markdown .. "#### 🔰 Early Progress\n"
+                    end
+                    for _, skill in ipairs(lowLevelSkills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name, format)
+                        local progressPercent = skill.progress or 0
+                        local progressBar = GenerateProgressBar(progressPercent, 10)
+                        markdown = markdown .. "- **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0) .. 
+                                              " " .. progressBar .. " " .. progressPercent .. "%\n"
+                    end
+                    markdown = markdown .. "\n"
+                end
             end
         end
 
@@ -1423,10 +1710,73 @@ GenerateCompanion = function(companionData, format)
         end
     else
         local companionNameLinked = CreateCompanionLink(companionData.name, format)
-        markdown = markdown .. "## 👥 Companion\n\n"
+        markdown = markdown .. "## 👥 Active Companion\n\n"
         markdown = markdown .. "### 🧙 " .. companionNameLinked .. "\n\n"
-        markdown = markdown .. "**Level:** " .. (companionData.level or 0) .. "\n\n"
         
+        -- Status table with warnings
+        markdown = markdown .. "| Attribute | Status |\n"
+        markdown = markdown .. "|:----------|:-------|\n"
+        
+        local level = companionData.level or 0
+        local levelStatus = "Level " .. level
+        if level < 20 then
+            levelStatus = levelStatus .. " ⚠️ (Needs leveling)"
+        elseif level == 20 then
+            levelStatus = levelStatus .. " ✅ (Max)"
+        end
+        markdown = markdown .. "| **Level** | " .. levelStatus .. " |\n"
+        
+        -- Check equipment status
+        local lowLevelGear = 0
+        local maxLevel = 0
+        if companionData.equipment and #companionData.equipment > 0 then
+            for _, item in ipairs(companionData.equipment) do
+                if item.level and item.level > maxLevel then
+                    maxLevel = item.level
+                end
+                if item.level and item.level < level and item.level < 20 then
+                    lowLevelGear = lowLevelGear + 1
+                end
+            end
+        end
+        
+        local gearStatus = "Max Level: " .. maxLevel
+        if lowLevelGear > 0 then
+            gearStatus = gearStatus .. " ⚠️ (" .. lowLevelGear .. " outdated " .. Pluralize(lowLevelGear, "piece") .. ")"
+        elseif maxLevel >= level or maxLevel >= 20 then
+            gearStatus = gearStatus .. " ✅"
+        end
+        markdown = markdown .. "| **Equipment** | " .. gearStatus .. " |\n"
+        
+        -- Check for empty ability slots
+        local emptySlots = 0
+        local totalSlots = 0
+        if companionData.skills then
+            if companionData.skills.ultimate == "[Empty]" or companionData.skills.ultimate == "Empty" then
+                emptySlots = emptySlots + 1
+            end
+            totalSlots = totalSlots + 1
+            
+            if companionData.skills.abilities then
+                for _, ability in ipairs(companionData.skills.abilities) do
+                    totalSlots = totalSlots + 1
+                    if ability.name == "[Empty]" or ability.name == "Empty" then
+                        emptySlots = emptySlots + 1
+                    end
+                end
+            end
+        end
+        
+        local abilityStatus = (totalSlots - emptySlots) .. "/" .. totalSlots .. " abilities slotted"
+        if emptySlots > 0 then
+            abilityStatus = abilityStatus .. " ⚠️ (" .. emptySlots .. " empty)"
+        else
+            abilityStatus = abilityStatus .. " ✅"
+        end
+        markdown = markdown .. "| **Abilities** | " .. abilityStatus .. " |\n"
+        markdown = markdown .. "\n"
+        
+        -- Skills section
         if companionData.skills then
             local ultimateText = CreateAbilityLink(companionData.skills.ultimate, companionData.skills.ultimateId, format)
             markdown = markdown .. "**⚡ Ultimate:** " .. ultimateText .. "\n\n"
@@ -1438,10 +1788,15 @@ GenerateCompanion = function(companionData, format)
             markdown = markdown .. "\n"
         end
         
+        -- Equipment section
         if companionData.equipment and #companionData.equipment > 0 then
             markdown = markdown .. "**Equipment:**\n"
             for _, item in ipairs(companionData.equipment) do
-                markdown = markdown .. "- **" .. item.slot .. "**: " .. item.name .. " (Level " .. item.level .. ", " .. item.quality .. ")\n"
+                local warning = ""
+                if item.level and item.level < level and item.level < 20 then
+                    warning = " ⚠️"
+                end
+                markdown = markdown .. "- **" .. item.slot .. "**: " .. item.name .. " (Level " .. item.level .. ", " .. item.quality .. ")" .. warning .. "\n"
             end
             markdown = markdown .. "\n"
         end

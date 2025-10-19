@@ -39,7 +39,7 @@ function CharacterMarkdown.Settings.Panel:Initialize()
     
     LAM:RegisterAddonPanel("CharacterMarkdownSettings", panelData)
     
-    -- Register options
+    -- Register options (defaults are handled by ZO_SavedVars in Initializer)
     local optionsData = self:BuildOptionsData()
     LAM:RegisterOptionControls("CharacterMarkdownSettings", optionsData)
     
@@ -140,7 +140,12 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Champion Points",
         tooltip = "Show Champion Point allocation and discipline breakdown",
-        getFunc = function() return CharacterMarkdownSettings.includeChampionPoints end,
+        getFunc = function() 
+            if CharacterMarkdownSettings.includeChampionPoints == nil then
+                return true  -- Return default if not set
+            end
+            return CharacterMarkdownSettings.includeChampionPoints
+        end,
         setFunc = function(value) CharacterMarkdownSettings.includeChampionPoints = value end,
         width = "half",
         default = true,

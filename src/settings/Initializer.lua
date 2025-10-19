@@ -11,6 +11,13 @@ CharacterMarkdown.Settings.Initializer = {}
 -- =====================================================
 
 function CharacterMarkdown.Settings.Initializer:Initialize()
+    -- Use delayed message to ensure it shows up
+    zo_callLater(function()
+        if CHAT_SYSTEM then
+            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Initialize() called")
+        end
+    end, 100)
+    
     -- Initialize account-wide settings with defaults
     self:InitializeAccountSettings()
     
@@ -22,7 +29,12 @@ function CharacterMarkdown.Settings.Initializer:Initialize()
         CharacterMarkdown.currentFormat = CharacterMarkdownSettings.currentFormat
     end
     
-    d("[CharacterMarkdown] Settings initialized")
+    zo_callLater(function()
+        if CHAT_SYSTEM then
+            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Settings initialized, includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
+        end
+    end, 200)
+    
     return true
 end
 
@@ -31,10 +43,85 @@ end
 -- =====================================================
 
 function CharacterMarkdown.Settings.Initializer:InitializeAccountSettings()
+    zo_callLater(function()
+        if CHAT_SYSTEM then
+            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: InitializeAccountSettings() called")
+        end
+    end, 150)
+    
     -- Ensure the saved variable table exists
     CharacterMarkdownSettings = CharacterMarkdownSettings or {}
     
     local defaults = CharacterMarkdown.Settings.Defaults
+    
+    -- Check if this is a fresh install (no version number means never initialized)
+    local isFirstRun = (CharacterMarkdownSettings.settingsVersion == nil)
+    
+    zo_callLater(function()
+        if CHAT_SYSTEM then
+            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: isFirstRun = " .. tostring(isFirstRun))
+        end
+    end, 160)
+    
+    if isFirstRun then
+        CharacterMarkdownSettings.settingsVersion = 1
+        
+        zo_callLater(function()
+            if CHAT_SYSTEM then
+                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Setting all defaults for first run...")
+                CHAT_SYSTEM:AddMessage("  defaults = " .. tostring(defaults))
+                CHAT_SYSTEM:AddMessage("  defaults.CORE = " .. tostring(defaults.CORE))
+                CHAT_SYSTEM:AddMessage("  defaults.CORE.includeChampionPoints = " .. tostring(defaults.CORE and defaults.CORE.includeChampionPoints))
+            end
+        end, 170)
+        
+        -- On first run, explicitly set ALL defaults immediately
+        -- This ensures LAM sees proper values even before saved variables are written
+        
+        -- Debug: Check if we can iterate
+        local coreCount = 0
+        for key, value in pairs(defaults.CORE) do
+            coreCount = coreCount + 1
+            CharacterMarkdownSettings[key] = value
+        end
+        
+        -- Check IMMEDIATELY after setting (not delayed)
+        local immediateCheck = CharacterMarkdownSettings.includeChampionPoints
+        
+        zo_callLater(function()
+            if CHAT_SYSTEM then
+                CHAT_SYSTEM:AddMessage("  Set " .. coreCount .. " CORE settings")
+                CHAT_SYSTEM:AddMessage("  IMMEDIATE check after loop: includeChampionPoints = " .. tostring(immediateCheck))
+                CHAT_SYSTEM:AddMessage("  CharacterMarkdownSettings table = " .. tostring(CharacterMarkdownSettings))
+            end
+        end, 175)
+        
+        for key, value in pairs(defaults.EXTENDED) do
+            CharacterMarkdownSettings[key] = value
+        end
+        for key, value in pairs(defaults.LINKS) do
+            CharacterMarkdownSettings[key] = value
+        end
+        for key, value in pairs(defaults.SKILL_FILTERS) do
+            CharacterMarkdownSettings[key] = value
+        end
+        for key, value in pairs(defaults.EQUIPMENT_FILTERS) do
+            CharacterMarkdownSettings[key] = value
+        end
+        CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
+        
+        zo_callLater(function()
+            if CHAT_SYSTEM then
+                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Defaults set! includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
+            end
+        end, 180)
+    else
+        zo_callLater(function()
+            if CHAT_SYSTEM then
+                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Existing settings found (version " .. tostring(CharacterMarkdownSettings.settingsVersion) .. ")")
+            end
+        end, 170)
+    end
     
     -- Initialize format setting
     CharacterMarkdownSettings.currentFormat = CharacterMarkdownSettings.currentFormat or defaults.FORMAT.currentFormat
@@ -44,34 +131,57 @@ function CharacterMarkdown.Settings.Initializer:InitializeAccountSettings()
         CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
     end
     
-    -- Initialize core sections (DEFAULT: ENABLED)
-    -- Use ~= false pattern to default to true
+    -- Initialize core sections
     for key, defaultValue in pairs(defaults.CORE) do
-        CharacterMarkdownSettings[key] = CharacterMarkdownSettings[key] ~= false
+        if CharacterMarkdownSettings[key] == nil then
+            CharacterMarkdownSettings[key] = defaultValue
+            d("  Setting " .. key .. " = " .. tostring(defaultValue))
+        end
     end
     
-    -- Initialize extended sections (DEFAULT: ENABLED)
+    -- Initialize extended sections
     for key, defaultValue in pairs(defaults.EXTENDED) do
-        CharacterMarkdownSettings[key] = CharacterMarkdownSettings[key] ~= false
+        if CharacterMarkdownSettings[key] == nil then
+            CharacterMarkdownSettings[key] = defaultValue
+            d("  Setting " .. key .. " = " .. tostring(defaultValue))
+        end
     end
     
-    -- Initialize link settings (DEFAULT: ENABLED)
+    -- Initialize link settings
     for key, defaultValue in pairs(defaults.LINKS) do
-        CharacterMarkdownSettings[key] = CharacterMarkdownSettings[key] ~= false
+        if CharacterMarkdownSettings[key] == nil then
+            CharacterMarkdownSettings[key] = defaultValue
+            d("  Setting " .. key .. " = " .. tostring(defaultValue))
+        end
     end
     
     -- Initialize skill filters with explicit defaults
-    CharacterMarkdownSettings.minSkillRank = CharacterMarkdownSettings.minSkillRank or defaults.SKILL_FILTERS.minSkillRank
-    CharacterMarkdownSettings.hideMaxedSkills = CharacterMarkdownSettings.hideMaxedSkills or defaults.SKILL_FILTERS.hideMaxedSkills
+    if CharacterMarkdownSettings.minSkillRank == nil then
+        CharacterMarkdownSettings.minSkillRank = defaults.SKILL_FILTERS.minSkillRank
+    end
+    if CharacterMarkdownSettings.hideMaxedSkills == nil then
+        CharacterMarkdownSettings.hideMaxedSkills = defaults.SKILL_FILTERS.hideMaxedSkills
+    end
     
     -- Initialize equipment filters with explicit defaults
-    CharacterMarkdownSettings.minEquipQuality = CharacterMarkdownSettings.minEquipQuality or defaults.EQUIPMENT_FILTERS.minEquipQuality
-    CharacterMarkdownSettings.hideEmptySlots = CharacterMarkdownSettings.hideEmptySlots or defaults.EQUIPMENT_FILTERS.hideEmptySlots
+    if CharacterMarkdownSettings.minEquipQuality == nil then
+        CharacterMarkdownSettings.minEquipQuality = defaults.EQUIPMENT_FILTERS.minEquipQuality
+    end
+    if CharacterMarkdownSettings.hideEmptySlots == nil then
+        CharacterMarkdownSettings.hideEmptySlots = defaults.EQUIPMENT_FILTERS.hideEmptySlots
+    end
     
     -- Validate quality setting
     if not defaults:IsValidQuality(CharacterMarkdownSettings.minEquipQuality) then
         CharacterMarkdownSettings.minEquipQuality = defaults.EQUIPMENT_FILTERS.minEquipQuality
     end
+    
+    -- Debug: Log a few settings to verify they were set
+    d("[CharacterMarkdown] Sample settings initialized:")
+    d("  includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
+    d("  includeEquipment = " .. tostring(CharacterMarkdownSettings.includeEquipment))
+    d("  includeCurrency = " .. tostring(CharacterMarkdownSettings.includeCurrency))
+    d("  currentFormat = " .. tostring(CharacterMarkdownSettings.currentFormat))
 end
 
 -- =====================================================
