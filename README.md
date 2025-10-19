@@ -248,4 +248,4 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 
 [⭐ Star on GitHub](https://github.com/YOUR_USERNAME/CharacterMarkdown) • [📥 Download](https://www.esoui.com/downloads/info####-CharacterMarkdown.html) • [📖 Documentation](docs/)
 
-</div>
+</div># CharacterMarkdown
