@@ -33,6 +33,19 @@ src/collectors/World.lua
 src/collectors/Companion.lua
 
 ## Markdown generator (depends on collectors + links)
+## Helper utilities for generators
+src/generators/helpers/Utilities.lua
+
+## Section generators (modular markdown generation)
+src/generators/sections/Character.lua
+src/generators/sections/Economy.lua
+src/generators/sections/Equipment.lua
+src/generators/sections/Combat.lua
+src/generators/sections/Content.lua
+src/generators/sections/Companion.lua
+src/generators/sections/Footer.lua
+
+## Main markdown generator (orchestrates section generators)
 src/generators/Markdown.lua
 
 ## Command system and events (depend on generators)
