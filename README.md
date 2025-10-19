@@ -3,7 +3,7 @@
 > **Generate comprehensive markdown character profiles for Elder Scrolls Online**
 
 [![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](CHANGELOG.md)
-[![API Version](https://img.shields.io/badge/ESO_API-101046-green.svg)](https://www.esoui.com/)
+[![API Version](https://img.shields.io/badge/ESO_API-101047-green.svg)](https://www.esoui.com/)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
 ---
@@ -42,6 +42,7 @@ CharacterMarkdown is an ESO addon that generates detailed markdown-formatted cha
 
 ### Examples
 - **[Champion Points](docs/examples/champion-points.md)** - Sample CP allocation
+- **[Sample Character Profile](docs/examples/Pelatiah.md)** - Complete character profile example
 
 ---
 
@@ -176,8 +177,8 @@ Open settings via **ESC → Settings → Add-Ons → CharacterMarkdown**
 
 ## ⚙️ Requirements
 
-- **ESO Version:** Update 46 (Gold Road) or later
-- **API Version:** 101046
+- **ESO Version:** Update 47 (Feast of Shadows) or later
+- **API Version:** 101047
 - **Dependencies:** 
   - [LibAddonMenu-2.0](https://www.esoui.com/downloads/info7-LibAddonMenu.html) (for settings panel)
 

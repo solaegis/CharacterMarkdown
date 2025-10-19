@@ -249,6 +249,7 @@ read_globals = {
     "EVENT_ADD_ON_LOADED",
     
     -- ESO Managers
+    "CHAT_SYSTEM",
     "EVENT_MANAGER",
     "SCENE_MANAGER",
     
