@@ -20,9 +20,12 @@ dist
 # Documentation
 docs
 *.md
-README*
+README.md
 CHANGELOG*
 LICENSE
+
+# Keep README_ESOUI.txt for ESOUI upload action
+# README_ESOUI.txt
 
 # Development Tools
 .pre-commit-config.yaml
