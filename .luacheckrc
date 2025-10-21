@@ -247,6 +247,7 @@ read_globals = {
     
     -- ESO Event Constants
     "EVENT_ADD_ON_LOADED",
+    "EVENT_PLAYER_ACTIVATED",
     
     -- ESO Managers
     "CHAT_SYSTEM",
@@ -255,6 +256,7 @@ read_globals = {
     
     -- ESO Libraries
     "LibAddonMenu2",
+    "LibDebugLogger",
     
     -- Standard Lua globals used in ESO
     "zo_callLater",
