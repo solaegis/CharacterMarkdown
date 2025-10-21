@@ -9,7 +9,7 @@ env:
   ADDON_NAME: CharacterMarkdown
   ESOUI_ADDON_ID: '4279'
   ESO_API_VERSION: '11.0.0'
-  LUA_VERSION: "luajit-2.1.0-beta3"
+  LUA_VERSION: "5.1"
   BUILD_DIR: "/tmp/CharacterMarkdown"
   # Optional: Set to update API version automatically (e.g., 101047)
   # UPDATE_API_VERSION: ""
