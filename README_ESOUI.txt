@@ -90,6 +90,7 @@ COMMANDS
 /markdown discord  Exports in compact Discord format
 /markdown vscode   Exports in VS Code-friendly format
 /markdown quick    Generates single-line summary
+/cmdsettings       Opens the settings panel directly
 
 
 USAGE INSTRUCTIONS
