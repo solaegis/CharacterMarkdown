@@ -1,19 +1,81 @@
--- CharacterMarkdown - Initialization
--- Final setup after all modules loaded
+-- CharacterMarkdown - Final Initialization
+-- Validates all modules loaded and displays status (ESO Guideline Compliant)
 
 local CM = CharacterMarkdown
 
-d("[CharacterMarkdown] ========================================")
-d("[CharacterMarkdown] Final initialization check:")
-d("[CharacterMarkdown] - Namespace exists: " .. tostring(CM ~= nil))
-d("[CharacterMarkdown] - utils: " .. tostring(CM.utils ~= nil))
-d("[CharacterMarkdown] - links: " .. tostring(CM.links ~= nil))
-d("[CharacterMarkdown] - collectors: " .. tostring(CM.collectors ~= nil))
-d("[CharacterMarkdown] - generators: " .. tostring(CM.generators ~= nil))
-d("[CharacterMarkdown] - commands: " .. tostring(CM.commands ~= nil))
-d("[CharacterMarkdown] - events: " .. tostring(CM.events ~= nil))
-d("[CharacterMarkdown] - CommandHandler: " .. tostring(CM.commands.CommandHandler ~= nil))
-d("[CharacterMarkdown] - SLASH_COMMANDS['/markdown']: " .. tostring(SLASH_COMMANDS["/markdown"] ~= nil))
-d("[CharacterMarkdown] ========================================")
-d("[CharacterMarkdown] All modules loaded successfully")
-d("[CharacterMarkdown] Ready to use. Type /markdown to generate a character profile")
+-- =====================================================
+-- FINAL VALIDATION
+-- =====================================================
+
+CM.DebugPrint("INIT", "Running final validation...")
+
+-- Validate all required modules
+local validationResults = {
+    core = (CM ~= nil),
+    utils = (CM.utils ~= nil),
+    links = (CM.links ~= nil),
+    collectors = (CM.collectors ~= nil),
+    generators = (CM.generators ~= nil),
+    commands = (CM.commands ~= nil),
+    events = (CM.events ~= nil),
+    settings = (CM.Settings ~= nil),
+}
+
+-- Check for failures
+local allValid = true
+for module, isValid in pairs(validationResults) do
+    if not isValid then
+        CM.Error(string.format("Module '%s' failed to load!", module))
+        allValid = false
+    else
+        CM.DebugPrint("INIT", string.format("✓ %s loaded", module))
+    end
+end
+
+if not allValid then
+    CM.Error("Addon initialization incomplete! Some modules failed to load.")
+    CM.Error("Try /reloadui to restart the addon.")
+    return
+end
+
+-- Validate critical functions
+local criticalFunctions = {
+    {name = "CommandHandler", ref = CM.commands.CommandHandler},
+    {name = "GenerateMarkdown", ref = CM.generators.GenerateMarkdown},
+    {name = "CollectCharacterData", ref = CM.collectors.CollectCharacterData},
+}
+
+for _, func in ipairs(criticalFunctions) do
+    if not func.ref or type(func.ref) ~= "function" then
+        CM.Error(string.format("Critical function '%s' not available!", func.name))
+        allValid = false
+    else
+        CM.DebugPrint("INIT", string.format("✓ %s available", func.name))
+    end
+end
+
+if not allValid then
+    CM.Error("Critical functions missing! Addon may not work correctly.")
+    return
+end
+
+-- Validate slash command registered
+if not SLASH_COMMANDS["/markdown"] then
+    CM.Error("/markdown command not registered!")
+    allValid = false
+else
+    CM.DebugPrint("INIT", "✓ /markdown command registered")
+end
+
+-- =====================================================
+-- INITIALIZATION COMPLETE
+-- =====================================================
+
+if allValid then
+    CM.DebugPrint("INIT", "===========================================")
+    CM.DebugPrint("INIT", "CharacterMarkdown v" .. CM.version .. " - All modules loaded")
+    CM.DebugPrint("INIT", "Type /markdown to generate a character profile")
+    CM.DebugPrint("INIT", "===========================================")
+else
+    CM.Error("Initialization completed with errors")
+end

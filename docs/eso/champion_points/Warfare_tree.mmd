@@ -1,0 +1,117 @@
+graph TB
+    %% ===== LEGEND =====
+    %% Yellow nodes = Passive (always active)
+    %% Blue nodes = Slottable (must be equipped in Champion Bar)
+    %% Purple nodes = Sub-constellation entry points
+
+    %% ===== CENTER / STARTING NODES =====
+    Start[Warfare Tree Entry Point]
+
+    %% Three base starting nodes - always accessible
+    Start -->|0 pts| EI["Eldritch Insight<br/>(PASSIVE)<br/>+260 Max Magicka/stage<br/>Max stages: 20<br/>Size stage: 13"]
+    Start -->|0 pts| Prec["Precision<br/>(PASSIVE)<br/>+160 Crit Rating/stage<br/>Max stages: 20<br/>Size stage: 8"]
+    Start -->|0 pts| TD["Tireless Discipline<br/>(PASSIVE)<br/>+260 Max Stamina/stage<br/>Max stages: 20<br/>Size stage: 13"]
+
+    %% ===== INDEPENDENT NODES (No prerequisites) =====
+    Start -.->|Always Available| UA["Untamed Aggression<br/>(SLOTTABLE)<br/>+3 Weapon/Spell Dmg/stage<br/>Max stages: 50<br/>Size stage: 1"]
+    Start -.->|Always Available| ArcSup["Arcane Supremacy<br/>(SLOTTABLE)<br/>+26 Max Magicka/stage<br/>Max stages: 50<br/>Size stage: 1"]
+    Start -.->|Always Available| EndEnd["Endless Endurance<br/>(SLOTTABLE)<br/>+26 Max Stamina/stage<br/>Max stages: 50<br/>Size stage: 1"]
+
+    %% ===== LEFT BRANCH - HEALING PATH (from Eldritch Insight) =====
+    EI -->|10 pts| Blessed["Blessed<br/>(PASSIVE)<br/>+1% Healing Done/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    Blessed -->|10 pts| SwiftRen["Swift Renewal<br/>(SLOTTABLE)<br/>+2% Healing Over Time/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    Blessed -->|10 pts| SoothTide["Soothing Tide<br/>(SLOTTABLE)<br/>+2% AoE Healing/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    SwiftRen -->|10 pts| Foresight["Foresight<br/>(SLOTTABLE)<br/>75% spell cost reduction<br/>after potion (6 sec)<br/>Single stage: 50<br/>Size stage: 50"]
+
+    SoothTide -->|10 pts| FocusMend["Focused Mending<br/>(SLOTTABLE)<br/>+2% Single Target Healing/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    SoothTide -->|10 pts| Rejuv["Rejuvenator<br/>(SLOTTABLE)<br/>+41 Spell Dmg to heals/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    Blessed -->|10 pts| HopeInf["Hope Infusion<br/>(SLOTTABLE)<br/>Minor Heroism on heal<br/>at <50% health<br/>Max stages: 50<br/>Size stage: 0.2"]
+    Blessed -->|10 pts| SalveRen["Salve of Renewal<br/>(SLOTTABLE)<br/>Ground heal on cleanse<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    EI -->|10 pts| FromBrink["From the Brink<br/>(SLOTTABLE)<br/>Shield on heal at <25%<br/>Max stages: 50<br/>Size stage: 0.2"]
+    FromBrink -->|10 pts| EnlivOver["Enlivening Overflow<br/>(SLOTTABLE)<br/>Overheal grants recovery<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    SwiftRen -->|10 pts| CleanReviv["Cleansing Revival<br/>(SLOTTABLE)<br/>Remove debuffs on rez<br/>Single stage: 50<br/>Size stage: 50"]
+
+    %% ===== CENTER-UPPER BRANCH - CRITICAL/DAMAGE PATH (from Precision) =====
+    Prec -->|10 pts| FightFin["Fighting Finesse<br/>(SLOTTABLE)<br/>+4% Crit Damage/Healing/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    Prec -->|10 pts| MasterArms["Master-at-Arms<br/>(SLOTTABLE)<br/>+3% Direct Damage/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    Prec -->|10 pts| Thaum["Thaumaturge<br/>(SLOTTABLE)<br/>+3% DoT Damage/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    FightFin -->|10 pts| WeapExpert["Weapons Expert<br/>(SLOTTABLE)<br/>+4% Light/Heavy Attack Dmg/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    MasterArms -->|30 pts| Exploit["Exploiter<br/>(SLOTTABLE)<br/>+2% dmg vs Off Balance/stage<br/>Max stages: 50<br/>Size stage: 0.6"]
+
+    Thaum -->|30 pts| OccultOver["Occult Overload<br/>(SLOTTABLE)<br/>Kill enemy with status effect<br/>causes explosion<br/>Max stages: 50<br/>Size stage: 0.6"]
+
+    Prec -->|10 pts| FlawRitual["Flawless Ritual<br/>(SLOTTABLE)<br/>+30% Magical status chance/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    Prec -->|10 pts| BattleMast["Battle Mastery<br/>(SLOTTABLE)<br/>+30% Martial status chance/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    EI -->|10 pts| WarMage["War Mage<br/>(PASSIVE)<br/>+100 Wpn/Spell Dmg<br/>to Magical attacks<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    TD -->|10 pts| Mighty["Mighty<br/>(PASSIVE)<br/>+100 Wpn/Spell Dmg<br/>to Martial attacks<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    %% ===== RIGHT BRANCH - PHYSICAL DAMAGE PATH (from Tireless Discipline) =====
+    TD -->|10 pts| WrathStrike["Wrathful Strikes<br/>(SLOTTABLE)<br/>+41 Wpn/Spell Dmg to<br/>damaging abilities/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    TD -->|10 pts| Backstab["Backstabber<br/>(SLOTTABLE)<br/>+2% Crit Dmg when<br/>flanking/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    TD -->|10 pts| ReavBlow["Reaving Blows<br/>(SLOTTABLE)<br/>Heal for 7% of<br/>direct damage done<br/>Single stage: 50<br/>Size stage: 50"]
+
+    %% ===== DEFENSE/PENETRATION NODES =====
+    TD -->|10 pts| Piercing["Piercing<br/>(PASSIVE)<br/>+350 Penetration/stage<br/>Max stages: 20<br/>Size stage: 17.5"]
+    TD -->|10 pts| Prep["Preparation<br/>(PASSIVE)<br/>-5% dmg taken from<br/>non-players/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    %% ===== CENTRAL DEFENSIVE NODE - BULWARK (Requires both EI and TD) =====
+    EI -->|30 pts total| Bulwark["Bulwark<br/>(SLOTTABLE)<br/>+1900 Phys/Spell Resist<br/>with Shield/Frost Staff<br/>Single stage: 50<br/>Size stage: 50"]
+    TD -->|30 pts total| Bulwark
+
+    Bulwark -->|10 pts| Hardy["Hardy<br/>(PASSIVE)<br/>-1% Martial damage/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    Bulwark -->|10 pts| ElemAegis["Elemental Aegis<br/>(PASSIVE)<br/>-1% Magical damage/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    Hardy -->|10 pts| Ironclad["Ironclad<br/>(SLOTTABLE)<br/>-3% direct damage/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    ElemAegis -->|10 pts| Ironclad
+
+    Bulwark -->|10 pts| Riposte["Riposte<br/>(SLOTTABLE)<br/>+33% dmg on next attack<br/>after blocking<br/>Single stage: 50<br/>Size stage: 50"]
+
+    %% ===== FORCE OF NATURE (Requires both EI and Prec) =====
+    EI -->|30 pts total| ForceNat["Force of Nature<br/>(SLOTTABLE)<br/>+660 Penetration per<br/>status effect on target<br/>Single stage: 50<br/>Size stage: 50"]
+    Prec -->|30 pts total| ForceNat
+
+    %% ===== SUB-CONSTELLATION: STAVING DEATH =====
+    %% Entry point requires 75 pts from both EI and TD paths
+    EI -->|75 pts total| StavDeath["╔══════════════╗<br/>║ STAVING DEATH ║<br/>║ (SUB-TREE) ║<br/>╚══════════════╝<br/>Quick Recovery (PASSIVE)<br/>+1% Healing Taken/stage<br/>Max stages: 50<br/>Size stage: 1.5"]
+    TD -->|75 pts total| StavDeath
+
+    StavDeath -->|10 pts| Unassail["Unassailable<br/>(SLOTTABLE)<br/>-3% AoE dmg taken/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    StavDeath -->|10 pts| DuelRebuff["Duelist's Rebuff<br/>(SLOTTABLE)<br/>-3% single target<br/>dmg taken/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    StavDeath -->|10 pts| Resil["Resilience<br/>(PASSIVE)<br/>+132 Crit Resistance/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    Resil -->|10 pts| EndResolve["Enduring Resolve<br/>(SLOTTABLE)<br/>-3% DoT dmg taken/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    Resil -->|10 pts| Reinforced["Reinforced<br/>(SLOTTABLE)<br/>Shield on block start<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    StavDeath -->|50 pts| LastStand["Last Stand<br/>(SLOTTABLE)<br/>Major Heroism at <20% HP<br/>Single stage: 50<br/>Size stage: 50"]
+
+    %% ===== SUB-CONSTELLATION: EXTENDED MIGHT =====
+    %% Entry point requires 75 pts from TD path
+    TD -->|75 pts total| ExtMight["╔═══════════════╗<br/>║ EXTENDED MIGHT ║<br/>║ (SUB-TREE) ║<br/>╚═══════════════╝<br/>(Contains independent nodes:<br/>Arcane Supremacy,<br/>Endless Endurance)"]
+
+    ExtMight -->|10 pts| BitingAura["Biting Aura<br/>(SLOTTABLE)<br/>+3% AoE Damage/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    ExtMight -->|10 pts| DeadlyAim["Deadly Aim<br/>(SLOTTABLE)<br/>+3% Single Target Dmg/stage<br/>Max stages: 50<br/>Size stage: 0.2"]
+    ExtMight -->|10 pts| CuttingDef["Cutting Defense<br/>(SLOTTABLE)<br/>Reduce Break Free cost<br/>Max stages: 50<br/>Size stage: 0.2"]
+
+    %% ===== STYLING =====
+    classDef passive fill:#FFD700,stroke:#B8860B,stroke-width:2px,color:#000
+    classDef slottable fill:#4169E1,stroke:#000080,stroke-width:2px,color:#FFF
+    classDef subTree fill:#9370DB,stroke:#4B0082,stroke-width:3px,color:#FFF
+    classDef independent fill:#32CD32,stroke:#006400,stroke-width:2px,color:#000
+
+    class EI,Prec,TD,Blessed,Hardy,ElemAegis,WarMage,Mighty,Piercing,Prep passive
+    class UA,ArcSup,EndEnd independent
+    class SwiftRen,SoothTide,FocusMend,Rejuv,HopeInf,SalveRen,FromBrink,EnlivOver,CleanReviv,Foresight slottable
+    class FightFin,MasterArms,Thaum,WeapExpert,Exploit,OccultOver,FlawRitual,BattleMast slottable
+    class WrathStrike,Backstab,ReavBlow,Bulwark,Ironclad,Riposte,ForceNat slottable
+    class Unassail,DuelRebuff,Resil,EndResolve,Reinforced,LastStand slottable
+    class BitingAura,DeadlyAim,CuttingDef slottable
+    class StavDeath,ExtMight subTree

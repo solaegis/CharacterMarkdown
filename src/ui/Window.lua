@@ -1,12 +1,11 @@
 -- CharacterMarkdown - UI Window Handler
 -- Manages the display window with direct EditBox (no scroll wrapper)
-
-d("[CharacterMarkdown] Loading UI/Window.lua module...")
+-- ESO Guideline Compliant - Uses LibDebugLogger for debug output
 
 local CM = CharacterMarkdown
 
 if not CM then
-    d("[CharacterMarkdown] ❌ ERROR: CharacterMarkdown namespace not found in UI/Window.lua!")
+    CM.Error("CharacterMarkdown namespace not found in UI/Window.lua!")
     return
 end
 
@@ -32,7 +31,7 @@ local function InitializeWindowControls()
     windowControl = CharacterMarkdownWindow
     
     if not windowControl then
-        d("[CharacterMarkdown] ❌ ERROR: Window control not found! XML may not have loaded.")
+        CM.Error("Window control not found! XML may not have loaded.")
         return false
     end
     
@@ -40,7 +39,7 @@ local function InitializeWindowControls()
     editBoxControl = CharacterMarkdownWindowTextContainerEditBox
     
     if not editBoxControl then
-        d("[CharacterMarkdown] ❌ ERROR: EditBox control not found!")
+        CM.Error("EditBox control not found!")
         return false
     end
     
@@ -48,7 +47,7 @@ local function InitializeWindowControls()
     clipboardEditBoxControl = CharacterMarkdownWindowTextContainerClipboardEditBox
     
     if not clipboardEditBoxControl then
-        d("[CharacterMarkdown] ⚠️ WARNING: Clipboard EditBox not found - using main EditBox")
+        CM.Warn("Clipboard EditBox not found - using main EditBox")
     end
     
     -- Configure EditBox with INCREASED character limit and READ-ONLY mode
@@ -61,7 +60,7 @@ local function InitializeWindowControls()
     editBoxControl:SetFont("ZoFontChat")
     editBoxControl:SetColor(1, 1, 1, 1)  -- White text
     
-    d("[CharacterMarkdown] ✅ Window controls initialized successfully")
+    CM.DebugPrint("UI", "Window controls initialized successfully")
     return true
 end
 
@@ -71,18 +70,9 @@ end
 
 function CharacterMarkdown_CopyToClipboard()
     if not editBoxControl or not currentMarkdown or currentMarkdown == "" then
-        d("[CharacterMarkdown] ❌ ERROR: No content to copy")
+        CM.Warn("No content to copy")
         return
     end
-    
-    local markdownLength = string.len(currentMarkdown)
-    d("[CharacterMarkdown] Preparing to copy " .. markdownLength .. " characters")
-    
-    -- Show the EXACT last 200 characters of the markdown
-    local last200 = string.sub(currentMarkdown, -200)
-    d("[CharacterMarkdown] ===== LAST 200 CHARACTERS OF MARKDOWN =====")
-    d(last200)
-    d("[CharacterMarkdown] ===== END OF MARKDOWN =====")
     
     -- Refresh the EditBox with full text
     editBoxControl:SetEditEnabled(true)
@@ -95,9 +85,8 @@ function CharacterMarkdown_CopyToClipboard()
         editBoxControl:SelectAll()
         editBoxControl:TakeFocus()
         
-        d("[CharacterMarkdown] ✅ Text selected!")
-        d("[CharacterMarkdown] Copy workaround: Press Ctrl+A, then Ctrl+C")
-        d("[CharacterMarkdown] After copying, paste and check if you have the ending shown above")
+        -- Only show in chat if user explicitly wants feedback
+        CM.DebugPrint("UI", "Text selected - Press Ctrl+C to copy")
     end, 100)
 end
 
@@ -107,11 +96,11 @@ end
 
 function CharacterMarkdown_RegenerateMarkdown()
     if not CM or not CM.generators or not CM.generators.GenerateMarkdown then
-        d("[CharacterMarkdown] ❌ ERROR: Generator not available")
+        CM.Error("Generator not available")
         return
     end
     
-    d("[CharacterMarkdown] 🔄 Regenerating markdown...")
+    CM.DebugPrint("UI", "Regenerating markdown...")
     
     -- Get current format (default to github if not stored)
     local format = CM.currentFormat or "github"
@@ -125,13 +114,12 @@ function CharacterMarkdown_RegenerateMarkdown()
     local success, markdown = pcall(CM.generators.GenerateMarkdown, format)
     
     if not success then
-        d("[CharacterMarkdown] ❌ ERROR: Failed to regenerate markdown")
-        d("[CharacterMarkdown] Error: " .. tostring(markdown))
+        CM.Error("Failed to regenerate markdown: " .. tostring(markdown))
         return
     end
     
     if not markdown or markdown == "" then
-        d("[CharacterMarkdown] ❌ ERROR: Generated markdown is empty")
+        CM.Error("Generated markdown is empty")
         return
     end
     
@@ -148,10 +136,7 @@ function CharacterMarkdown_RegenerateMarkdown()
     zo_callLater(function()
         editBoxControl:SelectAll()
         editBoxControl:TakeFocus()
-        
-        local markdownLength = string.len(markdown)
-        d("[CharacterMarkdown] ✅ Regenerated " .. markdownLength .. " characters")
-        d("[CharacterMarkdown] ✅ Text selected and ready to copy")
+        CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
     end, 100)
 end
 
@@ -162,7 +147,7 @@ end
 function CharacterMarkdown_ShowWindow(markdown, format)
     -- Validate inputs
     if not markdown or markdown == "" then
-        d("[CharacterMarkdown] ❌ ERROR: No markdown content provided to window")
+        CM.Error("No markdown content provided to window")
         return false
     end
     
@@ -173,7 +158,7 @@ function CharacterMarkdown_ShowWindow(markdown, format)
     
     -- Initialize controls if needed
     if not InitializeWindowControls() then
-        d("[CharacterMarkdown] ❌ Window initialization failed")
+        CM.Error("Window initialization failed")
         return false
     end
     
@@ -185,23 +170,6 @@ function CharacterMarkdown_ShowWindow(markdown, format)
     editBoxControl:SetText(markdown)
     editBoxControl:SetColor(1, 1, 1, 1)  -- White text
     editBoxControl:SetEditEnabled(false)  -- Make read-only again
-    
-    -- Debug: Verify text was set correctly
-    local textLength = string.len(markdown)
-    local editBoxText = editBoxControl:GetText()
-    local editBoxLength = string.len(editBoxText)
-    
-    d("[CharacterMarkdown] Original markdown: " .. textLength .. " characters")
-    d("[CharacterMarkdown] EditBox contains: " .. editBoxLength .. " characters")
-    
-    if editBoxLength < textLength then
-        d("[CharacterMarkdown] ⚠️ WARNING: EditBox truncated " .. (textLength - editBoxLength) .. " characters!")
-        d("[CharacterMarkdown] However, 'Copy to Clipboard' will use the FULL original text.")
-    end
-    
-    -- Show last 100 characters of original markdown
-    local markdownEnd = string.sub(markdown, -100)
-    d("[CharacterMarkdown] Last 100 chars of markdown: ..." .. markdownEnd)
     
     -- Show window
     windowControl:SetHidden(false)
@@ -217,8 +185,7 @@ function CharacterMarkdown_ShowWindow(markdown, format)
         editBoxControl:TakeFocus()
     end, 100)
     
-    d("[CharacterMarkdown] ✅ Window opened - text should be visible as WHITE on DARK background")
-    d("[CharacterMarkdown] ✅ Click 'Select All' button, then press Ctrl+C (or Cmd+C) to copy")
+    CM.DebugPrint("UI", "Window opened successfully")
     
     return true
 end
@@ -234,7 +201,7 @@ function CharacterMarkdown_CloseWindow()
         end
         windowControl:SetHidden(true)
         currentMarkdown = ""
-        d("[CharacterMarkdown] Window closed")
+        CM.DebugPrint("UI", "Window closed")
     end
 end
 
@@ -254,6 +221,4 @@ end
 
 EVENT_MANAGER:RegisterForEvent("CharacterMarkdown_UI", EVENT_ADD_ON_LOADED, OnAddOnLoaded)
 
-d("[CharacterMarkdown] ✅ UI/Window.lua module loaded successfully")
-d("[CharacterMarkdown] CharacterMarkdown_ShowWindow: " .. tostring(CharacterMarkdown_ShowWindow))
-d("[CharacterMarkdown] CharacterMarkdown_CopyToClipboard: " .. tostring(CharacterMarkdown_CopyToClipboard))
+CM.DebugPrint("UI", "Window module loaded successfully")

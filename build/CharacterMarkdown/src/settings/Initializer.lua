@@ -1,187 +1,235 @@
--- CharacterMarkdown v2.1.0 - Settings Initializer
--- Handles settings initialization and saved variables setup
+-- CharacterMarkdown v2.1.1 - Settings Initializer
+-- Handles settings initialization with proper SavedVariables (ESO Guideline Compliant)
 -- Author: solaegis
+-- FIX: Direct assignment to avoid pairs() on userdata
 
 CharacterMarkdown = CharacterMarkdown or {}
 CharacterMarkdown.Settings = CharacterMarkdown.Settings or {}
 CharacterMarkdown.Settings.Initializer = {}
+
+local CM = CharacterMarkdown
 
 -- =====================================================
 -- INITIALIZATION
 -- =====================================================
 
 function CharacterMarkdown.Settings.Initializer:Initialize()
-    -- Use delayed message to ensure it shows up
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Initialize() called")
-        end
-    end, 100)
-    
-    -- Initialize account-wide settings with defaults
+    -- Initialize account-wide settings
     self:InitializeAccountSettings()
     
     -- Initialize per-character data
     self:InitializeCharacterData()
     
-    -- Sync format to core if available
-    if CharacterMarkdown.currentFormat then
+    -- Sync format to core
+    if CharacterMarkdown.currentFormat and CharacterMarkdownSettings then
         CharacterMarkdown.currentFormat = CharacterMarkdownSettings.currentFormat
     end
-    
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Settings initialized, includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
-        end
-    end, 200)
     
     return true
 end
 
 -- =====================================================
--- ACCOUNT-WIDE SETTINGS
+-- ACCOUNT-WIDE SETTINGS (DIRECT ASSIGNMENT)
 -- =====================================================
 
 function CharacterMarkdown.Settings.Initializer:InitializeAccountSettings()
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: InitializeAccountSettings() called")
+    -- ESO automatically creates CharacterMarkdownSettings as userdata
+    -- DO NOT initialize it ourselves: CharacterMarkdownSettings = CharacterMarkdownSettings or {}
+    -- That would create a local table and prevent ESO from saving it!
+    
+    -- Check if ESO created the SavedVariables (should always exist after EVENT_ADD_ON_LOADED)
+    if not CharacterMarkdownSettings then
+        CM.Error("CRITICAL: CharacterMarkdownSettings not created by ESO!")
+        CM.Error("SavedVariables file will not be created until settings are changed.")
+        
+        -- Create a temporary table for this session only
+        -- This allows the addon to function but settings won't persist
+        CharacterMarkdownSettings = {}
+        CharacterMarkdownData = {}
+        
+        CM.DebugPrint("SETTINGS", "Using temporary settings - changes will not persist until SavedVariables are created")
+        return
+    end
+    
+    -- Access the settings directly
+    local settings = CharacterMarkdownSettings
+    
+    -- Check version for migrations
+    local savedVersion = settings.settingsVersion
+    local isFirstRun = (savedVersion == nil)
+    
+    -- Set version and force save on first run
+    if settings.settingsVersion == nil then
+        settings.settingsVersion = 1
+        -- Force ESO to recognize this as a change that needs saving
+        settings._initialized = true
+    end
+    
+    -- Format
+    if settings.currentFormat == nil then
+        settings.currentFormat = "github"
+    end
+    
+    -- Core sections (DEFAULT: ENABLED)
+    if settings.includeChampionPoints == nil then
+        settings.includeChampionPoints = true
+    end
+    
+    if settings.includeChampionDiagram == nil then
+        settings.includeChampionDiagram = false
+    end
+    
+    if settings.includeSkillBars == nil then
+        settings.includeSkillBars = true
+    end
+    
+    if settings.includeSkills == nil then
+        settings.includeSkills = true
+    end
+    
+    if settings.includeEquipment == nil then
+        settings.includeEquipment = true
+    end
+    
+    if settings.includeCompanion == nil then
+        settings.includeCompanion = true
+    end
+    
+    if settings.includeCombatStats == nil then
+        settings.includeCombatStats = true
+    end
+    
+    if settings.includeBuffs == nil then
+        settings.includeBuffs = true
+    end
+    
+    if settings.includeAttributes == nil then
+        settings.includeAttributes = true
+    end
+    
+    if settings.includeRole == nil then
+        settings.includeRole = true
+    end
+    
+    if settings.includeLocation == nil then
+        settings.includeLocation = true
+    end
+    
+    -- Extended sections (DEFAULT: SELECTIVE)
+    if settings.includeDLCAccess == nil then
+        settings.includeDLCAccess = true
+    end
+    
+    if settings.includeCurrency == nil then
+        settings.includeCurrency = true
+    end
+    
+    if settings.includeProgression == nil then
+        settings.includeProgression = false
+    end
+    
+    if settings.includeRidingSkills == nil then
+        settings.includeRidingSkills = false
+    end
+    
+    if settings.includeInventory == nil then
+        settings.includeInventory = true
+    end
+    
+    if settings.includePvP == nil then
+        settings.includePvP = false
+    end
+    
+    if settings.includeCollectibles == nil then
+        settings.includeCollectibles = true
+    end
+    
+    if settings.includeCollectiblesDetailed == nil then
+        settings.includeCollectiblesDetailed = false
+    end
+    
+    if settings.includeCrafting == nil then
+        settings.includeCrafting = false
+    end
+    
+    -- Link settings
+    if settings.enableAbilityLinks == nil then
+        settings.enableAbilityLinks = true
+    end
+    
+    if settings.enableSetLinks == nil then
+        settings.enableSetLinks = true
+    end
+    
+    -- Skill filters
+    if settings.minSkillRank == nil then
+        settings.minSkillRank = 1
+    end
+    
+    if settings.hideMaxedSkills == nil then
+        settings.hideMaxedSkills = false
+    end
+    
+    -- Equipment filters
+    if settings.minEquipQuality == nil then
+        settings.minEquipQuality = 0
+    end
+    
+    if settings.hideEmptySlots == nil then
+        settings.hideEmptySlots = false
+    end
+    
+    -- MIGRATION: Force-enable settings that should be true
+    local shouldBeEnabled = {
+        "includeChampionPoints",
+        "includeSkillBars",
+        "includeSkills",
+        "includeEquipment",
+        "includeCompanion",
+        "includeCombatStats",
+        "includeBuffs",
+        "includeAttributes",
+        "includeRole",
+        "includeLocation",
+        "includeDLCAccess",
+        "includeCurrency",
+        "includeInventory",
+        "includeCollectibles",
+    }
+    
+    for _, key in ipairs(shouldBeEnabled) do
+        if settings[key] == false then
+            settings[key] = true
+        CM.DebugPrint("SETTINGS", "Migrated setting to enabled:", key)
         end
-    end, 150)
+    end
     
-    -- Ensure the saved variable table exists
-    CharacterMarkdownSettings = CharacterMarkdownSettings or {}
-    
-    local defaults = CharacterMarkdown.Settings.Defaults
-    
-    -- Check if this is a fresh install (no version number means never initialized)
-    local isFirstRun = (CharacterMarkdownSettings.settingsVersion == nil)
-    
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: isFirstRun = " .. tostring(isFirstRun))
-        end
-    end, 160)
-    
+    -- CRITICAL FIX: Force ESO to save the settings by marking them as "dirty"
+    -- ESO only saves SavedVariables when they're modified after initial load
     if isFirstRun then
-        CharacterMarkdownSettings.settingsVersion = 1
+        -- Force a save by making a real change that ESO will recognize
+        settings._initialized = true
+        settings._firstRun = true
         
+        -- Force ESO to recognize this as a change that needs saving
+        -- This is the key: we need to modify the SavedVariables after they're created
         zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Setting all defaults for first run...")
-                CHAT_SYSTEM:AddMessage("  defaults = " .. tostring(defaults))
-                CHAT_SYSTEM:AddMessage("  defaults.CORE = " .. tostring(defaults.CORE))
-                CHAT_SYSTEM:AddMessage("  defaults.CORE.includeChampionPoints = " .. tostring(defaults.CORE and defaults.CORE.includeChampionPoints))
+            if CharacterMarkdownSettings then
+                -- Make a small change to trigger ESO's save mechanism
+                local originalVersion = CharacterMarkdownSettings.settingsVersion or 1
+                CharacterMarkdownSettings.settingsVersion = originalVersion + 0.1
+                CharacterMarkdownSettings.settingsVersion = originalVersion
+                
+                -- Add a timestamp to force save
+                CharacterMarkdownSettings._lastModified = GetTimeStamp()
+                
+                CM.DebugPrint("SETTINGS", "Forced SavedVariables save - file should be created")
             end
-        end, 170)
+        end, 1000)
         
-        -- On first run, explicitly set ALL defaults immediately
-        -- This ensures LAM sees proper values even before saved variables are written
-        
-        -- Debug: Check if we can iterate
-        local coreCount = 0
-        for key, value in pairs(defaults.CORE) do
-            coreCount = coreCount + 1
-            CharacterMarkdownSettings[key] = value
-        end
-        
-        -- Check IMMEDIATELY after setting (not delayed)
-        local immediateCheck = CharacterMarkdownSettings.includeChampionPoints
-        
-        zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("  Set " .. coreCount .. " CORE settings")
-                CHAT_SYSTEM:AddMessage("  IMMEDIATE check after loop: includeChampionPoints = " .. tostring(immediateCheck))
-                CHAT_SYSTEM:AddMessage("  CharacterMarkdownSettings table = " .. tostring(CharacterMarkdownSettings))
-            end
-        end, 175)
-        
-        for key, value in pairs(defaults.EXTENDED) do
-            CharacterMarkdownSettings[key] = value
-        end
-        for key, value in pairs(defaults.LINKS) do
-            CharacterMarkdownSettings[key] = value
-        end
-        for key, value in pairs(defaults.SKILL_FILTERS) do
-            CharacterMarkdownSettings[key] = value
-        end
-        for key, value in pairs(defaults.EQUIPMENT_FILTERS) do
-            CharacterMarkdownSettings[key] = value
-        end
-        CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
-        
-        zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Defaults set! includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
-            end
-        end, 180)
-    else
-        zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Existing settings found (version " .. tostring(CharacterMarkdownSettings.settingsVersion) .. ")")
-            end
-        end, 170)
+        CM.DebugPrint("SETTINGS", "Settings initialized - SavedVariables file will be created")
     end
     
-    -- Initialize format setting
-    CharacterMarkdownSettings.currentFormat = CharacterMarkdownSettings.currentFormat or defaults.FORMAT.currentFormat
-    
-    -- Validate format
-    if not defaults:IsValidFormat(CharacterMarkdownSettings.currentFormat) then
-        CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
-    end
-    
-    -- Initialize core sections
-    for key, defaultValue in pairs(defaults.CORE) do
-        if CharacterMarkdownSettings[key] == nil then
-            CharacterMarkdownSettings[key] = defaultValue
-            d("  Setting " .. key .. " = " .. tostring(defaultValue))
-        end
-    end
-    
-    -- Initialize extended sections
-    for key, defaultValue in pairs(defaults.EXTENDED) do
-        if CharacterMarkdownSettings[key] == nil then
-            CharacterMarkdownSettings[key] = defaultValue
-            d("  Setting " .. key .. " = " .. tostring(defaultValue))
-        end
-    end
-    
-    -- Initialize link settings
-    for key, defaultValue in pairs(defaults.LINKS) do
-        if CharacterMarkdownSettings[key] == nil then
-            CharacterMarkdownSettings[key] = defaultValue
-            d("  Setting " .. key .. " = " .. tostring(defaultValue))
-        end
-    end
-    
-    -- Initialize skill filters with explicit defaults
-    if CharacterMarkdownSettings.minSkillRank == nil then
-        CharacterMarkdownSettings.minSkillRank = defaults.SKILL_FILTERS.minSkillRank
-    end
-    if CharacterMarkdownSettings.hideMaxedSkills == nil then
-        CharacterMarkdownSettings.hideMaxedSkills = defaults.SKILL_FILTERS.hideMaxedSkills
-    end
-    
-    -- Initialize equipment filters with explicit defaults
-    if CharacterMarkdownSettings.minEquipQuality == nil then
-        CharacterMarkdownSettings.minEquipQuality = defaults.EQUIPMENT_FILTERS.minEquipQuality
-    end
-    if CharacterMarkdownSettings.hideEmptySlots == nil then
-        CharacterMarkdownSettings.hideEmptySlots = defaults.EQUIPMENT_FILTERS.hideEmptySlots
-    end
-    
-    -- Validate quality setting
-    if not defaults:IsValidQuality(CharacterMarkdownSettings.minEquipQuality) then
-        CharacterMarkdownSettings.minEquipQuality = defaults.EQUIPMENT_FILTERS.minEquipQuality
-    end
-    
-    -- Debug: Log a few settings to verify they were set
-    d("[CharacterMarkdown] Sample settings initialized:")
-    d("  includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
-    d("  includeEquipment = " .. tostring(CharacterMarkdownSettings.includeEquipment))
-    d("  includeCurrency = " .. tostring(CharacterMarkdownSettings.includeCurrency))
-    d("  currentFormat = " .. tostring(CharacterMarkdownSettings.currentFormat))
 end
 
 -- =====================================================
@@ -189,11 +237,29 @@ end
 -- =====================================================
 
 function CharacterMarkdown.Settings.Initializer:InitializeCharacterData()
-    -- Ensure the saved variable table exists
-    CharacterMarkdownData = CharacterMarkdownData or {}
+    -- ESO automatically creates CharacterMarkdownData as userdata
+    -- DO NOT initialize it: CharacterMarkdownData = CharacterMarkdownData or {}
+    
+    if not CharacterMarkdownData then
+        CM.Error("CRITICAL: CharacterMarkdownData not created by ESO!")
+        CM.Error("Character data will not persist between sessions.")
+        
+        -- Create a temporary table for this session only
+        CharacterMarkdownData = {}
+        
+        CM.DebugPrint("SETTINGS", "Using temporary character data - changes will not persist")
+    end
     
     -- Initialize custom notes
-    CharacterMarkdownData.customNotes = CharacterMarkdownData.customNotes or CharacterMarkdown.Settings.Defaults.NOTES.customNotes
+    if CharacterMarkdownData.customNotes == nil then
+        CharacterMarkdownData.customNotes = ""
+    end
+    
+    -- Force character data save on first run
+    if CharacterMarkdownData and not CharacterMarkdownData._initialized then
+        CharacterMarkdownData._initialized = true
+        CharacterMarkdownData._lastModified = GetTimeStamp()
+    end
 end
 
 -- =====================================================
@@ -201,45 +267,58 @@ end
 -- =====================================================
 
 function CharacterMarkdown.Settings.Initializer:ResetToDefaults()
-    local defaults = CharacterMarkdown.Settings.Defaults
+    CM.Info("Resetting all settings to defaults...")
     
-    -- Reset format
-    CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
+    -- Direct access to settings
+    local settings = CharacterMarkdownSettings
     
-    -- Reset core sections
-    for key, value in pairs(defaults.CORE) do
-        CharacterMarkdownSettings[key] = value
-    end
+    -- Reset all settings to defaults (direct assignment)
+    settings.currentFormat = "github"
+    settings.settingsVersion = 1
     
-    -- Reset extended sections
-    for key, value in pairs(defaults.EXTENDED) do
-        CharacterMarkdownSettings[key] = value
-    end
+    -- Core sections
+    settings.includeChampionPoints = true
+    settings.includeChampionDiagram = false
+    settings.includeSkillBars = true
+    settings.includeSkills = true
+    settings.includeEquipment = true
+    settings.includeCompanion = true
+    settings.includeCombatStats = true
+    settings.includeBuffs = true
+    settings.includeAttributes = true
+    settings.includeRole = true
+    settings.includeLocation = true
     
-    -- Reset link settings
-    for key, value in pairs(defaults.LINKS) do
-        CharacterMarkdownSettings[key] = value
-    end
+    -- Extended sections
+    settings.includeDLCAccess = true
+    settings.includeCurrency = true
+    settings.includeProgression = false
+    settings.includeRidingSkills = false
+    settings.includeInventory = true
+    settings.includePvP = false
+    settings.includeCollectibles = true
+    settings.includeCollectiblesDetailed = false
+    settings.includeCrafting = false
     
-    -- Reset skill filters
-    for key, value in pairs(defaults.SKILL_FILTERS) do
-        CharacterMarkdownSettings[key] = value
-    end
+    -- Link settings
+    settings.enableAbilityLinks = true
+    settings.enableSetLinks = true
     
-    -- Reset equipment filters
-    for key, value in pairs(defaults.EQUIPMENT_FILTERS) do
-        CharacterMarkdownSettings[key] = value
-    end
+    -- Filters
+    settings.minSkillRank = 1
+    settings.hideMaxedSkills = false
+    settings.minEquipQuality = 0
+    settings.hideEmptySlots = false
     
     -- Reset custom notes
-    CharacterMarkdownData.customNotes = defaults.NOTES.customNotes
+    CharacterMarkdownData.customNotes = ""
     
     -- Sync to core
-    if CharacterMarkdown.currentFormat then
+    if CharacterMarkdown.currentFormat and CharacterMarkdownSettings then
         CharacterMarkdown.currentFormat = CharacterMarkdownSettings.currentFormat
     end
     
-    d("[CharacterMarkdown] All settings reset to defaults")
+    CM.Success("All settings reset to defaults")
 end
 
 -- =====================================================
@@ -247,9 +326,8 @@ end
 -- =====================================================
 
 function CharacterMarkdown.Settings.Initializer:MigrateFromVersion(oldVersion)
-    -- Placeholder for future version migrations
-    -- Example:
-    -- if oldVersion < 2.1 then
-    --     self:MigrateFrom20To21()
-    -- end
+    CM.DebugPrint("SETTINGS", "Checking migrations from version:", oldVersion)
+    
+    -- Currently no migrations needed
+    CM.DebugPrint("SETTINGS", "No migrations required")
 end

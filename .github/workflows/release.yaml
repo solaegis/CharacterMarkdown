@@ -5,6 +5,15 @@ on:
     tags:
       - 'v*'
 
+env:
+  ADDON_NAME: CharacterMarkdown
+  ESOUI_ADDON_ID: '4279'
+  ESO_API_VERSION: '11.0.0'
+  LUA_VERSION: "luajit-2.1.0-beta3"
+  BUILD_DIR: "/tmp/CharacterMarkdown"
+  # Optional: Set to update API version automatically (e.g., 101047)
+  # UPDATE_API_VERSION: ""
+
 permissions:
   contents: write
 
@@ -23,15 +32,84 @@ jobs:
           fetch-depth: 0  # Full history for changelog extraction
 
       # ========================================================================
-      # 2. Extract Version from Git Tag
+      # 2. Extract Version from Git Tag and Generate Addon Name
       # ========================================================================
       - name: Extract version from tag
         id: version
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "ZIP_NAME=CharacterMarkdown-${VERSION}.zip" >> $GITHUB_OUTPUT
           echo "📦 Version: $VERSION"
+
+      - name: Update API version and generate addon name
+        id: addon_name
+        run: |
+          # Read current API version from manifest
+          API_VERSION=$(grep "^## APIVersion:" ${{ env.ADDON_NAME }}.addon | awk '{print $3}')
+          echo "📋 Current API Version in manifest: $API_VERSION"
+          
+          # Check if we should update API version automatically
+          if [ -n "${{ env.UPDATE_API_VERSION }}" ]; then
+            echo "🔄 Auto-updating API version to: ${{ env.UPDATE_API_VERSION }}"
+            sed -i "s/^## APIVersion: .*/## APIVersion: ${{ env.UPDATE_API_VERSION }}/g" ${{ env.ADDON_NAME }}.addon
+            API_VERSION="${{ env.UPDATE_API_VERSION }}"
+            echo "✅ API version updated to: $API_VERSION"
+          else
+            echo ""
+            echo "🔍 API Version Check:"
+            echo "   Current in manifest: $API_VERSION"
+            echo "   Expected for Gold Road: 101047+"
+            echo ""
+            echo "📝 To update API version before release:"
+            echo "   1. Run in ESO: /script d(GetAPIVersion())"
+            echo "   2. Use helper script: ./scripts/update-api-version.sh [VERSION]"
+            echo "   3. Or set UPDATE_API_VERSION environment variable in workflow"
+            echo ""
+            
+            # Validate API version is reasonable (basic sanity check)
+            if [ "$API_VERSION" -lt 101000 ]; then
+              echo "⚠️  WARNING: API version $API_VERSION seems outdated"
+              echo "   Consider updating to current ESO API version"
+            elif [ "$API_VERSION" -ge 101047 ]; then
+              echo "✅ API version $API_VERSION appears current for Gold Road"
+            else
+              echo "ℹ️  API version $API_VERSION may need updating for latest ESO release"
+            fi
+          fi
+          
+          # Map API version to client release name (using >= logic for current/future releases)
+          if [ "$API_VERSION" -ge 101047 ]; then
+            CLIENT_RELEASE="Gold Road"
+          elif [ "$API_VERSION" -ge 101040 ]; then
+            CLIENT_RELEASE="Necrom"
+          elif [ "$API_VERSION" -ge 101030 ]; then
+            CLIENT_RELEASE="High Isle"
+          elif [ "$API_VERSION" -ge 101020 ]; then
+            CLIENT_RELEASE="Blackwood"
+          elif [ "$API_VERSION" -ge 101010 ]; then
+            CLIENT_RELEASE="Greymoor"
+          elif [ "$API_VERSION" -ge 101000 ]; then
+            CLIENT_RELEASE="Elsweyr"
+          else
+            # Fallback: use API version if no mapping found
+            CLIENT_RELEASE="API-$API_VERSION"
+            echo "⚠️  No client release mapping found for API version $API_VERSION"
+          fi
+          
+          # Generate addon name following ESOUI best practices
+          if [ "$CLIENT_RELEASE" = "API-$API_VERSION" ]; then
+            # For unmapped versions, use API version
+            FULL_ADDON_NAME="${{ env.ADDON_NAME }} - Updated for $CLIENT_RELEASE"
+          else
+            # For known releases, use friendly name
+            FULL_ADDON_NAME="${{ env.ADDON_NAME }} - Updated for $CLIENT_RELEASE"
+          fi
+          
+          echo "ADDON_NAME=$FULL_ADDON_NAME" >> $GITHUB_OUTPUT
+          echo "ZIP_NAME=$FULL_ADDON_NAME-${VERSION}.zip" >> $GITHUB_OUTPUT
+          echo "CLIENT_RELEASE=$CLIENT_RELEASE" >> $GITHUB_OUTPUT
+          echo "📦 Addon Name: $FULL_ADDON_NAME"
+          echo "📦 Client Release: $CLIENT_RELEASE"
 
       # ========================================================================
       # 3. Setup Lua Environment (LuaJIT for Lua 5.1 compatibility)
@@ -39,7 +117,7 @@ jobs:
       - name: Setup LuaJIT
         uses: leafo/gh-actions-lua@v10
         with:
-          luaVersion: "luajit-2.1.0-beta3"
+          luaVersion: ${{ env.LUA_VERSION }}
 
       - name: Setup LuaRocks
         uses: leafo/gh-actions-luarocks@v4
@@ -58,7 +136,7 @@ jobs:
       - name: Validate manifest
         run: |
           echo "✅ Validating manifest..."
-          luajit scripts/validate-manifest.lua CharacterMarkdown.txt
+          luajit scripts/validate-manifest.lua ${{ env.ADDON_NAME }}.addon
 
       # ========================================================================
       # 5. Update Manifest Versions
@@ -68,12 +146,9 @@ jobs:
           VERSION="${{ steps.version.outputs.VERSION }}"
           DATE_VERSION=$(date +'%Y%m%d')
           
-          echo "📝 Updating CharacterMarkdown.txt"
-          sed -i "s/^## Version: .*/## Version: $VERSION/g" CharacterMarkdown.txt
-          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/g" CharacterMarkdown.txt
-          
-          echo "📝 Creating CharacterMarkdown.addon"
-          cp CharacterMarkdown.txt CharacterMarkdown.addon
+          echo "📝 Updating ${{ env.ADDON_NAME }}.addon"
+          sed -i "s/^## Version: .*/## Version: $VERSION/g" ${{ env.ADDON_NAME }}.addon
+          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/g" ${{ env.ADDON_NAME }}.addon
           
           echo "✅ Manifest updated:"
           echo "   Version: $VERSION"
@@ -87,7 +162,7 @@ jobs:
           echo "📦 Building release package..."
           
           # Create build directory
-          BUILD_DIR="/tmp/CharacterMarkdown"
+          BUILD_DIR="${{ env.BUILD_DIR }}"
           mkdir -p "$BUILD_DIR"
           
           # Read .build-ignore and create rsync exclude arguments
@@ -109,17 +184,17 @@ jobs:
           
           # Create ZIP from temp directory
           cd /tmp
-          zip -r -q "$GITHUB_WORKSPACE/${{ steps.version.outputs.ZIP_NAME }}" "CharacterMarkdown"
+          zip -r -q "$GITHUB_WORKSPACE/${{ steps.addon_name.outputs.ZIP_NAME }}" "${{ env.ADDON_NAME }}"
           
-          echo "✅ Created: ${{ steps.version.outputs.ZIP_NAME }}"
+          echo "✅ Created: ${{ steps.addon_name.outputs.ZIP_NAME }}"
           
           # Verify ZIP structure
           echo "📋 ZIP contents:"
-          unzip -l "$GITHUB_WORKSPACE/${{ steps.version.outputs.ZIP_NAME }}" | head -20
+          unzip -l "$GITHUB_WORKSPACE/${{ steps.addon_name.outputs.ZIP_NAME }}" | head -20
 
       - name: Validate ZIP structure
         run: |
-          bash scripts/validate-zip.sh "${{ steps.version.outputs.ZIP_NAME }}"
+          bash scripts/validate-zip.sh "${{ steps.addon_name.outputs.ZIP_NAME }}"
 
       # ========================================================================
       # 7. Extract Changelog for Release Notes
@@ -137,7 +212,7 @@ jobs:
           
           # Fallback if extraction failed
           if [ ! -s release_notes.md ]; then
-            echo "## CharacterMarkdown v${{ steps.version.outputs.VERSION }}" > release_notes.md
+            echo "## ${{ steps.addon_name.outputs.ADDON_NAME }} v${{ steps.version.outputs.VERSION }}" > release_notes.md
             echo "" >> release_notes.md
             echo "See [CHANGELOG.md](CHANGELOG.md) for full release notes." >> release_notes.md
           fi
@@ -151,9 +226,9 @@ jobs:
       - name: Create GitHub release
         uses: ncipollo/release-action@v1
         with:
-          name: "CharacterMarkdown v${{ steps.version.outputs.VERSION }}"
+          name: "${{ steps.addon_name.outputs.ADDON_NAME }} v${{ steps.version.outputs.VERSION }}"
           tag: "v${{ steps.version.outputs.VERSION }}"
-          artifacts: "${{ steps.version.outputs.ZIP_NAME }}"
+          artifacts: "${{ steps.addon_name.outputs.ZIP_NAME }}"
           artifactContentType: application/zip
           bodyFile: release_notes.md
           allowUpdates: true
@@ -181,19 +256,19 @@ jobs:
           # =================================================================
           
           api_key: ${{ secrets.ESOUI_API_KEY }}
-          addon_id: 'XXXX'  # TODO: Replace with your ESOUI addon ID after first manual upload
+          addon_id: ${{ env.ESOUI_ADDON_ID }} # https://www.esoui.com/downloads/info4279-CharacterMarkdown.html#info
           
           # Version from Git tag
           version: ${{ steps.version.outputs.VERSION }}
           
           # Release artifacts
-          zip_file: ${{ steps.version.outputs.ZIP_NAME }}
+          zip_file: ${{ steps.addon_name.outputs.ZIP_NAME }}
           changelog_file: 'CHANGELOG.md'
           
           # ESO compatibility version (update as ESO patches release)
           # Format: MAJOR.MINOR.PATCH (e.g., 11.0.0 for Gold Road)
           # Get current from: /script d(GetAPIVersion()) in ESO
-          compatibility: '11.0.0'
+          compatibility: ${{ env.ESO_API_VERSION }}
           
           # Test mode: set to 'true' for dry-run, 'false' for production
           test: false
@@ -206,11 +281,14 @@ jobs:
         run: |
           echo "🎉 Release v${{ steps.version.outputs.VERSION }} complete!"
           echo ""
+          echo "📦 Addon: ${{ steps.addon_name.outputs.ADDON_NAME }}"
+          echo "📦 Client Release: ${{ steps.addon_name.outputs.CLIENT_RELEASE }}"
+          echo ""
           echo "✅ GitHub Release: https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.VERSION }}"
           echo "✅ ESOUI Upload: Submitted (check https://www.esoui.com/downloads/author.php)"
           echo ""
           echo "📦 Artifacts:"
-          echo "   - ${{ steps.version.outputs.ZIP_NAME }}"
+          echo "   - ${{ steps.addon_name.outputs.ZIP_NAME }}"
           echo ""
           echo "🔗 Next steps:"
           echo "   1. Verify GitHub release looks correct"

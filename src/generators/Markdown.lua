@@ -52,49 +52,327 @@ local function GetGenerators()
 end
 
 -- =====================================================
+-- ERROR AGGREGATION SYSTEM
+-- =====================================================
+
+local collectionErrors = {}
+
+local function SafeCollect(collectorName, collectorFunc)
+    local success, result = pcall(collectorFunc)
+    
+    if not success then
+        table.insert(collectionErrors, {
+            collector = collectorName,
+            error = tostring(result)
+        })
+        CM.DebugPrint("COLLECTOR", string.format("❌ %s failed: %s", collectorName, tostring(result)))
+        return {}  -- Return empty data on failure
+    end
+    
+    CM.DebugPrint("COLLECTOR", string.format("✅ %s completed", collectorName))
+    return result
+end
+
+local function ReportCollectionErrors()
+    if #collectionErrors == 0 then
+        CM.DebugPrint("COLLECTOR", "All collectors completed successfully")
+        return
+    end
+    
+    -- Log errors to chat (always shown, not just debug mode)
+    CM.Warn(string.format("Encountered %d error(s) during data collection:", #collectionErrors))
+    for i, err in ipairs(collectionErrors) do
+        d(string.format("  %d. %s: %s", i, err.collector, err.error))
+    end
+    d("[CharacterMarkdown] Generated markdown may be incomplete. Try /reloadui if issues persist.")
+end
+
+local function ResetCollectionErrors()
+    collectionErrors = {}
+end
+
+-- =====================================================
+-- SETTINGS HELPER
+-- =====================================================
+
+-- Helper function to check if a setting is enabled
+-- Returns true if setting is true OR nil (default enabled)
+-- Returns false if setting is explicitly false
+local function IsSettingEnabled(settings, settingName, defaultValue)
+    local value = settings[settingName]
+    if value == nil then
+        return defaultValue  -- Use provided default
+    end
+    return value == true
+end
+
+-- =====================================================
+-- SECTION REGISTRY PATTERN
+-- =====================================================
+
+-- Section configuration: defines all sections with their conditions
+local function GetSectionRegistry(format, settings, gen, data)
+    return {
+        -- Header (always included)
+        {
+            name = "Header",
+            condition = true,
+            generator = function()
+                return gen.GenerateHeader(data.character, data.cp, format)
+            end
+        },
+        
+        -- Quick Stats Summary (non-Discord only)
+        {
+            name = "QuickStats",
+            condition = format ~= "discord" and IsSettingEnabled(settings, "includeQuickStats", true),
+            generator = function()
+                return gen.GenerateQuickStats(data.character, data.progression, data.currency, 
+                    data.equipment, data.cp, data.inventory, format)
+            end
+        },
+        
+        -- Attention Needed (non-Discord only)
+        {
+            name = "AttentionNeeded",
+            condition = format ~= "discord" and IsSettingEnabled(settings, "includeAttentionNeeded", true),
+            generator = function()
+                return gen.GenerateAttentionNeeded(data.progression, data.inventory, data.riding, format)
+            end
+        },
+        
+        -- Overview (non-Discord only)
+        {
+            name = "Overview",
+            condition = format ~= "discord",
+            generator = function()
+                return gen.GenerateOverview(data.character, data.role, data.location, data.buffs, 
+                    data.mundus, data.riding, data.pvp, data.progression, settings, format)
+            end
+        },
+        
+        -- Currency
+        {
+            name = "Currency",
+            condition = IsSettingEnabled(settings, "includeCurrency", true),
+            generator = function()
+                return gen.GenerateCurrency(data.currency, format)
+            end
+        },
+        
+        -- Riding Skills (Discord only)
+        {
+            name = "RidingSkills",
+            condition = format == "discord" and IsSettingEnabled(settings, "includeRidingSkills", false),
+            generator = function()
+                return gen.GenerateRidingSkills(data.riding, format)
+            end
+        },
+        
+        -- Inventory
+        {
+            name = "Inventory",
+            condition = IsSettingEnabled(settings, "includeInventory", true),
+            generator = function()
+                return gen.GenerateInventory(data.inventory, format)
+            end
+        },
+        
+        -- PvP (Discord only)
+        {
+            name = "PvP",
+            condition = format == "discord" and IsSettingEnabled(settings, "includePvP", false),
+            generator = function()
+                return gen.GeneratePvP(data.pvp, format)
+            end
+        },
+        
+        -- Collectibles
+        {
+            name = "Collectibles",
+            condition = IsSettingEnabled(settings, "includeCollectibles", true),
+            generator = function()
+                return gen.GenerateCollectibles(data.collectibles, format)
+            end
+        },
+        
+        -- Crafting
+        {
+            name = "Crafting",
+            condition = IsSettingEnabled(settings, "includeCrafting", false),
+            generator = function()
+                return gen.GenerateCrafting(data.crafting, format)
+            end
+        },
+        
+        -- Attributes (Discord only)
+        {
+            name = "Attributes",
+            condition = format == "discord" and IsSettingEnabled(settings, "includeAttributes", true),
+            generator = function()
+                return gen.GenerateAttributes(data.character, format)
+            end
+        },
+        
+        -- Buffs (Discord only)
+        {
+            name = "Buffs",
+            condition = format == "discord" and IsSettingEnabled(settings, "includeBuffs", true),
+            generator = function()
+                return gen.GenerateBuffs(data.buffs, format)
+            end
+        },
+        
+        -- Custom Notes (requires both setting enabled AND content present)
+        {
+            name = "CustomNotes",
+            condition = IsSettingEnabled(settings, "includeBuildNotes", true) 
+                       and data.customNotes and data.customNotes ~= "",
+            generator = function()
+                return gen.GenerateCustomNotes(data.customNotes, format)
+            end
+        },
+        
+        -- Divider (non-Discord only)
+        {
+            name = "Divider",
+            condition = format ~= "discord",
+            generator = function()
+                return "---\n\n"
+            end
+        },
+        
+        -- DLC Access
+        {
+            name = "DLCAccess",
+            condition = IsSettingEnabled(settings, "includeDLCAccess", true),
+            generator = function()
+                return gen.GenerateDLCAccess(data.dlc, format)
+            end
+        },
+        
+        -- Mundus (Discord only)
+        {
+            name = "Mundus",
+            condition = format == "discord",
+            generator = function()
+                return gen.GenerateMundus(data.mundus, format)
+            end
+        },
+        
+        -- Champion Points
+        {
+            name = "ChampionPoints",
+            condition = IsSettingEnabled(settings, "includeChampionPoints", true),
+            generator = function()
+                return gen.GenerateChampionPoints(data.cp, format)
+            end
+        },
+        
+        -- Skill Bars
+        {
+            name = "SkillBars",
+            condition = IsSettingEnabled(settings, "includeSkillBars", true),
+            generator = function()
+                return gen.GenerateSkillBars(data.skillBar, format)
+            end
+        },
+        
+        -- Combat Stats
+        {
+            name = "CombatStats",
+            condition = IsSettingEnabled(settings, "includeCombatStats", true),
+            generator = function()
+                return gen.GenerateCombatStats(data.stats, format)
+            end
+        },
+        
+        -- Equipment
+        {
+            name = "Equipment",
+            condition = IsSettingEnabled(settings, "includeEquipment", true),
+            generator = function()
+                return gen.GenerateEquipment(data.equipment, format)
+            end
+        },
+        
+        -- Skills
+        {
+            name = "Skills",
+            condition = IsSettingEnabled(settings, "includeSkills", true),
+            generator = function()
+                return gen.GenerateSkills(data.skill, format)
+            end
+        },
+        
+        -- Companion
+        {
+            name = "Companion",
+            condition = IsSettingEnabled(settings, "includeCompanion", true) and data.companion.active,
+            generator = function()
+                return gen.GenerateCompanion(data.companion, format)
+            end
+        },
+    }
+end
+
+-- =====================================================
 -- MAIN GENERATION FUNCTION
 -- =====================================================
 
 local function GenerateMarkdown(format)
     format = format or "github"
     
+    -- Reset error tracking
+    ResetCollectionErrors()
+    
     -- Verify collectors are loaded
     if not CM.collectors then
-        d("[CharacterMarkdown] ❌ FATAL: CM.collectors namespace doesn't exist!")
-        d("[CharacterMarkdown] The addon did not load correctly. Try /reloadui")
+        CM.Error("CM.collectors namespace doesn't exist!")
+        CM.Error("The addon did not load correctly. Try /reloadui")
         return "ERROR: Addon not loaded. Type /reloadui and try again."
     end
     
     -- Check if a critical collector exists (test case)
     if not CM.collectors.CollectCharacterData then
-        d("[CharacterMarkdown] ❌ FATAL: Collectors not loaded!")
-        d("[CharacterMarkdown] Available in CM.collectors:")
+        CM.Error("Collectors not loaded!")
+        CM.Error("Available in CM.collectors:")
         for k, v in pairs(CM.collectors) do
             d("[CharacterMarkdown]   - " .. k)
         end
         return "ERROR: Collectors not loaded. Type /reloadui and try again."
     end
     
-    -- Collect all data with error handling
-    local characterData = CM.collectors.CollectCharacterData()
-    local dlcData = CM.collectors.CollectDLCAccess()
-    local mundusData = CM.collectors.CollectMundusData()
-    local buffsData = CM.collectors.CollectActiveBuffs()
-    local cpData = CM.collectors.CollectChampionPointData()
-    local skillBarData = CM.collectors.CollectSkillBarData()
-    local statsData = CM.collectors.CollectCombatStatsData()
-    local equipmentData = CM.collectors.CollectEquipmentData()
-    local skillData = CM.collectors.CollectSkillProgressionData()
-    local companionData = CM.collectors.CollectCompanionData()
-    local currencyData = CM.collectors.CollectCurrencyData()
-    local progressionData = CM.collectors.CollectProgressionData()
-    local ridingData = CM.collectors.CollectRidingSkillsData()
-    local inventoryData = CM.collectors.CollectInventoryData()
-    local pvpData = CM.collectors.CollectPvPData()
-    local roleData = CM.collectors.CollectRoleData()
-    local locationData = CM.collectors.CollectLocationData()
-    local collectiblesData = CM.collectors.CollectCollectiblesData()
-    local craftingData = CM.collectors.CollectCraftingKnowledgeData()
+    -- Collect all data with error handling and aggregation
+    CM.DebugPrint("GENERATOR", "Starting data collection...")
+    
+    local collectedData = {
+        character = SafeCollect("CollectCharacterData", CM.collectors.CollectCharacterData),
+        dlc = SafeCollect("CollectDLCAccess", CM.collectors.CollectDLCAccess),
+        mundus = SafeCollect("CollectMundusData", CM.collectors.CollectMundusData),
+        buffs = SafeCollect("CollectActiveBuffs", CM.collectors.CollectActiveBuffs),
+        cp = SafeCollect("CollectChampionPointData", CM.collectors.CollectChampionPointData),
+        skillBar = SafeCollect("CollectSkillBarData", CM.collectors.CollectSkillBarData),
+        stats = SafeCollect("CollectCombatStatsData", CM.collectors.CollectCombatStatsData),
+        equipment = SafeCollect("CollectEquipmentData", CM.collectors.CollectEquipmentData),
+        skill = SafeCollect("CollectSkillProgressionData", CM.collectors.CollectSkillProgressionData),
+        companion = SafeCollect("CollectCompanionData", CM.collectors.CollectCompanionData),
+        currency = SafeCollect("CollectCurrencyData", CM.collectors.CollectCurrencyData),
+        progression = SafeCollect("CollectProgressionData", CM.collectors.CollectProgressionData),
+        riding = SafeCollect("CollectRidingSkillsData", CM.collectors.CollectRidingSkillsData),
+        inventory = SafeCollect("CollectInventoryData", CM.collectors.CollectInventoryData),
+        pvp = SafeCollect("CollectPvPData", CM.collectors.CollectPvPData),
+        role = SafeCollect("CollectRoleData", CM.collectors.CollectRoleData),
+        location = SafeCollect("CollectLocationData", CM.collectors.CollectLocationData),
+        collectibles = SafeCollect("CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
+        crafting = SafeCollect("CollectCraftingKnowledgeData", CM.collectors.CollectCraftingKnowledgeData),
+        customNotes = CharacterMarkdownData and CharacterMarkdownData.customNotes or ""
+    }
+    
+    -- Report any collection errors
+    ReportCollectionErrors()
+    
+    CM.DebugPrint("GENERATOR", string.format("Data collection completed with %d error(s)", #collectionErrors))
     
     local settings = CharacterMarkdownSettings or {}
     
@@ -103,129 +381,43 @@ local function GenerateMarkdown(format)
     
     -- QUICK FORMAT - one-line summary
     if format == "quick" then
-        return gen.GenerateQuickSummary(characterData, equipmentData)
+        return gen.GenerateQuickSummary(collectedData.character, collectedData.equipment)
     end
     
     -- FULL FORMATS (GitHub, VSCode, Discord)
+    CM.DebugPrint("GENERATOR", string.format("Generating markdown in %s format...", format))
+    
     local markdown = ""
     
-    -- Header
-    markdown = markdown .. gen.GenerateHeader(characterData, cpData, format)
+    -- Get section registry
+    local sections = GetSectionRegistry(format, settings, gen, collectedData)
     
-    -- Quick Stats Summary (non-Discord only)
-    if format ~= "discord" and settings.includeQuickStats ~= false then
-        markdown = markdown .. gen.GenerateQuickStats(characterData, progressionData, currencyData, equipmentData, cpData, inventoryData, format)
-    end
-    
-    -- Attention Needed (non-Discord only)
-    if format ~= "discord" and settings.includeAttentionNeeded ~= false then
-        markdown = markdown .. gen.GenerateAttentionNeeded(progressionData, inventoryData, ridingData, format)
-    end
-    
-    -- Overview (skip for Discord) - now includes vampire/werewolf/enlightenment
-    if format ~= "discord" then
-        markdown = markdown .. gen.GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, progressionData, settings, format)
-    end
-    
-    -- Currency
-    if settings.includeCurrency ~= false then
-        markdown = markdown .. gen.GenerateCurrency(currencyData, format)
-    end
-    
-    -- Riding Skills (Discord only - for other formats it's in Overview table)
-    if format == "discord" and settings.includeRidingSkills ~= false then
-        markdown = markdown .. gen.GenerateRidingSkills(ridingData, format)
-    end
-    
-    -- Inventory
-    if settings.includeInventory ~= false then
-        markdown = markdown .. gen.GenerateInventory(inventoryData, format)
-    end
-    
-    -- PvP (Discord only - for other formats it's in Overview table)
-    if format == "discord" and settings.includePvP ~= false then
-        markdown = markdown .. gen.GeneratePvP(pvpData, format)
-    end
-    
-    -- Collectibles
-    if settings.includeCollectibles ~= false then
-        markdown = markdown .. gen.GenerateCollectibles(collectiblesData, format)
-    end
-    
-    -- Crafting
-    if settings.includeCrafting ~= false then
-        markdown = markdown .. gen.GenerateCrafting(craftingData, format)
-    end
-    
-    -- Attributes and Buffs are now in Overview table for non-Discord formats
-    -- For Discord format, still generate them as separate sections
-    if format == "discord" then
-        if settings.includeAttributes ~= false then
-            markdown = markdown .. gen.GenerateAttributes(characterData, format)
-        end
-        if settings.includeBuffs ~= false then
-            markdown = markdown .. gen.GenerateBuffs(buffsData, format)
+    -- Generate all sections based on registry
+    for _, section in ipairs(sections) do
+        if section.condition then
+            local success, result = pcall(section.generator)
+            if success then
+                markdown = markdown .. result
+                CM.DebugPrint("GENERATOR", string.format("✅ Section '%s' generated", section.name))
+            else
+                CM.Warn(string.format("Failed to generate section '%s': %s", section.name, tostring(result)))
+                CM.DebugPrint("GENERATOR", string.format("❌ Section '%s' failed: %s", section.name, tostring(result)))
+            end
+        else
+            CM.DebugPrint("GENERATOR", string.format("⏭️  Section '%s' skipped (condition not met)", section.name))
         end
     end
     
-    -- Custom Notes
-    local customNotes = CharacterMarkdownData and CharacterMarkdownData.customNotes or ""
-    if customNotes and customNotes ~= "" then
-        markdown = markdown .. gen.GenerateCustomNotes(customNotes, format)
+    -- Footer (always included)
+    local footerSuccess, footerResult = pcall(gen.GenerateFooter, format, string.len(markdown))
+    if footerSuccess then
+        markdown = markdown .. footerResult
+        CM.DebugPrint("GENERATOR", "✅ Footer generated")
+    else
+        CM.Warn(string.format("Failed to generate footer: %s", tostring(footerResult)))
     end
     
-    if format ~= "discord" then
-        markdown = markdown .. "---\n\n"
-    end
-    
-    -- DLC Access
-    if settings.includeDLCAccess ~= false then
-        markdown = markdown .. gen.GenerateDLCAccess(dlcData, format)
-    end
-    
-    -- Mundus (Discord only - for other formats it's in Overview table)
-    if format == "discord" then
-        markdown = markdown .. gen.GenerateMundus(mundusData, format)
-    end
-    
-    -- Champion Points
-    if settings.includeChampionPoints ~= false then
-        markdown = markdown .. gen.GenerateChampionPoints(cpData, format)
-    end
-    
-    -- Champion Points Visual Diagram (DISABLED - experimental feature)
-    -- Uncomment the following lines to enable:
-    -- if settings.includeChampionDiagram == true and format ~= "discord" and gen.GenerateChampionDiagram then
-    --     markdown = markdown .. gen.GenerateChampionDiagram(cpData)
-    -- end
-    
-    -- Skill Bars
-    if settings.includeSkillBars ~= false then
-        markdown = markdown .. gen.GenerateSkillBars(skillBarData, format)
-    end
-    
-    -- Combat Stats
-    if settings.includeCombatStats ~= false then
-        markdown = markdown .. gen.GenerateCombatStats(statsData, format)
-    end
-    
-    -- Equipment
-    if settings.includeEquipment ~= false then
-        markdown = markdown .. gen.GenerateEquipment(equipmentData, format)
-    end
-    
-    -- Skills
-    if settings.includeSkills ~= false then
-        markdown = markdown .. gen.GenerateSkills(skillData, format)
-    end
-    
-    -- Companion
-    if settings.includeCompanion ~= false and companionData.active then
-        markdown = markdown .. gen.GenerateCompanion(companionData, format)
-    end
-    
-    -- Footer
-    markdown = markdown .. gen.GenerateFooter(format, string.len(markdown))
+    CM.DebugPrint("GENERATOR", string.format("Markdown generation complete: %d bytes", string.len(markdown)))
     
     return markdown
 end

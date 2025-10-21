@@ -7,6 +7,17 @@ CharacterMarkdown.Settings = CharacterMarkdown.Settings or {}
 CharacterMarkdown.Settings.Panel = {}
 
 -- =====================================================
+-- HELPER FUNCTIONS
+-- =====================================================
+
+-- Helper function to ensure SavedVariables are marked as dirty when changed
+local function MarkSettingsDirty()
+    if CharacterMarkdownSettings then
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+    end
+end
+
+-- =====================================================
 -- PANEL REGISTRATION
 -- =====================================================
 
@@ -43,7 +54,16 @@ function CharacterMarkdown.Settings.Panel:Initialize()
     local optionsData = self:BuildOptionsData()
     LAM:RegisterOptionControls("CharacterMarkdownSettings", optionsData)
     
-    d("[CharacterMarkdown] Settings panel registered")
+    -- Force save on first panel open
+    if CharacterMarkdownSettings and not CharacterMarkdownSettings._panelOpened then
+        CharacterMarkdownSettings._panelOpened = true
+        -- Make a small change to trigger save
+        local originalVersion = CharacterMarkdownSettings.settingsVersion or 1
+        CharacterMarkdownSettings.settingsVersion = originalVersion + 0.1
+        CharacterMarkdownSettings.settingsVersion = originalVersion
+    end
+    
+    CM.DebugPrint("SETTINGS", "Settings panel registered")
     return true
 end
 
@@ -88,6 +108,7 @@ function CharacterMarkdown.Settings.Panel:AddFormatSection(options)
         setFunc = function(value)
             CharacterMarkdownSettings.currentFormat = value
             if CharacterMarkdown then CharacterMarkdown.currentFormat = value end
+            MarkSettingsDirty()
         end,
         width = "full",
         default = "github",
@@ -140,12 +161,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Champion Points",
         tooltip = "Show Champion Point allocation and discipline breakdown",
-        getFunc = function() 
-            if CharacterMarkdownSettings.includeChampionPoints == nil then
-                return true  -- Return default if not set
-            end
-            return CharacterMarkdownSettings.includeChampionPoints
-        end,
+        getFunc = function() return CharacterMarkdownSettings.includeChampionPoints or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeChampionPoints = value end,
         width = "half",
         default = true,
@@ -155,16 +171,11 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "  ↳ Include CP Visual Diagram",
         tooltip = "Show a Mermaid diagram visualizing your invested Champion Points (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. ⚠️ EXPERIMENTAL FEATURE - May not render correctly in all viewers.",
-        getFunc = function() 
-            if CharacterMarkdownSettings.includeChampionDiagram == nil then
-                return false  -- Return default (disabled)
-            end
-            return CharacterMarkdownSettings.includeChampionDiagram
-        end,
+        getFunc = function() return CharacterMarkdownSettings.includeChampionDiagram or false end,
         setFunc = function(value) CharacterMarkdownSettings.includeChampionDiagram = value end,
         disabled = function()
             -- Disable this option if Champion Points is disabled
-            return not CharacterMarkdownSettings.includeChampionPoints
+            return not (CharacterMarkdownSettings.includeChampionPoints or true)
         end,
         width = "half",
         default = false,  -- Disabled by default
@@ -175,7 +186,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Skill Bars",
         tooltip = "Show front and back bar abilities with ultimates",
-        getFunc = function() return CharacterMarkdownSettings.includeSkillBars end,
+        getFunc = function() return CharacterMarkdownSettings.includeSkillBars or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeSkillBars = value end,
         width = "half",
         default = true,
@@ -185,7 +196,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Skill Progression",
         tooltip = "Show skill line ranks and progress",
-        getFunc = function() return CharacterMarkdownSettings.includeSkills end,
+        getFunc = function() return CharacterMarkdownSettings.includeSkills or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeSkills = value end,
         width = "half",
         default = true,
@@ -195,7 +206,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Equipment",
         tooltip = "Show equipped items and armor sets",
-        getFunc = function() return CharacterMarkdownSettings.includeEquipment end,
+        getFunc = function() return CharacterMarkdownSettings.includeEquipment or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeEquipment = value end,
         width = "half",
         default = true,
@@ -205,7 +216,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Combat Statistics",
         tooltip = "Show health, resources, weapon/spell power, resistances",
-        getFunc = function() return CharacterMarkdownSettings.includeCombatStats end,
+        getFunc = function() return CharacterMarkdownSettings.includeCombatStats or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeCombatStats = value end,
         width = "half",
         default = true,
@@ -215,7 +226,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Companion Info",
         tooltip = "Show active companion details (if summoned)",
-        getFunc = function() return CharacterMarkdownSettings.includeCompanion end,
+        getFunc = function() return CharacterMarkdownSettings.includeCompanion or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeCompanion = value end,
         width = "half",
         default = true,
@@ -225,7 +236,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Active Buffs",
         tooltip = "Show food, potions, and other active buffs",
-        getFunc = function() return CharacterMarkdownSettings.includeBuffs end,
+        getFunc = function() return CharacterMarkdownSettings.includeBuffs or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeBuffs = value end,
         width = "half",
         default = true,
@@ -235,7 +246,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Attribute Distribution",
         tooltip = "Show magicka/health/stamina attribute points",
-        getFunc = function() return CharacterMarkdownSettings.includeAttributes end,
+        getFunc = function() return CharacterMarkdownSettings.includeAttributes or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeAttributes = value end,
         width = "half",
         default = true,
@@ -245,7 +256,7 @@ function CharacterMarkdown.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include DLC/Chapter Access",
         tooltip = "Show which DLCs and Chapters are accessible\n(~400-600 chars - large section)",
-        getFunc = function() return CharacterMarkdownSettings.includeDLCAccess end,
+        getFunc = function() return CharacterMarkdownSettings.includeDLCAccess or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeDLCAccess = value end,
         width = "half",
         default = true,
@@ -265,7 +276,7 @@ function CharacterMarkdown.Settings.Panel:AddExtendedSections(options)
     
     table.insert(options, {
         type = "description",
-        text = "|c00FF00All sections are enabled by default.|r You can disable sections you don't need to reduce profile size.",
+        text = "|c00FF00Core sections are enabled by default.|r Extended sections match a typical character profile. You can customize to add or remove sections as needed.",
         width = "full",
     })
     
@@ -273,7 +284,7 @@ function CharacterMarkdown.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Currency & Resources",
         tooltip = "Show gold, Alliance Points, Tel Var, Transmutes, Writs, Event Tickets, etc.\n(~500-800 chars)",
-        getFunc = function() return CharacterMarkdownSettings.includeCurrency end,
+        getFunc = function() return CharacterMarkdownSettings.includeCurrency or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeCurrency = value end,
         width = "half",
         default = true,
@@ -283,27 +294,27 @@ function CharacterMarkdown.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Progression Info",
         tooltip = "Show unspent skill/attribute points, achievement score, vampire/werewolf status, enlightenment\n(~300-500 chars)",
-        getFunc = function() return CharacterMarkdownSettings.includeProgression end,
+        getFunc = function() return CharacterMarkdownSettings.includeProgression or false end,
         setFunc = function(value) CharacterMarkdownSettings.includeProgression = value end,
         width = "half",
-        default = true,
+        default = false,
     })
     
     table.insert(options, {
         type = "checkbox",
         name = "Include Riding Skills",
         tooltip = "Show riding speed, stamina, and capacity progress\n(~200-300 chars)",
-        getFunc = function() return CharacterMarkdownSettings.includeRidingSkills end,
+        getFunc = function() return CharacterMarkdownSettings.includeRidingSkills or false end,
         setFunc = function(value) CharacterMarkdownSettings.includeRidingSkills = value end,
         width = "half",
-        default = true,
+        default = false,
     })
     
     table.insert(options, {
         type = "checkbox",
         name = "Include Inventory Space",
         tooltip = "Show backpack and bank space usage\n(~150-200 chars)",
-        getFunc = function() return CharacterMarkdownSettings.includeInventory end,
+        getFunc = function() return CharacterMarkdownSettings.includeInventory or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeInventory = value end,
         width = "half",
         default = true,
@@ -313,17 +324,17 @@ function CharacterMarkdown.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include PvP Information",
         tooltip = "Show Alliance War rank and current campaign\n(~150-200 chars)",
-        getFunc = function() return CharacterMarkdownSettings.includePvP end,
+        getFunc = function() return CharacterMarkdownSettings.includePvP or false end,
         setFunc = function(value) CharacterMarkdownSettings.includePvP = value end,
         width = "half",
-        default = true,
+        default = false,
     })
     
     table.insert(options, {
         type = "checkbox",
         name = "Include Role",
         tooltip = "Show selected role (Tank/Healer/DPS) in overview",
-        getFunc = function() return CharacterMarkdownSettings.includeRole end,
+        getFunc = function() return CharacterMarkdownSettings.includeRole or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeRole = value end,
         width = "half",
         default = true,
@@ -333,7 +344,7 @@ function CharacterMarkdown.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Current Location",
         tooltip = "Show current zone/location in overview\n(Minimal size impact)",
-        getFunc = function() return CharacterMarkdownSettings.includeLocation end,
+        getFunc = function() return CharacterMarkdownSettings.includeLocation or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeLocation = value end,
         width = "half",
         default = true,
@@ -343,7 +354,7 @@ function CharacterMarkdown.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Collectibles",
         tooltip = "Show counts for mounts, pets, costumes, and houses owned\n(~200-300 chars)",
-        getFunc = function() return CharacterMarkdownSettings.includeCollectibles end,
+        getFunc = function() return CharacterMarkdownSettings.includeCollectibles or true end,
         setFunc = function(value) CharacterMarkdownSettings.includeCollectibles = value end,
         width = "half",
         default = true,
@@ -353,10 +364,10 @@ function CharacterMarkdown.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Crafting Knowledge",
         tooltip = "Show known motifs and active research slots\n(~150-200 chars)",
-        getFunc = function() return CharacterMarkdownSettings.includeCrafting end,
+        getFunc = function() return CharacterMarkdownSettings.includeCrafting or false end,
         setFunc = function(value) CharacterMarkdownSettings.includeCrafting = value end,
         width = "half",
-        default = true,
+        default = false,
     })
 end
 
@@ -381,7 +392,7 @@ function CharacterMarkdown.Settings.Panel:AddLinkSettings(options)
         type = "checkbox",
         name = "Enable UESP Links",
         tooltip = "Make game elements clickable links to UESP wiki:\n• Abilities (skills on bars)\n• Armor sets\n• Race, Class, Alliance\n• Mundus stones\n• Champion Point skills\n• Zones/Locations\n• PvP Campaigns\n• Companions",
-        getFunc = function() return CharacterMarkdownSettings.enableAbilityLinks end,
+        getFunc = function() return CharacterMarkdownSettings.enableAbilityLinks or true end,
         setFunc = function(value) 
             CharacterMarkdownSettings.enableAbilityLinks = value
             CharacterMarkdownSettings.enableSetLinks = value
@@ -409,7 +420,7 @@ function CharacterMarkdown.Settings.Panel:AddSkillFilters(options)
         min = 1,
         max = 50,
         step = 1,
-        getFunc = function() return CharacterMarkdownSettings.minSkillRank end,
+        getFunc = function() return CharacterMarkdownSettings.minSkillRank or 1 end,
         setFunc = function(value) CharacterMarkdownSettings.minSkillRank = value end,
         width = "half",
         default = 1,
@@ -419,7 +430,7 @@ function CharacterMarkdown.Settings.Panel:AddSkillFilters(options)
         type = "checkbox",
         name = "Hide Maxed Skills",
         tooltip = "Only show skills that are still progressing",
-        getFunc = function() return CharacterMarkdownSettings.hideMaxedSkills end,
+        getFunc = function() return CharacterMarkdownSettings.hideMaxedSkills or false end,
         setFunc = function(value) CharacterMarkdownSettings.hideMaxedSkills = value end,
         width = "half",
         default = false,
@@ -441,8 +452,12 @@ function CharacterMarkdown.Settings.Panel:AddCustomNotes(options)
         type = "editbox",
         name = "Build Notes",
         tooltip = "Add custom notes (rotation, parse data, build description, etc.)\nNotes are saved per-character and persist between sessions.",
-        getFunc = function() return CharacterMarkdownData.customNotes end,
-        setFunc = function(value) CharacterMarkdownData.customNotes = value end,
+        getFunc = function() return CharacterMarkdownData and CharacterMarkdownData.customNotes or "" end,
+        setFunc = function(value) 
+            if CharacterMarkdownData then
+                CharacterMarkdownData.customNotes = value 
+            end
+        end,
         width = "full",
         isMultiline = true,
         default = "",
@@ -466,7 +481,7 @@ function CharacterMarkdown.Settings.Panel:AddEquipmentFilters(options)
         tooltip = "Only show items of this quality or higher",
         choices = {"All", "Green", "Blue", "Purple", "Gold"},
         choicesValues = {0, 2, 3, 4, 5},
-        getFunc = function() return CharacterMarkdownSettings.minEquipQuality end,
+        getFunc = function() return CharacterMarkdownSettings.minEquipQuality or 0 end,
         setFunc = function(value) CharacterMarkdownSettings.minEquipQuality = value end,
         width = "half",
         default = 0,
@@ -476,7 +491,7 @@ function CharacterMarkdown.Settings.Panel:AddEquipmentFilters(options)
         type = "checkbox",
         name = "Hide Empty Slots",
         tooltip = "Don't show equipment slots with no item equipped",
-        getFunc = function() return CharacterMarkdownSettings.hideEmptySlots end,
+        getFunc = function() return CharacterMarkdownSettings.hideEmptySlots or false end,
         setFunc = function(value) CharacterMarkdownSettings.hideEmptySlots = value end,
         width = "half",
         default = false,
@@ -540,7 +555,7 @@ function CharacterMarkdown.Settings.Panel:AddActions(options)
             CharacterMarkdownSettings.enableAbilityLinks = true
             CharacterMarkdownSettings.enableSetLinks = true
             
-            d("[CharacterMarkdown] ✅ All sections enabled!")
+            CM.DebugPrint("SETTINGS", "All sections enabled!")
             SCENE_MANAGER:Show("gameMenuInGame")  -- Refresh UI
         end,
         width = "half",

@@ -1,252 +1,210 @@
 # CharacterMarkdown
 
-> **Generate comprehensive markdown character profiles for Elder Scrolls Online**
-
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](CHANGELOG.md)
-[![API Version](https://img.shields.io/badge/ESO_API-101047-green.svg)](https://www.esoui.com/)
+[![Version](https://img.shields.io/badge/version-2.1.1-blue.svg)](CHANGELOG.md)
+[![API](https://img.shields.io/badge/ESO_API-101047-green.svg)](https://www.esoui.com/)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
----
-
-## 🎮 Overview
-
-CharacterMarkdown is an ESO addon that generates detailed markdown-formatted character profiles. Export your character's stats, equipment, skills, Champion Points, and more in multiple formats optimized for GitHub, Discord, VS Code, or quick summaries.
-
-### ✨ Key Features
-
-- **📊 Complete Character Data** - Stats, attributes, progression, titles
-- **⚔️ Combat Arsenal** - Front/back skill bars with UESP wiki links
-- **🎒 Equipment Details** - Worn gear, set bonuses, quality, traits
-- **⭐ Champion Points** - Full CP allocation across all disciplines
-- **📜 Skill Progression** - All skill lines with ranks and progress
-- **🗺️ DLC Access** - Track owned chapters and DLC
-- **💰 Currency Tracking** - Gold, AP, Tel Var, Transmutes, and more
-- **👥 Companion Info** - Active companion equipment and skills
-- **🎨 Collectibles** - Mounts, pets, costumes, houses
-- **Multiple Export Formats** - GitHub, Discord, VS Code, Quick
+Generate comprehensive markdown character profiles for Elder Scrolls Online.
 
 ---
 
-## 📚 Documentation
+## Features
 
-### Quick Start
-- **[Installation & Setup](docs/SETUP.md)** - Get started in 5 minutes
-- **[Release Process](docs/RELEASE.md)** - How releases work
-- **[Publishing Guide](docs/PUBLISHING.md)** - First-time ESOUI setup
-
-### Development
-- **[Development Guide](docs/DEVELOPMENT.md)** - Local development workflow
-- **[Architecture](docs/ARCHITECTURE.md)** - Technical deep-dive
-- **[API Reference](docs/API_REFERENCE.md)** - ESO Lua API patterns
-- **[Contributing](docs/CONTRIBUTING.md)** - How to contribute
-
-### Examples
-- **[Champion Points](docs/examples/champion-points.md)** - Sample CP allocation
-- **[Sample Character Profile](docs/examples/Pelatiah.md)** - Complete character profile example
+- **Complete Character Data** - Stats, equipment, skills, Champion Points
+- **Skill Bars** - Front/back bars with UESP wiki links
+- **Multiple Formats** - GitHub (tables), Discord (compact), VS Code, Quick
+- **DLC Tracking** - ESO Plus status, owned chapters
+- **Currencies** - Gold, AP, Tel Var, Transmutes, Writ Vouchers
+- **Companion Info** - Active companion equipment and skills
+- **Collectibles** - Mounts, pets, costumes, houses
+- **Customizable** - Enable/disable sections, filter skills
 
 ---
 
-## 🚀 Quick Start
+## Installation
 
-### Installation
-
-**Option 1: ESOUI (Minion)**
+### Via Minion
 1. Install [Minion](https://minion.mmoui.com/)
-2. Search for "CharacterMarkdown"
+2. Search "CharacterMarkdown"
 3. Click Install
 
-**Option 2: Manual**
-1. Download latest release from [ESOUI](https://www.esoui.com/downloads/info####-CharacterMarkdown.html)
-2. Extract to: `Documents/Elder Scrolls Online/live/AddOns/`
+### Manual
+1. Download from [ESOUI](https://www.esoui.com/downloads/info4279-CharacterMarkdown.html)
+2. Extract to `Documents/Elder Scrolls Online/live/AddOns/`
 3. Launch ESO
 
-### Usage
+---
 
-**In-Game Commands:**
+## Usage
+
+### Commands
 ```
-/markdown              # Open export window
-/markdown github       # Export in GitHub format
-/markdown discord      # Export in Discord format  
-/markdown vscode       # Export in VS Code format
-/markdown quick        # One-line summary
+/markdown          # Open window (default format)
+/markdown github   # GitHub format
+/markdown discord  # Discord format
+/markdown vscode   # VS Code format
+/markdown quick    # One-line summary
 ```
 
-**Export Process:**
+### Process
 1. Run `/markdown` command
-2. Generated markdown appears in window
-3. Press `Ctrl+A` (Select All)
-4. Press `Ctrl+C` (Copy)
-5. Paste anywhere (GitHub, Discord, VSCode, etc.)
+2. Window opens with generated markdown
+3. Press `Ctrl+C` to copy
+4. Paste anywhere
 
 ---
 
-## 📋 Export Formats
+## Formats
 
-### GitHub Format
-**Best for:** README files, wikis, documentation
+### GitHub
+Full tables with alignment, collapsible sections, UESP links.  
+**Best for**: README files, wikis, documentation
 
-**Features:**
-- Full tables with alignment
-- Collapsible sections
-- UESP wiki links for all abilities and sets
-- Optimized for GitHub Markdown rendering
+### Discord
+Compact format with emoji indicators, no large tables.  
+**Best for**: Discord servers, chat sharing
 
-### Discord Format
-**Best for:** Sharing builds in Discord servers
+### VS Code
+Similar to GitHub, renders well in VS Code preview.  
+**Best for**: Local markdown files
 
-**Features:**
-- Compact format (no large tables)
-- Emoji indicators
-- Less whitespace
-- Works great in Discord messages
-
-### VS Code Format
-**Best for:** Local markdown files
-
-**Features:**
-- Similar to GitHub
-- Renders well in VS Code preview
-- Good for build documentation
-
-### Quick Format
-**Best for:** One-line summaries
-
-**Example:**
-```
-Pelatiah • L50 CP627 👑 • Impe DK • Mother's Sorrow(5), Silks of the Sun(5)
-```
+### Quick
+Single-line summary.  
+**Example**: `Pelatiah • L50 CP627 👑 • Impe DK • Mother's Sorrow(5), Silks of the Sun(5)`
 
 ---
 
-## 🛠️ Configuration
+## Configuration
 
-Open settings via **ESC → Settings → Add-Ons → CharacterMarkdown**
+**ESC → Settings → Add-Ons → CharacterMarkdown**
 
-### Section Toggles
-- ✅ Champion Points
-- ✅ Equipment
-- ✅ Skills
-- ✅ Combat Stats
-- ✅ Currency
-- ✅ Collectibles
-- ... and more!
-
-### Display Options
-- **Enable UESP Links** - Add wiki links to abilities/sets
-- **Skill Filters** - Hide maxed skills, minimum rank threshold
-- **Collectibles Detail** - Show full lists vs counts only
+- **Section Toggles** - Enable/disable: CP, Equipment, Skills, Stats, Currency
+- **UESP Links** - Add wiki links to abilities and sets
+- **Skill Filters** - Hide maxed skills, set minimum rank threshold
+- **Collectibles** - Show full lists or counts only
 
 ---
 
-## 🖼️ Sample Output
+## Sample Output
 
 <details>
-<summary>Click to expand sample character profile</summary>
+<summary>Expand to see example</summary>
 
 ```markdown
 # Pelatiah
 
 **Imperial Dragonknight**  
-**Level 50** • **CP 627**  
-*Ebonheart Pact*
+**Level 50 • CP 627 • Ebonheart Pact**
 
----
+## ⚔️ Combat Setup
 
-## 📊 Character Overview
+### Front Bar (Destruction Staff)
+1. [Molten Whip](https://en.uesp.net/wiki/Online:Molten_Whip) - Spammable
+2. [Engulfing Flames](https://en.uesp.net/wiki/Online:Engulfing_Flames) - DoT
+3. [Eruption](https://en.uesp.net/wiki/Online:Eruption) - Ground AoE
+4. [Wall of Elements](https://en.uesp.net/wiki/Online:Wall_of_Elements) - Channel
+5. [Inner Light](https://en.uesp.net/wiki/Online:Inner_Light) - Passive
+6. **Ultimate**: [Standard of Might](https://en.uesp.net/wiki/Online:Standard_of_Might)
 
-| Attribute | Value |
-|:----------|:------|
-| **Level** | 50 |
-| **Champion Points** | 627 |
-| **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
-| **Race** | [Imperial](https://en.uesp.net/wiki/Online:Imperial) |
-| **Alliance** | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
-| **Title** | *Daedric Lord Slayer* |
-| **ESO Plus** | ✅ Active |
-| **🎯 Attributes** | Magicka: 49 • Health: 15 • Stamina: 0 |
-| **🪨 Mundus Stone** | [The Atronach](https://en.uesp.net/wiki/Online:The_Atronach_(Mundus_Stone)) |
-| **🍖 Active Buffs** | Other: [Major Prophecy](https://en.uesp.net/wiki/Online:Major_Prophecy), [Major Savagery](https://en.uesp.net/wiki/Online:Major_Savagery) |
-| **Location** | [Summerset](https://en.uesp.net/wiki/Online:Summerset) |
+### Back Bar (Restoration Staff)
+1. [Rapid Regeneration](https://en.uesp.net/wiki/Online:Rapid_Regeneration) - HoT
+2. [Combat Prayer](https://en.uesp.net/wiki/Online:Combat_Prayer) - Buff
+3. [Healing Springs](https://en.uesp.net/wiki/Online:Healing_Springs) - Ground HoT
+4. [Elemental Drain](https://en.uesp.net/wiki/Online:Elemental_Drain) - Debuff
+5. [Inner Light](https://en.uesp.net/wiki/Online:Inner_Light) - Passive
+6. **Ultimate**: [Aggressive Warhorn](https://en.uesp.net/wiki/Online:Aggressive_Warhorn)
 
-... (rest of profile)
+## 🎒 Equipment
+
+| Slot | Item | Set | Quality | Trait |
+|------|------|-----|---------|-------|
+| Head | Mother's Sorrow Hat | Mother's Sorrow | Epic | Divines |
+| Chest | Silks of the Sun Cuirass | Silks of the Sun | Epic | Divines |
+
+## ⭐ Champion Points (627 total)
+
+### Warfare (200 CP)
+- **Thaumaturge** - 50
+- **Master-at-Arms** - 50
+- **Deadly Aim** - 30
 ```
 
 </details>
 
 ---
 
-## ⚙️ Requirements
+## Documentation
 
-- **ESO Version:** Update 47 (Feast of Shadows) or later
-- **API Version:** 101047
-- **Dependencies:** 
-  - [LibAddonMenu-2.0](https://www.esoui.com/downloads/info7-LibAddonMenu.html) (for settings panel)
-
----
-
-## 🐛 Known Issues
-
-- **Clipboard Truncation:** In rare cases, the last ~50 characters may be truncated when copying large outputs (>10KB). This affects only the footer and not character data.
-- **PTS Compatibility:** Test addon on PTS before major ESO updates.
+- **[User Guide](docs/README.md)** - Installation, usage, settings
+- **[Development](docs/DEVELOPMENT.md)** - Local setup, workflow, testing
+- **[Architecture](docs/ARCHITECTURE.md)** - Code structure, patterns
+- **[API Reference](docs/API_REFERENCE.md)** - ESO Lua API patterns
+- **[Publishing](docs/PUBLISHING.md)** - Release process
 
 ---
 
-## 🗺️ Roadmap
+## Development
 
-### v2.2.0 (Planned)
-- [ ] Housing furniture count
-- [ ] Antiquities progress
-- [ ] Trial/Dungeon achievements
-- [ ] Custom template system
+### Quick Setup
+```bash
+git clone https://github.com/yourusername/CharacterMarkdown.git
+cd CharacterMarkdown
+task install:deps    # Install tools
+task install:dev     # Link to ESO
+```
 
-### v3.0.0 (Future)
-- [ ] Multi-character comparison
-- [ ] Build sharing/importing
-- [ ] Cloud sync (optional)
-- [ ] HTML export format
+### Workflow
+```bash
+# Edit files in src/
+# Test: /reloadui in ESO
+task lint            # Validate code
+task test            # Full tests
+```
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
-
-### Ways to Contribute
-- 🐛 Report bugs
-- 💡 Suggest features  
-- 📝 Improve documentation
-- 🔧 Submit pull requests
-- ⭐ Star the repository
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+### Release
+```bash
+task version:bump -- patch    # Update version
+# Edit CHANGELOG.md
+git commit -am "Release v2.1.2"
+git tag v2.1.2
+git push origin main --tags   # Auto-deploys via GitHub Actions
+```
 
 ---
 
-## 🙏 Acknowledgments
+## Troubleshooting
 
-- **ESOUI Community** - For addon development resources
-- **UESP Wiki** - For comprehensive ESO documentation
-- **LibAddonMenu-2.0** - For settings panel framework
-- **Contributors** - Everyone who has helped improve this addon
-
----
-
-## 📞 Support
-
-- **Issues:** [GitHub Issues](https://github.com/YOUR_USERNAME/CharacterMarkdown/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/YOUR_USERNAME/CharacterMarkdown/discussions)
-- **ESOUI:** [Addon Page](https://www.esoui.com/downloads/info####-CharacterMarkdown.html)
+**Addon not loading**: Check files in `AddOns/CharacterMarkdown/`, try `/reloadui`  
+**Settings not saving**: Fixed in v2.1.1 - update addon  
+**Debug messages**: Install LibDebugLogger for clean debug output
 
 ---
 
-<div align="center">
+## Contributing
 
-**Made with ❤️ for the ESO community**
+Contributions welcome! See [DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
-[⭐ Star on GitHub](https://github.com/YOUR_USERNAME/CharacterMarkdown) • [📥 Download](https://www.esoui.com/downloads/info####-CharacterMarkdown.html) • [📖 Documentation](docs/)
+1. Fork repository
+2. Create feature branch
+3. Make changes and test
+4. Submit pull request
 
-</div># CharacterMarkdown
+---
+
+## License
+
+MIT License - see [LICENSE](LICENSE)
+
+---
+
+## Acknowledgments
+
+- **ESO Community** - Feedback and testing
+- **UESP** - Comprehensive wiki data
+- **LibAddonMenu-2.0** - Settings framework
+- **LibDebugLogger** - Debug system
+- **ESOUI** - Addon distribution
+
+---
+
+**Made for the Elder Scrolls Online community** ❤️

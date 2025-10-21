@@ -1,255 +1,585 @@
--- CharacterMarkdown v2.1.0 - Settings Initializer
--- Handles settings initialization and saved variables setup
+-- CharacterMarkdown v2.1.1 - Settings Initializer
+-- Handles settings initialization with proper SavedVariables (ESO Guideline Compliant)
 -- Author: solaegis
+-- Enhanced with ZO_SavedVars, profiles, and import/export
 
 CharacterMarkdown = CharacterMarkdown or {}
 CharacterMarkdown.Settings = CharacterMarkdown.Settings or {}
 CharacterMarkdown.Settings.Initializer = {}
 
+local CM = CharacterMarkdown
+
+-- =====================================================
+-- MODULE STATE
+-- =====================================================
+
+-- Track if ZO_SavedVars initialization was successful
+local zo_savedvars_available = false
+
 -- =====================================================
 -- INITIALIZATION
 -- =====================================================
 
-function CharacterMarkdown.Settings.Initializer:Initialize()
-    -- Use delayed message to ensure it shows up
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Initialize() called")
-        end
-    end, 100)
+function CM.Settings.Initializer:Initialize()
+    CM.DebugPrint("SETTINGS", "Initializing settings system...")
     
-    -- Initialize account-wide settings with defaults
-    self:InitializeAccountSettings()
+    -- Try ZO_SavedVars first (preferred method)
+    local success = self:TryZOSavedVars()
+    
+    if not success then
+        -- Fallback to direct assignment
+        CM.Warn("ZO_SavedVars initialization failed - using fallback method")
+        self:InitializeFallback()
+    end
     
     -- Initialize per-character data
     self:InitializeCharacterData()
     
-    -- Sync format to core if available
-    if CharacterMarkdown.currentFormat then
-        CharacterMarkdown.currentFormat = CharacterMarkdownSettings.currentFormat
+    -- Initialize profile system
+    self:InitializeProfiles()
+    
+    -- Sync format to core
+    if CM.currentFormat and CharacterMarkdownSettings then
+        CM.currentFormat = CharacterMarkdownSettings.currentFormat or "github"
     end
     
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Settings initialized, includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
-        end
-    end, 200)
-    
+    CM.DebugPrint("SETTINGS", "Settings initialization complete")
     return true
 end
 
 -- =====================================================
--- ACCOUNT-WIDE SETTINGS
+-- ZO_SAVEDVARS INITIALIZATION (PREFERRED)
 -- =====================================================
 
-function CharacterMarkdown.Settings.Initializer:InitializeAccountSettings()
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: InitializeAccountSettings() called")
-        end
-    end, 150)
-    
-    -- Ensure the saved variable table exists
-    CharacterMarkdownSettings = CharacterMarkdownSettings or {}
-    
-    local defaults = CharacterMarkdown.Settings.Defaults
-    
-    -- Check if this is a fresh install (no version number means never initialized)
-    local isFirstRun = (CharacterMarkdownSettings.settingsVersion == nil)
-    
-    zo_callLater(function()
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: isFirstRun = " .. tostring(isFirstRun))
-        end
-    end, 160)
-    
-    if isFirstRun then
-        CharacterMarkdownSettings.settingsVersion = 1
-        
-        zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Setting all defaults for first run...")
-                CHAT_SYSTEM:AddMessage("  defaults = " .. tostring(defaults))
-                CHAT_SYSTEM:AddMessage("  defaults.CORE = " .. tostring(defaults.CORE))
-                CHAT_SYSTEM:AddMessage("  defaults.CORE.includeChampionPoints = " .. tostring(defaults.CORE and defaults.CORE.includeChampionPoints))
-            end
-        end, 170)
-        
-        -- On first run, explicitly set ALL defaults immediately
-        -- This ensures LAM sees proper values even before saved variables are written
-        
-        -- Debug: Check if we can iterate
-        local coreCount = 0
-        for key, value in pairs(defaults.CORE) do
-            coreCount = coreCount + 1
-            CharacterMarkdownSettings[key] = value
-        end
-        
-        -- Check IMMEDIATELY after setting (not delayed)
-        local immediateCheck = CharacterMarkdownSettings.includeChampionPoints
-        
-        zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("  Set " .. coreCount .. " CORE settings")
-                CHAT_SYSTEM:AddMessage("  IMMEDIATE check after loop: includeChampionPoints = " .. tostring(immediateCheck))
-                CHAT_SYSTEM:AddMessage("  CharacterMarkdownSettings table = " .. tostring(CharacterMarkdownSettings))
-            end
-        end, 175)
-        
-        for key, value in pairs(defaults.EXTENDED) do
-            CharacterMarkdownSettings[key] = value
-        end
-        for key, value in pairs(defaults.LINKS) do
-            CharacterMarkdownSettings[key] = value
-        end
-        for key, value in pairs(defaults.SKILL_FILTERS) do
-            CharacterMarkdownSettings[key] = value
-        end
-        for key, value in pairs(defaults.EQUIPMENT_FILTERS) do
-            CharacterMarkdownSettings[key] = value
-        end
-        CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
-        
-        zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Defaults set! includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
-            end
-        end, 180)
-    else
-        zo_callLater(function()
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Existing settings found (version " .. tostring(CharacterMarkdownSettings.settingsVersion) .. ")")
-            end
-        end, 170)
+function CM.Settings.Initializer:TryZOSavedVars()
+    -- Check if ZO_SavedVars is available
+    if not ZO_SavedVars or type(ZO_SavedVars.NewAccountWide) ~= "function" then
+        CM.Warn("ZO_SavedVars not available - addon loaded too early?")
+        return false
     end
     
-    -- Initialize format setting
-    CharacterMarkdownSettings.currentFormat = CharacterMarkdownSettings.currentFormat or defaults.FORMAT.currentFormat
+    -- Get defaults
+    local defaults = CM.Settings.Defaults:GetAll()
     
-    -- Validate format
-    if not defaults:IsValidFormat(CharacterMarkdownSettings.currentFormat) then
-        CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
+    -- Initialize account-wide settings
+    local success, result = pcall(function()
+        CM.settings = ZO_SavedVars:NewAccountWide(
+            "CharacterMarkdownSettings",  -- SavedVariables name
+            1,  -- Version (increment when changing structure)
+            nil,  -- Namespace (nil = root)
+            defaults  -- Default values
+        )
+    end)
+    
+    if not success then
+        CM.Error("Failed to initialize ZO_SavedVars: " .. tostring(result))
+        return false
     end
     
-    -- Initialize core sections
-    for key, defaultValue in pairs(defaults.CORE) do
-        if CharacterMarkdownSettings[key] == nil then
-            CharacterMarkdownSettings[key] = defaultValue
-            d("  Setting " .. key .. " = " .. tostring(defaultValue))
+    -- Verify initialization
+    if not CM.settings or type(CM.settings) ~= "table" then
+        CM.Error("ZO_SavedVars returned invalid settings table")
+        return false
+    end
+    
+    -- Also create global reference for backwards compatibility
+    if not CharacterMarkdownSettings then
+        CharacterMarkdownSettings = CM.settings
+    end
+    
+    zo_savedvars_available = true
+    CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully")
+    return true
+end
+
+-- =====================================================
+-- FALLBACK INITIALIZATION (DIRECT ASSIGNMENT)
+-- =====================================================
+
+function CM.Settings.Initializer:InitializeFallback()
+    CM.DebugPrint("SETTINGS", "Using fallback initialization method")
+    
+    -- Access the global SavedVariables (created by ESO)
+    if not CharacterMarkdownSettings then
+        CM.Error("CRITICAL: CharacterMarkdownSettings not created by ESO!")
+        CharacterMarkdownSettings = {}
+    end
+    
+    -- Set reference
+    CM.settings = CharacterMarkdownSettings
+    
+    -- Initialize settings with defaults
+    local defaults = CM.Settings.Defaults:GetAll()
+    
+    -- Version tracking
+    if CM.settings.settingsVersion == nil then
+        CM.settings.settingsVersion = 1
+        CM.settings._initialized = true
+        CM.settings._lastModified = GetTimeStamp()
+    end
+    
+    -- Apply defaults for any missing settings
+    for key, defaultValue in pairs(defaults) do
+        if CM.settings[key] == nil then
+            CM.settings[key] = defaultValue
         end
     end
     
-    -- Initialize extended sections
-    for key, defaultValue in pairs(defaults.EXTENDED) do
-        if CharacterMarkdownSettings[key] == nil then
-            CharacterMarkdownSettings[key] = defaultValue
-            d("  Setting " .. key .. " = " .. tostring(defaultValue))
-        end
-    end
-    
-    -- Initialize link settings
-    for key, defaultValue in pairs(defaults.LINKS) do
-        if CharacterMarkdownSettings[key] == nil then
-            CharacterMarkdownSettings[key] = defaultValue
-            d("  Setting " .. key .. " = " .. tostring(defaultValue))
-        end
-    end
-    
-    -- Initialize skill filters with explicit defaults
-    if CharacterMarkdownSettings.minSkillRank == nil then
-        CharacterMarkdownSettings.minSkillRank = defaults.SKILL_FILTERS.minSkillRank
-    end
-    if CharacterMarkdownSettings.hideMaxedSkills == nil then
-        CharacterMarkdownSettings.hideMaxedSkills = defaults.SKILL_FILTERS.hideMaxedSkills
-    end
-    
-    -- Initialize equipment filters with explicit defaults
-    if CharacterMarkdownSettings.minEquipQuality == nil then
-        CharacterMarkdownSettings.minEquipQuality = defaults.EQUIPMENT_FILTERS.minEquipQuality
-    end
-    if CharacterMarkdownSettings.hideEmptySlots == nil then
-        CharacterMarkdownSettings.hideEmptySlots = defaults.EQUIPMENT_FILTERS.hideEmptySlots
-    end
-    
-    -- Validate quality setting
-    if not defaults:IsValidQuality(CharacterMarkdownSettings.minEquipQuality) then
-        CharacterMarkdownSettings.minEquipQuality = defaults.EQUIPMENT_FILTERS.minEquipQuality
-    end
-    
-    -- Debug: Log a few settings to verify they were set
-    d("[CharacterMarkdown] Sample settings initialized:")
-    d("  includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
-    d("  includeEquipment = " .. tostring(CharacterMarkdownSettings.includeEquipment))
-    d("  includeCurrency = " .. tostring(CharacterMarkdownSettings.includeCurrency))
-    d("  currentFormat = " .. tostring(CharacterMarkdownSettings.currentFormat))
+    CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")
 end
 
 -- =====================================================
 -- PER-CHARACTER DATA
 -- =====================================================
 
-function CharacterMarkdown.Settings.Initializer:InitializeCharacterData()
-    -- Ensure the saved variable table exists
-    CharacterMarkdownData = CharacterMarkdownData or {}
+function CM.Settings.Initializer:InitializeCharacterData()
+    -- Access the global per-character SavedVariables
+    if not CharacterMarkdownData then
+        CM.Error("CRITICAL: CharacterMarkdownData not created by ESO!")
+        CharacterMarkdownData = {}
+    end
+    
+    CM.charData = CharacterMarkdownData
     
     -- Initialize custom notes
-    CharacterMarkdownData.customNotes = CharacterMarkdownData.customNotes or CharacterMarkdown.Settings.Defaults.NOTES.customNotes
+    if CM.charData.customNotes == nil then
+        CM.charData.customNotes = ""
+    end
+    
+    -- Force character data save on first run
+    if not CM.charData._initialized then
+        CM.charData._initialized = true
+        CM.charData._lastModified = GetTimeStamp()
+    end
+    
+    CM.DebugPrint("SETTINGS", "✓ Character data initialized (notes: " .. string.len(CM.charData.customNotes) .. " bytes)")
+end
+
+-- =====================================================
+-- CUSTOM NOTES HELPERS
+-- =====================================================
+
+function CM.Settings.Initializer:SaveCustomNotes(notes)
+    if not CM.charData then
+        CM.Error("Character data not initialized")
+        return false
+    end
+    
+    -- Validate input
+    if type(notes) ~= "string" then
+        CM.Error("Custom notes must be a string")
+        return false
+    end
+    
+    -- Save notes
+    CM.charData.customNotes = notes
+    CM.charData._lastModified = GetTimeStamp()
+    
+    CM.DebugPrint("SETTINGS", "Custom notes saved (" .. string.len(notes) .. " bytes)")
+    return true
+end
+
+function CM.Settings.Initializer:GetCustomNotes()
+    if not CM.charData then
+        CM.Error("Character data not initialized")
+        return ""
+    end
+    
+    return CM.charData.customNotes or ""
+end
+
+-- =====================================================
+-- PROFILE SYSTEM INITIALIZATION
+-- =====================================================
+
+function CM.Settings.Initializer:InitializeProfiles()
+    -- Initialize profiles storage
+    if not CM.settings.profiles then
+        CM.settings.profiles = {}
+    end
+    
+    -- Track active profile
+    if not CM.settings.activeProfile then
+        CM.settings.activeProfile = "Custom"  -- Default to custom (user's current settings)
+    end
+    
+    CM.DebugPrint("SETTINGS", "✓ Profile system initialized")
+end
+
+-- =====================================================
+-- SETTINGS VALIDATION
+-- =====================================================
+
+function CM.Settings.Initializer:ValidateSettings()
+    local defaults = CM.Settings.Defaults:GetAll()
+    local fixed = 0
+    
+    -- Ensure all required settings exist
+    for key, defaultValue in pairs(defaults) do
+        if CM.settings[key] == nil then
+            CM.settings[key] = defaultValue
+            CM.DebugPrint("SETTINGS", "Restored missing setting: " .. key)
+            fixed = fixed + 1
+        end
+    end
+    
+    -- Validate format choice
+    if not CM.Settings.Defaults:IsValidFormat(CM.settings.currentFormat) then
+        CM.Warn("Invalid format '" .. tostring(CM.settings.currentFormat) .. "', resetting to github")
+        CM.settings.currentFormat = "github"
+        fixed = fixed + 1
+    end
+    
+    -- Validate numeric ranges
+    if CM.settings.minSkillRank < 0 or CM.settings.minSkillRank > 50 then
+        CM.settings.minSkillRank = 1
+        fixed = fixed + 1
+    end
+    
+    if not CM.Settings.Defaults:IsValidQuality(CM.settings.minEquipQuality) then
+        CM.settings.minEquipQuality = 0
+        fixed = fixed + 1
+    end
+    
+    if fixed > 0 then
+        CM.DebugPrint("SETTINGS", "Validated and fixed " .. fixed .. " settings")
+    end
+    
+    return fixed == 0
+end
+
+-- =====================================================
+-- PROFILE MANAGEMENT
+-- =====================================================
+
+function CM.Settings.Initializer:SaveProfile(profileName, includeNotes)
+    if not profileName or profileName == "" then
+        CM.Error("Profile name cannot be empty")
+        return false
+    end
+    
+    -- Create profile snapshot
+    local profile = {
+        name = profileName,
+        created = GetTimeStamp(),
+        version = CM.version,
+    }
+    
+    -- Copy all settings (except meta fields)
+    local excludeKeys = {
+        profiles = true,
+        activeProfile = true,
+        settingsVersion = true,
+        _initialized = true,
+        _lastModified = true,
+        _panelOpened = true,
+        _firstRun = true,
+    }
+    
+    for key, value in pairs(CM.settings) do
+        if not excludeKeys[key] then
+            profile[key] = value
+        end
+    end
+    
+    -- Optionally include character notes
+    if includeNotes and CM.charData.customNotes then
+        profile.customNotes = CM.charData.customNotes
+    end
+    
+    -- Save profile
+    CM.settings.profiles[profileName] = profile
+    CM.settings._lastModified = GetTimeStamp()
+    
+    CM.Info("Profile '" .. profileName .. "' saved")
+    CM.DebugPrint("SETTINGS", "Profile saved with " .. self:CountProfileSettings(profile) .. " settings")
+    
+    return true
+end
+
+function CM.Settings.Initializer:LoadProfile(profileName)
+    local profile = CM.settings.profiles[profileName]
+    
+    if not profile then
+        -- Check if it's a preset profile
+        profile = CM.Settings.Defaults:GetProfile(profileName)
+        if not profile then
+            CM.Error("Profile '" .. profileName .. "' not found")
+            return false
+        end
+    end
+    
+    CM.DebugPrint("SETTINGS", "Loading profile: " .. profileName)
+    
+    -- Apply profile settings
+    local applied = 0
+    for key, value in pairs(profile) do
+        if key ~= "name" and key ~= "created" and key ~= "version" and key ~= "description" and key ~= "customNotes" then
+            CM.settings[key] = value
+            applied = applied + 1
+        end
+    end
+    
+    -- Apply notes if present
+    if profile.customNotes and CM.charData then
+        CM.charData.customNotes = profile.customNotes
+    end
+    
+    -- Update active profile
+    CM.settings.activeProfile = profileName
+    CM.settings._lastModified = GetTimeStamp()
+    
+    -- Sync format to core
+    CM.currentFormat = CM.settings.currentFormat
+    
+    CM.Info("Profile '" .. profileName .. "' loaded (" .. applied .. " settings applied)")
+    CM.DebugPrint("SETTINGS", "Profile loaded successfully")
+    
+    return true
+end
+
+function CM.Settings.Initializer:DeleteProfile(profileName)
+    if not CM.settings.profiles[profileName] then
+        CM.Error("Profile '" .. profileName .. "' not found")
+        return false
+    end
+    
+    CM.settings.profiles[profileName] = nil
+    CM.settings._lastModified = GetTimeStamp()
+    
+    -- If this was the active profile, switch to Custom
+    if CM.settings.activeProfile == profileName then
+        CM.settings.activeProfile = "Custom"
+    end
+    
+    CM.Info("Profile '" .. profileName .. "' deleted")
+    return true
+end
+
+function CM.Settings.Initializer:GetProfileList()
+    local profiles = {}
+    
+    -- Add user profiles
+    for name, profile in pairs(CM.settings.profiles) do
+        table.insert(profiles, {
+            name = name,
+            created = profile.created,
+            version = profile.version,
+            isPreset = false,
+        })
+    end
+    
+    -- Add preset profiles
+    for name, profile in pairs(CM.Settings.Defaults.PROFILES) do
+        table.insert(profiles, {
+            name = name,
+            description = profile.description,
+            isPreset = true,
+        })
+    end
+    
+    return profiles
+end
+
+function CM.Settings.Initializer:CountProfileSettings(profile)
+    local count = 0
+    for _, _ in pairs(profile) do
+        count = count + 1
+    end
+    return count
+end
+
+-- =====================================================
+-- IMPORT/EXPORT
+-- =====================================================
+
+function CM.Settings.Initializer:ExportSettings()
+    local export = {
+        version = CM.version,
+        timestamp = GetTimeStamp(),
+        settings = {},
+    }
+    
+    -- Copy all settings except meta fields
+    local excludeKeys = {
+        profiles = true,  -- Don't export profiles
+        settingsVersion = true,
+        _initialized = true,
+        _lastModified = true,
+        _panelOpened = true,
+        _firstRun = true,
+    }
+    
+    for key, value in pairs(CM.settings) do
+        if not excludeKeys[key] then
+            export.settings[key] = value
+        end
+    end
+    
+    -- Include character notes if present
+    if CM.charData.customNotes and CM.charData.customNotes ~= "" then
+        export.customNotes = CM.charData.customNotes
+    end
+    
+    -- Serialize to string
+    local serialized = self:SerializeTable(export)
+    
+    CM.Info("Settings exported to clipboard format")
+    CM.DebugPrint("SETTINGS", "Export size: " .. string.len(serialized) .. " bytes")
+    
+    return serialized
+end
+
+function CM.Settings.Initializer:ImportSettings(importString)
+    if not importString or importString == "" then
+        CM.Error("Import string is empty")
+        return false
+    end
+    
+    -- Deserialize
+    local success, import = pcall(function()
+        return self:DeserializeTable(importString)
+    end)
+    
+    if not success then
+        CM.Error("Failed to parse import string: " .. tostring(import))
+        return false
+    end
+    
+    if not import or not import.settings then
+        CM.Error("Invalid import format")
+        return false
+    end
+    
+    CM.DebugPrint("SETTINGS", "Importing settings from version: " .. tostring(import.version))
+    
+    -- Apply imported settings
+    local applied = 0
+    for key, value in pairs(import.settings) do
+        CM.settings[key] = value
+        applied = applied + 1
+    end
+    
+    -- Apply notes if present
+    if import.customNotes and CM.charData then
+        CM.charData.customNotes = import.customNotes
+    end
+    
+    -- Validate settings
+    self:ValidateSettings()
+    
+    -- Mark as modified
+    CM.settings._lastModified = GetTimeStamp()
+    
+    -- Sync format to core
+    CM.currentFormat = CM.settings.currentFormat
+    
+    CM.Info("Settings imported successfully (" .. applied .. " settings)")
+    return true
+end
+
+-- =====================================================
+-- SERIALIZATION HELPERS
+-- =====================================================
+
+function CM.Settings.Initializer:SerializeTable(tbl, indent)
+    indent = indent or 0
+    local output = {}
+    local prefix = string.rep("  ", indent)
+    
+    table.insert(output, "{\n")
+    
+    for k, v in pairs(tbl) do
+        local key = type(k) == "string" and ("[\"%s\"]"):format(k) or ("[%d]"):format(k)
+        local value
+        
+        if type(v) == "table" then
+            value = self:SerializeTable(v, indent + 1)
+        elseif type(v) == "string" then
+            value = ("%q"):format(v)
+        elseif type(v) == "number" or type(v) == "boolean" then
+            value = tostring(v)
+        else
+            value = "nil"
+        end
+        
+        table.insert(output, prefix .. "  " .. key .. " = " .. value .. ",\n")
+    end
+    
+    table.insert(output, prefix .. "}")
+    
+    return table.concat(output)
+end
+
+function CM.Settings.Initializer:DeserializeTable(str)
+    -- Wrap in return statement for loadstring
+    local funcStr = "return " .. str
+    
+    -- Load as function
+    local func, err = loadstring(funcStr)
+    if not func then
+        error("Parse error: " .. tostring(err))
+    end
+    
+    -- Execute and return table
+    return func()
 end
 
 -- =====================================================
 -- RESET TO DEFAULTS
 -- =====================================================
 
-function CharacterMarkdown.Settings.Initializer:ResetToDefaults()
-    local defaults = CharacterMarkdown.Settings.Defaults
+function CM.Settings.Initializer:ResetToDefaults()
+    CM.Info("Resetting all settings to defaults...")
     
-    -- Reset format
-    CharacterMarkdownSettings.currentFormat = defaults.FORMAT.currentFormat
+    local defaults = CM.Settings.Defaults:GetAll()
     
-    -- Reset core sections
-    for key, value in pairs(defaults.CORE) do
-        CharacterMarkdownSettings[key] = value
+    -- Apply defaults
+    for key, value in pairs(defaults) do
+        CM.settings[key] = value
     end
     
-    -- Reset extended sections
-    for key, value in pairs(defaults.EXTENDED) do
-        CharacterMarkdownSettings[key] = value
+    -- Reset version
+    CM.settings.settingsVersion = 1
+    CM.settings.activeProfile = "Custom"
+    
+    -- Reset character notes
+    if CM.charData then
+        CM.charData.customNotes = ""
     end
     
-    -- Reset link settings
-    for key, value in pairs(defaults.LINKS) do
-        CharacterMarkdownSettings[key] = value
-    end
+    -- Sync format to core
+    CM.currentFormat = CM.settings.currentFormat
     
-    -- Reset skill filters
-    for key, value in pairs(defaults.SKILL_FILTERS) do
-        CharacterMarkdownSettings[key] = value
-    end
+    CM.settings._lastModified = GetTimeStamp()
     
-    -- Reset equipment filters
-    for key, value in pairs(defaults.EQUIPMENT_FILTERS) do
-        CharacterMarkdownSettings[key] = value
-    end
-    
-    -- Reset custom notes
-    CharacterMarkdownData.customNotes = defaults.NOTES.customNotes
-    
-    -- Sync to core
-    if CharacterMarkdown.currentFormat then
-        CharacterMarkdown.currentFormat = CharacterMarkdownSettings.currentFormat
-    end
-    
-    d("[CharacterMarkdown] All settings reset to defaults")
+    CM.Success("All settings reset to defaults")
 end
 
 -- =====================================================
--- MIGRATION (Future-proofing)
+-- DEBUG HELPERS
 -- =====================================================
 
-function CharacterMarkdown.Settings.Initializer:MigrateFromVersion(oldVersion)
-    -- Placeholder for future version migrations
-    -- Example:
-    -- if oldVersion < 2.1 then
-    --     self:MigrateFrom20To21()
-    -- end
+function CM.Settings.Initializer:PrintCurrentSettings()
+    CM.DebugPrint("SETTINGS", "========== CURRENT SETTINGS ==========")
+    CM.DebugPrint("SETTINGS", "Initialization method: " .. (zo_savedvars_available and "ZO_SavedVars" or "Fallback"))
+    CM.DebugPrint("SETTINGS", "Active profile: " .. (CM.settings.activeProfile or "Custom"))
+    CM.DebugPrint("SETTINGS", "Current format: " .. (CM.settings.currentFormat or "github"))
+    CM.DebugPrint("SETTINGS", "Settings version: " .. (CM.settings.settingsVersion or "N/A"))
+    
+    local count = 0
+    for _, _ in pairs(CM.settings) do
+        count = count + 1
+    end
+    CM.DebugPrint("SETTINGS", "Total settings: " .. count)
+    
+    local profileCount = 0
+    for _, _ in pairs(CM.settings.profiles or {}) do
+        profileCount = profileCount + 1
+    end
+    CM.DebugPrint("SETTINGS", "Saved profiles: " .. profileCount)
+    
+    CM.DebugPrint("SETTINGS", "======================================")
 end
+
+CM.DebugPrint("SETTINGS", "Initializer module loaded")

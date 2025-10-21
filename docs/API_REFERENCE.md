@@ -1,588 +1,402 @@
 # API Reference
 
-> **Comprehensive guide to ESO Lua API patterns, controls, and common gotchas**
+## ESO Lua API Patterns
 
----
-
-## Table of Contents
-
-- [ESO Lua Runtime](#eso-lua-runtime)
-- [EditBox Controls](#editbox-controls)
-- [Clipboard System](#clipboard-system)
-- [String Handling](#string-handling)
-- [Event System](#event-system)
-- [API Versioning](#api-versioning)
-- [Common Gotchas](#common-gotchas)
-- [Troubleshooting](#troubleshooting)
-
----
-
-## ESO Lua Runtime
-
-### Base Environment
-
-**Engine Specification:**
-- **Base Version:** Lua 5.1.4 (with ZeniMax modifications)
-- **Integration:** Embedded in C++ game client
-- **Execution Model:** Event-driven, single-threaded per addon context
-- **Memory Management:** Garbage collected (Lua's standard GC)
-
-### Disabled Modules
+### Character Data
 
 ```lua
--- DISABLED MODULES (return nil or throw errors)
-io          -- No file I/O operations
-os.execute  -- No system command execution
-os.remove   -- No file deletion
-os.rename   -- No file manipulation
-loadfile    -- No external file loading
-dofile      -- No external script execution
+-- Identity
+GetUnitName("player")              -- Character name
+GetUnitRace("player")              -- Race ID → pass to GetRaceName()
+GetUnitClass("player")             -- Class ID → pass to GetClassName()
+GetUnitLevel("player")             -- Current level (1-50)
+GetPlayerChampionPointsEarned()    -- Total CP earned
 
--- RESTRICTED MODULES
-os.date     -- Available (read-only system time)
-os.time     -- Available (read-only)
-os.clock    -- Available (for performance timing)
+-- Alliance
+local alliance = GetUnitAlliance("player")  -- Alliance ID
+local allianceName = GetAllianceName(alliance)
 
--- MODIFIED BEHAVIOR
-string.len  -- Returns BYTE count, not character count (UTF-8 aware separately)
-table.*     -- Standard Lua behavior preserved
-math.*      -- Standard Lua behavior preserved
+-- Attributes
+GetAttributeSpentPoints(ATTRIBUTE_HEALTH)
+GetAttributeSpentPoints(ATTRIBUTE_MAGICKA)
+GetAttributeSpentPoints(ATTRIBUTE_STAMINA)
 ```
 
-### Global Namespace
-
-ESO populates hundreds of global functions:
+### Combat Stats
 
 ```lua
--- ESO API examples
-GetPlayerName()
-GetNumBagSlots()
-GetItemLink()
--- ... ~2000+ global API functions
+-- Resources
+GetPlayerStat(STAT_HEALTH_MAX)
+GetPlayerStat(STAT_MAGICKA_MAX)
+GetPlayerStat(STAT_STAMINA_MAX)
 
--- BEST PRACTICE: Use local references
-local GetPlayerName = GetPlayerName  -- Cache global lookup
+-- Power
+GetPlayerStat(STAT_SPELL_POWER)
+GetPlayerStat(STAT_WEAPON_POWER)
+
+-- Critical
+GetPlayerStat(STAT_SPELL_CRITICAL)
+GetPlayerStat(STAT_CRITICAL_STRIKE)
+
+-- Resistances
+GetPlayerStat(STAT_PHYSICAL_RESIST)
+GetPlayerStat(STAT_SPELL_RESIST)
 ```
 
-### Safe API Calls
+### Equipment
 
 ```lua
--- Always use pcall for API calls that might fail
-local function SafeGetPlayerStat(statType, defaultValue)
-    local success, value = pcall(function()
-        return GetPlayerStat(statType)
-    end)
-    return (success and value) or defaultValue
+-- Slot constants
+EQUIP_SLOT_HEAD = 0
+EQUIP_SLOT_NECK = 1
+EQUIP_SLOT_CHEST = 2
+-- ... through EQUIP_SLOT_BACKUP_POISON = 17
+
+-- Get item in slot
+local itemLink = GetItemLink(BAG_WORN, slotIndex)
+
+-- Item details
+local hasSet, setName = GetItemLinkSetInfo(itemLink)
+local quality = GetItemLinkQuality(itemLink)
+local trait = GetItemTrait(BAG_WORN, slotIndex)
+local traitName = GetString("SI_ITEMTRAITTYPE", trait)
+```
+
+### Skills & Abilities
+
+```lua
+-- Skill bars
+for slotIndex = 3, 8 do  -- Slots 3-8 (1-2 reserved)
+    local abilityId = GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_PRIMARY)
+    local name = GetAbilityName(abilityId)
 end
-```
 
----
-
-## EditBox Controls
-
-### Control Hierarchy
-
-```
-Control (base)
-  ↓
-EditBox (inherits Control)
-  ↓
-  Properties:
-  - text (internal C++ buffer)
-  - maxInputChars (character limit)
-  - multiLine (boolean)
-  - readonly (boolean)
-  - font (string reference)
-  - color (RGBA)
-```
-
-### Core Methods
-
-```lua
--- Text manipulation
-editBox:SetText(string)                -- Set text content
-editBox:GetText() → string             -- Get text content
-editBox:InsertText(string)             -- Insert at cursor position
-
--- Selection
-editBox:SelectAll()                    -- Select all text
-editBox:ClearSelection()               -- Remove selection
-
--- Focus
-editBox:TakeFocus()                    -- Give keyboard focus
-editBox:LoseFocus()                    -- Remove keyboard focus
-
--- Configuration
-editBox:SetMaxInputChars(number)       -- Set character limit
-editBox:GetMaxInputChars() → number    -- Get character limit
-editBox:SetMultiLine(boolean)          -- Enable multiline
-editBox:IsMultiLine() → boolean        -- Check if multiline
-editBox:SetNewLineEnabled(boolean)     -- Enable newline input
-editBox:SetEditEnabled(boolean)        -- Enable/disable editing (readonly)
-
--- Visual
-editBox:SetFont(string)                -- Set font (e.g., "ZoFontChat")
-editBox:SetColor(r, g, b, a)          -- Set text color (0-1 range)
-
--- Control base methods (inherited)
-editBox:SetHidden(boolean)             -- Show/hide control
-editBox:IsHidden() → boolean           -- Check if hidden
-editBox:GetWidth() → number            -- Get width in pixels
-editBox:GetHeight() → number           -- Get height in pixels
-```
-
-### Buffer Management
-
-**Important:** EditBox text is stored in C++ buffer, not Lua memory:
-
-```lua
--- When you call SetText():
-editBox:SetText(luaString)
--- Internally:
--- 1. Lua string (UTF-8) → C++ conversion
--- 2. UTF-8 → UTF-16/wide char conversion
--- 3. Stored in C++ buffer
--- 4. Truncation at maxInputChars BOUNDARY
-
--- When you call GetText():
-local text = editBox:GetText()
--- Internally:
--- 1. C++ buffer → UTF-16 to UTF-8 conversion
--- 2. UTF-8 → Lua string
--- 3. New Lua string allocated
-```
-
-### Configuration for Large Text
-
-```lua
-local function ConfigureEditBoxForLargeText(editBox)
-    editBox:SetMaxInputChars(1000000)  -- 1 million characters
-    editBox:SetMultiLine(true)
-    editBox:SetNewLineEnabled(true)
-    editBox:SetEditEnabled(false)      -- Readonly
-    editBox:SetFont("ZoFontChat")
-    editBox:SetColor(1, 1, 1, 1)       -- White text
-end
-```
-
----
-
-## Clipboard System
-
-### Native Integration
-
-ESO does **not expose direct clipboard API** to Lua. Clipboard operations happen through:
-
-1. **User Input:** Player presses Ctrl+C / Ctrl+V
-2. **Native Handler:** Game's C++ input system intercepts
-3. **EditBox Bridge:** If EditBox has focus and selection, text copies
-
-### Copy Operation Flow
-
-```lua
--- 1. Addon sets text
-editBox:SetText(markdown)
-
--- 2. Addon selects text
-editBox:SelectAll()
-
--- 3. Addon gives focus
-editBox:TakeFocus()
-
--- 4. User presses Ctrl+C (required)
--- Game's input handler intercepts and copies to OS clipboard
-```
-
-### Reliable Copy Pattern
-
-```lua
-function ReliableCopyToClipboard(editBox, text)
-    -- Step 1: Enable editing temporarily
-    editBox:SetEditEnabled(true)
-    
-    -- Step 2: Set text
-    editBox:SetText(text)
-    
-    -- Step 3: Delayed focus (allows rendering)
-    zo_callLater(function()
-        editBox:TakeFocus()
+-- Skill lines
+for skillType = 1, GetNumSkillTypes() do
+    for lineIndex = 1, GetNumSkillLines(skillType) do
+        local name, rank = GetSkillLineInfo(skillType, lineIndex)
         
-        -- Step 4: Delayed selection
-        zo_callLater(function()
-            editBox:SelectAll()
-            
-            -- Step 5: Make readonly again
-            zo_callLater(function()
-                editBox:SetEditEnabled(false)
-            end, 2000)  -- Give user 2 seconds to copy
-            
-        end, 100)
-    end, 50)
-end
-```
-
-### Known Limitations
-
-- No direct clipboard API (e.g., `SetClipboardText()` doesn't exist)
-- Timing-sensitive operations (focus/selection)
-- Edge cases with trailing truncation (~50 chars in some scenarios)
-- Platform differences (Windows vs macOS)
-
----
-
-## String Handling
-
-### UTF-8 Encoding
-
-```lua
--- Lua strings in ESO are UTF-8 encoded
-local str = "Hello 世界"  -- Valid UTF-8 string
-
--- Byte length vs Character length:
-string.len(str)  -- Returns BYTE count: 12
--- Breakdown: "Hello " = 6 bytes, "世界" = 6 bytes
-```
-
-### Safe Truncation
-
-```lua
-local function SafeTruncate(str, byteLimit)
-    if string.len(str) <= byteLimit then
-        return str
-    end
-    
-    local truncated = string.sub(str, 1, byteLimit)
-    
-    -- Walk back to find valid UTF-8 boundary
-    while byteLimit > 0 do
-        local byte = string.byte(truncated, byteLimit)
-        if not byte then break end
-        
-        -- Check if valid UTF-8 start byte
-        if byte < 128 or byte >= 192 then
-            break
+        for abilityIndex = 1, GetNumSkillAbilities(skillType, lineIndex) do
+            local abilityName = GetSkillAbilityInfo(skillType, lineIndex, abilityIndex)
         end
-        
-        byteLimit = byteLimit - 1
     end
-    
-    return string.sub(str, 1, byteLimit)
 end
+```
+
+### Champion Points
+
+```lua
+-- Disciplines
+CHAMPION_DISCIPLINE_TYPE_WORLD = 1  -- Craft
+CHAMPION_DISCIPLINE_TYPE_COMBAT = 2 -- Warfare
+CHAMPION_DISCIPLINE_TYPE_CONDITIONING = 3 -- Fitness
+
+-- Points in discipline
+GetNumSpentChampionPoints(disciplineType)
+GetChampionPointsInDiscipline(disciplineType)
+
+-- Skills in discipline
+for skillIndex = 1, GetNumChampionDisciplineSkills(disciplineType) do
+    local skillId = GetChampionSkillId(disciplineType, skillIndex)
+    local name = GetChampionSkillName(skillId)
+    local points = GetNumPointsSpentOnChampionSkill(skillId)
+end
+```
+
+### Currency
+
+```lua
+-- Currency types
+CURT_MONEY = 1              -- Gold
+CURT_ALLIANCE_POINTS = 2    -- AP
+CURT_TELVAR_STONES = 3      -- Tel Var
+CURT_WRIT_VOUCHERS = 11     -- Writ Vouchers
+CURT_CHAOTIC_CREATIA = 16   -- Transmutes
+
+-- Get amount
+GetCurrencyAmount(currencyType, CURRENCY_LOCATION_CHARACTER)
+```
+
+---
+
+## Safe API Calls
+
+### Always Use pcall
+
+```lua
+-- BAD - Can crash addon
+local stat = GetPlayerStat(STAT_HEALTH_MAX)
+
+-- GOOD - Handles errors
+local success, stat = pcall(GetPlayerStat, STAT_HEALTH_MAX)
+if not success then
+    stat = 0  -- Default value
+end
+
+-- BEST - Helper function
+local function SafeGetPlayerStat(statType, default)
+    local success, value = pcall(GetPlayerStat, statType)
+    return success and value or (default or 0)
+end
+```
+
+### Nested API Calls
+
+```lua
+-- BAD - No error handling
+local alliance = GetUnitAlliance("player")
+local name = GetAllianceName(alliance)
+
+-- GOOD - Check intermediate results
+local success, alliance = pcall(GetUnitAlliance, "player")
+if success and alliance then
+    local success2, name = pcall(GetAllianceName, alliance)
+    if success2 then
+        -- Use name
+    end
+end
+```
+
+---
+
+## Performance Optimization
+
+### Cache Global Functions
+
+```lua
+-- At module level
+local GetPlayerStat = GetPlayerStat
+local GetItemLink = GetItemLink
+local string_format = string.format
+local table_insert = table.insert
+
+-- Use cached versions
+local health = GetPlayerStat(STAT_HEALTH_MAX)
 ```
 
 ### Efficient String Building
 
 ```lua
--- SLOW: Repeated concatenation
+-- SLOW - Creates many temp strings
 local result = ""
 for i = 1, 1000 do
     result = result .. "Line " .. i .. "\n"
 end
 
--- FAST: Table concatenation
+-- FAST - Single allocation
 local parts = {}
 for i = 1, 1000 do
-    table.insert(parts, "Line ")
-    table.insert(parts, tostring(i))
-    table.insert(parts, "\n")
+    table_insert(parts, "Line ")
+    table_insert(parts, tostring(i))
+    table_insert(parts, "\n")
 end
 local result = table.concat(parts)
 ```
 
-### Newline Handling
+### Event Filtering
 
 ```lua
--- ESO EditBox expects \n (LF) for newlines
-editBox:SetText("Line 1\nLine 2\nLine 3")
+-- BAD - Processes every inventory update
+EVENT_MANAGER:RegisterForEvent("MyAddon", EVENT_INVENTORY_SINGLE_SLOT_UPDATE,
+    function(event, bagId, slotIndex)
+        UpdateInventory()  -- Called hundreds of times
+    end
+)
 
--- Windows clipboard may convert:
--- \n → \r\n (CRLF)
--- This is NORMAL and handled by OS
-
--- Don't manually convert:
--- markdown = string.gsub(markdown, "\n", "\r\n")  -- ❌ Don't do this
+-- GOOD - Filter and throttle
+local updatePending = false
+EVENT_MANAGER:RegisterForEvent("MyAddon", EVENT_INVENTORY_SINGLE_SLOT_UPDATE,
+    function(event, bagId, slotIndex)
+        if bagId ~= BAG_BACKPACK then return end
+        
+        if not updatePending then
+            updatePending = true
+            zo_callLater(function()
+                UpdateInventory()
+                updatePending = false
+            end, 100)
+        end
+    end
+)
 ```
 
 ---
 
-## Event System
+## UI Controls
 
-### Event Registration
+### EditBox
 
 ```lua
--- Register event
-EVENT_MANAGER:RegisterForEvent(
-    namespace,      -- string: unique identifier
-    eventId,        -- number: event constant
-    callback        -- function: handler
-)
+-- Configure
+editBox:SetMaxInputChars(1000000)
+editBox:SetMultiLine(true)
+editBox:SetNewLineEnabled(true)
+editBox:SetEditEnabled(false)  -- Read-only
 
--- Unregister event
-EVENT_MANAGER:UnregisterForEvent(
-    namespace,
-    eventId
+-- Set/get text
+editBox:SetText(content)
+local text = editBox:GetText()
+
+-- Selection & focus
+editBox:SelectAll()
+editBox:TakeFocus()
+editBox:LoseFocus()
+```
+
+### Window Control
+
+```lua
+-- Show/hide
+window:SetHidden(false)
+window:SetHidden(true)
+
+-- Z-order
+window:SetTopmost(true)
+
+-- Dimensions
+window:SetWidth(800)
+window:SetHeight(600)
+```
+
+---
+
+## SavedVariables
+
+### Declaration (Manifest)
+
+```
+## SavedVariables: AddonSettings
+## SavedVariablesPerCharacter: AddonData
+```
+
+### Structure
+
+```lua
+-- Account-wide
+AddonSettings = {
+    version = 1,
+    enableFeature = true,
+}
+
+-- Per-character (ESO manages nesting)
+AddonData = {
+    customNotes = "",
+    timestamp = 0,
+}
+```
+
+### Initialization
+
+```lua
+-- In EVENT_ADD_ON_LOADED handler
+local function Initialize()
+    -- Set defaults if not exist
+    AddonSettings = AddonSettings or {}
+    AddonData = AddonData or {}
+    
+    if not AddonSettings.version then
+        AddonSettings.version = 1
+        AddonSettings.enableFeature = true
+    end
+end
+```
+
+---
+
+## Events
+
+### Registration
+
+```lua
+EVENT_MANAGER:RegisterForEvent("MyAddon", EVENT_ADD_ON_LOADED,
+    function(event, addonName)
+        if addonName ~= "MyAddon" then return end
+        
+        -- Initialize
+        
+        -- Unregister (one-time event)
+        EVENT_MANAGER:UnregisterForEvent("MyAddon", EVENT_ADD_ON_LOADED)
+    end
 )
 ```
 
 ### Common Events
 
 ```lua
-EVENT_ADD_ON_LOADED                    -- Addon finished loading
-EVENT_PLAYER_ACTIVATED                 -- Player entered world
-EVENT_INVENTORY_SINGLE_SLOT_UPDATE     -- Item changed
-EVENT_SKILL_POINTS_CHANGED             -- Skills updated
-EVENT_CHAMPION_POINT_UPDATE            -- CP changed
-```
-
-### Addon Initialization Pattern
-
-```lua
-local function OnAddOnLoaded(event, addonName)
-    if addonName ~= "CharacterMarkdown" then return end
-    
-    -- At this point:
-    -- ✅ XML controls exist and are accessible
-    -- ✅ Global namespace is populated
-    -- ✅ SavedVariables are loaded
-    -- ❌ UI may not be fully rendered yet
-    -- ❌ Game data may still be loading
-    
-    -- Recommended: Delay UI operations
-    zo_callLater(function()
-        -- Safe to manipulate UI controls here
-    end, 100)
-end
-
-EVENT_MANAGER:RegisterForEvent("CharacterMarkdown", EVENT_ADD_ON_LOADED, OnAddOnLoaded)
+EVENT_ADD_ON_LOADED        -- Addon finished loading
+EVENT_PLAYER_ACTIVATED     -- Player entered world
+EVENT_INVENTORY_SINGLE_SLOT_UPDATE  -- Item changed
+EVENT_CHAMPION_POINT_GAINED         -- CP earned
+EVENT_SKILL_RANK_UPDATE             -- Skill leveled
 ```
 
 ---
 
-## API Versioning
+## Constants
 
-### Version Numbers
-
-```lua
--- Get current API version
-local apiVersion = GetAPIVersion()
--- Example: 101046 (Update 46, Gold Road)
-
--- Format: XXYYZZ
--- XX = Major update number
--- YY = Minor update number
--- ZZ = Patch number
-```
-
-### Manifest Declaration
+### Item Quality
 
 ```
-## APIVersion: 101045 101046
+ITEM_QUALITY_TRASH = 0
+ITEM_QUALITY_NORMAL = 1
+ITEM_QUALITY_MAGIC = 2
+ITEM_QUALITY_ARCANE = 3
+ITEM_QUALITY_ARTIFACT = 4
+ITEM_QUALITY_LEGENDARY = 5
 ```
 
-Supports multiple versions (backward compatibility).
+### Attributes
 
-### Version Checking
+```
+ATTRIBUTE_HEALTH = 1
+ATTRIBUTE_MAGICKA = 2
+ATTRIBUTE_STAMINA = 3
+```
 
-```lua
-local function IsAPIVersionSupported(requiredVersion)
-    local currentVersion = GetAPIVersion()
-    return currentVersion >= requiredVersion
-end
+### Skill Types
 
-if not IsAPIVersionSupported(101045) then
-    d("[CharacterMarkdown] ERROR: Requires API version 101045+")
-    return
-end
+```
+SKILL_TYPE_CLASS = 1
+SKILL_TYPE_WEAPON = 2
+SKILL_TYPE_ARMOR = 3
+SKILL_TYPE_WORLD = 4
+SKILL_TYPE_GUILD = 5
+SKILL_TYPE_AVA = 6
+SKILL_TYPE_RACIAL = 7
 ```
 
 ---
 
-## Common Gotchas
+## Limitations
 
-### 1. EditBox Focus Glitch
+### Disabled Functions
 
-**Symptom:** TakeFocus() sometimes doesn't give focus
-
-**Workaround:**
 ```lua
-local function ReliableFocus(editBox)
-    editBox:TakeFocus()
-    zo_callLater(function()
-        editBox:TakeFocus()  -- Call twice
-    end, 50)
-end
+-- File I/O
+io.*           -- Completely disabled
+
+-- System
+os.execute()   -- Disabled
+os.remove()    -- Disabled
+os.rename()    -- Disabled
+
+-- Network
+-- No socket library available
 ```
 
-### 2. SelectAll Timing
+### Combat Restrictions
 
-**Symptom:** SelectAll() before render completes = partial selection
+Some functions disabled during combat:
+- Action bar modifications
+- UI focus changes
+- Certain keybind updates
 
-**Workaround:**
-```lua
-local function ReliableSelectAll(editBox)
-    editBox:TakeFocus()
-    zo_callLater(function()
-        editBox:SelectAll()
-    end, 100)  -- Wait for focus to settle
-end
-```
-
-### 3. Global Namespace Pollution
-
-**Issue:** ESO creates ~2000+ global functions
-
-**Solution:**
-```lua
--- Cache globals locally
-local GetPlayerName = GetPlayerName
-local GetNumBagSlots = GetNumBagSlots
-
--- Namespace your addon
-CharacterMarkdown = CharacterMarkdown or {}
-```
-
-### 4. String Length Confusion
-
-**Issue:** `string.len()` returns bytes, not characters
-
-**Solution:**
-```lua
-local str = "日本語"
-string.len(str)  -- Returns 9 (bytes)
--- Need custom function for character count
-
-local function CharacterCount(str)
-    local _, count = string.gsub(str, "[^\128-\193]", "")
-    return count
-end
-```
-
-### 5. Protected Function Restrictions
-
-**Issue:** Some API functions disabled during combat
-
-**Solution:**
-```lua
-if IsUnitInCombat("player") then
-    d("Cannot perform action during combat")
-    return
-end
-
--- EditBox operations work in combat:
--- ✅ SetText()
--- ✅ GetText()
--- ✅ SelectAll()
-```
+Check with: `IsUnitInCombat("player")`
 
 ---
 
-## Troubleshooting
+## Resources
 
-### Debug Output
-
-```lua
--- d() function (ESO-specific)
-d("Debug message")  -- Prints to chat
-
--- Table printing
-local function PrintTable(tbl, indent)
-    indent = indent or 0
-    for k, v in pairs(tbl) do
-        local formatting = string.rep("  ", indent) .. tostring(k) .. ": "
-        if type(v) == "table" then
-            d(formatting)
-            PrintTable(v, indent + 1)
-        else
-            d(formatting .. tostring(v))
-        end
-    end
-end
-```
-
-### String Inspection
-
-```lua
-local function InspectString(str)
-    d("String length (bytes): " .. string.len(str))
-    d("First 100: " .. string.sub(str, 1, 100))
-    d("Last 100: " .. string.sub(str, -100))
-    
-    -- Byte dump (for encoding issues)
-    local bytes = {}
-    for i = 1, math.min(20, string.len(str)) do
-        table.insert(bytes, string.byte(str, i))
-    end
-    d("First 20 bytes: " .. table.concat(bytes, " "))
-end
-```
-
-### EditBox State Verification
-
-```lua
-local function VerifyEditBox(editBox)
-    if not editBox then
-        d("❌ EditBox is nil")
-        return
-    end
-    
-    d("✅ EditBox exists")
-    d("  Hidden: " .. tostring(editBox:IsHidden()))
-    d("  Text length: " .. string.len(editBox:GetText()))
-    d("  Max chars: " .. tostring(editBox:GetMaxInputChars()))
-    d("  MultiLine: " .. tostring(editBox:IsMultiLine()))
-end
-```
-
-### Performance Profiling
-
-```lua
-local function ProfileFunction(name, func, ...)
-    local startTime = GetFrameTimeSeconds()
-    local result = {func(...)}
-    local endTime = GetFrameTimeSeconds()
-    
-    d(string.format("[%s] Execution time: %.3fms", name, (endTime - startTime) * 1000))
-    
-    return unpack(result)
-end
-
--- Usage:
-ProfileFunction("GenerateMarkdown", GenerateMarkdown, "GITHUB")
-```
-
----
-
-## Global Utility Functions
-
-```lua
--- Delayed execution
-zo_callLater(function, delayMs)
-
--- String formatting (ESO-specific)
-zo_strformat(format, ...)
-
--- Debugging
-d(message)
-
--- Safe calls
-pcall(function, ...)
-
--- Type checking
-type(value) → string
-tostring(value) → string
-tonumber(value) → number|nil
-```
-
----
-
-## Additional Resources
-
-- **ESOUI GitHub:** https://github.com/esoui/esoui
-- **ESOUI Wiki:** https://wiki.esoui.com/
-- **Lua 5.1 Manual:** https://www.lua.org/manual/5.1/
-- **UESP Wiki (Online):** https://en.uesp.net/wiki/Online:Online
-
----
-
-**Last Updated:** January 2025  
-**API Version:** 101046 (Gold Road)
+- **Wiki**: https://wiki.esoui.com/
+- **Source**: https://github.com/esoui/esoui
+- **Forums**: https://www.esoui.com/forums/

@@ -1,0 +1,123 @@
+graph TB
+    %% ===== ESO FITNESS CHAMPION POINTS TREE =====
+    %% Production Grade Visual Diagram
+    %% Based on comprehensive data and visual standards
+    
+    %% ===== LEGEND =====
+    %% 🟡 Yellow = Passive (always active)
+    %% 🔴 Red = Slottable (must be equipped in Champion Bar) 
+    %% 🟠 Orange = Independent (no prerequisites)
+    %% 🟣 Purple = Sub-Constellation
+    
+    Start([🏃 FITNESS CONSTELLATION<br/>🔴 WARRIOR TREE 🔴<br/>Survival • Sustain • Defense])
+    
+    %% ===== INDEPENDENT STARTING NODES =====
+    Start -.->|Always Available| BV["🟠 Boundless Vitality<br/>(SLOTTABLE)<br/>+28 Max Health/stage<br/>Max: 50 | Stages: 2 | Size: 25"]
+    Start -.->|Always Available| Fort["🟠 Fortified<br/>(SLOTTABLE)<br/>+34.6 Armor/stage<br/>Max: 50 | Stages: 2 | Size: 25"]  
+    Start -.->|Always Available| Rejuv["🟠 Rejuvenation<br/>(SLOTTABLE)<br/>+1.8 All Recovery/stage<br/>Max: 50 | Stages: 2 | Size: 25"]
+    
+    %% ===== LEFT BRANCH - DODGE & BREAK FREE =====
+    Start -->|Entry Point| Tumble["🟡 Tumbling<br/>(PASSIVE)<br/>-120 Stamina Roll cost/stage<br/>Max: 30 | Stages: 2 | Size: 15"]
+    Start -->|Entry Point| Def["🟡 Defiance<br/>(PASSIVE)<br/>-110 Stamina Break Free/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    Start -->|Entry Point| Sprint["🟡 Sprinter<br/>(PASSIVE)<br/>-20 Stamina Sprint cost/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    
+    Tumble -->|10 CP| ExpertEvade["🔴 Expert Evasion<br/>(SLOTTABLE)<br/>Free Roll Dodge (30s CD)<br/>Max: 1 | Stages: 1 | Size: 1"]
+    
+    Tumble -->|10 CP| MysticTen["🟡 Mystic Tenacity<br/>(PASSIVE)<br/>-5% Elemental Status duration/stage<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Def -->|10 CP| MysticTen
+    
+    MysticTen -->|10 CP| HeroVig["🟡 Hero's Vigor<br/>(PASSIVE)<br/>+280 Max Health/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    
+    HeroVig -->|10 CP| PierceGaze["🟡 Piercing Gaze<br/>(PASSIVE)<br/>+1m Stealth Detection/stage<br/>Max: 15 | Stages: 3 | Size: 5"]
+    
+    HeroVig -->|10 CP| Tempered["🟡 Tempered Soul<br/>(PASSIVE)<br/>+5% resources on resurrection/stage<br/>Max: 10 | Stages: 2 | Size: 5"]
+    
+    Tempered -->|10 CP| SpiritMast["🔴 Spirit Mastery<br/>(SLOTTABLE)<br/>-33% ally resurrection time<br/>Max: 1 | Stages: 1 | Size: 1"]
+    
+    Def -->|10 CP| Unchained["🔴 Unchained<br/>(SLOTTABLE)<br/>-11% next Stamina ability cost<br/>after Break Free/stage<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    %% ===== CENTER-RIGHT BRANCH - BLOCKING =====
+    Start -->|Entry Point| TireGuard["🟡 Tireless Guardian<br/>(PASSIVE)<br/>-20 Stamina Block cost/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    
+    TireGuard -->|10 CP| Fortif["🟡 Fortification<br/>(PASSIVE)<br/>+2% Block effectiveness/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    
+    Fortif -->|10 CP| NimbleProt["🟡 Nimble Protector<br/>(PASSIVE)<br/>+3% Move Speed while blocking/stage<br/>Max: 30 | Stages: 2 | Size: 15"]
+    
+    TireGuard -->|10 CP| SavageDef["🟡 Savage Defense<br/>(PASSIVE)<br/>-45 Stamina Bash cost/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    
+    SavageDef -->|10 CP| BashBrut["🟡 Bashing Brutality<br/>(PASSIVE)<br/>+60 Bash Damage/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    
+    NimbleProt -->|10 CP| BracingAnch["🔴 Bracing Anchor<br/>(SLOTTABLE)<br/>+4% Block effectiveness/stage<br/>-16% Move Speed<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    %% ===== RIGHT BRANCH - SPRINT & MOVEMENT =====
+    Sprint -->|10 CP| Hasty["🟡 Hasty<br/>(PASSIVE)<br/>+2% Sprint Move Speed/stage<br/>Max: 20 | Stages: 2 | Size: 10"]
+    
+    Hasty -->|10 CP| HeroVig
+    
+    Hasty -->|10 CP| Celer["🔴 Celerity<br/>(SLOTTABLE)<br/>+2% Movement Speed/stage<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Celer -->|10 CP| ThrillHunt["🔴 Thrill of the Hunt<br/>(SLOTTABLE)<br/>Major Expedition (30% speed)<br/>for 3s/stage on kill<br/>Max: 30 | Stages: 6 | Size: 5"]
+    
+    Sprint -->|10 CP| RefreshStride["🔴 Refreshing Stride<br/>(SLOTTABLE)<br/>+100 Health/Mag Recovery<br/>while sprinting/stage<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    %% ===== SUB-CONSTELLATIONS =====
+    Tumble -.->|75 CP Total| SurvSpite["🟣 ╔══════════════════╗<br/>║ SURVIVOR'S SPITE ║<br/>║   SUB-CONSTELLATION  ║<br/>╚══════════════════╝<br/>🔴 Sustained by Suffering<br/>+30 All Recovery/stage<br/>while under negative effect<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Sprint -.->|75 CP Total| WindChase["🟣 ╔═════════════╗<br/>║ WIND CHASER ║<br/>║ SUB-CONSTELLATION ║<br/>╚═════════════╝<br/>🔴 Enhanced Movement<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    TireGuard -.->|75 CP Total| WalkFort["🟣 ╔═══════════════════╗<br/>║ WALKING FORTRESS ║<br/>║   SUB-CONSTELLATION   ║<br/>╚═══════════════════╝<br/>🔴 Enhanced Blocking<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    %% ===== SUB-CONSTELLATION CONNECTIONS =====
+    SurvSpite -->|Internal| PainsRef["🔴 Pain's Refuge<br/>(SLOTTABLE)<br/>-1% damage per 2 negative<br/>effects (max 20%)<br/>Max: 1 | Stages: 1 | Size: 1"]
+    
+    SurvSpite -->|Internal| Relent["🔴 Relentlessness<br/>(SLOTTABLE)<br/>Major Protection on<br/>Stun/Fear (3s)<br/>Max: 1 | Stages: 1 | Size: 1"]
+    
+    SurvSpite -->|Internal| SurvivalInst["🔴 Survival Instincts<br/>(SLOTTABLE)<br/>-5% core combat cost/stage<br/>while afflicted with status<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    WindChase -->|Internal| RousSpeed["🔴 Rousing Speed<br/>(SLOTTABLE)<br/>-50 Sprint cost/stage<br/>under CC immunity<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    WalkFort -->|Internal| WardMast["🔴 Ward Master<br/>(SLOTTABLE)<br/>-2% damage/stage while<br/>Blocking + Shield active<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    WalkFort -->|Internal| SoothShield["🔴 Soothing Shield<br/>(SLOTTABLE)<br/>15% chance restore<br/>147 Health/stage on block<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    WalkFort -->|Internal| OnGuard["🔴 On Guard<br/>(SLOTTABLE)<br/>+2% Block effectiveness/stage<br/>under CC immunity<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    %% ===== ADVANCED UTILITY STARS =====
+    Tempered -->|10 CP| ShieldMast["🔴 Shield Master<br/>(SLOTTABLE)<br/>-2% damage shield cost/stage<br/>Max: 50 | Stages: 5 | Size: 10"]
+    
+    ShieldMast -->|10 CP| Bastion["🔴 Bastion<br/>(SLOTTABLE)<br/>+3% shield effectiveness +<br/>damage vs shielded enemies/stage<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Bastion -->|10 CP| ArcaneAlac["🔴 Arcane Alacrity<br/>(SLOTTABLE)<br/>-160 Roll Dodge cost/stage<br/>while shielded<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    %% ===== RESOURCE RECOVERY STARS =====
+    Tumble -->|10 CP| BloodyRen["🔴 Bloody Renewal<br/>(SLOTTABLE)<br/>+300 Stamina/stage on kill<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Def -->|10 CP| SiphonSpell["🔴 Siphoning Spells<br/>(SLOTTABLE)<br/>+300 Magicka/stage on kill<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    TireGuard -->|10 CP| StratReserve["🔴 Strategic Reserve<br/>(SLOTTABLE)<br/>+30 Health Recovery<br/>per 10 Ultimate<br/>Max: 1 | Stages: 1 | Size: 1"]
+    
+    %% ===== CROWD CONTROL UTILITY =====
+    MysticTen -->|10 CP| Hardened["🔴 Hardened<br/>(SLOTTABLE)<br/>+3% CC Immunity duration/stage<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Hardened -->|10 CP| Jugger["🔴 Juggernaut<br/>(SLOTTABLE)<br/>-1% damage taken/stage<br/>under CC immunity<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Hardened -->|10 CP| PeaceMind["🔴 Peace of Mind<br/>(SLOTTABLE)<br/>+40 Mag/Health Recovery/stage<br/>under CC immunity<br/>Max: 25 | Stages: 5 | Size: 5"]
+    
+    Def -->|10 CP| Slippery["🔴 Slippery<br/>(SLOTTABLE)<br/>Auto Break Free (free)<br/>21s cooldown<br/>Max: 1 | Stages: 1 | Size: 1"]
+    
+    %% ===== PRODUCTION STYLING =====
+    classDef passive fill:#FFD700,stroke:#B8860B,stroke-width:3px,color:#000,font-weight:bold
+    classDef slottable fill:#DC143C,stroke:#8B0000,stroke-width:3px,color:#FFF,font-weight:bold
+    classDef independent fill:#FF8C00,stroke:#FF4500,stroke-width:4px,color:#000,font-weight:bold
+    classDef subTree fill:#9370DB,stroke:#4B0082,stroke-width:4px,color:#FFF,font-weight:bold
+    classDef startNode fill:#2F4F4F,stroke:#000000,stroke-width:4px,color:#FFF,font-weight:bold
+    
+    class Start startNode
+    class Tumble,Def,Sprint,TireGuard,MysticTen,HeroVig,PierceGaze,Fortif,NimbleProt,SavageDef,Hasty,Tempered,BashBrut passive
+    class BV,Fort,Rejuv independent
+    class ExpertEvade,SpiritMast,Unchained,BracingAnch,Celer,ThrillHunt,RefreshStride slottable
+    class PainsRef,Relent,SurvivalInst,RousSpeed,WardMast,SoothShield,OnGuard slottable
+    class ShieldMast,Bastion,ArcaneAlac,BloodyRen,SiphonSpell,StratReserve slottable
+    class Hardened,Jugger,PeaceMind,Slippery slottable
+    class SurvSpite,WindChase,WalkFort subTree

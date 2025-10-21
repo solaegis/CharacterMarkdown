@@ -6,8 +6,8 @@ version: '3'
 
 vars:
   ADDON_NAME: CharacterMarkdown
-  MANIFEST_FILE: CharacterMarkdown.txt
-  ADDON_MANIFEST: CharacterMarkdown.addon
+  # Updated: Use .addon manifest (Console-compatible format)
+  MANIFEST_FILE: CharacterMarkdown.addon
   VERSION:
     sh: grep "## Version:" {{.MANIFEST_FILE}} | awk '{print $3}'
   # Directories
@@ -62,11 +62,34 @@ tasks:
       - |
         echo "📥 Installing {{.ADDON_NAME}} to ESO Live..."
         mkdir -p "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
-        cp {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
-        if [ -f "{{.ADDON_MANIFEST}}" ]; then
-          cp {{.ADDON_MANIFEST}} "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy manifest (.addon format)
+        cp {{.MANIFEST_FILE}} "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy other core files
+        cp {{.ADDON_NAME}}.xml "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy assets directory if exists
+        if [ -d "assets" ]; then
+          cp -r assets/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/assets/"
+          echo "  ✓ Copied assets/"
         fi
+        
+        # Copy source files
         cp -r {{.SRC_DIR}}/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+        echo "  ✓ Copied {{.SRC_DIR}}/"
+        
+        # Copy optional documentation files
+        if [ -f "README.md" ]; then
+          cp README.md "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied README.md"
+        fi
+        
+        if [ -f "LICENSE" ]; then
+          cp LICENSE "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied LICENSE"
+        fi
+        
         echo "✅ Installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
     silent: true
 
@@ -76,11 +99,40 @@ tasks:
       - |
         echo "📥 Installing {{.ADDON_NAME}} to ESO PTS..."
         mkdir -p "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
-        cp {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
-        if [ -f "{{.ADDON_MANIFEST}}" ]; then
-          cp {{.ADDON_MANIFEST}} "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy manifest
+        cp {{.MANIFEST_FILE}} "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy other core files
+        cp {{.ADDON_NAME}}.xml "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy assets directory if exists
+        if [ -d "assets" ]; then
+          cp -r assets/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/assets/"
+          echo "  ✓ Copied assets/"
         fi
+        
+        # Copy settings directory if exists
+        if [ -d "settings" ]; then
+          cp -r settings/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/settings/"
+          echo "  ✓ Copied settings/"
+        fi
+        
+        # Copy source files
         cp -r {{.SRC_DIR}}/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+        echo "  ✓ Copied {{.SRC_DIR}}/"
+        
+        # Copy optional documentation files
+        if [ -f "README.md" ]; then
+          cp README.md "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied README.md"
+        fi
+        
+        if [ -f "LICENSE" ]; then
+          cp LICENSE "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied LICENSE"
+        fi
+        
         echo "✅ Installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
     silent: true
 
@@ -190,7 +242,21 @@ tasks:
     cmds:
       - echo "  Validating manifest..."
       - |
-        luajit scripts/validate-manifest.lua {{.MANIFEST_FILE}}
+        # Basic validation - check required fields
+        if ! grep -q "^## Title:" {{.MANIFEST_FILE}}; then
+          echo "  ✗ Missing Title in manifest"
+          exit 1
+        fi
+        if ! grep -q "^## Version:" {{.MANIFEST_FILE}}; then
+          echo "  ✗ Missing Version in manifest"
+          exit 1
+        fi
+        if ! grep -q "^## APIVersion:" {{.MANIFEST_FILE}}; then
+          echo "  ✗ Missing APIVersion in manifest"
+          exit 1
+        fi
+        echo "    ✓ Manifest valid"
+    silent: true
 
   validate:syntax:
     desc: Check Lua syntax with LuaJIT
@@ -223,29 +289,15 @@ tasks:
         rm -f {{.ADDON_NAME}}-*.zip
         echo "✅ Clean complete"
 
-  rename-manifest:
-    desc: Rename .txt manifest to .addon for console compatibility
-    cmds:
-      - |
-        if [ -f "{{.MANIFEST_FILE}}" ] && [ ! -f "{{.ADDON_MANIFEST}}" ]; then
-          echo "📝 Renaming {{.MANIFEST_FILE}} → {{.ADDON_MANIFEST}}"
-          cp "{{.MANIFEST_FILE}}" "{{.ADDON_MANIFEST}}"
-          echo "✅ Manifest renamed (original preserved)"
-        elif [ -f "{{.ADDON_MANIFEST}}" ]; then
-          echo "✅ {{.ADDON_MANIFEST}} already exists"
-        else
-          echo "❌ Error: Neither {{.MANIFEST_FILE}} nor {{.ADDON_MANIFEST}} found"
-          exit 1
-        fi
-
   build:
     desc: Build release ZIP artifact with full validation
-    deps: [clean, test, rename-manifest]
+    deps: [clean, test]
     cmds:
       - |
         echo "📦 Building {{.ADDON_NAME}} v{{.VERSION}} release..."
         mkdir -p {{.BUILD_DIR}}/{{.ADDON_NAME}}
         mkdir -p {{.DIST_DIR}}
+        
         # Copy files using .build-ignore exclusions
         rsync -a --quiet \
           --exclude-from=.build-ignore \
@@ -258,11 +310,13 @@ tasks:
         cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
         echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
       - |
-        bash scripts/validate-zip.sh {{.DIST_DIR}}/{{.ADDON_NAME}}-*.zip
+        # Run comprehensive ZIP validation
+        chmod +x scripts/validate-zip.sh
+        scripts/validate-zip.sh "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip"
 
   build:fast:
     desc: Build without tests (fast local iteration)
-    deps: [clean, rename-manifest]
+    deps: [clean]
     cmds:
       - |
         echo "📦 Building {{.ADDON_NAME}} v{{.VERSION}} (fast mode)..."
@@ -298,10 +352,38 @@ tasks:
     cmds:
       - |
         VERSION="{{.VERSION}}"
-        API_VERSION=$(grep "^## APIVersion:" {{.MANIFEST_FILE}} | awk '{print $3, $4}')
+        API_VERSION=$(grep "^## APIVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
+        ADDON_VERSION=$(grep "^## AddOnVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
         echo "📦 {{.ADDON_NAME}}"
         echo "   Version: ${VERSION}"
         echo "   API Version: ${API_VERSION}"
+        echo "   AddOn Version: ${ADDON_VERSION}"
+    silent: true
+
+  version:api:
+    desc: "Update ESO API version (usage: task version:api -- <API_VERSION>)"
+    vars:
+      API_VERSION: '{{.CLI_ARGS | default ""}}'
+    cmds:
+      - |
+        if [ -z "{{.API_VERSION}}" ]; then
+          echo "❌ Error: API version required"
+          echo ""
+          echo "Usage: task version:api -- <API_VERSION>"
+          echo ""
+          echo "To get current API version:"
+          echo "  1. Launch ESO"
+          echo "  2. Type in chat: /script d(GetAPIVersion())"
+          echo "  3. Run: task version:api -- <VERSION>"
+          echo ""
+          echo "Example:"
+          echo "  task version:api -- 101047"
+          exit 1
+        fi
+      - |
+        echo "🔄 Updating API version to: {{.API_VERSION}}"
+        chmod +x scripts/update-api-version.sh
+        ./scripts/update-api-version.sh "{{.API_VERSION}}"
     silent: true
 
   version:bump:
@@ -332,11 +414,19 @@ tasks:
         NEW_VERSION="$MAJOR.$MINOR.$PATCH"
         echo "  $CURRENT → $NEW_VERSION"
 
-        # Update manifest
+        # Update manifest Version
         if [[ "$OSTYPE" == "darwin"* ]]; then
           sed -i '' "s/^## Version: .*/## Version: $NEW_VERSION/" {{.MANIFEST_FILE}}
         else
           sed -i "s/^## Version: .*/## Version: $NEW_VERSION/" {{.MANIFEST_FILE}}
+        fi
+        
+        # Update AddOnVersion (YYYYMMDD format)
+        DATE_VERSION=$(date +%Y%m%d)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          sed -i '' "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/" {{.MANIFEST_FILE}}
+        else
+          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/" {{.MANIFEST_FILE}}
         fi
 
         # Update CHANGELOG
@@ -508,6 +598,7 @@ tasks:
         echo "===================="
         echo "Name:        {{.ADDON_NAME}}"
         echo "Version:     {{.VERSION}}"
+        echo "Manifest:    {{.MANIFEST_FILE}}"
         echo "Location:    {{.PWD}}"
         echo "ESO Live:    {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
         echo "ESO PTS:     {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
@@ -516,7 +607,7 @@ tasks:
         ls -lh {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE
         echo ""
         echo "Source Files:"
-        find {{.SRC_DIR}} -name "*.lua" -type f | sort
+        find {{.SRC_DIR}} -name "*.lua" -type f | wc -l | xargs echo "  Lua files:"
     silent: true
 
   size:
@@ -552,8 +643,10 @@ tasks:
       - echo "📖 Documentation files:"
       - echo "  - README.md (user guide)"
       - echo "  - CHANGELOG.md (version history)"
-      - echo "  - docs/SETUP.md (development setup)"
-      - echo "  - docs/RELEASE.md (release process)"
+      - echo "  - docs/ACTION_PLAN.md (testing and release)"
+      - echo "  - docs/COMPLIANCE_REPORT.md (ESO guidelines compliance)"
+      - echo "  - docs/UPDATE_PATTERNS.md (update remaining modules)"
+      - echo "  - docs/PROGRESS_CHART.md (visual progress)"
     silent: true
 
   docs:serve:

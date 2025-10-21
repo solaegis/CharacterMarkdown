@@ -1,126 +1,147 @@
 -- CharacterMarkdown - Event System
--- Event registration and handlers
-
-d("[CharacterMarkdown] *** Events.lua is being loaded ***")
+-- Event registration and handlers (ESO Guideline Compliant)
 
 local CM = CharacterMarkdown
-
-d("[CharacterMarkdown] Events.lua: CM = " .. tostring(CM))
-d("[CharacterMarkdown] Events.lua: CM.name = " .. tostring(CM and CM.name))
-d("[CharacterMarkdown] Events.lua: CM.version = " .. tostring(CM and CM.version))
 
 -- =====================================================
 -- EVENT HANDLERS
 -- =====================================================
 
 local function OnAddOnLoaded(event, addonName)
-    -- Debug: Show ALL addon loads to see what we're getting
-    d("[CharacterMarkdown] EVENT_ADD_ON_LOADED fired for: '" .. tostring(addonName) .. "' (looking for: '" .. tostring(CM.name) .. "')")
+    -- Only process our addon
+    if addonName ~= CM.name then return end
     
-    if addonName ~= CM.name then
-        d("[CharacterMarkdown] Not our addon, skipping...")
+    CM.Info("v" .. CM.version .. " Loading...")
+    
+    -- Unregister this event immediately (guideline: cleanup after use)
+    EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_ADD_ON_LOADED)
+    
+    -- Validate all modules loaded
+    if not CM.ValidateModules() then
+        CM.Error("Module validation failed! Addon may not work correctly.")
         return
     end
     
-    d("=================================================")
-    d("[CharacterMarkdown] v" .. CM.version .. " LOADED")
-    d("=================================================")
-    
-    -- Debug: Check if Settings modules are loaded
-    d("[CharacterMarkdown] Checking Settings modules...")
-    d("  CM.Settings = " .. tostring(CM.Settings))
-    d("  CM.Settings.Defaults = " .. tostring(CM.Settings and CM.Settings.Defaults))
-    d("  CM.Settings.Initializer = " .. tostring(CM.Settings and CM.Settings.Initializer))
-    d("  CM.Settings.Panel = " .. tostring(CM.Settings and CM.Settings.Panel))
-    
-    -- Initialize settings (data defaults and saved variables)
-    -- IMPORTANT: Need to wait for ESO to fully initialize saved variables
-    -- ESO creates the saved variables table during EVENT_ADD_ON_LOADED but
-    -- may not populate it until after the event completes
-    
-    -- Try multiple times with increasing delays to ensure saved vars are ready
-    local function tryInitialize(attempt)
-        if attempt > 5 then
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: ⚠️ Failed to initialize after 5 attempts!")
+    -- Initialize settings (deferred to allow SavedVariables to fully load)
+    -- ESO creates SavedVariables during EVENT_ADD_ON_LOADED but may not
+    -- populate them until after the event completes
+    zo_callLater(function()
+        -- Initialize settings system
+        
+        -- Try to access via _G if direct access fails
+        if not CharacterMarkdownSettings and _G.CharacterMarkdownSettings then
+            CharacterMarkdownSettings = _G.CharacterMarkdownSettings
+        end
+        if not CharacterMarkdownData and _G.CharacterMarkdownData then
+            CharacterMarkdownData = _G.CharacterMarkdownData
+        end
+        
+        -- Additional check - try to access via different methods
+        if not CharacterMarkdownSettings then
+            -- Try to access via getfenv
+            local env = getfenv(2)
+            if env.CharacterMarkdownSettings then
+                CharacterMarkdownSettings = env.CharacterMarkdownSettings
             end
+            if env.CharacterMarkdownData then
+                CharacterMarkdownData = env.CharacterMarkdownData
+            end
+        end
+        
+        -- Final check - if still no SavedVariables, wait a bit more
+        if not CharacterMarkdownSettings then
+            CM.DebugPrint("EVENTS", "SavedVariables not ready yet, waiting longer...")
+            zo_callLater(function()
+                if CM.Settings and CM.Settings.Initializer then
+                    CM.Settings.Initializer:Initialize()
+                end
+                
+                if CM.Settings and CM.Settings.Panel then
+                    CM.Settings.Panel:Initialize()
+                end
+                
+                -- Mark as initialized
+                CM.isInitialized = true
+                
+                CM.Success("Ready! Use /markdown to generate character profile")
+            end, 2000)
             return
         end
         
-        -- Check if saved variables table exists and is accessible
-        local svType = type(CharacterMarkdownSettings)
-        local svReady = (svType == "table" or svType == "userdata")
-        
-        if CHAT_SYSTEM then
-            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Initialization attempt " .. attempt .. ", type = " .. svType .. ", svReady = " .. tostring(svReady))
+        if CM.Settings and CM.Settings.Initializer then
+            CM.Settings.Initializer:Initialize()
         end
         
-        -- If ESO hasn't created it yet AND we've tried enough times, give up waiting
-        -- ESO will create it eventually, so we'll just proceed with initialization
-        if not svReady and attempt >= 3 then
-            if CHAT_SYSTEM then
-                CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: ESO hasn't created saved variables yet, proceeding anyway...")
-            end
-            -- Don't create manually - let InitializeAccountSettings handle it
-            svReady = true
+        if CM.Settings and CM.Settings.Panel then
+            CM.Settings.Panel:Initialize()
         end
         
-        if svReady then
-            -- Initialize settings UI panel FIRST (LAM might help ESO finalize saved vars)
-            if CM.Settings and CM.Settings.Panel then
-                if CHAT_SYSTEM then
-                    CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Calling Settings.Panel:Initialize()...")
-                end
-                CM.Settings.Panel:Initialize()
-            end
-            
-            -- Then initialize settings data AFTER panel is registered
-            zo_callLater(function()
-                if CM.Settings and CM.Settings.Initializer then
-                    if CHAT_SYSTEM then
-                        CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: Calling Settings.Initializer:Initialize() (after panel)...")
-                    end
-                    CM.Settings.Initializer:Initialize()
-                    
-                    -- Final check
-                    zo_callLater(function()
-                        if CHAT_SYSTEM then
-                            CHAT_SYSTEM:AddMessage("CHARACTER MARKDOWN: FINAL CHECK - includeChampionPoints = " .. tostring(CharacterMarkdownSettings.includeChampionPoints))
-                        end
-                    end, 200)
-                end
-            end, 100)
-        else
-            -- Not ready yet, try again in 200ms
-            zo_callLater(function() tryInitialize(attempt + 1) end, 200)
+        -- Mark as initialized
+        CM.isInitialized = true
+        
+        CM.Success("Ready! Use /markdown to generate character profile")
+        
+    end, 1000)  -- Reduced delay, but with fallback
+end
+
+-- =====================================================
+-- PLAYER ACTIVATED (Optional - for future features)
+-- =====================================================
+
+local function OnPlayerActivated(event)
+    
+    -- Check if SavedVariables are now available
+    if not CharacterMarkdownSettings and _G.CharacterMarkdownSettings then
+        CharacterMarkdownSettings = _G.CharacterMarkdownSettings
+        CharacterMarkdownData = _G.CharacterMarkdownData
+        CM.DebugPrint("EVENTS", "SavedVariables found on player activation - reinitializing settings")
+        
+        if CM.Settings and CM.Settings.Initializer then
+            CM.Settings.Initializer:Initialize()
         end
     end
     
-    -- Start first attempt after a short delay
-    zo_callLater(function() tryInitialize(1) end, 100)
+    -- Future: Could refresh data when player changes zones
+    -- For now, data collection is on-demand only
     
-    d("=================================================")
-    
-    -- Unregister this event
-    EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_ADD_ON_LOADED)
+    -- Unregister if we only need this once
+    EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED)
 end
-
-CM.events.OnAddOnLoaded = OnAddOnLoaded
 
 -- =====================================================
 -- EVENT REGISTRATION
 -- =====================================================
 
 local function RegisterEvents()
-    d("[CharacterMarkdown] Events.lua: RegisterEvents() called")
-    d("[CharacterMarkdown] Events.lua: Registering for EVENT_ADD_ON_LOADED with name '" .. tostring(CM.name) .. "'")
+    
+    -- Register for addon loaded event
     EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_ADD_ON_LOADED, OnAddOnLoaded)
-    d("[CharacterMarkdown] Events.lua: Event registered successfully")
+    
+    -- Register for player activated to catch SavedVariables if they're created later
+    EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
+    
 end
 
-CM.events.RegisterEvents = RegisterEvents
+-- =====================================================
+-- EVENT CLEANUP (for /reloadui or addon disable)
+-- =====================================================
 
--- Auto-register events
-d("[CharacterMarkdown] Events.lua: About to call RegisterEvents()...")
+local function UnregisterEvents()
+    
+    EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_ADD_ON_LOADED)
+    -- EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED)
+    
+end
+
+-- =====================================================
+-- MODULE EXPORTS
+-- =====================================================
+
+CM.events.OnAddOnLoaded = OnAddOnLoaded
+CM.events.OnPlayerActivated = OnPlayerActivated
+CM.events.RegisterEvents = RegisterEvents
+CM.events.UnregisterEvents = UnregisterEvents
+
+-- Auto-register events on module load
 RegisterEvents()
-d("[CharacterMarkdown] Events.lua: RegisterEvents() completed")
+

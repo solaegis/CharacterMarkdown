@@ -1,542 +1,279 @@
-# Publishing CharacterMarkdown
+# Publishing Guide
 
-> **Complete guide for publishing the addon to ESOUI.com**
+## Initial Setup (One-Time)
 
----
+### 1. Create ESOUI Account
+1. Register at https://www.esoui.com/
+2. Verify email
+3. Apply for author status (User Control Panel → Permissions)
+4. Wait for approval (24-48 hours)
 
-## Table of Contents
-
-- [Overview](#overview)
-- [First-Time Setup](#first-time-setup)
-- [Automated Releases](#automated-releases)
-- [Manual Publishing](#manual-publishing)
-- [Console Publishing](#console-publishing)
-- [Troubleshooting](#troubleshooting)
-
----
-
-## Overview
-
-### Publishing Model
-
-1. **First-time upload:** MUST be manual (to get addon ID)
-2. **All updates:** Can be fully automated via GitHub Actions
-3. **Platform:** ESOUI.com (primary), with optional console support
-
-### Publishing Options
-
-| Method | Use Case | Setup Time | Update Time |
-|--------|----------|------------|-------------|
-| **GitHub Actions** | Best for regular releases | 30 min | 1 min |
-| **Manual Upload** | One-time or infrequent | 15 min | 10 min |
-| **CLI Tool** | Alternative automation | 20 min | 2 min |
-
----
-
-## First-Time Setup
-
-### Prerequisites
-
-- [ ] ESO addon is functional and tested locally
-- [ ] Git repository exists (local or GitHub)
-- [ ] You have an ESOUI.com account
-
----
-
-### Step 1: Prepare Manifest File
-
-Create or update `CharacterMarkdown.txt` (or `.addon` for console compatibility):
-
-```lua
-## Title: Character Markdown
-## Author: @YourAccountName
-## Version: 2.1.0
-## AddOnVersion: 20250120
-## APIVersion: 101045 101046
-## Description: Generate comprehensive markdown character profiles
-## SavedVariables: CharacterMarkdownSettings
-## SavedVariablesPerCharacter: CharacterMarkdownData
-## DependsOn: LibAddonMenu-2.0>=35
-
-src/Main.lua
-src/UI.lua
-src/Collectors.lua
-src/Markdown.lua
-settings/Settings.lua
-CharacterMarkdown.xml
-```
-
-**Key Fields:**
-- `## APIVersion` - ESO API versions supported (get current: `/script d(GetAPIVersion())`)
-- `## AddOnVersion` - Numeric version (format: `YYYYMMDD` or incrementing integer)
-- `## DependsOn` - Required libraries (format: `LibName>=version`)
-
-**Versioning:**
-- `## Version` - Human-readable (2.1.0, 2024-01-18)
-- `## AddOnVersion` - Sortable integer (20250118 or 2001000)
-
----
-
-### Step 2: Create ESOUI Account
-
-1. Go to https://www.esoui.com/
-2. **Register** (top-right)
-3. **Verify email** (check spam)
-4. **Apply for Author Status:**
-   - User Control Panel → Permissions
-   - Request author permissions
-   - Wait 24-48 hours for approval
-
----
-
-### Step 3: Package Addon
-
-**Create ZIP with correct structure:**
-
+### 2. First Manual Upload
 ```bash
-cd ~/git
-zip -r CharacterMarkdown-2.1.0.zip CharacterMarkdown/ \
-  -x "*.git*" \
-  -x "*/.DS_Store" \
-  -x "*/node_modules/*" \
-  -x "*/test/*" \
-  -x "*/.vscode/*"
-```
-
-**Or use Task:**
-```bash
+# Build release
 task build
+
+# Output: dist/CharacterMarkdown-2.1.0.zip
 ```
 
-**ZIP Structure Must Be:**
+Upload at: https://www.esoui.com/downloads/upload-update.php
+
+**Form Fields:**
+- **Name**: CharacterMarkdown
+- **Category**: Character Advancement
+- **Version**: 2.1.0
+- **Game Version**: 11.0.0 (current ESO version)
+- **Description**: Brief description with features
+- **File**: Upload ZIP
+- **Optional Libraries**: LibAddonMenu-2.0
+
+### 3. Get Addon ID
+After upload approval, note the ID from URL:
 ```
-CharacterMarkdown-2.1.0.zip
-└── CharacterMarkdown/
-    ├── CharacterMarkdown.txt
-    ├── src/Main.lua
-    └── [other files]
-```
-
-⚠️ **Critical:** ZIP must contain a **folder** with your addon name, not loose files at root.
-
----
-
-### Step 4: Manual Upload to ESOUI
-
-1. **Navigate to:** https://www.esoui.com/downloads/upload-update.php
-2. **Fill out the form:**
-
-```
-Addon Name: Character Markdown
-Category: Character Advancement (or Miscellaneous)
-
-Description: 
-Generate comprehensive markdown character profiles for ESO characters.
-
-Features:
-- Complete character stats and equipment
-- Champion Point allocation
-- Skill bars and progression
-- Multiple export formats (GitHub, Discord, VS Code)
-- UESP wiki links for abilities and sets
-
-Version: 2.1.0
-Game Version: 11.0.0 (current patch, e.g., Gold Road)
-Upload File: [Browse to CharacterMarkdown-2.1.0.zip]
-
-Optional Libraries: LibAddonMenu-2.0
-Tags: character, export, markdown, documentation
+https://www.esoui.com/downloads/info4279-CharacterMarkdown.html
+                                    ^^^^
+                                 Addon ID
 ```
 
-3. **Submit** and wait for approval
-4. **Note the Addon ID** from the URL:
-   ```
-   https://www.esoui.com/downloads/info####-CharacterMarkdown.html
-                                      ^^^^
-                                   This is your addon ID (e.g., 3425)
-   ```
+### 4. Generate API Token
+1. Navigate to: https://www.esoui.com/downloads/filecpl.php?action=apitokens
+2. Click "Generate New Token"
+3. Copy token (shown only once)
 
----
+### 5. Configure GitHub
 
-### Step 5: Generate API Token
+#### Add Secret
+1. Go to repository on GitHub
+2. Settings → Secrets and variables → Actions
+3. New repository secret:
+   - Name: `ESOUI_API_KEY`
+   - Value: [Your API token]
 
-1. Go to: https://www.esoui.com/downloads/filecpl.php?action=apitokens
-2. Click **"Generate New Token"**
-3. **Copy the token** (format: `abc123def456...`)
-4. **Store securely** - You'll never see it again
+#### Update Workflow
+Edit `.github/workflows/release.yaml`:
+```yaml
+addon_id: '4279'  # Replace with your addon ID
+```
 
 ---
 
 ## Automated Releases
 
-### Overview
-
-After initial manual upload, all future releases can be automated via GitHub Actions.
-
-### Setup Steps
-
-#### 1. Add API Key to GitHub Secrets
-
-1. Go to: `https://github.com/YOUR_USERNAME/CharacterMarkdown/settings/secrets/actions`
-2. Click **New repository secret**
-3. Name: `ESOUI_API_KEY`
-4. Value: [Paste your ESOUI token]
-5. Click **Add secret**
-
-#### 2. Create Build Ignore File
-
-Create `.build-ignore` to exclude files from ZIP:
-
-```
-.git
-.github
-.vscode
-.DS_Store
-*.md
-README*
-CHANGELOG*
-.build-ignore
-node_modules
-test
-docs
-scripts
-```
-
-#### 3. Verify Workflow Configuration
-
-The workflow file already exists at `.github/workflows/release.yml`. Verify:
-
-```yaml
-# Line ~95 - Update addon_id
-addon_id: '####'  # ⚠️ Replace with YOUR addon ID from Step 4
-
-# Line ~100 - Update compatibility
-compatibility: '11.0.0'  # Update to current ESO version
-```
-
-#### 4. Create Release Files
-
-**CHANGELOG.md:**
-```markdown
-# Changelog
-
-All notable changes to CharacterMarkdown will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/).
-
-## [Unreleased]
-
-## [2.1.0] - 2025-01-20
-
-### Added
-- Champion Point allocation display
-- UESP wiki links for abilities and sets
-- Multiple export formats
-
-### Fixed
-- Character data collection edge cases
-- Window display performance
-
-### Changed
-- Updated to API version 101046
-```
-
-**README_ESOUI.txt** (optional description):
-```
-Character Markdown generates comprehensive markdown profiles for your ESO characters.
-
-FEATURES:
-- Complete character stats
-- Equipment with set bonuses
-- Front/back bar abilities
-- Champion Point allocation
-- Multiple export formats
-
-USAGE:
-/markdown - Opens export window
-/markdown github - Exports in GitHub format
-```
-
----
-
-### Triggering Releases
-
-**Method 1: Git Tags (Recommended)**
-
+### Release Process
 ```bash
-# 1. Update version in CharacterMarkdown.txt
+# 1. Update version
+task version:bump -- patch
+
 # 2. Update CHANGELOG.md
+# Add release notes for new version
 
+# 3. Test
+task test
+task install:live
+# Test in-game
+
+# 4. Commit and tag
 git add .
-git commit -m "Release v2.1.1"
-git tag v2.1.1
+git commit -m "Release v2.1.2"
+git tag v2.1.2
 git push origin main --tags
-
-# This automatically:
-# 1. Updates manifest version
-# 2. Creates ZIP
-# 3. Creates GitHub release
-# 4. Uploads to ESOUI
 ```
 
-**Method 2: Task Command**
+### What Happens Automatically
+GitHub Actions workflow:
+1. ✓ Runs Luacheck validation
+2. ✓ Validates manifest
+3. ✓ Updates version in manifest
+4. ✓ Creates release ZIP
+5. ✓ Validates ZIP structure
+6. ✓ Creates GitHub release
+7. ✓ Uploads to ESOUI
 
+**Time**: ~3-5 minutes
+
+---
+
+## Manual Publishing (If Needed)
+
+### Build Package
 ```bash
-task release:tag
-# Interactive prompts guide you through the process
+task build
+# Output: dist/CharacterMarkdown-X.X.X.zip
 ```
 
----
+### Validate Package
+```bash
+task minion:verify
+# Checks ZIP structure and size
+```
 
-### Monitoring Releases
-
-1. **GitHub Actions:** `https://github.com/YOUR_USERNAME/CharacterMarkdown/actions`
-   - Watch workflow progress (typically 2-3 minutes)
-   - Check for any errors
-
-2. **GitHub Releases:** `https://github.com/YOUR_USERNAME/CharacterMarkdown/releases`
-   - Verify release created
-   - Verify ZIP attached
-
-3. **ESOUI Dashboard:** https://www.esoui.com/downloads/author.php
-   - Verify upload succeeded
-   - Status: "Pending Approval" or "Approved"
-   - Approval usually takes 24-48 hours
-
----
-
-## Manual Publishing
-
-If you prefer not to use GitHub Actions:
-
-### Option 1: Web Interface
-
-1. Go to: https://www.esoui.com/downloads/filecpl.php
-2. Select "Edit" for CharacterMarkdown
-3. Click "Add/Update File"
+### Upload to ESOUI
+1. Go to: https://www.esoui.com/downloads/author.php
+2. Find your addon
+3. Click "Update"
 4. Upload new ZIP
-5. Update version and changelog
+5. Update changelog
 6. Submit
 
-### Option 2: CLI Tool
+---
 
-**Install:**
-```bash
-npm install -g esoui-publish
+## Version Management
+
+### Semantic Versioning
+```
+MAJOR.MINOR.PATCH
+2.1.0 → 2.1.1 (patch - bug fixes)
+2.1.0 → 2.2.0 (minor - new features)
+2.0.0 → 3.0.0 (major - breaking changes)
 ```
 
-**Create Script (`scripts/publish.sh`):**
+### Update Version
 ```bash
-#!/bin/bash
+# Automated (updates manifest + CHANGELOG template)
+task version:bump -- patch   # 2.1.0 → 2.1.1
+task version:bump -- minor   # 2.1.0 → 2.2.0
+task version:bump -- major   # 2.1.0 → 3.0.0
 
-ADDON_NAME="CharacterMarkdown"
-ADDON_ID="3425"  # Your ESOUI addon ID
-VERSION="$1"
-TOKEN="${ESOUI_TOKEN}"
-
-if [ -z "$VERSION" ]; then
-    echo "Usage: ./publish.sh <version>"
-    exit 1
-fi
-
-# Create ZIP
-cd ..
-zip -r "${ADDON_NAME}-${VERSION}.zip" "${ADDON_NAME}/" \
-  -x "*.git*" -x "*/.DS_Store" -x "*/node_modules/*"
-
-# Upload
-esoui-publish \
-  --id="${ADDON_ID}" \
-  --version="${VERSION}" \
-  --updateFile="${ADDON_NAME}-${VERSION}.zip" \
-  --changelog="CHANGELOG.md" \
-  --compatibility="11.0.0" \
-  --token="${TOKEN}"
+# Manual
+# Edit CharacterMarkdown.addon:
+## Version: 2.1.1
+## AddOnVersion: 20250121  # YYYYMMDD format
 ```
 
-**Usage:**
+### Update API Version
+Get current version in ESO:
+```
+/script d(GetAPIVersion())
+```
+
+Update manifest:
 ```bash
-export ESOUI_TOKEN="your_token_here"
-chmod +x scripts/publish.sh
-./scripts/publish.sh 2.1.1
+task version:api -- 101048
+# Or manually edit:
+## APIVersion: 101048
 ```
 
 ---
 
-## Console Publishing
+## Changelog Maintenance
 
-ESO now supports addons on **Xbox** and **PlayStation** (as of June 2025).
+### Format (Keep a Changelog)
+```markdown
+## [2.1.1] - 2025-01-21
 
-### Requirements
+### Added
+- New feature descriptions
 
-**1. Manifest Extension:**
-- Use `.addon` instead of `.txt`
-- ⚠️ **PlayStation is case-sensitive** for file paths
+### Changed
+- Modified behavior descriptions
 
-**2. Upload Tool:**
-- Download: https://help.elderscrollsonline.com/app/answers/detail/a_id/69621
-- CLI tool for console addon submission
-- Documentation included in download
+### Fixed
+- Bug fix descriptions
 
-**3. Case-Sensitivity Checklist (PlayStation):**
-```
-CharacterMarkdown.addon:
-CharacterMarkdown.lua         ✅ Matches case
-src/Main.lua                  ✅ Matches case
-charactermarkdown.lua         ❌ Would fail on PS
+### Removed
+- Removed feature descriptions
 ```
 
-### Upload Process
+### Example
+```markdown
+## [2.1.1] - 2025-01-21
 
-**Bethesda.net:**
-1. Create Bethesda.net account (if needed)
-2. Use console upload tool
-3. Manual upload process (no API available as of 2025)
+### Fixed
+- Settings now persist correctly across sessions
+- Fixed clipboard truncation for large exports
+
+### Added
+- LibDebugLogger integration for clean debug output
+- ZIP validation script for build process
+```
+
+---
+
+## Testing Before Release
+
+### Checklist
+- [ ] All formats generate correctly
+- [ ] Settings persist after /reloadui
+- [ ] Settings persist after game restart
+- [ ] No errors in chat on load
+- [ ] Window displays correctly
+- [ ] Copy to clipboard works
+- [ ] All UESP links functional
+- [ ] Tested with 2+ different characters
+- [ ] Version numbers updated
+- [ ] CHANGELOG.md updated
+
+---
+
+## Post-Release
+
+### Verify
+1. Check GitHub release created
+2. Verify ESOUI upload successful
+3. Download ZIP from GitHub and test
+4. Monitor ESOUI comments for feedback
+
+### If Issues Found
+```bash
+# Quick hotfix
+task version:bump -- patch
+# Fix issue
+git commit -am "fix: critical bug description"
+git tag v2.1.2
+git push origin main --tags
+```
 
 ---
 
 ## Troubleshooting
 
-### Issue: Manifest Not Found
+### GitHub Actions Failed
 
-**Symptom:** ESO doesn't load addon
+**Check logs**: Actions tab → Failed workflow → Expand failed step
 
-**Solution:**
+**Common issues**:
+- Missing ESOUI_API_KEY secret
+- Incorrect addon ID
+- Luacheck errors
+- Manifest validation failed
+
+### ESOUI Upload Failed
+
+**Invalid API key**: Regenerate token and update secret  
+**Addon not found**: Verify addon ID in workflow  
+**ZIP structure wrong**: Run `task build` (not manual ZIP)
+
+### Version Conflicts
+
+**Tag already exists**:
 ```bash
-# Verify manifest exists
-ls CharacterMarkdown.txt
-
-# Check syntax
-cat CharacterMarkdown.txt
-
-# Ensure no BOM (byte order mark)
-file CharacterMarkdown.txt
-# Should show: ASCII text
-```
-
-### Issue: GitHub Actions Fails
-
-**Symptom:** Workflow shows red X
-
-**Check:**
-1. Click on failed workflow
-2. Expand failed step
-3. Read error message
-
-**Common Causes:**
-- Addon ID incorrect in workflow
-- API token expired
-- ZIP structure wrong
-- Manifest syntax error
-
-**Fix:**
-```bash
-# Test locally
-task test
-task lint
-
-# Fix issues, then re-tag
-git tag -d vX.X.X
-git tag vX.X.X
-git push --delete origin vX.X.X
-git push origin vX.X.X
-```
-
-### Issue: ESOUI Upload Fails
-
-**Check:**
-1. **API Key Valid:**
-   - Regenerate: https://www.esoui.com/downloads/filecpl.php?action=apitokens
-   - Update GitHub secret: `ESOUI_API_KEY`
-
-2. **Addon ID Correct:**
-   - Verify in workflow: `addon_id: '####'`
-   - Check ESOUI URL
-
-3. **Workflow Logs:**
-   - Check "Upload to ESOUI" step output
-
-### Issue: ZIP Structure Invalid
-
-**Symptom:** Upload succeeds but addon doesn't work
-
-**Check:**
-```bash
-unzip -l CharacterMarkdown-2.1.0.zip
-
-# Should show:
-# CharacterMarkdown/CharacterMarkdown.txt
-# CharacterMarkdown/src/Main.lua
-# ...
-
-# NOT:
-# CharacterMarkdown.txt (at root)
-```
-
-**Fix:**
-- Verify `.build-ignore` patterns
-- Test ZIP extraction locally
-
----
-
-## Best Practices
-
-### ✅ Do
-
-- **Test locally** before releasing
-- **Update changelog** with every release
-- **Use semantic versioning** consistently
-- **Monitor ESOUI comments** for bug reports
-- **Update API version** with ESO patches
-- **Keep dependencies current**
-
-### ❌ Don't
-
-- **Rush releases** without testing
-- **Skip changelog updates**
-- **Release on ESO patch day** (wait 1-2 days)
-- **Ignore CI/CD failures**
-- **Forget console compatibility** (if supporting)
-
----
-
-## Quick Reference
-
-### Essential URLs
-
-| Purpose | URL |
-|---------|-----|
-| Upload addon | https://www.esoui.com/downloads/upload-update.php |
-| Generate API token | https://www.esoui.com/downloads/filecpl.php?action=apitokens |
-| Manage addons | https://www.esoui.com/downloads/author.php |
-| GitHub Action | https://github.com/marketplace/actions/esoui-addon-upload |
-| Console tools | https://help.elderscrollsonline.com/app/answers/detail/a_id/69621 |
-
-### Current ESO Versions
-
-| Version | API | Release Date |
-|---------|-----|--------------|
-| Gold Road (U46) | 101046 | June 2024 |
-| Update 45 | 101045 | March 2024 |
-
-### Release Commands
-
-```bash
-# Full automated release
-task release:prepare   # Validate
-task release:tag       # Create and push tag
-
-# Manual release
-task build             # Create ZIP
-# Upload via web or CLI
-
-# Rollback
-git tag -d vX.X.X
-git push --delete origin vX.X.X
+git tag -d v2.1.1        # Delete local
+git push origin :v2.1.1  # Delete remote
 ```
 
 ---
 
-**For detailed release workflow, see [RELEASE.md](RELEASE.md)**
+## Console Publishing (Optional)
 
-**Last Updated:** January 2025
+ESO supports addons on Xbox/PlayStation (as of June 2025).
+
+### Requirements
+- Use `.addon` manifest extension (already done)
+- Case-sensitive file paths on PlayStation
+- Upload via Bethesda.net (separate from ESOUI)
+
+### Upload Tool
+Download: https://help.elderscrollsonline.com/app/answers/detail/a_id/69621
+
+---
+
+## Resources
+
+- **ESOUI**: https://www.esoui.com/
+- **Author Dashboard**: https://www.esoui.com/downloads/author.php
+- **API Tokens**: https://www.esoui.com/downloads/filecpl.php?action=apitokens
+- **GitHub Actions**: https://docs.github.com/en/actions
+
+---
+
+**Ready to publish!** 🚀
