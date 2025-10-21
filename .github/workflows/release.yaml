@@ -136,7 +136,7 @@ jobs:
       - name: Validate manifest
         run: |
           echo "✅ Validating manifest..."
-          luajit scripts/validate-manifest.lua ${{ env.ADDON_NAME }}.addon
+          lua scripts/validate-manifest.lua ${{ env.ADDON_NAME }}.addon
 
       # ========================================================================
       # 5. Update Manifest Versions

@@ -1,4 +1,4 @@
-#!/usr/bin/env luajit
+#!/usr/bin/env lua
 -- CharacterMarkdown Manifest Validator
 -- Validates ESO addon manifest (.txt) file for required fields and format
 
@@ -146,7 +146,7 @@ end
 
 -- Main execution
 if #arg < 1 then
-    print("Usage: luajit validate-manifest.lua <manifest_file.txt>")
+    print("Usage: lua validate-manifest.lua <manifest_file.txt>")
     os.exit(1)
 end
 
