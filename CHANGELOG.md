@@ -17,6 +17,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.6] - 2025-01-21
+
+### Removed
+- **Documentation Cleanup**: Removed outdated phase completion files
+  - Deleted PHASE1_COMPLETE.md through PHASE8_COMPLETE.md
+  - Removed PHASE*_QUICKREF.md files
+  - Cleaned up temporary implementation notes and session summaries
+- **Temporary Files**: Removed development artifacts
+  - Deleted SKILL_MORPHS_GENERATOR_CODE.lua (code already integrated)
+  - Removed validate_phase1.sh (phase validation complete)
+  - Cleaned up IMPLEMENTATION_NOTES.md and SESSION_SUMMARY.md
+- **Redundant Documentation**: Consolidated documentation
+  - Removed MISSING_SECTIONS_IMPLEMENTED.md
+  - Deleted CRAFTING_FIX.md and FORMAT_IMPROVEMENTS.md
+  - Removed SECTIONS_ANALYSIS.md and VISUAL_COMPARISON.md
+  - Cleaned up CHANGELOG_build_notes_toggle.md
+
+### Changed
+- **Debug Output**: Streamlined initialization logging
+  - Reduced verbose debug output during addon startup
+  - Removed debug helper functions no longer needed
+  - Cleaner console output for better user experience
+
+---
+
+## [2.1.5] - 2025-01-21
+
+### Fixed
+- **Build System**: Fixed `.build-ignore` to properly exclude development files
+  - Corrected pattern to exclude `README.md` but include `README_ESOUI.txt`
+  - Ensures ESOUI description file is included in release packages
+
+### Added
+- **Documentation**: Enhanced ESOUI description file (`README_ESOUI.txt`)
+  - Added AI assistant use case (ChatGPT, Claude integration)
+  - Included GitHub repository link in header
+  - Added `/cmdsettings` command documentation
+  - Converted to plain ASCII for proper rendering on ESOUI.com
+  - Comprehensive feature documentation and troubleshooting guide
+
+### Changed
+- **Publishing**: Improved GitHub Actions release workflow
+  - Better ZIP structure validation
+  - Enhanced changelog extraction
+  - Cleaner release artifact naming
+
+---
+
 ## [2.1.1] - 2025-01-20
 
 ### Fixed

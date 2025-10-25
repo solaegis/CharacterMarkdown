@@ -27,13 +27,22 @@ src/links/Systems.lua
 src/links/Companions.lua
 
 ## Data collectors (depend on utils + links)
+src/collectors/Achievements.lua
 src/collectors/Character.lua
 src/collectors/Progression.lua
+src/collectors/Quests.lua
 src/collectors/Skills.lua
+src/collectors/SkillMorphs.lua
 src/collectors/Equipment.lua
+src/collectors/EquipmentEnhancement.lua
 src/collectors/Combat.lua
 src/collectors/Economy.lua
 src/collectors/World.lua
+src/collectors/TitlesHousing.lua
+src/collectors/PvPStats.lua
+src/collectors/ArmoryBuilds.lua
+src/collectors/TalesOfTribute.lua
+src/collectors/UndauntedPledges.lua
 src/collectors/Companion.lua
 
 ## Markdown generator (depends on collectors + links)
@@ -41,13 +50,24 @@ src/collectors/Companion.lua
 src/generators/helpers/Utilities.lua
 
 ## Section generators (modular markdown generation)
+src/generators/sections/Achievements.lua
 src/generators/sections/Character.lua
 src/generators/sections/Economy.lua
 src/generators/sections/Equipment.lua
+src/generators/sections/EquipmentEnhancement.lua
+src/generators/sections/SkillMorphs.lua
 src/generators/sections/Combat.lua
 src/generators/sections/Content.lua
+src/generators/sections/ChampionPoints.lua
 ## DISABLED: Champion Points Mermaid diagram (keep code, not active)
 ## src/generators/sections/ChampionDiagram.lua
+src/generators/sections/Quests.lua
+src/generators/sections/World.lua
+src/generators/sections/TitlesHousing.lua
+src/generators/sections/PvPStats.lua
+src/generators/sections/ArmoryBuilds.lua
+src/generators/sections/TalesOfTribute.lua
+src/generators/sections/UndauntedPledges.lua
 src/generators/sections/Companion.lua
 src/generators/sections/Footer.lua
 
@@ -62,6 +82,7 @@ src/Events.lua
 src/settings/Defaults.lua
 src/settings/Initializer.lua
 src/settings/Panel.lua
+src/settings/FilterManager.lua
 
 ## UI components
 CharacterMarkdown.xml

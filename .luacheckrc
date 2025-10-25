@@ -139,14 +139,49 @@ read_globals = {
     "SKILL_TYPE_WEAPON",
     "SKILL_TYPE_WORLD",
     
-    -- ESO API Constants - Stats
+    -- ESO API Constants - Stats (Validated against ESOUIDocumentation.txt)
     "STAT_HEALTH_MAX",
     "STAT_MAGICKA_MAX",
-    "STAT_PHYSICAL_RESIST",
+    "STAT_STAMINA_MAX",
     "STAT_POWER",
     "STAT_SPELL_POWER",
+    "STAT_CRITICAL_STRIKE",
+    "STAT_SPELL_CRITICAL",
+    "STAT_PHYSICAL_PENETRATION",
+    "STAT_SPELL_PENETRATION",
+    "STAT_PHYSICAL_RESIST",
     "STAT_SPELL_RESIST",
-    "STAT_STAMINA_MAX",
+    "STAT_HEALTH_REGEN_COMBAT",
+    "STAT_MAGICKA_REGEN_COMBAT",
+    "STAT_STAMINA_REGEN_COMBAT",
+    
+    -- ESO API Functions - Crafting
+    "GetNumSmithingStylePages",
+    "GetSmithingStylePageInfo",
+    "IsSmithingStyleKnown",
+    "GetNumSmithingResearchLines",
+    "GetSmithingResearchLineInfo",
+    "GetSmithingResearchLineTraitTimes",
+    "GetNumRecipeLists",
+    "GetRecipeListInfo",
+    "GetNumRecipesInRecipeList",
+    "GetRecipeInfo",
+    "GetRecipeResultItemInfo",
+    "DoesRecipeResultMatchSearch",
+    "GetNumAlchemyRecipes",
+    "GetAlchemyRecipeInfo",
+    "GetNumEnchantingRecipes",
+    "GetEnchantingRecipeInfo",
+    "GetNumProvisioningRecipes",
+    "GetProvisioningRecipeInfo",
+    "GetNumWoodworkingRecipes",
+    "GetWoodworkingRecipeInfo",
+    "GetNumClothingRecipes",
+    "GetClothingRecipeInfo",
+    "GetNumBlacksmithingRecipes",
+    "GetBlacksmithingRecipeInfo",
+    "GetNumJewelryCraftingRecipes",
+    "GetJewelryCraftingRecipeInfo",
     
     -- ESO API Functions - Character
     "CanJumpToPlayerInZone",
@@ -170,6 +205,210 @@ read_globals = {
     "GetUnitName",
     "GetUnitRace",
     "GetUnitZone",
+    
+    -- ESO API Functions - Achievements
+    "GetAchievementCompleted",
+    "GetAchievementCriterion",
+    "GetAchievementInfo",
+    "GetAchievementNumCriteria",
+    "GetNumAchievements",
+    
+    -- ESO API Functions - Armory Builds
+    "GetArmoryBuildChampionPoints",
+    "GetArmoryBuildEquipmentSlotInfo",
+    "GetArmoryBuildInfo",
+    "GetArmoryBuildSkillBarSlotInfo",
+    "GetBuildTemplateCategoryInfo",
+    "GetBuildTemplateInfo",
+    "GetNumArmoryBuildEquipmentSlots",
+    "GetNumArmoryBuildSkillBars",
+    "GetNumArmoryBuilds",
+    "GetNumBuildTemplateCategories",
+    
+    -- ESO API Functions - Battlegrounds
+    "GetBattlegroundStat",
+    "GetCurrentBattlegroundMap",
+    "GetCurrentBattlegroundType",
+    
+    -- ESO API Functions - Bind Types
+    "BIND_TYPE_NONE",
+    
+    -- ESO API Functions - Crafting Types
+    "CRAFTING_TYPE_BLACKSMITHING",
+    "CRAFTING_TYPE_CLOTHIER",
+    "CRAFTING_TYPE_JEWELRYCRAFTING",
+    "CRAFTING_TYPE_WOODWORKING",
+    
+    -- ESO API Functions - Currency
+    "GetBankedMoney",
+    
+    -- ESO API Functions - Dyes
+    "GetDyeId",
+    "GetNumDyes",
+    "IsPlayerDyeUnlocked",
+    
+    -- ESO API Functions - Dialog
+    "ZO_Dialogs_ShowDialog",
+    
+    -- ESO API Functions - Economy
+    "GetBounty",
+    "GetInfamy",
+    
+    -- ESO API Functions - Formatting
+    "FormatTimeSeconds",
+    "TIME_FORMAT_PRECISION_TWELVE_HOUR",
+    "TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL",
+    
+    -- ESO API Functions - Friends
+    "GetFriendInfo",
+    "GetNumFriends",
+    
+    -- ESO API Functions - Furniture
+    "FURNITURE_CATEGORY_TYPE_APPLIANCE",
+    "FURNITURE_CATEGORY_TYPE_BED",
+    "FURNITURE_CATEGORY_TYPE_CHAIR",
+    "FURNITURE_CATEGORY_TYPE_CONTAINER",
+    "FURNITURE_CATEGORY_TYPE_DECORATIVE",
+    "FURNITURE_CATEGORY_TYPE_LIGHT",
+    "FURNITURE_CATEGORY_TYPE_RUG",
+    "FURNITURE_CATEGORY_TYPE_TABLE",
+    "GetFurnitureItemInfo",
+    "GetNumFurnitureItemsInCategory",
+    
+    -- ESO API Functions - Guilds
+    "GetDisplayName",
+    "GetGuildAlliance",
+    "GetGuildMemberRankIndex",
+    "GetGuildName",
+    "GetGuildRankCustomName",
+    "GetNumGuildMembers",
+    "GetNumGuilds",
+    
+    -- ESO API Functions - Housing
+    "GetHouseInfo",
+    "GetHousePrimaryResidence",
+    "GetNumHouses",
+    
+    -- ESO API Functions - Item Links
+    "GetItemLinkBindType",
+    "GetItemLinkEnchantInfo",
+    "GetItemLinkItemStyle",
+    "GetItemLinkName",
+    "GetItemLinkRequiredChampionPoints",
+    "GetItemLinkValue",
+    "IsItemLinkCrafted",
+    
+    -- ESO API Functions - Item Types
+    "GetItemType",
+    "ITEMTYPE_SOUL_GEM",
+    
+    -- ESO API Functions - Journal/Quests
+    "GetJournalQuestInfo",
+    "GetJournalQuestNumSteps",
+    "GetJournalQuestRewardInfo",
+    "GetJournalQuestStepInfo",
+    "GetJournalQuestZoneInfo",
+    "GetNumJournalQuests",
+    
+    -- ESO API Functions - LibAddonMenu
+    "LAM",
+    
+    -- ESO API Functions - Lore
+    "GetLoreBookInfo",
+    "GetLoreCategoryInfo",
+    "GetNumLoreCategories",
+    
+    -- ESO API Functions - Mail
+    "GetMailItemInfo",
+    "GetNumMail",
+    
+    -- ESO API Functions - PvP
+    "GetCampaignAllianceScore",
+    "GetCampaignStatus",
+    "GetCampaignType",
+    "GetNumCampaignAlliances",
+    "GetPlayerAssistCount",
+    "GetPlayerDeathCount",
+    "GetPlayerKillCount",
+    
+    -- ESO API Functions - Reload UI
+    "ReloadUI",
+    
+    -- ESO API Functions - Skyshards
+    "GetSkyshardCollectedInZone",
+    "GetNumSkyshardsInZone",
+    
+    -- ESO API Functions - Smithing
+    "GetItemStyleName",
+    "GetNumSmithingPatterns",
+    "GetNumSmithingResearchLineTraits",
+    "GetNumValidItemStyleIds",
+    "GetSmithingResearchLineTraitInfo",
+    "GetValidItemStyleId",
+    "IsSmithingPatternKnown",
+    
+    -- ESO API Functions - Soul Gems
+    "GetSlotStackSize",
+    
+    -- ESO API Functions - Tales of Tribute
+    "GetTalesOfTributeAchievementCategoryInfo",
+    "GetTalesOfTributeAchievementInfo",
+    "GetTalesOfTributeBestScore",
+    "GetTalesOfTributeDeckInfo",
+    "GetTalesOfTributeExperience",
+    "GetTalesOfTributeGamesLost",
+    "GetTalesOfTributeGamesPlayed",
+    "GetTalesOfTributeGamesWon",
+    "GetTalesOfTributeLevel",
+    "GetTalesOfTributeRank",
+    "GetTalesOfTributeRankName",
+    "GetTalesOfTributeTotalScore",
+    "GetNumTalesOfTributeAchievementCategories",
+    "GetNumTalesOfTributeDecks",
+    
+    -- ESO API Functions - Text Types
+    "TEXT_TYPE_ALL",
+    
+    -- ESO API Functions - Titles
+    "GetNumPlayerTitles",
+    "GetPlayerTitle",
+    "GetPlayerTitleByIndex",
+    
+    -- ESO API Functions - Undaunted Pledges
+    "GetDailyPledgeInfo",
+    "GetDailyPledgeKeys",
+    "GetHardmodeDungeonInfo",
+    "GetNormalDungeonInfo",
+    "GetNumDailyPledges",
+    "GetNumHardmodeDungeons",
+    "GetNumNormalDungeons",
+    "GetNumUndauntedKeyCategories",
+    "GetNumVeteranDungeons",
+    "GetNumWeeklyPledges",
+    "GetUndauntedKeyCategoryInfo",
+    "GetUndauntedKeyInfo",
+    "GetVeteranDungeonInfo",
+    "GetWeeklyPledgeInfo",
+    "GetWeeklyPledgeKeys",
+    
+    -- ESO API Functions - World
+    "GetDelveInfo",
+    "GetNumDelvesInZone",
+    "GetNumPublicDungeonsInZone",
+    "GetPublicDungeonInfo",
+    "GetZoneCompletionStatus",
+    
+    -- ESO API Functions - Skill Abilities
+    "GetAbilityProgressionAbilityId",
+    "GetAbilityProgressionInfo",
+    "GetAbilityProgressionXPInfo",
+    "GetNumSkillAbilities",
+    "GetSkillAbilityInfo",
+    
+    -- ESO API Functions - Battleground Stats
+    "BGSTAT_TYPE_LOSSES",
+    "BGSTAT_TYPE_TIES",
+    "BGSTAT_TYPE_WINS",
     
     -- ESO API Functions - Champion
     "GetChampionDisciplineId",

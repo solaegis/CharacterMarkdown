@@ -146,5 +146,6 @@ end
 -- EXPORTS
 -- =====================================================
 
+CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateCompanion = GenerateCompanion
 

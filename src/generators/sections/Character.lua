@@ -94,7 +94,7 @@ local function GenerateHeader(characterData, cpData, format)
 end
 
 -- =====================================================
--- QUICK STATS
+-- QUICK STATS (CONSOLIDATED)
 -- =====================================================
 
 local function GenerateQuickStats(characterData, progressionData, currencyData, equipmentData, cpData, inventoryData, format)
@@ -126,56 +126,80 @@ local function GenerateQuickStats(characterData, progressionData, currencyData, 
             end
         end
         if #setParts > 0 then
-            primarySets = table.concat(setParts, " + ")
+            primarySets = table.concat(setParts, " • ")
         else
             primarySets = equipmentData.sets[1].name .. " (Partial)"
         end
     end
     
-    -- Check for bank capacity warning
+    -- Bank status
     local bankStatus = "OK"
     if inventoryData and inventoryData.bankPercent >= 100 then
-        bankStatus = "⚠️ **FULL**"
+        bankStatus = "⚠️ FULL"
     elseif inventoryData and inventoryData.bankPercent >= 90 then
         bankStatus = "⚠️ Nearly Full"
     end
     
-    markdown = markdown .. "| Combat | Progression | Economy |\n"
-    markdown = markdown .. "|:-------|:------------|:--------|\n"
-    markdown = markdown .. "| **Build**: " .. primaryRole .. " | "
-    markdown = markdown .. "**CP**: " .. FormatNumber(cpData.total or 0)
+    -- CP available and tree breakdown
+    local cpAvailable = ""
+    local cpBreakdown = ""
     if cpData.total and cpData.spent then
         local available = cpData.total - cpData.spent
         if available > 0 then
-            markdown = markdown .. " (" .. available .. " available)"
+            cpAvailable = " (" .. available .. " available)"
         end
     end
-    markdown = markdown .. " | "
-    markdown = markdown .. "**Gold**: " .. FormatNumber(currencyData.gold) .. " |\n"
     
-    markdown = markdown .. "| **Primary Sets**: " .. primarySets .. " | "
-    markdown = markdown .. "**Skill Points**: " .. (progressionData.skillPoints or 0) 
-    if progressionData.skillPoints and progressionData.skillPoints > 0 then
-        markdown = markdown .. " available"
-    else
-        markdown = markdown .. " ✅"
+    -- Add tree breakdown if disciplines are available
+    if cpData and cpData.disciplines and #cpData.disciplines > 0 then
+        local craftTotal = 0
+        local warfareTotal = 0
+        local fitnessTotal = 0
+        
+        -- Extract totals for each discipline
+        for _, discipline in ipairs(cpData.disciplines) do
+            if discipline.name == "Craft" then
+                craftTotal = discipline.total or 0
+            elseif discipline.name == "Warfare" then
+                warfareTotal = discipline.total or 0
+            elseif discipline.name == "Fitness" then
+                fitnessTotal = discipline.total or 0
+            end
+        end
+        
+        cpBreakdown = " (" .. craftTotal .. "/" .. warfareTotal .. "/" .. fitnessTotal .. ")"
     end
-    markdown = markdown .. " | "
-    markdown = markdown .. "**Bank**: " .. bankStatus .. " |\n"
     
-    markdown = markdown .. "| **Attributes**: " .. attrs.magicka .. " / " .. attrs.health .. " / " .. attrs.stamina .. " | "
-    markdown = markdown .. "**Achievements**: " .. (progressionData.achievementPercent or 0) .. "% | "
-    markdown = markdown .. "**Transmutes**: " .. FormatNumber(currencyData.transmuteCrystals or 0) .. " |\n"
+    -- Skill points status
+    local skillPointStatus = (progressionData.skillPoints or 0)
+    if progressionData.skillPoints and progressionData.skillPoints > 0 then
+        skillPointStatus = skillPointStatus .. " available"
+    else
+        skillPointStatus = skillPointStatus .. " ✅"
+    end
+    
+    -- Consolidated single table
+    markdown = markdown .. "| Attribute | Value |\n"
+    markdown = markdown .. "|:----------|:------|\n"
+    markdown = markdown .. "| **Build** | " .. primaryRole .. " |\n"
+    markdown = markdown .. "| **CP** | " .. FormatNumber(cpData.total or 0) .. cpBreakdown .. cpAvailable .. " |\n"
+    markdown = markdown .. "| **Gold** | " .. FormatNumber(currencyData.gold) .. " |\n"
+    markdown = markdown .. "| **Sets** | " .. primarySets .. " |\n"
+    markdown = markdown .. "| **Bank** | " .. bankStatus .. " |\n"
+    markdown = markdown .. "| **Skill Points** | " .. skillPointStatus .. " |\n"
+    markdown = markdown .. "| **Attributes** | " .. attrs.magicka .. " / " .. attrs.health .. " / " .. attrs.stamina .. " |\n"
+    markdown = markdown .. "| **Achievements** | " .. (progressionData.achievementPercent or 0) .. "% |\n"
+    markdown = markdown .. "| **Transmutes** | " .. FormatNumber(currencyData.transmuteCrystals or 0) .. " |\n"
     
     markdown = markdown .. "\n"
     return markdown
 end
 
 -- =====================================================
--- ATTENTION NEEDED
+-- ATTENTION NEEDED (WITH COMPANION WARNINGS)
 -- =====================================================
 
-local function GenerateAttentionNeeded(progressionData, inventoryData, ridingData, format)
+local function GenerateAttentionNeeded(progressionData, inventoryData, ridingData, companionData, format)
     InitializeUtilities()
     
     local warnings = {}
@@ -209,6 +233,53 @@ local function GenerateAttentionNeeded(progressionData, inventoryData, ridingDat
         table.insert(warnings, "🐎 **Riding training available** - Visit a stable master")
     end
     
+    -- Check companion status (MOVED FROM COMPANION SECTION)
+    if companionData and companionData.active then
+        local level = companionData.level or 0
+        local lowLevelGear = 0
+        local emptySlots = 0
+        local totalSlots = 0
+        
+        -- Check equipment level
+        if companionData.equipment and #companionData.equipment > 0 then
+            for _, item in ipairs(companionData.equipment) do
+                if item.level and item.level < level and item.level < 20 then
+                    lowLevelGear = lowLevelGear + 1
+                end
+            end
+        end
+        
+        -- Check for empty ability slots
+        if companionData.skills then
+            if companionData.skills.ultimate == "[Empty]" or companionData.skills.ultimate == "Empty" then
+                emptySlots = emptySlots + 1
+            end
+            totalSlots = totalSlots + 1
+            
+            if companionData.skills.abilities then
+                for _, ability in ipairs(companionData.skills.abilities) do
+                    totalSlots = totalSlots + 1
+                    if ability.name == "[Empty]" or ability.name == "Empty" then
+                        emptySlots = emptySlots + 1
+                    end
+                end
+            end
+        end
+        
+        -- Add companion warnings
+        if level < 20 then
+            table.insert(warnings, "👥 **Companion underleveled**: " .. companionData.name .. " (Level " .. level .. "/20) - Needs XP")
+        end
+        if lowLevelGear > 0 then
+            local plural = Pluralize(lowLevelGear, "piece")
+            table.insert(warnings, "👥 **Companion outdated gear**: " .. lowLevelGear .. " " .. plural .. " below level - Upgrade equipment")
+        end
+        if emptySlots > 0 then
+            local plural = Pluralize(emptySlots, "slot")
+            table.insert(warnings, "👥 **Companion empty ability " .. plural .. "**: " .. emptySlots .. " - Assign abilities")
+        end
+    end
+    
     -- Only show section if there are warnings
     if #warnings == 0 then
         return ""
@@ -228,7 +299,7 @@ end
 -- OVERVIEW
 -- =====================================================
 
-local function GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, progressionData, settings, format)
+local function GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, progressionData, settings, format, cpData)
     InitializeUtilities()
     
     local markdown = ""
@@ -240,8 +311,27 @@ local function GenerateOverview(characterData, roleData, locationData, buffsData
     -- Level row
     markdown = markdown .. "| **Level** | " .. (characterData.level or 0) .. " |\n"
     
-    -- Champion Points row
-    markdown = markdown .. "| **Champion Points** | " .. FormatNumber(characterData.cp or 0) .. " |\n"
+    -- Champion Points row with tree breakdown
+    local cpText = FormatNumber(characterData.cp or 0)
+    if cpData and cpData.disciplines and #cpData.disciplines > 0 then
+        local craftTotal = 0
+        local warfareTotal = 0
+        local fitnessTotal = 0
+        
+        -- Extract totals for each discipline
+        for _, discipline in ipairs(cpData.disciplines) do
+            if discipline.name == "Craft" then
+                craftTotal = discipline.total or 0
+            elseif discipline.name == "Warfare" then
+                warfareTotal = discipline.total or 0
+            elseif discipline.name == "Fitness" then
+                fitnessTotal = discipline.total or 0
+            end
+        end
+        
+        cpText = cpText .. " (" .. craftTotal .. "/" .. warfareTotal .. "/" .. fitnessTotal .. ")"
+    end
+    markdown = markdown .. "| **Champion Points** | " .. cpText .. " |\n"
     
     -- Class row with link
     local classText = CreateClassLink(characterData.class, format)
@@ -255,7 +345,7 @@ local function GenerateOverview(characterData, roleData, locationData, buffsData
     local allianceText = CreateAllianceLink(characterData.alliance, format)
     markdown = markdown .. "| **Alliance** | " .. allianceText .. " |\n"
     
-    -- ESO Plus status (Title is now in header, so removed from here)
+    -- ESO Plus status
     local esoPlusStatus = characterData.esoPlus and "✅ Active" or "❌ Inactive"
     markdown = markdown .. "| **ESO Plus** | " .. esoPlusStatus .. " |\n"
     
@@ -331,11 +421,16 @@ local function GenerateProgression(progressionData, format)
     
     local markdown = ""
     
-    -- Only show unique data not covered in Quick Stats/Attention Needed
-    -- (Skill points, attribute points, and achievements are now handled elsewhere)
+    if not progressionData then
+        return ""
+    end
     
+    -- Show progression data including achievements
     if format == "discord" then
-        markdown = markdown .. "**Character Status:**\n"
+        markdown = markdown .. "**Progression:**\n"
+        if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
+            markdown = markdown .. "• 🏆 Achievement Points: " .. FormatNumber(progressionData.achievementPoints) .. "\n"
+        end
         if progressionData.isVampire then
             markdown = markdown .. "• 🧛 Vampire (Stage " .. progressionData.vampireStage .. ")\n"
         end
@@ -349,9 +444,12 @@ local function GenerateProgression(progressionData, format)
         end
         markdown = markdown .. "\n"
     else
-        markdown = markdown .. "## 🌙 Character Status\n\n"
+        markdown = markdown .. "## 📈 Progression\n\n"
         markdown = markdown .. "| Category | Value |\n"
         markdown = markdown .. "|:---------|:------|\n"
+        if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
+            markdown = markdown .. "| **🏆 Achievement Points** | " .. FormatNumber(progressionData.achievementPoints) .. " |\n"
+        end
         if progressionData.isVampire then
             markdown = markdown .. "| **🧛 Vampire** | Stage " .. progressionData.vampireStage .. " |\n"
         end
@@ -398,4 +496,3 @@ CM.generators.sections.GenerateAttentionNeeded = GenerateAttentionNeeded
 CM.generators.sections.GenerateOverview = GenerateOverview
 CM.generators.sections.GenerateProgression = GenerateProgression
 CM.generators.sections.GenerateCustomNotes = GenerateCustomNotes
-

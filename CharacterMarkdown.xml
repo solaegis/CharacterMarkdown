@@ -2,7 +2,7 @@
     <Controls>
         <!-- Main Window -->
         <TopLevelControl name="CharacterMarkdownWindow" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true">
-            <Dimensions x="800" y="650" />
+            <Dimensions x="1000" y="800" />
             <Anchor point="CENTER" relativeTo="GuiRoot" />
             
             <!-- Background -->
@@ -13,7 +13,7 @@
                 
                 <!-- Title Bar -->
                 <Control name="$(parent)Title">
-                    <Dimensions x="800" y="40" />
+                    <Dimensions x="1000" y="40" />
                     <Anchor point="TOP" />
                     
                     <Controls>
@@ -33,13 +33,13 @@
                 
                 <!-- Instructions -->
                 <Label name="$(parent)Instructions" font="ZoFontGame" text="Click 'Select All', then Ctrl+A, then Ctrl+C to copy!" color="FFFFFFFF">
-                    <Dimensions x="760" y="24" />
+                    <Dimensions x="960" y="24" />
                     <Anchor point="TOP" relativeTo="$(parent)Title" relativePoint="BOTTOM" offsetY="10" />
                 </Label>
                 
                 <!-- Text Display Area (NO SCROLL - Direct EditBox) -->
                 <Control name="$(parent)TextContainer">
-                    <Dimensions x="760" y="490" />
+                    <Dimensions x="960" y="640" />
                     <Anchor point="TOP" relativeTo="$(parent)Instructions" relativePoint="BOTTOM" offsetY="10" />
                     
                     <Controls>
@@ -59,7 +59,7 @@
                 
                 <!-- Action Buttons -->
                 <Control name="$(parent)ButtonContainer">
-                    <Dimensions x="760" y="40" />
+                    <Dimensions x="960" y="40" />
                     <Anchor point="TOP" relativeTo="$(parent)TextContainer" relativePoint="BOTTOM" offsetY="10" />
                     
                     <Controls>

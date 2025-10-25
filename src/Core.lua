@@ -6,7 +6,7 @@ local CM = CharacterMarkdown
 
 -- Addon metadata
 CM.name = "CharacterMarkdown"
-CM.version = "2.1.1"
+CM.version = "2.1.6"
 CM.author = "solaegis"
 CM.apiVersion = 101047
 

@@ -11,6 +11,8 @@ local function CollectCurrencyData()
     local currencies = {}
     
     currencies.gold = GetCurrentMoney() or 0
+    currencies.goldBank = GetBankedMoney() or 0
+    currencies.goldTotal = currencies.gold + currencies.goldBank
     currencies.alliancePoints = GetCurrencyAmount(CURT_ALLIANCE_POINTS, CURRENCY_LOCATION_ACCOUNT) or 0
     currencies.telVar = GetCurrencyAmount(CURT_TELVAR_STONES, CURRENCY_LOCATION_CHARACTER) or 0
     currencies.transmuteCrystals = GetCurrencyAmount(CURT_CHAOTIC_CREATIA, CURRENCY_LOCATION_ACCOUNT) or 0

@@ -194,39 +194,272 @@ CM.collectors.CollectCollectiblesData = CollectCollectiblesData
 -- =====================================================
 
 local function CollectCraftingKnowledgeData()
-    local crafting = {}
-    
-    crafting.motifs = {
-        known = 0,
-        total = 0,
-        percent = 0
+    local crafting = {
+        motifs = {},
+        recipes = {},
+        research = {},
+        timers = {}
     }
     
-    local researchCount = 0
-    local success, count = pcall(function()
-        local total = 0
-        for craftingType = 1, 3 do
-            local numLines = GetNumSmithingResearchLines(craftingType)
-            if numLines then
-                for line = 1, numLines do
-                    local _, _, numTraits = GetSmithingResearchLineInfo(craftingType, line)
-                    if numTraits then
-                        for trait = 1, numTraits do
-                            local duration, timeRemaining = GetSmithingResearchLineTraitTimes(craftingType, line, trait)
-                            if duration and duration > 0 and timeRemaining and timeRemaining > 0 then
-                                total = total + 1
-                            end
-                        end
+    -- ===== MOTIFS =====
+    local function CollectMotifs()
+        local motifs = {}
+        
+        -- Get all style pages
+        local success, numPages = pcall(GetNumSmithingStylePages)
+        if success and numPages then
+            for pageIndex = 1, numPages do
+                local success2, pageName, pageCategory, pageSubcategory = pcall(GetSmithingStylePageInfo, pageIndex)
+                if success2 and pageName and pageName ~= "" then
+                    local success3, isKnown = pcall(IsSmithingStyleKnown, pageIndex)
+                    table.insert(motifs, {
+                        name = pageName,
+                        category = pageCategory,
+                        subcategory = pageSubcategory,
+                        known = (success3 and isKnown) or false,
+                        pageIndex = pageIndex
+                    })
+                end
+            end
+        end
+        
+        return motifs
+    end
+    
+    -- ===== RESEARCH =====
+    local function CollectResearch()
+        local research = {
+            blacksmithing = {},
+            clothing = {},
+            woodworking = {},
+            jewelry = {}
+        }
+        
+        -- Get research lines for each craft
+        local craftTypes = {
+            {name = "blacksmithing", func = GetNumSmithingResearchLines},
+            {name = "clothing", func = GetNumSmithingResearchLines},
+            {name = "woodworking", func = GetNumSmithingResearchLines},
+            {name = "jewelry", func = GetNumSmithingResearchLines}
+        }
+        
+        for _, craftType in ipairs(craftTypes) do
+            local success, numLines = pcall(craftType.func)
+            if success and numLines then
+                for lineIndex = 1, numLines do
+                    local success2, lineName, numTraits, timeRequired = pcall(GetSmithingResearchLineInfo, lineIndex)
+                    if success2 and lineName and lineName ~= "" then
+                        local success3, traitTimes = pcall(GetSmithingResearchLineTraitTimes, lineIndex)
+                        table.insert(research[craftType.name], {
+                            name = lineName,
+                            numTraits = numTraits or 0,
+                            timeRequired = timeRequired or 0,
+                            traitTimes = (success3 and traitTimes) or {},
+                            lineIndex = lineIndex
+                        })
                     end
                 end
             end
         end
-        return total
-    end)
+        
+        return research
+    end
     
-    crafting.activeResearch = (success and count) or 0
+    -- Collect all crafting data
+    crafting.motifs = CollectMotifs()
+    crafting.recipes = CollectResearch()  -- Map research to recipes for generator compatibility
     
     return crafting
 end
 
 CM.collectors.CollectCraftingKnowledgeData = CollectCraftingKnowledgeData
+
+-- =====================================================
+-- WORLD PROGRESS
+-- =====================================================
+
+-- ===== SKYSHARDS =====
+local function CollectSkyshardsData()
+    local skyshards = {
+        total = 0,
+        collected = 0,
+        zones = {}
+    }
+    
+    -- Get current zone
+    local currentZone = GetUnitZone("player")
+    if currentZone and currentZone ~= "" then
+        local success, totalInZone = pcall(GetNumSkyshardsInZone)
+        if success and totalInZone then
+            skyshards.total = totalInZone
+            
+            -- Count collected skyshards in current zone
+            local collected = 0
+            for i = 1, totalInZone do
+                local success2, isCollected = pcall(GetSkyshardCollectedInZone, i)
+                if success2 and isCollected then
+                    collected = collected + 1
+                end
+            end
+            skyshards.collected = collected
+            
+            -- Store zone-specific data
+            skyshards.zones[currentZone] = {
+                total = totalInZone,
+                collected = collected,
+                percentage = totalInZone > 0 and math.floor((collected / totalInZone) * 100) or 0
+            }
+        end
+    end
+    
+    return skyshards
+end
+
+-- ===== LOREBOOKS =====
+local function CollectLorebooksData()
+    local lorebooks = {
+        total = 0,
+        collected = 0,
+        categories = {}
+    }
+    
+    -- Get all lorebook categories
+    local success, numCategories = pcall(GetNumLoreCategories)
+    if success and numCategories then
+        for categoryIndex = 1, numCategories do
+            local success2, categoryName, numBooks = pcall(GetLoreCategoryInfo, categoryIndex)
+            if success2 and categoryName and numBooks then
+                local categoryData = {
+                    name = categoryName,
+                    total = numBooks,
+                    collected = 0,
+                    books = {}
+                }
+                
+                -- Get books in this category
+                for bookIndex = 1, numBooks do
+                    local success3, bookName, isCollected = pcall(GetLoreBookInfo, categoryIndex, bookIndex)
+                    if success3 and bookName then
+                        if isCollected then
+                            categoryData.collected = categoryData.collected + 1
+                        end
+                        
+                        table.insert(categoryData.books, {
+                            name = bookName,
+                            collected = isCollected or false
+                        })
+                    end
+                end
+                
+                lorebooks.categories[categoryName] = categoryData
+                lorebooks.total = lorebooks.total + numBooks
+                lorebooks.collected = lorebooks.collected + categoryData.collected
+            end
+        end
+    end
+    
+    return lorebooks
+end
+
+-- ===== ZONE COMPLETION =====
+local function CollectZoneCompletionData()
+    local zoneCompletion = {
+        currentZone = "",
+        completionPercentage = 0,
+        zones = {}
+    }
+    
+    -- Get current zone
+    local currentZone = GetUnitZone("player")
+    if currentZone and currentZone ~= "" then
+        zoneCompletion.currentZone = currentZone
+        
+        -- Try to get zone completion percentage
+        local success, percentage = pcall(GetZoneCompletionStatus)
+        if success and percentage then
+            zoneCompletion.completionPercentage = math.floor(percentage)
+        end
+        
+        -- Store current zone data
+        zoneCompletion.zones[currentZone] = {
+            completionPercentage = zoneCompletion.completionPercentage
+        }
+    end
+    
+    return zoneCompletion
+end
+
+-- ===== DELVES AND PUBLIC DUNGEONS =====
+local function CollectDungeonProgressData()
+    local dungeons = {
+        delves = {
+            total = 0,
+            completed = 0,
+            list = {}
+        },
+        publicDungeons = {
+            total = 0,
+            completed = 0,
+            list = {}
+        }
+    }
+    
+    -- Get current zone for context
+    local currentZone = GetUnitZone("player")
+    
+    -- Try to get delve information
+    local success, numDelves = pcall(GetNumDelvesInZone)
+    if success and numDelves then
+        dungeons.delves.total = numDelves
+        
+        for i = 1, numDelves do
+            local success2, delveName, isCompleted = pcall(GetDelveInfo, i)
+            if success2 and delveName then
+                if isCompleted then
+                    dungeons.delves.completed = dungeons.delves.completed + 1
+                end
+                
+                table.insert(dungeons.delves.list, {
+                    name = delveName,
+                    completed = isCompleted or false,
+                    zone = currentZone
+                })
+            end
+        end
+    end
+    
+    -- Try to get public dungeon information
+    local success3, numPublicDungeons = pcall(GetNumPublicDungeonsInZone)
+    if success3 and numPublicDungeons then
+        dungeons.publicDungeons.total = numPublicDungeons
+        
+        for i = 1, numPublicDungeons do
+            local success4, dungeonName, isCompleted = pcall(GetPublicDungeonInfo, i)
+            if success4 and dungeonName then
+                if isCompleted then
+                    dungeons.publicDungeons.completed = dungeons.publicDungeons.completed + 1
+                end
+                
+                table.insert(dungeons.publicDungeons.list, {
+                    name = dungeonName,
+                    completed = isCompleted or false,
+                    zone = currentZone
+                })
+            end
+        end
+    end
+    
+    return dungeons
+end
+
+-- ===== MAIN WORLD PROGRESS COLLECTOR =====
+local function CollectWorldProgressData()
+    return {
+        skyshards = CollectSkyshardsData(),
+        lorebooks = CollectLorebooksData(),
+        zoneCompletion = CollectZoneCompletionData(),
+        dungeons = CollectDungeonProgressData()
+    }
+end
+
+CM.collectors.CollectWorldProgressData = CollectWorldProgressData

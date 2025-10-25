@@ -126,6 +126,13 @@ function CM.Settings.Initializer:InitializeFallback()
     end
     
     CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")
+    
+    -- Initialize filter manager
+    if not CM.Settings.FilterManager then
+        local FilterManager = require("src/settings/FilterManager")
+        CM.Settings.FilterManager = FilterManager
+        CM.Settings.FilterManager:Initialize()
+    end
 end
 
 -- =====================================================
@@ -556,30 +563,3 @@ function CM.Settings.Initializer:ResetToDefaults()
     CM.Success("All settings reset to defaults")
 end
 
--- =====================================================
--- DEBUG HELPERS
--- =====================================================
-
-function CM.Settings.Initializer:PrintCurrentSettings()
-    CM.DebugPrint("SETTINGS", "========== CURRENT SETTINGS ==========")
-    CM.DebugPrint("SETTINGS", "Initialization method: " .. (zo_savedvars_available and "ZO_SavedVars" or "Fallback"))
-    CM.DebugPrint("SETTINGS", "Active profile: " .. (CM.settings.activeProfile or "Custom"))
-    CM.DebugPrint("SETTINGS", "Current format: " .. (CM.settings.currentFormat or "github"))
-    CM.DebugPrint("SETTINGS", "Settings version: " .. (CM.settings.settingsVersion or "N/A"))
-    
-    local count = 0
-    for _, _ in pairs(CM.settings) do
-        count = count + 1
-    end
-    CM.DebugPrint("SETTINGS", "Total settings: " .. count)
-    
-    local profileCount = 0
-    for _, _ in pairs(CM.settings.profiles or {}) do
-        profileCount = profileCount + 1
-    end
-    CM.DebugPrint("SETTINGS", "Saved profiles: " .. profileCount)
-    
-    CM.DebugPrint("SETTINGS", "======================================")
-end
-
-CM.DebugPrint("SETTINGS", "Initializer module loaded")

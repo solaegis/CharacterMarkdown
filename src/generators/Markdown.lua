@@ -26,6 +26,7 @@ local function GetGenerators()
         
         -- Equipment sections
         GenerateSkillBars = CM.generators.sections.GenerateSkillBars,
+        GenerateSkillMorphs = CM.generators.sections.GenerateSkillMorphs,
         GenerateEquipment = CM.generators.sections.GenerateEquipment,
         GenerateSkills = CM.generators.sections.GenerateSkills,
         
@@ -38,10 +39,25 @@ local function GetGenerators()
         GenerateDLCAccess = CM.generators.sections.GenerateDLCAccess,
         GenerateMundus = CM.generators.sections.GenerateMundus,
         GenerateChampionPoints = CM.generators.sections.GenerateChampionPoints,
+        GenerateDetailedChampionPoints = CM.generators.sections.GenerateDetailedChampionPoints,
+        GenerateSlottableChampionPoints = CM.generators.sections.GenerateSlottableChampionPoints,
         -- DISABLED: Champion Diagram (experimental)
         -- GenerateChampionDiagram = CM.generators.GenerateChampionDiagram,
         GenerateCollectibles = CM.generators.sections.GenerateCollectibles,
         GenerateCrafting = CM.generators.sections.GenerateCrafting,
+        GenerateAchievements = CM.generators.sections.GenerateAchievements,
+        GenerateQuests = CM.generators.sections.GenerateQuests,
+        GenerateEquipmentEnhancement = CM.generators.sections.GenerateEquipmentEnhancement,
+        
+        -- World sections
+        GenerateWorldProgress = CM.generators.sections.GenerateWorldProgress,
+        
+        -- Tier 3-5 sections
+        GenerateTitlesHousing = CM.generators.sections.GenerateTitlesHousing,
+        GeneratePvPStats = CM.generators.sections.GeneratePvPStats,
+        GenerateArmoryBuilds = CM.generators.sections.GenerateArmoryBuilds,
+        GenerateTalesOfTribute = CM.generators.sections.GenerateTalesOfTribute,
+        GenerateUndauntedPledges = CM.generators.sections.GenerateUndauntedPledges,
         
         -- Companion sections
         GenerateCompanion = CM.generators.sections.GenerateCompanion,
@@ -137,7 +153,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             name = "AttentionNeeded",
             condition = format ~= "discord" and IsSettingEnabled(settings, "includeAttentionNeeded", true),
             generator = function()
-                return gen.GenerateAttentionNeeded(data.progression, data.inventory, data.riding, format)
+                return gen.GenerateAttentionNeeded(data.progression, data.inventory, data.riding, data.companion, format)
             end
         },
         
@@ -147,7 +163,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             condition = format ~= "discord",
             generator = function()
                 return gen.GenerateOverview(data.character, data.role, data.location, data.buffs, 
-                    data.mundus, data.riding, data.pvp, data.progression, settings, format)
+                    data.mundus, data.riding, data.pvp, data.progression, settings, format, data.cp)
             end
         },
         
@@ -160,10 +176,10 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Riding Skills (Discord only)
+        -- Riding Skills
         {
             name = "RidingSkills",
-            condition = format == "discord" and IsSettingEnabled(settings, "includeRidingSkills", false),
+            condition = IsSettingEnabled(settings, "includeRidingSkills", true),
             generator = function()
                 return gen.GenerateRidingSkills(data.riding, format)
             end
@@ -178,10 +194,10 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- PvP (Discord only)
+        -- PvP
         {
             name = "PvP",
-            condition = format == "discord" and IsSettingEnabled(settings, "includePvP", false),
+            condition = IsSettingEnabled(settings, "includePvP", true),
             generator = function()
                 return gen.GeneratePvP(data.pvp, format)
             end
@@ -199,9 +215,156 @@ local function GetSectionRegistry(format, settings, gen, data)
         -- Crafting
         {
             name = "Crafting",
-            condition = IsSettingEnabled(settings, "includeCrafting", false),
+            condition = IsSettingEnabled(settings, "includeCrafting", true),
             generator = function()
                 return gen.GenerateCrafting(data.crafting, format)
+            end
+        },
+        
+        -- Achievements
+        {
+            name = "Achievements",
+            condition = IsSettingEnabled(settings, "includeAchievements", false),
+            generator = function()
+                local markdown = ""
+                
+                -- Show basic achievement summary
+                if data.achievements then
+                    markdown = markdown .. gen.GenerateAchievements(data.achievements, format)
+                end
+                
+                -- Show detailed categories if enabled
+                if IsSettingEnabled(settings, "includeAchievementsDetailed", false) and data.achievements then
+                    -- Additional detailed content is handled in the main generator
+                end
+                
+                -- Show only in-progress if enabled
+                if IsSettingEnabled(settings, "includeAchievementsInProgress", false) and data.achievements then
+                    -- Filter to show only in-progress achievements
+                    local inProgressData = {
+                        summary = data.achievements.summary,
+                        inProgress = data.achievements.inProgress or {}
+                    }
+                    markdown = markdown .. gen.GenerateAchievements(inProgressData, format)
+                end
+                
+                return markdown
+            end
+        },
+        
+        -- Quests
+        {
+            name = "Quests",
+            condition = IsSettingEnabled(settings, "includeQuests", false),
+            generator = function()
+                local markdown = ""
+                
+                -- Show basic quest summary
+                if data.quests then
+                    markdown = markdown .. gen.GenerateQuests(data.quests, format)
+                end
+                
+                -- Show detailed categories if enabled
+                if IsSettingEnabled(settings, "includeQuestsDetailed", false) and data.quests then
+                    -- Additional detailed content is handled in the main generator
+                end
+                
+                -- Show only active quests if enabled
+                if IsSettingEnabled(settings, "includeQuestsActiveOnly", false) and data.quests then
+                    -- Filter to show only active quests
+                    local activeData = {
+                        summary = data.quests.summary,
+                        active = data.quests.active or {}
+                    }
+                    markdown = markdown .. gen.GenerateQuests(activeData, format)
+                end
+                
+                return markdown
+            end
+        },
+        
+        -- Equipment Enhancement
+        {
+            name = "Equipment Enhancement",
+            condition = IsSettingEnabled(settings, "includeEquipmentEnhancement", false),
+            generator = function()
+                local markdown = ""
+                
+                -- Show basic equipment enhancement summary
+                if data.equipmentEnhancement then
+                    markdown = markdown .. gen.GenerateEquipmentEnhancement(data.equipmentEnhancement, format)
+                end
+                
+                -- Show detailed analysis if enabled
+                if IsSettingEnabled(settings, "includeEquipmentAnalysis", false) and data.equipmentEnhancement then
+                    -- Additional detailed content is handled in the main generator
+                end
+                
+                -- Show only recommendations if enabled
+                if IsSettingEnabled(settings, "includeEquipmentRecommendations", false) and data.equipmentEnhancement then
+                    -- Filter to show only recommendations
+                    local recommendationsData = {
+                        summary = data.equipmentEnhancement.summary,
+                        recommendations = data.equipmentEnhancement.recommendations or {}
+                    }
+                    markdown = markdown .. gen.GenerateEquipmentEnhancement(recommendationsData, format)
+                end
+                
+                return markdown
+            end
+        },
+        
+        -- World Progress
+        {
+            name = "World Progress",
+            condition = IsSettingEnabled(settings, "includeWorldProgress", true),
+            generator = function()
+                return gen.GenerateWorldProgress(data.worldProgress, format)
+            end
+        },
+        
+        -- Titles & Housing
+        {
+            name = "Titles & Housing",
+            condition = IsSettingEnabled(settings, "includeTitlesHousing", true),
+            generator = function()
+                return gen.GenerateTitlesHousing(data.titlesHousing, format)
+            end
+        },
+        
+        -- PvP Stats
+        {
+            name = "PvP Stats",
+            condition = IsSettingEnabled(settings, "includePvPStats", true),
+            generator = function()
+                return gen.GeneratePvPStats(data.pvpStats, format)
+            end
+        },
+        
+        -- Armory Builds
+        {
+            name = "Armory Builds",
+            condition = IsSettingEnabled(settings, "includeArmoryBuilds", true),
+            generator = function()
+                return gen.GenerateArmoryBuilds(data.armoryBuilds, format)
+            end
+        },
+        
+        -- Tales of Tribute
+        {
+            name = "Tales of Tribute",
+            condition = IsSettingEnabled(settings, "includeTalesOfTribute", true),
+            generator = function()
+                return gen.GenerateTalesOfTribute(data.talesOfTribute, format)
+            end
+        },
+        
+        -- Undaunted Pledges
+        {
+            name = "Undaunted Pledges",
+            condition = IsSettingEnabled(settings, "includeUndauntedPledges", true),
+            generator = function()
+                return gen.GenerateUndauntedPledges(data.undauntedPledges, format)
             end
         },
         
@@ -265,7 +428,30 @@ local function GetSectionRegistry(format, settings, gen, data)
             name = "ChampionPoints",
             condition = IsSettingEnabled(settings, "includeChampionPoints", true),
             generator = function()
-                return gen.GenerateChampionPoints(data.cp, format)
+                local markdown = ""
+                
+                -- Check if we should show slottable only
+                if IsSettingEnabled(settings, "includeChampionSlottableOnly", false) then
+                    markdown = markdown .. gen.GenerateSlottableChampionPoints(data.cp, format)
+                else
+                    markdown = markdown .. gen.GenerateChampionPoints(data.cp, format)
+                end
+                
+                -- Add detailed analysis if enabled
+                if IsSettingEnabled(settings, "includeChampionDetailed", false) then
+                    markdown = markdown .. gen.GenerateDetailedChampionPoints(data.cp, format)
+                end
+                
+                return markdown
+            end
+        },
+        
+        -- Progression
+        {
+            name = "Progression",
+            condition = IsSettingEnabled(settings, "includeProgression", true),
+            generator = function()
+                return gen.GenerateProgression(data.progression, format)
             end
         },
         
@@ -275,6 +461,15 @@ local function GetSectionRegistry(format, settings, gen, data)
             condition = IsSettingEnabled(settings, "includeSkillBars", true),
             generator = function()
                 return gen.GenerateSkillBars(data.skillBar, format)
+            end
+        },
+        
+        -- Skill Morphs
+        {
+            name = "SkillMorphs",
+            condition = IsSettingEnabled(settings, "includeSkillMorphs", true),
+            generator = function()
+                return gen.GenerateSkillMorphs(data.skillMorphs, format)
             end
         },
         
@@ -353,6 +548,7 @@ local function GenerateMarkdown(format)
         buffs = SafeCollect("CollectActiveBuffs", CM.collectors.CollectActiveBuffs),
         cp = SafeCollect("CollectChampionPointData", CM.collectors.CollectChampionPointData),
         skillBar = SafeCollect("CollectSkillBarData", CM.collectors.CollectSkillBarData),
+        skillMorphs = SafeCollect("CollectSkillMorphsData", CM.collectors.CollectSkillMorphsData),
         stats = SafeCollect("CollectCombatStatsData", CM.collectors.CollectCombatStatsData),
         equipment = SafeCollect("CollectEquipmentData", CM.collectors.CollectEquipmentData),
         skill = SafeCollect("CollectSkillProgressionData", CM.collectors.CollectSkillProgressionData),
@@ -366,6 +562,15 @@ local function GenerateMarkdown(format)
         location = SafeCollect("CollectLocationData", CM.collectors.CollectLocationData),
         collectibles = SafeCollect("CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
         crafting = SafeCollect("CollectCraftingKnowledgeData", CM.collectors.CollectCraftingKnowledgeData),
+        achievements = SafeCollect("CollectAchievementData", CM.collectors.CollectAchievementData),
+        quests = SafeCollect("CollectQuestData", CM.collectors.CollectQuestData),
+        equipmentEnhancement = SafeCollect("CollectEquipmentEnhancementData", CM.collectors.CollectEquipmentEnhancementData),
+        worldProgress = SafeCollect("CollectWorldProgressData", CM.collectors.CollectWorldProgressData),
+        titlesHousing = SafeCollect("CollectTitlesHousingData", CM.collectors.CollectTitlesHousingData),
+        pvpStats = SafeCollect("CollectPvPStatsData", CM.collectors.CollectPvPStatsData),
+        armoryBuilds = SafeCollect("CollectArmoryBuildsData", CM.collectors.CollectArmoryBuildsData),
+        talesOfTribute = SafeCollect("CollectTalesOfTributeData", CM.collectors.CollectTalesOfTributeData),
+        undauntedPledges = SafeCollect("CollectUndauntedPledgesData", CM.collectors.CollectUndauntedPledgesData),
         customNotes = CharacterMarkdownData and CharacterMarkdownData.customNotes or ""
     }
     
@@ -394,7 +599,14 @@ local function GenerateMarkdown(format)
     
     -- Generate all sections based on registry
     for _, section in ipairs(sections) do
-        if section.condition then
+        local conditionMet = false
+        if type(section.condition) == "function" then
+            conditionMet = section.condition()
+        else
+            conditionMet = section.condition
+        end
+        
+        if conditionMet then
             local success, result = pcall(section.generator)
             if success then
                 markdown = markdown .. result

@@ -25,13 +25,30 @@ local function GenerateCombatStats(statsData, format)
     
     if format == "discord" then
         markdown = markdown .. "\n**Stats:**\n```\n"
+        -- Resources
         markdown = markdown .. "HP: " .. FormatNumber(statsData.health or 0) .. 
                               " | Mag: " .. FormatNumber(statsData.magicka or 0) ..
                               " | Stam: " .. FormatNumber(statsData.stamina or 0) .. "\n"
+        -- Power
         markdown = markdown .. "Weapon: " .. FormatNumber(statsData.weaponPower or 0) ..
                               " | Spell: " .. FormatNumber(statsData.spellPower or 0) .. "\n"
+        -- Crit
+        markdown = markdown .. "W.Crit: " .. FormatNumber(statsData.weaponCritRating or 0) .. 
+                              " (" .. (statsData.weaponCritChance or 0) .. "%)" ..
+                              " | S.Crit: " .. FormatNumber(statsData.spellCritRating or 0) ..
+                              " (" .. (statsData.spellCritChance or 0) .. "%)\n"
+        -- Penetration
+        markdown = markdown .. "Phys Pen: " .. FormatNumber(statsData.physicalPenetration or 0) ..
+                              " | Spell Pen: " .. FormatNumber(statsData.spellPenetration or 0) .. "\n"
+        -- Resistance
         markdown = markdown .. "Phys Res: " .. FormatNumber(statsData.physicalResist or 0) ..
-                              " | Spell Res: " .. FormatNumber(statsData.spellResist or 0) .. "\n"
+                              " (" .. (statsData.physicalMitigation or 0) .. "%)" ..
+                              " | Spell Res: " .. FormatNumber(statsData.spellResist or 0) ..
+                              " (" .. (statsData.spellMitigation or 0) .. "%)\n"
+        -- Recovery
+        markdown = markdown .. "HP Rec: " .. FormatNumber(statsData.healthRecovery or 0) ..
+                              " | Mag Rec: " .. FormatNumber(statsData.magickaRecovery or 0) ..
+                              " | Stam Rec: " .. FormatNumber(statsData.staminaRecovery or 0) .. "\n"
         markdown = markdown .. "```"
     else
         markdown = markdown .. "---\n\n"
@@ -39,15 +56,42 @@ local function GenerateCombatStats(statsData, format)
         markdown = markdown .. "## 📈 Combat Statistics\n\n"
         markdown = markdown .. "| Category | Stat | Value |\n"
         markdown = markdown .. "|:---------|:-----|------:|\n"
+        
+        -- Resources
         markdown = markdown .. "| 💚 **Resources** | Health | " .. FormatNumber(statsData.health or 0) .. " |\n"
         markdown = markdown .. "| | Magicka | " .. FormatNumber(statsData.magicka or 0) .. " |\n"
         markdown = markdown .. "| | Stamina | " .. FormatNumber(statsData.stamina or 0) .. " |\n"
+        
+        -- Offensive Power
         markdown = markdown .. "| ⚔️ **Offensive** | Weapon Power | " .. FormatNumber(statsData.weaponPower or 0) .. " |\n"
         markdown = markdown .. "| | Spell Power | " .. FormatNumber(statsData.spellPower or 0) .. " |\n"
-        markdown = markdown .. "| 🛡️ **Defensive** | Physical Resist | " .. FormatNumber(statsData.physicalResist or 0) .. " |\n"
-        markdown = markdown .. "| | Spell Resist | " .. FormatNumber(statsData.spellResist or 0) .. " |\n"
-        markdown = markdown .. "\n"
         
+        -- Critical Strike
+        markdown = markdown .. "| 🎯 **Critical** | Weapon Crit | " .. 
+                              FormatNumber(statsData.weaponCritRating or 0) .. 
+                              " (" .. (statsData.weaponCritChance or 0) .. "%) |\n"
+        markdown = markdown .. "| | Spell Crit | " .. 
+                              FormatNumber(statsData.spellCritRating or 0) ..
+                              " (" .. (statsData.spellCritChance or 0) .. "%) |\n"
+        
+        -- Penetration
+        markdown = markdown .. "| 🗡️ **Penetration** | Physical | " .. FormatNumber(statsData.physicalPenetration or 0) .. " |\n"
+        markdown = markdown .. "| | Spell | " .. FormatNumber(statsData.spellPenetration or 0) .. " |\n"
+        
+        -- Defensive
+        markdown = markdown .. "| 🛡️ **Defensive** | Physical Resist | " .. 
+                              FormatNumber(statsData.physicalResist or 0) ..
+                              " (" .. (statsData.physicalMitigation or 0) .. "%) |\n"
+        markdown = markdown .. "| | Spell Resist | " .. 
+                              FormatNumber(statsData.spellResist or 0) ..
+                              " (" .. (statsData.spellMitigation or 0) .. "%) |\n"
+        
+        -- Recovery
+        markdown = markdown .. "| ♻️ **Recovery** | Health | " .. FormatNumber(statsData.healthRecovery or 0) .. " |\n"
+        markdown = markdown .. "| | Magicka | " .. FormatNumber(statsData.magickaRecovery or 0) .. " |\n"
+        markdown = markdown .. "| | Stamina | " .. FormatNumber(statsData.staminaRecovery or 0) .. " |\n"
+        
+        markdown = markdown .. "\n"
         markdown = markdown .. "---\n\n"
     end
     
@@ -139,7 +183,7 @@ end
 -- EXPORTS
 -- =====================================================
 
+CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateCombatStats = GenerateCombatStats
 CM.generators.sections.GenerateAttributes = GenerateAttributes
 CM.generators.sections.GenerateBuffs = GenerateBuffs
-

@@ -147,6 +147,30 @@ tasks:
         echo "   Edit files here, use /reloadui in-game to test"
     silent: true
 
+  install:built:
+    desc: Install built/validated files to ESO Live client
+    deps: [build]
+    cmds:
+      - |
+        echo "📦 Installing built {{.ADDON_NAME}} to ESO Live..."
+        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        cp -r "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Built addon installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        echo "   Files validated and ready for testing"
+    silent: true
+
+  install:built:pts:
+    desc: Install built/validated files to ESO PTS client
+    deps: [build]
+    cmds:
+      - |
+        echo "📦 Installing built {{.ADDON_NAME}} to ESO PTS..."
+        rm -rf "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+        cp -r "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Built addon installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+        echo "   Files validated and ready for testing"
+    silent: true
+
   uninstall:live:
     desc: Remove addon from ESO Live client
     cmds:
@@ -702,13 +726,19 @@ tasks:
     desc: Show installation help
     cmds:
       - echo "📥 Installation Commands:"
-      - echo "  task install:live      - Copy addon to ESO Live"
-      - echo "  task install:pts       - Copy addon to ESO PTS"
+      - echo "  task install:live      - Copy source files to ESO Live (fast)"
+      - echo "  task install:pts       - Copy source files to ESO PTS (fast)"
+      - echo "  task install:built     - Install built/validated files to ESO Live"
+      - echo "  task install:built:pts - Install built/validated files to ESO PTS"
       - echo "  task install:dev       - Symlink for live development"
       - echo "  task uninstall:live    - Remove from ESO Live"
       - echo "  task uninstall:pts     - Remove from ESO PTS"
       - echo "  task uninstall:dev     - Remove symlink"
       - echo "  task clean:savedvars   - Remove saved variables for clean reinstall"
+      - echo ""
+      - echo "💡 Use Cases:"
+      - echo "  install:live/dev       - Fast development iteration"
+      - echo "  install:built          - Release testing with validated files"
     silent: true
 
   help:release:

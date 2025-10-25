@@ -24,10 +24,19 @@ end
 local function GenerateDLCAccess(dlcData, format)
     local markdown = ""
     
-    if format == "discord" then
-        if dlcData.hasESOPlus then
+    -- If ESO Plus active, only mention it (don't list DLCs)
+    if dlcData.hasESOPlus then
+        if format == "discord" then
             markdown = markdown .. "**DLC Access:** ESO Plus (All DLCs Available)\n\n"
-        elseif #dlcData.accessible > 0 or #dlcData.locked > 0 then
+        end
+        -- For GitHub/VSCode: ESO Plus is already mentioned in Overview section
+        -- No DLC section needed
+        return ""
+    end
+    
+    -- Only show DLC section if user does NOT have ESO Plus
+    if format == "discord" then
+        if #dlcData.accessible > 0 or #dlcData.locked > 0 then
             markdown = markdown .. "**DLC Access:**\n"
             if #dlcData.accessible > 0 then
                 for _, dlcName in ipairs(dlcData.accessible) do
@@ -43,9 +52,6 @@ local function GenerateDLCAccess(dlcData, format)
         end
     else
         markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
-        if dlcData.hasESOPlus then
-            markdown = markdown .. "✅ **ESO Plus Active** - All DLCs accessible\n\n"
-        end
         
         if #dlcData.accessible > 0 then
             markdown = markdown .. "### ✅ Accessible Content\n\n"
@@ -55,7 +61,7 @@ local function GenerateDLCAccess(dlcData, format)
             markdown = markdown .. "\n"
         end
         
-        if #dlcData.locked > 0 and not dlcData.hasESOPlus then
+        if #dlcData.locked > 0 then
             markdown = markdown .. "### 🔒 Locked Content\n\n"
             for _, dlcName in ipairs(dlcData.locked) do
                 markdown = markdown .. "- 🔒 " .. dlcName .. "\n"
@@ -310,6 +316,7 @@ end
 -- EXPORTS
 -- =====================================================
 
+CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateDLCAccess = GenerateDLCAccess
 CM.generators.sections.GenerateMundus = GenerateMundus
 CM.generators.sections.GenerateChampionPoints = GenerateChampionPoints

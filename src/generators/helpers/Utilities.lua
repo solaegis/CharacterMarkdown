@@ -8,11 +8,12 @@ local CM = CharacterMarkdown
 -- =====================================================
 
 -- Generate a text-based progress bar
+-- Uses solid blocks (▓) for filled and light blocks (░) for empty
 local function GenerateProgressBar(percent, width)
     width = width or 10
     local filled = math.floor((percent / 100) * width)
     local empty = width - filled
-    return string.rep("█", filled) .. string.rep("░", empty)
+    return string.rep("▓", filled) .. string.rep("░", empty)
 end
 
 -- =====================================================

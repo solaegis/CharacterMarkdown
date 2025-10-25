@@ -32,6 +32,12 @@ function CM.Settings.Panel:Initialize()
         return false
     end
     
+    -- Ensure character data is initialized
+    if not CM.charData and CharacterMarkdownData then
+        CM.charData = CharacterMarkdownData
+        CM.DebugPrint("SETTINGS", "Character data initialized in panel")
+    end
+    
     local LAM = LibAddonMenu2
     
     -- Get defaults for LAM
@@ -43,7 +49,7 @@ function CM.Settings.Panel:Initialize()
         name = "Character Markdown",
         displayName = "Character Markdown",
         author = "solaegis",
-        version = CM.version or "2.1.1",
+        version = CM.version or "2.1.6",
         slashCommand = "/cmdsettings",
         registerForRefresh = true,
         registerForDefaults = true,
@@ -68,6 +74,7 @@ function CM.Settings.Panel:BuildOptionsData()
     
     -- Add sections in order
     self:AddFormatSection(options)
+    self:AddFilterManagerSection(options)
     self:AddCoreSections(options)
     self:AddExtendedSections(options)
     self:AddLinkSettings(options)
@@ -138,6 +145,134 @@ function CM.Settings.Panel:AddFormatSection(options)
 end
 
 -- =====================================================
+-- FILTER MANAGER SECTION
+-- =====================================================
+
+function CM.Settings.Panel:AddFilterManagerSection(options)
+    table.insert(options, {
+        type = "header",
+        name = "Filter Manager (Phase 8)",
+        width = "full",
+    })
+    
+    -- Initialize filter manager if needed
+    if not CM.Settings.FilterManager then
+        local FilterManager = require("src/settings/FilterManager")
+        CM.Settings.FilterManager = FilterManager
+        CM.Settings.FilterManager:Initialize()
+    end
+    
+    -- Active filter dropdown
+    table.insert(options, {
+        type = "dropdown",
+        name = "Active Filter",
+        tooltip = "Select an active filter to apply to your character data display",
+        choices = function()
+            local choices = {"None"}
+            local choicesValues = {"None"}
+            
+            -- Add user filters
+            for name, _ in pairs(CM.settings.filters or {}) do
+                table.insert(choices, name)
+                table.insert(choicesValues, name)
+            end
+            
+            -- Add preset filters
+            for name, _ in pairs(CM.Settings.FilterManager.FILTER_PRESETS) do
+                table.insert(choices, name .. " (Preset)")
+                table.insert(choicesValues, name)
+            end
+            
+            return choices, choicesValues
+        end,
+        getFunc = function() return CM.settings.activeFilter or "None" end,
+        setFunc = function(value)
+            if value ~= "None" then
+                CM.Settings.FilterManager:ApplyFilter(value)
+            else
+                CM.settings.activeFilter = "None"
+            end
+        end,
+        width = "full",
+        default = "None",
+    })
+    
+    -- Filter management buttons
+    table.insert(options, {
+        type = "button",
+        name = "Save Current as Filter",
+        tooltip = "Save your current settings as a custom filter",
+        func = function()
+            local dialog = {
+                title = "Save Filter",
+                mainText = "Enter a name for your custom filter:",
+                editBox = true,
+                buttons = {
+                    {
+                        text = "Save",
+                        callback = function(dialog)
+                            local name = dialog.editBox:GetText()
+                            if name and name ~= "" then
+                                CM.Settings.FilterManager:SaveCurrentAsFilter(name, "Custom filter", "Custom")
+                                -- Refresh the dropdown
+                                LAM:RefreshPanel("CharacterMarkdownPanel")
+                            end
+                        end
+                    },
+                    {
+                        text = "Cancel",
+                        callback = function() end
+                    }
+                }
+            }
+            ZO_Dialogs_ShowDialog("CHARACTERMARKDOWN_SAVE_FILTER", dialog)
+        end,
+        width = "half",
+    })
+    
+    table.insert(options, {
+        type = "button",
+        name = "Filter Analysis",
+        tooltip = "Analyze your current filter settings and get recommendations",
+        func = function()
+            local analysis = CM.Settings.FilterManager:AnalyzeCurrentSettings()
+            local message = "Filter Analysis:\n\n"
+            
+            message = message .. "Enabled Sections: " .. analysis.enabledSections .. "/" .. analysis.totalSections .. "\n\n"
+            
+            for category, data in pairs(analysis.categories) do
+                message = message .. category .. ": " .. data.enabled .. "/" .. data.total .. " (" .. data.percentage .. "%)\n"
+            end
+            
+            if #analysis.recommendations > 0 then
+                message = message .. "\nRecommendations:\n"
+                for _, rec in ipairs(analysis.recommendations) do
+                    message = message .. "• " .. rec.message .. "\n"
+                end
+            end
+            
+            ZO_Dialogs_ShowDialog("CHARACTERMARKDOWN_FILTER_ANALYSIS", {
+                title = "Filter Analysis",
+                mainText = message,
+                buttons = {
+                    {
+                        text = "OK",
+                        callback = function() end
+                    }
+                }
+            })
+        end,
+        width = "half",
+    })
+    
+    table.insert(options, {
+        type = "description",
+        text = "|c00FF00Filter Manager allows you to create, save, and apply custom filter presets.|r Use filters to quickly switch between different display configurations for different purposes (PvE, PvP, Crafting, etc.).",
+        width = "full",
+    })
+end
+
+-- =====================================================
 -- CORE CONTENT SECTIONS
 -- =====================================================
 
@@ -172,6 +307,28 @@ function CM.Settings.Panel:AddCoreSections(options)
     
     table.insert(options, {
         type = "checkbox",
+        name = "  ↳ Detailed CP Analysis",
+        tooltip = "Show detailed Champion Point allocation analysis including slottable vs passive breakdown, investment levels, and optimization suggestions (Phase 4).",
+        getFunc = function() return CM.settings.includeChampionDetailed end,
+        setFunc = function(value) CM.settings.includeChampionDetailed = value end,
+        disabled = function() return not CM.settings.includeChampionPoints end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Show Slottable Only",
+        tooltip = "Show only slottable Champion Point skills (skills that can be equipped to Champion Bar). Useful for build optimization and Discord sharing.",
+        getFunc = function() return CM.settings.includeChampionSlottableOnly end,
+        setFunc = function(value) CM.settings.includeChampionSlottableOnly = value end,
+        disabled = function() return not CM.settings.includeChampionPoints end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
         name = "Include Skill Bars",
         tooltip = "Show front and back bar abilities with ultimates",
         getFunc = function() return CM.settings.includeSkillBars end,
@@ -188,6 +345,21 @@ function CM.Settings.Panel:AddCoreSections(options)
         setFunc = function(value) CM.settings.includeSkills = value end,
         width = "half",
         default = true,
+    })
+    
+    -- NEW: Skill Morphs Toggle
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Show All Available Morphs",
+        tooltip = "Show all morphable skills with their morph choices (not just equipped abilities).\n" ..
+                 "When enabled, displays comprehensive morph information for all unlocked skills.\n" ..
+                 "When disabled, shows only equipped abilities on bars.\n" ..
+                 "⚠️ Note: Can generate 2-5KB of additional text for fully skilled characters.",
+        getFunc = function() return CM.settings.includeSkillMorphs end,
+        setFunc = function(value) CM.settings.includeSkillMorphs = value end,
+        disabled = function() return not CM.settings.includeSkills end,
+        width = "half",
+        default = false,
     })
     
     table.insert(options, {
@@ -357,6 +529,102 @@ function CM.Settings.Panel:AddExtendedSections(options)
         width = "half",
         default = false,
     })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Achievement Tracking",
+        tooltip = "Show detailed achievement progress, categories, and completion status (Phase 5).",
+        getFunc = function() return CM.settings.includeAchievements end,
+        setFunc = function(value) CM.settings.includeAchievements = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Detailed Achievement Categories",
+        tooltip = "Show achievement breakdown by categories (Combat, PvP, Exploration, Crafting, etc.) with progress tracking.",
+        getFunc = function() return CM.settings.includeAchievementsDetailed end,
+        setFunc = function(value) CM.settings.includeAchievementsDetailed = value end,
+        disabled = function() return not CM.settings.includeAchievements end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Show In-Progress Only",
+        tooltip = "Show only achievements that are currently in progress (have some progress but not completed). Useful for goal tracking.",
+        getFunc = function() return CM.settings.includeAchievementsInProgress end,
+        setFunc = function(value) CM.settings.includeAchievementsInProgress = value end,
+        disabled = function() return not CM.settings.includeAchievements end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Quest Tracking",
+        tooltip = "Show active quests, progress tracking, and quest categorization (Phase 6).",
+        getFunc = function() return CM.settings.includeQuests end,
+        setFunc = function(value) CM.settings.includeQuests = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Detailed Quest Categories",
+        tooltip = "Show quest breakdown by categories (Main Story, Guild Quests, DLC Quests, etc.) with zone tracking.",
+        getFunc = function() return CM.settings.includeQuestsDetailed end,
+        setFunc = function(value) CM.settings.includeQuestsDetailed = value end,
+        disabled = function() return not CM.settings.includeQuests end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Show Active Quests Only",
+        tooltip = "Show only currently active quests. Useful for current objective tracking.",
+        getFunc = function() return CM.settings.includeQuestsActiveOnly end,
+        setFunc = function(value) CM.settings.includeQuestsActiveOnly = value end,
+        disabled = function() return not CM.settings.includeQuests end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Equipment Enhancement",
+        tooltip = "Show equipment analysis, optimization suggestions, and upgrade tracking (Phase 7).",
+        getFunc = function() return CM.settings.includeEquipmentEnhancement end,
+        setFunc = function(value) CM.settings.includeEquipmentEnhancement = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Detailed Equipment Analysis",
+        tooltip = "Show detailed equipment analysis including set bonuses, quality upgrades, and enchantment analysis.",
+        getFunc = function() return CM.settings.includeEquipmentAnalysis end,
+        setFunc = function(value) CM.settings.includeEquipmentAnalysis = value end,
+        disabled = function() return not CM.settings.includeEquipmentEnhancement end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Optimization Recommendations",
+        tooltip = "Show equipment optimization recommendations and upgrade suggestions.",
+        getFunc = function() return CM.settings.includeEquipmentRecommendations end,
+        setFunc = function(value) CM.settings.includeEquipmentRecommendations = value end,
+        disabled = function() return not CM.settings.includeEquipmentEnhancement end,
+        width = "half",
+        default = false,
+    })
 end
 
 -- =====================================================
@@ -437,18 +705,58 @@ function CM.Settings.Panel:AddCustomNotes(options)
     })
     
     table.insert(options, {
+        type = "checkbox",
+        name = "Include Build Notes",
+        tooltip = "Include custom build notes in the markdown output\nNotes must be entered below to appear in output",
+        getFunc = function() return CM.settings.includeBuildNotes end,
+        setFunc = function(value) CM.settings.includeBuildNotes = value end,
+        width = "half",
+        default = true,
+    })
+    
+    table.insert(options, {
         type = "editbox",
         name = "Build Notes",
         tooltip = "Add custom notes (rotation, parse data, build description, etc.)\nNotes are saved per-character and persist between sessions.",
-        getFunc = function() return CM.charData and CM.charData.customNotes or "" end,
+        getFunc = function() 
+            -- Ensure character data is initialized
+            if not CM.charData and CharacterMarkdownData then
+                CM.charData = CharacterMarkdownData
+            end
+            return CM.charData and CM.charData.customNotes or "" 
+        end,
         setFunc = function(value) 
+            -- Ensure character data is initialized
+            if not CM.charData and CharacterMarkdownData then
+                CM.charData = CharacterMarkdownData
+            end
+            
             if CM.charData then
-                CM.charData.customNotes = value 
+                CM.charData.customNotes = value or ""
                 CM.charData._lastModified = GetTimeStamp()
+                CM.DebugPrint("SETTINGS", "Build notes saved (" .. string.len(value or "") .. " bytes)")
+            else
+                CM.Error("Failed to save build notes - character data not available")
             end
         end,
         width = "full",
         isMultiline = true,
+        isExtraWide = true,
+        maxChars = 10000,
+        default = "",
+    })
+    
+    table.insert(options, {
+        type = "editbox",
+        name = "Custom Title",
+        tooltip = "Override your character's in-game title with a custom one.\nLeave empty to use your character's current title.",
+        getFunc = function() return CM.settings.customTitle or "" end,
+        setFunc = function(value) 
+            CM.settings.customTitle = value or ""
+        end,
+        width = "full",
+        textType = TEXT_TYPE_ALL,
+        maxChars = 100,
         default = "",
     })
 end
@@ -520,8 +828,11 @@ function CM.Settings.Panel:AddActions(options)
             -- Core sections
             CM.settings.includeChampionPoints = true
             -- CM.settings.includeChampionDiagram = true  -- Keep disabled (experimental)
+            CM.settings.includeChampionDetailed = true  -- Enable detailed CP analysis
+            CM.settings.includeChampionSlottableOnly = false  -- Show all CP skills
             CM.settings.includeSkillBars = true
             CM.settings.includeSkills = true
+            CM.settings.includeSkillMorphs = true  -- Enable morphs when enabling all
             CM.settings.includeEquipment = true
             CM.settings.includeCompanion = true
             CM.settings.includeCombatStats = true
@@ -529,6 +840,7 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includeAttributes = true
             CM.settings.includeRole = true
             CM.settings.includeLocation = true
+            CM.settings.includeBuildNotes = true
             
             -- Extended sections
             CM.settings.includeDLCAccess = true
@@ -539,6 +851,15 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includePvP = true
             CM.settings.includeCollectibles = true
             CM.settings.includeCrafting = true
+            CM.settings.includeAchievements = true  -- Enable achievement tracking
+            CM.settings.includeAchievementsDetailed = true  -- Enable detailed achievements
+            CM.settings.includeAchievementsInProgress = false  -- Show all achievements
+            CM.settings.includeQuests = true  -- Enable quest tracking
+            CM.settings.includeQuestsDetailed = true  -- Enable detailed quest categories
+            CM.settings.includeQuestsActiveOnly = false  -- Show all quests
+            CM.settings.includeEquipmentEnhancement = true  -- Enable equipment analysis
+            CM.settings.includeEquipmentAnalysis = true  -- Enable detailed equipment analysis
+            CM.settings.includeEquipmentRecommendations = true  -- Enable optimization recommendations
             
             -- Links
             CM.settings.enableAbilityLinks = true
@@ -562,6 +883,16 @@ function CM.Settings.Panel:AddActions(options)
         end,
         width = "half",
         warning = "This will reset all settings to defaults!",
+    })
+    
+    table.insert(options, {
+        type = "button",
+        name = "Reload UI",
+        tooltip = "Reload the user interface (useful after making changes)",
+        func = function()
+            ReloadUI()
+        end,
+        width = "half",
     })
 end
 

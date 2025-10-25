@@ -17,8 +17,11 @@ local CM = CharacterMarkdown
 CM.Settings.Defaults.CORE = {
     includeChampionPoints = true,
     includeChampionDiagram = false,  -- Visual mermaid diagram of invested CP (DISABLED - experimental feature)
+    includeChampionDetailed = false,  -- Show detailed CP allocation analysis (Phase 4)
+    includeChampionSlottableOnly = false,  -- Show only slottable CP skills (Phase 4)
     includeSkillBars = true,
     includeSkills = true,
+    includeSkillMorphs = false,  -- Show all available morphs for unlocked skills (disabled by default due to output size)
     includeEquipment = true,
     includeCompanion = true,
     includeCombatStats = true,
@@ -27,19 +30,35 @@ CM.Settings.Defaults.CORE = {
     includeRole = true,
     includeLocation = true,
     includeBuildNotes = true,  -- Include custom build notes in markdown output
+    customTitle = "",  -- Custom title to override character's in-game title
 }
 
 -- Extended info sections (DEFAULT: SELECTIVE)
 CM.Settings.Defaults.EXTENDED = {
     includeDLCAccess = true,
     includeCurrency = true,
-    includeProgression = false,  -- Achievement score, vampire/werewolf, enlightenment
-    includeRidingSkills = false,  -- Mount training progress
+    includeProgression = true,  -- Achievement score, vampire/werewolf, enlightenment
+    includeRidingSkills = true,  -- Mount training progress
     includeInventory = true,
-    includePvP = false,  -- Alliance War rank and campaign
+    includePvP = true,  -- Alliance War rank and campaign
     includeCollectibles = true,
     includeCollectiblesDetailed = false,  -- Show detailed lists of owned collectibles (off by default due to length)
-    includeCrafting = false,  -- Known motifs and research slots
+    includeCrafting = true,  -- Known motifs and research slots
+    includeAchievements = false,  -- Show detailed achievement tracking (Phase 5)
+    includeAchievementsDetailed = false,  -- Show achievement categories and progress (Phase 5)
+    includeAchievementsInProgress = false,  -- Show only in-progress achievements (Phase 5)
+    includeQuests = false,  -- Show quest tracking and progress (Phase 6)
+    includeQuestsDetailed = false,  -- Show quest categories and zones (Phase 6)
+    includeQuestsActiveOnly = false,  -- Show only active quests (Phase 6)
+    includeEquipmentEnhancement = false,  -- Show equipment analysis and optimization (Phase 7)
+    includeEquipmentAnalysis = false,  -- Show detailed equipment analysis (Phase 7)
+    includeEquipmentRecommendations = false,  -- Show optimization recommendations (Phase 7)
+    includeWorldProgress = true,  -- Show world progress (skyshards, lorebooks, zone completion, dungeons) (Phase 9)
+    includeTitlesHousing = true,  -- Show titles and housing collections (Phase 10)
+    includePvPStats = true,  -- Show PvP statistics and campaign data (Phase 10)
+    includeArmoryBuilds = true,  -- Show armory builds and templates (Phase 10)
+    includeTalesOfTribute = true,  -- Show Tales of Tribute progress (Phase 10)
+    includeUndauntedPledges = true,  -- Show Undaunted pledges and dungeon progress (Phase 10)
 }
 
 -- Link settings
@@ -70,6 +89,13 @@ CM.Settings.Defaults.NOTES = {
     customNotes = "",
 }
 
+-- Filter manager settings
+CM.Settings.Defaults.FILTERS = {
+    activeFilter = "None",
+    filters = {},
+    filterPresets = {},
+}
+
 -- =====================================================
 -- PRESET PROFILES
 -- =====================================================
@@ -81,8 +107,11 @@ CM.Settings.Defaults.PROFILES = {
         description = "Maximum detail with all sections enabled",
         includeChampionPoints = true,
         includeChampionDiagram = false,
+        includeChampionDetailed = true,  -- Enable detailed CP analysis
+        includeChampionSlottableOnly = false,
         includeSkillBars = true,
         includeSkills = true,
+        includeSkillMorphs = false,
         includeEquipment = true,
         includeCompanion = true,
         includeCombatStats = true,
@@ -100,6 +129,22 @@ CM.Settings.Defaults.PROFILES = {
         includeCollectibles = true,
         includeCollectiblesDetailed = false,
         includeCrafting = true,
+        includeAchievements = true,  -- Enable achievement tracking
+        includeAchievementsDetailed = true,  -- Enable detailed achievements
+        includeAchievementsInProgress = false,  -- Show all achievements
+        includeQuests = true,  -- Enable quest tracking
+        includeQuestsDetailed = true,  -- Enable detailed quest categories
+        includeQuestsActiveOnly = false,  -- Show all quests
+        includeEquipmentEnhancement = true,  -- Enable equipment analysis
+        includeEquipmentAnalysis = true,  -- Enable detailed equipment analysis
+        includeEquipmentRecommendations = true,  -- Enable optimization recommendations
+        includeWorldProgress = true,  -- Enable world progress tracking
+        includeTitlesHousing = true,  -- Enable titles and housing
+        includePvPStats = true,  -- Enable PvP statistics
+        includeArmoryBuilds = true,  -- Enable armory builds
+        includeTalesOfTribute = true,  -- Enable Tales of Tribute
+        includeUndauntedPledges = true,  -- Enable Undaunted pledges
+        customTitle = "",  -- Custom title override
         enableAbilityLinks = true,
         enableSetLinks = true,
         minSkillRank = 1,
@@ -115,8 +160,11 @@ CM.Settings.Defaults.PROFILES = {
         description = "Focus on build essentials for trials/dungeons",
         includeChampionPoints = true,
         includeChampionDiagram = false,
+        includeChampionDetailed = true,  -- Enable detailed CP for PvE builds
+        includeChampionSlottableOnly = false,
         includeSkillBars = true,
         includeSkills = true,
+        includeSkillMorphs = false,
         includeEquipment = true,
         includeCompanion = false,
         includeCombatStats = true,
@@ -134,6 +182,22 @@ CM.Settings.Defaults.PROFILES = {
         includeCollectibles = false,
         includeCollectiblesDetailed = false,
         includeCrafting = false,
+        includeAchievements = true,  -- Enable for PvE builds
+        includeAchievementsDetailed = false,  -- Keep compact
+        includeAchievementsInProgress = true,  -- Focus on in-progress
+        includeQuests = true,  -- Enable for PvE builds
+        includeQuestsDetailed = false,  -- Keep compact
+        includeQuestsActiveOnly = true,  -- Focus on active quests
+        includeEquipmentEnhancement = true,  -- Enable for PvE builds
+        includeEquipmentAnalysis = false,  -- Keep compact
+        includeEquipmentRecommendations = true,  -- Focus on recommendations
+        includeWorldProgress = true,  -- Enable world progress for PvE
+        includeTitlesHousing = true,  -- Enable for PvE builds
+        includePvPStats = false,  -- Not relevant for PvE
+        includeArmoryBuilds = true,  -- Enable for PvE builds
+        includeTalesOfTribute = true,  -- Enable for PvE builds
+        includeUndauntedPledges = true,  -- Enable for PvE builds
+        customTitle = "",  -- Custom title override
         enableAbilityLinks = true,
         enableSetLinks = true,
         minSkillRank = 1,
@@ -149,8 +213,11 @@ CM.Settings.Defaults.PROFILES = {
         description = "Optimized for Cyrodiil/Battlegrounds",
         includeChampionPoints = true,
         includeChampionDiagram = false,
+        includeChampionDetailed = true,  -- Enable detailed CP for PvP builds
+        includeChampionSlottableOnly = false,
         includeSkillBars = true,
         includeSkills = true,
+        includeSkillMorphs = false,
         includeEquipment = true,
         includeCompanion = false,
         includeCombatStats = true,
@@ -168,6 +235,22 @@ CM.Settings.Defaults.PROFILES = {
         includeCollectibles = false,
         includeCollectiblesDetailed = false,
         includeCrafting = false,
+        includeAchievements = true,  -- Enable for PvP builds
+        includeAchievementsDetailed = false,  -- Keep compact
+        includeAchievementsInProgress = true,  -- Focus on in-progress
+        includeQuests = true,  -- Enable for PvP builds
+        includeQuestsDetailed = false,  -- Keep compact
+        includeQuestsActiveOnly = true,  -- Focus on active quests
+        includeEquipmentEnhancement = true,  -- Enable for PvP builds
+        includeEquipmentAnalysis = false,  -- Keep compact
+        includeEquipmentRecommendations = true,  -- Focus on recommendations
+        includeWorldProgress = false,  -- Disable world progress for PvP (not relevant)
+        includeTitlesHousing = true,  -- Enable for PvP builds
+        includePvPStats = true,  -- Enable for PvP builds
+        includeArmoryBuilds = true,  -- Enable for PvP builds
+        includeTalesOfTribute = false,  -- Not relevant for PvP
+        includeUndauntedPledges = false,  -- Not relevant for PvP
+        customTitle = "",  -- Custom title override
         enableAbilityLinks = true,
         enableSetLinks = true,
         minSkillRank = 1,
@@ -183,8 +266,11 @@ CM.Settings.Defaults.PROFILES = {
         description = "Compact format for Discord servers",
         includeChampionPoints = true,
         includeChampionDiagram = false,
+        includeChampionDetailed = false,  -- Keep compact for Discord
+        includeChampionSlottableOnly = true,  -- Show only slottable for Discord
         includeSkillBars = true,
         includeSkills = false,  -- Too long for Discord
+        includeSkillMorphs = false,
         includeEquipment = true,
         includeCompanion = false,
         includeCombatStats = true,
@@ -202,6 +288,22 @@ CM.Settings.Defaults.PROFILES = {
         includeCollectibles = false,
         includeCollectiblesDetailed = false,
         includeCrafting = false,
+        includeAchievements = false,  -- Keep Discord compact
+        includeAchievementsDetailed = false,
+        includeAchievementsInProgress = false,
+        includeQuests = false,  -- Keep Discord compact
+        includeQuestsDetailed = false,
+        includeQuestsActiveOnly = false,
+        includeEquipmentEnhancement = false,  -- Keep Discord compact
+        includeEquipmentAnalysis = false,
+        includeEquipmentRecommendations = false,
+        includeWorldProgress = true,  -- Enable world progress for Discord (compact format)
+        includeTitlesHousing = true,  -- Enable for Discord (compact)
+        includePvPStats = true,  -- Enable for Discord (compact)
+        includeArmoryBuilds = false,  -- Keep Discord compact
+        includeTalesOfTribute = false,  -- Keep Discord compact
+        includeUndauntedPledges = false,  -- Keep Discord compact
+        customTitle = "",  -- Custom title override
         enableAbilityLinks = true,
         enableSetLinks = true,
         minSkillRank = 1,
@@ -219,6 +321,7 @@ CM.Settings.Defaults.PROFILES = {
         includeChampionDiagram = false,
         includeSkillBars = true,
         includeSkills = false,
+        includeSkillMorphs = false,
         includeEquipment = true,
         includeCompanion = false,
         includeCombatStats = false,
@@ -275,6 +378,14 @@ function CM.Settings.Defaults:GetAll()
     end
     
     for k, v in pairs(self.FORMAT) do
+        defaults[k] = v
+    end
+    
+    for k, v in pairs(self.NOTES) do
+        defaults[k] = v
+    end
+    
+    for k, v in pairs(self.FILTERS) do
         defaults[k] = v
     end
     

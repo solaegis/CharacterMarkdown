@@ -198,6 +198,7 @@ end
 -- EXPORTS
 -- =====================================================
 
+CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateCurrency = GenerateCurrency
 CM.generators.sections.GenerateRidingSkills = GenerateRidingSkills
 CM.generators.sections.GenerateInventory = GenerateInventory

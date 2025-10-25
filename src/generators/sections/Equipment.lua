@@ -301,10 +301,141 @@ local function GenerateSkills(skillData, format)
 end
 
 -- =====================================================
+-- SKILL MORPHS
+-- =====================================================
+
+local function GenerateSkillMorphs(skillMorphsData, format)
+    InitializeUtilities()
+    
+    local markdown = ""
+    
+    -- Debug: Check if we have data
+    if not skillMorphsData or #skillMorphsData == 0 then
+        if format == "discord" then
+            markdown = markdown .. "\n**Skill Morphs:**\n"
+            markdown = markdown .. "No morphable abilities found.\n"
+        else
+            markdown = markdown .. "## 🌿 Skill Morphs\n\n"
+            markdown = markdown .. "*No morphable abilities found.*\n\n"
+            markdown = markdown .. "---\n\n"
+        end
+        return markdown
+    end
+    
+    if format == "discord" then
+        -- Discord: Compact format showing selected morphs
+        markdown = markdown .. "\n**Skill Morphs:**\n"
+        for _, skillType in ipairs(skillMorphsData) do
+            markdown = markdown .. (skillType.emoji or "⚔️") .. " **" .. skillType.name .. "**\n"
+            for _, skillLine in ipairs(skillType.skillLines) do
+                markdown = markdown .. "  📋 " .. skillLine.name .. " (R" .. (skillLine.rank or 0) .. ")\n"
+                for _, ability in ipairs(skillLine.abilities) do
+                    -- Show base ability (now shows all morphable abilities, not just purchased)
+                    local baseText = CreateAbilityLink(ability.name, nil, format)
+                    local statusIcon = ability.purchased and "✅" or "🔒"
+                    markdown = markdown .. "    " .. statusIcon .. " " .. baseText
+                    
+                    -- Show selected morph if any
+                    if #ability.morphs > 0 then
+                        for _, morph in ipairs(ability.morphs) do
+                            if morph.selected then
+                                local morphText = CreateAbilityLink(morph.name, morph.abilityId, format)
+                                markdown = markdown .. " → " .. morphText
+                                break
+                            end
+                        end
+                    elseif ability.atMorphChoice then
+                        markdown = markdown .. " (⚠️ morph choice available)"
+                    end
+                    markdown = markdown .. "\n"
+                end
+            end
+        end
+    else
+        -- GitHub/VSCode: Detailed format with all morph options in collapsible sections
+        markdown = markdown .. "## 🌿 Skill Morphs\n\n"
+        
+        for _, skillType in ipairs(skillMorphsData) do
+            -- Count total abilities in this skill type
+            local totalAbilities = 0
+            for _, skillLine in ipairs(skillType.skillLines) do
+                totalAbilities = totalAbilities + #skillLine.abilities
+            end
+            
+            -- Collapsible section for each skill type
+            markdown = markdown .. "<details>\n"
+            markdown = markdown .. "<summary>" .. (skillType.emoji or "⚔️") .. " " .. skillType.name .. 
+                                  " (" .. totalAbilities .. " abilities with morph choices)</summary>\n\n"
+            
+            for _, skillLine in ipairs(skillType.skillLines) do
+                markdown = markdown .. "### " .. skillLine.name .. " (Rank " .. (skillLine.rank or 0) .. ")\n\n"
+                
+                for _, ability in ipairs(skillLine.abilities) do
+                    -- Base ability header (now shows all morphable abilities, not just purchased)
+                    local baseText = CreateAbilityLink(ability.name, nil, format)
+                    local statusIcon = ""
+                    
+                    if ability.purchased then
+                        if ability.currentMorph > 0 then
+                            statusIcon = "✅ "
+                        elseif ability.atMorphChoice then
+                            statusIcon = "⚠️ "
+                        else
+                            statusIcon = "🔒 "
+                        end
+                    else
+                        statusIcon = "🔒 "  -- Unpurchased abilities
+                    end
+                    
+                    markdown = markdown .. statusIcon .. "**" .. baseText .. "**"
+                    
+                    -- Show current rank if progressing
+                    if ability.currentRank and ability.currentRank > 0 then
+                        markdown = markdown .. " (Rank " .. ability.currentRank .. ")"
+                    end
+                    
+                    markdown = markdown .. "\n"
+                    
+                    -- Show morph status
+                    if #ability.morphs > 0 then
+                        markdown = markdown .. "\n"
+                        for _, morph in ipairs(ability.morphs) do
+                            local morphIcon = morph.selected and "✅" or "⚪"
+                            local morphText = CreateAbilityLink(morph.name, morph.abilityId, format)
+                            markdown = markdown .. "  " .. morphIcon .. " **Morph " .. morph.morphSlot .. "**: " .. morphText .. "\n"
+                        end
+                    elseif ability.atMorphChoice then
+                        markdown = markdown .. "  ⚠️ *Morph choice available - level up to unlock*\n"
+                    else
+                        if ability.purchased then
+                            markdown = markdown .. "  🔒 *Morph locked - continue leveling this skill*\n"
+                        else
+                            markdown = markdown .. "  🔒 *Purchase this ability to unlock morphs*\n"
+                        end
+                    end
+                    
+                    markdown = markdown .. "\n"
+                end
+                
+                markdown = markdown .. "\n"
+            end
+            
+            markdown = markdown .. "</details>\n\n"
+        end
+        
+        markdown = markdown .. "---\n\n"
+    end
+    
+    return markdown
+end
+
+-- =====================================================
 -- EXPORTS
 -- =====================================================
 
+CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateSkillBars = GenerateSkillBars
+CM.generators.sections.GenerateSkillMorphs = GenerateSkillMorphs
 CM.generators.sections.GenerateEquipment = GenerateEquipment
 CM.generators.sections.GenerateSkills = GenerateSkills
 

@@ -8,7 +8,18 @@ local CM = CharacterMarkdown
 -- =====================================================
 
 local function CollectChampionPointData()
-    local data = { total = 0, spent = 0, disciplines = {} }
+    local data = { 
+        total = 0, 
+        spent = 0, 
+        available = 0,
+        disciplines = {},
+        analysis = {
+            slottableSkills = 0,
+            passiveSkills = 0,
+            maxSlottablePerDiscipline = 0,
+            investmentLevel = "low"
+        }
+    }
     
     data.total = GetPlayerChampionPointsEarned() or 0
     
@@ -16,9 +27,23 @@ local function CollectChampionPointData()
         return data
     end
     
+    -- Calculate available CP and slottable limits
+    data.available = data.total - data.spent
+    
+    -- Determine slottable limits based on total CP
+    if data.total >= 1200 then
+        data.analysis.maxSlottablePerDiscipline = 4
+    elseif data.total >= 900 then
+        data.analysis.maxSlottablePerDiscipline = 4
+    else
+        data.analysis.maxSlottablePerDiscipline = 3
+    end
+    
     local success, allocations = pcall(function()
         local disciplines = {}
         local totalSpent = 0
+        local slottableCount = 0
+        local passiveCount = 0
         local numDisciplines = GetNumChampionDisciplines()
         
         if numDisciplines and numDisciplines > 0 then
@@ -46,7 +71,11 @@ local function CollectChampionPointData()
                         name = displayName, 
                         emoji = emoji,
                         skills = {}, 
-                        total = 0 
+                        total = 0,
+                        slottable = 0,
+                        passive = 0,
+                        slottableSkills = {},
+                        passiveSkills = {}
                     }
                     
                     local numSkills = GetNumChampionDisciplineSkills(disciplineId)
@@ -57,10 +86,84 @@ local function CollectChampionPointData()
                                 local pointsSpent = GetNumPointsSpentOnChampionSkill(skillId)
                                 if pointsSpent and pointsSpent > 0 then
                                     local skillName = GetChampionSkillName(skillId) or "Unknown"
+                                    
+                                    -- Determine if skill is slottable or passive using hardcoded mapping
+                                    local isSlottable = false
+                                    local skillType = "passive"
+                                    
+                                    -- Hardcoded mapping of slottable champion skills (based on ESO CP 3.0 system)
+                                    local slottableSkills = {
+                                        -- Craft constellation slottable skills
+                                        ["Steed's Blessing"] = true,
+                                        ["Breakfall"] = true,
+                                        ["Infamous"] = true,
+                                        ["Cutpurse's Art"] = true,
+                                        ["Meticulous Disassembly"] = true,
+                                        ["Plentiful Harvest"] = true,
+                                        ["Treasure Hunter"] = true,
+                                        ["Gilded Fingers"] = true,
+                                        ["Liquid Efficiency"] = true,
+                                        ["Homemaker"] = true,
+                                        ["Professional Upkeep"] = true,
+                                        ["Gifted Rider"] = true,
+                                        ["War Mount"] = true,
+                                        
+                                        -- Warfare constellation slottable skills
+                                        ["Deadly Aim"] = true,
+                                        ["Master-at-Arms"] = true,
+                                        ["Thaumaturge"] = true,
+                                        ["Rejuvenating Boon"] = true,
+                                        ["Ironclad"] = true,
+                                        ["Biting Aura"] = true,
+                                        ["Enlivening Overflow"] = true,
+                                        ["Salvation"] = true,
+                                        ["Bastion"] = true,
+                                        ["Wrathful Strikes"] = true,
+                                        ["Exploiter"] = true,
+                                        ["Deadly Precision"] = true,
+                                        
+                                        -- Fitness constellation slottable skills
+                                        ["Strategic Reserve"] = true,
+                                        ["Sustained by Suffering"] = true,
+                                        ["Rolling Rhapsody"] = true,
+                                        ["Defiance"] = true,
+                                        ["Hasty"] = true,
+                                        ["Pain's Refuge"] = true,
+                                        ["Bloody Renewal"] = true,
+                                        ["Piercing Gaze"] = true,
+                                        ["Bracing Anchor"] = true,
+                                        ["Unassailable"] = true,
+                                    }
+                                    
+                                    if slottableSkills[skillName] then
+                                        isSlottable = true
+                                        skillType = "slottable"
+                                        slottableCount = slottableCount + 1
+                                        disciplineData.slottable = disciplineData.slottable + pointsSpent
+                                        table.insert(disciplineData.slottableSkills, {
+                                            name = skillName,
+                                            points = pointsSpent,
+                                            skillId = skillId
+                                        })
+                                    else
+                                        passiveCount = passiveCount + 1
+                                        disciplineData.passive = disciplineData.passive + pointsSpent
+                                        table.insert(disciplineData.passiveSkills, {
+                                            name = skillName,
+                                            points = pointsSpent,
+                                            skillId = skillId
+                                        })
+                                    end
+                                    
+                                    -- Add to general skills list for backward compatibility
                                     table.insert(disciplineData.skills, { 
                                         name = skillName, 
-                                        points = pointsSpent 
+                                        points = pointsSpent,
+                                        type = skillType,
+                                        isSlottable = isSlottable,
+                                        skillId = skillId
                                     })
+                                    
                                     disciplineData.total = disciplineData.total + pointsSpent
                                     totalSpent = totalSpent + pointsSpent
                                 end
@@ -75,12 +178,34 @@ local function CollectChampionPointData()
             end
         end
         
-        return {disciplines = disciplines, totalSpent = totalSpent}
+        -- Calculate investment level
+        local investmentLevel = "low"
+        if data.total >= 1500 then
+            investmentLevel = "very-high"
+        elseif data.total >= 1200 then
+            investmentLevel = "high"
+        elseif data.total >= 800 then
+            investmentLevel = "medium-high"
+        elseif data.total >= 400 then
+            investmentLevel = "medium"
+        end
+        
+        return {
+            disciplines = disciplines, 
+            totalSpent = totalSpent,
+            slottableCount = slottableCount,
+            passiveCount = passiveCount,
+            investmentLevel = investmentLevel
+        }
     end)
     
     if success and allocations then
         data.spent = allocations.totalSpent
+        data.available = data.total - data.spent
         data.disciplines = allocations.disciplines
+        data.analysis.slottableSkills = allocations.slottableCount
+        data.analysis.passiveSkills = allocations.passiveCount
+        data.analysis.investmentLevel = allocations.investmentLevel
     end
     
     return data

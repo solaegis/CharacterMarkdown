@@ -1,10 +1,10 @@
--- CharacterMarkdown - Equipment Data Collector
--- Gear, sets, mundus stones, active buffs
+-- CharacterMarkdown - Equipment Data Collector (Tier 1 Enhanced)
+-- Gear, sets, mundus stones, active buffs, enchantments, item details
 
 local CM = CharacterMarkdown
 
 -- =====================================================
--- EQUIPMENT
+-- EQUIPMENT (TIER 1 COMPLETE)
 -- =====================================================
 
 local function CollectEquipmentData()
@@ -35,7 +35,7 @@ local function CollectEquipmentData()
         table.insert(equipment.sets, { name = setName, count = count })
     end
     
-    -- Collect equipment items
+    -- Collect equipment items with extended details
     for _, slotIndex in ipairs(equipSlots) do
         local itemName = GetItemName(BAG_WORN, slotIndex)
         if itemName and itemName ~= "" then
@@ -44,6 +44,56 @@ local function CollectEquipmentData()
             local quality = GetItemLinkQuality(itemLink)
             local traitType = GetItemLinkTraitInfo(itemLink)
             local traitName = GetString("SI_ITEMTRAITTYPE", traitType) or "None"
+            
+            -- ===== NEW: ENCHANTMENT INFO =====
+            local enchantName, enchantIcon, enchantCharge, enchantMaxCharge = nil, nil, 0, 0
+            local success1, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
+            if success1 and name and name ~= "" then
+                enchantName = name
+                enchantIcon = icon
+                enchantCharge = charge or 0
+                enchantMaxCharge = maxCharge or 0
+            end
+            
+            -- ===== NEW: ITEM STYLE =====
+            local itemStyle = 0
+            local success2, style = pcall(GetItemLinkItemStyle, itemLink)
+            if success2 and style then
+                itemStyle = style
+            end
+            
+            -- ===== NEW: REQUIRED LEVEL/CP =====
+            local requiredLevel, requiredCP = 0, 0
+            local success3, level = pcall(GetItemLinkRequiredLevel, itemLink)
+            if success3 and level then
+                requiredLevel = level
+            end
+            
+            local success4, cp = pcall(GetItemLinkRequiredChampionPoints, itemLink)
+            if success4 and cp then
+                requiredCP = cp
+            end
+            
+            -- ===== NEW: BIND TYPE =====
+            local bindType = BIND_TYPE_NONE
+            local success5, bind = pcall(GetItemLinkBindType, itemLink)
+            if success5 and bind then
+                bindType = bind
+            end
+            
+            -- ===== NEW: ITEM VALUE =====
+            local itemValue = 0
+            local success6, value = pcall(GetItemLinkValue, itemLink, false)
+            if success6 and value then
+                itemValue = value
+            end
+            
+            -- ===== NEW: CRAFTED STATUS =====
+            local isCrafted = false
+            local success7, crafted = pcall(IsItemLinkCrafted, itemLink)
+            if success7 then
+                isCrafted = crafted
+            end
             
             table.insert(equipment.items, {
                 slotIndex = slotIndex,
@@ -54,7 +104,18 @@ local function CollectEquipmentData()
                 quality = CM.utils.GetQualityColor(quality),
                 qualityEmoji = CM.utils.GetQualityEmoji(quality),
                 trait = traitName,
-                isEmpty = false
+                isEmpty = false,
+                -- NEW FIELDS (Tier 1)
+                enchantment = enchantName or false,
+                enchantIcon = enchantIcon,
+                enchantCharge = enchantCharge,
+                enchantMaxCharge = enchantMaxCharge,
+                style = itemStyle,
+                requiredLevel = requiredLevel,
+                requiredCP = requiredCP,
+                bindType = bindType,
+                value = itemValue,
+                isCrafted = isCrafted
             })
         end
     end

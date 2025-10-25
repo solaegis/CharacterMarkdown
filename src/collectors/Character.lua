@@ -33,8 +33,16 @@ local function CollectCharacterData()
     data.level = CM.SafeCall(GetUnitLevel, "player") or 0
     data.cp = CM.SafeCall(GetPlayerChampionPointsEarned) or 0
     
-    local titleIndex = CM.SafeCall(GetCurrentTitleIndex)
-    data.title = (titleIndex and titleIndex > 0) and CM.SafeCall(GetTitle, titleIndex) or ""
+    -- Get title (check for custom title first)
+    local settings = CharacterMarkdownSettings or {}
+    local customTitle = settings.customTitle or ""
+    
+    if customTitle and customTitle ~= "" then
+        data.title = customTitle
+    else
+        local titleIndex = CM.SafeCall(GetCurrentTitleIndex)
+        data.title = (titleIndex and titleIndex > 0) and CM.SafeCall(GetTitle, titleIndex) or ""
+    end
     
     data.esoPlus = CM.SafeCall(IsESOPlusSubscriber) or false
     
