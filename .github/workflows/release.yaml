@@ -223,6 +223,13 @@ jobs:
       # ========================================================================
       # 8. Create GitHub Release
       # ========================================================================
+      - name: Delete existing release if it exists
+        run: |
+          # Delete existing release if it exists (handles re-runs)
+          gh release delete "v${{ steps.version.outputs.VERSION }}" --yes 2>/dev/null || echo "No existing release to delete"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create GitHub release
         uses: ncipollo/release-action@v1
         with:
@@ -233,6 +240,8 @@ jobs:
           bodyFile: release_notes.md
           allowUpdates: true
           makeLatest: true
+          draft: false
+          prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # ========================================================================
