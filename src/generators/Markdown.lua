@@ -236,6 +236,8 @@ local function GetSectionRegistry(format, settings, gen, data)
                 -- Show detailed categories if enabled
                 if IsSettingEnabled(settings, "includeAchievementsDetailed", false) and data.achievements then
                     -- Additional detailed content is handled in the main generator
+                    -- This is intentionally empty as detailed content is processed elsewhere
+                    -- No action needed here
                 end
                 
                 -- Show only in-progress if enabled
@@ -267,6 +269,8 @@ local function GetSectionRegistry(format, settings, gen, data)
                 -- Show detailed categories if enabled
                 if IsSettingEnabled(settings, "includeQuestsDetailed", false) and data.quests then
                     -- Additional detailed content is handled in the main generator
+                    -- This is intentionally empty as detailed content is processed elsewhere
+                    -- No action needed here
                 end
                 
                 -- Show only active quests if enabled
@@ -298,6 +302,8 @@ local function GetSectionRegistry(format, settings, gen, data)
                 -- Show detailed analysis if enabled
                 if IsSettingEnabled(settings, "includeEquipmentAnalysis", false) and data.equipmentEnhancement then
                     -- Additional detailed content is handled in the main generator
+                    -- This is intentionally empty as detailed content is processed elsewhere
+                    -- No action needed here
                 end
                 
                 -- Show only recommendations if enabled

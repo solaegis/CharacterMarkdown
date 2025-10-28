@@ -212,9 +212,9 @@ local function CollectAchievementData()
     
     -- Process each achievement
     for i = 1, numAchievements do
-        local success, name, description, points, icon, completed = pcall(GetAchievementInfo, i)
+        local achievementSuccess, name, description, points, icon, completed = pcall(GetAchievementInfo, i)
         
-        if success and name then
+        if achievementSuccess and name then
             local category = CategorizeAchievement(name, description)
             local achievementData = {
                 id = i,

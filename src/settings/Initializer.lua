@@ -10,13 +10,6 @@ CharacterMarkdown.Settings.Initializer = {}
 local CM = CharacterMarkdown
 
 -- =====================================================
--- MODULE STATE
--- =====================================================
-
--- Track if ZO_SavedVars initialization was successful
-local zo_savedvars_available = false
-
--- =====================================================
 -- INITIALIZATION
 -- =====================================================
 
@@ -87,7 +80,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
         CharacterMarkdownSettings = CM.settings
     end
     
-    zo_savedvars_available = true
+    -- zo_savedvars_available = true -- luacheck: ignore
     CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully")
     return true
 end

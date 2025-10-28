@@ -17,7 +17,7 @@ local GetAttributeSpentPoints = GetAttributeSpentPoints
 local GetTimeStamp = GetTimeStamp
 local GetDateStringFromTimestamp = GetDateStringFromTimestamp
 local CanJumpToPlayerInZone = CanJumpToPlayerInZone
-local GetWorldName = GetWorldName
+local GetWorldName = GetWorldName -- luacheck: ignore
 local GetDisplayName = GetDisplayName
 
 local function CollectCharacterData()
