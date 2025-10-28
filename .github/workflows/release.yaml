@@ -77,6 +77,12 @@ jobs:
             fi
           fi
           
+          # Update version in README_ESOUI.txt
+          echo "🔄 Updating version in README_ESOUI.txt to: $VERSION"
+          sed -i "s/^CharacterMarkdown v[0-9]\+\.[0-9]\+\.[0-9]\+/CharacterMarkdown v$VERSION/g" README_ESOUI.txt
+          sed -i "s/^v[0-9]\+\.[0-9]\+\.[0-9]\+ - .*/v$VERSION - Release $VERSION/g" README_ESOUI.txt
+          echo "✅ README_ESOUI.txt version updated"
+          
           # Map API version to client release name (using >= logic for current/future releases)
           if [ "$API_VERSION" -ge 101047 ]; then
             CLIENT_RELEASE="Gold Road"
