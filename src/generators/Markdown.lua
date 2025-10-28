@@ -571,7 +571,7 @@ local function GenerateMarkdown(format)
         armoryBuilds = SafeCollect("CollectArmoryBuildsData", CM.collectors.CollectArmoryBuildsData),
         talesOfTribute = SafeCollect("CollectTalesOfTributeData", CM.collectors.CollectTalesOfTributeData),
         undauntedPledges = SafeCollect("CollectUndauntedPledgesData", CM.collectors.CollectUndauntedPledgesData),
-        customNotes = CharacterMarkdownData and CharacterMarkdownData.customNotes or ""
+        customNotes = (CM.charData and CM.charData.customNotes) or (CharacterMarkdownData and CharacterMarkdownData.customNotes) or ""
     }
     
     -- Report any collection errors

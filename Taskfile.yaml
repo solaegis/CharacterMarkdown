@@ -318,7 +318,19 @@ tasks:
     deps: [clean, test]
     cmds:
       - |
-        echo "📦 Building {{.ADDON_NAME}} v{{.VERSION}} release..."
+        echo "📦 Building {{.ADDON_NAME}} release..."
+        
+        # Get version from Git (tag or commit SHA)
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          # On a tag
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+          echo "   Using tag version: ${VERSION}"
+        else
+          # Use commit SHA (matches ESOUI behavior)
+          VERSION=$(git rev-parse --short HEAD)
+          echo "   Using commit SHA: ${VERSION}"
+        fi
+        
         mkdir -p {{.BUILD_DIR}}/{{.ADDON_NAME}}
         mkdir -p {{.DIST_DIR}}
         
@@ -329,21 +341,48 @@ tasks:
           --exclude='{{.DIST_DIR}}' \
           . {{.BUILD_DIR}}/{{.ADDON_NAME}}/
       - |
-        # Create ZIP with version from manifest
-        VERSION="{{.VERSION}}"
+        # Get version again for replacement
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+        
+        # Replace @project-version@ placeholders in manifest (ESOUI format)
+        MANIFEST_PATH="{{.BUILD_DIR}}/{{.ADDON_NAME}}/{{.MANIFEST_FILE}}"
+        ./scripts/replace-version.sh "$MANIFEST_PATH" "$VERSION"
+        
+        # Create ZIP with version
         cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
         echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
       - |
+        # Get version for validation
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+        
         # Run comprehensive ZIP validation
         chmod +x scripts/validate-zip.sh
-        scripts/validate-zip.sh "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip"
+        scripts/validate-zip.sh "{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
 
   build:fast:
     desc: Build without tests (fast local iteration)
     deps: [clean]
     cmds:
       - |
-        echo "📦 Building {{.ADDON_NAME}} v{{.VERSION}} (fast mode)..."
+        echo "📦 Building {{.ADDON_NAME}} (fast mode)..."
+        
+        # Get version from Git (tag or commit SHA)
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+          echo "   Using tag version: ${VERSION}"
+        else
+          VERSION=$(git rev-parse --short HEAD)
+          echo "   Using commit SHA: ${VERSION}"
+        fi
+        
         mkdir -p {{.BUILD_DIR}}/{{.ADDON_NAME}}
         mkdir -p {{.DIST_DIR}}
         rsync -a --quiet \
@@ -352,7 +391,17 @@ tasks:
           --exclude='{{.DIST_DIR}}' \
           . {{.BUILD_DIR}}/{{.ADDON_NAME}}/
       - |
-        VERSION="{{.VERSION}}"
+        # Get version again for replacement
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+        
+        # Replace @project-version@ placeholders in manifest
+        MANIFEST_PATH="{{.BUILD_DIR}}/{{.ADDON_NAME}}/{{.MANIFEST_FILE}}"
+        ./scripts/replace-version.sh "$MANIFEST_PATH" "$VERSION"
+        
         cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
         echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
 
@@ -372,16 +421,30 @@ tasks:
   # =============================================================================
 
   version:
-    desc: Show current version from manifest
+    desc: Show current version info (Git tag/commit based)
     cmds:
       - |
-        VERSION="{{.VERSION}}"
-        API_VERSION=$(grep "^## APIVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
-        ADDON_VERSION=$(grep "^## AddOnVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
         echo "📦 {{.ADDON_NAME}}"
-        echo "   Version: ${VERSION}"
-        echo "   API Version: ${API_VERSION}"
-        echo "   AddOn Version: ${ADDON_VERSION}"
+        
+        # Show Git version info (tag or commit)
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+          echo "   Version (Tag): ${VERSION}"
+        else
+          VERSION=$(git rev-parse --short HEAD)
+          echo "   Version (Commit): ${VERSION}"
+        fi
+        
+        # Show API version from manifest
+        if grep -q "^## APIVersion:" {{.MANIFEST_FILE}}; then
+          API_VERSION=$(grep "^## APIVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
+          echo "   API Version: ${API_VERSION}"
+        fi
+        
+        # Show manifest placeholder status
+        if grep -q "@project-version@" {{.MANIFEST_FILE}}; then
+          echo "   Manifest: Using @project-version@ placeholder (Git-based)"
+        fi
     silent: true
 
   version:api:
@@ -438,20 +501,8 @@ tasks:
         NEW_VERSION="$MAJOR.$MINOR.$PATCH"
         echo "  $CURRENT → $NEW_VERSION"
 
-        # Update manifest Version
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-          sed -i '' "s/^## Version: .*/## Version: $NEW_VERSION/" {{.MANIFEST_FILE}}
-        else
-          sed -i "s/^## Version: .*/## Version: $NEW_VERSION/" {{.MANIFEST_FILE}}
-        fi
-        
-        # Update AddOnVersion (YYYYMMDD format)
-        DATE_VERSION=$(date +%Y%m%d)
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-          sed -i '' "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/" {{.MANIFEST_FILE}}
-        else
-          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/" {{.MANIFEST_FILE}}
-        fi
+        # Note: Manifest uses @project-version@, so no need to update it
+        echo "   (Manifest uses @project-version@ placeholder - Git-based versioning)"
 
         # Update CHANGELOG
         DATE=$(date +%Y-%m-%d)
@@ -462,7 +513,16 @@ tasks:
         fi
 
         echo "✅ Version bumped to $NEW_VERSION"
-        echo "   Updated: {{.MANIFEST_FILE}}, CHANGELOG.md"
+        echo "✅ CHANGELOG.md updated"
+        echo ""
+        echo "Next steps:"
+        echo "  1. Review CHANGELOG.md changes"
+        echo "  2. Commit changes: git commit -am 'Release v$NEW_VERSION'"
+        echo "  3. Create tag: git tag -a v$NEW_VERSION -m 'Release v$NEW_VERSION'"
+        echo "  4. Push tag: git push origin main --tags"
+        echo ""
+        echo "Note: Manifest uses @project-version@ (Git-based versioning)"
+        echo "      Version is automatically set from Git tags during build."
     silent: true
 
   # =============================================================================

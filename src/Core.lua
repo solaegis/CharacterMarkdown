@@ -1,4 +1,4 @@
--- CharacterMarkdown v2.1.1 - Core Namespace
+-- CharacterMarkdown v2.1.7 - Core Namespace
 -- Author: solaegis
 
 CharacterMarkdown = CharacterMarkdown or {}
@@ -6,7 +6,7 @@ local CM = CharacterMarkdown
 
 -- Addon metadata
 CM.name = "CharacterMarkdown"
-CM.version = "2.1.6"
+CM.version = "2.1.7"
 CM.author = "solaegis"
 CM.apiVersion = 101047
 

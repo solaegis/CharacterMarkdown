@@ -49,7 +49,7 @@ function CM.Settings.Panel:Initialize()
         name = "Character Markdown",
         displayName = "Character Markdown",
         author = "solaegis",
-        version = CM.version or "2.1.6",
+        version = CM.version,
         slashCommand = "/cmdsettings",
         registerForRefresh = true,
         registerForDefaults = true,
@@ -74,12 +74,12 @@ function CM.Settings.Panel:BuildOptionsData()
     
     -- Add sections in order
     self:AddFormatSection(options)
+    self:AddCustomNotes(options)
     self:AddFilterManagerSection(options)
     self:AddCoreSections(options)
     self:AddExtendedSections(options)
     self:AddLinkSettings(options)
     self:AddSkillFilters(options)
-    self:AddCustomNotes(options)
     self:AddEquipmentFilters(options)
     self:AddActions(options)
     
@@ -700,7 +700,7 @@ end
 function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "header",
-        name = "Custom Notes",
+        name = "Character-Specific Settings",
         width = "full",
     })
     
@@ -712,6 +712,37 @@ function CM.Settings.Panel:AddCustomNotes(options)
         setFunc = function(value) CM.settings.includeBuildNotes = value end,
         width = "half",
         default = true,
+    })
+    
+    table.insert(options, {
+        type = "editbox",
+        name = "Custom Title",
+        tooltip = "Override your character's in-game title with a custom one.\nTitle is saved per-character and persists between sessions.\nLeave empty to use your character's current title.",
+        getFunc = function() 
+            -- Ensure character data is initialized
+            if not CM.charData and CharacterMarkdownData then
+                CM.charData = CharacterMarkdownData
+            end
+            return CM.charData and CM.charData.customTitle or ""
+        end,
+        setFunc = function(value) 
+            -- Ensure character data is initialized
+            if not CM.charData and CharacterMarkdownData then
+                CM.charData = CharacterMarkdownData
+            end
+            
+            if CM.charData then
+                CM.charData.customTitle = value or ""
+                CM.charData._lastModified = GetTimeStamp()
+                CM.DebugPrint("SETTINGS", "Custom title saved")
+            else
+                CM.Error("Failed to save custom title - character data not available")
+            end
+        end,
+        width = "full",
+        textType = TEXT_TYPE_ALL,
+        maxChars = 100,
+        default = "",
     })
     
     table.insert(options, {
@@ -743,20 +774,6 @@ function CM.Settings.Panel:AddCustomNotes(options)
         isMultiline = true,
         isExtraWide = true,
         maxChars = 10000,
-        default = "",
-    })
-    
-    table.insert(options, {
-        type = "editbox",
-        name = "Custom Title",
-        tooltip = "Override your character's in-game title with a custom one.\nLeave empty to use your character's current title.",
-        getFunc = function() return CM.settings.customTitle or "" end,
-        setFunc = function(value) 
-            CM.settings.customTitle = value or ""
-        end,
-        width = "full",
-        textType = TEXT_TYPE_ALL,
-        maxChars = 100,
         default = "",
     })
 end

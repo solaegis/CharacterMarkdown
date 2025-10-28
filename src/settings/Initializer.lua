@@ -153,6 +153,11 @@ function CM.Settings.Initializer:InitializeCharacterData()
         CM.charData.customNotes = ""
     end
     
+    -- Initialize custom title
+    if CM.charData.customTitle == nil then
+        CM.charData.customTitle = ""
+    end
+    
     -- Force character data save on first run
     if not CM.charData._initialized then
         CM.charData._initialized = true

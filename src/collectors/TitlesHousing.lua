@@ -16,8 +16,10 @@ local function CollectTitlesData()
     }
     
     -- Get current title (check for custom title first)
-    local settings = CharacterMarkdownSettings or {}
-    local customTitle = settings.customTitle or ""
+    local customTitle = ""
+    if CM.charData then
+        customTitle = CM.charData.customTitle or ""
+    end
     
     if customTitle and customTitle ~= "" then
         titles.current = customTitle

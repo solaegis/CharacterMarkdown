@@ -54,12 +54,17 @@ local function validate_manifest(filepath)
         end
     end
     
-    -- Validate Version format (semantic versioning)
+    -- Validate Version format (semantic versioning or @project-version@)
     if found_fields.Version then
-        if not found_fields.Version:match("^%d+%.%d+%.%d+") then
+        local version = found_fields.Version
+        -- Allow either semantic versioning or the ESOUI Git placeholder
+        if version == "@project-version@" then
+            -- This is the ESOUI Git-based versioning placeholder - valid!
+            print("   ℹ️  Using ESOUI @project-version@ placeholder (Git-based versioning)")
+        elseif not version:match("^%d+%.%d+%.%d+") then
             table.insert(warnings, string.format(
-                "Version '%s' doesn't follow semantic versioning (MAJOR.MINOR.PATCH)",
-                found_fields.Version
+                "Version '%s' doesn't follow semantic versioning (MAJOR.MINOR.PATCH) or @project-version@",
+                version
             ))
         end
     end
@@ -75,12 +80,16 @@ local function validate_manifest(filepath)
         end
     end
     
-    -- Validate AddOnVersion (should be numeric or date format)
+    -- Validate AddOnVersion (should be numeric, date format, or @project-version@)
     if found_fields.AddOnVersion then
         local addon_version = found_fields.AddOnVersion
-        if not addon_version:match("^%d+$") then
+        -- Allow either numeric or the ESOUI Git placeholder
+        if addon_version == "@project-version@" then
+            -- This is the ESOUI Git-based versioning placeholder - valid!
+            print("   ℹ️  Using ESOUI @project-version@ for AddOnVersion")
+        elseif not addon_version:match("^%d+$") then
             table.insert(warnings, string.format(
-                "AddOnVersion '%s' is not numeric (recommended: YYYYMMDD or incrementing integer)",
+                "AddOnVersion '%s' is not numeric (recommended: YYYYMMDD or @project-version@)",
                 addon_version
             ))
         end

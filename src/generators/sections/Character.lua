@@ -345,6 +345,12 @@ local function GenerateOverview(characterData, roleData, locationData, buffsData
     local allianceText = CreateAllianceLink(characterData.alliance, format)
     markdown = markdown .. "| **Alliance** | " .. allianceText .. " |\n"
     
+    -- Server row
+    markdown = markdown .. "| **Server** | " .. (characterData.server or "Unknown") .. " |\n"
+    
+    -- Account row
+    markdown = markdown .. "| **Account** | " .. (characterData.account or "Unknown") .. " |\n"
+    
     -- ESO Plus status
     local esoPlusStatus = characterData.esoPlus and "✅ Active" or "❌ Inactive"
     markdown = markdown .. "| **ESO Plus** | " .. esoPlusStatus .. " |\n"

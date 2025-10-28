@@ -1,207 +1,239 @@
-# CharacterMarkdown Documentation
+# CharacterMarkdown - User Guide
 
-## Quick Links
+## 📖 Table of Contents
 
-### Users
-- **[Installation](#installation)** - Get started in 2 minutes
-- **[Usage](#usage)** - Basic commands and features
-- **[Settings](#settings)** - Configure the addon
-
-### Developers
-- **[Development](#development)** - Local setup and workflow
-- **[Architecture](#architecture)** - Code structure
-- **[Contributing](#contributing)** - Submit changes
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+- [Settings & Configuration](#settings--configuration)
+- [Output Formats](#output-formats)
+- [Advanced Features](#advanced-features)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
 ## Installation
 
-### Via Minion
+### Via Minion (Recommended)
 1. Install [Minion](https://minion.mmoui.com/)
-2. Search "CharacterMarkdown"
+2. Search for "CharacterMarkdown"
 3. Click Install
+4. Launch ESO
 
-### Manual
+### Manual Installation
 1. Download from [ESOUI](https://www.esoui.com/downloads/info4279-CharacterMarkdown.html)
-2. Extract to `Documents/Elder Scrolls Online/live/AddOns/`
+2. Extract ZIP to: `Documents/Elder Scrolls Online/live/AddOns/`
 3. Launch ESO
+4. Enable addon in character select screen
 
 ---
 
-## Usage
+## Basic Usage
 
 ### Commands
 ```
-/markdown          # Open export window (default format)
-/markdown github   # GitHub format
-/markdown discord  # Discord format
+/markdown          # Open export window (default GitHub format)
+/markdown github   # GitHub format with full tables
+/markdown discord  # Discord-optimized format
 /markdown vscode   # VS Code format
 /markdown quick    # One-line summary
 ```
 
 ### Export Process
-1. Run `/markdown` command
-2. Window opens with generated markdown
-3. Press `Ctrl+C` to copy
-4. Paste anywhere
+1. **Run Command**: Type `/markdown` in chat
+2. **Window Opens**: Generated markdown appears in window
+3. **Copy**: Click "Select All" button or Ctrl+A, then Ctrl+C
+4. **Paste**: Paste anywhere (Discord, GitHub, forums, etc.)
 
-### Formats
-
-**GitHub** - Full tables, collapsible sections, UESP links  
-**Discord** - Compact, emoji indicators  
-**VS Code** - Similar to GitHub, good for local files  
-**Quick** - One-line summary for quick sharing
+### First Time Setup
+- The addon will create default settings automatically
+- Access settings via the Settings button in the export window
+- Or use the Addon Menu (ESC → AddOns → CharacterMarkdown)
 
 ---
 
-## Settings
+## Settings & Configuration
 
-Access via **ESC → Settings → Add-Ons → CharacterMarkdown**
+### Accessing Settings
+- **In-Game**: `/markdown` → Settings button
+- **Addon Menu**: ESC → AddOns → CharacterMarkdown
 
-### Section Toggles
-Enable/disable: Champion Points, Equipment, Skills, Combat Stats, Currency, etc.
+### Core Settings
 
-### Display Options
-- **UESP Links** - Add wiki links to abilities/sets
-- **Skill Filters** - Hide maxed skills, set minimum rank
-- **Collectibles Detail** - Full lists vs counts
+#### Data Sections
+Control which information appears in your markdown:
 
----
+**Core Sections** (Always recommended)
+- ✅ Champion Points
+- ✅ Skill Bars
+- ✅ Equipment
+- ✅ Combat Stats
+- ✅ Attributes
 
-## Development
+**Extended Sections** (Optional)
+- 🔧 Currency & Inventory
+- 🔧 DLC Access
+- 🔧 Collectibles
+- 🔧 Crafting Knowledge
+- 🔧 PvP Information
 
-### Prerequisites
-- Git
-- LuaJIT or Lua 5.1
-- ESO client
+#### Link Settings
+- **Ability Links**: UESP links for skills and abilities
+- **Set Links**: UESP links for equipment sets
+- **Race/Class Links**: UESP links for character info
 
-### Quick Setup
-```bash
-# Clone repository
-git clone https://github.com/yourusername/CharacterMarkdown.git
-cd CharacterMarkdown
+#### Filters
+- **Minimum Skill Rank**: Hide skills below this rank
+- **Equipment Quality**: Only show items of this quality or higher
+- **Hide Empty Slots**: Don't show empty equipment slots
 
-# Install dependencies
-task install:deps
+### Profile System
 
-# Link to ESO addons folder
-task install:dev
+#### Built-in Profiles
+- **Full Documentation**: Everything enabled (comprehensive)
+- **PvE Build**: Focus on trials/dungeons
+- **PvP Build**: Optimized for Cyrodiil/Battlegrounds
+- **Discord Share**: Compact format for Discord
+- **Quick Reference**: Just the essentials
 
-# Test
-task test
-```
-
-### Development Workflow
-1. Edit files in `src/`
-2. Use `/reloadui` in ESO to test
-3. Run `task lint` before committing
-4. Submit pull request
-
-### Testing
-```bash
-task lint          # Luacheck validation
-task test          # Full validation
-task install:live  # Install to ESO
-```
-
----
-
-## Architecture
-
-### Directory Structure
-```
-CharacterMarkdown/
-├── CharacterMarkdown.addon    # Manifest
-├── CharacterMarkdown.xml      # UI definition
-├── src/
-│   ├── Core.lua              # Namespace & debug system
-│   ├── Commands.lua          # Slash command handler
-│   ├── Events.lua            # Event management
-│   ├── collectors/           # Data collection modules
-│   ├── generators/           # Markdown generation
-│   ├── settings/             # Settings management
-│   └── ui/                   # Window handler
-├── scripts/                  # Build/validation scripts
-└── docs/                     # Documentation
-```
-
-### Load Order
-1. Core.lua - Initialize namespace
-2. Utils, Links - Helper functions
-3. Collectors - Data gathering
-4. Generators - Markdown creation
-5. Commands, Events, Settings - User interface
-6. Init.lua - Final validation
-
-### Key Patterns
-- **Namespace**: All code in `CharacterMarkdown` namespace
-- **Error Handling**: All ESO API calls wrapped in `pcall`
-- **Performance**: Cached global function lookups
-- **Debug**: LibDebugLogger integration (optional)
+#### Custom Profiles
+1. Configure settings as desired
+2. Go to Settings → Profiles
+3. Click "Save Profile"
+4. Enter a name
+5. Use "Load Profile" to switch between configurations
 
 ---
 
-## Contributing
+## Output Formats
 
-### Quick Start
-1. Fork repository
-2. Create feature branch
-3. Make changes
-4. Test in-game
-5. Submit pull request
+### GitHub Format (Default)
+**Best for**: GitHub README files, detailed documentation
+- Full tables with rich formatting
+- Collapsible sections
+- Comprehensive UESP links
+- Progress bars and emojis
 
-### Code Style
-- **Indentation**: 4 spaces
-- **Naming**: camelCase variables, PascalCase functions
-- **Comments**: Explain "why", not "what"
-- **Error Handling**: Use `pcall` for ESO API calls
+### Discord Format
+**Best for**: Discord servers, chat sharing
+- Compact tables optimized for Discord
+- Essential information only
+- Discord-compatible formatting
+- Shorter length
 
-### Commit Format
+### VS Code Format
+**Best for**: Code editors, plain text
+- Clean, readable format
+- Minimal formatting
+- No special characters
+- Easy to read in editors
+
+### Quick Format
+**Best for**: Status updates, brief summaries
+- One-line character summary
+- Key stats only
+- Perfect for status messages
+
+---
+
+## Advanced Features
+
+### Custom Notes
+Add personal build notes that appear in your markdown:
+
 ```
-type(scope): subject
-
-Examples:
-feat(collectors): add mount training data
-fix(markdown): escape special characters
-docs(api): document clipboard limitations
+/markdown notes "This is my main PvE DPS build for trials"
+/markdown notes "Updated for Gold Road - testing new sets"
+/markdown notes ""  # Clear notes
 ```
 
-### Pull Request Checklist
-- [ ] Code follows style guidelines
-- [ ] Tested in-game (2+ characters)
-- [ ] No new errors/warnings
-- [ ] Documentation updated (if needed)
-- [ ] CHANGELOG.md updated (if version bump)
+### Settings Import/Export
+**Export**: Save your settings to share with others
+**Import**: Load settings from another player
+
+1. Go to Settings → Import/Export
+2. Click "Export Settings" to copy to clipboard
+3. Share the text with others
+4. Others can "Import Settings" and paste your configuration
+
+### Debug Mode
+Enable debug mode for troubleshooting:
+1. Go to Settings → Advanced
+2. Enable "Debug Mode"
+3. Check chat for detailed information
+4. Disable when done troubleshooting
 
 ---
 
 ## Troubleshooting
 
-### Addon Not Loading
-- Check all files in correct directory
-- Verify `CharacterMarkdown.addon` exists
-- Try `/reloadui` in-game
+### Common Issues
 
-### Settings Not Saving
-- Fixed in v2.1.1 - update addon
-- Open settings panel once to trigger save
+#### Addon Not Loading
+- **Check**: Character select screen → AddOns → CharacterMarkdown enabled
+- **Try**: `/reloadui` command
+- **Verify**: Files extracted to correct folder
 
-### Debug Messages
-- Install LibDebugLogger for clean debug output
-- No chat messages in production by default
+#### Empty Output
+- **Check**: You're logged in with a character (not character select)
+- **Try**: `/reloadui` then `/markdown` again
+- **Verify**: Character is level 1+ (some data requires level 1+)
+
+#### Missing Data
+- **Champion Points**: Requires level 50+
+- **Skills**: Some skills unlock at specific levels
+- **Equipment**: Must have items equipped
+- **Companion**: Requires active companion
+
+#### Settings Not Saving
+- **Check**: ESO has write permissions to Documents folder
+- **Try**: Restart ESO completely
+- **Verify**: No antivirus blocking file access
+
+### Getting Help
+
+#### Debug Information
+1. Enable Debug Mode in settings
+2. Run `/markdown` command
+3. Check chat for error messages
+4. Copy error messages when reporting issues
+
+#### Reporting Issues
+Include this information:
+- ESO version
+- CharacterMarkdown version
+- Error messages (if any)
+- Steps to reproduce the issue
+- Screenshots (if helpful)
+
+#### Support Channels
+- **GitHub Issues**: [Report bugs](https://github.com/yourusername/CharacterMarkdown/issues)
+- **ESOUI Comments**: [Addon page](https://www.esoui.com/downloads/info4279-CharacterMarkdown.html)
+- **Discord**: ESO Addon Development community
 
 ---
 
-## Resources
+## Tips & Best Practices
 
-- **ESOUI**: https://www.esoui.com/downloads/info4279-CharacterMarkdown.html
-- **GitHub**: https://github.com/yourusername/CharacterMarkdown
-- **ESO API Docs**: https://wiki.esoui.com/
-- **Changelog**: ../CHANGELOG.md
-- **License**: ../LICENSE
+### For Discord Sharing
+- Use Discord format for best compatibility
+- Keep notes brief and relevant
+- Consider using Quick format for status updates
+
+### For GitHub Documentation
+- Use GitHub format for full documentation
+- Add custom notes for build explanations
+- Include screenshots of your character
+
+### For Build Sharing
+- Use PvE or PvP profiles as starting points
+- Add detailed custom notes
+- Export settings to share your configuration
+
+### Performance
+- Disable unused sections for faster generation
+- Use Quick format for frequent updates
+- Clear custom notes if they become outdated
 
 ---
 
-**Version**: 2.1.1  
-**ESO API**: 101047 (Gold Road)  
-**License**: MIT
+**Need more help?** Check the [Development Guide](DEVELOPMENT.md) for technical details or [report an issue](https://github.com/yourusername/CharacterMarkdown/issues).

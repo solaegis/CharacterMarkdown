@@ -17,6 +17,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.7] - 2025-01-21
+
+### Added
+- **Documentation Overhaul**: Complete rewrite of README.md for better user experience
+  - Concise, professional format with clear quick start guide
+  - Comprehensive feature overview and format explanations
+  - Better organization with badges and structured sections
+- **Enhanced User Guide**: Streamlined docs/README.md with detailed instructions
+  - Complete troubleshooting section with common issues
+  - Best practices for different use cases (Discord, GitHub, etc.)
+  - Advanced features documentation (custom notes, profiles, import/export)
+- **Project Cleanup**: Added .gitignore to prevent build artifacts from being committed
+
+### Removed
+- **Unnecessary Files**: Cleaned up development artifacts
+  - Removed debug scripts (debug_version.sh, test_sed.sh)
+  - Deleted example output files in wrong locations
+  - Cleaned up empty directories and temporary files
+- **Redundant Documentation**: Consolidated documentation structure
+  - Removed outdated champion point diagrams
+  - Deleted redundant example files
+  - Streamlined docs directory structure
+
+### Changed
+- **Documentation Structure**: Reorganized for better maintainability
+  - Main README.md now focuses on quick start and overview
+  - Detailed user guide moved to docs/README.md
+  - Cleaner separation between user and developer documentation
+- **Project Organization**: Improved file structure and cleanliness
+  - Removed build artifacts and temporary files
+  - Better organization of documentation files
+  - Professional project appearance ready for release
+
+---
+
 ## [2.1.6] - 2025-01-21
 
 ### Removed

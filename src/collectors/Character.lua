@@ -17,6 +17,8 @@ local GetAttributeSpentPoints = GetAttributeSpentPoints
 local GetTimeStamp = GetTimeStamp
 local GetDateStringFromTimestamp = GetDateStringFromTimestamp
 local CanJumpToPlayerInZone = CanJumpToPlayerInZone
+local GetWorldName = GetWorldName
+local GetDisplayName = GetDisplayName
 
 local function CollectCharacterData()
     CM.DebugPrint("COLLECTOR", "Collecting character data...")
@@ -34,8 +36,10 @@ local function CollectCharacterData()
     data.cp = CM.SafeCall(GetPlayerChampionPointsEarned) or 0
     
     -- Get title (check for custom title first)
-    local settings = CharacterMarkdownSettings or {}
-    local customTitle = settings.customTitle or ""
+    local customTitle = ""
+    if CM.charData then
+        customTitle = CM.charData.customTitle or ""
+    end
     
     if customTitle and customTitle ~= "" then
         data.title = customTitle
@@ -45,6 +49,10 @@ local function CollectCharacterData()
     end
     
     data.esoPlus = CM.SafeCall(IsESOPlusSubscriber) or false
+    
+    -- Get server name and account name
+    data.server = CM.SafeCall(GetWorldName) or "Unknown"
+    data.account = CM.SafeCall(GetDisplayName) or "Unknown"
     
     data.attributes = {
         magicka = CM.SafeCall(GetAttributeSpentPoints, ATTRIBUTE_MAGICKA) or 0,
