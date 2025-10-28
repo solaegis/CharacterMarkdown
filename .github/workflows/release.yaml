@@ -273,7 +273,7 @@ jobs:
           # Release artifacts
           zip_file: ${{ steps.addon_name.outputs.ZIP_NAME }}
           changelog_file: 'CHANGELOG.md'
-          description_file: 'README-ESOUI.txt'
+          description_file: 'README_ESOUI.txt'
           
           # ESO compatibility version (update as ESO patches release)
           # Format: MAJOR.MINOR.PATCH (e.g., 11.0.0 for Gold Road)
