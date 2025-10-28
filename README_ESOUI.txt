@@ -1,4 +1,4 @@
-CharacterMarkdown v2.1.6
+CharacterMarkdown v2.1.8
 ========================
 
 Export your Elder Scrolls Online character data in beautiful, shareable markdown format. 
@@ -163,7 +163,7 @@ COMMANDS REFERENCE
 VERSIONK
 --------
 
-v2.1.6 - Documentation cleanup and organization improvements
+v2.1.8 - Updated ESOUI description file and workflow configuration
 
 See CHANGELOG.md in the addon folder for complete version history.
 
