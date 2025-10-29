@@ -22,18 +22,10 @@ Installation:
 1. Via Minion: Search "CharacterMarkdown" and install
 2. Manual: Extract the ZIP to your ESO AddOns folder
 
-Usage Commands:
-/markdown           - Open export window (default GitHub format)
-/markdown github    - Generate GitHub format markdown
-/markdown discord   - Generate Discord format markdown
-/markdown vscode    - Generate VS Code format markdown
-/markdown quick     - Generate one-line summary
-
 Export Process:
-1. Type /markdown in-game
-2. Window opens with generated markdown
-3. Click "Select All" then copy (Ctrl+C)
-4. Paste anywhere - Discord, GitHub, forums, etc.
+1. Type /markdown in-game (opens export window)
+2. Click "Select All" then copy (Ctrl+C)
+3. Paste anywhere - Discord, GitHub, forums, etc.
 
 WHAT'S INCLUDED
 ---------------
@@ -55,28 +47,23 @@ Extended Information:
 * Companion - Active companion stats and equipment
 * Crafting - Research progress and crafting knowledge
 
-OUTPUT FORMATS
---------------
+OUTPUT FORMATS & COMMANDS
+-------------------------
 
-GitHub Format (Default):
-* Full markdown tables with collapsible sections
-* Rich formatting with progress bars
-* Comprehensive UESP wiki links
-* Perfect for GitHub README files and documentation
+Available Commands:
+/markdown           - Open export window (default GitHub format)
+/markdown github    - Generate GitHub format markdown
+/markdown discord   - Generate Discord format markdown  
+/markdown vscode    - Generate VS Code format markdown
+/markdown quick     - Generate one-line summary
+/markdown notes "text" - Set custom build notes
+/cmdsettings        - Open settings (if LibAddonMenu is installed)
 
-Discord Format:
-* Compact tables optimized for Discord
-* Essential information only
-* Discord-compatible formatting
-
-VS Code Format:
-* Clean, readable format
-* Optimized for code editors
-* Minimal formatting
-
-Quick Format:
-* One-line character summary
-* Perfect for status updates or quick reference
+Format Details:
+* GitHub (Default) - Full markdown tables with collapsible sections, rich formatting, comprehensive UESP wiki links
+* Discord - Compact tables optimized for Discord, essential information only
+* VS Code - Clean, readable format optimized for code editors
+* Quick - One-line character summary for status updates
 
 SETTINGS AND CUSTOMIZATION
 ---------------------------
@@ -84,6 +71,7 @@ SETTINGS AND CUSTOMIZATION
 Access Settings:
 * In-game: Type /markdown then click "Settings" button
 * Addon Menu: CharacterMarkdown settings panel
+* Command: /cmdsettings (if LibAddonMenu is installed)
 
 Key Settings Options:
 * Sections - Enable/disable specific data sections
@@ -98,22 +86,10 @@ Built-in Profiles:
 * Discord Share - Compact format for Discord
 * Quick Reference - Essentials only
 
-ADVANCED FEATURES
------------------
-
-Custom Notes:
-Add personal build notes that appear in your markdown output:
-/markdown notes "This is my main PvE DPS build for trials"
-
-Profile Management:
-* Save custom settings as profiles
-* Import/export settings between characters
-* Share profiles with other players
-
-Error Handling:
-* Comprehensive error reporting
-* Graceful degradation if data is unavailable
-* Debug mode for troubleshooting
+Advanced Features:
+* Custom Notes - Add personal build notes with /markdown notes "text"
+* Profile Management - Save/import/export settings between characters
+* Error Handling - Comprehensive error reporting with debug mode
 
 USE CASES
 ---------
@@ -149,21 +125,8 @@ If you encounter any issues or have suggestions:
 * Review settings to ensure options are configured correctly
 * Use /markdown debug for additional troubleshooting information
 
-COMMANDS REFERENCE
-------------------
-
-/markdown           - Open export window
-/markdown github    - Generate GitHub format
-/markdown discord   - Generate Discord format
-/markdown vscode    - Generate VS Code format
-/markdown quick     - Generate quick summary
-/markdown notes "text" - Set custom build notes
-/cmdsettings        - Open settings (if LibAddonMenu is installed)
-
-VERSIONK
---------
-
-v2.1.8 - Updated ESOUI description file and workflow configuration
+VERSION
+-------
 
 See CHANGELOG.md in the addon folder for complete version history.
 

@@ -17,6 +17,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.8] - 2025-01-21
+
+### Added
+- **ESOUI Description**: Enhanced README_ESOUI.txt with comprehensive user guide
+  - Complete feature overview and installation instructions
+  - Detailed command reference and format explanations
+  - Professional formatting optimized for ESOUI.com display
+  - AI integration use cases and troubleshooting guide
+
+### Changed
+- **Documentation**: Updated ESOUI description file for better user experience
+  - Streamlined quick start guide for new users
+  - Enhanced feature descriptions with clear use cases
+  - Professional presentation ready for ESOUI publication
+
+---
+
 ## [2.1.7] - 2025-01-21
 
 ### Added
