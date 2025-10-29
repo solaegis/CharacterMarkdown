@@ -17,6 +17,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.10] - 2025-01-21
+
+### Added
+- **Release Automation**: Enhanced GitHub Actions workflow for automated releases
+  - Automatic version updates in README_ESOUI.txt during release process
+  - Improved release artifact generation and validation
+  - Streamlined ESOUI upload process
+
+### Changed
+- **Release Process**: Optimized workflow for better reliability
+  - Better error handling in release automation
+  - Enhanced ZIP package validation
+  - Improved changelog extraction and formatting
+
+---
+
 ## [2.1.8] - 2025-01-21
 
 ### Added
