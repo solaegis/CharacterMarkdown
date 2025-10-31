@@ -374,19 +374,19 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Attributes (Discord only)
+        -- Attributes
         {
             name = "Attributes",
-            condition = format == "discord" and IsSettingEnabled(settings, "includeAttributes", true),
+            condition = IsSettingEnabled(settings, "includeAttributes", true),
             generator = function()
                 return gen.GenerateAttributes(data.character, format)
             end
         },
         
-        -- Buffs (Discord only)
+        -- Buffs
         {
             name = "Buffs",
-            condition = format == "discord" and IsSettingEnabled(settings, "includeBuffs", true),
+            condition = IsSettingEnabled(settings, "includeBuffs", true),
             generator = function()
                 return gen.GenerateBuffs(data.buffs, format)
             end

@@ -30,7 +30,12 @@ local function CollectCompanionData()
             skills.ultimate = "[Empty]"
         end
         
-        for slotIndex = 3, 7 do
+        -- Companions have 8 ability slots total (excluding ultimate which is slot 8)
+        -- Slots 1-7 plus potentially slot 0, or slots 1-8 (with 8 being a regular ability slot, not ultimate)
+        -- Collect all 8 ability slots to match "X/8 abilities slotted" status display
+        -- Note: Ultimate is handled separately (slot 8), but companions may have 8 regular ability slots
+        -- Try slots 0-7 first (8 slots), if that doesn't work we'll need to investigate slot structure
+        for slotIndex = 0, 7 do
             local slotId = GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_COMPANION)
             if slotId and slotId > 0 then
                 local abilityName = GetAbilityName(slotId)

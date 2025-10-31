@@ -219,15 +219,35 @@ local function GenerateSkills(skillData, format)
             if category.skills and #category.skills > 0 then
                 markdown = markdown .. (category.emoji or "⚔️") .. " **" .. category.name .. "**\n"
                 for _, skill in ipairs(category.skills) do
-                    local status = skill.maxed and "✅" or "📈"
+                    local status = (skill.maxed or skill.isRacial) and "✅" or "📈"
                     local skillNameLinked = CreateSkillLineLink(skill.name, format)
-                    markdown = markdown .. status .. " " .. skillNameLinked .. " R" .. (skill.rank or 0)
-                    if skill.progress and not skill.maxed then
-                        markdown = markdown .. " (" .. skill.progress .. "%)"
-                    elseif skill.maxed then
-                        markdown = markdown .. " (100%)"
+                    -- For racial skills, don't show rank/progress
+                    if skill.isRacial then
+                        markdown = markdown .. status .. " " .. skillNameLinked .. "\n"
+                    else
+                        markdown = markdown .. status .. " " .. skillNameLinked .. " R" .. (skill.rank or 0)
+                        if skill.progress and not skill.maxed then
+                            markdown = markdown .. " (" .. skill.progress .. "%)"
+                        elseif skill.maxed then
+                            markdown = markdown .. " (100%)"
+                        end
+                        markdown = markdown .. "\n"
                     end
-                    markdown = markdown .. "\n"
+                    
+                    -- Show passives for this skill line
+                    if skill.passives and #skill.passives > 0 then
+                        for _, passive in ipairs(skill.passives) do
+                            local passiveName = CreateAbilityLink(passive.name, passive.abilityId, format)
+                            local passiveStatus = passive.purchased and "✅" or "🔒"
+                            local rankInfo = ""
+                            if passive.currentRank and passive.maxRank then
+                                if passive.maxRank > 1 then
+                                    rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
+                                end
+                            end
+                            markdown = markdown .. "  " .. passiveStatus .. " " .. passiveName .. rankInfo .. "\n"
+                        end
+                    end
                 end
             end
         end
@@ -242,7 +262,8 @@ local function GenerateSkills(skillData, format)
                 local lowLevelSkills = {}
                 
                 for _, skill in ipairs(category.skills) do
-                    if skill.maxed or (skill.rank and skill.rank >= 50) then
+                    -- Handle racial skills specially - they always go to maxed section
+                    if skill.isRacial or skill.maxed or (skill.rank and skill.rank >= 50) then
                         table.insert(maxedSkills, skill)
                     elseif skill.rank and skill.rank >= 20 then
                         table.insert(inProgressSkills, skill)
@@ -256,7 +277,12 @@ local function GenerateSkills(skillData, format)
                     local maxedNames = {}
                     for _, skill in ipairs(maxedSkills) do
                         local skillNameLinked = CreateSkillLineLink(skill.name, format)
-                        table.insert(maxedNames, "**" .. skillNameLinked .. "**")
+                        -- For racial skills, don't show rank
+                        if skill.isRacial then
+                            table.insert(maxedNames, "**" .. skillNameLinked .. "**")
+                        else
+                            table.insert(maxedNames, "**" .. skillNameLinked .. "**")
+                        end
                     end
                     markdown = markdown .. "#### ✅ Maxed\n"
                     markdown = markdown .. table.concat(maxedNames, ", ") .. "\n\n"
@@ -288,6 +314,41 @@ local function GenerateSkills(skillData, format)
                         local progressBar = GenerateProgressBar(progressPercent, 10)
                         markdown = markdown .. "- **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0) .. 
                                               " " .. progressBar .. " " .. progressPercent .. "%\n"
+                    end
+                    markdown = markdown .. "\n"
+                end
+                
+                -- Show passives for all skills (grouped together)
+                local allPassives = {}
+                for _, skill in ipairs(category.skills) do
+                    if skill.passives and #skill.passives > 0 then
+                        for _, passive in ipairs(skill.passives) do
+                            table.insert(allPassives, {
+                                name = passive.name,
+                                purchased = passive.purchased,
+                                earnedRank = passive.earnedRank,
+                                currentRank = passive.currentRank,
+                                maxRank = passive.maxRank,
+                                abilityId = passive.abilityId,
+                                skillLine = skill.name
+                            })
+                        end
+                    end
+                end
+                
+                if #allPassives > 0 then
+                    markdown = markdown .. "#### ✨ Passives\n"
+                    for _, passive in ipairs(allPassives) do
+                        local passiveName = CreateAbilityLink(passive.name, passive.abilityId, format)
+                        local status = passive.purchased and "✅" or "🔒"
+                        local rankInfo = ""
+                        if passive.currentRank and passive.maxRank then
+                            if passive.maxRank > 1 then
+                                rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
+                            end
+                        end
+                        markdown = markdown .. "- " .. status .. " " .. passiveName .. rankInfo .. 
+                                              " *(from " .. CreateSkillLineLink(passive.skillLine, format) .. ")*\n"
                     end
                     markdown = markdown .. "\n"
                 end

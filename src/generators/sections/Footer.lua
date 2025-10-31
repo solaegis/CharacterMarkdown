@@ -27,10 +27,12 @@ local function GenerateFooter(format, currentLength)
         markdown = markdown .. "```\n\n"
     end
     
-    -- Add invisible padding to prevent clipboard truncation
-    -- ESO's clipboard system sometimes truncates the last 50-100 characters
-    -- This padding ensures the actual footer is preserved during copy operations
-    markdown = markdown .. string.rep(" ", 150) .. "\n"
+    -- Add minimal invisible padding to prevent clipboard truncation
+    -- ESO's EditBox may truncate at boundaries when copying to clipboard
+    -- Minimal padding (10 spaces) ensures any truncation hits padding, not content
+    -- This is the smallest amount that still provides protection without visible whitespace
+    -- Note: Content is already chunked at safe boundaries (~26k chars), so minimal padding is sufficient
+    markdown = markdown .. string.rep(" ", 10) .. "\n"
     
     return markdown
 end

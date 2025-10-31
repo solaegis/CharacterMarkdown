@@ -858,6 +858,8 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includeRole = true
             CM.settings.includeLocation = true
             CM.settings.includeBuildNotes = true
+            CM.settings.includeQuickStats = true  -- Explicitly enable (defaults to true but explicit for clarity)
+            CM.settings.includeAttentionNeeded = true  -- Explicitly enable (defaults to true but explicit for clarity)
             
             -- Extended sections
             CM.settings.includeDLCAccess = true
@@ -867,6 +869,7 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includeInventory = true
             CM.settings.includePvP = true
             CM.settings.includeCollectibles = true
+            CM.settings.includeCollectiblesDetailed = false  -- Optional: enable for full detail
             CM.settings.includeCrafting = true
             CM.settings.includeAchievements = true  -- Enable achievement tracking
             CM.settings.includeAchievementsDetailed = true  -- Enable detailed achievements
@@ -877,6 +880,15 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includeEquipmentEnhancement = true  -- Enable equipment analysis
             CM.settings.includeEquipmentAnalysis = true  -- Enable detailed equipment analysis
             CM.settings.includeEquipmentRecommendations = true  -- Enable optimization recommendations
+            CM.settings.includeWorldProgress = true  -- Enable world progress tracking
+            CM.settings.includeTitlesHousing = true  -- Enable titles and housing
+            CM.settings.includePvPStats = true  -- Enable PvP statistics
+            CM.settings.includeArmoryBuilds = true  -- Enable armory builds
+            CM.settings.includeTalesOfTribute = true  -- Enable Tales of Tribute
+            CM.settings.includeUndauntedPledges = true  -- Enable Undaunted pledges
+            
+            -- Note: includeQuickStats and includeAttentionNeeded are controlled by format (non-Discord only)
+            -- They default to true and don't need explicit enabling here
             
             -- Links
             CM.settings.enableAbilityLinks = true

@@ -21,9 +21,23 @@
                             <Anchor point="LEFT" offsetX="20" />
                         </Label>
                         
+                        <!-- Settings Button -->
+                        <Button name="$(parent)Settings" inherits="ZO_DefaultButton">
+                            <Dimensions x="120" y="30" />
+                            <Anchor point="TOPRIGHT" offsetX="-170" offsetY="5" />
+                            <OnClicked>
+                                CharacterMarkdown_OpenSettings()
+                            </OnClicked>
+                            <Controls>
+                                <Label name="$(parent)Label" font="ZoFontGame" text="Settings" color="FFFFFFFF">
+                                    <Anchor point="CENTER" />
+                                </Label>
+                            </Controls>
+                        </Button>
+                        
                         <!-- Close Button -->
                         <Button name="$(parent)Close" inherits="ZO_CloseButton">
-                            <Anchor point="RIGHT" offsetX="-10" />
+                            <Anchor point="TOPRIGHT" offsetX="-10" offsetY="5" />
                             <OnClicked>
                                 CharacterMarkdownWindow:SetHidden(true)
                             </OnClicked>
@@ -65,8 +79,8 @@
                     <Controls>
                         <!-- Regenerate Button -->
                         <Button name="$(parent)RegenerateButton" inherits="ZO_DefaultButton">
-                            <Dimensions x="150" y="30" />
-                            <Anchor point="CENTER" offsetX="-240" />
+                            <Dimensions x="130" y="30" />
+                            <Anchor point="LEFT" offsetX="20" />
                             <OnClicked>
                                 CharacterMarkdown_RegenerateMarkdown()
                             </OnClicked>
@@ -77,10 +91,24 @@
                             </Controls>
                         </Button>
                         
+                        <!-- Previous Chunk Button -->
+                        <Button name="$(parent)PrevChunkButton" inherits="ZO_DefaultButton">
+                            <Dimensions x="100" y="30" />
+                            <Anchor point="LEFT" offsetX="160" />
+                            <OnClicked>
+                                CharacterMarkdown_PreviousChunk()
+                            </OnClicked>
+                            <Controls>
+                                <Label name="$(parent)Label" font="ZoFontGame" text="< Prev" color="FFFFFFFF">
+                                    <Anchor point="CENTER" />
+                                </Label>
+                            </Controls>
+                        </Button>
+                        
                         <!-- Select All Button -->
                         <Button name="$(parent)SelectAllButton" inherits="ZO_DefaultButton">
-                            <Dimensions x="150" y="30" />
-                            <Anchor point="CENTER" offsetX="-80" />
+                            <Dimensions x="130" y="30" />
+                            <Anchor point="LEFT" offsetX="270" />
                             <OnClicked>
                                 CharacterMarkdown_CopyToClipboard()
                             </OnClicked>
@@ -91,10 +119,24 @@
                             </Controls>
                         </Button>
                         
+                        <!-- Next Chunk Button -->
+                        <Button name="$(parent)NextChunkButton" inherits="ZO_DefaultButton">
+                            <Dimensions x="100" y="30" />
+                            <Anchor point="LEFT" offsetX="410" />
+                            <OnClicked>
+                                CharacterMarkdown_NextChunk()
+                            </OnClicked>
+                            <Controls>
+                                <Label name="$(parent)Label" font="ZoFontGame" text="Next >" color="FFFFFFFF">
+                                    <Anchor point="CENTER" />
+                                </Label>
+                            </Controls>
+                        </Button>
+                        
                         <!-- Dismiss Button -->
                         <Button name="$(parent)Dismiss" inherits="ZO_DefaultButton">
-                            <Dimensions x="150" y="30" />
-                            <Anchor point="CENTER" offsetX="80" />
+                            <Dimensions x="130" y="30" />
+                            <Anchor point="LEFT" offsetX="520" />
                             <OnClicked>
                                 CharacterMarkdownWindow:SetHidden(true)
                             </OnClicked>
@@ -107,8 +149,8 @@
                         
                         <!-- ReloadUI Button -->
                         <Button name="$(parent)ReloadUI" inherits="ZO_DefaultButton">
-                            <Dimensions x="150" y="30" />
-                            <Anchor point="CENTER" offsetX="240" />
+                            <Dimensions x="130" y="30" />
+                            <Anchor point="LEFT" offsetX="660" />
                             <OnClicked>
                                 ReloadUI()
                             </OnClicked>

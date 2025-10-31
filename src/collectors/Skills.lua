@@ -103,8 +103,8 @@ local function CollectSkillProgressionData()
     
     -- Invalid skill types/lines to filter out
     local invalidSkillTypes = { 
-        ["Vengeance"] = true,
-        ["Racial"] = true
+        ["Vengeance"] = true
+        -- Note: Racial is now included to show racial passives
     }
     local invalidSkillLines = { 
         ["Vengeance"] = true,
@@ -114,6 +114,11 @@ local function CollectSkillProgressionData()
     
     for skillType = 1, numSkillTypes do
         local skillTypeName = GetString("SI_SKILLTYPE", skillType) or "Unknown"
+        
+        -- Debug all skill types to see what we're getting
+        if CM.DebugPrint and (skillTypeName:find("Racial") or skillTypeName == "Racial") then
+            CM.DebugPrint("SKILLS", string.format("Found skill type: '%s' (type index: %d)", skillTypeName, skillType))
+        end
         
         if not invalidSkillTypes[skillTypeName] then
             local numSkillLines = GetNumSkillLines(skillType) or 0
@@ -129,10 +134,18 @@ local function CollectSkillProgressionData()
             elseif skillTypeName:find("Guild") then emoji = "🏰"
             elseif skillTypeName:find("Alliance") then emoji = "🏛️"
             elseif skillTypeName:find("Craft") then emoji = "⚒️"
+            elseif skillTypeName:find("Racial") then emoji = "🧬"
             end
             
             for skillLineIndex = 1, numSkillLines do
-                local skillLineName, skillLineRank = GetSkillLineInfo(skillType, skillLineIndex)
+                local success, skillLineName, skillLineRank = pcall(GetSkillLineInfo, skillType, skillLineIndex)
+                
+                if not success then
+                    if CM.DebugPrint then
+                        CM.DebugPrint("SKILLS", string.format("Failed to get skill line info for type %d, index %d", skillType, skillLineIndex))
+                    end
+                    -- Skip this iteration
+                else
                 
                 local hasVengeance = skillLineName and (
                     skillLineName:find("Vengeance") or 
@@ -148,20 +161,48 @@ local function CollectSkillProgressionData()
                     end
                 end
                 
-                local isValid = skillLineName and 
-                               not invalidSkillLines[skillLineName] and 
+                -- Special handling for Racial skills - they don't have ranks/progress
+                -- Check if skill type is racial (could be "Racial" or contain "Racial")
+                local isRacial = skillTypeName == "Racial" or skillTypeName:find("Racial") ~= nil
+                
+                -- For racial, use race name if skill line name is missing (BEFORE validation)
+                if isRacial and (not skillLineName or skillLineName == "") then
+                    local playerRace = GetUnitRace("player")
+                    if playerRace then
+                        skillLineName = GetString("SI_RACE", playerRace) or "Imperial"
+                    else
+                        skillLineName = "Imperial"  -- Default fallback
+                    end
+                    if CM.DebugPrint then
+                        CM.DebugPrint("RACIAL", string.format("Using race name for skill line: %s", skillLineName))
+                    end
+                end
+                
+                -- For racial skills, we want to show them even without rank/progress
+                -- Racial skills might have a skill line name like the race name (e.g., "Breton", "Dark Elf", "Imperial")
+                local isValid = (isRacial or skillLineName) and 
+                               (not skillLineName or not invalidSkillLines[skillLineName]) and 
                                not hasVengeance and
                                not isWrongClass and
-                               skillLineRank and 
-                               skillLineRank > 0
+                               (isRacial or (skillLineRank and skillLineRank > 0))
+                
+                if isRacial and CM.DebugPrint then
+                    CM.DebugPrint("RACIAL", string.format("Checking validity - isRacial: %s, skillLineName: %s, isValid: %s, skillLineRank: %s", 
+                        tostring(isRacial), tostring(skillLineName), tostring(isValid), tostring(skillLineRank)))
+                end
                 
                 if isValid then
                     local lastXP, nextXP, currentXP = GetSkillLineXPInfo(skillType, skillLineIndex)
                     
                     local xpProgress = nil
                     local isMaxed = false
+                    local skillLineRankDisplay = skillLineRank or 0
                     
-                    if skillLineRank >= 50 then
+                    -- Racial skills typically don't have ranks, so handle them specially
+                    if isRacial then
+                        isMaxed = true  -- Consider racial passives as "maxed" for display purposes
+                        skillLineRankDisplay = 0
+                    elseif skillLineRank >= 50 then
                         isMaxed = true
                     elseif nextXP and nextXP > 0 and currentXP then
                         xpProgress = math.floor((currentXP / nextXP) * 100)
@@ -169,29 +210,113 @@ local function CollectSkillProgressionData()
                         isMaxed = true
                     end
                     
-                    -- Apply skill filters from settings
+                    -- Apply skill filters from settings (skip filters for racial)
                     local settings = CharacterMarkdownSettings or {}
                     local minRank = settings.minSkillRank or 1
                     local hideMaxed = settings.hideMaxedSkills or false
                     
                     local passesFilters = true
-                    if skillLineRank < minRank then
-                        passesFilters = false
-                    end
-                    if hideMaxed and isMaxed then
-                        passesFilters = false
+                    if not isRacial then
+                        if skillLineRank < minRank then
+                            passesFilters = false
+                        end
+                        if hideMaxed and isMaxed then
+                            passesFilters = false
+                        end
                     end
                     
                     if passesFilters then
-                        table.insert(skills, {
-                            name = skillLineName, 
-                            rank = skillLineRank, 
-                            progress = xpProgress, 
-                            maxed = isMaxed
-                        })
-                    end
-                end
-            end
+                        -- Collect passives for this skill line
+                        local passives = {}
+                        local numAbilities = GetNumSkillAbilities(skillType, skillLineIndex) or 0
+                        
+                        -- Debug for racial skills
+                        if isRacial and CM.DebugPrint then
+                            CM.DebugPrint("RACIAL", string.format("Processing racial skill line: %s, numAbilities: %d", 
+                                tostring(skillLineName), numAbilities))
+                        end
+                        
+                        for abilityIndex = 1, numAbilities do
+                            local success, abilityName, icon, earnedRank, isPassive, isUltimate, purchased, 
+                                          progressionIndex, rankIndex = pcall(GetSkillAbilityInfo, 
+                                                                              skillType, skillLineIndex, abilityIndex)
+                            
+                            if success and abilityName then
+                                -- For racial skills, all abilities are passives (they're not activatables)
+                                -- For other skills, check the isPassive flag
+                                local shouldInclude = false
+                                if isRacial then
+                                    -- Racial skills: include all abilities (they're all passive)
+                                    shouldInclude = true
+                                    if CM.DebugPrint then
+                                        CM.DebugPrint("RACIAL", string.format("  Found racial ability: %s (isPassive: %s, purchased: %s)", 
+                                            tostring(abilityName), tostring(isPassive), tostring(purchased)))
+                                    end
+                                elseif isPassive then
+                                    -- Regular skills: only include if marked as passive
+                                    shouldInclude = true
+                                end
+                                
+                                if shouldInclude then
+                                    -- Get max rank for this ability
+                                    -- earnedRank from GetSkillAbilityInfo typically represents current rank for passives
+                                    -- For passives, most are single rank (max 1), but some have multiple ranks
+                                    local currentRank = earnedRank or 0
+                                    local maxRank = 1
+                                    
+                                    -- Try to determine max rank from progression info
+                                    if progressionIndex then
+                                        local progSuccess, progName, currentMorph, progRank = pcall(GetAbilityProgressionInfo, progressionIndex)
+                                        if progSuccess and progRank then
+                                            -- If we have progression info, max is typically the earnedRank if it's > 0
+                                            -- Otherwise, most passives max at 1
+                                            if earnedRank and earnedRank > 0 then
+                                                maxRank = earnedRank  -- Current rank is the max for this character
+                                            else
+                                                maxRank = 1
+                                            end
+                                        elseif earnedRank and earnedRank > 0 then
+                                            maxRank = earnedRank
+                                        end
+                                    elseif earnedRank and earnedRank > 0 then
+                                        maxRank = earnedRank
+                                    end
+                                    
+                                    table.insert(passives, {
+                                        name = abilityName,
+                                        earnedRank = earnedRank or 0,
+                                        currentRank = currentRank,
+                                        maxRank = maxRank,
+                                        purchased = purchased or false,
+                                        abilityId = progressionIndex or nil
+                                    })
+                                end
+                            elseif not success and isRacial and CM.DebugPrint then
+                                CM.DebugPrint("RACIAL", string.format("  Failed to get ability %d: %s", abilityIndex, tostring(abilityName)))
+                            end
+                        end
+                        
+                        -- Always add the skill line (for racial, even if no passives found, as the skill line itself is valid)
+                        -- For regular skills, passives are optional, but the skill line progression should still show
+                        if true then  -- Always add - we already filtered at passesFilters level
+                            table.insert(skills, {
+                                name = skillLineName, 
+                                rank = skillLineRankDisplay, 
+                                progress = xpProgress, 
+                                maxed = isMaxed,
+                                passives = passives,
+                                isRacial = isRacial  -- Flag to help with display formatting
+                            })
+                            
+                            if isRacial and CM.DebugPrint then
+                                CM.DebugPrint("RACIAL", string.format("Added racial skill line: %s with %d passives", 
+                                    tostring(skillLineName), #passives))
+                            end
+                        end
+                    end  -- end if passesFilters
+                end  -- end if isValid
+                end  -- end else for success check
+            end  -- end for skillLineIndex
             
             if #skills > 0 then
                 table.insert(skillData, {

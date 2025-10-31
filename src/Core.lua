@@ -6,9 +6,25 @@ local CM = CharacterMarkdown
 
 -- Addon metadata
 CM.name = "CharacterMarkdown"
-CM.version = "2.1.7"
+-- Initialize version - will be updated after addon loads when GetAddOnMetadata is available
+CM.version = "2.1.7"  -- Fallback version
 CM.author = "solaegis"
 CM.apiVersion = 101047
+
+-- Update version from manifest after addon loads
+-- This function will be called from Events.lua after EVENT_ADD_ON_LOADED
+function CM.UpdateVersion()
+    if GetAddOnMetadata then
+        local version = GetAddOnMetadata(CM.name, "Version")
+        -- If we got a valid version (not nil and not placeholder), use it
+        if version and version ~= "@project-version@" and version ~= "" then
+            CM.version = version
+            CM.DebugPrint("CORE", string.format("Version updated from manifest: %s", version))
+            return true
+        end
+    end
+    return false
+end
 
 -- Sub-namespaces
 CM.utils = CM.utils or {}

@@ -5,6 +5,9 @@ local CM = CharacterMarkdown
 local function OnAddOnLoaded(event, addonName)
     if addonName ~= CM.name then return end
     
+    -- Update version from manifest now that addon is loaded
+    CM.UpdateVersion()
+    
     CM.Info("v" .. CM.version .. " Loading...")
     EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_ADD_ON_LOADED)
     
