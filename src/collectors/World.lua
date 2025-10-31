@@ -12,6 +12,7 @@ local function CollectLocationData()
     
     location.zone = GetUnitZone("player") or "Unknown"
     location.subzone = GetPlayerActiveSubzoneName() or ""
+    location.zoneIndex = CM.SafeCall(GetUnitZoneIndex, "player") or 0  -- Zone index/number
     
     return location
 end

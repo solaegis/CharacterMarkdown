@@ -22,13 +22,19 @@ local function CollectChampionPointData()
     }
     
     data.total = GetPlayerChampionPointsEarned() or 0
+    -- Get available (unspent) CP
+    -- Use pcall to track whether API call succeeded (to distinguish between "returned 0" vs "failed")
+    -- Note: In Lua, 0 is falsy, so we check apiCallSuccess explicitly, not the value
+    local apiCallSuccess, apiAvailable = pcall(GetUnitChampionPoints, "player")
+    if apiCallSuccess and apiAvailable ~= nil then
+        data.available = apiAvailable  -- API call succeeded and returned a value (0 is valid)
+    else
+        data.available = nil  -- API call failed or returned nil, we'll calculate from total - spent later
+    end
     
     if data.total < 10 then
         return data
     end
-    
-    -- Calculate available CP and slottable limits
-    data.available = data.total - data.spent
     
     -- Determine slottable limits based on total CP
     if data.total >= 1200 then
@@ -201,11 +207,19 @@ local function CollectChampionPointData()
     
     if success and allocations then
         data.spent = allocations.totalSpent
-        data.available = data.total - data.spent
+        -- Only recalculate if API call failed (data.available is nil)
+        -- If API returned 0, trust it (don't overwrite)
+        if data.available == nil then
+            data.available = data.total - data.spent
+        end
         data.disciplines = allocations.disciplines
         data.analysis.slottableSkills = allocations.slottableCount
         data.analysis.passiveSkills = allocations.passiveCount
         data.analysis.investmentLevel = allocations.investmentLevel
+    elseif data.available == nil then
+        -- Allocations failed, but we still need a value for available
+        -- Calculate as fallback (spent will be 0 since allocations failed)
+        data.available = data.total - data.spent
     end
     
     return data
@@ -221,11 +235,15 @@ local function CollectProgressionData()
     local progression = {}
     
     progression.skillPoints = GetAvailableSkillPoints() or 0
+    progression.totalSkillPoints = CM.SafeCall(GetTotalSkillPoints) or 0  -- Total skill points earned
     progression.attributePoints = GetAttributeUnspentPoints() or 0
     progression.achievementPoints = GetEarnedAchievementPoints() or 0
     progression.totalAchievements = GetTotalAchievementPoints() or 0
     progression.achievementPercent = progression.totalAchievements > 0 and 
         math.floor((progression.achievementPoints / progression.totalAchievements) * 100) or 0
+    
+    -- Available Champion Points (unspent)
+    progression.availableChampionPoints = CM.SafeCall(GetUnitChampionPoints, "player") or 0
     
     -- Vampire/Werewolf status detection via buff scanning
     progression.isVampire = false

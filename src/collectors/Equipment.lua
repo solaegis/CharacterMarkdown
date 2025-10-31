@@ -95,6 +95,46 @@ local function CollectEquipmentData()
                 isCrafted = crafted
             end
             
+            -- ===== NEW: ITEM CLASSIFICATION =====
+            local armorType = ARMOR_TYPE_NONE
+            local weaponType = WEAPON_TYPE_NONE
+            local craftedQuality = ITEM_QUALITY_NONE
+            local isStolen = false
+            
+            local success8, armor = pcall(GetItemLinkArmorType, itemLink)
+            if success8 and armor then
+                armorType = armor
+            end
+            
+            local success9, weapon = pcall(GetItemLinkWeaponType, itemLink)
+            if success9 and weapon then
+                weaponType = weapon
+            end
+            
+            local success10, craftedQual = pcall(GetItemLinkCraftedQuality, itemLink)
+            if success10 and craftedQual then
+                craftedQuality = craftedQual
+            end
+            
+            local success11, stolen = pcall(GetItemLinkStolen, itemLink)
+            if success11 then
+                isStolen = stolen
+            end
+            
+            -- ===== NEW: ITEM DETAILS =====
+            local flavorText = ""
+            local originalItemLink = ""
+            
+            local success12, flavor = pcall(GetItemLinkFlavorText, itemLink)
+            if success12 and flavor and flavor ~= "" then
+                flavorText = flavor
+            end
+            
+            local success13, originalItem = pcall(GetItemLinkClothierOriginalItem, itemLink)
+            if success13 and originalItem and originalItem ~= "" then
+                originalItemLink = originalItem
+            end
+            
             table.insert(equipment.items, {
                 slotIndex = slotIndex,
                 slotName = CM.utils.GetEquipSlotName(slotIndex),
@@ -115,7 +155,15 @@ local function CollectEquipmentData()
                 requiredCP = requiredCP,
                 bindType = bindType,
                 value = itemValue,
-                isCrafted = isCrafted
+                isCrafted = isCrafted,
+                -- NEW FIELDS (Item Classification)
+                armorType = armorType,
+                weaponType = weaponType,
+                craftedQuality = craftedQuality,
+                isStolen = isStolen,
+                -- NEW FIELDS (Item Details)
+                flavorText = flavorText,
+                originalItemLink = originalItemLink
             })
         end
     end

@@ -84,6 +84,12 @@ local function CollectPvPStatsData()
         pvpStats.stats.assists = assists
     end
     
+    -- Get PvP morale (health equivalent in PvP areas)
+    local success12, morale = pcall(GetUnitRawMorale, "player")
+    if success12 and morale then
+        pvpStats.stats.morale = morale
+    end
+    
     return pvpStats
 end
 

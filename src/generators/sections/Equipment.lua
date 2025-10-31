@@ -184,15 +184,45 @@ local function GenerateEquipment(equipmentData, format)
         -- Equipment details table
         if equipmentData.items and #equipmentData.items > 0 then
             markdown = markdown .. "### 📋 Equipment Details\n\n"
-            markdown = markdown .. "| Slot | Item | Set | Quality | Trait |\n"
-            markdown = markdown .. "|:-----|:-----|:----|:--------|:------|\n"
+            markdown = markdown .. "| Slot | Item | Set | Quality | Trait | Type |\n"
+            markdown = markdown .. "|:-----|:-----|:----|:--------|:------|:-----|\n"
             for _, item in ipairs(equipmentData.items) do
                 local setLink = CreateSetLink(item.setName, format)
+                local itemType = ""
+                -- Format armor/weapon type
+                if item.armorType and item.armorType ~= ARMOR_TYPE_NONE then
+                    local armorTypeName = GetString("SI_ARMORTYPE", item.armorType) or "Unknown"
+                    itemType = armorTypeName
+                elseif item.weaponType and item.weaponType ~= WEAPON_TYPE_NONE then
+                    local weaponTypeName = GetString("SI_WEAPONTYPE", item.weaponType) or "Unknown"
+                    itemType = weaponTypeName
+                end
+                
+                -- Add indicators for crafted/stolen items
+                local itemIndicators = {}
+                if item.isCrafted then
+                    table.insert(itemIndicators, "⚒️ Crafted")
+                end
+                if item.craftedQuality and item.craftedQuality ~= ITEM_QUALITY_NONE and item.craftedQuality > 0 then
+                    local craftedQualName = GetString("SI_ITEMQUALITY", item.craftedQuality) or ""
+                    if craftedQualName ~= "" then
+                        table.insert(itemIndicators, "✨ " .. craftedQualName)
+                    end
+                end
+                if item.isStolen then
+                    table.insert(itemIndicators, "👤 Stolen")
+                end
+                
+                if #itemIndicators > 0 then
+                    itemType = itemType .. (#itemType > 0 and " • " or "") .. table.concat(itemIndicators, " • ")
+                end
+                
                 markdown = markdown .. "| " .. (item.emoji or "📦") .. " **" .. (item.slotName or "Unknown") .. "** | "
                 markdown = markdown .. (item.name or "-") .. " | "
                 markdown = markdown .. setLink .. " | "
                 markdown = markdown .. (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal") .. " | "
-                markdown = markdown .. (item.trait or "None") .. " |\n"
+                markdown = markdown .. (item.trait or "None") .. " | "
+                markdown = markdown .. (itemType ~= "" and itemType or "-") .. " |\n"
             end
             markdown = markdown .. "\n"
         end

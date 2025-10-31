@@ -348,6 +348,11 @@ local function GenerateOverview(characterData, roleData, locationData, buffsData
     -- Server row
     markdown = markdown .. "| **Server** | " .. (characterData.server or "Unknown") .. " |\n"
     
+    -- Zone index (if available)
+    if locationData and locationData.zoneIndex and locationData.zoneIndex > 0 then
+        markdown = markdown .. "| **Zone Index** | " .. locationData.zoneIndex .. " |\n"
+    end
+    
     -- Account row
     markdown = markdown .. "| **Account** | " .. (characterData.account or "Unknown") .. " |\n"
     
@@ -434,6 +439,19 @@ local function GenerateProgression(progressionData, format)
     -- Show progression data including achievements
     if format == "discord" then
         markdown = markdown .. "**Progression:**\n"
+        if progressionData.skillPoints and progressionData.skillPoints >= 0 then
+            markdown = markdown .. "• 📚 Unspent Skill Points: " .. progressionData.skillPoints
+            if progressionData.totalSkillPoints and progressionData.totalSkillPoints > 0 then
+                markdown = markdown .. " (Total: " .. progressionData.totalSkillPoints .. ")"
+            end
+            markdown = markdown .. "\n"
+        end
+        if progressionData.attributePoints and progressionData.attributePoints >= 0 then
+            markdown = markdown .. "• ⭐ Unspent Attribute Points: " .. progressionData.attributePoints .. "\n"
+        end
+        if progressionData.availableChampionPoints and progressionData.availableChampionPoints > 0 then
+            markdown = markdown .. "• 🎯 Available Champion Points: " .. FormatNumber(progressionData.availableChampionPoints) .. "\n"
+        end
         if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
             markdown = markdown .. "• 🏆 Achievement Points: " .. FormatNumber(progressionData.achievementPoints) .. "\n"
         end
@@ -453,6 +471,19 @@ local function GenerateProgression(progressionData, format)
         markdown = markdown .. "## 📈 Progression\n\n"
         markdown = markdown .. "| Category | Value |\n"
         markdown = markdown .. "|:---------|:------|\n"
+        if progressionData.skillPoints and progressionData.skillPoints >= 0 then
+            local skillPointsText = FormatNumber(progressionData.skillPoints)
+            if progressionData.totalSkillPoints and progressionData.totalSkillPoints > 0 then
+                skillPointsText = skillPointsText .. " / " .. FormatNumber(progressionData.totalSkillPoints) .. " total"
+            end
+            markdown = markdown .. "| **📚 Unspent Skill Points** | " .. skillPointsText .. " |\n"
+        end
+        if progressionData.attributePoints and progressionData.attributePoints >= 0 then
+            markdown = markdown .. "| **⭐ Unspent Attribute Points** | " .. progressionData.attributePoints .. " |\n"
+        end
+        if progressionData.availableChampionPoints and progressionData.availableChampionPoints > 0 then
+            markdown = markdown .. "| **🎯 Available Champion Points** | " .. FormatNumber(progressionData.availableChampionPoints) .. " |\n"
+        end
         if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
             markdown = markdown .. "| **🏆 Achievement Points** | " .. FormatNumber(progressionData.achievementPoints) .. " |\n"
         end

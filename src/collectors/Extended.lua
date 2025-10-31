@@ -38,9 +38,15 @@ local function CollectGuildData()
     
     for guildId = 1, numGuilds do
         local success, guildInfo = pcall(function()
-            local guildName = GetGuildName(guildId)
-            local numMembers = GetNumGuildMembers(guildId)
-            local guildAlliance = GetGuildAlliance(guildId)
+            -- Try GetGuildInfo first (newer API, more complete)
+            local guildName, numMembers, guildAlliance, guildIdOut = GetGuildInfo(guildId)
+            
+            -- Fallback to individual functions if GetGuildInfo not available
+            if not guildName then
+                guildName = GetGuildName(guildId)
+                numMembers = GetNumGuildMembers(guildId)
+                guildAlliance = GetGuildAlliance(guildId)
+            end
             
             -- Get player's rank info
             local displayName = GetDisplayName()
@@ -48,10 +54,11 @@ local function CollectGuildData()
             local rankName = guildRankIndex and GetGuildRankCustomName(guildId, guildRankIndex) or "Member"
             
             return {
-                name = guildName,
-                memberCount = numMembers,
+                name = guildName or "Unknown Guild",
+                memberCount = numMembers or 0,
                 rank = rankName,
                 alliance = guildAlliance and GetAllianceName(guildAlliance) or "Cross-Alliance",
+                guildId = guildId
             }
         end)
         

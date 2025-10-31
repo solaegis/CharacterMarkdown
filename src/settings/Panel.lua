@@ -886,6 +886,7 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includeArmoryBuilds = true  -- Enable armory builds
             CM.settings.includeTalesOfTribute = true  -- Enable Tales of Tribute
             CM.settings.includeUndauntedPledges = true  -- Enable Undaunted pledges
+            CM.settings.includeGuilds = true  -- Enable guild membership
             
             -- Note: includeQuickStats and includeAttentionNeeded are controlled by format (non-Discord only)
             -- They default to true and don't need explicit enabling here

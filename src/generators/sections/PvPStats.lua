@@ -52,6 +52,9 @@ local function GeneratePvPStats(pvpStatsData, format)
             if pvpStatsData.stats.assists > 0 then
                 markdown = markdown .. "• Assists: " .. FormatNumber(pvpStatsData.stats.assists) .. "\n"
             end
+            if pvpStatsData.stats.morale and pvpStatsData.stats.morale > 0 then
+                markdown = markdown .. "• Morale: " .. FormatNumber(pvpStatsData.stats.morale) .. "\n"
+            end
         end
         
         markdown = markdown .. "\n"
@@ -87,6 +90,9 @@ local function GeneratePvPStats(pvpStatsData, format)
                 end
                 if pvpStatsData.stats.assists > 0 then
                     table.insert(stats, "Assists: " .. FormatNumber(pvpStatsData.stats.assists))
+                end
+                if pvpStatsData.stats.morale and pvpStatsData.stats.morale > 0 then
+                    table.insert(stats, "Morale: " .. FormatNumber(pvpStatsData.stats.morale))
                 end
                 markdown = markdown .. table.concat(stats, " | ") .. " |\n"
             end

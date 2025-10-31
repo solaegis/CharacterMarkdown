@@ -58,6 +58,7 @@ CM.Settings.Defaults.EXTENDED = {
     includeArmoryBuilds = true,  -- Show armory builds and templates (Phase 10)
     includeTalesOfTribute = true,  -- Show Tales of Tribute progress (Phase 10)
     includeUndauntedPledges = true,  -- Show Undaunted pledges and dungeon progress (Phase 10)
+    includeGuilds = true,  -- Show guild membership information
 }
 
 -- Link settings

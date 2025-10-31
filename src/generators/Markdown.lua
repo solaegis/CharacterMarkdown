@@ -58,6 +58,7 @@ local function GetGenerators()
         GenerateArmoryBuilds = CM.generators.sections.GenerateArmoryBuilds,
         GenerateTalesOfTribute = CM.generators.sections.GenerateTalesOfTribute,
         GenerateUndauntedPledges = CM.generators.sections.GenerateUndauntedPledges,
+        GenerateGuilds = CM.generators.sections.GenerateGuilds,
         
         -- Companion sections
         GenerateCompanion = CM.generators.sections.GenerateCompanion,
@@ -374,6 +375,15 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
+        -- Guilds
+        {
+            name = "Guilds",
+            condition = IsSettingEnabled(settings, "includeGuilds", true),
+            generator = function()
+                return gen.GenerateGuilds(data.guilds, format)
+            end
+        },
+        
         -- Attributes
         {
             name = "Attributes",
@@ -577,6 +587,7 @@ local function GenerateMarkdown(format)
         armoryBuilds = SafeCollect("CollectArmoryBuildsData", CM.collectors.CollectArmoryBuildsData),
         talesOfTribute = SafeCollect("CollectTalesOfTributeData", CM.collectors.CollectTalesOfTributeData),
         undauntedPledges = SafeCollect("CollectUndauntedPledgesData", CM.collectors.CollectUndauntedPledgesData),
+        guilds = SafeCollect("CollectGuildData", CM.collectors.CollectGuildData),
         customNotes = (CM.charData and CM.charData.customNotes) or (CharacterMarkdownData and CharacterMarkdownData.customNotes) or ""
     }
     

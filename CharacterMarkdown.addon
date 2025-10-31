@@ -70,6 +70,7 @@ src/generators/sections/PvPStats.lua
 src/generators/sections/ArmoryBuilds.lua
 src/generators/sections/TalesOfTribute.lua
 src/generators/sections/UndauntedPledges.lua
+src/generators/sections/Guilds.lua
 src/generators/sections/Companion.lua
 src/generators/sections/Footer.lua
 

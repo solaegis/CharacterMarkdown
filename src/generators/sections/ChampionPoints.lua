@@ -318,7 +318,8 @@ local function GenerateChampionPoints(cpData, format)
         markdown = markdown .. "*Champion Point system unlocks at Level 50*\n\n"
     else
         local spentCP = cpData.spent or 0
-        local availableCP = totalCP - spentCP
+        -- Use API value for available CP if available, otherwise calculate
+        local availableCP = cpData.available or (totalCP - spentCP)
         
         if format == "discord" then
             markdown = markdown .. "Total: " .. CM.utils.FormatNumber(totalCP) .. " | "
