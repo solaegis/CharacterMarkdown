@@ -40,7 +40,6 @@ local function GetGenerators()
         GenerateMundus = CM.generators.sections.GenerateMundus,
         GenerateChampionPoints = CM.generators.sections.GenerateChampionPoints,
         GenerateDetailedChampionPoints = CM.generators.sections.GenerateDetailedChampionPoints,
-        GenerateSlottableChampionPoints = CM.generators.sections.GenerateSlottableChampionPoints,
         -- DISABLED: Champion Diagram (experimental)
         -- GenerateChampionDiagram = CM.generators.GenerateChampionDiagram,
         GenerateCollectibles = CM.generators.sections.GenerateCollectibles,
@@ -75,6 +74,12 @@ end
 local collectionErrors = {}
 
 local function SafeCollect(collectorName, collectorFunc)
+    -- Check if function exists before trying to call it
+    if not collectorFunc or type(collectorFunc) ~= "function" then
+        CM.DebugPrint("COLLECTOR", string.format("⚠️ %s not available (function is nil)", collectorName))
+        return {}  -- Return empty data if function doesn't exist
+    end
+    
     local success, result = pcall(collectorFunc)
     
     if not success then
@@ -229,20 +234,24 @@ local function GetSectionRegistry(format, settings, gen, data)
             generator = function()
                 local markdown = ""
                 
-                -- Show basic achievement summary
-                if data.achievements then
+                if not data.achievements then
+                    return markdown
+                end
+                
+                -- Check if we should show all achievements or filter to in-progress only
+                local showAllAchievements = settings.showAllAchievements ~= false  -- Default to true (show all)
+                
+                if showAllAchievements then
+                    -- Show all achievements (full data)
                     markdown = markdown .. gen.GenerateAchievements(data.achievements, format)
-                end
-                
-                -- Show detailed categories if enabled
-                if IsSettingEnabled(settings, "includeAchievementsDetailed", false) and data.achievements then
-                    -- Additional detailed content is handled in the main generator
-                    -- This is intentionally empty as detailed content is processed elsewhere
-                    -- No action needed here
-                end
-                
-                -- Show only in-progress if enabled
-                if IsSettingEnabled(settings, "includeAchievementsInProgress", false) and data.achievements then
+                    
+                    -- Show detailed categories if enabled
+                    if IsSettingEnabled(settings, "includeAchievementsDetailed", false) then
+                        -- Additional detailed content is handled in the main generator
+                        -- This is intentionally empty as detailed content is processed elsewhere
+                        -- No action needed here
+                    end
+                else
                     -- Filter to show only in-progress achievements
                     local inProgressData = {
                         summary = data.achievements.summary,
@@ -262,20 +271,24 @@ local function GetSectionRegistry(format, settings, gen, data)
             generator = function()
                 local markdown = ""
                 
-                -- Show basic quest summary
-                if data.quests then
+                if not data.quests then
+                    return markdown
+                end
+                
+                -- Check if we should show all quests or filter to active only
+                local showAllQuests = settings.showAllQuests ~= false  -- Default to true (show all)
+                
+                if showAllQuests then
+                    -- Show all quests (full data)
                     markdown = markdown .. gen.GenerateQuests(data.quests, format)
-                end
-                
-                -- Show detailed categories if enabled
-                if IsSettingEnabled(settings, "includeQuestsDetailed", false) and data.quests then
-                    -- Additional detailed content is handled in the main generator
-                    -- This is intentionally empty as detailed content is processed elsewhere
-                    -- No action needed here
-                end
-                
-                -- Show only active quests if enabled
-                if IsSettingEnabled(settings, "includeQuestsActiveOnly", false) and data.quests then
+                    
+                    -- Show detailed categories if enabled
+                    if IsSettingEnabled(settings, "includeQuestsDetailed", false) then
+                        -- Additional detailed content is handled in the main generator
+                        -- This is intentionally empty as detailed content is processed elsewhere
+                        -- No action needed here
+                    end
+                else
                     -- Filter to show only active quests
                     local activeData = {
                         summary = data.quests.summary,
@@ -446,12 +459,8 @@ local function GetSectionRegistry(format, settings, gen, data)
             generator = function()
                 local markdown = ""
                 
-                -- Check if we should show slottable only
-                if IsSettingEnabled(settings, "includeChampionSlottableOnly", false) then
-                    markdown = markdown .. gen.GenerateSlottableChampionPoints(data.cp, format)
-                else
-                    markdown = markdown .. gen.GenerateChampionPoints(data.cp, format)
-                end
+                -- Show all Champion Points
+                markdown = markdown .. gen.GenerateChampionPoints(data.cp, format)
                 
                 -- Add detailed analysis if enabled
                 if IsSettingEnabled(settings, "includeChampionDetailed", false) then
@@ -467,7 +476,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             name = "Progression",
             condition = IsSettingEnabled(settings, "includeProgression", true),
             generator = function()
-                return gen.GenerateProgression(data.progression, format)
+                return gen.GenerateProgression(data.progression, data.cp, format)
             end
         },
         

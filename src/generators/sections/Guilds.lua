@@ -23,7 +23,12 @@ local function GenerateGuilds(guildsData, format)
     local markdown = ""
     
     if not guildsData or #guildsData == 0 then
-        return ""  -- No guild data available
+        -- Show placeholder when enabled but no data available
+        if format ~= "discord" then
+            markdown = markdown .. "## 🏛️ Guild Membership\n\n"
+            markdown = markdown .. "*No guild data available*\n\n---\n\n"
+        end
+        return markdown
     end
     
     if format == "discord" then

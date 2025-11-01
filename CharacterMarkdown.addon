@@ -46,6 +46,7 @@ src/collectors/ArmoryBuilds.lua
 src/collectors/TalesOfTribute.lua
 src/collectors/UndauntedPledges.lua
 src/collectors/Companion.lua
+src/collectors/Extended.lua
 
 ## Markdown generator (depends on collectors + links)
 ## Helper utilities for generators

@@ -348,11 +348,6 @@ local function GenerateOverview(characterData, roleData, locationData, buffsData
     -- Server row
     markdown = markdown .. "| **Server** | " .. (characterData.server or "Unknown") .. " |\n"
     
-    -- Zone index (if available)
-    if locationData and locationData.zoneIndex and locationData.zoneIndex > 0 then
-        markdown = markdown .. "| **Zone Index** | " .. locationData.zoneIndex .. " |\n"
-    end
-    
     -- Account row
     markdown = markdown .. "| **Account** | " .. (characterData.account or "Unknown") .. " |\n"
     
@@ -412,9 +407,12 @@ local function GenerateOverview(characterData, roleData, locationData, buffsData
                               " (" .. progressionData.enlightenment.percent .. "%) |\n"
     end
     
-    -- Location row
+    -- Location row (with zone index if available)
     if settings.includeLocation ~= false and locationData then
         local zoneText = CreateZoneLink(locationData.zone, format)
+        if locationData.zoneIndex and locationData.zoneIndex > 0 then
+            zoneText = zoneText .. " (" .. locationData.zoneIndex .. ")"
+        end
         markdown = markdown .. "| **Location** | " .. zoneText .. " |\n"
     end
     
@@ -427,7 +425,7 @@ end
 -- PROGRESSION
 -- =====================================================
 
-local function GenerateProgression(progressionData, format)
+local function GenerateProgression(progressionData, cpData, format)
     InitializeUtilities()
     
     local markdown = ""
@@ -449,8 +447,19 @@ local function GenerateProgression(progressionData, format)
         if progressionData.attributePoints and progressionData.attributePoints >= 0 then
             markdown = markdown .. "• ⭐ Unspent Attribute Points: " .. progressionData.attributePoints .. "\n"
         end
-        if progressionData.availableChampionPoints and progressionData.availableChampionPoints > 0 then
-            markdown = markdown .. "• 🎯 Available Champion Points: " .. FormatNumber(progressionData.availableChampionPoints) .. "\n"
+        -- Calculate available CP: use same logic as Quick Stats (total - spent)
+        -- This matches Quick Stats calculation which is working correctly
+        local availableCP = nil
+        if cpData and cpData.total and cpData.spent then
+            local calculated = cpData.total - cpData.spent
+            -- Only use calculated value if it's reasonable (less than or equal to total)
+            if calculated >= 0 and calculated <= cpData.total then
+                availableCP = calculated
+            end
+        end
+        -- Only show if we have a valid available CP value and it's greater than 0
+        if availableCP ~= nil and availableCP > 0 then
+            markdown = markdown .. "• 🎯 Available Champion Points: " .. FormatNumber(availableCP) .. "\n"
         end
         if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
             markdown = markdown .. "• 🏆 Achievement Points: " .. FormatNumber(progressionData.achievementPoints) .. "\n"
@@ -481,8 +490,19 @@ local function GenerateProgression(progressionData, format)
         if progressionData.attributePoints and progressionData.attributePoints >= 0 then
             markdown = markdown .. "| **⭐ Unspent Attribute Points** | " .. progressionData.attributePoints .. " |\n"
         end
-        if progressionData.availableChampionPoints and progressionData.availableChampionPoints > 0 then
-            markdown = markdown .. "| **🎯 Available Champion Points** | " .. FormatNumber(progressionData.availableChampionPoints) .. " |\n"
+        -- Calculate available CP: use same logic as Quick Stats (total - spent)
+        -- This matches Quick Stats calculation which is working correctly
+        local availableCP = nil
+        if cpData and cpData.total and cpData.spent then
+            local calculated = cpData.total - cpData.spent
+            -- Only use calculated value if it's reasonable (less than or equal to total)
+            if calculated >= 0 and calculated <= cpData.total then
+                availableCP = calculated
+            end
+        end
+        -- Only show if we have a valid available CP value and it's greater than 0
+        if availableCP ~= nil and availableCP > 0 then
+            markdown = markdown .. "| **🎯 Available Champion Points** | " .. FormatNumber(availableCP) .. " |\n"
         end
         if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
             markdown = markdown .. "| **🏆 Achievement Points** | " .. FormatNumber(progressionData.achievementPoints) .. " |\n"

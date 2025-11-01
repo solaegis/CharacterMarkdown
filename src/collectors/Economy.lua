@@ -3,6 +3,9 @@
 
 local CM = CharacterMarkdown
 
+-- Cached globals
+local IsESOPlusSubscriber = IsESOPlusSubscriber
+
 -- =====================================================
 -- CURRENCY
 -- =====================================================
@@ -42,6 +45,15 @@ local function CollectInventoryData()
     
     inventory.bankUsed = GetNumBagUsedSlots(BAG_BANK) or 0
     inventory.bankMax = GetBagSize(BAG_BANK) or 0
+    
+    -- ESO Plus doubles bank capacity from 240 to 480
+    -- Check if ESO Plus is active and ensure bank capacity reflects this
+    local hasESOPlus = CM.SafeCall(IsESOPlusSubscriber) or false
+    if hasESOPlus and inventory.bankMax == 240 then
+        -- Double the bank capacity for ESO Plus
+        inventory.bankMax = 480
+    end
+    
     inventory.bankPercent = inventory.bankMax > 0 and 
         math.floor((inventory.bankUsed / inventory.bankMax) * 100) or 0
     

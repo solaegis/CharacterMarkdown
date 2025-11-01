@@ -213,14 +213,14 @@ local function CollectSkillProgressionData()
                     -- Apply skill filters from settings (skip filters for racial)
                     local settings = CharacterMarkdownSettings or {}
                     local minRank = settings.minSkillRank or 1
-                    local hideMaxed = settings.hideMaxedSkills or false
+                    local showMaxed = settings.showMaxedSkills ~= false  -- Default to true (show all)
                     
                     local passesFilters = true
                     if not isRacial then
                         if skillLineRank < minRank then
                             passesFilters = false
                         end
-                        if hideMaxed and isMaxed then
+                        if not showMaxed and isMaxed then
                             passesFilters = false
                         end
                     end

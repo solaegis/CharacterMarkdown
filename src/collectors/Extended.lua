@@ -34,36 +34,94 @@ CM.collectors.CollectMailData = CollectMailData
 local function CollectGuildData()
     local guilds = {}
     
-    local numGuilds = GetNumGuilds() or 0
+    -- Check if guild API functions exist using rawget to avoid errors
+    local GetNumGuildsFunc = rawget(_G, "GetNumGuilds")
+    local GetGuildNameFunc = rawget(_G, "GetGuildName")
+    local GetNumGuildMembersFunc = rawget(_G, "GetNumGuildMembers")
+    
+    if not GetNumGuildsFunc or type(GetNumGuildsFunc) ~= "function" then
+        return guilds
+    end
+    if not GetGuildNameFunc or type(GetGuildNameFunc) ~= "function" then
+        return guilds
+    end
+    if not GetNumGuildMembersFunc or type(GetNumGuildMembersFunc) ~= "function" then
+        return guilds
+    end
+        
+    -- Now safely get number of guilds
+    local hasGuildAPI, numGuilds = pcall(GetNumGuildsFunc)
+    
+    if not hasGuildAPI or not numGuilds or numGuilds == 0 then
+        -- Guild API not available or no guilds
+        return guilds
+    end
     
     for guildId = 1, numGuilds do
-        local success, guildInfo = pcall(function()
-            -- Try GetGuildInfo first (newer API, more complete)
-            local guildName, numMembers, guildAlliance, guildIdOut = GetGuildInfo(guildId)
-            
-            -- Fallback to individual functions if GetGuildInfo not available
-            if not guildName then
-                guildName = GetGuildName(guildId)
-                numMembers = GetNumGuildMembers(guildId)
-                guildAlliance = GetGuildAlliance(guildId)
+        -- Use pcall directly for each guild operation (we've already verified functions exist)
+        local guildSuccess, guildName = pcall(GetGuildNameFunc, guildId)
+        
+        -- Skip if we can't get a guild name
+        if guildSuccess and guildName and guildName ~= "" then
+            local numMembers = 0
+            local memberSuccess, memberCount = pcall(GetNumGuildMembersFunc, guildId)
+            if memberSuccess and memberCount then
+                numMembers = memberCount or 0
             end
             
-            -- Get player's rank info
-            local displayName = GetDisplayName()
-            local guildRankIndex = GetGuildMemberRankIndex(guildId, displayName)
-            local rankName = guildRankIndex and GetGuildRankCustomName(guildId, guildRankIndex) or "Member"
+            local guildAlliance = nil
+            local GetGuildAllianceFunc = rawget(_G, "GetGuildAlliance")
+            if GetGuildAllianceFunc and type(GetGuildAllianceFunc) == "function" then
+                local allianceSuccess, alliance = pcall(GetGuildAllianceFunc, guildId)
+                if allianceSuccess then
+                    guildAlliance = alliance
+                end
+            end
             
-            return {
-                name = guildName or "Unknown Guild",
+            -- Get player's rank info using GetGuildMemberInfo (the correct API function)
+            -- Returns: displayName, note, rankIndex, status, secsSinceLogoff
+            local rankName = "Member"
+            
+            local GetGuildMemberInfoFunc = rawget(_G, "GetGuildMemberInfo")
+            local GetFinalGuildRankNameFunc = rawget(_G, "GetFinalGuildRankName")
+            
+            if GetGuildMemberInfoFunc and type(GetGuildMemberInfoFunc) == "function" then
+                local displayName = CM.SafeCall(GetDisplayName) or ""
+                if displayName and displayName ~= "" and numMembers > 0 then
+                    -- Search through guild members to find the player
+                    for memberIndex = 1, numMembers do
+                        local memberSuccess, memberDisplayName, note, rankIndex = pcall(GetGuildMemberInfoFunc, guildId, memberIndex)
+                        if memberSuccess and memberDisplayName == displayName and rankIndex then
+                            -- Found the player! Now get the rank name using GetFinalGuildRankName
+                            if GetFinalGuildRankNameFunc and type(GetFinalGuildRankNameFunc) == "function" then
+                                local rankSuccess, rankNameResult = pcall(GetFinalGuildRankNameFunc, guildId, rankIndex)
+                                if rankSuccess and rankNameResult and rankNameResult ~= "" then
+                                    rankName = rankNameResult
+                                end
+                            end
+                            -- Break once we found the player
+                            break
+                        end
+                    end
+                end
+            end
+            
+            local allianceName = "Cross-Alliance"
+            local GetAllianceNameFunc = rawget(_G, "GetAllianceName")
+            if guildAlliance and GetAllianceNameFunc and type(GetAllianceNameFunc) == "function" then
+                local nameSuccess, nameResult = pcall(GetAllianceNameFunc, guildAlliance)
+                if nameSuccess and nameResult and nameResult ~= "" then
+                    allianceName = nameResult
+                end
+            end
+            
+            table.insert(guilds, {
+                name = guildName,
                 memberCount = numMembers or 0,
                 rank = rankName,
-                alliance = guildAlliance and GetAllianceName(guildAlliance) or "Cross-Alliance",
+                alliance = allianceName,
                 guildId = guildId
-            }
-        end)
-        
-        if success and guildInfo then
-            table.insert(guilds, guildInfo)
+            })
         end
     end
     

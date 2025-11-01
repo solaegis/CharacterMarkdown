@@ -23,20 +23,29 @@ local function GenerateTalesOfTribute(totData, format)
     
     local markdown = ""
     
-    if not totData or (not totData.progress or totData.progress.rank == 0) then
-        return ""  -- No Tales of Tribute data available
+    if not totData then
+        -- Show placeholder when enabled but no data available
+        if format ~= "discord" then
+            markdown = markdown .. "## 🎴 Tales of Tribute\n\n"
+            markdown = markdown .. "*No Tales of Tribute data available*\n\n---\n\n"
+        end
+        return markdown
     end
     
-    local progress = totData.progress or {}
-    local decks = totData.decks or {}
-    local achievements = totData.achievements or {}
+    -- Always show section when enabled (even if rank is 0 or minimal data)
+    
+    local progress = totData.progress or {rank = 0}
+    local decks = totData.decks or {total = 0, owned = 0}
+    local achievements = totData.achievements or {total = 0, completed = 0}
     local stats = totData.stats or {}
     
     if format == "discord" then
         markdown = markdown .. "**Tales of Tribute:**\n"
         
-        if progress.rankName and progress.rankName ~= "" then
+        if progress.rank and progress.rank > 0 and progress.rankName and progress.rankName ~= "" then
             markdown = markdown .. "• Rank: " .. progress.rankName .. " (Rank " .. progress.rank .. ")\n"
+        else
+            markdown = markdown .. "• Rank: None (Rank 0)\n"
         end
         
         if progress.level > 0 and progress.maxLevel > 0 then
@@ -60,28 +69,28 @@ local function GenerateTalesOfTribute(totData, format)
     else
         markdown = markdown .. "## 🎴 Tales of Tribute\n\n"
         
-        -- Progress section
-        if progress.rank > 0 then
-            markdown = markdown .. "| Category | Value |\n"
-            markdown = markdown .. "|:---------|:------|\n"
-            
-            if progress.rankName and progress.rankName ~= "" then
-                markdown = markdown .. "| **Rank** | " .. progress.rankName .. " (Rank " .. progress.rank .. ") |\n"
-            end
-            
-            if progress.level > 0 and progress.maxLevel > 0 then
-                local levelPercent = math.floor((progress.level / progress.maxLevel) * 100)
-                local levelProgressBar = GenerateProgressBar(levelPercent, 20)
-                markdown = markdown .. "| **Level** | " .. progress.level .. "/" .. progress.maxLevel .. " " .. levelProgressBar .. " " .. levelPercent .. "% |\n"
-            end
-            
-            if progress.experience > 0 and progress.maxExperience > 0 then
-                local expPercent = math.floor((progress.experience / progress.maxExperience) * 100)
-                markdown = markdown .. "| **Experience** | " .. FormatNumber(progress.experience) .. "/" .. FormatNumber(progress.maxExperience) .. " (" .. expPercent .. "%) |\n"
-            end
-            
-            markdown = markdown .. "\n"
+        -- Progress section (always show, even if rank is 0)
+        markdown = markdown .. "| Category | Value |\n"
+        markdown = markdown .. "|:---------|:------|\n"
+        
+        if progress.rank and progress.rank > 0 and progress.rankName and progress.rankName ~= "" then
+            markdown = markdown .. "| **Rank** | " .. progress.rankName .. " (Rank " .. progress.rank .. ") |\n"
+        else
+            markdown = markdown .. "| **Rank** | None (Rank 0) |\n"
         end
+        
+        if progress.level and progress.level > 0 and progress.maxLevel and progress.maxLevel > 0 then
+            local levelPercent = math.floor((progress.level / progress.maxLevel) * 100)
+            local levelProgressBar = GenerateProgressBar(levelPercent, 20)
+            markdown = markdown .. "| **Level** | " .. progress.level .. "/" .. progress.maxLevel .. " " .. levelProgressBar .. " " .. levelPercent .. "% |\n"
+        end
+        
+        if progress.experience and progress.experience > 0 and progress.maxExperience and progress.maxExperience > 0 then
+            local expPercent = math.floor((progress.experience / progress.maxExperience) * 100)
+            markdown = markdown .. "| **Experience** | " .. FormatNumber(progress.experience) .. "/" .. FormatNumber(progress.maxExperience) .. " (" .. expPercent .. "%) |\n"
+        end
+        
+        markdown = markdown .. "\n"
         
         -- Decks section
         if decks.total > 0 then

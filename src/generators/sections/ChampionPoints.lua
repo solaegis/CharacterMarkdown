@@ -306,6 +306,11 @@ local function GenerateChampionPoints(cpData, format)
     
     local markdown = ""
     
+    -- Handle nil or empty cpData
+    if not cpData then
+        cpData = {}
+    end
+    
     local totalCP = cpData.total or 0
     
     if format == "discord" then

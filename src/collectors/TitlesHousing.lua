@@ -15,6 +15,12 @@ local function CollectTitlesData()
         list = {}
     }
     
+    -- Check if title API functions exist
+    local GetNumTitlesFunc = rawget(_G, "GetNumTitles")
+    local GetCurrentTitleFunc = rawget(_G, "GetCurrentTitle")
+    local GetTitleNameFunc = rawget(_G, "GetTitleName")
+    local IsTitleKnownFunc = rawget(_G, "IsTitleKnown")
+    
     -- Get current title (check for custom title first)
     local customTitle = ""
     if CM.charData then
@@ -24,37 +30,51 @@ local function CollectTitlesData()
     if customTitle and customTitle ~= "" then
         titles.current = customTitle
     else
-        local success, currentTitle = pcall(GetPlayerTitle)
-        if success and currentTitle then
-            titles.current = currentTitle
+        -- Use GetCurrentTitle() to get current title index, then GetTitleName()
+        if GetCurrentTitleFunc and type(GetCurrentTitleFunc) == "function" then
+            local success, currentTitleIndex = pcall(GetCurrentTitleFunc)
+            if success and currentTitleIndex and currentTitleIndex > 0 then
+                if GetTitleNameFunc and type(GetTitleNameFunc) == "function" then
+                    local nameSuccess, titleName = pcall(GetTitleNameFunc, currentTitleIndex)
+                    if nameSuccess and titleName and titleName ~= "" then
+                        titles.current = titleName
+                    end
+                end
+            end
         end
     end
     
-    -- Get total number of titles
-    local success2, totalTitles = pcall(GetNumPlayerTitles)
-    if success2 and totalTitles then
-        titles.total = totalTitles
-        
-        -- Get all titles
-        for i = 1, totalTitles do
-            local success3, titleName, isUnlocked = pcall(GetPlayerTitleByIndex, i)
-            if success3 and titleName and titleName ~= "" then
-                if isUnlocked then
-                    titles.owned = titles.owned + 1
+    -- Get total number of titles using GetNumTitles() (correct API)
+    if GetNumTitlesFunc and type(GetNumTitlesFunc) == "function" then
+        local success2, totalTitles = pcall(GetNumTitlesFunc)
+        if success2 and totalTitles then
+            titles.total = totalTitles
+            
+            -- Get all titles using GetTitleName() and IsTitleKnown() (correct API)
+            if GetTitleNameFunc and type(GetTitleNameFunc) == "function" and
+               IsTitleKnownFunc and type(IsTitleKnownFunc) == "function" then
+                for i = 1, totalTitles do
+                    local nameSuccess, titleName = pcall(GetTitleNameFunc, i)
+                    if nameSuccess and titleName and titleName ~= "" then
+                        local knownSuccess, isUnlocked = pcall(IsTitleKnownFunc, i)
+                        if knownSuccess and isUnlocked then
+                            titles.owned = titles.owned + 1
+                        end
+                        
+                        table.insert(titles.list, {
+                            name = titleName,
+                            unlocked = (knownSuccess and isUnlocked) or false,
+                            index = i
+                        })
+                    end
                 end
-                
-                table.insert(titles.list, {
-                    name = titleName,
-                    unlocked = isUnlocked or false,
-                    index = i
-                })
             end
+            
+            -- Sort by name
+            table.sort(titles.list, function(a, b)
+                return a.name < b.name
+            end)
         end
-        
-        -- Sort by name
-        table.sort(titles.list, function(a, b)
-            return a.name < b.name
-        end)
     end
     
     return titles

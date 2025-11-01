@@ -23,15 +23,24 @@ local function GeneratePvPStats(pvpStatsData, format)
     
     local markdown = ""
     
-    if not pvpStatsData or not pvpStatsData.rank or pvpStatsData.rank == 0 then
-        return ""  -- No PvP data available
+    if not pvpStatsData then
+        -- Show placeholder when enabled but no data available
+        if format ~= "discord" then
+            markdown = markdown .. "## ⚔️ PvP Statistics\n\n"
+            markdown = markdown .. "*No PvP statistics available*\n\n---\n\n"
+        end
+        return markdown
     end
+    
+    -- Always show section when enabled (even if rank is 0 or minimal data)
     
     if format == "discord" then
         markdown = markdown .. "**PvP Statistics:**\n"
         
-        if pvpStatsData.rankName and pvpStatsData.rankName ~= "" then
+        if pvpStatsData.rank and pvpStatsData.rank > 0 and pvpStatsData.rankName and pvpStatsData.rankName ~= "" then
             markdown = markdown .. "• Rank: " .. pvpStatsData.rankName .. " (Rank " .. pvpStatsData.rank .. ")\n"
+        else
+            markdown = markdown .. "• Rank: None (Rank 0)\n"
         end
         
         if pvpStatsData.allianceName and pvpStatsData.allianceName ~= "" then
@@ -63,8 +72,10 @@ local function GeneratePvPStats(pvpStatsData, format)
         markdown = markdown .. "| Category | Value |\n"
         markdown = markdown .. "|:---------|:------|\n"
         
-        if pvpStatsData.rankName and pvpStatsData.rankName ~= "" then
+        if pvpStatsData.rank and pvpStatsData.rank > 0 and pvpStatsData.rankName and pvpStatsData.rankName ~= "" then
             markdown = markdown .. "| **Alliance War Rank** | " .. pvpStatsData.rankName .. " (Rank " .. pvpStatsData.rank .. ") |\n"
+        else
+            markdown = markdown .. "| **Alliance War Rank** | None (Rank 0) |\n"
         end
         
         if pvpStatsData.allianceName and pvpStatsData.allianceName ~= "" then

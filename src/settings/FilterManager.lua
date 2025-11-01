@@ -35,9 +35,9 @@ local FILTER_CATEGORIES = {
         emoji = "⚙️",
         description = "Detailed information filters",
         settings = {
-            "includeChampionDetailed", "includeChampionSlottableOnly", "includeSkillMorphs",
-            "includeCollectiblesDetailed", "includeAchievementsDetailed", "includeAchievementsInProgress",
-            "includeQuestsDetailed", "includeQuestsActiveOnly", "includeEquipmentAnalysis",
+            "includeChampionDetailed", "includeSkillMorphs",
+            "includeCollectiblesDetailed", "includeAchievementsDetailed", "showAllAchievements",
+            "includeQuestsDetailed", "showAllQuests", "includeEquipmentAnalysis",
             "includeEquipmentRecommendations"
         }
     },
@@ -47,7 +47,7 @@ local FILTER_CATEGORIES = {
         emoji = "⭐",
         description = "Quality and level filters",
         settings = {
-            "minSkillRank", "hideMaxedSkills", "minEquipQuality", "hideEmptySlots"
+            "minSkillRank", "showMaxedSkills", "minEquipQuality", "hideEmptySlots"
         }
     },
     

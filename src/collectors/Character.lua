@@ -10,8 +10,7 @@ local GetAllianceName = GetAllianceName
 local GetUnitAlliance = GetUnitAlliance
 local GetUnitLevel = GetUnitLevel
 local GetPlayerChampionPointsEarned = GetPlayerChampionPointsEarned
-local GetTitle = GetTitle
-local GetCurrentTitleIndex = GetCurrentTitleIndex
+-- Note: Title functions are handled via rawget in the function body for safety
 local IsESOPlusSubscriber = IsESOPlusSubscriber
 local GetAttributeSpentPoints = GetAttributeSpentPoints
 local GetTimeStamp = GetTimeStamp
@@ -44,8 +43,21 @@ local function CollectCharacterData()
     if customTitle and customTitle ~= "" then
         data.title = customTitle
     else
-        local titleIndex = CM.SafeCall(GetCurrentTitleIndex)
-        data.title = (titleIndex and titleIndex > 0) and CM.SafeCall(GetTitle, titleIndex) or ""
+        -- Use correct API: GetCurrentTitle() returns index, GetTitleName() gets the name
+        local GetCurrentTitleFunc = rawget(_G, "GetCurrentTitle")
+        local GetTitleNameFunc = rawget(_G, "GetTitleName")
+        if GetCurrentTitleFunc and type(GetCurrentTitleFunc) == "function" and
+           GetTitleNameFunc and type(GetTitleNameFunc) == "function" then
+            local success, titleIndex = pcall(GetCurrentTitleFunc)
+            if success and titleIndex and titleIndex > 0 then
+                local nameSuccess, titleName = pcall(GetTitleNameFunc, titleIndex)
+                if nameSuccess and titleName and titleName ~= "" then
+                    data.title = titleName
+                end
+            end
+        end
+        -- Fallback to empty string if API calls fail
+        data.title = data.title or ""
     end
     
     data.esoPlus = CM.SafeCall(IsESOPlusSubscriber) or false

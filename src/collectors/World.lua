@@ -112,7 +112,8 @@ local function CollectCollectiblesData()
             name = category.name,
             emoji = category.emoji,
             owned = {},
-            total = 0
+            total = 0,
+            ownedCount = 0  -- Count of owned collectibles
         }
         
         local success, total = pcall(function()
@@ -122,19 +123,44 @@ local function CollectCollectiblesData()
         if success and total then
             categoryData.total = total
             
-            -- If detailed mode is enabled, collect individual collectibles
-            if includeDetailed then
-                for i = 1, total do
-                    local collectibleSuccess, collectibleId = pcall(function()
-                        return GetCollectibleIdFromType(category.type, i)
-                    end)
-                    
-                    if collectibleSuccess and collectibleId then
+            -- Count owned collectibles by checking each one (always count, not just in detailed mode)
+            local ownedCount = 0
+            for i = 1, total do
+                local collectibleSuccess, collectibleId = pcall(function()
+                    return GetCollectibleIdFromType(category.type, i)
+                end)
+                
+                if collectibleSuccess and collectibleId then
+                    -- Check if collectible is actually owned using IsCollectibleUnlocked
+                    local isOwned = false
+                    local ownedSuccess, owned = pcall(IsCollectibleUnlocked, collectibleId)
+                    if ownedSuccess then
+                        isOwned = owned or false
+                    else
+                        -- Fallback: try GetCollectibleInfo (5th parameter is unlocked status)
                         local infoSuccess, name, _, _, unlocked = pcall(function()
                             return GetCollectibleInfo(collectibleId)
                         end)
+                        if infoSuccess then
+                            isOwned = unlocked or false
+                        end
+                    end
+                    
+                    if isOwned then
+                        ownedCount = ownedCount + 1
                         
-                        if infoSuccess and unlocked then
+                        -- Get collectible name for detailed mode
+                        local name = ""
+                        local infoSuccess, collectibleName = pcall(function()
+                            local n = GetCollectibleInfo(collectibleId)
+                            return n
+                        end)
+                        if infoSuccess and collectibleName then
+                            name = collectibleName
+                        end
+                        
+                        -- If detailed mode is enabled, collect individual collectibles
+                        if includeDetailed then
                             -- Get nickname if available (for mounts/pets)
                             local nickname = ""
                             local nicknameSuccess, nick = pcall(function()
@@ -164,26 +190,31 @@ local function CollectCollectiblesData()
                         end
                     end
                 end
-                
-                -- Sort alphabetically by name
+            end
+            
+            categoryData.ownedCount = ownedCount
+            
+            -- Sort alphabetically by name if detailed
+            if includeDetailed and #categoryData.owned > 0 then
                 table.sort(categoryData.owned, function(a, b)
                     return a.name < b.name
                 end)
-                
                 collectibles.hasDetailedData = true
             end
         else
             categoryData.total = 0
+            categoryData.ownedCount = 0
         end
         
         collectibles.categories[category.key] = categoryData
     end
     
     -- Legacy fields for backward compatibility (simple count mode)
-    collectibles.mounts = collectibles.categories.mounts.total or 0
-    collectibles.pets = collectibles.categories.pets.total or 0
-    collectibles.costumes = collectibles.categories.costumes.total or 0
-    collectibles.houses = collectibles.categories.houses.total or 0
+    -- Use ownedCount (what player has) instead of total (what exists in game)
+    collectibles.mounts = collectibles.categories.mounts and collectibles.categories.mounts.ownedCount or 0
+    collectibles.pets = collectibles.categories.pets and collectibles.categories.pets.ownedCount or 0
+    collectibles.costumes = collectibles.categories.costumes and collectibles.categories.costumes.ownedCount or 0
+    collectibles.houses = collectibles.categories.houses and collectibles.categories.houses.ownedCount or 0
     
     return collectibles
 end
@@ -370,15 +401,162 @@ local function CollectZoneCompletionData()
         zones = {}
     }
     
-    -- Get current zone
+    -- Get current zone and zone index
     local currentZone = GetUnitZone("player")
     if currentZone and currentZone ~= "" then
         zoneCompletion.currentZone = currentZone
         
-        -- Try to get zone completion percentage
-        local success, percentage = pcall(GetZoneCompletionStatus)
-        if success and percentage then
-            zoneCompletion.completionPercentage = math.floor(percentage)
+        -- Get zone index for POI-based tracking
+        local zoneIndex = CM.SafeCall(GetUnitZoneIndex, "player") or 0
+        
+        -- Try GetZoneCompletionStatus first (if it exists and works)
+        local GetZoneCompletionStatusFunc = rawget(_G, "GetZoneCompletionStatus")
+        if GetZoneCompletionStatusFunc and type(GetZoneCompletionStatusFunc) == "function" then
+            local statusSuccess, percentage = pcall(GetZoneCompletionStatusFunc)
+            if statusSuccess and percentage and percentage > 0 then
+                zoneCompletion.completionPercentage = math.floor(percentage)
+                -- Store and return if we got a valid percentage
+                zoneCompletion.zones[currentZone] = {
+                    completionPercentage = zoneCompletion.completionPercentage
+                }
+                return zoneCompletion
+            end
+        end
+        
+        -- Fallback: Try POI-based tracking if available
+        local GetPOIInfoFunc = rawget(_G, "GetPOIInfo")
+        local GetNumPOIsForDifficultyLevelAndZoneFunc = rawget(_G, "GetNumPOIsForDifficultyLevelAndZone")
+        local GetCurrentMapZoneIndexFunc = rawget(_G, "GetCurrentMapZoneIndex")
+        
+        if GetPOIInfoFunc and type(GetPOIInfoFunc) == "function" and 
+           GetNumPOIsForDifficultyLevelAndZoneFunc and type(GetNumPOIsForDifficultyLevelAndZoneFunc) == "function" and
+           zoneIndex > 0 then
+            -- Use POI-based tracking (more accurate)
+            local poiSuccess, numPOIs = pcall(GetNumPOIsForDifficultyLevelAndZoneFunc, 1, zoneIndex) -- Difficulty 1 = normal
+            if poiSuccess and numPOIs and numPOIs > 0 then
+                local completedPOIs = 0
+                for poiIndex = 1, numPOIs do
+                    local poiInfoSuccess, _, _, _, completed = pcall(GetPOIInfoFunc, zoneIndex, poiIndex)
+                    if poiInfoSuccess and completed then
+                        completedPOIs = completedPOIs + 1
+                    end
+                end
+                if numPOIs > 0 then
+                    zoneCompletion.completionPercentage = math.floor((completedPOIs / numPOIs) * 100)
+                end
+            end
+        end
+        
+        -- Fallback: Manual calculation from multiple sources (existing logic)
+        if zoneCompletion.completionPercentage == 0 then
+            local completionComponents = {
+                wayshrines = 0,
+                skyshards = 0,
+                delves = 0,
+                publicDungeons = 0
+            }
+            
+            local totalComponents = {
+                wayshrines = 0,
+                skyshards = 0,
+                delves = 0,
+                publicDungeons = 0
+            }
+            
+            -- Wayshrines
+            local success1, numWayshrines = pcall(GetNumFastTravelNodes)
+            if success1 and numWayshrines then
+                totalComponents.wayshrines = numWayshrines
+                for i = 1, numWayshrines do
+                    local success2, known = pcall(IsFastTravelNodeKnown, i)
+                    if success2 and known then
+                        completionComponents.wayshrines = completionComponents.wayshrines + 1
+                    end
+                end
+            end
+            
+            -- Skyshards
+            local success3, numSkyshards = pcall(GetNumSkyshardsInZone)
+            if success3 and numSkyshards then
+                totalComponents.skyshards = numSkyshards
+                for i = 1, numSkyshards do
+                    local success4, collected = pcall(GetSkyshardCollectedInZone, i)
+                    if success4 and collected then
+                        completionComponents.skyshards = completionComponents.skyshards + 1
+                    end
+                end
+            end
+            
+            -- Delves
+            local success5, numDelves = pcall(GetNumDelvesInZone)
+            if success5 and numDelves then
+                totalComponents.delves = numDelves
+                for i = 1, numDelves do
+                    local success6, _, completed = pcall(GetDelveInfo, i)
+                    if success6 and completed then
+                        completionComponents.delves = completionComponents.delves + 1
+                    end
+                end
+            end
+            
+            -- Public Dungeons
+            local success7, numPublicDungeons = pcall(GetNumPublicDungeonsInZone)
+            if success7 and numPublicDungeons then
+                totalComponents.publicDungeons = numPublicDungeons
+                for i = 1, numPublicDungeons do
+                    local success8, _, completed = pcall(GetPublicDungeonInfo, i)
+                    if success8 and completed then
+                        completionComponents.publicDungeons = completionComponents.publicDungeons + 1
+                    end
+                end
+            end
+            
+            -- Calculate weighted completion percentage
+            -- Wayshrines: 25%, Skyshards: 25%, Delves: 25%, Public Dungeons: 25%
+            local totalWeight = 0
+            local completedWeight = 0
+            
+            -- Wayshrines (25%)
+            if totalComponents.wayshrines > 0 then
+                local weight = 25
+                totalWeight = totalWeight + weight
+                completedWeight = completedWeight + (weight * (completionComponents.wayshrines / totalComponents.wayshrines))
+            end
+            
+            -- Skyshards (25%)
+            if totalComponents.skyshards > 0 then
+                local weight = 25
+                totalWeight = totalWeight + weight
+                completedWeight = completedWeight + (weight * (completionComponents.skyshards / totalComponents.skyshards))
+            end
+            
+            -- Delves (25%)
+            if totalComponents.delves > 0 then
+                local weight = 25
+                totalWeight = totalWeight + weight
+                completedWeight = completedWeight + (weight * (completionComponents.delves / totalComponents.delves))
+            end
+            
+            -- Public Dungeons (25%)
+            if totalComponents.publicDungeons > 0 then
+                local weight = 25
+                totalWeight = totalWeight + weight
+                completedWeight = completedWeight + (weight * (completionComponents.publicDungeons / totalComponents.publicDungeons))
+            end
+            
+            -- Calculate final percentage
+            if totalWeight > 0 then
+                zoneCompletion.completionPercentage = math.floor((completedWeight / totalWeight) * 100)
+            end
+            
+            -- If still 0, and we have at least some components, ensure minimum 1% if any progress made
+            if zoneCompletion.completionPercentage == 0 and totalWeight > 0 then
+                -- Check if any components were found
+                if completionComponents.wayshrines > 0 or completionComponents.skyshards > 0 or 
+                   completionComponents.delves > 0 or completionComponents.publicDungeons > 0 then
+                    zoneCompletion.completionPercentage = 1  -- At least show some progress
+                end
+            end
         end
         
         -- Store current zone data

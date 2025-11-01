@@ -159,32 +159,43 @@ function CM.Settings.Panel:AddFilterManagerSection(options)
     if not CM.Settings.FilterManager then
         local FilterManager = require("src/settings/FilterManager")
         CM.Settings.FilterManager = FilterManager
-        CM.Settings.FilterManager:Initialize()
+        if CM.Settings.FilterManager.Initialize then
+            CM.Settings.FilterManager:Initialize()
+        end
     end
     
-    -- Active filter dropdown
-    table.insert(options, {
-        type = "dropdown",
-        name = "Active Filter",
-        tooltip = "Select an active filter to apply to your character data display",
-        choices = function()
-            local choices = {"None"}
-            local choicesValues = {"None"}
-            
-            -- Add user filters
-            for name, _ in pairs(CM.settings.filters or {}) do
+    -- Build choices list for dropdown
+    local function GetFilterChoices()
+        local choices = {"None"}
+        local choicesValues = {"None"}
+        
+        -- Add user filters
+        if CM.settings and CM.settings.filters then
+            for name, _ in pairs(CM.settings.filters) do
                 table.insert(choices, name)
                 table.insert(choicesValues, name)
             end
-            
-            -- Add preset filters
+        end
+        
+        -- Add preset filters
+        if CM.Settings.FilterManager and CM.Settings.FilterManager.FILTER_PRESETS then
             for name, _ in pairs(CM.Settings.FilterManager.FILTER_PRESETS) do
                 table.insert(choices, name .. " (Preset)")
                 table.insert(choicesValues, name)
             end
-            
-            return choices, choicesValues
-        end,
+        end
+        
+        return choices, choicesValues
+    end
+    
+    -- Active filter dropdown
+    local filterChoices, filterChoicesValues = GetFilterChoices()
+    table.insert(options, {
+        type = "dropdown",
+        name = "Active Filter",
+        tooltip = "Select an active filter to apply to your character data display",
+        choices = filterChoices,
+        choicesValues = filterChoicesValues,
         getFunc = function() return CM.settings.activeFilter or "None" end,
         setFunc = function(value)
             if value ~= "None" then
@@ -293,17 +304,18 @@ function CM.Settings.Panel:AddCoreSections(options)
         default = true,
     })
     
-    table.insert(options, {
-        type = "checkbox",
-        name = "  ↳ Include CP Visual Diagram",
-        tooltip = "Show a Mermaid diagram visualizing your invested Champion Points (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. ⚠️ EXPERIMENTAL FEATURE - May not render correctly in all viewers.",
-        getFunc = function() return CM.settings.includeChampionDiagram end,
-        setFunc = function(value) CM.settings.includeChampionDiagram = value end,
-        disabled = function() return not CM.settings.includeChampionPoints end,
-        width = "half",
-        default = false,
-        warning = "Experimental feature - Code is complete but not fully tested.",
-    })
+    -- EXPERIMENTAL: CP Visual Diagram - Hidden from UI for now, code kept for future work
+    -- table.insert(options, {
+    --     type = "checkbox",
+    --     name = "  ↳ Include CP Visual Diagram",
+    --     tooltip = "Show a Mermaid diagram visualizing your invested Champion Points (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. ⚠️ EXPERIMENTAL FEATURE - May not render correctly in all viewers.",
+    --     getFunc = function() return CM.settings.includeChampionDiagram end,
+    --     setFunc = function(value) CM.settings.includeChampionDiagram = value end,
+    --     disabled = function() return not CM.settings.includeChampionPoints end,
+    --     width = "half",
+    --     default = false,
+    --     warning = "Experimental feature - Code is complete but not fully tested.",
+    -- })
     
     table.insert(options, {
         type = "checkbox",
@@ -316,16 +328,6 @@ function CM.Settings.Panel:AddCoreSections(options)
         default = false,
     })
     
-    table.insert(options, {
-        type = "checkbox",
-        name = "  ↳ Show Slottable Only",
-        tooltip = "Show only slottable Champion Point skills (skills that can be equipped to Champion Bar). Useful for build optimization and Discord sharing.",
-        getFunc = function() return CM.settings.includeChampionSlottableOnly end,
-        setFunc = function(value) CM.settings.includeChampionSlottableOnly = value end,
-        disabled = function() return not CM.settings.includeChampionPoints end,
-        width = "half",
-        default = false,
-    })
     
     table.insert(options, {
         type = "checkbox",
@@ -553,13 +555,13 @@ function CM.Settings.Panel:AddExtendedSections(options)
     
     table.insert(options, {
         type = "checkbox",
-        name = "  ↳ Show In-Progress Only",
-        tooltip = "Show only achievements that are currently in progress (have some progress but not completed). Useful for goal tracking.",
-        getFunc = function() return CM.settings.includeAchievementsInProgress end,
-        setFunc = function(value) CM.settings.includeAchievementsInProgress = value end,
+        name = "  ↳ Show All Achievements",
+        tooltip = "Show all achievements. When disabled, shows only achievements that are currently in progress (have some progress but not completed). Useful for goal tracking when disabled.",
+        getFunc = function() return CM.settings.showAllAchievements ~= false end,
+        setFunc = function(value) CM.settings.showAllAchievements = value end,
         disabled = function() return not CM.settings.includeAchievements end,
         width = "half",
-        default = false,
+        default = true,
     })
     
     table.insert(options, {
@@ -585,13 +587,13 @@ function CM.Settings.Panel:AddExtendedSections(options)
     
     table.insert(options, {
         type = "checkbox",
-        name = "  ↳ Show Active Quests Only",
-        tooltip = "Show only currently active quests. Useful for current objective tracking.",
-        getFunc = function() return CM.settings.includeQuestsActiveOnly end,
-        setFunc = function(value) CM.settings.includeQuestsActiveOnly = value end,
+        name = "  ↳ Show All Quests",
+        tooltip = "Show all quests. When disabled, shows only currently active quests. Useful for current objective tracking when disabled.",
+        getFunc = function() return CM.settings.showAllQuests ~= false end,
+        setFunc = function(value) CM.settings.showAllQuests = value end,
         disabled = function() return not CM.settings.includeQuests end,
         width = "half",
-        default = false,
+        default = true,
     })
     
     table.insert(options, {
@@ -672,7 +674,7 @@ function CM.Settings.Panel:AddSkillFilters(options)
     table.insert(options, {
         type = "slider",
         name = "Minimum Skill Rank",
-        tooltip = "Only show skills at this rank or higher (reduces clutter)",
+        tooltip = "Show skills at this rank or higher (filters out lower rank skills to reduce clutter)",
         min = 1,
         max = 50,
         step = 1,
@@ -684,12 +686,22 @@ function CM.Settings.Panel:AddSkillFilters(options)
     
     table.insert(options, {
         type = "checkbox",
-        name = "Hide Maxed Skills",
-        tooltip = "Only show skills that are still progressing",
-        getFunc = function() return CM.settings.hideMaxedSkills end,
-        setFunc = function(value) CM.settings.hideMaxedSkills = value end,
+        name = "Show Maxed Skills",
+        tooltip = "Show maxed (fully leveled) skills. When disabled, only shows skills that are still progressing.",
+        getFunc = function() return CM.settings.showMaxedSkills ~= false end,
+        setFunc = function(value) CM.settings.showMaxedSkills = value end,
         width = "half",
-        default = false,
+        default = true,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Show All Riding Skills",
+        tooltip = "Show all riding skills. When disabled, only shows skills that are not maxed (still need training).",
+        getFunc = function() return CM.settings.showAllRidingSkills ~= false end,
+        setFunc = function(value) CM.settings.showAllRidingSkills = value end,
+        width = "half",
+        default = true,
     })
 end
 
@@ -792,7 +804,7 @@ function CM.Settings.Panel:AddEquipmentFilters(options)
     table.insert(options, {
         type = "dropdown",
         name = "Minimum Equipment Quality",
-        tooltip = "Only show items of this quality or higher",
+        tooltip = "Show items of this quality or higher (filters out lower quality items)",
         choices = {"All", "Green", "Blue", "Purple", "Gold"},
         choicesValues = {0, 2, 3, 4, 5},
         getFunc = function() return CM.settings.minEquipQuality end,
@@ -846,7 +858,6 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includeChampionPoints = true
             -- CM.settings.includeChampionDiagram = true  -- Keep disabled (experimental)
             CM.settings.includeChampionDetailed = true  -- Enable detailed CP analysis
-            CM.settings.includeChampionSlottableOnly = false  -- Show all CP skills
             CM.settings.includeSkillBars = true
             CM.settings.includeSkills = true
             CM.settings.includeSkillMorphs = true  -- Enable morphs when enabling all
@@ -873,10 +884,10 @@ function CM.Settings.Panel:AddActions(options)
             CM.settings.includeCrafting = true
             CM.settings.includeAchievements = true  -- Enable achievement tracking
             CM.settings.includeAchievementsDetailed = true  -- Enable detailed achievements
-            CM.settings.includeAchievementsInProgress = false  -- Show all achievements
+            CM.settings.showAllAchievements = true  -- Show all achievements
             CM.settings.includeQuests = true  -- Enable quest tracking
             CM.settings.includeQuestsDetailed = true  -- Enable detailed quest categories
-            CM.settings.includeQuestsActiveOnly = false  -- Show all quests
+            CM.settings.showAllQuests = true  -- Show all quests
             CM.settings.includeEquipmentEnhancement = true  -- Enable equipment analysis
             CM.settings.includeEquipmentAnalysis = true  -- Enable detailed equipment analysis
             CM.settings.includeEquipmentRecommendations = true  -- Enable optimization recommendations

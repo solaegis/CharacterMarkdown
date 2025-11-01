@@ -107,84 +107,8 @@ end
 -- =====================================================
 -- CHAMPION POINTS
 -- =====================================================
-
-local function GenerateChampionPoints(cpData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    local totalCP = cpData.total or 0
-    
-    if format == "discord" then
-        markdown = markdown .. "**Champion Points:**\n"
-    else
-        markdown = markdown .. "## ⭐ Champion Points\n\n"
-    end
-    
-    if totalCP < 10 then
-        markdown = markdown .. "*Champion Point system unlocks at Level 50*\n\n"
-    else
-        local spentCP = cpData.spent or 0
-        local availableCP = totalCP - spentCP
-        
-        if format == "discord" then
-            markdown = markdown .. "Total: " .. FormatNumber(totalCP) .. " | "
-            markdown = markdown .. "Spent: " .. FormatNumber(spentCP) .. " | "
-            markdown = markdown .. "Available: " .. FormatNumber(availableCP) .. "\n"
-            
-            if cpData.disciplines and #cpData.disciplines > 0 then
-                for _, discipline in ipairs(cpData.disciplines) do
-                    markdown = markdown .. (discipline.emoji or "⚔️") .. " **" .. discipline.name .. "** (" .. FormatNumber(discipline.total) .. ")\n"
-                    if discipline.skills and #discipline.skills > 0 then
-                        for _, skill in ipairs(discipline.skills) do
-                            local skillText = CreateCPSkillLink(skill.name, format)
-                            markdown = markdown .. "• " .. skillText .. ": " .. skill.points .. "\n"
-                        end
-                    end
-                    markdown = markdown .. "\n"
-                end
-            end
-        else
-            -- Compact table format
-            markdown = markdown .. "| Category | Value |\n"
-            markdown = markdown .. "|:---------|------:|\n"
-            markdown = markdown .. "| **Total** | " .. FormatNumber(totalCP) .. " |\n"
-            markdown = markdown .. "| **Spent** | " .. FormatNumber(spentCP) .. " |\n"
-            if availableCP > 0 then
-                markdown = markdown .. "| **Available** | " .. FormatNumber(availableCP) .. " ⚠️ |\n"
-            else
-                markdown = markdown .. "| **Available** | " .. FormatNumber(availableCP) .. " |\n"
-            end
-            markdown = markdown .. "\n"
-            
-            if cpData.disciplines and #cpData.disciplines > 0 then
-                -- Calculate max possible points per discipline (CP 3.0 system allows up to 660 per tree)
-                local maxPerDiscipline = 660
-                
-                for _, discipline in ipairs(cpData.disciplines) do
-                    local disciplinePercent = math.floor((discipline.total / maxPerDiscipline) * 100)
-                    local progressBar = GenerateProgressBar(disciplinePercent, 12)
-                    
-                    markdown = markdown .. "### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. 
-                                         " (" .. FormatNumber(discipline.total) .. "/" .. maxPerDiscipline .. " points) " .. 
-                                         progressBar .. " " .. disciplinePercent .. "%\n\n"
-                    if discipline.skills and #discipline.skills > 0 then
-                        for _, skill in ipairs(discipline.skills) do
-                            local skillText = CreateCPSkillLink(skill.name, format)
-                            local pointText = skill.points == 1 and "point" or "points"
-                            markdown = markdown .. "- **" .. skillText .. "**: " .. skill.points .. " " .. pointText .. "\n"
-                        end
-                        markdown = markdown .. "\n"
-                    end
-                end
-            end
-            
-            markdown = markdown .. "---\n\n"
-        end
-    end
-    
-    return markdown
-end
+-- NOTE: GenerateChampionPoints is now implemented in ChampionPoints.lua
+-- This section is kept for reference but the function is exported from ChampionPoints.lua
 
 -- =====================================================
 -- COLLECTIBLES
@@ -319,7 +243,7 @@ end
 CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateDLCAccess = GenerateDLCAccess
 CM.generators.sections.GenerateMundus = GenerateMundus
-CM.generators.sections.GenerateChampionPoints = GenerateChampionPoints
+-- GenerateChampionPoints is exported from ChampionPoints.lua (not here)
 CM.generators.sections.GenerateCollectibles = GenerateCollectibles
 CM.generators.sections.GenerateCrafting = GenerateCrafting
 

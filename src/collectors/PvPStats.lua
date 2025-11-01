@@ -28,12 +28,13 @@ local function CollectPvPStatsData()
         }
     }
     
-    -- Get PvP rank
-    local success, rank = pcall(GetUnitAvARank, "player")
-    if success and rank then
+    -- Get PvP rank (same method as Quick Stats in World.lua)
+    local rank = CM.SafeCall(GetUnitAvARank, "player") or 0
+    if rank and rank > 0 then
         pvpStats.rank = rank
-        local success2, rankName = pcall(GetAvARankName, GetUnitGender("player"), rank)
-        if success2 and rankName then
+        local gender = CM.SafeCall(GetUnitGender, "player")
+        local rankName = CM.SafeCall(GetAvARankName, gender, rank)
+        if rankName and rankName ~= "" then
             pvpStats.rankName = rankName
         end
     end

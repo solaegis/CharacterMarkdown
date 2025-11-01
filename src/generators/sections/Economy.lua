@@ -90,17 +90,34 @@ end
 local function GenerateRidingSkills(ridingData, format)
     local markdown = ""
     
+    -- Check setting for showing all vs only non-maxed
+    local settings = CharacterMarkdownSettings or {}
+    local showAllRiding = settings.showAllRidingSkills ~= false  -- Default to true (show all)
+    
+    -- Build list of skills to show
+    local skillsToShow = {}
+    if showAllRiding or ridingData.speed < 60 then
+        table.insert(skillsToShow, {name = "Speed", value = ridingData.speed, max = 60, emoji = "🏃"})
+    end
+    if showAllRiding or ridingData.stamina < 60 then
+        table.insert(skillsToShow, {name = "Stamina", value = ridingData.stamina, max = 60, emoji = "💨"})
+    end
+    if showAllRiding or ridingData.capacity < 60 then
+        table.insert(skillsToShow, {name = "Capacity", value = ridingData.capacity, max = 60, emoji = "📦"})
+    end
+    
+    -- Don't show section if all skills are maxed and setting is OFF
+    if not showAllRiding and #skillsToShow == 0 then
+        return ""
+    end
+    
     if format == "discord" then
         markdown = markdown .. "**Riding Skills:**\n"
-        markdown = markdown .. "• Speed: " .. ridingData.speed .. "/60"
-        if ridingData.speed >= 60 then markdown = markdown .. " ✅" end
-        markdown = markdown .. "\n"
-        markdown = markdown .. "• Stamina: " .. ridingData.stamina .. "/60"
-        if ridingData.stamina >= 60 then markdown = markdown .. " ✅" end
-        markdown = markdown .. "\n"
-        markdown = markdown .. "• Capacity: " .. ridingData.capacity .. "/60"
-        if ridingData.capacity >= 60 then markdown = markdown .. " ✅" end
-        markdown = markdown .. "\n"
+        for _, skill in ipairs(skillsToShow) do
+            markdown = markdown .. "• " .. skill.name .. ": " .. skill.value .. "/" .. skill.max
+            if skill.value >= skill.max then markdown = markdown .. " ✅" end
+            markdown = markdown .. "\n"
+        end
         if ridingData.allMaxed then
             markdown = markdown .. "✅ All maxed!\n"
         elseif ridingData.trainingAvailable then
@@ -111,12 +128,10 @@ local function GenerateRidingSkills(ridingData, format)
         markdown = markdown .. "## 🐎 Riding Skills\n\n"
         markdown = markdown .. "| Skill | Progress | Status |\n"
         markdown = markdown .. "|:------|:---------|:-------|\n"
-        local speedStatus = ridingData.speed >= 60 and "✅ Maxed" or "📈 Training"
-        local staminaStatus = ridingData.stamina >= 60 and "✅ Maxed" or "📈 Training"
-        local capacityStatus = ridingData.capacity >= 60 and "✅ Maxed" or "📈 Training"
-        markdown = markdown .. "| **Speed** | " .. ridingData.speed .. " / 60 | " .. speedStatus .. " |\n"
-        markdown = markdown .. "| **Stamina** | " .. ridingData.stamina .. " / 60 | " .. staminaStatus .. " |\n"
-        markdown = markdown .. "| **Capacity** | " .. ridingData.capacity .. " / 60 | " .. capacityStatus .. " |\n"
+        for _, skill in ipairs(skillsToShow) do
+            local status = skill.value >= skill.max and "✅ Maxed" or "📈 Training"
+            markdown = markdown .. "| **" .. skill.name .. "** | " .. skill.value .. " / " .. skill.max .. " | " .. status .. " |\n"
+        end
         markdown = markdown .. "\n"
         if ridingData.allMaxed then
             markdown = markdown .. "✅ **All riding skills maxed!**\n\n"
