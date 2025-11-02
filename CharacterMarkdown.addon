@@ -2,7 +2,7 @@
 ## Author: solaegis
 ## Version: @project-version@
 ## AddOnVersion: @project-version@
-## APIVersion: 101048 101049
+## APIVersion: 101049
 ## SavedVariables: CharacterMarkdownSettings 1
 ## SavedVariablesPerCharacter: CharacterMarkdownData 1
 ## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=180

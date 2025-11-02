@@ -26,6 +26,12 @@ local function GenerateCurrency(currencyData, format)
     if format == "discord" then
         markdown = markdown .. "**Currency:**\n"
         markdown = markdown .. "• Gold: " .. FormatNumber(currencyData.gold) .. "\n"
+        if currencyData.goldBank and currencyData.goldBank > 0 then
+            markdown = markdown .. "• Gold (Bank): " .. FormatNumber(currencyData.goldBank) .. "\n"
+        end
+        if currencyData.goldTotal and currencyData.goldTotal > 0 then
+            markdown = markdown .. "• Gold (Total): " .. FormatNumber(currencyData.goldTotal) .. "\n"
+        end
         if currencyData.alliancePoints > 0 then
             markdown = markdown .. "• AP: " .. FormatNumber(currencyData.alliancePoints) .. "\n"
         end
@@ -49,7 +55,13 @@ local function GenerateCurrency(currencyData, format)
         markdown = markdown .. "## 💰 Currency & Resources\n\n"
         markdown = markdown .. "| Currency | Amount |\n"
         markdown = markdown .. "|:---------|-------:|\n"
-        markdown = markdown .. "| **💰 Gold** | " .. FormatNumber(currencyData.gold) .. " |\n"
+        markdown = markdown .. "| **💰 Gold (On Hand)** | " .. FormatNumber(currencyData.gold) .. " |\n"
+        if currencyData.goldBank and currencyData.goldBank > 0 then
+            markdown = markdown .. "| **💰 Gold (Bank)** | " .. FormatNumber(currencyData.goldBank) .. " |\n"
+        end
+        if currencyData.goldTotal and currencyData.goldTotal > 0 then
+            markdown = markdown .. "| **💰 Gold (Total)** | " .. FormatNumber(currencyData.goldTotal) .. " |\n"
+        end
         if currencyData.alliancePoints > 0 then
             markdown = markdown .. "| **⚔️ Alliance Points** | " .. FormatNumber(currencyData.alliancePoints) .. " |\n"
         end
