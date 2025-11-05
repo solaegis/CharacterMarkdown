@@ -1,439 +1,102 @@
--- CharacterMarkdown v2.1.1 - Settings Defaults
--- Default values and schema for all addon settings
--- Author: solaegis
--- Enhanced with profiles support
-
-CharacterMarkdown = CharacterMarkdown or {}
-CharacterMarkdown.Settings = CharacterMarkdown.Settings or {}
-CharacterMarkdown.Settings.Defaults = {}
+-- CharacterMarkdown - Settings Defaults
+-- Defines default values for all settings
 
 local CM = CharacterMarkdown
 
--- =====================================================
--- DEFAULT VALUES
--- =====================================================
-
--- Core build sections (DEFAULT: ENABLED)
-CM.Settings.Defaults.CORE = {
-    includeChampionPoints = true,
-    includeChampionDiagram = false,  -- Visual mermaid diagram of invested CP (DISABLED - experimental feature)
-    includeChampionDetailed = false,  -- Show detailed CP allocation analysis (Phase 4)
-    includeSkillBars = true,
-    includeSkills = true,
-    includeSkillMorphs = false,  -- Show all available morphs for unlocked skills (disabled by default due to output size)
-    includeEquipment = true,
-    includeCompanion = true,
-    includeCombatStats = true,
-    includeBuffs = true,
-    includeAttributes = true,
-    includeRole = true,
-    includeLocation = true,
-    includeBuildNotes = true,  -- Include custom build notes in markdown output
-}
-
--- Extended info sections (DEFAULT: SELECTIVE)
-CM.Settings.Defaults.EXTENDED = {
-    includeDLCAccess = true,
-    includeCurrency = true,
-    includeProgression = true,  -- Achievement score, vampire/werewolf, enlightenment
-    includeRidingSkills = true,  -- Mount training progress
-    includeInventory = true,
-    includePvP = true,  -- Alliance War rank and campaign
-    includeCollectibles = true,
-    includeCollectiblesDetailed = false,  -- Show detailed lists of owned collectibles (off by default due to length)
-    includeCrafting = true,  -- Known motifs and research slots
-    includeAchievements = false,  -- Show detailed achievement tracking (Phase 5)
-    includeAchievementsDetailed = false,  -- Show achievement categories and progress (Phase 5)
-    showAllAchievements = true,  -- Show all achievements (Phase 5). When false, shows only in-progress achievements.
-    includeQuests = false,  -- Show quest tracking and progress (Phase 6)
-    includeQuestsDetailed = false,  -- Show quest categories and zones (Phase 6)
-    showAllQuests = true,  -- Show all quests (Phase 6). When false, shows only active quests.
-    includeEquipmentEnhancement = false,  -- Show equipment analysis and optimization (Phase 7)
-    includeEquipmentAnalysis = false,  -- Show detailed equipment analysis (Phase 7)
-    includeEquipmentRecommendations = false,  -- Show optimization recommendations (Phase 7)
-    includeWorldProgress = true,  -- Show world progress (skyshards, lorebooks, zone completion, dungeons) (Phase 9)
-    includeTitlesHousing = true,  -- Show titles and housing collections (Phase 10)
-    includePvPStats = true,  -- Show PvP statistics and campaign data (Phase 10)
-    includeArmoryBuilds = true,  -- Show armory builds and templates (Phase 10)
-    includeTalesOfTribute = true,  -- Show Tales of Tribute progress (Phase 10)
-    includeUndauntedPledges = true,  -- Show Undaunted pledges and dungeon progress (Phase 10)
-    includeGuilds = true,  -- Show guild membership information
-}
-
--- Link settings
-CM.Settings.Defaults.LINKS = {
-    enableAbilityLinks = true,
-    enableSetLinks = true,
-}
-
--- Skill filters
-CM.Settings.Defaults.SKILL_FILTERS = {
-    minSkillRank = 1,
-    showMaxedSkills = true,
-    showAllRidingSkills = true,  -- Show all riding skills. When false, shows only skills not maxed.
-}
-
--- Equipment filters
-CM.Settings.Defaults.EQUIPMENT_FILTERS = {
-    minEquipQuality = 0,  -- 0=All, 2=Green, 3=Blue, 4=Purple, 5=Gold
-    hideEmptySlots = false,
-}
-
--- Output format
-CM.Settings.Defaults.FORMAT = {
-    currentFormat = "github",  -- "github", "vscode", "discord", "quick"
-}
-
--- Custom notes (per-character)
-CM.Settings.Defaults.NOTES = {
-    customNotes = "",
-}
-
--- Filter manager settings
-CM.Settings.Defaults.FILTERS = {
-    activeFilter = "None",
-    filters = {},
-    filterPresets = {},
-}
+CM.Settings = CM.Settings or {}
+CM.Settings.Defaults = {}
 
 -- =====================================================
--- PRESET PROFILES
--- =====================================================
-
-CM.Settings.Defaults.PROFILES = {
-    -- Full profile (everything enabled)
-    ["Full Documentation"] = {
-        name = "Full Documentation",
-        description = "Maximum detail with all sections enabled",
-        includeChampionPoints = true,
-        includeChampionDiagram = false,
-        includeChampionDetailed = true,  -- Enable detailed CP analysis
-        includeSkillBars = true,
-        includeSkills = true,
-        includeSkillMorphs = false,
-        includeEquipment = true,
-        includeCompanion = true,
-        includeCombatStats = true,
-        includeBuffs = true,
-        includeAttributes = true,
-        includeRole = true,
-        includeLocation = true,
-        includeBuildNotes = true,
-        includeDLCAccess = true,
-        includeCurrency = true,
-        includeProgression = true,
-        includeRidingSkills = true,
-        includeInventory = true,
-        includePvP = true,
-        includeCollectibles = true,
-        includeCollectiblesDetailed = false,
-        includeCrafting = true,
-        includeAchievements = true,  -- Enable achievement tracking
-        includeAchievementsDetailed = true,  -- Enable detailed achievements
-        showAllAchievements = true,  -- Show all achievements
-        includeQuests = true,  -- Enable quest tracking
-        includeQuestsDetailed = true,  -- Enable detailed quest categories
-        showAllQuests = true,  -- Show all quests
-        includeEquipmentEnhancement = true,  -- Enable equipment analysis
-        includeEquipmentAnalysis = true,  -- Enable detailed equipment analysis
-        includeEquipmentRecommendations = true,  -- Enable optimization recommendations
-        includeWorldProgress = true,  -- Enable world progress tracking
-        includeTitlesHousing = true,  -- Enable titles and housing
-        includePvPStats = true,  -- Enable PvP statistics
-        includeArmoryBuilds = true,  -- Enable armory builds
-        includeTalesOfTribute = true,  -- Enable Tales of Tribute
-        includeUndauntedPledges = true,  -- Enable Undaunted pledges
-        enableAbilityLinks = true,
-        enableSetLinks = true,
-        minSkillRank = 1,
-        showMaxedSkills = true,
-        minEquipQuality = 0,
-        hideEmptySlots = false,
-        currentFormat = "github",
-    },
-    
-    -- PvE build profile
-    ["PvE Build"] = {
-        name = "PvE Build",
-        description = "Focus on build essentials for trials/dungeons",
-        includeChampionPoints = true,
-        includeChampionDiagram = false,
-        includeChampionDetailed = true,  -- Enable detailed CP for PvE builds
-        includeSkillBars = true,
-        includeSkills = true,
-        includeSkillMorphs = false,
-        includeEquipment = true,
-        includeCompanion = false,
-        includeCombatStats = true,
-        includeBuffs = true,
-        includeAttributes = true,
-        includeRole = true,
-        includeLocation = false,
-        includeBuildNotes = true,
-        includeDLCAccess = true,
-        includeCurrency = false,
-        includeProgression = false,
-        includeRidingSkills = false,
-        includeInventory = false,
-        includePvP = false,
-        includeCollectibles = false,
-        includeCollectiblesDetailed = false,
-        includeCrafting = false,
-        includeAchievements = true,  -- Enable for PvE builds
-        includeAchievementsDetailed = false,  -- Keep compact
-        showAllAchievements = false,  -- Show only in-progress achievements (focus mode)
-        includeQuests = true,  -- Enable for PvE builds
-        includeQuestsDetailed = false,  -- Keep compact
-        showAllQuests = false,  -- Show only active quests (focus mode)
-        includeEquipmentEnhancement = true,  -- Enable for PvE builds
-        includeEquipmentAnalysis = false,  -- Keep compact
-        includeEquipmentRecommendations = true,  -- Focus on recommendations
-        includeWorldProgress = true,  -- Enable world progress for PvE
-        includeTitlesHousing = true,  -- Enable for PvE builds
-        includePvPStats = false,  -- Not relevant for PvE
-        includeArmoryBuilds = true,  -- Enable for PvE builds
-        includeTalesOfTribute = true,  -- Enable for PvE builds
-        includeUndauntedPledges = true,  -- Enable for PvE builds
-        enableAbilityLinks = true,
-        enableSetLinks = true,
-        minSkillRank = 1,
-        showMaxedSkills = true,
-        minEquipQuality = 4,  -- Purple+
-        hideEmptySlots = true,
-        currentFormat = "github",
-    },
-    
-    -- PvP build profile
-    ["PvP Build"] = {
-        name = "PvP Build",
-        description = "Optimized for Cyrodiil/Battlegrounds",
-        includeChampionPoints = true,
-        includeChampionDiagram = false,
-        includeChampionDetailed = true,  -- Enable detailed CP for PvP builds
-        includeSkillBars = true,
-        includeSkills = true,
-        includeSkillMorphs = false,
-        includeEquipment = true,
-        includeCompanion = false,
-        includeCombatStats = true,
-        includeBuffs = true,
-        includeAttributes = true,
-        includeRole = false,
-        includeLocation = true,
-        includeBuildNotes = true,
-        includeDLCAccess = false,
-        includeCurrency = false,
-        includeProgression = false,
-        includeRidingSkills = true,  -- Important for PvP
-        includeInventory = false,
-        includePvP = true,
-        includeCollectibles = false,
-        includeCollectiblesDetailed = false,
-        includeCrafting = false,
-        includeAchievements = true,  -- Enable for PvP builds
-        includeAchievementsDetailed = false,  -- Keep compact
-        showAllAchievements = false,  -- Show only in-progress achievements (focus mode)
-        includeQuests = true,  -- Enable for PvP builds
-        includeQuestsDetailed = false,  -- Keep compact
-        showAllQuests = false,  -- Show only active quests (focus mode)
-        includeEquipmentEnhancement = true,  -- Enable for PvP builds
-        includeEquipmentAnalysis = false,  -- Keep compact
-        includeEquipmentRecommendations = true,  -- Focus on recommendations
-        includeWorldProgress = false,  -- Disable world progress for PvP (not relevant)
-        includeTitlesHousing = true,  -- Enable for PvP builds
-        includePvPStats = true,  -- Enable for PvP builds
-        includeArmoryBuilds = true,  -- Enable for PvP builds
-        includeTalesOfTribute = false,  -- Not relevant for PvP
-        includeUndauntedPledges = false,  -- Not relevant for PvP
-        enableAbilityLinks = true,
-        enableSetLinks = true,
-        minSkillRank = 1,
-        showMaxedSkills = true,
-        minEquipQuality = 4,  -- Purple+
-        hideEmptySlots = true,
-        currentFormat = "github",
-    },
-    
-    -- Discord share profile (compact)
-    ["Discord Share"] = {
-        name = "Discord Share",
-        description = "Compact format for Discord servers",
-        includeChampionPoints = true,
-        includeChampionDiagram = false,
-        includeChampionDetailed = false,  -- Keep compact for Discord
-        includeSkillBars = true,
-        includeSkills = false,  -- Too long for Discord
-        includeSkillMorphs = false,
-        includeEquipment = true,
-        includeCompanion = false,
-        includeCombatStats = true,
-        includeBuffs = false,
-        includeAttributes = true,
-        includeRole = true,
-        includeLocation = false,
-        includeBuildNotes = true,
-        includeDLCAccess = false,
-        includeCurrency = false,
-        includeProgression = false,
-        includeRidingSkills = false,
-        includeInventory = false,
-        includePvP = false,
-        includeCollectibles = false,
-        includeCollectiblesDetailed = false,
-        includeCrafting = false,
-        includeAchievements = false,  -- Keep Discord compact
-        includeAchievementsDetailed = false,
-        includeAchievementsInProgress = false,
-        includeQuests = false,  -- Keep Discord compact
-        includeQuestsDetailed = false,
-        includeQuestsActiveOnly = false,
-        includeEquipmentEnhancement = false,  -- Keep Discord compact
-        includeEquipmentAnalysis = false,
-        includeEquipmentRecommendations = false,
-        includeWorldProgress = true,  -- Enable world progress for Discord (compact format)
-        includeTitlesHousing = true,  -- Enable for Discord (compact)
-        includePvPStats = true,  -- Enable for Discord (compact)
-        includeArmoryBuilds = false,  -- Keep Discord compact
-        includeTalesOfTribute = false,  -- Keep Discord compact
-        includeUndauntedPledges = false,  -- Keep Discord compact
-        enableAbilityLinks = true,
-        enableSetLinks = true,
-        minSkillRank = 1,
-        showMaxedSkills = true,
-        minEquipQuality = 4,  -- Purple+
-        hideEmptySlots = true,
-        currentFormat = "discord",
-    },
-    
-    -- Quick reference (minimal)
-    ["Quick Reference"] = {
-        name = "Quick Reference",
-        description = "Just the essentials",
-        includeChampionPoints = false,
-        includeChampionDiagram = false,
-        includeSkillBars = true,
-        includeSkills = false,
-        includeSkillMorphs = false,
-        includeEquipment = true,
-        includeCompanion = false,
-        includeCombatStats = false,
-        includeBuffs = false,
-        includeAttributes = false,
-        includeRole = true,
-        includeLocation = false,
-        includeBuildNotes = false,  -- Omit notes in quick reference
-        includeDLCAccess = false,
-        includeCurrency = false,
-        includeProgression = false,
-        includeRidingSkills = false,
-        includeInventory = false,
-        includePvP = false,
-        includeCollectibles = false,
-        includeCollectiblesDetailed = false,
-        includeCrafting = false,
-        enableAbilityLinks = false,
-        enableSetLinks = false,
-        minSkillRank = 1,
-        showMaxedSkills = true,
-        minEquipQuality = 0,
-        hideEmptySlots = true,
-        currentFormat = "quick",
-    },
-}
-
--- =====================================================
--- COMBINED DEFAULTS
+-- DEFAULT SETTINGS
 -- =====================================================
 
 function CM.Settings.Defaults:GetAll()
-    local defaults = {}
-    
-    -- Merge all settings categories
-    for k, v in pairs(self.CORE) do
-        defaults[k] = v
-    end
-    
-    for k, v in pairs(self.EXTENDED) do
-        defaults[k] = v
-    end
-    
-    for k, v in pairs(self.LINKS) do
-        defaults[k] = v
-    end
-    
-    for k, v in pairs(self.SKILL_FILTERS) do
-        defaults[k] = v
-    end
-    
-    for k, v in pairs(self.EQUIPMENT_FILTERS) do
-        defaults[k] = v
-    end
-    
-    for k, v in pairs(self.FORMAT) do
-        defaults[k] = v
-    end
-    
-    for k, v in pairs(self.NOTES) do
-        defaults[k] = v
-    end
-    
-    for k, v in pairs(self.FILTERS) do
-        defaults[k] = v
-    end
-    
-    return defaults
+    return {
+        -- ====================================
+        -- VISUAL ENHANCEMENT (NEW)
+        -- ====================================
+        enableEnhancedVisuals = true,  -- Use advanced markdown techniques (callouts, badges, collapsible sections, etc.)
+        
+        -- ====================================
+        -- FORMAT SETTINGS
+        -- ====================================
+        currentFormat = "github",  -- Default format: github, vscode, discord, quick
+        
+        -- ====================================
+        -- CORE CONTENT SECTIONS
+        -- ====================================
+        includeChampionPoints = true,
+        includeChampionDetailed = false,
+        -- includeChampionDiagram = false,  -- DISABLED: Experimental feature
+        includeSkillBars = true,
+        includeSkills = true,
+        includeSkillMorphs = false,  -- Show all morphable skills with choices
+        includeEquipment = true,
+        includeCombatStats = true,
+        includeCompanion = true,
+        includeBuffs = true,
+        includeAttributes = true,
+        includeDLCAccess = true,
+        includeRole = true,
+        includeLocation = true,
+        includeBuildNotes = true,  -- Include custom build notes
+        includeQuickStats = true,   -- Quick stats at top (GitHub/VSCode only)
+        includeAttentionNeeded = true,  -- Attention needed section (GitHub/VSCode only)
+        
+        -- ====================================
+        -- EXTENDED CONTENT SECTIONS
+        -- ====================================
+        includeCurrency = true,
+        includeProgression = false,
+        includeRidingSkills = false,
+        includeInventory = true,
+        includePvP = false,
+        includeCollectibles = true,
+        includeCollectiblesDetailed = false,  -- Show full lists vs counts
+        includeCrafting = false,
+        includeAchievements = false,  -- Achievement tracking (Phase 5)
+        includeAchievementsDetailed = false,  -- Detailed category breakdown
+        showAllAchievements = true,  -- Show all achievements vs in-progress only
+        includeQuests = false,  -- Quest tracking (Phase 6)
+        includeQuestsDetailed = false,  -- Detailed quest categories
+        showAllQuests = true,  -- Show all quests vs active only
+        includeEquipmentEnhancement = false,  -- Equipment analysis (Phase 7)
+        includeEquipmentAnalysis = false,  -- Detailed equipment analysis
+        includeEquipmentRecommendations = false,  -- Optimization recommendations
+        includeWorldProgress = false,  -- World progress tracking
+        includeTitlesHousing = false,  -- Titles and housing
+        includePvPStats = false,  -- PvP statistics
+        includeArmoryBuilds = false,  -- Armory builds
+        includeTalesOfTribute = false,  -- Tales of Tribute
+        includeUndauntedPledges = false,  -- Undaunted pledges
+        includeGuilds = false,  -- Guild membership
+        
+        -- ====================================
+        -- LINK SETTINGS
+        -- ====================================
+        enableAbilityLinks = true,  -- Add UESP wiki links to abilities
+        enableSetLinks = true,      -- Add UESP wiki links to armor sets
+        
+        -- ====================================
+        -- SKILL FILTERS
+        -- ====================================
+        minSkillRank = 1,           -- Minimum skill rank to show
+        hideMaxedSkills = false,    -- Hide fully maxed skill lines
+        showMaxedSkills = true,     -- Show maxed skills (inverse of hideMaxedSkills for LAM)
+        showAllRidingSkills = true, -- Show all riding skills vs incomplete only
+        
+        -- ====================================
+        -- EQUIPMENT FILTERS
+        -- ====================================
+        minEquipQuality = 0,        -- Minimum equipment quality (0=all, 2=green, 3=blue, 4=purple, 5=gold)
+        hideEmptySlots = false,     -- Hide equipment slots with no item
+        
+        -- ====================================
+        -- FILTER MANAGER (Phase 8)
+        -- ====================================
+        activeFilter = "None",      -- Currently active filter preset
+        filters = {},               -- User-saved filter presets
+    }
 end
 
--- =====================================================
--- PROFILE HELPERS
--- =====================================================
-
-function CM.Settings.Defaults:GetProfileNames()
-    local names = {}
-    for name, _ in pairs(self.PROFILES) do
-        table.insert(names, name)
-    end
-    table.sort(names)
-    return names
-end
-
-function CM.Settings.Defaults:GetProfile(name)
-    return self.PROFILES[name]
-end
-
--- =====================================================
--- VALIDATION HELPERS
--- =====================================================
-
-CM.Settings.Defaults.VALID_FORMATS = {
-    "github",
-    "vscode",
-    "discord",
-    "quick",
-}
-
-CM.Settings.Defaults.VALID_QUALITIES = {
-    [0] = "All",
-    [2] = "Green",
-    [3] = "Blue",
-    [4] = "Purple",
-    [5] = "Gold",
-}
-
-function CM.Settings.Defaults:IsValidFormat(format)
-    for _, validFormat in ipairs(self.VALID_FORMATS) do
-        if format == validFormat then
-            return true
-        end
-    end
-    return false
-end
-
-function CM.Settings.Defaults:IsValidQuality(quality)
-    return self.VALID_QUALITIES[quality] ~= nil
-end
-
--- Debug print (deferred until CM.DebugPrint is available)
-if CM.DebugPrint then
-    CM.DebugPrint("SETTINGS", "Defaults module loaded with " .. #CM.Settings.Defaults:GetProfileNames() .. " preset profiles")
-end
+CM.DebugPrint("SETTINGS", "Defaults module loaded")

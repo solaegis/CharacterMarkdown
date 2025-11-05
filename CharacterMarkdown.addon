@@ -20,6 +20,8 @@ src/Core.lua
 src/utils/Formatters.lua
 src/utils/Quality.lua
 src/utils/Stats.lua
+src/utils/AdvancedMarkdown.lua
+src/utils/TestValidation.lua
 
 ## Link generators (depend on utils)
 src/links/Abilities.lua

@@ -1,555 +1,723 @@
 -- CharacterMarkdown - Character Section Generators
--- Generates character-related markdown sections
+-- Generates character identity, overview, and header sections
 
 local CM = CharacterMarkdown
+CM.generators = CM.generators or {}
+CM.generators.sections = CM.generators.sections or {}
 
--- Cache for utility functions (lazy-initialized on first use)
-local CreateRaceLink, CreateClassLink, CreateAllianceLink, CreateZoneLink, CreateMundusLink, CreateBuffLink
-local FormatNumber, Pluralize
+local string_format = string.format
+local table_concat = table.concat
 
--- Lazy initialization of cached references
-local function InitializeUtilities()
-    if not FormatNumber then
-        CreateRaceLink = CM.links.CreateRaceLink
-        CreateClassLink = CM.links.CreateClassLink
-        CreateAllianceLink = CM.links.CreateAllianceLink
-        CreateZoneLink = CM.links.CreateZoneLink
-        CreateMundusLink = CM.links.CreateMundusLink
-        CreateBuffLink = CM.links.CreateBuffLink
-        FormatNumber = CM.utils.FormatNumber
-        Pluralize = CM.generators.helpers.Pluralize
-    end
-end
+-- Import advanced markdown utilities (with nil check)
+local markdown = (CM.utils and CM.utils.markdown) or nil
 
 -- =====================================================
--- QUICK SUMMARY
+-- QUICK SUMMARY (One-line format)
 -- =====================================================
 
-local function GenerateQuickSummary(characterData, equipmentData)
-    InitializeUtilities()
+local function GenerateQuickSummary(charData, equipmentData)
+    if not charData then return "ERROR: No character data" end
     
-    local name = characterData.name or "Unknown"
-    local level = characterData.level >= 50 and "L50" or "L" .. (characterData.level or 0)
-    local cp = characterData.cp > 0 and (" CP" .. FormatNumber(characterData.cp)) or ""
-    local race = (characterData.race or ""):sub(1, 4)
-    local class = (characterData.class or ""):sub(1, 2)
-    local esoPlusIndicator = characterData.esoPlus and " 👑" or ""
+    local name = charData.name or "Unknown"
+    local level = charData.level or 1
+    -- Fix: Use correct field name (cp, not championPoints)
+    local cp = charData.cp or 0
+    local race = charData.race or "Unknown"
+    local class = charData.class or "Unknown"
     
-    local sets = ""
-    if equipmentData.sets and #equipmentData.sets > 0 then
-        local topSets = {}
-        for i = 1, math.min(2, #equipmentData.sets) do
-            table.insert(topSets, equipmentData.sets[i].name .. "(" .. equipmentData.sets[i].count .. ")")
-        end
-        sets = " • " .. table.concat(topSets, ", ")
-    end
-    
-    return string.format("%s • %s%s%s • %s %s%s",
-        name, level, cp, esoPlusIndicator, race, class, sets)
-end
-
--- =====================================================
--- HEADER
--- =====================================================
-
-local function GenerateHeader(characterData, cpData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    -- Build name with title if present
-    local nameWithTitle = characterData.name or "Unknown"
-    if characterData.title and characterData.title ~= "" then
-        nameWithTitle = nameWithTitle .. ", *" .. characterData.title .. "*"
-    end
-    
-    if format == "discord" then
-        markdown = markdown .. "# **" .. nameWithTitle .. "**\n"
-        local raceText = CreateRaceLink(characterData.race, format)
-        local classText = CreateClassLink(characterData.class, format)
-        local allianceText = CreateAllianceLink(characterData.alliance, format)
-        markdown = markdown .. raceText .. " " .. classText .. 
-                              " • L" .. (characterData.level or 0)
-        if characterData.cp > 0 then
-            markdown = markdown .. " • CP" .. FormatNumber(characterData.cp)
-            -- Add CP discipline breakdown for Discord
-            if cpData and cpData.disciplines and #cpData.disciplines > 0 then
-                local disciplineParts = {}
-                for _, discipline in ipairs(cpData.disciplines) do
-                    table.insert(disciplineParts, discipline.name .. " " .. discipline.total)
-                end
-                markdown = markdown .. " (" .. table.concat(disciplineParts, " • ") .. ")"
+    -- Get top 2 sets
+    local sets = {}
+    if equipmentData and equipmentData.sets then
+        for setName, count in pairs(equipmentData.sets) do
+            if count >= 2 then
+                table.insert(sets, string_format("%s(%d)", setName, count))
             end
         end
-        if characterData.esoPlus then
-            markdown = markdown .. " • 👑 ESO Plus"
-        end
-        markdown = markdown .. "\n*" .. allianceText .. "*\n"
-    else
-        -- GitHub/VSCode: Character name with title as main header
-        markdown = markdown .. "# " .. nameWithTitle .. "\n\n"
+        table.sort(sets, function(a, b) 
+            local countA = tonumber(a:match("%((%d+)%)"))
+            local countB = tonumber(b:match("%((%d+)%)"))
+            return countA > countB
+        end)
     end
     
-    return markdown
+    local setStr = #sets > 0 and (" • " .. table_concat({sets[1], sets[2]}, ", ")) or ""
+    
+    return string_format("%s • L%d CP%d • %s %s%s", 
+        name, level, cp, race, class, setStr)
 end
 
+CM.generators.sections.GenerateQuickSummary = GenerateQuickSummary
+
 -- =====================================================
--- QUICK STATS (CONSOLIDATED)
+-- ENHANCED HEADER with Badges
 -- =====================================================
 
-local function GenerateQuickStats(characterData, progressionData, currencyData, equipmentData, cpData, inventoryData, format)
-    InitializeUtilities()
+local function GenerateHeader(charData, format)
+    if not charData then return "# Unknown Character\n\n" end
     
-    local markdown = ""
+    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
     
-    markdown = markdown .. "## 🎯 Quick Stats\n\n"
+    local name = charData.name or "Unknown"
+    local title = charData.title or ""
+    local race = charData.race or "Unknown"
+    local class = charData.class or "Unknown"
+    local alliance = charData.alliance or "Unknown"
+    local level = charData.level or 1
+    -- Fix: Use correct field name (cp, not championPoints)
+    local cp = charData.cp or 0
+    local isESOPlus = charData.esoPlus or false
     
-    -- Determine primary role based on attributes
-    local attrs = characterData.attributes or {magicka = 0, health = 0, stamina = 0}
-    local primaryRole = "Balanced"
-    if attrs.magicka > attrs.stamina and attrs.magicka > attrs.health then
-        primaryRole = "Magicka DPS"
-    elseif attrs.stamina > attrs.magicka and attrs.stamina > attrs.health then
-        primaryRole = "Stamina DPS"
-    elseif attrs.health > attrs.magicka and attrs.health > attrs.stamina then
-        primaryRole = "Tank"
+    -- Use character name as H1, append title if set (format: "Name" or "Name (Title)")
+    local displayTitle = name
+    if title ~= "" then
+        displayTitle = string_format("%s (%s)", name, title)
     end
     
-    -- Get primary sets
-    local primarySets = "None"
-    if equipmentData.sets and #equipmentData.sets > 0 then
-        local setParts = {}
-        for i = 1, math.min(2, #equipmentData.sets) do
-            local set = equipmentData.sets[i]
-            if set.count >= 5 then
-                table.insert(setParts, set.name)
-            end
+    if not enhanced or format == "discord" or not markdown then
+        -- Classic format
+        local header = string_format("# %s\n\n", displayTitle)
+        header = header .. string_format("**%s %s**  \n", race, class)
+        header = header .. string_format("**Level %d • CP %d • %s**\n\n", level, cp, alliance)
+        if isESOPlus then
+            header = header .. "✨ *ESO Plus Active*\n\n"
         end
-        if #setParts > 0 then
-            primarySets = table.concat(setParts, " • ")
+        return header
+    end
+    
+    -- ENHANCED FORMAT with badges (with nil checks)
+    if not markdown.CreateBadgeRow or not markdown.CreateCenteredBlock then
+        -- Fallback to classic if functions don't exist
+        local header = string_format("# %s\n\n", displayTitle)
+        header = header .. string_format("**%s %s**  \n", race, class)
+        header = header .. string_format("**Level %d • CP %d • %s**\n\n", level, cp, alliance)
+        return header
+    end
+    
+    local badges = {
+        {label = "Level", value = level, color = "blue"},
+        {label = "CP", value = cp, color = "purple"},
+        {label = "Class", value = class:gsub(" ", "_"), color = "green"},
+    }
+    
+    if isESOPlus then
+        table.insert(badges, {label = "ESO+", value = "Active", color = "gold"})
+    end
+    
+    local badgeRow = markdown.CreateBadgeRow(badges) or ""
+    
+    local header = markdown.CreateCenteredBlock(string_format([[
+# %s
+
+%s
+
+**%s %s • %s Alliance**
+]], displayTitle, badgeRow, race, class, alliance)) or string_format("# %s\n\n**%s %s • %s Alliance**\n\n", displayTitle, race, class, alliance)
+    
+    header = header .. "---\n\n"
+    
+    return header
+end
+
+CM.generators.sections.GenerateHeader = GenerateHeader
+
+-- =====================================================
+-- QUICK STATS (At-a-glance info box)
+-- =====================================================
+
+local function GenerateQuickStats(charData, statsData, format, equipmentData, progressionData, currencyData, cpData, inventoryData, locationData)
+    if not charData then return "" end
+    if format == "discord" then return "" end -- Skip for Discord
+    
+    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
+    local formatNumber = CM.utils and CM.utils.FormatNumber
+    local safeFormat = function(val)
+        if formatNumber then
+            return formatNumber(val)
         else
-            primarySets = equipmentData.sets[1].name .. " (Partial)"
+            return tostring(val)
+        end
+    end
+    
+    local level = charData.level or 1
+    local cp = charData.cp or 0
+    
+    -- Build type determination (from attributes)
+    local buildType = "Unknown"
+    local attrs = charData.attributes or {}
+    local magicka = attrs.magicka or 0
+    local health = attrs.health or 0
+    local stamina = attrs.stamina or 0
+    if magicka > health and magicka > stamina then
+        buildType = "Magicka DPS"
+    elseif stamina > magicka and stamina > health then
+        buildType = "Stamina DPS"
+    elseif health > magicka and health > stamina then
+        buildType = "Tank"
+    elseif magicka > 0 and stamina > 0 then
+        buildType = "Hybrid"
+    end
+    
+    -- Race/Class/Alliance with links for Build field
+    local CreateRaceLink = CM.links and CM.links.CreateRaceLink
+    local CreateClassLink = CM.links and CM.links.CreateClassLink
+    local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
+    local CreateZoneLink = CM.links and CM.links.CreateZoneLink
+    
+    local raceLink = (CreateRaceLink and CreateRaceLink(charData.race, format)) or (charData.race or "Unknown")
+    local classLink = (CreateClassLink and CreateClassLink(charData.class, format)) or (charData.class or "Unknown")
+    local allianceLink = (CreateAllianceLink and CreateAllianceLink(charData.alliance, format)) or (charData.alliance or "Unknown")
+    
+    -- Format Build: [Race](link) [Class](link) BuildType
+    local buildStr = string_format("%s %s %s", raceLink, classLink, buildType)
+    
+    -- Location formatting
+    local locationStr = ""
+    if locationData then
+        local zone = locationData.zone or "Unknown"
+        local subzone = locationData.subzone
+        local zoneIndex = locationData.zoneIndex or 0
+        
+        local zoneLinkText = (CreateZoneLink and CreateZoneLink(zone, format)) or zone
+        
+        locationStr = zoneLinkText
+        if subzone and subzone ~= "" then
+            locationStr = string_format("%s (%s)", locationStr, subzone)
+        elseif zoneIndex and zoneIndex > 0 then
+            locationStr = string_format("%s (%d)", locationStr, zoneIndex)
+        end
+    end
+    
+    -- CP breakdown (similar to Attributes format)
+    -- Always show breakdown format - matches Attributes display style
+    local cp1 = 0  -- Warfare
+    local cp2 = 0  -- Fitness
+    local cp3 = 0  -- Craft
+    
+    if cpData then
+        -- Disciplines are stored as an array, not an object
+        if cpData.disciplines and #cpData.disciplines > 0 then
+            for _, discipline in ipairs(cpData.disciplines) do
+                local name = discipline.name or ""
+                local total = discipline.total or 0
+                if name == "Warfare" then
+                    cp1 = total
+                elseif name == "Fitness" then
+                    cp2 = total
+                elseif name == "Craft" then
+                    cp3 = total
+                end
+            end
+        end
+        
+        -- If we have spent CP but no discipline breakdown, estimate equal distribution
+        if (cp1 == 0 and cp2 == 0 and cp3 == 0) and cpData.spent and cpData.spent > 0 then
+            local spent = cpData.spent or 0
+            local perDiscipline = math.floor(spent / 3)
+            cp1 = perDiscipline
+            cp2 = perDiscipline
+            cp3 = perDiscipline
+        end
+    end
+    
+    -- ALWAYS show breakdown format (like Attributes) - unconditional
+    -- This ensures consistency with the Attributes display format
+    -- Use emojis: ⚒️ Craft / ⚔️ Warfare / 💪 Fitness
+    -- Order: Craft, Warfare, Fitness (cp3, cp1, cp2)
+    local cpDisplayValue = string_format("⚒️ %d / ⚔️ %d / 💪 %d", cp3, cp1, cp2)
+    
+    -- Sets (with links)
+    local setsStr = "None"
+    if equipmentData and equipmentData.sets then
+        local CreateSetLink = CM.links and CM.links.CreateSetLink
+        local setNames = {}
+        for _, set in ipairs(equipmentData.sets) do
+            if set.count >= 5 then
+                local setLink = (CreateSetLink and CreateSetLink(set.name, format)) or set.name
+                table.insert(setNames, setLink)
+            end
+        end
+        if #setNames > 0 then
+            setsStr = table_concat(setNames, " • ")
         end
     end
     
     -- Bank status
     local bankStatus = "OK"
-    if inventoryData and inventoryData.bankPercent >= 100 then
-        bankStatus = "⚠️ FULL"
-    elseif inventoryData and inventoryData.bankPercent >= 90 then
-        bankStatus = "⚠️ Nearly Full"
-    end
-    
-    -- CP available and tree breakdown
-    local cpAvailable = ""
-    local cpBreakdown = ""
-    if cpData.total and cpData.spent then
-        local available = cpData.total - cpData.spent
-        if available > 0 then
-            cpAvailable = " (" .. available .. " available)"
+    if inventoryData and inventoryData.bankPercent then
+        if inventoryData.bankPercent >= 95 then
+            bankStatus = "⚠️ Full"
+        elseif inventoryData.bankPercent >= 90 then
+            bankStatus = "⚠️ Almost Full"
         end
     end
     
-    -- Add tree breakdown if disciplines are available
-    if cpData and cpData.disciplines and #cpData.disciplines > 0 then
-        local craftTotal = 0
-        local warfareTotal = 0
-        local fitnessTotal = 0
-        
-        -- Extract totals for each discipline
-        for _, discipline in ipairs(cpData.disciplines) do
-            if discipline.name == "Craft" then
-                craftTotal = discipline.total or 0
-            elseif discipline.name == "Warfare" then
-                warfareTotal = discipline.total or 0
-            elseif discipline.name == "Fitness" then
-                fitnessTotal = discipline.total or 0
-            end
-        end
-        
-        cpBreakdown = " (" .. craftTotal .. "/" .. warfareTotal .. "/" .. fitnessTotal .. ")"
+    -- Unspent skill points
+    local unspentSkillPoints = (progressionData and progressionData.unspentSkillPoints) or 0
+    local skillPointsStr = unspentSkillPoints > 0 and string_format("%d available", unspentSkillPoints) or "None"
+    
+    -- Attributes with emojis (🔵 Magicka, ❤️ Health, ⚡ Stamina)
+    local attributesStr = string_format("🔵 %d / ❤️ %d / ⚡ %d", magicka, health, stamina)
+    
+    -- Achievements percentage
+    local achievementPercent = 0
+    if progressionData and progressionData.totalAchievements and progressionData.totalAchievements > 0 then
+        achievementPercent = math.floor(((progressionData.achievementPoints or 0) / progressionData.totalAchievements) * 100)
     end
     
-    -- Skill points status
-    local skillPointStatus = (progressionData.skillPoints or 0)
-    if progressionData.skillPoints and progressionData.skillPoints > 0 then
-        skillPointStatus = skillPointStatus .. " available"
-    else
-        skillPointStatus = skillPointStatus .. " ✅"
+    -- Transmute crystals
+    local transmutes = (currencyData and currencyData.transmuteCrystals) or 0
+    
+    -- Gold
+    local gold = (currencyData and currencyData.gold) or 0
+    
+    -- Format table with Alliance, Location rows (Race and Class removed)
+    local allianceRow = string_format("| **Alliance** | %s |\n", allianceLink)
+    local locationRow = ""
+    
+    if locationStr ~= "" then
+        locationRow = string_format("| **Location** | %s |\n", locationStr)
     end
     
-    -- Consolidated single table
-    markdown = markdown .. "| Attribute | Value |\n"
-    markdown = markdown .. "|:----------|:------|\n"
-    markdown = markdown .. "| **Build** | " .. primaryRole .. " |\n"
-    markdown = markdown .. "| **CP** | " .. FormatNumber(cpData.total or 0) .. cpBreakdown .. cpAvailable .. " |\n"
-    markdown = markdown .. "| **Gold** | " .. FormatNumber(currencyData.gold) .. " |\n"
-    markdown = markdown .. "| **Sets** | " .. primarySets .. " |\n"
-    markdown = markdown .. "| **Bank** | " .. bankStatus .. " |\n"
-    markdown = markdown .. "| **Skill Points** | " .. skillPointStatus .. " |\n"
-    markdown = markdown .. "| **Attributes** | " .. attrs.magicka .. " / " .. attrs.health .. " / " .. attrs.stamina .. " |\n"
-    markdown = markdown .. "| **Achievements** | " .. (progressionData.achievementPercent or 0) .. "% |\n"
-    markdown = markdown .. "| **Transmutes** | " .. FormatNumber(currencyData.transmuteCrystals or 0) .. " |\n"
+    if not enhanced or not markdown then
+        -- Classic table format
+        return string_format([[
+## 📋 Overview
+
+| Attribute | Value |
+|:----------|:------|
+| **Build** | %s |
+%s%s| **Champion Points** | %s |
+| **Gold** | %s |
+| **Sets** | %s |
+| **Bank** | %s |
+| **Skill Points** | %s |
+| **Attributes** | %s |
+
+]], buildStr, allianceRow, locationRow, cpDisplayValue, safeFormat(gold), setsStr, bankStatus, 
+            skillPointsStr, attributesStr)
+    end
     
-    markdown = markdown .. "\n"
-    return markdown
+    -- ENHANCED: Use detailed table format (keeping enhanced visuals option)
+    return string_format([[
+## 📋 Overview
+
+| Attribute | Value |
+|:----------|:------|
+| **Build** | %s |
+%s%s| **Champion Points** | %s |
+| **Gold** | %s |
+| **Sets** | %s |
+| **Bank** | %s |
+| **Skill Points** | %s |
+| **Attributes** | %s |
+
+]], buildStr, allianceRow, locationRow, cpDisplayValue, safeFormat(gold), setsStr, bankStatus, 
+            skillPointsStr, attributesStr)
 end
 
+CM.generators.sections.GenerateQuickStats = GenerateQuickStats
+
 -- =====================================================
--- ATTENTION NEEDED (WITH COMPANION WARNINGS)
+-- ATTENTION NEEDED (Warnings/Important Info)
 -- =====================================================
 
-local function GenerateAttentionNeeded(progressionData, inventoryData, ridingData, companionData, format)
-    InitializeUtilities()
+-- FIX #5: Enhanced attention needed with more warnings
+local function GenerateAttentionNeeded(progressionData, inventoryData, ridingData, companionData, currencyData, format)
+    if format == "discord" then return "" end
     
+    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
     local warnings = {}
     
-    -- Check for skill points
-    if progressionData.skillPoints and progressionData.skillPoints > 0 then
-        local plural = Pluralize(progressionData.skillPoints, "point", "points")
-        table.insert(warnings, "🎯 **" .. progressionData.skillPoints .. " skill " .. plural .. " available** - Ready to spend")
+    -- Check for unspent points
+    if progressionData then
+        if progressionData.unspentSkillPoints and progressionData.unspentSkillPoints > 0 then
+            table.insert(warnings, string_format("🎯 **%d skill points available** - Ready to spend", progressionData.unspentSkillPoints))
+        end
+        if progressionData.unspentAttributePoints and progressionData.unspentAttributePoints > 0 then
+            table.insert(warnings, string_format("⚠️ **%d unspent attribute points**", progressionData.unspentAttributePoints))
+        end
     end
     
-    -- Check for attribute points
-    if progressionData.attributePoints and progressionData.attributePoints > 0 then
-        local plural = Pluralize(progressionData.attributePoints, "point", "points")
-        table.insert(warnings, "⭐ **" .. progressionData.attributePoints .. " attribute " .. plural .. " available** - Allocate to Magicka/Health/Stamina")
-    end
-    
-    -- Check for bank capacity
-    if inventoryData and inventoryData.bankPercent >= 100 then
-        table.insert(warnings, "🏦 **Bank is full** (" .. inventoryData.bankUsed .. "/" .. inventoryData.bankMax .. ") - Clear space or items will be lost")
-    elseif inventoryData and inventoryData.bankPercent >= 95 then
-        table.insert(warnings, "🏦 **Bank nearly full** (" .. inventoryData.bankUsed .. "/" .. inventoryData.bankMax .. ") - " .. (inventoryData.bankMax - inventoryData.bankUsed) .. " slots remaining")
-    end
-    
-    -- Check for backpack capacity
-    if inventoryData and inventoryData.backpackPercent >= 95 then
-        table.insert(warnings, "🎒 **Backpack nearly full** (" .. inventoryData.backpackUsed .. "/" .. inventoryData.backpackMax .. ") - " .. (inventoryData.backpackMax - inventoryData.backpackUsed) .. " slots remaining")
-    end
-    
-    -- Check for riding training
-    if ridingData and ridingData.trainingAvailable and not ridingData.allMaxed then
-        table.insert(warnings, "🐎 **Riding training available** - Visit a stable master")
-    end
-    
-    -- Check companion status (MOVED FROM COMPANION SECTION)
+    -- Check companion warnings (underleveled, outdated gear, empty slots)
     if companionData and companionData.active then
-        local level = companionData.level or 0
-        local lowLevelGear = 0
-        local emptySlots = 0
-        local totalSlots = 0
+        local companionName = companionData.name or "Unknown"
+        local companionLevel = companionData.level or 0
         
-        -- Check equipment level
+        -- Check if underleveled
+        if companionLevel < 20 then
+            table.insert(warnings, string_format("👥 **Companion underleveled**: %s (Level %d/20) - Needs XP", companionName, companionLevel))
+        end
+        
+        -- Check for outdated gear
+        local outdatedGearCount = 0
         if companionData.equipment and #companionData.equipment > 0 then
             for _, item in ipairs(companionData.equipment) do
-                if item.level and item.level < level and item.level < 20 then
-                    lowLevelGear = lowLevelGear + 1
+                local itemLevel = item.level or 0
+                if itemLevel < companionLevel and itemLevel < 20 then
+                    outdatedGearCount = outdatedGearCount + 1
                 end
             end
         end
+        if outdatedGearCount > 0 then
+            table.insert(warnings, string_format("👥 **Companion outdated gear**: %d piece%s below level - Upgrade equipment", 
+                outdatedGearCount, (outdatedGearCount == 1) and "" or "s"))
+        end
         
         -- Check for empty ability slots
+        local emptySlots = 0
         if companionData.skills then
-            if companionData.skills.ultimate == "[Empty]" or companionData.skills.ultimate == "Empty" then
+            -- Check ultimate
+            if companionData.skills.ultimate == "[Empty]" or companionData.skills.ultimate == "Empty" or not companionData.skills.ultimate then
                 emptySlots = emptySlots + 1
             end
-            totalSlots = totalSlots + 1
-            
+            -- Check abilities
             if companionData.skills.abilities then
                 for _, ability in ipairs(companionData.skills.abilities) do
-                    totalSlots = totalSlots + 1
-                    if ability.name == "[Empty]" or ability.name == "Empty" then
+                    if ability.name == "[Empty]" or ability.name == "Empty" or not ability.name then
                         emptySlots = emptySlots + 1
                     end
                 end
             end
         end
-        
-        -- Add companion warnings
-        if level < 20 then
-            table.insert(warnings, "👥 **Companion underleveled**: " .. companionData.name .. " (Level " .. level .. "/20) - Needs XP")
-        end
-        if lowLevelGear > 0 then
-            local plural = Pluralize(lowLevelGear, "piece")
-            table.insert(warnings, "👥 **Companion outdated gear**: " .. lowLevelGear .. " " .. plural .. " below level - Upgrade equipment")
-        end
         if emptySlots > 0 then
-            local plural = Pluralize(emptySlots, "slot")
-            table.insert(warnings, "👥 **Companion empty ability " .. plural .. "**: " .. emptySlots .. " - Assign abilities")
+            table.insert(warnings, string_format("👥 **Companion empty ability slots**: %d - Assign abilities", emptySlots))
         end
     end
     
-    -- Only show section if there are warnings
-    if #warnings == 0 then
-        return ""
+    -- Check inventory capacity warnings (>90%)
+    if inventoryData then
+        if inventoryData.backpackPercent and inventoryData.backpackPercent >= 90 then
+            table.insert(warnings, string_format("🎒 **Backpack nearly full** (%d%%)", inventoryData.backpackPercent))
+        end
+        if inventoryData.bankPercent and inventoryData.bankPercent >= 90 then
+            table.insert(warnings, string_format("🏦 **Bank nearly full** (%d%%)", inventoryData.bankPercent))
+        end
     end
     
-    local markdown = ""
-    markdown = markdown .. "## ⚠️ Attention Needed\n\n"
-    for _, warning in ipairs(warnings) do
-        markdown = markdown .. "- " .. warning .. "\n"
+    -- Check riding skill training available
+    if ridingData then
+        local speed = ridingData.speed or 0
+        local stamina = ridingData.stamina or 0
+        local capacity = ridingData.capacity or 0
+        if speed < 60 or stamina < 60 or capacity < 60 then
+            local incomplete = {}
+            if speed < 60 then table.insert(incomplete, "Speed") end
+            if stamina < 60 then table.insert(incomplete, "Stamina") end
+            if capacity < 60 then table.insert(incomplete, "Capacity") end
+            table.insert(warnings, string_format("🐴 **Riding training available**: %s", table_concat(incomplete, ", ")))
+        end
     end
-    markdown = markdown .. "\n"
     
-    return markdown
+    -- Check companion rapport low (keep this for rapport-specific warnings)
+    if companionData and companionData.active and companionData.rapport then
+        if companionData.rapport < 1000 then
+            table.insert(warnings, string_format("💔 **Companion rapport low**: %s (%d)", 
+                companionData.name or "Unknown", companionData.rapport))
+        end
+    end
+    
+    -- Check event tickets at maximum (12 is the cap in ESO)
+    if currencyData then
+        local eventTickets = currencyData.eventTickets or 0
+        if eventTickets >= 12 then
+            table.insert(warnings, string_format("🎫 **Event tickets at maximum** (%d/12) - Use tickets to avoid wasting future rewards", eventTickets))
+        end
+    end
+    
+    if #warnings == 0 then return "" end
+    
+    local content = table_concat(warnings, "  \n")
+    
+    if not enhanced or not markdown then
+        return string_format("## ⚠️ Attention Needed\n\n%s\n\n", content)
+    end
+    
+    -- ENHANCED: Use warning callout
+    return (markdown and markdown.CreateCallout and markdown.CreateCallout("warning", content, format)) or 
+           string_format("## ⚠️ Attention Needed\n\n%s\n\n", content)
 end
 
+CM.generators.sections.GenerateAttentionNeeded = GenerateAttentionNeeded
+
 -- =====================================================
--- OVERVIEW
+-- OVERVIEW SECTION
 -- =====================================================
 
-local function GenerateOverview(characterData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, progressionData, settings, format, cpData)
-    InitializeUtilities()
+local function GenerateOverview(charData, roleData, locationData, buffsData, mundusData, ridingData, pvpData, progressionData, settings, format, cpData)
+    if not charData then return "" end
     
-    local markdown = ""
+    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
+    local includeRole = CM.settings and CM.settings.includeRole ~= false
+    local includeLocation = CM.settings and CM.settings.includeLocation ~= false
     
-    markdown = markdown .. "## 📊 Character Overview\n\n"
-    markdown = markdown .. "| Attribute | Value |\n"
-    markdown = markdown .. "|:----------|:------|\n"
+    -- Check if we should use table format (classic) or collapsible (enhanced)
+    local useTableFormat = not enhanced or not markdown
     
-    -- Level row
-    markdown = markdown .. "| **Level** | " .. (characterData.level or 0) .. " |\n"
-    
-    -- Champion Points row with tree breakdown
-    local cpText = FormatNumber(characterData.cp or 0)
-    if cpData and cpData.disciplines and #cpData.disciplines > 0 then
-        local craftTotal = 0
-        local warfareTotal = 0
-        local fitnessTotal = 0
+    if useTableFormat then
+        -- Classic table format (matches old output)
+        local result = "## 📊 Character Overview\n\n"
+        result = result .. "| Attribute | Value |\n"
+        result = result .. "|:----------|:------|\n"
+        result = result .. string_format("| **Level** | %d |\n", charData.level or 1)
         
-        -- Extract totals for each discipline
-        for _, discipline in ipairs(cpData.disciplines) do
-            if discipline.name == "Craft" then
-                craftTotal = discipline.total or 0
-            elseif discipline.name == "Warfare" then
-                warfareTotal = discipline.total or 0
-            elseif discipline.name == "Fitness" then
-                fitnessTotal = discipline.total or 0
+        -- CP with breakdown
+        local cpStr = string_format("%d", charData.cp or 0)
+        if cpData and cpData.disciplines and #cpData.disciplines > 0 then
+            local cp1 = 0  -- Warfare
+            local cp2 = 0  -- Fitness
+            local cp3 = 0  -- Craft
+            for _, discipline in ipairs(cpData.disciplines) do
+                local name = discipline.name or ""
+                local total = discipline.total or 0
+                if name == "Warfare" then
+                    cp1 = total
+                elseif name == "Fitness" then
+                    cp2 = total
+                elseif name == "Craft" then
+                    cp3 = total
+                end
+            end
+            if cp1 > 0 or cp2 > 0 or cp3 > 0 then
+                cpStr = string_format("%d (%d/%d/%d)", charData.cp or 0, cp1, cp2, cp3)
+            end
+        end
+        result = result .. string_format("| **Champion Points** | %s |\n", cpStr)
+        
+        -- Race/Class/Alliance with links
+        local CreateRaceLink = CM.links and CM.links.CreateRaceLink
+        local CreateClassLink = CM.links and CM.links.CreateClassLink
+        local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
+        
+        local raceText = (CreateRaceLink and CreateRaceLink(charData.race, format)) or (charData.race or "Unknown")
+        local classText = (CreateClassLink and CreateClassLink(charData.class, format)) or (charData.class or "Unknown")
+        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance, format)) or (charData.alliance or "Unknown")
+        
+        result = result .. string_format("| **Class** | %s |\n", classText)
+        result = result .. string_format("| **Race** | %s |\n", raceText)
+        result = result .. string_format("| **Alliance** | %s |\n", allianceText)
+        
+        -- Server and Account
+        local CreateServerLink = CM.links and CM.links.CreateServerLink
+        local serverText = (CreateServerLink and CreateServerLink(charData.server, format)) or (charData.server or "Unknown")
+        result = result .. string_format("| **Server** | %s |\n", serverText)
+        result = result .. string_format("| **Account** | %s |\n", charData.account or "Unknown")
+        
+        -- ESO Plus
+        if charData.esoPlus then
+            result = result .. "| **ESO Plus** | ✅ Active |\n"
+        end
+        
+        -- Attributes
+        local attrs = charData.attributes or {}
+        result = result .. string_format("| **🎯 Attributes** | Magicka: %d • Health: %d • Stamina: %d |\n", 
+            attrs.magicka or 0, attrs.health or 0, attrs.stamina or 0)
+        
+        -- Mundus Stone
+        if mundusData and mundusData.active then
+            local CreateMundusLink = CM.links and CM.links.CreateMundusLink
+            local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name, format)) or mundusData.name
+            result = result .. string_format("| **🪨 Mundus Stone** | %s |\n", mundusText)
+        end
+        
+        -- Active Buffs
+        if buffsData and buffsData.buffs and #buffsData.buffs > 0 then
+            local buffLines = {}
+            for _, buff in ipairs(buffsData.buffs) do
+                local CreateBuffLink = CM.links and CM.links.CreateBuffLink
+                local buffText = (CreateBuffLink and CreateBuffLink(buff.name, format)) or buff.name
+                table.insert(buffLines, buffText)
+            end
+            if #buffLines > 0 then
+                result = result .. string_format("| **🍖 Active Buffs** | %s: %s |\n", 
+                    buffsData.categories[1] or "Other", table_concat(buffLines, ", "))
             end
         end
         
-        cpText = cpText .. " (" .. craftTotal .. "/" .. warfareTotal .. "/" .. fitnessTotal .. ")"
-    end
-    markdown = markdown .. "| **Champion Points** | " .. cpText .. " |\n"
-    
-    -- Class row with link
-    local classText = CreateClassLink(characterData.class, format)
-    markdown = markdown .. "| **Class** | " .. classText .. " |\n"
-    
-    -- Race row with link
-    local raceText = CreateRaceLink(characterData.race, format)
-    markdown = markdown .. "| **Race** | " .. raceText .. " |\n"
-    
-    -- Alliance row with link
-    local allianceText = CreateAllianceLink(characterData.alliance, format)
-    markdown = markdown .. "| **Alliance** | " .. allianceText .. " |\n"
-    
-    -- Server row
-    markdown = markdown .. "| **Server** | " .. (characterData.server or "Unknown") .. " |\n"
-    
-    -- Account row
-    markdown = markdown .. "| **Account** | " .. (characterData.account or "Unknown") .. " |\n"
-    
-    -- ESO Plus status
-    local esoPlusStatus = characterData.esoPlus and "✅ Active" or "❌ Inactive"
-    markdown = markdown .. "| **ESO Plus** | " .. esoPlusStatus .. " |\n"
-    
-    -- Attributes row
-    if settings.includeAttributes ~= false and characterData.attributes then
-        markdown = markdown .. "| **🎯 Attributes** | Magicka: " .. characterData.attributes.magicka .. 
-                              " • Health: " .. characterData.attributes.health ..
-                              " • Stamina: " .. characterData.attributes.stamina .. " |\n"
-    end
-    
-    -- Mundus Stone row
-    if mundusData and mundusData.active then
-        local mundusText = CreateMundusLink(mundusData.name, format)
-        markdown = markdown .. "| **🪨 Mundus Stone** | " .. mundusText .. " |\n"
-    end
-    
-    -- Active Buffs row
-    if settings.includeBuffs ~= false and buffsData and (buffsData.food or buffsData.potion or #buffsData.other > 0) then
-        local buffParts = {}
-        if buffsData.food then
-            local foodLink = CreateBuffLink(buffsData.food, format)
-            table.insert(buffParts, "Food: " .. foodLink)
-        end
-        if buffsData.potion then
-            local potionLink = CreateBuffLink(buffsData.potion, format)
-            table.insert(buffParts, "Potion: " .. potionLink)
-        end
-        if #buffsData.other > 0 then
-            local otherBuffs = {}
-            for _, buff in ipairs(buffsData.other) do
-                local buffLink = CreateBuffLink(buff, format)
-                table.insert(otherBuffs, buffLink)
+        -- Location
+        if includeLocation and locationData then
+            local zone = locationData.zone or "Unknown"
+            local subzone = locationData.subzone
+            local zoneIndex = locationData.zoneIndex or 0
+            
+            local CreateZoneLink = CM.links and CM.links.CreateZoneLink
+            local zoneLink = (CreateZoneLink and CreateZoneLink(zone, format)) or zone
+            
+            local locStr = zoneLink
+            if subzone and subzone ~= "" then
+                locStr = string_format("%s (%s)", locStr, subzone)
+            elseif zoneIndex and zoneIndex > 0 then
+                locStr = string_format("%s (%d)", locStr, zoneIndex)
             end
-            table.insert(buffParts, "Other: " .. table.concat(otherBuffs, ", "))
+            result = result .. string_format("| **Location** | %s |\n", locStr)
         end
-        markdown = markdown .. "| **🍖 Active Buffs** | " .. table.concat(buffParts, " • ") .. " |\n"
-    end
-    
-    -- Vampire status (if vampire)
-    if progressionData and progressionData.isVampire then
-        markdown = markdown .. "| **🧛 Vampire** | Stage " .. (progressionData.vampireStage or 1) .. " |\n"
-    end
-    
-    -- Werewolf status (if werewolf)
-    if progressionData and progressionData.isWerewolf then
-        markdown = markdown .. "| **🐺 Werewolf** | Active |\n"
-    end
-    
-    -- Enlightenment (if active)
-    if progressionData and progressionData.enlightenment and progressionData.enlightenment.max > 0 then
-        markdown = markdown .. "| **✨ Enlightenment** | " .. FormatNumber(progressionData.enlightenment.current) .. 
-                              " / " .. FormatNumber(progressionData.enlightenment.max) .. 
-                              " (" .. progressionData.enlightenment.percent .. "%) |\n"
-    end
-    
-    -- Location row (with zone index if available)
-    if settings.includeLocation ~= false and locationData then
-        local zoneText = CreateZoneLink(locationData.zone, format)
-        if locationData.zoneIndex and locationData.zoneIndex > 0 then
-            zoneText = zoneText .. " (" .. locationData.zoneIndex .. ")"
+        
+        return result .. "\n"
+    else
+        -- Enhanced collapsible format (new style)
+        local lines = {}
+        
+        -- Use link functions for Race, Class, Alliance
+        local CreateRaceLink = CM.links and CM.links.CreateRaceLink
+        local CreateClassLink = CM.links and CM.links.CreateClassLink
+        local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
+        
+        local raceText = (CreateRaceLink and CreateRaceLink(charData.race, format)) or (charData.race or "Unknown")
+        local classText = (CreateClassLink and CreateClassLink(charData.class, format)) or (charData.class or "Unknown")
+        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance, format)) or (charData.alliance or "Unknown")
+        
+        table.insert(lines, string_format("**Race:** %s", raceText))
+        table.insert(lines, string_format("**Class:** %s", classText))
+        table.insert(lines, string_format("**Alliance:** %s", allianceText))
+        
+        if includeLocation and locationData then
+            local zone = locationData.zone or "Unknown"
+            local subzone = locationData.subzone
+            local zoneIndex = locationData.zoneIndex or 0
+            
+            local CreateZoneLink = CM.links and CM.links.CreateZoneLink
+            local zoneLink = (CreateZoneLink and CreateZoneLink(zone, format)) or zone
+            
+            local locStr = zoneLink
+            if subzone and subzone ~= "" then
+                locStr = string_format("%s (%s)", locStr, subzone)
+            elseif zoneIndex and zoneIndex > 0 then
+                locStr = string_format("%s (%d)", locStr, zoneIndex)
+            end
+            table.insert(lines, string_format("**Location:** %s", locStr))
         end
-        markdown = markdown .. "| **Location** | " .. zoneText .. " |\n"
+        
+        local content = table_concat(lines, "  \n")
+        
+        if markdown.CreateCollapsible then
+            return markdown.CreateCollapsible("Character Overview", content, "📋", true)
+        else
+            return string_format("## 📋 Character Overview\n\n%s\n\n", content)
+        end
     end
-    
-    markdown = markdown .. "\n"
-    
-    return markdown
 end
 
+CM.generators.sections.GenerateOverview = GenerateOverview
+
 -- =====================================================
--- PROGRESSION
+-- PROGRESSION SECTION
 -- =====================================================
 
 local function GenerateProgression(progressionData, cpData, format)
-    InitializeUtilities()
+    if not progressionData or (CM.settings and CM.settings.includeProgression == false) then return "" end
     
-    local markdown = ""
-    
-    if not progressionData then
-        return ""
+    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
+    local formatNumber = CM.utils and CM.utils.FormatNumber
+    local safeFormat = function(val)
+        if formatNumber then
+            return formatNumber(val)
+        else
+            return tostring(val)
+        end
     end
     
-    -- Show progression data including achievements
-    if format == "discord" then
-        markdown = markdown .. "**Progression:**\n"
-        if progressionData.skillPoints and progressionData.skillPoints >= 0 then
-            markdown = markdown .. "• 📚 Unspent Skill Points: " .. progressionData.skillPoints
-            if progressionData.totalSkillPoints and progressionData.totalSkillPoints > 0 then
-                markdown = markdown .. " (Total: " .. progressionData.totalSkillPoints .. ")"
-            end
-            markdown = markdown .. "\n"
+    if not enhanced or not markdown then
+        -- Classic table format (matches old output)
+        local result = "## 📈 Progression\n\n"
+        result = result .. "| Category | Value |\n"
+        result = result .. "|:---------|:------|\n"
+        
+        if progressionData.unspentSkillPoints then
+            result = result .. string_format("| **📚 Unspent Skill Points** | %d |\n", progressionData.unspentSkillPoints)
         end
-        if progressionData.attributePoints and progressionData.attributePoints >= 0 then
-            markdown = markdown .. "• ⭐ Unspent Attribute Points: " .. progressionData.attributePoints .. "\n"
+        if progressionData.unspentAttributePoints then
+            result = result .. string_format("| **⭐ Unspent Attribute Points** | %d |\n", progressionData.unspentAttributePoints)
         end
-        -- Calculate available CP: use same logic as Quick Stats (total - spent)
-        -- This matches Quick Stats calculation which is working correctly
-        local availableCP = nil
-        if cpData and cpData.total and cpData.spent then
-            local calculated = cpData.total - cpData.spent
-            -- Only use calculated value if it's reasonable (less than or equal to total)
-            if calculated >= 0 and calculated <= cpData.total then
-                availableCP = calculated
-            end
+        if cpData and cpData.available then
+            result = result .. string_format("| **🎯 Available Champion Points** | %d |\n", cpData.available)
         end
-        -- Only show if we have a valid available CP value and it's greater than 0
-        if availableCP ~= nil and availableCP > 0 then
-            markdown = markdown .. "• 🎯 Available Champion Points: " .. FormatNumber(availableCP) .. "\n"
+        if progressionData.achievementPoints then
+            result = result .. string_format("| **🏆 Achievement Points** | %s |\n", safeFormat(progressionData.achievementPoints))
         end
-        if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
-            markdown = markdown .. "• 🏆 Achievement Points: " .. FormatNumber(progressionData.achievementPoints) .. "\n"
-        end
-        if progressionData.isVampire then
-            markdown = markdown .. "• 🧛 Vampire (Stage " .. progressionData.vampireStage .. ")\n"
-        end
-        if progressionData.isWerewolf then
-            markdown = markdown .. "• 🐺 Werewolf\n"
-        end
-        if progressionData.enlightenment and progressionData.enlightenment.max > 0 then
-            markdown = markdown .. "• ✨ Enlightenment: " .. FormatNumber(progressionData.enlightenment.current) .. 
-                                  " / " .. FormatNumber(progressionData.enlightenment.max) .. 
-                                  " (" .. progressionData.enlightenment.percent .. "%)\n"
-        end
-        markdown = markdown .. "\n"
+        
+        return result .. "\n"
     else
-        markdown = markdown .. "## 📈 Progression\n\n"
-        markdown = markdown .. "| Category | Value |\n"
-        markdown = markdown .. "|:---------|:------|\n"
-        if progressionData.skillPoints and progressionData.skillPoints >= 0 then
-            local skillPointsText = FormatNumber(progressionData.skillPoints)
-            if progressionData.totalSkillPoints and progressionData.totalSkillPoints > 0 then
-                skillPointsText = skillPointsText .. " / " .. FormatNumber(progressionData.totalSkillPoints) .. " total"
+        -- Enhanced collapsible format (new style) - but still show all fields
+        local lines = {}
+        
+        -- Show all fields in the same order as classic format
+        if progressionData.unspentSkillPoints then
+            table.insert(lines, string_format("**📚 Unspent Skill Points:** %d", progressionData.unspentSkillPoints))
+        end
+        if progressionData.unspentAttributePoints then
+            table.insert(lines, string_format("**⭐ Unspent Attribute Points:** %d", progressionData.unspentAttributePoints))
+        end
+        if cpData and cpData.available then
+            table.insert(lines, string_format("**🎯 Available Champion Points:** %d", cpData.available))
+        end
+        if progressionData.achievementPoints then
+            table.insert(lines, string_format("**🏆 Achievement Points:** %s", safeFormat(progressionData.achievementPoints)))
+        end
+        
+        -- Vampire/Werewolf
+        if progressionData.vampireStage and progressionData.vampireStage > 0 then
+            table.insert(lines, string_format("🧛 **Vampire Stage %d**", progressionData.vampireStage))
+        end
+        if progressionData.werewolfStage and progressionData.werewolfStage > 0 then
+            table.insert(lines, string_format("🐺 **Werewolf Stage %d**", progressionData.werewolfStage))
+        end
+        
+        -- Enlightenment
+        if progressionData.isEnlightened then
+            table.insert(lines, "✨ **Enlightened** (4x CP XP)")
+        end
+        
+        if #lines == 0 then return "" end
+        
+        local content = table_concat(lines, "  \n")
+        
+        local result = ""
+        if markdown.CreateCollapsible then
+            result = markdown.CreateCollapsible("Progression", content, "📈", false) or string_format("## 📈 Progression\n\n%s\n\n", content)
+        else
+            result = string_format("## 📈 Progression\n\n%s\n\n", content)
+        end
+        
+        -- Enlightenment callout
+        if progressionData.isEnlightened and markdown and markdown.CreateCallout then
+            local callout = markdown.CreateCallout("tip", 
+                "🌟 **Enlightened!** Earning 4x Champion Point XP", format)
+            if callout then
+                result = result .. callout
             end
-            markdown = markdown .. "| **📚 Unspent Skill Points** | " .. skillPointsText .. " |\n"
         end
-        if progressionData.attributePoints and progressionData.attributePoints >= 0 then
-            markdown = markdown .. "| **⭐ Unspent Attribute Points** | " .. progressionData.attributePoints .. " |\n"
-        end
-        -- Calculate available CP: use same logic as Quick Stats (total - spent)
-        -- This matches Quick Stats calculation which is working correctly
-        local availableCP = nil
-        if cpData and cpData.total and cpData.spent then
-            local calculated = cpData.total - cpData.spent
-            -- Only use calculated value if it's reasonable (less than or equal to total)
-            if calculated >= 0 and calculated <= cpData.total then
-                availableCP = calculated
-            end
-        end
-        -- Only show if we have a valid available CP value and it's greater than 0
-        if availableCP ~= nil and availableCP > 0 then
-            markdown = markdown .. "| **🎯 Available Champion Points** | " .. FormatNumber(availableCP) .. " |\n"
-        end
-        if progressionData.achievementPoints and progressionData.achievementPoints > 0 then
-            markdown = markdown .. "| **🏆 Achievement Points** | " .. FormatNumber(progressionData.achievementPoints) .. " |\n"
-        end
-        if progressionData.isVampire then
-            markdown = markdown .. "| **🧛 Vampire** | Stage " .. progressionData.vampireStage .. " |\n"
-        end
-        if progressionData.isWerewolf then
-            markdown = markdown .. "| **🐺 Werewolf** | Active |\n"
-        end
-        if progressionData.enlightenment and progressionData.enlightenment.max > 0 then
-            markdown = markdown .. "| **✨ Enlightenment** | " .. FormatNumber(progressionData.enlightenment.current) .. 
-                                  " / " .. FormatNumber(progressionData.enlightenment.max) .. 
-                                  " (" .. progressionData.enlightenment.percent .. "%) |\n"
-        end
-        markdown = markdown .. "\n"
+        
+        return result
     end
-    
-    return markdown
 end
 
+CM.generators.sections.GenerateProgression = GenerateProgression
+
 -- =====================================================
--- CUSTOM NOTES
+-- CUSTOM NOTES SECTION
 -- =====================================================
 
 local function GenerateCustomNotes(customNotes, format)
-    local markdown = ""
+    if not customNotes or customNotes == "" then return "" end
+    if CM.settings and CM.settings.includeBuildNotes == false then return "" end
     
-    if format == "discord" then
-        markdown = markdown .. "**Notes:** " .. customNotes .. "\n\n"
-    else
-        markdown = markdown .. "### 📝 Build Notes\n\n"
-        markdown = markdown .. customNotes .. "\n\n"
+    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
+    
+    if not enhanced or not markdown then
+        return string_format("## 📝 Build Notes\n\n%s\n\n", customNotes)
     end
     
-    return markdown
+    -- ENHANCED: Use collapsible section (with nil check)
+    if markdown.CreateCollapsible then
+        return markdown.CreateCollapsible("Build Notes", customNotes, "📝", true) or string_format("## 📝 Build Notes\n\n%s\n\n", customNotes)
+    else
+        return string_format("## 📝 Build Notes\n\n%s\n\n", customNotes)
+    end
 end
 
+CM.generators.sections.GenerateCustomNotes = GenerateCustomNotes
+
 -- =====================================================
--- EXPORTS
+-- MODULE INITIALIZATION
 -- =====================================================
 
-CM.generators.sections = CM.generators.sections or {}
-CM.generators.sections.GenerateQuickSummary = GenerateQuickSummary
-CM.generators.sections.GenerateHeader = GenerateHeader
-CM.generators.sections.GenerateQuickStats = GenerateQuickStats
-CM.generators.sections.GenerateAttentionNeeded = GenerateAttentionNeeded
-CM.generators.sections.GenerateOverview = GenerateOverview
-CM.generators.sections.GenerateProgression = GenerateProgression
-CM.generators.sections.GenerateCustomNotes = GenerateCustomNotes
+CM.DebugPrint("GENERATOR", "Character section generators loaded (enhanced visuals)")

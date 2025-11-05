@@ -57,7 +57,7 @@ local ACHIEVEMENT_CATEGORIES = {
     },
     ["Dungeons"] = {
         keywords = {"Dungeon", "Dungeons", "Trial", "Trials", "Group", "Raid", "Instance"},
-        emoji = "🏛️",
+        emoji = "🏰",  -- Changed from 🏛️ for better compatibility
         description = "Dungeon and trial achievements"
     },
     

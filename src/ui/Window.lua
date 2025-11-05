@@ -17,294 +17,8 @@ local windowControl = nil
 local editBoxControl = nil
 local clipboardEditBoxControl = nil
 local currentMarkdown = ""
-local markdownChunks = {}  -- Array of {name, content} for each section chunk
+local markdownChunks = {}  -- Array of markdown chunks
 local currentChunkIndex = 1
-
--- =====================================================
--- MARKDOWN SPLITTING (at section boundaries)
--- =====================================================
-
--- Helper function to find last complete line before position
--- Returns position of last newline before maxPos, or maxPos if no newline found in search range
-local function FindLastLineBoundary(text, maxPos)
-    if maxPos <= 1 then return 1 end
-    if maxPos > string.len(text) then maxPos = string.len(text) end
-    
-    -- Search backwards from maxPos for a newline
-    -- Search up to 5000 chars back to find a good split point
-    local searchStart = math.max(1, maxPos - 5000)
-    local lastNewline = nil
-    
-    -- Search backwards for newline
-    for i = maxPos, searchStart, -1 do
-        local char = string.sub(text, i, i)
-        if char == "\n" then
-            lastNewline = i
-            break
-        end
-    end
-    
-    -- If found, return position after the newline (so we include it)
-    -- Otherwise, return maxPos but we'll handle it
-    if lastNewline then
-        return lastNewline
-    end
-    
-    -- If no newline found, try to find end of markdown link pattern "](" 
-    -- to avoid cutting URLs
-    for i = maxPos, searchStart, -1 do
-        local substr = string.sub(text, math.max(1, i - 2), i)
-        if substr == ")\n" or substr == "](" then
-            -- Found a link boundary, try to find newline before it
-            for j = i - 1, searchStart, -1 do
-                if string.sub(text, j, j) == "\n" then
-                    return j
-                end
-            end
-        end
-    end
-    
-    -- Last resort: return maxPos (will truncate, but at least we tried)
-    return maxPos
-end
-
--- Split markdown into chunks at section headers (## )
--- Returns array of {name, content} where each chunk fits in EditBox
-local function SplitMarkdownIntoSections(markdown)
-    local chunks = {}
-    local ESO_EDITBOX_HARD_LIMIT = 28000  -- Very conservative limit (well under 30k to avoid truncation)
-    local markdownLength = string.len(markdown)
-    
-    -- If content fits in one chunk, return as-is
-    if markdownLength <= ESO_EDITBOX_HARD_LIMIT then
-        return {
-            {name = "Full Export", content = markdown}
-        }
-    end
-    
-    -- Find all section headers (## )
-    local sections = {}
-    
-    -- Check for header at the very start of file (no newline before)
-    if string.sub(markdown, 1, 4) == "## " then
-        local headerEnd = string.find(markdown, "\n", 1)
-        if headerEnd then
-            local headerLine = string.sub(markdown, 4, headerEnd - 1)
-            local cleanName = headerLine:gsub("^%s+", ""):gsub("%s+$", "")
-            table.insert(sections, {
-                name = cleanName or "Header",
-                position = 1
-            })
-        end
-    end
-    
-    -- Pattern matches: newline followed by ## followed by space
-    local pattern = "\n## "
-    local startPos = 1
-    
-    while true do
-        local headerPos = string.find(markdown, pattern, startPos)
-        if not headerPos then
-            break
-        end
-        
-        -- Extract section name from header line
-        local headerEnd = string.find(markdown, "\n", headerPos + 4)
-        if headerEnd then
-            local headerLine = string.sub(markdown, headerPos + 4, headerEnd - 1)
-            local cleanName = headerLine:gsub("^%s+", ""):gsub("%s+$", "")
-            
-            -- Only add if not duplicate (avoid header at start and same position)
-            local isDuplicate = false
-            for _, existing in ipairs(sections) do
-                if existing.position == headerPos + 1 then
-                    isDuplicate = true
-                    break
-                end
-            end
-            if not isDuplicate then
-                table.insert(sections, {
-                    name = cleanName or "Section",
-                    position = headerPos + 1  -- Include the newline
-                })
-            end
-        end
-        
-        startPos = headerPos + 1
-    end
-    
-    -- Sort sections by position
-    table.sort(sections, function(a, b) return a.position < b.position end)
-    
-    -- If no sections found, split into fixed-size chunks
-    if #sections == 0 then
-        local chunkNum = 1
-        local pos = 1
-        while pos <= markdownLength do
-            local chunkContent = string.sub(markdown, pos, math.min(pos + ESO_EDITBOX_HARD_LIMIT - 1, markdownLength))
-            table.insert(chunks, {
-                name = string.format("Part %d", chunkNum),
-                content = chunkContent
-            })
-            pos = pos + ESO_EDITBOX_HARD_LIMIT
-            chunkNum = chunkNum + 1
-        end
-        return chunks
-    end
-    
-    -- Split at section boundaries, ensuring each chunk is safely under limit
-    local chunkStart = 1
-    local currentChunkContent = ""
-    local currentChunkNames = {}
-    local SAFETY_MARGIN = 2000  -- Increase safety margin
-    
-    for i, section in ipairs(sections) do
-        -- Get content from current position to this section header
-        local sectionContent = string.sub(markdown, chunkStart, section.position - 1)
-        local sectionLength = string.len(sectionContent)
-        local currentLength = string.len(currentChunkContent)
-        
-        -- Check if adding this section would exceed limit (with safety margin)
-        -- Be more aggressive - split earlier to be safe
-        local effectiveLimit = ESO_EDITBOX_HARD_LIMIT - SAFETY_MARGIN
-        local wouldExceed = (currentLength + sectionLength) > effectiveLimit
-        
-        -- Also check if current chunk alone is getting large (split proactively)
-        local shouldSplitEarly = currentLength > (effectiveLimit * 0.8) and currentChunkContent ~= ""
-        
-        -- Also check if section itself is too large (must split it)
-        if sectionLength > effectiveLimit then
-            -- Section is too large - save current chunk first if needed
-            if currentChunkContent ~= "" then
-                local chunkName = #currentChunkNames > 0 and table.concat(currentChunkNames, " + ") or "Header"
-                table.insert(chunks, {
-                    name = chunkName,
-                    content = currentChunkContent
-                })
-                currentChunkContent = ""
-                currentChunkNames = {}
-            end
-            
-            -- Split the large section into multiple chunks
-            local largeSectionStart = chunkStart
-            local largeSectionEnd = section.position - 1
-            local largeSectionRemaining = sectionContent
-            local partNum = 1
-            
-            while string.len(largeSectionRemaining) > 0 do
-                local maxLen = effectiveLimit
-                if string.len(largeSectionRemaining) <= maxLen then
-                    table.insert(chunks, {
-                        name = string.format("%s (Part %d)", section.name, partNum),
-                        content = largeSectionRemaining
-                    })
-                    break
-                else
-                    -- Find a good split point at a line boundary
-                    local safeSplitPos = FindLastLineBoundary(largeSectionRemaining, maxLen)
-                    
-                    local chunkPart = string.sub(largeSectionRemaining, 1, safeSplitPos)
-                    table.insert(chunks, {
-                        name = string.format("%s (Part %d)", section.name, partNum),
-                        content = chunkPart
-                    })
-                    largeSectionRemaining = string.sub(largeSectionRemaining, safeSplitPos + 1)
-                    partNum = partNum + 1
-                end
-            end
-            
-            currentChunkContent = ""
-            currentChunkNames = {}
-        elseif (wouldExceed or shouldSplitEarly) and currentChunkContent ~= "" then
-            -- Save current chunk and start new one
-            local chunkName = #currentChunkNames > 0 and table.concat(currentChunkNames, " + ") or "Header"
-            table.insert(chunks, {
-                name = chunkName,
-                content = currentChunkContent
-            })
-            currentChunkContent = sectionContent
-            currentChunkNames = {section.name}
-        else
-            -- Add to current chunk
-            currentChunkContent = currentChunkContent .. sectionContent
-            if section.name then
-                table.insert(currentChunkNames, section.name)
-            end
-        end
-        
-        chunkStart = section.position
-    end
-    
-    -- Add remaining content (after last section)
-    local remainingContent = string.sub(markdown, chunkStart)
-    local remainingLength = string.len(remainingContent)
-    local currentLength = string.len(currentChunkContent)
-    
-    local effectiveLimit = ESO_EDITBOX_HARD_LIMIT - SAFETY_MARGIN
-    if (currentLength + remainingLength) <= effectiveLimit then
-        currentChunkContent = currentChunkContent .. remainingContent
-        local chunkName = #currentChunkNames > 0 and table.concat(currentChunkNames, " + ") or "Header"
-        if currentChunkContent ~= "" then
-            table.insert(chunks, {
-                name = chunkName,
-                content = currentChunkContent
-            })
-        end
-    else
-        -- Remaining content too large - need to split
-        if currentChunkContent ~= "" then
-            local chunkName = #currentChunkNames > 0 and table.concat(currentChunkNames, " + ") or "Header"
-            table.insert(chunks, {
-                name = chunkName,
-                content = currentChunkContent
-            })
-        end
-        
-        -- Split remaining into chunks at line boundaries
-        local remaining = remainingContent
-        local chunkNum = #chunks + 1
-        local pos = 1
-        local remainingLength = string.len(remaining)
-        while pos <= remainingLength do
-            local maxLen = effectiveLimit
-            local maxPos = math.min(pos + maxLen - 1, remainingLength)
-            -- Find safe split point at line boundary (relative to remaining string start at pos)
-            local relativeMaxPos = maxPos - pos + 1  -- Position relative to current pos
-            local safeSplitPos = FindLastLineBoundary(string.sub(remaining, pos), relativeMaxPos)
-            if safeSplitPos < 1 then safeSplitPos = relativeMaxPos end  -- Fallback if no line found
-            
-            local chunkContent = string.sub(remaining, pos, pos + safeSplitPos - 1)
-            table.insert(chunks, {
-                name = string.format("Part %d", chunkNum),
-                content = chunkContent
-            })
-            pos = pos + safeSplitPos
-            chunkNum = chunkNum + 1
-        end
-    end
-    
-    -- Verify all chunks are under limit and add newlines for easy appending
-    for i, chunk in ipairs(chunks) do
-        local chunkLen = string.len(chunk.content)
-        if chunkLen > ESO_EDITBOX_HARD_LIMIT then
-            CM.Warn(string.format("⚠️ Chunk %d '%s' is %d chars (over limit %d) - truncating at line boundary", 
-                i, chunk.name, chunkLen, ESO_EDITBOX_HARD_LIMIT))
-            -- Find safe truncation point at line boundary
-            local safeTruncatePos = FindLastLineBoundary(chunk.content, ESO_EDITBOX_HARD_LIMIT)
-            if safeTruncatePos < 1 then safeTruncatePos = ESO_EDITBOX_HARD_LIMIT end
-            chunk.content = string.sub(chunk.content, 1, safeTruncatePos)
-        end
-        
-        -- Add newline at end of each chunk for easier appending (unless already ends with newline)
-        local content = chunk.content
-        local lastChar = string.sub(content, -1)
-        if lastChar ~= "\n" then
-            chunk.content = content .. "\n"
-        end
-    end
-    
-    return chunks
-end
 
 -- =====================================================
 -- INITIALIZE WINDOW CONTROLS
@@ -338,10 +52,9 @@ local function InitializeWindowControls()
         CM.Warn("Clipboard EditBox not found - using main EditBox")
     end
     
-    -- Configure EditBox with INCREASED character limit and READ-ONLY mode
-    -- Note: ESO EditBox may have internal limits (possibly ~50k-100k) despite SetMaxInputChars
-    -- Setting very high value, but actual limit may be lower
-    editBoxControl:SetMaxInputChars(1000000)  -- Attempt 1 million (may be limited internally)
+    -- Configure EditBox with character limit and READ-ONLY mode
+    -- Note: ESO EditBox may have internal limits despite SetMaxInputChars
+    editBoxControl:SetMaxInputChars(22000)  -- 22k character limit
     editBoxControl:SetMultiLine(true)
     editBoxControl:SetNewLineEnabled(true)
     editBoxControl:SetEditEnabled(false)  -- Make READ-ONLY - cannot be edited
@@ -351,8 +64,8 @@ local function InitializeWindowControls()
     local actualMaxChars = editBoxControl:GetMaxInputChars()
     if actualMaxChars then
         CM.DebugPrint("UI", string.format("EditBox max input chars: %d", actualMaxChars))
-        if actualMaxChars < 1000000 then
-            CM.DebugPrint("UI", string.format("EditBox limited to %d (requested 1000000)", actualMaxChars))
+        if actualMaxChars < 22000 then
+            CM.DebugPrint("UI", string.format("EditBox limited to %d (requested 22000)", actualMaxChars))
         end
     else
         CM.DebugPrint("UI", "Could not get EditBox max input chars")
@@ -473,6 +186,143 @@ function CharacterMarkdown_RegenerateMarkdown()
     end, 100)
 end
 
+
+-- =====================================================
+-- MARKDOWN CHUNKING
+-- =====================================================
+
+-- Split markdown into chunks with new strategy:
+-- 1. Each chunk no larger than 21,200 characters of data
+-- 2. Always ends on a complete line (never split a line)
+-- 3. After last line, pad with spaces up to 21,500 total characters
+-- Formula: 21500 = x (data chars) + y (spaces)
+local function SplitMarkdownIntoChunks(markdown)
+    local chunks = {}
+    local markdownLength = string.len(markdown)
+    local maxDataChars = 21200  -- Maximum data characters per chunk
+    local targetChunkSize = 21500  -- Target total size (data + padding)
+    
+    -- If content fits in one chunk, return as-is (no padding for single/final chunk)
+    if markdownLength <= maxDataChars then
+        return {
+            {content = markdown}
+        }
+    end
+    
+    -- Split into chunks, always ending on complete lines
+    local chunkNum = 1
+    local pos = 1
+    
+    while pos <= markdownLength do
+        -- Calculate potential end position (maxDataChars from current position)
+        local potentialEnd = math.min(pos + maxDataChars - 1, markdownLength)
+        
+        -- Find the last newline before or at the potential end
+        -- CRITICAL: Always end on a complete line, never split a line
+        local chunkEnd = potentialEnd
+        
+        if potentialEnd < markdownLength then
+            -- Search backwards for a newline within the chunk
+            -- Search up to 1000 chars back to find a safe break point
+            local searchStart = math.max(pos, potentialEnd - 1000)
+            local foundNewline = false
+            
+            for i = potentialEnd, searchStart, -1 do
+                local char = string.sub(markdown, i, i)
+                if char == "\n" then
+                    chunkEnd = i
+                    foundNewline = true
+                    break
+                end
+            end
+            
+            -- If no newline found within search range, search further back
+            if not foundNewline and potentialEnd > pos then
+                local extendedSearchStart = math.max(pos, potentialEnd - 5000)
+                for i = potentialEnd, extendedSearchStart, -1 do
+                    local char = string.sub(markdown, i, i)
+                    if char == "\n" then
+                        chunkEnd = i
+                        foundNewline = true
+                        break
+                    end
+                end
+            end
+            
+            -- Last resort: if still no newline found, use potentialEnd but warn
+            if not foundNewline then
+                CM.Warn(string.format("Chunk %d: No newline found within safe range, using position %d", chunkNum, potentialEnd))
+                chunkEnd = potentialEnd
+            end
+        end
+        
+        -- Extract the chunk data (complete lines only)
+        local chunkData = string.sub(markdown, pos, chunkEnd)
+        local dataChars = string.len(chunkData)
+        
+        -- Check if this is the last chunk (reached end of markdown)
+        local isLastChunk = (chunkEnd >= markdownLength)
+        
+        -- Calculate padding: targetChunkSize = dataChars + spaces
+        -- Formula: 21500 = x (data chars) + y (spaces)
+        -- IMPORTANT: Do NOT apply padding to the final chunk
+        local spacesNeeded = 0
+        if not isLastChunk then
+            spacesNeeded = targetChunkSize - dataChars
+            
+            -- Ensure we don't have negative padding (shouldn't happen, but safety check)
+            if spacesNeeded < 0 then
+                CM.Warn(string.format("Chunk %d: Data exceeds target size (%d > %d), no padding added", chunkNum, dataChars, targetChunkSize))
+                spacesNeeded = 0
+            end
+        end
+        
+        -- Pad with spaces to reach exactly 21,500 characters (except for last chunk)
+        local padding = (spacesNeeded > 0) and string.rep(" ", spacesNeeded) or ""
+        local chunkContent = chunkData .. padding
+        
+        -- Verify final chunk size
+        -- Non-last chunks should be exactly 21,500; last chunk is unpadded
+        local finalSize = string.len(chunkContent)
+        if not isLastChunk and finalSize ~= targetChunkSize then
+            CM.Warn(string.format("Chunk %d: Final size mismatch (expected %d, got %d)", chunkNum, targetChunkSize, finalSize))
+        elseif isLastChunk then
+            CM.DebugPrint("UI", string.format("Chunk %d (final): %d chars (no padding applied)", chunkNum, finalSize))
+        end
+        
+        table.insert(chunks, {
+            content = chunkContent
+        })
+        
+        -- Move to next chunk (start after the newline)
+        pos = chunkEnd + 1
+        chunkNum = chunkNum + 1
+        
+        -- Safety check to prevent infinite loop
+        if pos > markdownLength then
+            break
+        end
+    end
+    
+    -- Log chunking results
+    if #chunks > 1 then
+        CM.DebugPrint("UI", string.format("Split markdown into %d chunks (total: %d chars)", #chunks, markdownLength))
+        for i, chunk in ipairs(chunks) do
+            local chunkLen = string.len(chunk.content)
+            local dataLen = chunkLen
+            -- Try to detect padding (trailing spaces)
+            local paddingMatch = chunk.content:match("%s+$")
+            if paddingMatch then
+                dataLen = chunkLen - string.len(paddingMatch)
+            end
+            CM.DebugPrint("UI", string.format("  Chunk %d: %d total chars (%d data + %d padding)", 
+                i, chunkLen, dataLen, chunkLen - dataLen))
+        end
+    end
+    
+    return chunks
+end
+
 -- =====================================================
 -- CHUNK NAVIGATION
 -- =====================================================
@@ -501,36 +351,31 @@ local function ShowChunk(chunkIndex)
     editBoxControl:SetColor(1, 1, 1, 1)
     editBoxControl:SetEditEnabled(false)
     
-    -- Update instructions and ensure buttons are visible
+    -- Update instructions
     local instructionsLabel = CharacterMarkdownWindowInstructions
     local prevButton = CharacterMarkdownWindowButtonContainerPrevChunkButton
     local nextButton = CharacterMarkdownWindowButtonContainerNextChunkButton
     
     if instructionsLabel and #markdownChunks > 1 then
         instructionsLabel:SetText(string.format(
-            "Chunk %d/%d: %s | PageUp/PageDown to navigate | Copy each chunk separately",
-            currentChunkIndex, #markdownChunks, chunk.name
+            "Chunk %d/%d | PageUp/PageDown to navigate | Copy each chunk separately",
+            currentChunkIndex, #markdownChunks
         ))
     end
     
-    -- Ensure navigation buttons are visible when multiple chunks
+    -- Show/hide navigation buttons
     if #markdownChunks > 1 then
         if prevButton then 
             prevButton:SetHidden(false)
             prevButton:SetAlpha(1)
-            -- Try to bring button to front if method exists
-            if prevButton.SetDrawLevel then
-                prevButton:SetDrawLevel(1)
-            end
         end
         if nextButton then 
             nextButton:SetHidden(false)
             nextButton:SetAlpha(1)
-            -- Try to bring button to front if method exists
-            if nextButton.SetDrawLevel then
-                nextButton:SetDrawLevel(1)
-            end
         end
+    else
+        if prevButton then prevButton:SetHidden(true) end
+        if nextButton then nextButton:SetHidden(true) end
     end
     
     -- Auto-select for copying
@@ -540,7 +385,7 @@ local function ShowChunk(chunkIndex)
             editBoxControl:TakeFocus()
             editBoxControl:SelectAll()
             editBoxControl:SetEditEnabled(false)
-            CM.DebugPrint("UI", string.format("Switched to chunk %d/%d: %s", currentChunkIndex, #markdownChunks, chunk.name))
+            CM.DebugPrint("UI", string.format("Switched to chunk %d/%d", currentChunkIndex, #markdownChunks))
         end
     end, 50)
     
@@ -604,95 +449,23 @@ function CharacterMarkdown_ShowWindow(markdown, format)
     local markdownLength = string.len(markdown)
     CM.DebugPrint("UI", string.format("Setting markdown text (%d characters)", markdownLength))
     
-    -- Split markdown into chunks if needed
-    markdownChunks = SplitMarkdownIntoSections(markdown)
+    -- Split markdown into chunks
+    markdownChunks = SplitMarkdownIntoChunks(markdown)
     currentChunkIndex = 1
     
-    -- ESO EditBox hard limit is ~30,842 characters (cannot be overridden)
-    local ESO_EDITBOX_HARD_LIMIT = 30800
-    if markdownLength > ESO_EDITBOX_HARD_LIMIT then
-        CM.Info(string.format("📦 Split into %d chunks (content: %d chars, limit: ~%d)", 
-            #markdownChunks, markdownLength, ESO_EDITBOX_HARD_LIMIT))
-        CM.Info("💡 Use PageUp/PageDown keys to navigate chunks, copy each separately")
+    if #markdownChunks > 1 then
+        CM.Info(string.format("📦 Split into %d chunks (content: %d chars)", 
+            #markdownChunks, markdownLength))
+        CM.Info("💡 Use Next/Previous buttons or PageUp/PageDown to navigate chunks")
         
         -- Log chunk info
         for i, chunk in ipairs(markdownChunks) do
-            CM.DebugPrint("UI", string.format("  Chunk %d: %s (%d chars)", i, chunk.name, string.len(chunk.content)))
+            CM.DebugPrint("UI", string.format("  Chunk %d: %d chars", i, string.len(chunk.content)))
         end
     end
     
-    -- Display first chunk (or only chunk if not split)
-    local chunkToDisplay = markdownChunks[currentChunkIndex]
-    if not chunkToDisplay then
-        CM.Error("No chunks available to display")
-        return false
-    end
-    
-    editBoxControl:SetEditEnabled(true)
-    editBoxControl:SetText(chunkToDisplay.content)
-    
-    -- Verify what was actually set
-    local actualText = editBoxControl:GetText()
-    local actualLength = actualText and string.len(actualText) or 0
-    local chunkLength = string.len(chunkToDisplay.content)
-    
-    if actualLength < chunkLength then
-        CM.Warn(string.format("Chunk %d truncated: %d/%d chars", currentChunkIndex, actualLength, chunkLength))
-    else
-        CM.DebugPrint("UI", string.format("Chunk %d/%d displayed: %s (%d chars)", 
-            currentChunkIndex, #markdownChunks, chunkToDisplay.name, actualLength))
-    end
-    
-    editBoxControl:SetColor(1, 1, 1, 1)  -- White text
-    editBoxControl:SetEditEnabled(false)  -- Make read-only again
-    
-    -- Update instructions and button visibility BEFORE showing window
-    local instructionsLabel = CharacterMarkdownWindowInstructions
-    local prevButton = CharacterMarkdownWindowButtonContainerPrevChunkButton
-    local nextButton = CharacterMarkdownWindowButtonContainerNextChunkButton
-    
-    -- Log button access for debugging
-    if not prevButton then
-        CM.Warn("PrevChunkButton not found!")
-    end
-    if not nextButton then
-        CM.Warn("NextChunkButton not found!")
-    end
-    
-    if #markdownChunks > 1 then
-        if instructionsLabel then
-            instructionsLabel:SetText(string.format(
-                "Chunk %d/%d: %s | PageUp/PageDown to navigate | Copy each chunk separately",
-                currentChunkIndex, #markdownChunks, chunkToDisplay.name
-            ))
-        end
-        -- Show navigation buttons - ensure they're fully visible
-        if prevButton then 
-            prevButton:SetHidden(false)
-            prevButton:SetAlpha(1)  -- Ensure fully visible
-            -- Try to bring button to front if method exists
-            if prevButton.SetDrawLevel then
-                prevButton:SetDrawLevel(1)
-            end
-            CM.DebugPrint("UI", "Prev button shown")
-        end
-        if nextButton then 
-            nextButton:SetHidden(false)
-            nextButton:SetAlpha(1)  -- Ensure fully visible
-            -- Try to bring button to front if method exists
-            if nextButton.SetDrawLevel then
-                nextButton:SetDrawLevel(1)
-            end
-            CM.DebugPrint("UI", "Next button shown")
-        end
-    else
-        if instructionsLabel then
-            instructionsLabel:SetText("Click 'Select All', then Ctrl+A, then Ctrl+C to copy!")
-        end
-        -- Hide navigation buttons
-        if prevButton then prevButton:SetHidden(true) end
-        if nextButton then nextButton:SetHidden(true) end
-    end
+    -- Display first chunk
+    ShowChunk(1)
     
     -- Show window
     windowControl:SetHidden(false)
@@ -705,6 +478,24 @@ function CharacterMarkdown_ShowWindow(markdown, format)
     -- Try to activate the window (ESO-specific)
     if windowControl.Activate then
         windowControl:Activate()
+    end
+    
+    -- Request focus immediately
+    if windowControl.RequestMoveToForeground then
+        windowControl:RequestMoveToForeground()
+    end
+    
+    -- Try to push to front using scene manager if available
+    if SCENE_MANAGER and SCENE_MANAGER.GetCurrentScene then
+        local currentScene = SCENE_MANAGER:GetCurrentScene()
+        if currentScene and currentScene.PushActionLayerByName then
+            -- This helps bring the window to front
+            zo_callLater(function()
+                if not windowControl:IsHidden() then
+                    windowControl:SetHidden(false)  -- Refresh visibility
+                end
+            end, 50)
+        end
     end
     
     -- Auto-select text and take focus after a delay (increased delay to ensure window is visible)
@@ -725,16 +516,31 @@ function CharacterMarkdown_ShowWindow(markdown, format)
             editBoxControl:TakeFocus()
             editBoxControl:SelectAll()
             
+            -- Method 3: Try keyboard focus method
+            if editBoxControl.SetKeyboardEnabled then
+                editBoxControl:SetKeyboardEnabled(true)
+            end
+            
             -- Try one more time after a short delay to ensure focus sticks
             zo_callLater(function()
                 if not windowControl:IsHidden() then
+                    -- Refresh window state
+                    windowControl:SetHidden(false)
+                    if windowControl.SetTopmost then
+                        windowControl:SetTopmost(true)
+                    end
+                    if windowControl.RequestMoveToForeground then
+                        windowControl:RequestMoveToForeground()
+                    end
+                    
+                    -- Final focus attempt
                     editBoxControl:TakeFocus()
                     editBoxControl:SelectAll()
                     editBoxControl:SetEditEnabled(false)  -- Back to read-only
                 end
             end, 50)
             
-            CM.DebugPrint("UI", "Window opened successfully - Chunk ready to copy")
+            CM.DebugPrint("UI", "Window opened successfully - Markdown ready to copy")
         end
     end, 200)  -- Increased delay to ensure window is fully rendered
     
@@ -759,6 +565,7 @@ end
 -- =====================================================
 -- INITIALIZE ON ADDON LOADED
 -- =====================================================
+
 
 -- Keyboard navigation handler
 local function OnKeyDown(eventCode, ctrlPressed, shiftPressed, altPressed, commandPressed)

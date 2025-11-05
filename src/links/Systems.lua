@@ -22,8 +22,10 @@ local function CreateMundusLink(mundusName, format)
         return mundusName or "Unknown"
     end
     
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return mundusName
     end
     
@@ -57,8 +59,9 @@ local function CreateCPSkillLink(skillName, format)
         return skillName or ""
     end
     
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    if settings and settings.enableAbilityLinks == false then
         return skillName
     end
     
@@ -91,8 +94,9 @@ local function CreateCampaignLink(campaignName, format)
         return campaignName or "None"
     end
     
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    if settings and settings.enableAbilityLinks == false then
         return campaignName
     end
     
@@ -136,8 +140,9 @@ local function CreateBuffLink(buffName, format)
         return buffName or ""
     end
     
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    if settings and settings.enableAbilityLinks == false then
         return buffName
     end
     
@@ -150,3 +155,110 @@ local function CreateBuffLink(buffName, format)
 end
 
 CM.links.CreateBuffLink = CreateBuffLink
+
+-- =====================================================
+-- CURRENCY LINKS
+-- =====================================================
+
+local function GenerateCurrencyURL(currencyName)
+    if not currencyName or currencyName == "" then
+        return nil
+    end
+    
+    -- Map currency names to UESP URLs
+    local currencyMap = {
+        ["Gold"] = "https://en.uesp.net/wiki/Online:Gold",
+        ["Gold (On Hand)"] = "https://en.uesp.net/wiki/Online:Gold",
+        ["Gold (Bank)"] = "https://en.uesp.net/wiki/Online:Gold",
+        ["Gold (Total)"] = "https://en.uesp.net/wiki/Online:Gold",
+        ["Alliance Points"] = "https://en.uesp.net/wiki/Online:Alliance_Points",
+        ["AP"] = "https://en.uesp.net/wiki/Online:Alliance_Points",
+        ["Tel Var Stones"] = "https://en.uesp.net/wiki/Online:Tel_Var_Stones",
+        ["Tel Var"] = "https://en.uesp.net/wiki/Online:Tel_Var_Stones",
+        ["Transmute Crystals"] = "https://en.uesp.net/wiki/Online:Transmute_Crystals",
+        ["Crystals"] = "https://en.uesp.net/wiki/Online:Transmute_Crystals",
+        ["Event Tickets"] = "https://en.uesp.net/wiki/Online:Event_Tickets",
+        ["Tickets"] = "https://en.uesp.net/wiki/Online:Event_Tickets",
+        ["Writs"] = "https://en.uesp.net/wiki/Online:Writ_Vouchers",
+        ["Crowns"] = "https://en.uesp.net/wiki/Online:Crowns",
+        ["Crown Gems"] = "https://en.uesp.net/wiki/Online:Crown_Gems",
+        ["Seals of Endeavor"] = "https://en.uesp.net/wiki/Online:Seals_of_Endeavor",
+    }
+    
+    -- Check if we have a direct mapping
+    if currencyMap[currencyName] then
+        return currencyMap[currencyName]
+    end
+    
+    -- Fallback: try to construct URL from name
+    local urlName = currencyName:gsub(" ", "_")
+    urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    return "https://en.uesp.net/wiki/Online:" .. urlName
+end
+
+CM.links.GenerateCurrencyURL = GenerateCurrencyURL
+
+local function CreateCurrencyLink(currencyName, format)
+    if not currencyName or currencyName == "" then
+        return currencyName or ""
+    end
+    
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
+        return currencyName
+    end
+    
+    local url = GenerateCurrencyURL(currencyName)
+    if url and (format == "github" or format == "discord") then
+        return "[" .. currencyName .. "](" .. url .. ")"
+    else
+        return currencyName
+    end
+end
+
+CM.links.CreateCurrencyLink = CreateCurrencyLink
+
+-- =====================================================
+-- COLLECTIBLE LINKS
+-- =====================================================
+
+local function GenerateCollectibleURL(collectibleName)
+    if not collectibleName or collectibleName == "" then
+        return nil
+    end
+    
+    -- UESP format for collectibles: https://en.uesp.net/wiki/Online:Collectible_Name
+    -- Replace spaces with underscores and remove special characters that break URLs
+    local urlName = collectibleName:gsub(" ", "_")
+    -- Remove parentheses, brackets, and braces that might cause URL issues
+    urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    -- Note: Hyphens and apostrophes are kept as UESP accepts them in URLs
+    
+    return "https://en.uesp.net/wiki/Online:" .. urlName
+end
+
+CM.links.GenerateCollectibleURL = GenerateCollectibleURL
+
+local function CreateCollectibleLink(collectibleName, format)
+    if not collectibleName or collectibleName == "" then
+        return collectibleName or ""
+    end
+    
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
+        return collectibleName
+    end
+    
+    local url = GenerateCollectibleURL(collectibleName)
+    if url and (format == "github" or format == "discord") then
+        return "[" .. collectibleName .. "](" .. url .. ")"
+    else
+        return collectibleName
+    end
+end
+
+CM.links.CreateCollectibleLink = CreateCollectibleLink

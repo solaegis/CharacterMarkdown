@@ -51,7 +51,7 @@ local function GetCategoryEmoji(categoryName)
     local emojis = {
         ["Main Story"] = "📖",
         ["Zone Quests"] = "🗺️",
-        ["Guild Quests"] = "🏛️",
+        ["Guild Quests"] = "🏰",  -- Changed from 🏛️ for better compatibility
         ["DLC Quests"] = "📦",
         ["Daily Quests"] = "🔄",
         ["PvP Quests"] = "⚔️",
@@ -67,7 +67,7 @@ local function GetQuestTypeEmoji(questType)
     local emojis = {
         ["Main Quest"] = "📖",
         ["Side Quest"] = "📝",
-        ["Guild Quest"] = "🏛️",
+        ["Guild Quest"] = "🏰",  -- Changed from 🏛️ for better compatibility
         ["Daily Quest"] = "🔄",
         ["PvP Quest"] = "⚔️",
         ["Crafting Quest"] = "⚒️",
@@ -275,7 +275,7 @@ local function GenerateGuildQuests(guildData, format)
     if format == "discord" then
         markdown = markdown .. "**Guild Quest Progress:**\n"
     else
-        markdown = markdown .. "### 🏛️ Guild Quest Progress\n\n"
+        markdown = markdown .. "### 🏰 Guild Quest Progress\n\n"  -- Changed from 🏛️ for better compatibility
     end
     
     local byGuild = guildData.byGuild
@@ -283,7 +283,7 @@ local function GenerateGuildQuests(guildData, format)
     if format == "discord" then
         for guildName, guildInfo in pairs(byGuild) do
             if guildInfo.active > 0 then
-                markdown = markdown .. "🏛️ **" .. guildName .. "**: " .. guildInfo.active .. " active\n"
+                markdown = markdown .. "🏰 **" .. guildName .. "**: " .. guildInfo.active .. " active\n"  -- Changed from 🏛️ for better compatibility
             end
         end
     else
@@ -293,7 +293,7 @@ local function GenerateGuildQuests(guildData, format)
         for guildName, guildInfo in pairs(byGuild) do
             if guildInfo.active > 0 or guildInfo.completed > 0 then
                 local total = guildInfo.active + guildInfo.completed
-                markdown = markdown .. "| 🏛️ **" .. guildName .. "** | " .. 
+                markdown = markdown .. "| 🏰 **" .. guildName .. "** | " ..  -- Changed from 🏛️ for better compatibility 
                     guildInfo.active .. " | " .. guildInfo.completed .. " | " .. total .. " |\n"
             end
         end

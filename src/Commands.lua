@@ -26,6 +26,7 @@ local function ShowHelp()
     d("  /markdown vscode    - Generate VS Code format")
     d("  /markdown discord   - Generate Discord format")
     d("  /markdown quick     - Generate quick summary")
+    d("  /markdown test      - Run validation tests on generated markdown")
     d("  /markdown help      - Show this help")
     d("  /markdown save      - Force save settings to file")
     d(" ")
@@ -42,6 +43,44 @@ local function CommandHandler(args)
     
     if args and args:lower():match("^%s*help") then
         ShowHelp()
+        return
+    end
+    
+    -- Test command
+    if args and args:lower():match("^%s*test") then
+        CM.Info("Running validation tests...")
+        
+        if not CM.tests or not CM.tests.validation then
+            CM.Error("Test validation module not loaded")
+            return
+        end
+        
+        -- Generate markdown first
+        local testFormat = CM.currentFormat or "github"
+        local success, markdown = pcall(function()
+            return CM.generators.GenerateMarkdown(testFormat)
+        end)
+        
+        if not success or not markdown then
+            CM.Error("Failed to generate markdown for testing")
+            return
+        end
+        
+        -- Run validation tests
+        local results = CM.tests.validation.ValidateMarkdown(markdown, testFormat)
+        
+        -- Print report
+        CM.tests.validation.PrintTestReport()
+        
+        -- Summary
+        if #results.failed == 0 then
+            CM.Success(string.format("All tests passed! (%d passed, %d warnings)", 
+                #results.passed, #results.warnings))
+        else
+            CM.Warn(string.format("Some tests failed: %d passed, %d failed, %d warnings", 
+                #results.passed, #results.failed, #results.warnings))
+        end
+        
         return
     end
     
@@ -97,6 +136,16 @@ local function CommandHandler(args)
     
     CM.DebugPrint("COMMAND", "Markdown generated:", string.len(markdown), "chars")
     CM.Success("Markdown generated (" .. string.len(markdown) .. " characters)")
+    
+    -- Run validation tests if enabled (non-blocking, debug only)
+    if CM.debug and CM.tests and CM.tests.validation then
+        zo_callLater(function()
+            local results = CM.tests.validation.ValidateMarkdown(markdown, format)
+            if #results.failed > 0 then
+                CM.DebugPrint("TESTS", string.format("⚠️ %d validation test(s) failed", #results.failed))
+            end
+        end, 100)  -- Delay to avoid blocking main generation
+    end
     
     if CharacterMarkdown_ShowWindow then
         CM.DebugPrint("COMMAND", "Opening display window...")

@@ -28,10 +28,15 @@ local function CreateSetLink(setName, format)
         return setName or "-"
     end
     
-    -- Check settings
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableSetLinks == false then
-        return setName
+    -- Check settings: if external links are disabled, return plain text
+    -- Check both enableSetLinks and enableAbilityLinks (they're toggled together in UI)
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings then
+        -- If either setting is explicitly false, disable links
+        if settings.enableSetLinks == false or settings.enableAbilityLinks == false then
+            return setName
+        end
     end
     
     local url = GenerateSetURL(setName)

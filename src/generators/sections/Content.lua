@@ -4,7 +4,7 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local CreateMundusLink, CreateCPSkillLink
+local CreateMundusLink, CreateCPSkillLink, CreateCollectibleLink
 local FormatNumber, GenerateProgressBar
 
 -- Lazy initialization of cached references
@@ -12,6 +12,7 @@ local function InitializeUtilities()
     if not FormatNumber then
         CreateMundusLink = CM.links.CreateMundusLink
         CreateCPSkillLink = CM.links.CreateCPSkillLink
+        CreateCollectibleLink = CM.links.CreateCollectibleLink
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
     end
@@ -122,12 +123,24 @@ local function GenerateCollectibles(collectiblesData, format)
     local settings = CharacterMarkdownSettings or {}
     local includeDetailed = settings.includeCollectiblesDetailed or false
     
+    -- Auto-enable detailed mode if we have any owned collectibles to show
+    -- This allows users to see their collected items even if setting is disabled
+    if not includeDetailed and collectiblesData.categories then
+        for _, key in ipairs({"mounts", "pets", "costumes", "emotes", "mementos", "skins", "polymorphs", "personalities"}) do
+            local category = collectiblesData.categories[key]
+            if category and #category.owned > 0 then
+                includeDetailed = true
+                break
+            end
+        end
+    end
+    
     if format == "discord" then
         -- Discord: Always show summary counts only (no detailed lists)
         markdown = markdown .. "**Collectibles:**\n"
         
         if collectiblesData.categories then
-            for _, key in ipairs({"mounts", "pets", "costumes", "houses", "emotes", "mementos", "skins", "polymorphs", "personalities"}) do
+            for _, key in ipairs({"mounts", "pets", "costumes", "emotes", "mementos", "skins", "polymorphs", "personalities"}) do
                 local category = collectiblesData.categories[key]
                 if category and category.total > 0 then
                     local owned = #category.owned
@@ -137,43 +150,30 @@ local function GenerateCollectibles(collectiblesData, format)
         end
         markdown = markdown .. "\n"
     else
-        -- GitHub/VSCode: Show collapsible detailed lists if enabled
+        -- GitHub/VSCode: Show collapsible detailed lists if enabled or if we have owned items
         markdown = markdown .. "## 🎨 Collectibles\n\n"
         
-        if not includeDetailed or not hasDetailedData then
-            -- Fallback: Show simple count table if detailed not enabled
-            markdown = markdown .. "| Type | Count |\n"
-            markdown = markdown .. "|:-----|------:|\n"
-            if collectiblesData.mounts > 0 then
-                markdown = markdown .. "| **🐴 Mounts** | " .. collectiblesData.mounts .. " |\n"
-            end
-            if collectiblesData.pets > 0 then
-                markdown = markdown .. "| **🐾 Pets** | " .. collectiblesData.pets .. " |\n"
-            end
-            if collectiblesData.costumes > 0 then
-                markdown = markdown .. "| **👗 Costumes** | " .. collectiblesData.costumes .. " |\n"
-            end
-            if collectiblesData.houses > 0 then
-                markdown = markdown .. "| **🏠 Houses** | " .. collectiblesData.houses .. " |\n"
-            end
-            markdown = markdown .. "\n"
-        else
+        if includeDetailed and hasDetailedData and collectiblesData.categories then
             -- Detailed mode: Show collapsible sections with (X of Y) format
-            if collectiblesData.categories then
-                for _, key in ipairs({"mounts", "pets", "costumes", "houses", "emotes", "mementos", "skins", "polymorphs", "personalities"}) do
-                    local category = collectiblesData.categories[key]
-                    if category and category.total > 0 then
-                        local owned = #category.owned
-                        
-                        -- Collapsible section header
-                        markdown = markdown .. "<details>\n"
-                        markdown = markdown .. "<summary>" .. category.emoji .. " " .. category.name .. 
+            for _, key in ipairs({"mounts", "pets", "costumes", "emotes", "mementos", "skins", "polymorphs", "personalities"}) do
+                local category = collectiblesData.categories[key]
+                if category and category.total > 0 then
+                    local owned = #category.owned
+                    
+                    -- Collapsible section header
+                    markdown = markdown .. "<details>\n"
+                    markdown = markdown .. "<summary>" .. category.emoji .. " " .. category.name .. 
                                               " (" .. owned .. " of " .. category.total .. ")</summary>\n\n"
-                        
+                    
                         -- List owned collectibles (alphabetically sorted)
                         if owned > 0 then
                             for _, collectible in ipairs(category.owned) do
-                                markdown = markdown .. "- " .. collectible.name
+                                InitializeUtilities()
+                                -- Use fullName for links (UESP uses full names), display name for text
+                                local linkName = collectible.fullName or collectible.name
+                                local displayName = collectible.name
+                                local collectibleLink = (CreateCollectibleLink and CreateCollectibleLink(linkName, format)) or displayName
+                                markdown = markdown .. "- " .. collectibleLink
                                 -- Add rarity if available
                                 if collectible.quality then
                                     markdown = markdown .. " [" .. collectible.quality .. "]"
@@ -183,11 +183,27 @@ local function GenerateCollectibles(collectiblesData, format)
                         else
                             markdown = markdown .. "*No " .. category.name:lower() .. " owned*\n"
                         end
-                        
-                        markdown = markdown .. "</details>\n\n"
-                    end
+                    
+                    markdown = markdown .. "</details>\n\n"
                 end
             end
+        else
+            -- Fallback: Show simple count table if detailed data not available
+            markdown = markdown .. "| Type | Count |\n"
+            markdown = markdown .. "|:-----|------:|\n"
+            if collectiblesData.mounts and collectiblesData.mounts > 0 then
+                markdown = markdown .. "| **🐴 Mounts** | " .. collectiblesData.mounts .. " |\n"
+            end
+            if collectiblesData.pets and collectiblesData.pets > 0 then
+                markdown = markdown .. "| **🐾 Pets** | " .. collectiblesData.pets .. " |\n"
+            end
+            if collectiblesData.costumes and collectiblesData.costumes > 0 then
+                markdown = markdown .. "| **👗 Costumes** | " .. collectiblesData.costumes .. " |\n"
+            end
+            if collectiblesData.houses and collectiblesData.houses > 0 then
+                markdown = markdown .. "| **🏠 Houses** | " .. collectiblesData.houses .. " |\n"
+            end
+            markdown = markdown .. "\n"
         end
     end
     

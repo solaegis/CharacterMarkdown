@@ -25,7 +25,7 @@ local QUEST_CATEGORIES = {
     -- Guild Quests
     ["Guild Quests"] = {
         keywords = {"Guild", "Fighters", "Mages", "Thieves", "Dark Brotherhood", "Psijic"},
-        emoji = "🏛️",
+        emoji = "🏰",  -- Changed from 🏛️ for better compatibility
         description = "Guild-related quest lines"
     },
     

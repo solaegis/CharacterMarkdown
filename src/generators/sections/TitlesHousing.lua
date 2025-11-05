@@ -4,13 +4,15 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar
+local FormatNumber, GenerateProgressBar, CreateTitleLink, CreateHouseLink
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+        CreateTitleLink = CM.links.CreateTitleLink
+        CreateHouseLink = CM.links.CreateHouseLink
     end
 end
 
@@ -35,17 +37,12 @@ local function GenerateTitles(titlesData, format)
         if customTitle ~= "" then
             titlesData.current = customTitle
         else
-            -- Try API directly as last resort (using correct API functions)
-            local GetCurrentTitleFunc = rawget(_G, "GetCurrentTitle")
-            local GetTitleNameFunc = rawget(_G, "GetTitleName")
-            if GetCurrentTitleFunc and type(GetCurrentTitleFunc) == "function" and
-               GetTitleNameFunc and type(GetTitleNameFunc) == "function" then
-                local success, currentTitleIndex = pcall(GetCurrentTitleFunc)
-                if success and currentTitleIndex and currentTitleIndex > 0 then
-                    local nameSuccess, apiTitle = pcall(GetTitleNameFunc, currentTitleIndex)
-                    if nameSuccess and apiTitle and apiTitle ~= "" then
-                        titlesData.current = apiTitle
-                    end
+            -- Try API directly as last resort (using GetUnitTitle for simplicity)
+            local GetUnitTitleFunc = rawget(_G, "GetUnitTitle")
+            if GetUnitTitleFunc and type(GetUnitTitleFunc) == "function" then
+                local success, apiTitle = pcall(GetUnitTitleFunc, "player")
+                if success and apiTitle and apiTitle ~= "" then
+                    titlesData.current = apiTitle
                 end
             end
         end
@@ -66,7 +63,8 @@ local function GenerateTitles(titlesData, format)
     if format == "discord" then
         if titlesData.current and titlesData.current ~= "" then
             markdown = markdown .. "**Titles:**\n"
-            markdown = markdown .. "• Current: " .. titlesData.current .. "\n"
+            local currentTitleLink = (CreateTitleLink and CreateTitleLink(titlesData.current, format)) or titlesData.current
+            markdown = markdown .. "• Current: " .. currentTitleLink .. "\n"
             
             if titlesData.total and titlesData.total > 0 then
                 markdown = markdown .. "• Owned: " .. (titlesData.owned or 0) .. "/" .. titlesData.total .. 
@@ -85,36 +83,32 @@ local function GenerateTitles(titlesData, format)
         markdown = markdown .. "### 👑 Titles\n\n"
         
         if titlesData.current and titlesData.current ~= "" then
-            markdown = markdown .. "**Current Title:** " .. titlesData.current .. "\n\n"
+            local currentTitleLink = (CreateTitleLink and CreateTitleLink(titlesData.current, format)) or titlesData.current
+            markdown = markdown .. "**Current Title:** " .. currentTitleLink .. "\n\n"
         end
         
-        if titlesData.total and titlesData.total > 0 then
-            local progress = math.floor(((titlesData.owned or 0) / titlesData.total) * 100)
-            local progressBar = GenerateProgressBar(progress, 20)
-            markdown = markdown .. "| Progress | " .. progressBar .. " " .. progress .. "% (" .. 
-                      (titlesData.owned or 0) .. "/" .. titlesData.total .. ") |\n\n"
-            
-            -- Show some example titles (first 10 unlocked)
-            local unlockedTitles = {}
-            if titlesData.list and #titlesData.list > 0 then
-                for _, title in ipairs(titlesData.list) do
-                    if title.unlocked then
-                        table.insert(unlockedTitles, title.name)
-                    end
+        -- Show all owned titles as a list
+        if titlesData.list and #titlesData.list > 0 then
+            local ownedTitles = {}
+            for _, title in ipairs(titlesData.list) do
+                if title.unlocked then
+                    table.insert(ownedTitles, title.name)
                 end
             end
             
-            if #unlockedTitles > 0 then
-                markdown = markdown .. "**Sample Titles:**\n"
-                local maxShow = math.min(10, #unlockedTitles)
-                for i = 1, maxShow do
-                    markdown = markdown .. "• " .. unlockedTitles[i] .. "\n"
-                end
-                if #unlockedTitles > 10 then
-                    markdown = markdown .. "• ... and " .. (#unlockedTitles - 10) .. " more\n"
+            if #ownedTitles > 0 then
+                markdown = markdown .. "**Owned Titles:**\n"
+                for _, titleName in ipairs(ownedTitles) do
+                    local titleLink = (CreateTitleLink and CreateTitleLink(titleName, format)) or titleName
+                    markdown = markdown .. "• " .. titleLink .. "\n"
                 end
                 markdown = markdown .. "\n"
+            else
+                markdown = markdown .. "*No titles owned*\n\n"
             end
+        elseif titlesData.total and titlesData.total > 0 then
+            -- Show count if we have total but no list
+            markdown = markdown .. "**Owned:** " .. (titlesData.owned or 0) .. "/" .. titlesData.total .. "\n\n"
         elseif titlesData.current and titlesData.current ~= "" then
             -- We have a current title but no total count - collector may have failed
             markdown = markdown .. "*Total count unavailable (collector may have failed, but you have the title: " .. titlesData.current .. ")*\n\n"
@@ -147,14 +141,16 @@ local function GenerateHousing(housingData, format)
                   " (" .. math.floor((housingData.owned / housingData.total) * 100) .. "%)\n"
         
         if housingData.primary and housingData.primary ~= "" then
-            markdown = markdown .. "• Primary: " .. housingData.primary .. "\n"
+            local primaryLink = (CreateHouseLink and CreateHouseLink(housingData.primary, format)) or housingData.primary
+            markdown = markdown .. "• Primary: " .. primaryLink .. "\n"
         end
         markdown = markdown .. "\n"
     else
         markdown = markdown .. "### 🏠 Housing\n\n"
         
         if housingData.primary and housingData.primary ~= "" then
-            markdown = markdown .. "**Primary Residence:** " .. housingData.primary .. "\n\n"
+            local primaryLink = (CreateHouseLink and CreateHouseLink(housingData.primary, format)) or housingData.primary
+            markdown = markdown .. "**Primary Residence:** " .. primaryLink .. "\n\n"
         end
         
         local progress = math.floor((housingData.owned / housingData.total) * 100)
@@ -173,7 +169,8 @@ local function GenerateHousing(housingData, format)
         if #ownedHouses > 0 then
             markdown = markdown .. "**Owned Houses:**\n"
             for _, houseName in ipairs(ownedHouses) do
-                markdown = markdown .. "• " .. houseName .. "\n"
+                local houseLink = (CreateHouseLink and CreateHouseLink(houseName, format)) or houseName
+                markdown = markdown .. "• " .. houseLink .. "\n"
             end
             markdown = markdown .. "\n"
         end
@@ -265,7 +262,8 @@ local function GenerateTitlesHousing(titlesHousingData, format)
     
     markdown = markdown .. GenerateTitles(titlesData, format)
     markdown = markdown .. GenerateHousing(housingData, format)
-    markdown = markdown .. GenerateHousingCollections(collectionsData, format)
+    -- Housing Collections removed per user request
+    -- markdown = markdown .. GenerateHousingCollections(collectionsData, format)
     
     -- Add divider for GitHub/VSCode format
     if format ~= "discord" then

@@ -67,13 +67,13 @@ local function CollectSkillMorphsData()
     -- Skill type emoji mapping
     local skillTypeEmojis = {
         ["Class"] = "⚔️",
-        ["Weapon"] = "🗡️",
+        ["Weapon"] = "⚔️",  -- Changed from 🗡️ for better compatibility
         ["Armor"] = "🛡️",
         ["World"] = "🌍",
-        ["Guild"] = "🏛️",
+        ["Guild"] = "🏰",  -- Changed from 🏛️ for better compatibility
         ["Alliance War"] = "⚔️",
-        ["Racial"] = "🎭",
-        ["Craft"] = "🔨",
+        ["Racial"] = "⭐",  -- Changed from 🎭 for better compatibility
+        ["Craft"] = "⚒️",  -- Changed from 🔨 for consistency with other files
         ["Champion"] = "⭐"
     }
     

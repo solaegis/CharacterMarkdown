@@ -66,20 +66,21 @@ end
 CM.utils.GetEquipSlotName = GetEquipSlotName
 
 -- Get emoji for equipment slot
+-- Using widely-supported Unicode emojis (no newer/variant emojis for better compatibility)
 local function GetSlotEmoji(slotIndex)
     local emojis = {
-        [EQUIP_SLOT_HEAD] = "🪖",
-        [EQUIP_SLOT_NECK] = "📿",
+        [EQUIP_SLOT_HEAD] = "⛑️",     -- Changed from 🪖 (newer emoji) to ⛑️ (widely supported)
+        [EQUIP_SLOT_NECK] = "💎",     -- Changed from 📿 (may not render) to 💎 (widely supported)
         [EQUIP_SLOT_CHEST] = "🛡️",
         [EQUIP_SLOT_SHOULDERS] = "👑",
         [EQUIP_SLOT_MAIN_HAND] = "⚔️",
         [EQUIP_SLOT_OFF_HAND] = "🛡️",
         [EQUIP_SLOT_WAIST] = "⚡",
-        [EQUIP_SLOT_LEGS] = "🦵",
-        [EQUIP_SLOT_FEET] = "👢",
+        [EQUIP_SLOT_LEGS] = "👖",     -- Changed from 🦵 (newer emoji) to 👖 (widely supported)
+        [EQUIP_SLOT_FEET] = "👟",     -- Changed from 👢 (may not render) to 👟 (widely supported)
         [EQUIP_SLOT_RING1] = "💍",
         [EQUIP_SLOT_RING2] = "💍",
-        [EQUIP_SLOT_HAND] = "🧤",
+        [EQUIP_SLOT_HAND] = "✋",     -- Changed from 🧤 (newer emoji) to ✋ (widely supported)
         [EQUIP_SLOT_BACKUP_MAIN] = "🔮",
         [EQUIP_SLOT_BACKUP_OFF] = "🛡️",
     }

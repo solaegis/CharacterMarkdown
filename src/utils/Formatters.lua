@@ -52,19 +52,9 @@ local function CreateProgressBar(percentage, style)
     local filled = math_floor(percentage / 10)
     local empty = 10 - filled
     
-    local bar
-    if style == "github" then
-        bar = string_rep("█", filled) .. string_rep("░", empty)
-        return bar .. " " .. percentage .. "%"
-    elseif style == "vscode" then
-        bar = string_rep("▓", filled) .. string_rep("░", empty)
-        return bar .. " " .. percentage .. "%"
-    elseif style == "discord" then
-        bar = string_rep("▰", filled) .. string_rep("▱", empty)
-        return bar .. " " .. percentage .. "%"
-    else
-        return string_rep("█", filled) .. string_rep("░", empty)
-    end
+    -- STANDARDIZED: Always use █ (filled) and ░ (empty) for consistency (Issue #6 fix)
+    local bar = string_rep("█", filled) .. string_rep("░", empty)
+    return bar .. " " .. percentage .. "%"
 end
 
 CM.utils.CreateProgressBar = CreateProgressBar

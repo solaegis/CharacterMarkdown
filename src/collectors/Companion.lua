@@ -22,6 +22,9 @@ local function CollectCompanionData()
     local success, companionSkills = pcall(function()
         local skills = { ultimate = nil, ultimateId = nil, abilities = {} }
         
+        -- Companions have 5 regular ability slots (API slots 3-7) and 1 ultimate slot (API slot 8)
+        -- Slots unlock as companion levels: 2 slots at start, +1 at level 2, +1 at level 7, +1 at level 12, ultimate at level 20
+        -- Slot 3 is the first ability slot (where Provoke goes), then slots 4-7 are the remaining 4 abilities
         local ultimateSlotId = GetSlotBoundId(8, HOTBAR_CATEGORY_COMPANION)
         if ultimateSlotId and ultimateSlotId > 0 then
             skills.ultimate = GetAbilityName(ultimateSlotId) or "[Empty]"
@@ -30,12 +33,9 @@ local function CollectCompanionData()
             skills.ultimate = "[Empty]"
         end
         
-        -- Companions have 8 ability slots total (excluding ultimate which is slot 8)
-        -- Slots 1-7 plus potentially slot 0, or slots 1-8 (with 8 being a regular ability slot, not ultimate)
-        -- Collect all 8 ability slots to match "X/8 abilities slotted" status display
-        -- Note: Ultimate is handled separately (slot 8), but companions may have 8 regular ability slots
-        -- Try slots 0-7 first (8 slots), if that doesn't work we'll need to investigate slot structure
-        for slotIndex = 0, 7 do
+        -- Collect regular ability slots 3-7 (slot 3 is Provoke/first, then 4-7 for remaining 4)
+        -- This makes API slot 3 (Provoke) display as slot 1, API slot 4 as slot 2, etc.
+        for slotIndex = 3, 7 do
             local slotId = GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_COMPANION)
             if slotId and slotId > 0 then
                 local abilityName = GetAbilityName(slotId)

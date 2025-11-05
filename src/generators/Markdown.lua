@@ -144,13 +144,12 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Quick Stats Summary (non-Discord only)
+        -- Quick Stats Summary (non-Discord only) - Now includes Character Overview merged in
         {
             name = "QuickStats",
             condition = format ~= "discord" and IsSettingEnabled(settings, "includeQuickStats", true),
             generator = function()
-                return gen.GenerateQuickStats(data.character, data.progression, data.currency, 
-                    data.equipment, data.cp, data.inventory, format)
+                return gen.GenerateQuickStats(data.character, data.stats, format, data.equipment, data.progression, data.currency, data.cp, data.inventory, data.location)
             end
         },
         
@@ -159,19 +158,18 @@ local function GetSectionRegistry(format, settings, gen, data)
             name = "AttentionNeeded",
             condition = format ~= "discord" and IsSettingEnabled(settings, "includeAttentionNeeded", true),
             generator = function()
-                return gen.GenerateAttentionNeeded(data.progression, data.inventory, data.riding, data.companion, format)
+                return gen.GenerateAttentionNeeded(data.progression, data.inventory, data.riding, data.companion, data.currency, format)
             end
         },
         
-        -- Overview (non-Discord only)
-        {
-            name = "Overview",
-            condition = format ~= "discord",
-            generator = function()
-                return gen.GenerateOverview(data.character, data.role, data.location, data.buffs, 
-                    data.mundus, data.riding, data.pvp, data.progression, settings, format, data.cp)
-            end
-        },
+        -- Overview section disabled - merged into QuickStats above
+        -- {
+        --     name = "Overview",
+        --     condition = false, -- Disabled: merged into QuickStats
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
         
         -- Currency
         {
@@ -200,12 +198,13 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- PvP
+        -- FIX #7: Merged PvP section (removed duplicate)
+        -- Now calls GeneratePvPStats with both pvp and pvpStats data
         {
             name = "PvP",
             condition = IsSettingEnabled(settings, "includePvP", true),
             generator = function()
-                return gen.GeneratePvP(data.pvp, format)
+                return gen.GeneratePvPStats(data.pvp, data.pvpStats, format)
             end
         },
         
@@ -352,14 +351,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- PvP Stats
-        {
-            name = "PvP Stats",
-            condition = IsSettingEnabled(settings, "includePvPStats", true),
-            generator = function()
-                return gen.GeneratePvPStats(data.pvpStats, format)
-            end
-        },
+        -- FIX #7: REMOVED DUPLICATE - Merged into single PvP section above
         
         -- Armory Builds
         {
@@ -370,14 +362,14 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Tales of Tribute
-        {
-            name = "Tales of Tribute",
-            condition = IsSettingEnabled(settings, "includeTalesOfTribute", true),
-            generator = function()
-                return gen.GenerateTalesOfTribute(data.talesOfTribute, format)
-            end
-        },
+        -- Tales of Tribute - disabled per user request
+        -- {
+        --     name = "Tales of Tribute",
+        --     condition = false, -- Disabled
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
         
         -- Undaunted Pledges
         {

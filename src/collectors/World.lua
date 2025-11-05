@@ -75,11 +75,12 @@ CM.collectors.CollectRoleData = CollectRoleData
 -- =====================================================
 
 -- Category definitions
+-- Note: Houses are excluded from collectibles since they have their own dedicated section
 local COLLECTIBLE_CATEGORIES = {
     {type = COLLECTIBLE_CATEGORY_TYPE_MOUNT, key = "mounts", emoji = "🐴", name = "Mounts"},
     {type = COLLECTIBLE_CATEGORY_TYPE_VANITY_PET, key = "pets", emoji = "🐾", name = "Pets"},
     {type = COLLECTIBLE_CATEGORY_TYPE_COSTUME, key = "costumes", emoji = "👗", name = "Costumes"},
-    {type = COLLECTIBLE_CATEGORY_TYPE_HOUSE, key = "houses", emoji = "🏠", name = "Houses"},
+    -- {type = COLLECTIBLE_CATEGORY_TYPE_HOUSE, key = "houses", emoji = "🏠", name = "Houses"}, -- Excluded: shown in Housing section
     {type = COLLECTIBLE_CATEGORY_TYPE_EMOTE, key = "emotes", emoji = "🎭", name = "Emotes"},
     {type = COLLECTIBLE_CATEGORY_TYPE_MEMENTO, key = "mementos", emoji = "🎪", name = "Mementos"},
     {type = COLLECTIBLE_CATEGORY_TYPE_SKIN, key = "skins", emoji = "🎨", name = "Skins"},
@@ -149,7 +150,7 @@ local function CollectCollectiblesData()
                     if isOwned then
                         ownedCount = ownedCount + 1
                         
-                        -- Get collectible name for detailed mode
+                        -- Get collectible name (always collect for potential display)
                         local name = ""
                         local infoSuccess, collectibleName = pcall(function()
                             local n = GetCollectibleInfo(collectibleId)
@@ -159,45 +160,47 @@ local function CollectCollectiblesData()
                             name = collectibleName
                         end
                         
-                        -- If detailed mode is enabled, collect individual collectibles
-                        if includeDetailed then
-                            -- Get nickname if available (for mounts/pets)
-                            local nickname = ""
-                            local nicknameSuccess, nick = pcall(function()
-                                return GetCollectibleNickname(collectibleId)
-                            end)
-                            if nicknameSuccess and nick and nick ~= "" then
-                                nickname = nick
-                            end
-                            
-                            local displayName = (nickname ~= "" and nickname) or name or "Unknown"
-                            
-                            -- Try to get quality/rarity if available
-                            local quality = nil
-                            local qualitySuccess, qual = pcall(function()
-                                return GetCollectibleQuality(collectibleId)
-                            end)
-                            if qualitySuccess and qual then
-                                quality = QUALITY_NAMES[qual] or nil
-                            end
-                            
-                            table.insert(categoryData.owned, {
-                                id = collectibleId,
-                                name = displayName,
-                                fullName = name,
-                                quality = quality
-                            })
+                        -- Always collect individual collectibles data if owned
+                        -- This allows display even if includeDetailed setting is off
+                        -- Get nickname if available (for mounts/pets)
+                        local nickname = ""
+                        local nicknameSuccess, nick = pcall(function()
+                            return GetCollectibleNickname(collectibleId)
+                        end)
+                        if nicknameSuccess and nick and nick ~= "" then
+                            nickname = nick
                         end
+                        
+                        local displayName = (nickname ~= "" and nickname) or name or "Unknown"
+                        
+                        -- Try to get quality/rarity if available
+                        local quality = nil
+                        local qualitySuccess, qual = pcall(function()
+                            return GetCollectibleQuality(collectibleId)
+                        end)
+                        if qualitySuccess and qual then
+                            quality = QUALITY_NAMES[qual] or nil
+                        end
+                        
+                        table.insert(categoryData.owned, {
+                            id = collectibleId,
+                            name = displayName,
+                            fullName = name,
+                            quality = quality
+                        })
                     end
                 end
             end
             
             categoryData.ownedCount = ownedCount
             
-            -- Sort alphabetically by name if detailed
-            if includeDetailed and #categoryData.owned > 0 then
+            -- Sort alphabetically by display name (case-insensitive) if we have owned items
+            if #categoryData.owned > 0 then
                 table.sort(categoryData.owned, function(a, b)
-                    return a.name < b.name
+                    -- Sort by display name (what's shown), case-insensitive
+                    local nameA = (a.name or ""):lower()
+                    local nameB = (b.name or ""):lower()
+                    return nameA < nameB
                 end)
                 collectibles.hasDetailedData = true
             end
@@ -413,7 +416,8 @@ local function CollectZoneCompletionData()
         local GetZoneCompletionStatusFunc = rawget(_G, "GetZoneCompletionStatus")
         if GetZoneCompletionStatusFunc and type(GetZoneCompletionStatusFunc) == "function" then
             local statusSuccess, percentage = pcall(GetZoneCompletionStatusFunc)
-            if statusSuccess and percentage and percentage > 0 then
+            if statusSuccess and percentage and type(percentage) == "number" then
+                -- Accept any valid number (including 0), as 0% is still valid data
                 zoneCompletion.completionPercentage = math.floor(percentage)
                 -- Store and return if we got a valid percentage
                 zoneCompletion.zones[currentZone] = {

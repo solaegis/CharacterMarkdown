@@ -73,6 +73,7 @@ function CM.Settings.Panel:BuildOptionsData()
     local options = {}
     
     -- Add sections in order
+    self:AddVisualEnhancementSection(options)  -- FIRST: Enhanced visuals toggle
     self:AddFormatSection(options)
     self:AddCustomNotes(options)
     self:AddFilterManagerSection(options)
@@ -84,6 +85,54 @@ function CM.Settings.Panel:BuildOptionsData()
     self:AddActions(options)
     
     return options
+end
+
+-- =====================================================
+-- VISUAL ENHANCEMENT TOGGLE (FIRST SETTING)
+-- =====================================================
+
+function CM.Settings.Panel:AddVisualEnhancementSection(options)
+    table.insert(options, {
+        type = "header",
+        name = "Visual Enhancement Mode",
+        width = "full",
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Enable Enhanced Visual Mode",
+        tooltip = "Use advanced markdown techniques for stunning visual output:\n" ..
+                 "• GitHub callouts (NOTE, TIP, IMPORTANT, WARNING, CAUTION)\n" ..
+                 "• Status badges with colors\n" ..
+                 "• Collapsible sections for better organization\n" ..
+                 "• Enhanced progress bars with color coding\n" ..
+                 "• Two-column layouts for stats\n" ..
+                 "• Visual separators and styled tables\n" ..
+                 "• Emoji indicators for status\n" ..
+                 "• Info boxes for important messages\n\n" ..
+                 "When disabled, uses classic markdown format.",
+        getFunc = function() return CM.settings.enableEnhancedVisuals end,
+        setFunc = function(value) 
+            CM.settings.enableEnhancedVisuals = value
+            CM.Info(value and "Enhanced visuals ENABLED" or "Enhanced visuals DISABLED")
+        end,
+        width = "full",
+        default = true,
+    })
+    
+    table.insert(options, {
+        type = "description",
+        text = "|cFFD700✨ Enhanced Visual Mode is ENABLED by default!|r\n\n" ..
+               "|c00FF00This new mode creates stunning, professional markdown output with:\n" ..
+               "• Native GitHub callouts for notes, tips, and warnings\n" ..
+               "• Colorful status badges and progress indicators\n" ..
+               "• Collapsible sections to reduce clutter\n" ..
+               "• Enhanced tables and layouts\n" ..
+               "• Visual hierarchy and organization\n\n" ..
+               "|cFFFFFF📝 Perfect for GitHub READMEs, documentation, and sharing builds!\n\n" ..
+               "Toggle OFF for classic plain markdown format.|r",
+        width = "full",
+    })
 end
 
 -- =====================================================
@@ -627,6 +676,76 @@ function CM.Settings.Panel:AddExtendedSections(options)
         width = "half",
         default = false,
     })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include World Progress",
+        tooltip = "Show lorebook collection, zone completion, and world exploration progress.",
+        getFunc = function() return CM.settings.includeWorldProgress end,
+        setFunc = function(value) CM.settings.includeWorldProgress = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Titles & Housing",
+        tooltip = "Show character titles and owned houses.",
+        getFunc = function() return CM.settings.includeTitlesHousing end,
+        setFunc = function(value) CM.settings.includeTitlesHousing = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include PvP Statistics",
+        tooltip = "Show detailed PvP statistics and achievements.",
+        getFunc = function() return CM.settings.includePvPStats end,
+        setFunc = function(value) CM.settings.includePvPStats = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Armory Builds",
+        tooltip = "Show saved armory builds and configurations.",
+        getFunc = function() return CM.settings.includeArmoryBuilds end,
+        setFunc = function(value) CM.settings.includeArmoryBuilds = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Tales of Tribute",
+        tooltip = "Show Tales of Tribute progress and deck information.",
+        getFunc = function() return CM.settings.includeTalesOfTribute end,
+        setFunc = function(value) CM.settings.includeTalesOfTribute = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Undaunted Pledges",
+        tooltip = "Show active Undaunted pledges from quest journal.",
+        getFunc = function() return CM.settings.includeUndauntedPledges end,
+        setFunc = function(value) CM.settings.includeUndauntedPledges = value end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Guild Membership",
+        tooltip = "Show guild membership information including guild names, member counts, and your rank.",
+        getFunc = function() return CM.settings.includeGuilds end,
+        setFunc = function(value) CM.settings.includeGuilds = value end,
+        width = "half",
+        default = false,
+    })
 end
 
 -- =====================================================
@@ -735,6 +854,10 @@ function CM.Settings.Panel:AddCustomNotes(options)
             if not CM.charData and CharacterMarkdownData then
                 CM.charData = CharacterMarkdownData
             end
+            -- Ensure customTitle exists (initialize if nil)
+            if CM.charData and CM.charData.customTitle == nil then
+                CM.charData.customTitle = ""
+            end
             return CM.charData and CM.charData.customTitle or ""
         end,
         setFunc = function(value) 
@@ -743,12 +866,36 @@ function CM.Settings.Panel:AddCustomNotes(options)
                 CM.charData = CharacterMarkdownData
             end
             
-            if CM.charData then
-                CM.charData.customTitle = value or ""
-                CM.charData._lastModified = GetTimeStamp()
-                CM.DebugPrint("SETTINGS", "Custom title saved")
-            else
+            if not CM.charData then
                 CM.Error("Failed to save custom title - character data not available")
+                return
+            end
+            
+            -- Normalize value (empty string if nil)
+            local newValue = value or ""
+            
+            -- CRITICAL: Always save to both CM.charData AND CharacterMarkdownData
+            -- LibAddonMenu may call setFunc multiple times during UI lifecycle, but we need to persist every change
+            local currentValue = CM.charData.customTitle or ""
+            
+            -- Update CM.charData first (this is the active reference)
+            CM.charData.customTitle = newValue
+            CM.charData._lastModified = GetTimeStamp()
+            
+            -- Then ALWAYS update CharacterMarkdownData (this is the SavedVariables that persists)
+            -- This ensures data persists even if CM.charData gets reset
+            if CharacterMarkdownData then
+                CharacterMarkdownData.customTitle = newValue
+                CharacterMarkdownData._lastModified = GetTimeStamp()
+            else
+                CM.Warn("CharacterMarkdownData not available - custom title may not persist!")
+            end
+            
+            -- Log the save (only log if value actually changed)
+            if newValue ~= currentValue then
+                CM.DebugPrint("SETTINGS", "Custom title changed and saved")
+            else
+                CM.DebugPrint("SETTINGS", "Custom title refreshed")
             end
         end,
         width = "full",
@@ -766,6 +913,10 @@ function CM.Settings.Panel:AddCustomNotes(options)
             if not CM.charData and CharacterMarkdownData then
                 CM.charData = CharacterMarkdownData
             end
+            -- Ensure customNotes exists (initialize if nil)
+            if CM.charData and CM.charData.customNotes == nil then
+                CM.charData.customNotes = ""
+            end
             return CM.charData and CM.charData.customNotes or "" 
         end,
         setFunc = function(value) 
@@ -774,15 +925,40 @@ function CM.Settings.Panel:AddCustomNotes(options)
                 CM.charData = CharacterMarkdownData
             end
             
-            if CM.charData then
-                CM.charData.customNotes = value or ""
-                CM.charData._lastModified = GetTimeStamp()
-                CM.DebugPrint("SETTINGS", "Build notes saved (" .. string.len(value or "") .. " bytes)")
-            else
+            if not CM.charData then
                 CM.Error("Failed to save build notes - character data not available")
+                return
+            end
+            
+            -- Normalize value (empty string if nil)
+            local newValue = value or ""
+            
+            -- CRITICAL: Always save to both CM.charData AND CharacterMarkdownData
+            -- LibAddonMenu may call setFunc multiple times during UI lifecycle, but we need to persist every change
+            local currentValue = CM.charData.customNotes or ""
+            
+            -- Update CM.charData first (this is the active reference)
+            CM.charData.customNotes = newValue
+            CM.charData._lastModified = GetTimeStamp()
+            
+            -- Then ALWAYS update CharacterMarkdownData (this is the SavedVariables that persists)
+            -- This ensures data persists even if CM.charData gets reset
+            if CharacterMarkdownData then
+                CharacterMarkdownData.customNotes = newValue
+                CharacterMarkdownData._lastModified = GetTimeStamp()
+            else
+                CM.Warn("CharacterMarkdownData not available - notes may not persist!")
+            end
+            
+            -- Log the save (only log if value actually changed)
+            if newValue ~= currentValue then
+                CM.DebugPrint("SETTINGS", "Build notes changed and saved (" .. string.len(newValue) .. " bytes)")
+            else
+                CM.DebugPrint("SETTINGS", "Build notes refreshed (" .. string.len(newValue) .. " bytes)")
             end
         end,
         width = "full",
+        height = 300,  -- Increased height - scrollbar should appear automatically when content exceeds this
         isMultiline = true,
         isExtraWide = true,
         maxChars = 10000,

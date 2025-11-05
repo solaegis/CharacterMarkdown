@@ -27,8 +27,10 @@ local function CreateCompanionLink(companionName, format)
         return companionName or "Unknown"
     end
     
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return companionName
     end
     

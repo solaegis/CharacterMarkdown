@@ -34,31 +34,8 @@ local function CollectCharacterData()
     data.level = CM.SafeCall(GetUnitLevel, "player") or 0
     data.cp = CM.SafeCall(GetPlayerChampionPointsEarned) or 0
     
-    -- Get title (check for custom title first)
-    local customTitle = ""
-    if CM.charData then
-        customTitle = CM.charData.customTitle or ""
-    end
-    
-    if customTitle and customTitle ~= "" then
-        data.title = customTitle
-    else
-        -- Use correct API: GetCurrentTitle() returns index, GetTitleName() gets the name
-        local GetCurrentTitleFunc = rawget(_G, "GetCurrentTitle")
-        local GetTitleNameFunc = rawget(_G, "GetTitleName")
-        if GetCurrentTitleFunc and type(GetCurrentTitleFunc) == "function" and
-           GetTitleNameFunc and type(GetTitleNameFunc) == "function" then
-            local success, titleIndex = pcall(GetCurrentTitleFunc)
-            if success and titleIndex and titleIndex > 0 then
-                local nameSuccess, titleName = pcall(GetTitleNameFunc, titleIndex)
-                if nameSuccess and titleName and titleName ~= "" then
-                    data.title = titleName
-                end
-            end
-        end
-        -- Fallback to empty string if API calls fail
-        data.title = data.title or ""
-    end
+    -- Get title using shared utility function
+    data.title = CM.utils.GetPlayerTitle() or ""
     
     data.esoPlus = CM.SafeCall(IsESOPlusSubscriber) or false
     

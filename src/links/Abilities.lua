@@ -37,19 +37,46 @@ local function CreateAbilityLink(abilityName, abilityId, format)
         return abilityName or "[Empty]"
     end
     
-    -- Check settings
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Ensure abilityName is a string and sanitize it
+    abilityName = tostring(abilityName)
+    -- Remove all control characters (newlines, carriage returns, tabs) that could break URLs
+    abilityName = abilityName:gsub("[\r\n\t]", "")
+    -- Trim whitespace
+    abilityName = abilityName:gsub("^%s+", ""):gsub("%s+$", "")
+    -- Normalize multiple spaces to single space
+    abilityName = abilityName:gsub("%s+", " ")
+    if abilityName == "" then
+        return "[Unknown]"
+    end
+    
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return abilityName
     end
     
     local url = GenerateAbilityURL(abilityName, abilityId)
     
-    if url and (format == "github" or format == "discord") then
-        return "[" .. abilityName .. "](" .. url .. ")"
-    else
-        return abilityName
+    -- Ensure URL is valid before creating link
+    if url and url ~= "" and (format == "github" or format == "discord") then
+        -- Validate URL format to prevent truncation - ensure it starts with https:// and is complete
+        if url:find("^https://") and url:find("en.uesp.net/wiki/Online:") then
+            -- Ensure URL is complete (ends with proper format or ability name)
+            if url:len() > 35 then  -- Minimum URL length check (https://en.uesp.net/wiki/Online: + at least 1 char)
+                local linkText = "[" .. abilityName .. "](" .. url .. ")"
+                -- Basic validation: ensure we have brackets and parentheses in the right places
+                -- Also ensure the URL is complete (contains closing parenthesis)
+                if linkText:find("%[") and linkText:find("%]%(") and linkText:find("%)$") and 
+                   linkText:find("https://en.uesp.net/wiki/Online:") then
+                    return linkText
+                end
+            end
+        end
     end
+    
+    -- Fallback: return plain text if link generation fails
+    return abilityName
 end
 
 CM.links.CreateAbilityLink = CreateAbilityLink

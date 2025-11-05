@@ -52,10 +52,17 @@ local function CollectChampionPointData()
         local passiveCount = 0
         local numDisciplines = GetNumChampionDisciplines()
         
+        -- Always ensure we have 3 disciplines (Craft, Warfare, Fitness)
+        -- Even if API calls fail, we want the structure for display
+        local disciplineIds = {1, 2, 3}  -- Craft, Warfare, Fitness
+        local processedDisciplines = {}
+        
+        -- First, try to get disciplines from API
         if numDisciplines and numDisciplines > 0 then
             for disciplineIndex = 1, numDisciplines do
                 local disciplineId = GetChampionDisciplineId(disciplineIndex)
                 if disciplineId then
+                    processedDisciplines[disciplineId] = true
                     local disciplineName = GetChampionDisciplineName(disciplineId) or "Unknown"
                     
                     -- Map discipline by ID (ESO API: 1=Craft, 2=Warfare, 3=Fitness)
@@ -73,17 +80,74 @@ local function CollectChampionPointData()
                         displayName = "Fitness"
                     end
                     
+                    -- Get total spent points in this discipline using GetNumSpentChampionPoints
+                    -- This is more reliable than summing individual skills
+                    -- Try multiple methods to ensure we get the data
+                    local disciplineTotalSpent = 0
+                    
+                    -- Method 1: Try discipline type constants (if they exist in ESO API)
+                    -- Use pcall to safely check if constants exist
+                    local disciplineTypeConstant = nil
+                    if disciplineId == 1 then
+                        -- Try constant first, fallback to 1
+                        local constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_WORLD end)
+                        disciplineTypeConstant = (constSuccess and constValue) and constValue or 1
+                    elseif disciplineId == 2 then
+                        local constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_COMBAT end)
+                        disciplineTypeConstant = (constSuccess and constValue) and constValue or 2
+                    elseif disciplineId == 3 then
+                        local constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_CONDITIONING end)
+                        disciplineTypeConstant = (constSuccess and constValue) and constValue or 3
+                    end
+                    
+                    -- Try using discipline type constant/numeric value
+                    if disciplineTypeConstant then
+                        -- Method 1: GetNumSpentChampionPoints
+                        local success2, disciplineSpent = pcall(GetNumSpentChampionPoints, disciplineTypeConstant)
+                        if success2 and disciplineSpent then
+                            disciplineTotalSpent = disciplineSpent or 0
+                        end
+                        
+                        -- Method 2: GetChampionPointsInDiscipline (alternative API)
+                        if disciplineTotalSpent == 0 then
+                            local success2b, disciplineSpent2b = pcall(GetChampionPointsInDiscipline, disciplineTypeConstant)
+                            if success2b and disciplineSpent2b then
+                                disciplineTotalSpent = disciplineSpent2b or 0
+                            end
+                        end
+                    end
+                    
+                    -- Method 3: Try using disciplineId directly as fallback
+                    if disciplineTotalSpent == 0 then
+                        local success3, disciplineSpent2 = pcall(GetNumSpentChampionPoints, disciplineId)
+                        if success3 and disciplineSpent2 then
+                            disciplineTotalSpent = disciplineSpent2 or 0
+                        end
+                        
+                        -- Also try GetChampionPointsInDiscipline with disciplineId
+                        if disciplineTotalSpent == 0 then
+                            local success3b, disciplineSpent3b = pcall(GetChampionPointsInDiscipline, disciplineId)
+                            if success3b and disciplineSpent3b then
+                                disciplineTotalSpent = disciplineSpent3b or 0
+                            end
+                        end
+                    end
+                    
+                    CM.DebugPrint("CP", string_format("Discipline %s (ID %d, constant %s): %d points spent", 
+                        displayName, disciplineId, tostring(disciplineTypeConstant), disciplineTotalSpent))
+                    
                     local disciplineData = { 
                         name = displayName, 
                         emoji = emoji,
                         skills = {}, 
-                        total = 0,
+                        total = disciplineTotalSpent,  -- Use discipline-level API call
                         slottable = 0,
                         passive = 0,
                         slottableSkills = {},
                         passiveSkills = {}
                     }
                     
+                    -- Still iterate through skills for detailed breakdown (slottable vs passive)
                     local numSkills = GetNumChampionDisciplineSkills(disciplineId)
                     if numSkills then
                         for skillIndex = 1, numSkills do
@@ -170,17 +234,61 @@ local function CollectChampionPointData()
                                         skillId = skillId
                                     })
                                     
-                                    disciplineData.total = disciplineData.total + pointsSpent
-                                    totalSpent = totalSpent + pointsSpent
+                                    -- Note: disciplineData.total is already set from GetNumSpentChampionPoints above
+                                    -- Don't modify it here, as individual skill points may not be reliable
                                 end
                             end
                         end
                     end
                     
-                    if disciplineData.total > 0 then
-                        table.insert(disciplines, disciplineData)
-                    end
+                    -- Add discipline total to overall total spent (use discipline-level API value)
+                    totalSpent = totalSpent + disciplineTotalSpent
+                    
+                    -- Always add discipline to list, even if total is 0 (so we can show structure)
+                    -- This ensures disciplines are available for display even if API calls fail
+                    table.insert(disciplines, disciplineData)
                 end
+            end
+        end
+        
+        -- Ensure we always have all 3 disciplines (Craft, Warfare, Fitness) even if API didn't return them
+        -- This ensures the Overview section can always show the breakdown format
+        local disciplineMap = {}
+        for _, disc in ipairs(disciplines) do
+            local id = nil
+            if disc.name == "Craft" then id = 1
+            elseif disc.name == "Warfare" then id = 2
+            elseif disc.name == "Fitness" then id = 3
+            end
+            if id then disciplineMap[id] = disc end
+        end
+        
+        -- Add missing disciplines with 0 points
+        for _, discId in ipairs({1, 2, 3}) do
+            if not disciplineMap[discId] then
+                local emoji = "⚔️"
+                local displayName = "Unknown"
+                if discId == 1 then
+                    emoji = "⚒️"
+                    displayName = "Craft"
+                elseif discId == 2 then
+                    emoji = "⚔️"
+                    displayName = "Warfare"
+                elseif discId == 3 then
+                    emoji = "💪"
+                    displayName = "Fitness"
+                end
+                
+                table.insert(disciplines, {
+                    name = displayName,
+                    emoji = emoji,
+                    skills = {},
+                    total = 0,
+                    slottable = 0,
+                    passive = 0,
+                    slottableSkills = {},
+                    passiveSkills = {}
+                })
             end
         end
         
@@ -206,20 +314,129 @@ local function CollectChampionPointData()
     end)
     
     if success and allocations then
-        data.spent = allocations.totalSpent
-        -- Only recalculate if API call failed (data.available is nil)
-        -- If API returned 0, trust it (don't overwrite)
-        if data.available == nil then
+        -- Calculate totalSpent from discipline totals if individual skills failed
+        -- This is more reliable than summing individual skills which may return 0
+        local calculatedSpent = 0
+        if allocations.disciplines and #allocations.disciplines > 0 then
+            for _, discipline in ipairs(allocations.disciplines) do
+                if discipline.total and discipline.total > 0 then
+                    calculatedSpent = calculatedSpent + discipline.total
+                end
+            end
+        end
+        
+        -- Use calculated spent from disciplines if it's greater than allocations.totalSpent
+        -- This handles cases where individual skill queries return 0 but discipline totals are correct
+        if calculatedSpent > 0 then
+            data.spent = calculatedSpent
+        else
+            data.spent = allocations.totalSpent
+        end
+        
+        -- Validate available CP: if spent > 0 and available equals total, recalculate
+        -- This handles cases where GetUnitChampionPoints might return incorrect values
+        if data.available ~= nil and data.spent > 0 and data.available == data.total then
+            -- Available CP seems wrong (all available when points are spent), recalculate
+            data.available = data.total - data.spent
+            CM.DebugPrint("CP", "Recalculated available CP from " .. data.total .. " to " .. data.available .. " (spent: " .. data.spent .. ")")
+        elseif data.available == nil then
+            -- API call failed, calculate from spent
+            data.available = data.total - data.spent
+        elseif data.spent > 0 then
+            -- If we have spent points, always recalculate available to ensure consistency
             data.available = data.total - data.spent
         end
+        
         data.disciplines = allocations.disciplines
         data.analysis.slottableSkills = allocations.slottableCount
         data.analysis.passiveSkills = allocations.passiveCount
         data.analysis.investmentLevel = allocations.investmentLevel
-    elseif data.available == nil then
-        -- Allocations failed, but we still need a value for available
-        -- Calculate as fallback (spent will be 0 since allocations failed)
-        data.available = data.total - data.spent
+    else
+        -- Allocations failed - try alternative methods to get spent CP and disciplines
+        local fallbackDisciplines = {}
+        local fallbackSpent = 0
+        
+        -- Try to get spent points per discipline as fallback
+        local numDisciplines = GetNumChampionDisciplines()
+        if numDisciplines and numDisciplines > 0 then
+            for disciplineIndex = 1, numDisciplines do
+                local disciplineId = GetChampionDisciplineId(disciplineIndex)
+                if disciplineId then
+                    -- Try discipline type constants first, then disciplineId
+                    local disciplineTypeConstant = nil
+                    if disciplineId == 1 then
+                        disciplineTypeConstant = CHAMPION_DISCIPLINE_TYPE_WORLD or 1
+                    elseif disciplineId == 2 then
+                        disciplineTypeConstant = CHAMPION_DISCIPLINE_TYPE_COMBAT or 2
+                    elseif disciplineId == 3 then
+                        disciplineTypeConstant = CHAMPION_DISCIPLINE_TYPE_CONDITIONING or 3
+                    end
+                    
+                    local spentInDiscipline = 0
+                    
+                    -- Try using discipline type constant first
+                    if disciplineTypeConstant then
+                        local success2, spent = pcall(GetNumSpentChampionPoints, disciplineTypeConstant)
+                        if success2 and spent and spent > 0 then
+                            spentInDiscipline = spent
+                        end
+                    end
+                    
+                    -- Fallback to disciplineId if constant didn't work
+                    if spentInDiscipline == 0 then
+                        local success3, spent2 = pcall(GetNumSpentChampionPoints, disciplineId)
+                        if success3 and spent2 and spent2 > 0 then
+                            spentInDiscipline = spent2
+                        end
+                    end
+                    
+                    if spentInDiscipline > 0 then
+                        fallbackSpent = fallbackSpent + spentInDiscipline
+                        
+                        -- Create discipline entry even without individual skill details
+                        local disciplineName = GetChampionDisciplineName(disciplineId) or "Unknown"
+                        local emoji = "⚔️"
+                        local displayName = disciplineName
+                        
+                        if disciplineId == 1 then
+                            emoji = "⚒️"
+                            displayName = "Craft"
+                        elseif disciplineId == 2 then
+                            emoji = "⚔️"
+                            displayName = "Warfare"
+                        elseif disciplineId == 3 then
+                            emoji = "💪"
+                            displayName = "Fitness"
+                        end
+                        
+                        table.insert(fallbackDisciplines, {
+                            name = displayName,
+                            emoji = emoji,
+                            total = spentInDiscipline,
+                            skills = {},
+                            slottable = 0,
+                            passive = 0,
+                            slottableSkills = {},
+                            passiveSkills = {}
+                        })
+                    end
+                end
+            end
+        end
+        
+        if fallbackSpent > 0 then
+            data.spent = fallbackSpent
+            data.disciplines = fallbackDisciplines
+            if data.available == nil then
+                data.available = data.total - data.spent
+            end
+        elseif data.available ~= nil then
+            -- Calculate spent from total - available (most reliable when available CP is known)
+            data.spent = data.total - data.available
+        else
+            -- Both methods failed - calculate available from spent (which will be 0)
+            data.available = data.total - data.spent
+        end
     end
     
     return data

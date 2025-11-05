@@ -19,18 +19,44 @@ local function CollectUndauntedPledgesData()
             veteran = {},
             keys = 0
         },
+        active = {},  -- Active pledges from quest journal
         progress = {
             totalCompleted = 0,
             totalAvailable = 0
         }
     }
     
+    -- Check quest journal for active pledges
+    -- Cached globals - standard ESO APIs
+    local GetNumJournalQuests = GetNumJournalQuests
+    local GetJournalQuestName = GetJournalQuestName
+    local GetJournalQuestLocationInfo = GetJournalQuestLocationInfo
+    
+    local numQuests = CM.SafeCall(GetNumJournalQuests)
+    if numQuests and numQuests > 0 then
+        for i = 1, numQuests do
+            local questName = CM.SafeCall(GetJournalQuestName, i)
+            if questName and questName ~= "" then
+                -- Check if quest name contains "Pledge" (case-insensitive)
+                if questName:lower():find("pledge") then
+                    local locationInfo = CM.SafeCall(GetJournalQuestLocationInfo, i) or ""
+                    table.insert(pledges.active, {
+                        name = questName,
+                        location = locationInfo,
+                        index = i
+                    })
+                end
+            end
+        end
+    end
+    
     -- Get daily pledges
-    local success, numDailyPledges = pcall(GetNumDailyPledges)
-    if success and numDailyPledges then
+    local numDailyPledges = CM.SafeCall(GetNumDailyPledges)
+    if numDailyPledges then
         for i = 1, numDailyPledges do
-            local success2, pledgeName, isCompleted, difficulty = pcall(GetDailyPledgeInfo, i)
-            if success2 and pledgeName then
+            -- GetDailyPledgeInfo returns multiple values, need to use pcall
+            local success, pledgeName, isCompleted, difficulty = pcall(GetDailyPledgeInfo, i)
+            if success and pledgeName then
                 local pledgeData = {
                     name = pledgeName,
                     completed = isCompleted or false,
@@ -53,11 +79,12 @@ local function CollectUndauntedPledgesData()
     end
     
     -- Get weekly pledges
-    local success3, numWeeklyPledges = pcall(GetNumWeeklyPledges)
-    if success3 and numWeeklyPledges then
+    local numWeeklyPledges = CM.SafeCall(GetNumWeeklyPledges)
+    if numWeeklyPledges then
         for i = 1, numWeeklyPledges do
-            local success4, pledgeName, isCompleted, difficulty = pcall(GetWeeklyPledgeInfo, i)
-            if success4 and pledgeName then
+            -- GetWeeklyPledgeInfo returns multiple values, need to use pcall
+            local success, pledgeName, isCompleted, difficulty = pcall(GetWeeklyPledgeInfo, i)
+            if success and pledgeName then
                 local pledgeData = {
                     name = pledgeName,
                     completed = isCompleted or false,
@@ -80,13 +107,13 @@ local function CollectUndauntedPledgesData()
     end
     
     -- Get pledge keys
-    local success5, dailyKeys = pcall(GetDailyPledgeKeys)
-    if success5 and dailyKeys then
+    local dailyKeys = CM.SafeCall(GetDailyPledgeKeys)
+    if dailyKeys then
         pledges.daily.keys = dailyKeys
     end
     
-    local success6, weeklyKeys = pcall(GetWeeklyPledgeKeys)
-    if success6 and weeklyKeys then
+    local weeklyKeys = CM.SafeCall(GetWeeklyPledgeKeys)
+    if weeklyKeys then
         pledges.weekly.keys = weeklyKeys
     end
     
@@ -117,13 +144,14 @@ local function CollectDungeonProgressData()
     }
     
     -- Get normal dungeon progress
-    local success, numNormalDungeons = pcall(GetNumNormalDungeons)
-    if success and numNormalDungeons then
+    local numNormalDungeons = CM.SafeCall(GetNumNormalDungeons)
+    if numNormalDungeons then
         dungeonProgress.normal.total = numNormalDungeons
         
         for i = 1, numNormalDungeons do
-            local success2, dungeonName, isCompleted = pcall(GetNormalDungeonInfo, i)
-            if success2 and dungeonName then
+            -- GetNormalDungeonInfo returns multiple values, need to use pcall
+            local success, dungeonName, isCompleted = pcall(GetNormalDungeonInfo, i)
+            if success and dungeonName then
                 if isCompleted then
                     dungeonProgress.normal.completed = dungeonProgress.normal.completed + 1
                 end
@@ -138,13 +166,14 @@ local function CollectDungeonProgressData()
     end
     
     -- Get veteran dungeon progress
-    local success3, numVeteranDungeons = pcall(GetNumVeteranDungeons)
-    if success3 and numVeteranDungeons then
+    local numVeteranDungeons = CM.SafeCall(GetNumVeteranDungeons)
+    if numVeteranDungeons then
         dungeonProgress.veteran.total = numVeteranDungeons
         
         for i = 1, numVeteranDungeons do
-            local success4, dungeonName, isCompleted = pcall(GetVeteranDungeonInfo, i)
-            if success4 and dungeonName then
+            -- GetVeteranDungeonInfo returns multiple values, need to use pcall
+            local success, dungeonName, isCompleted = pcall(GetVeteranDungeonInfo, i)
+            if success and dungeonName then
                 if isCompleted then
                     dungeonProgress.veteran.completed = dungeonProgress.veteran.completed + 1
                 end
@@ -159,13 +188,14 @@ local function CollectDungeonProgressData()
     end
     
     -- Get hardmode dungeon progress
-    local success5, numHardmodeDungeons = pcall(GetNumHardmodeDungeons)
-    if success5 and numHardmodeDungeons then
+    local numHardmodeDungeons = CM.SafeCall(GetNumHardmodeDungeons)
+    if numHardmodeDungeons then
         dungeonProgress.hardmode.total = numHardmodeDungeons
         
         for i = 1, numHardmodeDungeons do
-            local success6, dungeonName, isCompleted = pcall(GetHardmodeDungeonInfo, i)
-            if success6 and dungeonName then
+            -- GetHardmodeDungeonInfo returns multiple values, need to use pcall
+            local success, dungeonName, isCompleted = pcall(GetHardmodeDungeonInfo, i)
+            if success and dungeonName then
                 if isCompleted then
                     dungeonProgress.hardmode.completed = dungeonProgress.hardmode.completed + 1
                 end
@@ -193,11 +223,12 @@ local function CollectUndauntedKeysData()
     }
     
     -- Get key categories
-    local success, numKeyCategories = pcall(GetNumUndauntedKeyCategories)
-    if success and numKeyCategories then
+    local numKeyCategories = CM.SafeCall(GetNumUndauntedKeyCategories)
+    if numKeyCategories then
         for categoryIndex = 1, numKeyCategories do
-            local success2, categoryName, numKeys = pcall(GetUndauntedKeyCategoryInfo, categoryIndex)
-            if success2 and categoryName and numKeys then
+            -- GetUndauntedKeyCategoryInfo returns multiple values, need to use pcall
+            local success, categoryName, numKeys = pcall(GetUndauntedKeyCategoryInfo, categoryIndex)
+            if success and categoryName and numKeys then
                 local categoryData = {
                     name = categoryName,
                     total = numKeys,
@@ -206,8 +237,9 @@ local function CollectUndauntedKeysData()
                 
                 -- Get keys in this category
                 for keyIndex = 1, numKeys do
-                    local success3, keyName, keyCount = pcall(GetUndauntedKeyInfo, categoryIndex, keyIndex)
-                    if success3 and keyName then
+                    -- GetUndauntedKeyInfo returns multiple values, need to use pcall
+                    local success, keyName, keyCount = pcall(GetUndauntedKeyInfo, categoryIndex, keyIndex)
+                    if success and keyName then
                         table.insert(categoryData.keys, {
                             name = keyName,
                             count = keyCount or 0,

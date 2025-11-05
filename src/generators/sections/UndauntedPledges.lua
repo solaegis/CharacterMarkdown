@@ -68,28 +68,78 @@ local function GenerateUndauntedPledges(pledgesData, format)
         
         markdown = markdown .. "\n"
     else
-        markdown = markdown .. "## 🏛️ Undaunted Pledges\n\n"
+        markdown = markdown .. "## 🏰 Undaunted Pledges\n\n"  -- Changed from 🏛️ for better compatibility
         
-        -- Pledges summary
-        if pledges.daily or pledges.weekly then
+        -- Show active pledges from quest journal
+        local hasActivePledges = pledges.active and #pledges.active > 0
+        if hasActivePledges then
+            markdown = markdown .. "### 📋 Active Pledges\n\n"
+            local CreateZoneLink = CM.links and CM.links.CreateZoneLink
+            for _, pledge in ipairs(pledges.active) do
+                -- Parse pledge name: "Pledge: Darkshade II - Deshaan" -> extract dungeon and zone
+                local pledgeText = pledge.name or ""
+                local locationText = pledge.location or ""
+                
+                -- Extract dungeon name (part after "Pledge: " and before " - ")
+                local dungeonName = pledgeText
+                if pledgeText:find("Pledge: ") and pledgeText:find(" - ") then
+                    -- Format: "Pledge: DUNGEON - ZONE"
+                    dungeonName = pledgeText:match("Pledge: (.+) %-") or pledgeText:gsub("^Pledge: ", ""):match("(.+) %-") or pledgeText:gsub("^Pledge: ", "")
+                elseif pledgeText:find("Pledge: ") then
+                    -- Format: "Pledge: DUNGEON" (no location separator)
+                    dungeonName = pledgeText:gsub("^Pledge: ", "")
+                end
+                
+                -- Clean up dungeon name
+                dungeonName = dungeonName:gsub("^%s+", ""):gsub("%s+$", "")
+                
+                -- Create links for dungeon and location
+                local dungeonLink = (CreateZoneLink and CreateZoneLink(dungeonName, format)) or dungeonName
+                local locationLink = ""
+                if locationText ~= "" then
+                    locationLink = (CreateZoneLink and CreateZoneLink(locationText, format)) or locationText
+                elseif pledgeText:find(" - ") then
+                    -- Extract zone from pledge name if location field is empty
+                    local zoneName = pledgeText:match("%- (.+)$")
+                    if zoneName then
+                        zoneName = zoneName:gsub("^%s+", ""):gsub("%s+$", "")
+                        locationLink = (CreateZoneLink and CreateZoneLink(zoneName, format)) or zoneName
+                    end
+                end
+                
+                markdown = markdown .. "- Pledge: " .. dungeonLink
+                if locationLink ~= "" and locationLink ~= dungeonLink then
+                    markdown = markdown .. " - " .. locationLink
+                end
+                markdown = markdown .. "\n"
+            end
+            markdown = markdown .. "\n"
+        end
+        
+        -- Pledges summary (daily/weekly)
+        local hasDaily = pledges.daily and ((#pledges.daily.normal or 0) + (#pledges.daily.veteran or 0)) > 0
+        local hasWeekly = pledges.weekly and ((#pledges.weekly.normal or 0) + (#pledges.weekly.veteran or 0)) > 0
+        
+        if hasDaily or hasWeekly then
             markdown = markdown .. "| Type | Available | Keys |\n"
             markdown = markdown .. "|:-----|:----------|:-----|\n"
             
-            if pledges.daily then
+            if hasDaily then
                 local dailyTotal = (#pledges.daily.normal or 0) + (#pledges.daily.veteran or 0)
-                if dailyTotal > 0 then
-                    markdown = markdown .. "| **Daily** | " .. dailyTotal .. " | " .. (pledges.daily.keys or 0) .. " |\n"
-                end
+                markdown = markdown .. "| **Daily** | " .. dailyTotal .. " | " .. (pledges.daily.keys or 0) .. " |\n"
             end
             
-            if pledges.weekly then
+            if hasWeekly then
                 local weeklyTotal = (#pledges.weekly.normal or 0) + (#pledges.weekly.veteran or 0)
-                if weeklyTotal > 0 then
-                    markdown = markdown .. "| **Weekly** | " .. weeklyTotal .. " | " .. (pledges.weekly.keys or 0) .. " |\n"
-                end
+                markdown = markdown .. "| **Weekly** | " .. weeklyTotal .. " | " .. (pledges.weekly.keys or 0) .. " |\n"
             end
             
             markdown = markdown .. "\n"
+        end
+        
+        -- Only show "No pledges available" if there are no active pledges AND no daily/weekly pledges
+        if not hasActivePledges and not hasDaily and not hasWeekly then
+            markdown = markdown .. "*No pledges available*\n\n"
         end
         
         -- Progress section

@@ -11,7 +11,7 @@ local function CollectSkillBarData()
     local bars = {}
     
     local barConfigs = {
-        {id = 0, name = "🗡️ Front Bar (Main Hand)", hotbarCategory = HOTBAR_CATEGORY_PRIMARY},
+        {id = 0, name = "⚔️ Front Bar (Main Hand)", hotbarCategory = HOTBAR_CATEGORY_PRIMARY},  -- Changed from 🗡️ for better compatibility
         {id = 1, name = "🔮 Back Bar (Backup)", hotbarCategory = HOTBAR_CATEGORY_BACKUP}
     }
     
@@ -126,15 +126,16 @@ local function CollectSkillProgressionData()
             local isClassSkillType = skillTypeName:find("Class")
             
             -- Emoji mapping
+            -- Using widely-supported Unicode emojis for maximum compatibility
             local emoji = "⚔️"
             if skillTypeName:find("Class") then emoji = "🔥"
             elseif skillTypeName:find("Weapon") then emoji = "⚔️"
             elseif skillTypeName:find("Armor") then emoji = "🛡️"
             elseif skillTypeName:find("World") then emoji = "🌍"
             elseif skillTypeName:find("Guild") then emoji = "🏰"
-            elseif skillTypeName:find("Alliance") then emoji = "🏛️"
+            elseif skillTypeName:find("Alliance") then emoji = "🏰"  -- Changed from 🏛️ to 🏰 (more widely supported)
             elseif skillTypeName:find("Craft") then emoji = "⚒️"
-            elseif skillTypeName:find("Racial") then emoji = "🧬"
+            elseif skillTypeName:find("Racial") then emoji = "⭐"   -- Changed from 🧬 (DNA, newer emoji) to ⭐ (widely supported)
             end
             
             for skillLineIndex = 1, numSkillLines do

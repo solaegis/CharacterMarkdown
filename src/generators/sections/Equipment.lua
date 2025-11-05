@@ -6,6 +6,7 @@ local CM = CharacterMarkdown
 -- Cache for utility functions (lazy-initialized on first use)
 local CreateAbilityLink, CreateSetLink, CreateSkillLineLink
 local FormatNumber, GenerateProgressBar
+local markdown
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
@@ -15,6 +16,7 @@ local function InitializeUtilities()
         CreateSkillLineLink = CM.links.CreateSkillLineLink
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+        markdown = CM.utils.markdown
     end
 end
 
@@ -25,25 +27,26 @@ end
 local function GenerateSkillBars(skillBarData, format)
     InitializeUtilities()
     
-    local markdown = ""
+    local output = ""
     
     if format == "discord" then
-        markdown = markdown .. "\n**Skill Bars:**\n"
+        output = output .. "\n**Skill Bars:**\n"
         for barIdx, bar in ipairs(skillBarData) do
-            markdown = markdown .. bar.name .. "\n"
+            output = output .. bar.name .. "\n"
             local ultimateText = CreateAbilityLink(bar.ultimate, bar.ultimateId, format)
-            markdown = markdown .. "```" .. ultimateText .. "```\n"
+            output = output .. "```" .. ultimateText .. "```\n"
             for i, ability in ipairs(bar.abilities) do
                 local abilityText = CreateAbilityLink(ability.name, ability.id, format)
-                markdown = markdown .. i .. ". " .. abilityText .. "\n"
+                output = output .. i .. ". " .. abilityText .. "\n"
             end
         end
     else
-        markdown = markdown .. "## ⚔️ Combat Arsenal\n\n"
+        output = output .. "## ⚔️ Combat Arsenal\n\n"
         
         -- Determine weapon types from bar names for better labels
+        -- Using widely-supported emojis (🗡️ may not render, using ⚔️ instead)
         local barLabels = {
-            {emoji = "🗡️", suffix = ""},
+            {emoji = "⚔️", suffix = ""},  -- Changed from 🗡️ for better compatibility
             {emoji = "🔮", suffix = ""}
         }
         
@@ -59,24 +62,38 @@ local function GenerateSkillBars(skillBarData, format)
         
         for barIdx, bar in ipairs(skillBarData) do
             local label = barLabels[barIdx] or {emoji = "⚔️", suffix = ""}
-            markdown = markdown .. "### " .. label.emoji .. " " .. bar.name .. "\n\n"
+            output = output .. "### " .. label.emoji .. " " .. bar.name .. "\n\n"
             
-            -- Ultimate with link
-            local ultimateText = CreateAbilityLink(bar.ultimate, bar.ultimateId, format)
-            markdown = markdown .. "**⚡ Ultimate:** " .. ultimateText .. "\n\n"
-            
-            markdown = markdown .. "**Abilities:**\n"
-            for i, ability in ipairs(bar.abilities) do
-                local abilityText = CreateAbilityLink(ability.name, ability.id, format)
-                markdown = markdown .. i .. ". " .. abilityText .. "\n"
+            -- Abilities table (horizontal format - rows instead of columns)
+            if #bar.abilities > 0 then
+                -- Header row with slot numbers
+                local headerRow = "|"
+                local separatorRow = "|"
+                for i = 1, #bar.abilities do
+                    headerRow = headerRow .. " " .. i .. " |"
+                    separatorRow = separatorRow .. ":--|"
+                end
+                output = output .. headerRow .. "\n"
+                output = output .. separatorRow .. "\n"
+                
+                -- Abilities row
+                local abilitiesRow = "|"
+                for _, ability in ipairs(bar.abilities) do
+                    local abilityText = CreateAbilityLink(ability.name, ability.id, format)
+                    abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
+                end
+                output = output .. abilitiesRow .. "\n\n"
             end
-            markdown = markdown .. "\n"
+            
+            -- Ultimate separated at the end
+            local ultimateText = CreateAbilityLink(bar.ultimate, bar.ultimateId, format)
+            output = output .. "**⚡ Ultimate:** " .. ultimateText .. "\n\n"
         end
         
-        markdown = markdown .. "---\n\n"
+        output = output .. "---\n\n"
     end
     
-    return markdown
+    return output
 end
 
 -- =====================================================
@@ -86,188 +103,249 @@ end
 local function GenerateEquipment(equipmentData, format)
     InitializeUtilities()
     
-    local markdown = ""
+    if not equipmentData or (CM.settings and CM.settings.includeEquipment == false) then return "" end
+    
+    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
+    local result = ""
     
     if format == "discord" then
-        -- Armor sets
-        if equipmentData.sets and #equipmentData.sets > 0 then
-            markdown = markdown .. "\n**Sets:**\n"
+        -- Discord: Simple format (no enhancements)
+        result = result .. "\n**Sets:**\n"
+        if equipmentData.sets then
             for _, set in ipairs(equipmentData.sets) do
                 local indicator = set.count >= 5 and "✅" or "⚠️"
                 local setLink = CreateSetLink(set.name, format)
-                markdown = markdown .. indicator .. " " .. setLink .. " (" .. set.count .. ")\n"
+                result = result .. indicator .. " " .. setLink .. " (" .. set.count .. ")\n"
             end
         end
         
-        -- Equipment list
         if equipmentData.items and #equipmentData.items > 0 then
-            markdown = markdown .. "\n**Equipment:**\n"
+            result = result .. "\n**Equipment:**\n"
             for _, item in ipairs(equipmentData.items) do
                 if item.name and item.name ~= "-" then
                     local setLink = CreateSetLink(item.setName, format)
-                    markdown = markdown .. (item.emoji or "📦") .. " " .. item.name
+                    result = result .. (item.emoji or "📦") .. " " .. item.name
                     if setLink and setLink ~= "-" then
-                        markdown = markdown .. " (" .. setLink .. ")"
+                        result = result .. " (" .. setLink .. ")"
                     end
-                    markdown = markdown .. "\n"
+                    result = result .. "\n"
                 end
             end
         end
-    else
-        markdown = markdown .. "## 🎒 Equipment\n\n"
+        
+        return result
+    end
     
-        -- Armor sets - reorganized by status
-        if equipmentData.sets and #equipmentData.sets > 0 then
-            markdown = markdown .. "### 🛡️ Armor Sets\n\n"
-            
-            -- Group sets by completion status
+    -- ENHANCED HEADER
+    if enhanced and markdown and markdown.CreateHeader then
+        result = markdown.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2) or "## 🎒 Equipment\n\n"
+    else
+        result = "## 🎒 Equipment\n\n"
+    end
+    
+    -- SET DISPLAY: Classic format shows Armor Sets breakdown, Enhanced shows progress bars
+    if equipmentData.sets and #equipmentData.sets > 0 then
+        if not enhanced or not markdown then
+            -- Classic format: Show Active Sets and Partial Sets breakdown (matches old output)
             local activeSets = {}
             local partialSets = {}
             
             for _, set in ipairs(equipmentData.sets) do
+                local setLink = CreateSetLink(set.name, format)
+                -- Collect slot names for this set
+                local slots = {}
+                if equipmentData.items then
+                    for _, item in ipairs(equipmentData.items) do
+                        if item.setName == set.name then
+                            table.insert(slots, item.slotName or "Unknown")
+                        end
+                    end
+                end
+                local slotsStr = table.concat(slots, ", ")
+                
                 if set.count >= 5 then
-                    table.insert(activeSets, set)
+                    table.insert(activeSets, {
+                        name = set.name,
+                        link = setLink,
+                        count = set.count,
+                        slots = slotsStr
+                    })
                 else
-                    table.insert(partialSets, set)
+                    table.insert(partialSets, {
+                        name = set.name,
+                        link = setLink,
+                        count = set.count,
+                        slots = slotsStr
+                    })
                 end
             end
             
-            -- Show active sets (5+ pieces)
             if #activeSets > 0 then
-                markdown = markdown .. "#### ✅ Active Sets (5-piece bonuses)\n\n"
+                result = result .. "### 🛡️ Armor Sets\n\n"
+                result = result .. "#### ✅ Active Sets (5-piece bonuses)\n\n"
                 for _, set in ipairs(activeSets) do
-                    local setLink = CreateSetLink(set.name, format)
-                    markdown = markdown .. "- ✅ **" .. setLink .. "** (" .. set.count .. "/5 pieces)"
-                    
-                    -- List which slots for this set
-                    if equipmentData.items then
-                        local slots = {}
-                        for _, item in ipairs(equipmentData.items) do
-                            if item.setName == set.name then
-                                table.insert(slots, item.slotName)
-                            end
-                        end
-                        if #slots > 0 then
-                            markdown = markdown .. " - " .. table.concat(slots, ", ")
-                        end
-                    end
-                    markdown = markdown .. "\n"
+                    result = result .. string.format("- ✅ **%s** (%d/5 pieces) - %s\n", set.link, set.count, set.slots)
                 end
-                markdown = markdown .. "\n"
+                result = result .. "\n"
             end
             
-            -- Show partial sets
             if #partialSets > 0 then
-                markdown = markdown .. "#### ⚠️ Partial Sets\n\n"
+                if #activeSets > 0 then
+                    result = result .. "#### ⚠️ Partial Sets\n\n"
+                else
+                    result = result .. "### 🛡️ Armor Sets\n\n"
+                    result = result .. "#### ⚠️ Partial Sets\n\n"
+                end
                 for _, set in ipairs(partialSets) do
-                    local setLink = CreateSetLink(set.name, format)
-                    markdown = markdown .. "- ⚠️ **" .. setLink .. "** (" .. set.count .. "/5 pieces)"
-                    
-                    -- List which slots for this set
-                    if equipmentData.items then
-                        local slots = {}
-                        for _, item in ipairs(equipmentData.items) do
-                            if item.setName == set.name then
-                                table.insert(slots, item.slotName)
-                            end
-                        end
-                        if #slots > 0 then
-                            markdown = markdown .. " - " .. table.concat(slots, ", ")
-                        end
-                    end
-                    markdown = markdown .. "\n"
+                    result = result .. string.format("- ⚠️ **%s** (%d/5 pieces) - %s\n", set.link, set.count, set.slots)
                 end
-                markdown = markdown .. "\n"
+                result = result .. "\n"
             end
-        end
-        
-        -- Equipment details table
-        if equipmentData.items and #equipmentData.items > 0 then
-            markdown = markdown .. "### 📋 Equipment Details\n\n"
-            markdown = markdown .. "| Slot | Item | Set | Quality | Trait | Type |\n"
-            markdown = markdown .. "|:-----|:-----|:----|:--------|:------|:-----|\n"
-            for _, item in ipairs(equipmentData.items) do
-                local setLink = CreateSetLink(item.setName, format)
-                local itemType = ""
-                -- Format armor/weapon type
-                if item.armorType and item.armorType ~= ARMOR_TYPE_NONE then
-                    local armorTypeName = GetString("SI_ARMORTYPE", item.armorType) or "Unknown"
-                    itemType = armorTypeName
-                elseif item.weaponType and item.weaponType ~= WEAPON_TYPE_NONE then
-                    local weaponTypeName = GetString("SI_WEAPONTYPE", item.weaponType) or "Unknown"
-                    itemType = weaponTypeName
+        else
+            -- ENHANCED: Progress indicators (new style)
+            local setLines = {}
+            
+            for _, set in ipairs(equipmentData.sets) do
+                local maxPieces = 5
+                local indicator = "•"
+                if markdown.GetProgressIndicator then
+                    local displayCount = math.min(set.count, maxPieces)
+                    indicator = markdown.GetProgressIndicator(displayCount, maxPieces) or "•"
                 end
+                local setLink = CreateSetLink(set.name, format)
                 
-                -- Add indicators for crafted/stolen items
-                local itemIndicators = {}
-                if item.isCrafted then
-                    table.insert(itemIndicators, "⚒️ Crafted")
-                end
-                if item.craftedQuality and item.craftedQuality ~= ITEM_QUALITY_NONE and item.craftedQuality > 0 then
-                    local craftedQualName = GetString("SI_ITEMQUALITY", item.craftedQuality) or ""
-                    if craftedQualName ~= "" then
-                        table.insert(itemIndicators, "✨ " .. craftedQualName)
+                if markdown.CreateProgressBar then
+                    local progressBar = markdown.CreateProgressBar(math.min(set.count, maxPieces), maxPieces, 10, format) or ""
+                    if set.count > maxPieces then
+                        table.insert(setLines, string.format("%s **%s** `%d/%d` %s *(+%d extra)*", 
+                            indicator, setLink, maxPieces, maxPieces, progressBar, set.count - maxPieces))
+                    else
+                        table.insert(setLines, string.format("%s **%s** `%d/%d` %s", 
+                            indicator, setLink, set.count, maxPieces, progressBar))
+                    end
+                else
+                    if set.count > maxPieces then
+                        table.insert(setLines, string.format("%s **%s** (%d/%d pieces, +%d extra)", 
+                            indicator, setLink, maxPieces, maxPieces, set.count - maxPieces))
+                    else
+                        table.insert(setLines, string.format("%s **%s** (%d/%d pieces)", 
+                            indicator, setLink, set.count, maxPieces))
                     end
                 end
-                if item.isStolen then
-                    table.insert(itemIndicators, "👤 Stolen")
-                end
-                
-                if #itemIndicators > 0 then
-                    itemType = itemType .. (#itemType > 0 and " • " or "") .. table.concat(itemIndicators, " • ")
-                end
-                
-                markdown = markdown .. "| " .. (item.emoji or "📦") .. " **" .. (item.slotName or "Unknown") .. "** | "
-                markdown = markdown .. (item.name or "-") .. " | "
-                markdown = markdown .. setLink .. " | "
-                markdown = markdown .. (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal") .. " | "
-                markdown = markdown .. (item.trait or "None") .. " | "
-                markdown = markdown .. (itemType ~= "" and itemType or "-") .. " |\n"
             end
-            markdown = markdown .. "\n"
+            
+            result = result .. table.concat(setLines, "  \n") .. "\n\n"
         end
-        
-        markdown = markdown .. "---\n\n"
     end
     
-    return markdown
+    -- Equipment details table
+    if equipmentData.items and #equipmentData.items > 0 then
+        result = result .. "### 📋 Equipment Details\n\n"
+        result = result .. "| Slot | Item | Set | Quality | Trait | Type |\n"
+        result = result .. "|:-----|:-----|:----|:--------|:------|:-----|\n"
+        
+        for _, item in ipairs(equipmentData.items) do
+            local setLink = CreateSetLink(item.setName, format)
+            local itemType = ""
+            
+            -- Format armor/weapon type
+            if item.armorType and item.armorType ~= ARMOR_TYPE_NONE then
+                local armorTypeName = GetString("SI_ARMORTYPE", item.armorType) or "Unknown"
+                itemType = armorTypeName
+            elseif item.weaponType and item.weaponType ~= WEAPON_TYPE_NONE then
+                local weaponTypeName = GetString("SI_WEAPONTYPE", item.weaponType) or "Unknown"
+                itemType = weaponTypeName
+            end
+            
+            -- Add indicators for crafted/stolen items
+            local itemIndicators = {}
+            if item.isCrafted then
+                table.insert(itemIndicators, "⚒️ Crafted")
+            end
+            if item.isStolen then
+                table.insert(itemIndicators, "👤 Stolen")
+            end
+            
+            if #itemIndicators > 0 then
+                itemType = itemType .. (#itemType > 0 and " • " or "") .. table.concat(itemIndicators, " • ")
+            end
+            
+            result = result .. "| " .. (item.emoji or "📦") .. " **" .. (item.slotName or "Unknown") .. "** | "
+            result = result .. (item.name or "-") .. " | "
+            result = result .. setLink .. " | "
+            result = result .. (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal") .. " | "
+            result = result .. (item.trait or "None") .. " | "
+            result = result .. (itemType ~= "" and itemType or "-") .. " |\n"
+        end
+        result = result .. "\n"
+    end
+    
+    result = result .. "---\n\n"
+    
+    if enhanced and markdown and markdown.CreateCollapsible then
+        -- Wrap entire equipment section in collapsible
+        local collapsible = markdown.CreateCollapsible("Equipment & Active Sets", result, "⚔️", true)
+        return collapsible or result
+    end
+    
+    return result
 end
 
 -- =====================================================
--- SKILLS
+-- SKILLS (keeping existing implementation)
 -- =====================================================
 
 local function GenerateSkills(skillData, format)
     InitializeUtilities()
     
-    local markdown = ""
+    local output = ""
     
     if format == "discord" then
         -- Discord: Show all skills, compact format
-        markdown = markdown .. "\n**Skill Progression:**\n"
+        output = output .. "\n**Skill Progression:**\n"
         for _, category in ipairs(skillData) do
             if category.skills and #category.skills > 0 then
-                markdown = markdown .. (category.emoji or "⚔️") .. " **" .. category.name .. "**\n"
+                output = output .. (category.emoji or "⚔️") .. " **" .. category.name .. "**\n"
                 for _, skill in ipairs(category.skills) do
                     local status = (skill.maxed or skill.isRacial) and "✅" or "📈"
                     local skillNameLinked = CreateSkillLineLink(skill.name, format)
                     -- For racial skills, don't show rank/progress
                     if skill.isRacial then
-                        markdown = markdown .. status .. " " .. skillNameLinked .. "\n"
+                        output = output .. status .. " " .. skillNameLinked .. "\n"
                     else
-                        markdown = markdown .. status .. " " .. skillNameLinked .. " R" .. (skill.rank or 0)
+                        output = output .. status .. " " .. skillNameLinked .. " R" .. (skill.rank or 0)
                         if skill.progress and not skill.maxed then
-                            markdown = markdown .. " (" .. skill.progress .. "%)"
+                            output = output .. " (" .. skill.progress .. "%)"
                         elseif skill.maxed then
-                            markdown = markdown .. " (100%)"
+                            output = output .. " (100%)"
                         end
-                        markdown = markdown .. "\n"
+                        output = output .. "\n"
                     end
                     
                     -- Show passives for this skill line
                     if skill.passives and #skill.passives > 0 then
                         for _, passive in ipairs(skill.passives) do
-                            local passiveName = CreateAbilityLink(passive.name, passive.abilityId, format)
+                            -- Sanitize passive name: remove all whitespace, newlines, and control characters
+                            local sanitizedName = tostring(passive.name or "Unknown")
+                            sanitizedName = sanitizedName:gsub("[\r\n\t]", "")  -- Remove newlines, carriage returns, tabs
+                            sanitizedName = sanitizedName:gsub("^%s+", ""):gsub("%s+$", "")  -- Trim leading/trailing spaces
+                            sanitizedName = sanitizedName:gsub("%s+", " ")  -- Normalize multiple spaces to single space
+                            
+                            local passiveName = CreateAbilityLink(sanitizedName, passive.abilityId, format)
+                            -- Ensure passiveName is valid and complete (contains full URL and proper closing)
+                            if passiveName and passiveName ~= "" then
+                                -- Remove any control characters from the link text itself
+                                passiveName = passiveName:gsub("[\r\n\t]", "")
+                                -- Validate it's a complete markdown link
+                                if not passiveName:find("%[.*%]%(") or not passiveName:find("%)$") or 
+                                   not passiveName:find("https://en.uesp.net/wiki/Online:") then
+                                    -- If link is invalid, use plain text
+                                    passiveName = sanitizedName
+                                end
+                            else
+                                passiveName = sanitizedName
+                            end
+                            
                             local passiveStatus = passive.purchased and "✅" or "🔒"
                             local rankInfo = ""
                             if passive.currentRank and passive.maxRank then
@@ -275,16 +353,16 @@ local function GenerateSkills(skillData, format)
                                     rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
                                 end
                             end
-                            markdown = markdown .. "  " .. passiveStatus .. " " .. passiveName .. rankInfo .. "\n"
+                            output = output .. "  " .. passiveStatus .. " " .. passiveName .. rankInfo .. "\n"
                         end
                     end
                 end
             end
         end
     else
-        markdown = markdown .. "## 📜 Skill Progression\n\n"
+        output = output .. "## 📜 Skill Progression\n\n"
         for _, category in ipairs(skillData) do
-            markdown = markdown .. "### " .. (category.emoji or "⚔️") .. " " .. category.name .. "\n\n"
+            output = output .. "### " .. (category.emoji or "⚔️") .. " " .. category.name .. "\n\n"
             if category.skills and #category.skills > 0 then
                 -- Group skills by status
                 local maxedSkills = {}
@@ -307,162 +385,167 @@ local function GenerateSkills(skillData, format)
                     local maxedNames = {}
                     for _, skill in ipairs(maxedSkills) do
                         local skillNameLinked = CreateSkillLineLink(skill.name, format)
-                        -- For racial skills, don't show rank
-                        if skill.isRacial then
-                            table.insert(maxedNames, "**" .. skillNameLinked .. "**")
-                        else
-                            table.insert(maxedNames, "**" .. skillNameLinked .. "**")
-                        end
+                        table.insert(maxedNames, "**" .. skillNameLinked .. "**")
                     end
-                    markdown = markdown .. "#### ✅ Maxed\n"
-                    markdown = markdown .. table.concat(maxedNames, ", ") .. "\n\n"
+                    output = output .. "#### ✅ Maxed\n"
+                    output = output .. table.concat(maxedNames, ", ") .. "\n\n"
                 end
                 
                 -- Show in-progress skills with progress bars
                 if #inProgressSkills > 0 then
                     if #maxedSkills > 0 then
-                        markdown = markdown .. "#### 📈 In Progress\n"
+                        output = output .. "#### 📈 In Progress\n"
                     end
                     for _, skill in ipairs(inProgressSkills) do
                         local skillNameLinked = CreateSkillLineLink(skill.name, format)
                         local progressPercent = skill.progress or 0
                         local progressBar = GenerateProgressBar(progressPercent, 10)
-                        markdown = markdown .. "- **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0) .. 
+                        output = output .. "- **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0) .. 
                                               " " .. progressBar .. " " .. progressPercent .. "%\n"
                     end
-                    markdown = markdown .. "\n"
+                    output = output .. "\n"
                 end
                 
                 -- Show low-level skills
                 if #lowLevelSkills > 0 then
                     if #maxedSkills > 0 or #inProgressSkills > 0 then
-                        markdown = markdown .. "#### 🔰 Early Progress\n"
+                        output = output .. "#### ⚪ Early Progress\n"  -- Changed from 🔰 to ⚪ for better compatibility
                     end
                     for _, skill in ipairs(lowLevelSkills) do
                         local skillNameLinked = CreateSkillLineLink(skill.name, format)
                         local progressPercent = skill.progress or 0
                         local progressBar = GenerateProgressBar(progressPercent, 10)
-                        markdown = markdown .. "- **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0) .. 
+                        output = output .. "- **" .. skillNameLinked .. "**: Rank " .. (skill.rank or 0) .. 
                                               " " .. progressBar .. " " .. progressPercent .. "%\n"
                     end
-                    markdown = markdown .. "\n"
+                    output = output .. "\n"
                 end
                 
-                -- Show passives for all skills (grouped together)
+                -- Show passives for all skills in this category
                 local allPassives = {}
-                for _, skill in ipairs(category.skills) do
+                for _, skill in ipairs(category.skills or {}) do
                     if skill.passives and #skill.passives > 0 then
                         for _, passive in ipairs(skill.passives) do
                             table.insert(allPassives, {
                                 name = passive.name,
+                                abilityId = passive.abilityId,
                                 purchased = passive.purchased,
-                                earnedRank = passive.earnedRank,
                                 currentRank = passive.currentRank,
                                 maxRank = passive.maxRank,
-                                abilityId = passive.abilityId,
-                                skillLine = skill.name
+                                skillLineName = skill.name
                             })
                         end
                     end
                 end
                 
                 if #allPassives > 0 then
-                    markdown = markdown .. "#### ✨ Passives\n"
+                    output = output .. "#### ✨ Passives\n"
                     for _, passive in ipairs(allPassives) do
-                        local passiveName = CreateAbilityLink(passive.name, passive.abilityId, format)
-                        local status = passive.purchased and "✅" or "🔒"
-                        local rankInfo = ""
-                        if passive.currentRank and passive.maxRank then
-                            if passive.maxRank > 1 then
-                                rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
+                        -- Sanitize passive name: remove all whitespace, newlines, and control characters
+                        local sanitizedName = tostring(passive.name or "Unknown")
+                        sanitizedName = sanitizedName:gsub("[\r\n\t]", "")  -- Remove newlines, carriage returns, tabs
+                        sanitizedName = sanitizedName:gsub("^%s+", ""):gsub("%s+$", "")  -- Trim leading/trailing spaces
+                        sanitizedName = sanitizedName:gsub("%s+", " ")  -- Normalize multiple spaces to single space
+                        
+                        local passiveName = CreateAbilityLink(sanitizedName, passive.abilityId, format)
+                        -- Ensure passiveName is valid and complete (contains full URL and proper closing)
+                        if passiveName and passiveName ~= "" then
+                            -- Remove any control characters from the link text itself
+                            passiveName = passiveName:gsub("[\r\n\t]", "")
+                            -- Validate it's a complete markdown link
+                            if not passiveName:find("%[.*%]%(") or not passiveName:find("%)$") or 
+                               not passiveName:find("https://en.uesp.net/wiki/Online:") then
+                                -- If link is invalid, use plain text
+                                passiveName = sanitizedName
                             end
+                        else
+                            passiveName = sanitizedName
                         end
-                        markdown = markdown .. "- " .. status .. " " .. passiveName .. rankInfo .. 
-                                              " *(from " .. CreateSkillLineLink(passive.skillLine, format) .. ")*\n"
+                        
+                        local passiveStatus = passive.purchased and "✅" or "🔒"
+                        local rankInfo = ""
+                        if passive.currentRank and passive.maxRank and passive.maxRank > 1 then
+                            rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
+                        end
+                        local skillLineLink = CreateSkillLineLink(passive.skillLineName, format)
+                        output = output .. string.format("- %s %s%s *(from %s)*\n", 
+                            passiveStatus, passiveName, rankInfo, skillLineLink)
                     end
-                    markdown = markdown .. "\n"
+                    output = output .. "\n"
                 end
             end
         end
 
-        markdown = markdown .. "---\n\n"
+        output = output .. "---\n\n"
     end
     
-    return markdown
+    return output
 end
 
 -- =====================================================
--- SKILL MORPHS
+-- SKILL MORPHS (keeping existing implementation)
 -- =====================================================
 
 local function GenerateSkillMorphs(skillMorphsData, format)
     InitializeUtilities()
     
-    local markdown = ""
+    local output = ""
     
-    -- Debug: Check if we have data
     if not skillMorphsData or #skillMorphsData == 0 then
         if format == "discord" then
-            markdown = markdown .. "\n**Skill Morphs:**\n"
-            markdown = markdown .. "No morphable abilities found.\n"
+            output = output .. "\n**Skill Morphs:**\n"
+            output = output .. "No morphable abilities found.\n"
         else
-            markdown = markdown .. "## 🌿 Skill Morphs\n\n"
-            markdown = markdown .. "*No morphable abilities found.*\n\n"
-            markdown = markdown .. "---\n\n"
+            output = output .. "## 🌿 Skill Morphs\n\n"
+            output = output .. "*No morphable abilities found.*\n\n"
+            output = output .. "---\n\n"
         end
-        return markdown
+        return output
     end
     
     if format == "discord" then
-        -- Discord: Compact format showing selected morphs
-        markdown = markdown .. "\n**Skill Morphs:**\n"
+        output = output .. "\n**Skill Morphs:**\n"
         for _, skillType in ipairs(skillMorphsData) do
-            markdown = markdown .. (skillType.emoji or "⚔️") .. " **" .. skillType.name .. "**\n"
+            output = output .. (skillType.emoji or "⚔️") .. " **" .. skillType.name .. "**\n"
             for _, skillLine in ipairs(skillType.skillLines) do
-                markdown = markdown .. "  📋 " .. skillLine.name .. " (R" .. (skillLine.rank or 0) .. ")\n"
+                output = output .. "  📋 " .. skillLine.name .. " (R" .. (skillLine.rank or 0) .. ")\n"
                 for _, ability in ipairs(skillLine.abilities) do
-                    -- Show base ability (now shows all morphable abilities, not just purchased)
                     local baseText = CreateAbilityLink(ability.name, nil, format)
                     local statusIcon = ability.purchased and "✅" or "🔒"
-                    markdown = markdown .. "    " .. statusIcon .. " " .. baseText
+                    output = output .. "    " .. statusIcon .. " " .. baseText
                     
-                    -- Show selected morph if any
                     if #ability.morphs > 0 then
                         for _, morph in ipairs(ability.morphs) do
                             if morph.selected then
                                 local morphText = CreateAbilityLink(morph.name, morph.abilityId, format)
-                                markdown = markdown .. " → " .. morphText
+                                output = output .. " → " .. morphText
                                 break
                             end
                         end
                     elseif ability.atMorphChoice then
-                        markdown = markdown .. " (⚠️ morph choice available)"
+                        output = output .. " (⚠️ morph choice available)"
                     end
-                    markdown = markdown .. "\n"
+                    output = output .. "\n"
                 end
             end
         end
     else
-        -- GitHub/VSCode: Detailed format with all morph options in collapsible sections
-        markdown = markdown .. "## 🌿 Skill Morphs\n\n"
+        output = output .. "## 🌿 Skill Morphs\n\n"
         
         for _, skillType in ipairs(skillMorphsData) do
-            -- Count total abilities in this skill type
             local totalAbilities = 0
             for _, skillLine in ipairs(skillType.skillLines) do
                 totalAbilities = totalAbilities + #skillLine.abilities
             end
             
-            -- Collapsible section for each skill type
-            markdown = markdown .. "<details>\n"
-            markdown = markdown .. "<summary>" .. (skillType.emoji or "⚔️") .. " " .. skillType.name .. 
+            output = output .. "<details>\n"
+            output = output .. "<summary>" .. (skillType.emoji or "⚔️") .. " " .. skillType.name .. 
                                   " (" .. totalAbilities .. " abilities with morph choices)</summary>\n\n"
             
             for _, skillLine in ipairs(skillType.skillLines) do
-                markdown = markdown .. "### " .. skillLine.name .. " (Rank " .. (skillLine.rank or 0) .. ")\n\n"
+                output = output .. "### " .. skillLine.name .. " (Rank " .. (skillLine.rank or 0) .. ")\n\n"
                 
                 for _, ability in ipairs(skillLine.abilities) do
-                    -- Base ability header (now shows all morphable abilities, not just purchased)
                     local baseText = CreateAbilityLink(ability.name, nil, format)
                     local statusIcon = ""
                     
@@ -475,49 +558,66 @@ local function GenerateSkillMorphs(skillMorphsData, format)
                             statusIcon = "🔒 "
                         end
                     else
-                        statusIcon = "🔒 "  -- Unpurchased abilities
+                        statusIcon = "🔒 "
                     end
                     
-                    markdown = markdown .. statusIcon .. "**" .. baseText .. "**"
+                    output = output .. statusIcon .. "**" .. baseText .. "**"
                     
-                    -- Show current rank if progressing
                     if ability.currentRank and ability.currentRank > 0 then
-                        markdown = markdown .. " (Rank " .. ability.currentRank .. ")"
+                        output = output .. " (Rank " .. ability.currentRank .. ")"
                     end
                     
-                    markdown = markdown .. "\n"
+                    output = output .. "\n\n"
                     
-                    -- Show morph status
                     if #ability.morphs > 0 then
-                        markdown = markdown .. "\n"
                         for _, morph in ipairs(ability.morphs) do
                             local morphIcon = morph.selected and "✅" or "⚪"
-                            local morphText = CreateAbilityLink(morph.name, morph.abilityId, format)
-                            markdown = markdown .. "  " .. morphIcon .. " **Morph " .. morph.morphSlot .. "**: " .. morphText .. "\n"
+                            -- Sanitize morphName: remove all whitespace, newlines, and control characters
+                            local morphName = tostring(morph.name or "Unknown")
+                            morphName = morphName:gsub("[\r\n\t]", "")  -- Remove newlines, carriage returns, tabs
+                            morphName = morphName:gsub("^%s+", ""):gsub("%s+$", "")  -- Trim leading/trailing spaces
+                            morphName = morphName:gsub("%s+", " ")  -- Normalize multiple spaces to single space
+                            
+                            local morphText = CreateAbilityLink(morphName, morph.abilityId, format)
+                            -- Ensure morphText is valid and complete (contains full URL and proper closing)
+                            if morphText and morphText ~= "" then
+                                -- Remove any control characters from the link text itself
+                                morphText = morphText:gsub("[\r\n\t]", "")
+                                -- Validate it's a complete markdown link
+                                if not morphText:find("%[.*%]%(") or not morphText:find("%)$") or 
+                                   not morphText:find("https://en.uesp.net/wiki/Online:") then
+                                    -- If link is invalid, use plain text
+                                    morphText = morphName
+                                end
+                            else
+                                morphText = morphName
+                            end
+                            local morphSlot = tostring(morph.morphSlot or "?")
+                            output = output .. "  " .. morphIcon .. " **Morph " .. morphSlot .. "**: " .. morphText .. "\n"
                         end
                     elseif ability.atMorphChoice then
-                        markdown = markdown .. "  ⚠️ *Morph choice available - level up to unlock*\n"
+                        output = output .. "  ⚠️ *Morph choice available - level up to unlock*\n"
                     else
                         if ability.purchased then
-                            markdown = markdown .. "  🔒 *Morph locked - continue leveling this skill*\n"
+                            output = output .. "  🔒 *Morph locked - continue leveling this skill*\n"
                         else
-                            markdown = markdown .. "  🔒 *Purchase this ability to unlock morphs*\n"
+                            output = output .. "  🔒 *Purchase this ability to unlock morphs*\n"
                         end
                     end
                     
-                    markdown = markdown .. "\n"
+                    output = output .. "\n"
                 end
                 
-                markdown = markdown .. "\n"
+                output = output .. "\n"
             end
             
-            markdown = markdown .. "</details>\n\n"
+            output = output .. "</details>\n\n"
         end
         
-        markdown = markdown .. "---\n\n"
+        output = output .. "---\n\n"
     end
     
-    return markdown
+    return output
 end
 
 -- =====================================================
@@ -530,3 +630,4 @@ CM.generators.sections.GenerateSkillMorphs = GenerateSkillMorphs
 CM.generators.sections.GenerateEquipment = GenerateEquipment
 CM.generators.sections.GenerateSkills = GenerateSkills
 
+CM.DebugPrint("GENERATOR", "Equipment section generators loaded (enhanced visuals)")

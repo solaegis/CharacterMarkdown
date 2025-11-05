@@ -57,7 +57,7 @@ local function GetCategoryEmoji(categoryName)
         ["Crafting"] = "⚒️",
         ["Economy"] = "💰",
         ["Social"] = "👥",
-        ["Dungeons"] = "🏛️",
+        ["Dungeons"] = "🏰",  -- Changed from 🏛️ for better compatibility
         ["Character"] = "📈",
         ["Vampire"] = "🧛",
         ["Werewolf"] = "🐺",

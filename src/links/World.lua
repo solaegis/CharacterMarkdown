@@ -22,8 +22,10 @@ local function CreateRaceLink(raceName, format)
         return raceName or "Unknown"
     end
     
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return raceName
     end
     
@@ -56,8 +58,10 @@ local function CreateClassLink(className, format)
         return className or "Unknown"
     end
     
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return className
     end
     
@@ -90,8 +94,10 @@ local function CreateAllianceLink(allianceName, format)
         return allianceName or "Unknown"
     end
     
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return allianceName
     end
     
@@ -126,8 +132,10 @@ local function CreateZoneLink(zoneName, format)
         return zoneName or "Unknown"
     end
     
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return zoneName
     end
     
@@ -140,6 +148,83 @@ local function CreateZoneLink(zoneName, format)
 end
 
 CM.links.CreateZoneLink = CreateZoneLink
+
+-- =====================================================
+-- TITLE LINKS
+-- =====================================================
+
+local function GenerateTitleURL(titleName)
+    if not titleName or titleName == "" or titleName == "Unknown" then
+        return nil
+    end
+    local urlName = titleName:gsub(" ", "_")
+    urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    -- UESP titles format: https://en.uesp.net/wiki/Online:Titles#Title_Name or Online:Title_Name
+    -- Using direct page format for now
+    return "https://en.uesp.net/wiki/Online:" .. urlName
+end
+
+CM.links.GenerateTitleURL = GenerateTitleURL
+
+local function CreateTitleLink(titleName, format)
+    if not titleName or titleName == "" or titleName == "Unknown" then
+        return titleName or "Unknown"
+    end
+    
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
+        return titleName
+    end
+    
+    local url = GenerateTitleURL(titleName)
+    if url and (format == "github" or format == "discord") then
+        return "[" .. titleName .. "](" .. url .. ")"
+    else
+        return titleName
+    end
+end
+
+CM.links.CreateTitleLink = CreateTitleLink
+
+-- =====================================================
+-- HOUSE LINKS
+-- =====================================================
+
+local function GenerateHouseURL(houseName)
+    if not houseName or houseName == "" or houseName == "Unknown" then
+        return nil
+    end
+    local urlName = houseName:gsub(" ", "_")
+    urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    -- UESP houses format: https://en.uesp.net/wiki/Online:House_Name
+    return "https://en.uesp.net/wiki/Online:" .. urlName
+end
+
+CM.links.GenerateHouseURL = GenerateHouseURL
+
+local function CreateHouseLink(houseName, format)
+    if not houseName or houseName == "" or houseName == "Unknown" then
+        return houseName or "Unknown"
+    end
+    
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
+        return houseName
+    end
+    
+    local url = GenerateHouseURL(houseName)
+    if url and (format == "github" or format == "discord") then
+        return "[" .. houseName .. "](" .. url .. ")"
+    else
+        return houseName
+    end
+end
+
+CM.links.CreateHouseLink = CreateHouseLink
 
 -- =====================================================
 -- SKILL LINE LINKS
@@ -172,8 +257,10 @@ local function CreateSkillLineLink(skillLineName, format)
         return skillLineName or ""
     end
     
-    local settings = CharacterMarkdownSettings or {}
-    if settings.enableAbilityLinks == false then
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
         return skillLineName
     end
     
@@ -186,3 +273,39 @@ local function CreateSkillLineLink(skillLineName, format)
 end
 
 CM.links.CreateSkillLineLink = CreateSkillLineLink
+
+-- =====================================================
+-- SERVER LINKS
+-- =====================================================
+
+local function GenerateServerURL(serverName)
+    if not serverName or serverName == "" or serverName == "Unknown" then
+        return nil
+    end
+    -- All servers link to the Megaservers page
+    return "https://en.uesp.net/wiki/Online:Megaservers"
+end
+
+CM.links.GenerateServerURL = GenerateServerURL
+
+local function CreateServerLink(serverName, format)
+    if not serverName or serverName == "" or serverName == "Unknown" then
+        return serverName or "Unknown"
+    end
+    
+    -- Check settings: if enableAbilityLinks is explicitly false, return plain text
+    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
+    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    if settings and settings.enableAbilityLinks == false then
+        return serverName
+    end
+    
+    local url = GenerateServerURL(serverName)
+    if url and (format == "github" or format == "discord") then
+        return "[" .. serverName .. "](" .. url .. ")"
+    else
+        return serverName
+    end
+end
+
+CM.links.CreateServerLink = CreateServerLink

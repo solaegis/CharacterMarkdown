@@ -75,7 +75,7 @@ local function GenerateCombatStats(statsData, format)
                               " (" .. (statsData.spellCritChance or 0) .. "%) |\n"
         
         -- Penetration
-        markdown = markdown .. "| 🗡️ **Penetration** | Physical | " .. FormatNumber(statsData.physicalPenetration or 0) .. " |\n"
+        markdown = markdown .. "| ⚔️ **Penetration** | Physical | " .. FormatNumber(statsData.physicalPenetration or 0) .. " |\n"  -- Changed from 🗡️ for better compatibility
         markdown = markdown .. "| | Spell | " .. FormatNumber(statsData.spellPenetration or 0) .. " |\n"
         
         -- Defensive
@@ -117,9 +117,20 @@ local function GenerateAttributes(characterData, format)
         markdown = markdown .. "```\n"
     else
         markdown = markdown .. "### 🎯 Attribute Distribution\n\n"
-        markdown = markdown .. "**Magicka:** " .. characterData.attributes.magicka .. 
-                              " • **Health:** " .. characterData.attributes.health ..
-                              " • **Stamina:** " .. characterData.attributes.stamina .. "\n\n"
+        local magicka = characterData.attributes.magicka or 0
+        local health = characterData.attributes.health or 0
+        local stamina = characterData.attributes.stamina or 0
+        local total = magicka + health + stamina
+        
+        -- Show allocation clearly (points spent out of available)
+        if total > 0 then
+            markdown = markdown .. "**Magicka:** " .. magicka .. 
+                                  " • **Health:** " .. health ..
+                                  " • **Stamina:** " .. stamina ..
+                                  " *(Total: " .. total .. " points allocated)*\n\n"
+        else
+            markdown = markdown .. "*No attribute points allocated*\n\n"
+        end
     end
     
     return markdown

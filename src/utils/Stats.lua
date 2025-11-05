@@ -21,3 +21,35 @@ local function SafeGetPlayerStat(statType, defaultValue)
 end
 
 CM.utils.SafeGetPlayerStat = SafeGetPlayerStat
+
+-- =====================================================
+-- PLAYER TITLE RETRIEVAL
+-- =====================================================
+
+-- Safely get player title, checking custom title first, then API
+local function GetPlayerTitle()
+    -- Check for custom title first
+    local customTitle = ""
+    if CM.charData then
+        customTitle = CM.charData.customTitle or ""
+    end
+    
+    if customTitle and customTitle ~= "" then
+        return customTitle
+    end
+    
+    -- Use GetUnitTitle("player") to get the active title directly
+    -- Note: GetUnitTitle may be a newer API function
+    local GetUnitTitleFunc = rawget(_G, "GetUnitTitle")
+    if GetUnitTitleFunc and type(GetUnitTitleFunc) == "function" then
+        local success, titleName = pcall(GetUnitTitleFunc, "player")
+        if success and titleName and titleName ~= "" then
+            return titleName
+        end
+    end
+    
+    -- Fallback to empty string if API call fails
+    return ""
+end
+
+CM.utils.GetPlayerTitle = GetPlayerTitle

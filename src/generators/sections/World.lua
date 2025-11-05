@@ -4,13 +4,14 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar
+local FormatNumber, GenerateProgressBar, CreateZoneLink
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+        CreateZoneLink = CM.links.CreateZoneLink
     end
 end
 
@@ -127,8 +128,12 @@ local function GenerateZoneCompletion(zoneCompletionData, format)
         return ""
     end
     
+    -- Create zone link if available (conditional based on settings)
+    local zoneName = zoneCompletionData.currentZone
+    local zoneLink = (CreateZoneLink and CreateZoneLink(zoneName, format)) or zoneName
+    
     if format == "discord" then
-        markdown = markdown .. "**Zone Completion:** " .. zoneCompletionData.currentZone .. 
+        markdown = markdown .. "**Zone Completion:** " .. zoneLink .. 
                   " (" .. zoneCompletionData.completionPercentage .. "%)\n\n"
     else
         markdown = markdown .. "### 🗺️ Zone Completion\n\n"
@@ -136,7 +141,7 @@ local function GenerateZoneCompletion(zoneCompletionData, format)
         markdown = markdown .. "|:-----|:----------|\n"
         
         local progressBar = GenerateProgressBar(zoneCompletionData.completionPercentage, 20)
-        markdown = markdown .. "| **" .. zoneCompletionData.currentZone .. "** | " .. 
+        markdown = markdown .. "| **" .. zoneLink .. "** | " .. 
                   progressBar .. " " .. zoneCompletionData.completionPercentage .. "% |\n\n"
     end
     
@@ -245,7 +250,8 @@ local function GenerateWorldProgress(worldProgressData, format)
     -- Add each subsection
     markdown = markdown .. GenerateSkyshards(worldProgressData.skyshards, format)
     markdown = markdown .. GenerateLorebooks(worldProgressData.lorebooks, format)
-    markdown = markdown .. GenerateZoneCompletion(worldProgressData.zoneCompletion, format)
+    -- Zone Completion disabled - not working correctly
+    -- markdown = markdown .. GenerateZoneCompletion(worldProgressData.zoneCompletion, format)
     markdown = markdown .. GenerateDungeonProgress(worldProgressData.dungeons, format)
     
     return markdown

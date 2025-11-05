@@ -25,7 +25,7 @@ local function GenerateGuilds(guildsData, format)
     if not guildsData or #guildsData == 0 then
         -- Show placeholder when enabled but no data available
         if format ~= "discord" then
-            markdown = markdown .. "## 🏛️ Guild Membership\n\n"
+            markdown = markdown .. "## 🏰 Guild Membership\n\n"  -- Changed from 🏛️ for better compatibility
             markdown = markdown .. "*No guild data available*\n\n---\n\n"
         end
         return markdown
@@ -53,11 +53,19 @@ local function GenerateGuilds(guildsData, format)
             markdown = markdown .. "| Guild Name | Rank | Members | Alliance |\n"
             markdown = markdown .. "|:-----------|:-----|:--------|:---------|\n"
             
+            local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
             for _, guild in ipairs(guildsData) do
+                local allianceName = guild.alliance or "Cross-Alliance"
+                -- Only link actual alliances (not "Cross-Alliance")
+                local allianceText = allianceName
+                if allianceName ~= "Cross-Alliance" and allianceName ~= "" then
+                    allianceText = (CreateAllianceLink and CreateAllianceLink(allianceName, format)) or allianceName
+                end
+                
                 markdown = markdown .. "| **" .. (guild.name or "Unknown") .. "** | "
                 markdown = markdown .. (guild.rank or "Member") .. " | "
                 markdown = markdown .. (guild.memberCount and FormatNumber(guild.memberCount) or "0") .. " | "
-                markdown = markdown .. (guild.alliance or "Cross-Alliance") .. " |\n"
+                markdown = markdown .. allianceText .. " |\n"
             end
             
             markdown = markdown .. "\n"
