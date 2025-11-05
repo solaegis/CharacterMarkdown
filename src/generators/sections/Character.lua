@@ -223,7 +223,16 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
     -- This ensures consistency with the Attributes display format
     -- Use emojis: ⚒️ Craft / ⚔️ Warfare / 💪 Fitness
     -- Order: Craft, Warfare, Fitness (cp3, cp1, cp2)
-    local cpDisplayValue = string_format("⚒️ %d / ⚔️ %d / 💪 %d", cp3, cp1, cp2)
+    -- Format: ⚒️ (assigned of total) / ⚔️ (assigned of total) / 💪 (assigned of total)
+    local cpTotal = 0
+    if cpData and cpData.total then
+        cpTotal = cpData.total or 0
+    elseif cp then
+        cpTotal = cp  -- Fallback to character CP if available
+    end
+    
+    local cpDisplayValue = string_format("⚒️ (%d of %d) / ⚔️ (%d of %d) / 💪 (%d of %d)", 
+        cp3, cpTotal, cp1, cpTotal, cp2, cpTotal)
     
     -- Sets (with links)
     local setsStr = "None"

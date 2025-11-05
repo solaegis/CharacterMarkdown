@@ -2,6 +2,7 @@
 -- Champion Points, achievements, enlightenment
 
 local CM = CharacterMarkdown
+local string_format = string.format
 
 -- =====================================================
 -- CHAMPION POINTS
@@ -140,7 +141,7 @@ local function CollectChampionPointData()
                         name = displayName, 
                         emoji = emoji,
                         skills = {}, 
-                        total = disciplineTotalSpent,  -- Use discipline-level API call
+                        total = 0,  -- Will be calculated from skill points
                         slottable = 0,
                         passive = 0,
                         slottableSkills = {},
@@ -233,16 +234,26 @@ local function CollectChampionPointData()
                                         isSlottable = isSlottable,
                                         skillId = skillId
                                     })
-                                    
-                                    -- Note: disciplineData.total is already set from GetNumSpentChampionPoints above
-                                    -- Don't modify it here, as individual skill points may not be reliable
                                 end
                             end
                         end
                     end
                     
-                    -- Add discipline total to overall total spent (use discipline-level API value)
-                    totalSpent = totalSpent + disciplineTotalSpent
+                    -- Calculate discipline total from sum of skill points (more reliable than API call)
+                    -- This gives us the actual assigned points per discipline
+                    local calculatedDisciplineTotal = disciplineData.slottable + disciplineData.passive
+                    if calculatedDisciplineTotal > 0 then
+                        -- Use calculated total if we found any skills with points
+                        disciplineData.total = calculatedDisciplineTotal
+                        CM.DebugPrint("CP", string_format("Discipline %s: Using calculated total %d (API returned %d)", 
+                            displayName, calculatedDisciplineTotal, disciplineTotalSpent))
+                    else
+                        -- No skills found with points, use API value (or 0 if API also failed)
+                        disciplineData.total = disciplineTotalSpent or 0
+                    end
+                    
+                    -- Add discipline total to overall total spent (use calculated value)
+                    totalSpent = totalSpent + disciplineData.total
                     
                     -- Always add discipline to list, even if total is 0 (so we can show structure)
                     -- This ensures disciplines are available for display even if API calls fail
@@ -519,3 +530,4 @@ local function CollectProgressionData()
 end
 
 CM.collectors.CollectProgressionData = CollectProgressionData
+
