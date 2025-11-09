@@ -3,7 +3,7 @@
 
 # Pelatiah (Abyssal Champion)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-722-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Templar-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-723-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Templar-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Imperial Templar • Ebonheart Pact Alliance**
 
@@ -44,14 +44,14 @@
 |:----------|:------|
 | **Build** | [Imperial](https://en.uesp.net/wiki/Online:Imperial) [Templar](https://en.uesp.net/wiki/Online:Templar) Magicka DPS |
 | **Alliance** | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
-| **Location** | [Summerset](https://en.uesp.net/wiki/Online:Summerset) (Alinor) |
+| **Location** | [Alinor Royal Palace](https://en.uesp.net/wiki/Online:Alinor_Royal_Palace) (653) |
 | **Alliance War Rank** | Tyro Grade 1 (Rank 5) |
-| **Gold** | 94,842 |
+| **Gold** | 95,512 |
 | **Sets** | [Law of Julianos](https://en.uesp.net/wiki/Online:Law_of_Julianos_Set) |
 | **Bank** | ✅ 238/480 |
 | **Skill Points** | 69 available |
 | **Attributes** | 🔵 64 / ❤️ 0 / ⚡ 0 |
-| **🎯 Available Champion Points** | 67 |
+| **🎯 Available Champion Points** | 68 |
 | **🏆 Achievement Points** | 12,290 |
 | **🍖 Active Buffs** | Other: [Gallop](https://en.uesp.net/wiki/Online:Gallop), [Major Prophecy](https://en.uesp.net/wiki/Online:Major_Prophecy), [Major Savagery](https://en.uesp.net/wiki/Online:Major_Savagery) |
 | **🪨 Mundus Stone** | [The Shadow](https://en.uesp.net/wiki/Online:The_Shadow_(Mundus_Stone)) |
@@ -440,7 +440,7 @@
 
 | | | |
 |:---|:---|:---|
-| 💰 **94,842** [Gold](https://en.uesp.net/wiki/Online:Gold) | ⚔️ **0** [Alliance Points](https://en.uesp.net/wiki/Online:Alliance_Points) | 🔮 **7,027** [Tel Var](https://en.uesp.net/wiki/Online:Tel_Var_Stones) |
+| 💰 **95,512** [Gold](https://en.uesp.net/wiki/Online:Gold) | ⚔️ **0** [Alliance Points](https://en.uesp.net/wiki/Online:Alliance_Points) | 🔮 **7,027** [Tel Var](https://en.uesp.net/wiki/Online:Tel_Var_Stones) |
 | 💎 **60** [Crystals](https://en.uesp.net/wiki/Online:Transmute_Crystals) | 📜 **0** [Writs](https://en.uesp.net/wiki/Online:Writ_Vouchers) | 🎫 **2** [Tickets](https://en.uesp.net/wiki/Online:Event_Tickets) |
 
 <details>
@@ -456,7 +456,7 @@ Capacity: ████████████████████ 100% (60/
 
 | Storage | Used | Max | Capacity |
 |:--------|-----:|----:|---------:|
-| **Backpack** | 115 | 180 | 63% |
+| **Backpack** | 119 | 180 | 66% |
 | **Bank** | 238 | 480 | 49% |
 | **Crafting Bag** | ∞ | ∞ | ESO Plus |
 
@@ -608,7 +608,7 @@ Capacity: ████████████████████ 100% (60/
 - [Vulkhel Guard Marine Armor](https://en.uesp.net/wiki/Online:Vulkhel_Guard_Marine_Armor)
 </details>
 
-<details>                                                                      <summary>🎭 Emotes (7 of 225)</summary>
+<details>                                                                       <summary>🎭 Emotes (7 of 225)</summary>
 
 | Progress |
 | --- |
@@ -697,8 +697,8 @@ Capacity: ████████████████████ 100% (60/
 
 | Category | Collected | Total | Progress |
 |:---------|:----------|:------|:--------|
-| **Crafting Motifs** | 121 | 121 | ████████████████████ 100% |
 | **Eidetic Memory** | 57 | 57 | ████████████████████ 100% |
+| **Crafting Motifs** | 121 | 121 | ████████████████████ 100% |
 | **Shalidor's Library** | 29 | 29 | ████████████████████ 100% |
 | **Total** | 207 | 207 | ████████████████████ 100% |
 
@@ -771,9 +771,9 @@ Capacity: ████████████████████ 100% (60/
 
 | Category | Value |
 |:---------|------:|
-| **Total** | 722 |
+| **Total** | 723 |
 | **Spent** | 655 |
-| **Available** | 67 ⚠️ |
+| **Available** | 68 ⚠️ |
 
 ### 💪 Fitness (225/225 points) ████████████ 100%
 
@@ -813,9 +813,10 @@ Capacity: ████████████████████ 100% (60/
 ## ⚔️ Equipment & Active Sets
 
 🟢 **[Law of Julianos](https://en.uesp.net/wiki/Online:Law_of_Julianos_Set)** `5/5` ██████████ 100% *(+5 extra)*
-
+                                                                            
 ### 📋 Equipment Details
-                                                                           | Slot | Item | Set | Quality | Trait | Type | Enchantment Charge |
+
+| Slot | Item | Set | Quality | Trait | Type | Enchantment Charge |
 |:-----|:-----|:----|:--------|:------|:-----|:-------------------|
 | ⛑️ **Head** | Hat of Julianos | [Law of Julianos](https://en.uesp.net/wiki/Online:Law_of_Julianos_Set) | 👑 Legendary | Divines | Light • ⚒️ Crafted | - |
 | 💎 **Neck** | Necklace of Julianos | [Law of Julianos](https://en.uesp.net/wiki/Online:Law_of_Julianos_Set) | ⭐ Artifact | Bloodthirsty | None • ⚒️ Crafted | - |
@@ -912,7 +913,7 @@ Capacity: ████████████████████ 100% (60/
 #### ✨ Passives
 - ✅ [Light Armor Bonuses](https://en.uesp.net/wiki/Online:Light_Armor_Bonuses) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Light Armor Penalties](https://en.uesp.net/wiki/Online:Light_Armor_Penalties) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Grace](https://en.uesp.net/wiki/Online:Grace) (2/2) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*                                              - ✅ [Evocation](https://en.uesp.net/wiki/Online:Evocation) (6/6) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- ✅ [Grace](https://en.uesp.net/wiki/Online:Grace) (2/2) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*                                             - ✅ [Evocation](https://en.uesp.net/wiki/Online:Evocation) (6/6) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) (14/14) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) (38/38) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Concentration](https://en.uesp.net/wiki/Online:Concentration) (42/42) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
@@ -997,92 +998,7 @@ Capacity: ████████████████████ 100% (60/
 - 🔒 [Shadow Rider](https://en.uesp.net/wiki/Online:Shadow_Rider) (7/7) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
 - 🔒 [Spectral Assassin](https://en.uesp.net/wiki/Online:Spectral_Assassin) (10/10) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
 - ✅ [Intimidating Presence](https://en.uesp.net/wiki/Online:Intimidating_Presence) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
-- ✅ [Slayer](https://en.uesp.net/wiki/Online:Slayer) (3/3) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*                                     - ✅ [Evocation](https://en.uesp.net/wiki/Online:Evocation) (6/6) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) (14/14) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) (38/38) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Concentration](https://en.uesp.net/wiki/Online:Concentration) (42/42) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Medium Armor Bonuses](https://en.uesp.net/wiki/Online:Medium_Armor_Bonuses) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- 🔒 [Dexterity](https://en.uesp.net/wiki/Online:Dexterity) (2/2) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- 🔒 [Wind Walker](https://en.uesp.net/wiki/Online:Wind_Walker) (6/6) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- 🔒 [Improved Sneak](https://en.uesp.net/wiki/Online:Improved_Sneak) (14/14) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- 🔒 [Agility](https://en.uesp.net/wiki/Online:Agility) (38/38) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- 🔒 [Athletics](https://en.uesp.net/wiki/Online:Athletics) (42/42) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- ✅ [Heavy Armor Bonuses](https://en.uesp.net/wiki/Online:Heavy_Armor_Bonuses) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- ✅ [Heavy Armor Penalties](https://en.uesp.net/wiki/Online:Heavy_Armor_Penalties) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- ✅ [Resolve](https://en.uesp.net/wiki/Online:Resolve) (2/2) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Constitution](https://en.uesp.net/wiki/Online:Constitution) (6/6) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Juggernaut](https://en.uesp.net/wiki/Online:Juggernaut) (14/14) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Revitalize](https://en.uesp.net/wiki/Online:Revitalize) (38/38) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Rapid Mending](https://en.uesp.net/wiki/Online:Rapid_Mending) (42/42) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-
-### 🌍 World
-
-#### 📈 In Progress
-- **[Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain)**: Rank 20 ██████████ 100%
-
-#### ⚪ Early Progress
-- **[Excavation](https://en.uesp.net/wiki/Online:Excavation)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Scrying](https://en.uesp.net/wiki/Online:Scrying)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Soul Magic](https://en.uesp.net/wiki/Online:Soul_Magic)**: Rank 2 █████░░░░░ 50%
-- **[Vampire](https://en.uesp.net/wiki/Online:Vampire)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Werewolf](https://en.uesp.net/wiki/Online:Werewolf)**: Rank 1 ░░░░░░░░░░ 0%
-
-#### ✨ Passives
-- 🔒 [Hand Brush](https://en.uesp.net/wiki/Online:Hand_Brush) *(from [Excavation](https://en.uesp.net/wiki/Online:Excavation))*
-- 🔒 [Augur](https://en.uesp.net/wiki/Online:Augur) *(from [Excavation](https://en.uesp.net/wiki/Online:Excavation))*
-- 🔒 [Trowel](https://en.uesp.net/wiki/Online:Trowel) (2/2) *(from [Excavation](https://en.uesp.net/wiki/Online:Excavation))*
-- 🔒 [Keen Eye: Dig Sites](https://en.uesp.net/wiki/Online:Keen_Eye:_Dig_Sites) (2/2) *(from [Excavation](https://en.uesp.net/wiki/Online:Excavation))*
-- 🔒 [Excavator's Reserves](https://en.uesp.net/wiki/Online:Excavator's_Reserves) (3/3) *(from [Excavation](https://en.uesp.net/wiki/Online:Excavation))*
-- 🔒 [Heavy Shovel](https://en.uesp.net/wiki/Online:Heavy_Shovel) (4/4) *(from [Excavation](https://en.uesp.net/wiki/Online:Excavation))*
-- 🔒 [Keen Eye: Treasure Chests](https://en.uesp.net/wiki/Online:Keen_Eye:_Treasure_Chests) (7/7) *(from [Excavation](https://en.uesp.net/wiki/Online:Excavation))*
-- ✅ [Improved Hiding](https://en.uesp.net/wiki/Online:Improved_Hiding) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Light Fingers](https://en.uesp.net/wiki/Online:Light_Fingers) (2/2) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Trafficker](https://en.uesp.net/wiki/Online:Trafficker) (3/3) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Locksmith](https://en.uesp.net/wiki/Online:Locksmith) (5/5) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Kickback](https://en.uesp.net/wiki/Online:Kickback) (6/6) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Scry](https://en.uesp.net/wiki/Online:Scry) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Antiquarian Insight](https://en.uesp.net/wiki/Online:Antiquarian_Insight) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Scrier's Patience](https://en.uesp.net/wiki/Online:Scrier's_Patience) (2/2) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Coalescence](https://en.uesp.net/wiki/Online:Coalescence) (2/2) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Future Focus](https://en.uesp.net/wiki/Online:Future_Focus) (4/4) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Dilation](https://en.uesp.net/wiki/Online:Dilation) (4/4) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Farsight](https://en.uesp.net/wiki/Online:Farsight) (6/6) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Preemptive Power](https://en.uesp.net/wiki/Online:Preemptive_Power) (9/9) *(from [Scrying](https://en.uesp.net/wiki/Online:Scrying))*
-- 🔒 [Soul Summons](https://en.uesp.net/wiki/Online:Soul_Summons) (2/2) *(from [Soul Magic](https://en.uesp.net/wiki/Online:Soul_Magic))*
-- ✅ [Soul Shatter](https://en.uesp.net/wiki/Online:Soul_Shatter) (2/2) *(from [Soul Magic](https://en.uesp.net/wiki/Online:Soul_Magic))*
-- 🔒 [Soul Lock](https://en.uesp.net/wiki/Online:Soul_Lock) (3/3) *(from [Soul Magic](https://en.uesp.net/wiki/Online:Soul_Magic))*
-- 🔒 [Feed](https://en.uesp.net/wiki/Online:Feed) *(from [Vampire](https://en.uesp.net/wiki/Online:Vampire))*
-- 🔒 [Dark Stalker](https://en.uesp.net/wiki/Online:Dark_Stalker) (3/3) *(from [Vampire](https://en.uesp.net/wiki/Online:Vampire))*
-- 🔒 [Strike from the Shadows](https://en.uesp.net/wiki/Online:Strike_from_the_Shadows) (4/4) *(from [Vampire](https://en.uesp.net/wiki/Online:Vampire))*
-- 🔒 [Undeath](https://en.uesp.net/wiki/Online:Undeath) (6/6) *(from [Vampire](https://en.uesp.net/wiki/Online:Vampire))*
-- 🔒 [Blood Ritual](https://en.uesp.net/wiki/Online:Blood_Ritual) (6/6) *(from [Vampire](https://en.uesp.net/wiki/Online:Vampire))*
-- 🔒 [Unnatural Movement](https://en.uesp.net/wiki/Online:Unnatural_Movement) (7/7) *(from [Vampire](https://en.uesp.net/wiki/Online:Vampire))*
-- 🔒 [Devour](https://en.uesp.net/wiki/Online:Devour) *(from [Werewolf](https://en.uesp.net/wiki/Online:Werewolf))*
-- 🔒 [Pursuit](https://en.uesp.net/wiki/Online:Pursuit) (3/3) *(from [Werewolf](https://en.uesp.net/wiki/Online:Werewolf))*
-- 🔒 [Blood Rage](https://en.uesp.net/wiki/Online:Blood_Rage) (4/4) *(from [Werewolf](https://en.uesp.net/wiki/Online:Werewolf))*
-- 🔒 [Savage Strength](https://en.uesp.net/wiki/Online:Savage_Strength) (6/6) *(from [Werewolf](https://en.uesp.net/wiki/Online:Werewolf))*
-- 🔒 [Bloodmoon](https://en.uesp.net/wiki/Online:Bloodmoon) (6/6) *(from [Werewolf](https://en.uesp.net/wiki/Online:Werewolf))*
-- 🔒 [Call of the Pack](https://en.uesp.net/wiki/Online:Call_of_the_Pack) (7/7) *(from [Werewolf](https://en.uesp.net/wiki/Online:Werewolf))*
-
-### 🏰 Guild
-
-#### ⚪ Early Progress
-- **[Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood)**: Rank 9 ████████░░ 88%
-- **[Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild)**: Rank 10 ██████████ 100%
-- **[Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild)**: Rank 8 █████████░ 92%
-- **[Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Thieves Guild](https://en.uesp.net/wiki/Online:Thieves_Guild)**: Rank 4 █████████░ 94%
-- **[Undaunted](https://en.uesp.net/wiki/Online:Undaunted)**: Rank 3 ██████░░░░ 61%
-
-#### ✨ Passives
-- ✅ [Blade of Woe](https://en.uesp.net/wiki/Online:Blade_of_Woe) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Scales of Pitiless Justice](https://en.uesp.net/wiki/Online:Scales_of_Pitiless_Justice) (2/2) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Padomaic Sprint](https://en.uesp.net/wiki/Online:Padomaic_Sprint) (3/3) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Shadowy Supplier](https://en.uesp.net/wiki/Online:Shadowy_Supplier) (4/4) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Shadow Rider](https://en.uesp.net/wiki/Online:Shadow_Rider) (7/7) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Spectral Assassin](https://en.uesp.net/wiki/Online:Spectral_Assassin) (10/10) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- ✅ [Intimidating Presence](https://en.uesp.net/wiki/Online:Intimidating_Presence) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
-- ✅ [Slayer](https://en.uesp.net/wiki/Online:Slayer) (3/3) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*                                     - ✅ [Banish the Wicked](https://en.uesp.net/wiki/Online:Banish_the_Wicked) (5/5) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
+- ✅ [Slayer](https://en.uesp.net/wiki/Online:Slayer) (3/3) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*                                       - ✅ [Banish the Wicked](https://en.uesp.net/wiki/Online:Banish_the_Wicked) (5/5) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
 - ✅ [Skilled Tracker](https://en.uesp.net/wiki/Online:Skilled_Tracker) (7/7) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
 - ✅ [Bounty Hunter](https://en.uesp.net/wiki/Online:Bounty_Hunter) (9/9) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
 - ✅ [Persuasive Will](https://en.uesp.net/wiki/Online:Persuasive_Will) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
@@ -1260,7 +1176,7 @@ Capacity: ████████████████████ 100% (60/
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-97,818%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-97,835%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown**
 

@@ -16,6 +16,57 @@ local function IsTableLine(line)
     return line:match("^%s*|") ~= nil
 end
 
+-- Helper function to check if a line is a markdown header
+local function IsHeaderLine(line)
+    if not line or line == "" then return false end
+    return line:match("^#+%s") ~= nil
+end
+
+-- Helper function to check if a position is at a newline between a header and a table
+-- Returns true if: current line is a header AND next non-empty line is a table
+local function IsHeaderBeforeTable(markdown, pos, markdownLength)
+    if pos >= markdownLength or string.sub(markdown, pos, pos) ~= "\n" then
+        return false
+    end
+    
+    -- Find the line ending at pos (the header line)
+    local lineStart = pos
+    for i = pos - 1, math.max(1, pos - 1000), -1 do
+        if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
+            lineStart = i
+            break
+        end
+    end
+    
+    local headerLine = string.sub(markdown, lineStart, pos - 1)
+    if not IsHeaderLine(headerLine) then
+        return false
+    end
+    
+    -- Check if the next non-empty line is a table
+    local nextLineStart = pos + 1
+    -- Skip empty lines
+    while nextLineStart <= markdownLength and string.sub(markdown, nextLineStart, nextLineStart) == "\n" do
+        nextLineStart = nextLineStart + 1
+    end
+    
+    if nextLineStart > markdownLength then
+        return false
+    end
+    
+    -- Find the end of the next line
+    local nextLineEnd = nextLineStart
+    for i = nextLineStart, math.min(markdownLength, nextLineStart + 500) do
+        if string.sub(markdown, i, i) == "\n" then
+            nextLineEnd = i
+            break
+        end
+    end
+    
+    local nextLine = string.sub(markdown, nextLineStart, nextLineEnd - 1)
+    return IsTableLine(nextLine)
+end
+
 -- Helper function to check if a line is part of a markdown list
 local function IsListLine(line)
     if not line or line == "" then return false end
@@ -323,6 +374,7 @@ local function SplitMarkdownIntoChunks(markdown)
     -- Split into chunks, always ending on complete lines
     local chunkNum = 1
     local pos = 1
+    local prependNewlineToChunk = false  -- Track if next chunk needs a leading newline
     
     while pos <= markdownLength do
         -- Calculate safe boundaries for this chunk
@@ -1737,6 +1789,15 @@ local function SplitMarkdownIntoChunks(markdown)
         local dataChars = string.len(chunkData)
         local isLastChunk = (chunkEnd >= markdownLength)
         
+        -- CRITICAL: If previous chunk backtracked before a header, prepend newline to this chunk
+        -- This ensures the header starts on its own line after the previous chunk's padding
+        if prependNewlineToChunk then
+            chunkData = "\n" .. chunkData
+            dataChars = dataChars + 1
+            prependNewlineToChunk = false
+            CM.DebugPrint("CHUNKING", string.format("Chunk %d: Prepended newline to ensure header starts on new line", chunkNum))
+        end
+        
         -- CRITICAL: Safety check - ensure data itself doesn't exceed copy limit
         -- Account for padding (85 spaces + newline + newline = 87 chars) that will be added to all chunks
         local copyLimit = CHUNKING.COPY_LIMIT or (editboxLimit - 300)  -- Fallback if COPY_LIMIT not defined
@@ -1985,7 +2046,50 @@ local function SplitMarkdownIntoChunks(markdown)
         
         -- Add space padding (85 spaces) to the last line of the chunk, followed by a newline
         -- This provides buffer space to prevent paste truncation
+        -- CRITICAL: If chunk ends with a header followed by a table, backtrack before the header
+        -- This keeps the header and table together in the NEXT chunk
         local paddingSize = CHUNKING.SPACE_PADDING_SIZE or 85
+        
+        -- Check if we're ending on a header that's followed by a table
+        if hasTrailingNewline and chunkEnd < markdownLength then
+            if IsHeaderBeforeTable(markdown, chunkEnd, markdownLength) then
+                -- Find the start of the header line
+                local headerLineStart = chunkEnd
+                for i = chunkEnd - 1, math.max(pos, chunkEnd - 1000), -1 do
+                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
+                        headerLineStart = (i == pos) and pos or i
+                        break
+                    end
+                end
+                
+                -- Backtrack to just before the header
+                if headerLineStart > pos then
+                    -- Find the newline before the header
+                    local newChunkEnd = headerLineStart - 1
+                    -- Update chunkEnd, chunkData, and related variables
+                    chunkEnd = newChunkEnd
+                    chunkData = string.sub(markdown, pos, chunkEnd)
+                    dataChars = string.len(chunkData)
+                    chunkContent = chunkData
+                    finalSize = string.len(chunkContent)
+                    
+                    -- Verify the new chunkEnd is at a newline
+                    if string.sub(markdown, chunkEnd, chunkEnd) == "\n" then
+                        hasTrailingNewline = true
+                    else
+                        hasTrailingNewline = false
+                    end
+                    
+                    -- CRITICAL: Set flag to prepend newline to next chunk
+                    -- This ensures the header starts on its own line after padding
+                    prependNewlineToChunk = true
+                    
+                    CM.DebugPrint("CHUNKING", string.format("Chunk %d: Backtracked from %d to %d to keep header+table together in next chunk", chunkNum, chunkEnd + (headerLineStart - pos), chunkEnd))
+                end
+            end
+        end
+        
+        -- Always add padding (unless chunk is empty or has other issues)
         if hasTrailingNewline then
             -- Remove the trailing newline, add padding, then add newline + newline
             chunkContent = string.sub(chunkContent, 1, -2) .. string.rep(" ", paddingSize) .. "\n\n"
