@@ -134,8 +134,20 @@ end
 
 function CM.Settings.Initializer:InitializeCharacterData()
     -- Access the global per-character SavedVariables
+    -- SavedVariablesPerCharacter are created by ESO automatically, but may not be available immediately
+    -- Try multiple methods to find CharacterMarkdownData
     if not CharacterMarkdownData then
-        CM.Error("CRITICAL: CharacterMarkdownData not created by ESO!")
+        -- Try _G first (ESO may store it there)
+        if _G.CharacterMarkdownData then
+            CharacterMarkdownData = _G.CharacterMarkdownData
+            CM.DebugPrint("SETTINGS", "CharacterMarkdownData found in _G")
+        end
+    end
+    
+    -- If still not available, create a temporary table
+    -- ESO will create the real one later, and we'll migrate data if needed
+    if not CharacterMarkdownData then
+        CM.DebugPrint("SETTINGS", "CharacterMarkdownData not yet available from ESO - using temporary table")
         CharacterMarkdownData = {}
     end
     

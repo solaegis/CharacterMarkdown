@@ -247,6 +247,44 @@ end
 
 CM.utils.markdown.CreateTwoColumns = CreateTwoColumns
 
+--[[
+    Create a multi-column layout (2-4 columns)
+    @param columns array - Array of content strings for each column
+    @param widths array - Optional array of width percentages (default: equal widths)
+    @return string - HTML table with multiple columns
+]]
+local function CreateMultiColumns(columns, widths)
+    if not columns or #columns == 0 then return "" end
+    if #columns == 1 then return columns[1] end
+    
+    local numColumns = #columns
+    local columnWidth = math.floor(100 / numColumns)
+    
+    -- Use provided widths or default to equal
+    if not widths or #widths ~= numColumns then
+        widths = {}
+        for i = 1, numColumns do
+            widths[i] = columnWidth
+        end
+    end
+    
+    local tableRows = {}
+    table.insert(tableRows, "<table style=\"width: 100%; border-collapse: collapse;\">\n<tr>\n")
+    
+    for i = 1, numColumns do
+        local width = widths[i] or columnWidth
+        table.insert(tableRows, string_format("<td style=\"vertical-align: top; padding: 0 15px; width: %.2f%%;\">\n\n", width))
+        table.insert(tableRows, columns[i] or "")
+        table.insert(tableRows, "\n\n</td>\n")
+    end
+    
+    table.insert(tableRows, "</tr>\n</table>\n\n")
+    
+    return table.concat(tableRows, "")
+end
+
+CM.utils.markdown.CreateMultiColumns = CreateMultiColumns
+
 -- =====================================================
 -- FANCY BOXES & CARDS
 -- =====================================================
@@ -408,11 +446,12 @@ local function ConvertMarkdownLinksToHTML(text)
     return string_gsub(text, "%[(.-)%]%((.-)%)", '<a href="%2">%1</a>')
 end
 
-local function CreateCompactGrid(items, columns, format)
+local function CreateCompactGrid(items, columns, format, align)
     if not items or #items == 0 then return "" end
     
     columns = columns or 4
     format = format or "github"
+    align = align or "center"  -- Default to center for backwards compatibility
     
     if format ~= "github" and format ~= "vscode" then
         -- Fallback to simple list for Discord
@@ -424,30 +463,58 @@ local function CreateCompactGrid(items, columns, format)
         return table_concat(lines, "\n") .. "\n\n"
     end
     
-    -- HTML table for GitHub/VSCode
+    -- Use native markdown table instead of HTML table
+    -- Format: Simple table with emoji, value, and label in each cell (single line)
     local rows = {}
-    table.insert(rows, "<div align=\"center\">")
-    table.insert(rows, "<table>")
-    table.insert(rows, "<tr>")
+    local numRows = math.ceil(#items / columns)
     
-    for i, item in ipairs(items) do
-        -- Convert markdown links in label to HTML links for table cells
-        local labelHTML = ConvertMarkdownLinksToHTML(item.label or "")
-        
-        table.insert(rows, string_format(
-            "<td align=\"center\">%s<br><strong>%s</strong><br>%s</td>",
-            item.emoji or "", item.value, labelHTML
-        ))
-        
-        -- New row after every N columns
-        if i % columns == 0 and i < #items then
-            table.insert(rows, "</tr>\n<tr>")
+    -- Create separator row with proper alignment
+    local separatorRow = "|"
+    for col = 1, columns do
+        if align == "left" then
+            separatorRow = separatorRow .. ":---|"
+        elseif align == "right" then
+            separatorRow = separatorRow .. "---:|"
+        else
+            separatorRow = separatorRow .. ":---:|"  -- Center (default)
         end
     end
     
-    table.insert(rows, "</tr>")
-    table.insert(rows, "</table>")
-    table.insert(rows, "</div>\n\n")
+    -- Build data rows
+    for row = 1, numRows do
+        local rowCells = {}
+        for col = 1, columns do
+            local idx = (row - 1) * columns + col
+            if idx <= #items then
+                local item = items[idx]
+                -- Format as single line: emoji **value** label (pure markdown, no HTML)
+                local cellContent = string_format("%s **%s** %s", 
+                    item.emoji or "", item.value, item.label or "")
+                -- Escape pipe characters in cell content
+                cellContent = string_gsub(cellContent, "|", "\\|")
+                table.insert(rowCells, cellContent)
+            else
+                table.insert(rowCells, "")  -- Empty cell for incomplete rows
+            end
+        end
+        
+        -- Create markdown table row
+        if row == 1 then
+            -- First row: create empty header row
+            local headerRow = "|"
+            for col = 1, columns do
+                headerRow = headerRow .. " |"
+            end
+            table.insert(rows, headerRow)
+            table.insert(rows, separatorRow)
+        end
+        
+        -- Data row - pure markdown table format
+        local dataRow = "| " .. table_concat(rowCells, " | ") .. " |"
+        table.insert(rows, dataRow)
+    end
+    
+    table.insert(rows, "\n")
     
     return table_concat(rows, "\n")
 end

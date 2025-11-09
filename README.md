@@ -113,11 +113,13 @@ Add personal build notes that appear in your markdown:
 
 ## 📖 Documentation
 
-- **[User Guide](docs/README.md)** - Detailed usage instructions
-- **[Development Guide](docs/DEVELOPMENT.md)** - Setup and contribution
-- **[Architecture](docs/ARCHITECTURE.md)** - Code structure and patterns
-- **[API Reference](docs/API_REFERENCE.md)** - ESO Lua API usage
-- **[Changelog](CHANGELOG.md)** - Version history
+- **[User Guide](docs/README.md)** - Detailed usage instructions and troubleshooting
+- **[Development Guide](docs/DEVELOPMENT.md)** - Setup, contribution, and code style
+- **[Architecture](docs/ARCHITECTURE.md)** - Code structure, patterns, and data flow
+- **[API Reference](docs/API_REFERENCE.md)** - ESO Lua API usage patterns
+- **[Publishing Guide](docs/PUBLISHING.md)** - Release and distribution process
+- **[Testing Guide](TESTING_GUIDE.md)** - Validation and testing procedures
+- **[Changelog](CHANGELOG.md)** - Complete version history
 
 ## 🤝 Contributing
 

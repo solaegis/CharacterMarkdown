@@ -137,4 +137,45 @@ end
 
 CM.utils.Pluralize = Pluralize
 
+-- =====================================================
+-- ESO COLOR CODE STRIPPING
+-- =====================================================
+
+-- Strip ESO color codes from strings (e.g., |cffffff75|r becomes empty)
+-- Pattern: |c[0-9a-fA-F]{6}|r or |c[0-9a-fA-F]{8}|r (with alpha)
+local function StripColorCodes(text)
+    if not text or type(text) ~= "string" then
+        return text or ""
+    end
+    
+    -- Try ZO_ClearColor first (ESO built-in function)
+    if ZO_ClearColor and type(ZO_ClearColor) == "function" then
+        local success, cleared = pcall(ZO_ClearColor, text)
+        if success and cleared then
+            return cleared
+        end
+    end
+    
+    -- Fallback: manual pattern stripping
+    -- Pattern: |c[hex/digits]|r
+    -- ESO color codes can be: |cRRGGBB|r, |cRRGGBBAA|r, or |cRRGGBB[digits]|r
+    -- FIX: The original pattern %%|c was wrong - it matches %|c, not |c
+    -- In Lua patterns, | is only special in alternation, so we can use | directly
+    -- However, to be safe and explicit, we use %| to escape the | character
+    -- In string literals: "|c" works, but "%|c" is more explicit
+    local stripped = text
+    -- Strategy: Extract numbers from inside color codes before stripping
+    -- Pattern like |cffffff230|r should become 230 (number preserved)
+    -- First, extract and preserve numbers that appear after hex in color codes
+    -- Match |c + 6 hex + digits + |r and replace with just the digits
+    stripped = string_gsub(stripped, "|c[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]([0-9]+)|r", "%1")
+    -- Now strip remaining color codes (standard format: |cRRGGBB|r or |cRRGGBBAA|r)
+    stripped = string_gsub(stripped, "|c[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]?[0-9a-fA-F]?|r", "")
+    -- Catch-all: match |c followed by any non-| characters until |r (fallback)
+    stripped = string_gsub(stripped, "|c[^|]*|r", "")
+    return stripped
+end
+
+CM.utils.StripColorCodes = StripColorCodes
+
 CM.DebugPrint("UTILS", "Formatters module loaded")

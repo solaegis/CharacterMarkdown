@@ -183,10 +183,8 @@ local function CollectAchievementData()
         completed = {}
     }
     
-    local success, numAchievements = pcall(GetNumAchievements)
-    if not success or not numAchievements then
-        numAchievements = 0
-    end
+    -- Use CM.SafeCall for consistent error handling
+    local numAchievements = CM.SafeCall(GetNumAchievements) or 0
     data.summary.totalAchievements = numAchievements
     
     if numAchievements == 0 then
@@ -212,9 +210,11 @@ local function CollectAchievementData()
     
     -- Process each achievement
     for i = 1, numAchievements do
-        local achievementSuccess, name, description, points, icon, completed = pcall(GetAchievementInfo, i)
+        -- GetAchievementInfo returns multiple values, so we need pcall, not CM.SafeCall
+        -- CM.SafeCall only returns the first value, which would be just the name
+        local success, name, description, points, icon, completed = pcall(GetAchievementInfo, i)
         
-        if achievementSuccess and name then
+        if success and name then
             local category = CategorizeAchievement(name, description)
             local achievementData = {
                 id = i,

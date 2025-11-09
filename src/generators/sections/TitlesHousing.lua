@@ -32,8 +32,19 @@ local function GenerateTitles(titlesData, format)
     end
     
     -- Fallback: Try to get title from character data if collector failed
-    if (not titlesData.current or titlesData.current == "") and CM.charData then
-        local customTitle = CM.charData.customTitle or ""
+    if (not titlesData.current or titlesData.current == "") then
+        -- Check custom title in both CM.charData and CharacterMarkdownData
+        local customTitle = ""
+        if CM.charData and CM.charData.customTitle and CM.charData.customTitle ~= "" then
+            customTitle = CM.charData.customTitle
+        elseif CharacterMarkdownData and CharacterMarkdownData.customTitle and CharacterMarkdownData.customTitle ~= "" then
+            customTitle = CharacterMarkdownData.customTitle
+            -- Sync to CM.charData if it exists (for consistency)
+            if CM.charData then
+                CM.charData.customTitle = customTitle
+            end
+        end
+        
         if customTitle ~= "" then
             titlesData.current = customTitle
         else
@@ -82,9 +93,26 @@ local function GenerateTitles(titlesData, format)
     else
         markdown = markdown .. "### 👑 Titles\n\n"
         
-        if titlesData.current and titlesData.current ~= "" then
-            local currentTitleLink = (CreateTitleLink and CreateTitleLink(titlesData.current, format)) or titlesData.current
-            markdown = markdown .. "**Current Title:** " .. currentTitleLink .. "\n\n"
+        -- Current Title removed - now shown in Overview section
+        
+        -- Add progress bar if we have total count
+        if titlesData.total and titlesData.total > 0 then
+            local owned = titlesData.owned or 0
+            if titlesData.list and #titlesData.list > 0 then
+                -- Count unlocked titles from list
+                owned = 0
+                for _, title in ipairs(titlesData.list) do
+                    if title.unlocked then
+                        owned = owned + 1
+                    end
+                end
+            end
+            local progress = math.floor((owned / titlesData.total) * 100)
+            local progressBar = GenerateProgressBar(progress, 20)
+            markdown = markdown .. "| Progress |\n"
+            markdown = markdown .. "| --- |\n"
+            markdown = markdown .. "| " .. progressBar .. " " .. progress .. "% (" .. 
+                      owned .. "/" .. titlesData.total .. ") |\n\n"
         end
         
         -- Show all owned titles as a list
@@ -155,7 +183,9 @@ local function GenerateHousing(housingData, format)
         
         local progress = math.floor((housingData.owned / housingData.total) * 100)
         local progressBar = GenerateProgressBar(progress, 20)
-        markdown = markdown .. "| Progress | " .. progressBar .. " " .. progress .. "% (" .. 
+        markdown = markdown .. "| Progress |\n"
+        markdown = markdown .. "| --- |\n"
+        markdown = markdown .. "| " .. progressBar .. " " .. progress .. "% (" .. 
                   housingData.owned .. "/" .. housingData.total .. ") |\n\n"
         
         -- Show owned houses
@@ -209,7 +239,9 @@ local function GenerateHousingCollections(collectionsData, format)
         local furnitureProgress = math.floor((collectionsData.furniture.owned / collectionsData.furniture.total) * 100)
         local furnitureProgressBar = GenerateProgressBar(furnitureProgress, 20)
         markdown = markdown .. "#### Furniture\n\n"
-        markdown = markdown .. "| Progress | " .. furnitureProgressBar .. " " .. furnitureProgress .. "% (" .. 
+        markdown = markdown .. "| Progress |\n"
+        markdown = markdown .. "| --- |\n"
+        markdown = markdown .. "| " .. furnitureProgressBar .. " " .. furnitureProgress .. "% (" .. 
                   collectionsData.furniture.owned .. "/" .. collectionsData.furniture.total .. ") |\n\n"
         
         -- Furniture categories

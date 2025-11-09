@@ -386,46 +386,8 @@ end
 -- =====================================================
 
 local function GenerateEquipmentEnhancement(enhancementData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if not enhancementData or not enhancementData.summary then
-        return markdown
-    end
-    
-    -- Always show summary
-    markdown = markdown .. GenerateEquipmentEnhancementSummary(enhancementData, format)
-    
-    -- Show detailed analysis if enabled
-    if enhancementData.analysis then
-        -- Set bonus analysis
-        if enhancementData.analysis.setBonuses then
-            markdown = markdown .. GenerateSetBonusAnalysis(enhancementData.analysis.setBonuses, format)
-        end
-        
-        -- Quality upgrade analysis
-        if enhancementData.analysis.qualityUpgrades then
-            markdown = markdown .. GenerateQualityUpgradeAnalysis(enhancementData.analysis.qualityUpgrades, format)
-        end
-        
-        -- Enchantment analysis
-        if enhancementData.analysis.enchantments then
-            markdown = markdown .. GenerateEnchantmentAnalysis(enhancementData.analysis.enchantments, format)
-        end
-        
-        -- Trait analysis
-        if enhancementData.analysis.traits then
-            markdown = markdown .. GenerateTraitAnalysis(enhancementData.analysis.traits, format)
-        end
-    end
-    
-    -- Show recommendations
-    if enhancementData.recommendations and #enhancementData.recommendations > 0 then
-        markdown = markdown .. GenerateRecommendations(enhancementData.recommendations, format)
-    end
-    
-    return markdown
+    -- Section disabled - return empty string
+    return ""
 end
 
 -- =====================================================

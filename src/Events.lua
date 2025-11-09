@@ -65,11 +65,35 @@ local function OnAddOnLoaded(event, addonName)
 end
 
 local function OnPlayerActivated(event)
+    -- Check if SavedVariables are now available (ESO creates them when character loads)
+    local needsReinit = false
+    
     if not CharacterMarkdownSettings and _G.CharacterMarkdownSettings then
         CharacterMarkdownSettings = _G.CharacterMarkdownSettings
+        needsReinit = true
+    end
+    
+    if not CharacterMarkdownData and _G.CharacterMarkdownData then
         CharacterMarkdownData = _G.CharacterMarkdownData
+        needsReinit = true
+    end
+    
+    -- If we were using a temporary CharacterMarkdownData, migrate data to the real one
+    if CharacterMarkdownData and CM.charData and CM.charData ~= CharacterMarkdownData then
+        -- Migrate any data from temporary table to real SavedVariables
+        if CM.charData.customNotes and CM.charData.customNotes ~= "" then
+            CharacterMarkdownData.customNotes = CM.charData.customNotes
+        end
+        if CM.charData.customTitle and CM.charData.customTitle ~= "" then
+            CharacterMarkdownData.customTitle = CM.charData.customTitle
+        end
+        CM.charData = CharacterMarkdownData
+        CM.DebugPrint("EVENTS", "Migrated character data from temporary table to SavedVariables")
+        needsReinit = true
+    end
+    
+    if needsReinit then
         CM.DebugPrint("EVENTS", "SavedVariables found on player activation - reinitializing settings")
-        
         if CM.Settings and CM.Settings.Initializer then
             CM.Settings.Initializer:Initialize()
         end

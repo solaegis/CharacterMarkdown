@@ -70,11 +70,7 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format)
     if format == "discord" then
         markdown = markdown .. "**PvP:**\n"
         
-        if rank > 0 and rankName ~= "" and rankName ~= "None" then
-            markdown = markdown .. "• Rank: " .. rankName .. " (Rank " .. rank .. ")\n"
-        else
-            markdown = markdown .. "• Rank: None (Rank 0)\n"
-        end
+        -- Alliance War Rank removed - now shown in Overview section
         
         if allianceName and allianceName ~= "" then
             markdown = markdown .. "• Alliance: " .. allianceName .. "\n"
@@ -107,11 +103,7 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format)
         markdown = markdown .. "| Category | Value |\n"
         markdown = markdown .. "|:---------|:------|\n"
         
-        if rank > 0 and rankName ~= "" and rankName ~= "None" then
-            markdown = markdown .. "| **Alliance War Rank** | " .. rankName .. " (Rank " .. rank .. ") |\n"
-        else
-            markdown = markdown .. "| **Alliance War Rank** | None (Rank 0) |\n"
-        end
+        -- Alliance War Rank removed - now shown in Overview section
         
         if allianceName and allianceName ~= "" then
             markdown = markdown .. "| **Alliance** | " .. allianceName .. " |\n"

@@ -19,6 +19,15 @@ local clipboardEditBoxControl = nil
 local currentMarkdown = ""
 local markdownChunks = {}  -- Array of markdown chunks
 local currentChunkIndex = 1
+local copyChunkIndex = 1  -- Track which chunk we're copying
+
+-- Clear chunks to prevent memory leak
+local function ClearChunks()
+    markdownChunks = {}
+    currentChunkIndex = 1
+    currentMarkdown = ""
+    CM.DebugPrint("UI", "Chunks cleared")
+end
 
 -- =====================================================
 -- INITIALIZE WINDOW CONTROLS
@@ -48,7 +57,13 @@ local function InitializeWindowControls()
     -- Get the hidden clipboard EditBox
     clipboardEditBoxControl = CharacterMarkdownWindowTextContainerClipboardEditBox
     
-    if not clipboardEditBoxControl then
+    if clipboardEditBoxControl then
+        -- Configure clipboard EditBox with higher limit if possible
+        clipboardEditBoxControl:SetMaxInputChars(22000)  -- Same limit as main EditBox
+        clipboardEditBoxControl:SetMultiLine(true)
+        clipboardEditBoxControl:SetNewLineEnabled(true)
+        CM.DebugPrint("UI", "Clipboard EditBox configured")
+    else
         CM.Warn("Clipboard EditBox not found - using main EditBox")
     end
     
@@ -89,20 +104,109 @@ function CharacterMarkdown_CopyToClipboard()
         return
     end
     
-    -- Refresh the EditBox with full text
-    editBoxControl:SetEditEnabled(true)
-    editBoxControl:SetText(currentMarkdown)
-    editBoxControl:SetColor(1, 1, 1, 1)
-    editBoxControl:SetEditEnabled(false)
+    local markdownLength = string.len(currentMarkdown)
+    local CHUNKING = CM.constants and CM.constants.CHUNKING
+    local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT) or 10000
     
-    zo_callLater(function()
-        -- Select all and take focus
-        editBoxControl:SelectAll()
-        editBoxControl:TakeFocus()
+    -- If markdown exceeds EditBox limit and we have chunks, copy current chunk
+    if markdownLength > EDITBOX_LIMIT and #markdownChunks > 1 then
+        -- Copy the currently displayed chunk
+        local chunkToCopy = markdownChunks[currentChunkIndex]
+        if not chunkToCopy then
+            CM.Warn("Current chunk not found")
+            return
+        end
         
-        -- Only show in chat if user explicitly wants feedback
-        CM.DebugPrint("UI", "Text selected - Press Ctrl+C to copy")
-    end, 100)
+        -- Strip padding from chunk before copying (padding is only for chunking logic)
+        local chunkContent = chunkToCopy.content
+        local isLastChunk = (currentChunkIndex == #markdownChunks)
+        local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
+        
+        -- Strip padding from all chunks (including last chunk)
+        -- Padding format: content + 85 spaces + newline + newline
+        local paddingPattern = string.rep(" ", paddingSize) .. "\n\n"
+        -- Check if chunk ends with padding (85 spaces + newline + newline)
+        if string.sub(chunkContent, -(paddingSize + 2), -1) == paddingPattern then
+            -- Remove padding: keep content, remove 85 spaces + 2 newlines, keep single newline
+            chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2)) .. "\n"
+            CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for copy", currentChunkIndex, #markdownChunks))
+        end
+        
+        local chunkSize = string.len(chunkContent)
+        CM.Info(string.format("Copying chunk %d of %d (%d characters, padding removed)", currentChunkIndex, #markdownChunks, chunkSize))
+        
+        if #markdownChunks > 1 then
+            CM.Info(string.format("Total content: %d chars in %d chunks", markdownLength, #markdownChunks))
+            CM.Info("Tip: Navigate to other chunks and copy each one, then paste them together")
+        end
+        
+        -- Copy current chunk (without padding)
+        editBoxControl:SetEditEnabled(true)
+        editBoxControl:SetText(chunkContent)
+        editBoxControl:SetColor(1, 1, 1, 1)
+        editBoxControl:SetEditEnabled(false)
+        
+        zo_callLater(function()
+            editBoxControl:SelectAll()
+            editBoxControl:TakeFocus()
+            
+            -- Verify what's actually in the EditBox (for debugging)
+            local actualText = editBoxControl:GetText()
+            local actualLength = string.len(actualText)
+            local expectedLength = string.len(chunkContent)
+            if actualLength ~= expectedLength then
+                CM.Warn(string.format("Chunk %d: EditBox text length mismatch (expected %d, got %d)", 
+                    currentChunkIndex, expectedLength, actualLength))
+            end
+            
+            -- Check if text ends with newlines (to verify SelectAll will get them)
+            local lastChars = string.sub(actualText, -2, -1)
+            if lastChars == "\n\n" then
+                CM.DebugPrint("UI", string.format("Chunk %d: Ends with double newline - SelectAll should include both", currentChunkIndex))
+            elseif string.sub(actualText, -1, -1) == "\n" then
+                CM.DebugPrint("UI", string.format("Chunk %d: Ends with single newline - SelectAll should include it", currentChunkIndex))
+            else
+                CM.Warn(string.format("Chunk %d: Does not end with newline - may cause paste issues", currentChunkIndex))
+            end
+            
+            CM.DebugPrint("UI", string.format("Chunk %d selected (%d chars) - Press Ctrl+C to copy", currentChunkIndex, actualLength))
+        end, 100)
+    else
+        -- Content fits in EditBox - copy normally
+        -- But still check size to be safe
+        if markdownLength > EDITBOX_LIMIT then
+            CM.Warn(string.format("Content size %d exceeds EditBox limit %d - may truncate", markdownLength, EDITBOX_LIMIT))
+            -- Truncate at last newline before limit
+            local truncated = string.sub(currentMarkdown, 1, EDITBOX_LIMIT)
+            local lastNewline = nil
+            for i = string.len(truncated), 1, -1 do
+                if string.sub(truncated, i, i) == "\n" then
+                    lastNewline = i
+                    break
+                end
+            end
+            if lastNewline then
+                currentMarkdown = string.sub(truncated, 1, lastNewline)
+            else
+                currentMarkdown = truncated
+            end
+            CM.Warn(string.format("Truncated to %d chars for copying", string.len(currentMarkdown)))
+        end
+        
+        editBoxControl:SetEditEnabled(true)
+        editBoxControl:SetText(currentMarkdown)
+        editBoxControl:SetColor(1, 1, 1, 1)
+        editBoxControl:SetEditEnabled(false)
+        
+        zo_callLater(function()
+            -- Select all and take focus
+            editBoxControl:SelectAll()
+            editBoxControl:TakeFocus()
+            
+            -- Only show in chat if user explicitly wants feedback
+            CM.DebugPrint("UI", "Text selected - Press Ctrl+C to copy")
+        end, 100)
+    end
 end
 
 -- =====================================================
@@ -164,164 +268,96 @@ function CharacterMarkdown_RegenerateMarkdown()
         return
     end
     
-    if not markdown or markdown == "" then
-        CM.Error("Generated markdown is empty")
+    if not markdown then
+        CM.Error("Generated markdown is nil")
         return
     end
     
-    -- Update stored markdown
-    currentMarkdown = markdown
+    -- Handle both string (single chunk) and table (chunks array) returns
+    local isChunksArray = type(markdown) == "table"
     
-    -- Update the EditBox
-    editBoxControl:SetEditEnabled(true)
-    editBoxControl:SetText(markdown)
-    editBoxControl:SetColor(1, 1, 1, 1)
-    editBoxControl:SetEditEnabled(false)
-    
-    -- Select all text and take focus
-    zo_callLater(function()
-        editBoxControl:SelectAll()
-        editBoxControl:TakeFocus()
-        CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
-    end, 100)
+    if isChunksArray then
+        if #markdown == 0 then
+            CM.Error("Generated markdown chunks array is empty")
+            return
+        end
+        
+        -- Update chunks
+        markdownChunks = markdown
+        currentChunkIndex = 1
+        
+        -- Store full markdown as concatenated chunks for clipboard operations
+        -- CRITICAL: Strip padding (85 spaces + newline) when concatenating for paste
+        -- Padding is only needed for chunking logic, not for final paste output
+        local fullMarkdown = ""
+        local CHUNKING = CM.constants and CM.constants.CHUNKING
+        local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
+        
+        for i, chunk in ipairs(markdownChunks) do
+            local chunkContent = chunk.content
+            local isLastChunk = (i == #markdownChunks)
+            
+            -- Strip padding from all chunks (85 spaces + newline + newline)
+            -- Padding is only needed for chunking logic, not for final paste output
+            -- Padding format: content + 85 spaces + newline + newline
+            local paddingPattern = string.rep(" ", paddingSize) .. "\n\n"
+            -- Check if chunk ends with padding (85 spaces + newline + newline)
+            if string.sub(chunkContent, -(paddingSize + 2), -1) == paddingPattern then
+                -- Remove padding: keep content, remove 85 spaces + 2 newlines, keep single newline
+                chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2)) .. "\n"
+                CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
+            end
+            
+            -- Verify chunk ends with newline (unless it's the very last chunk)
+            -- This prevents mid-line/mid-link splits when concatenating
+            if not isLastChunk then
+                local lastChar = string.sub(chunkContent, -1, -1)
+                if lastChar ~= "\n" then
+                    CM.Warn(string.format("Chunk %d/%d: Missing newline at end, adding one to prevent paste truncation", i, #markdownChunks))
+                    chunkContent = chunkContent .. "\n"
+                end
+            end
+            
+            fullMarkdown = fullMarkdown .. chunkContent
+        end
+        currentMarkdown = fullMarkdown
+        
+        -- Show first chunk
+        ShowChunk(1)
+    else
+        if markdown == "" then
+            CM.Error("Generated markdown is empty")
+            return
+        end
+        
+        -- Update stored markdown
+        currentMarkdown = markdown
+        
+        -- Wrap in chunks array format
+        markdownChunks = {{content = markdown}}
+        currentChunkIndex = 1
+        
+        -- Update the EditBox
+        editBoxControl:SetEditEnabled(true)
+        editBoxControl:SetText(markdown)
+        editBoxControl:SetColor(1, 1, 1, 1)
+        editBoxControl:SetEditEnabled(false)
+        
+        -- Select all text and take focus
+        zo_callLater(function()
+            editBoxControl:SelectAll()
+            editBoxControl:TakeFocus()
+            CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
+        end, 100)
+    end
 end
 
 
 -- =====================================================
 -- MARKDOWN CHUNKING
 -- =====================================================
-
--- Split markdown into chunks with new strategy:
--- 1. Each chunk no larger than 21,200 characters of data
--- 2. Always ends on a complete line (never split a line)
--- 3. After last line, pad with spaces up to 21,500 total characters
--- Formula: 21500 = x (data chars) + y (spaces)
-local function SplitMarkdownIntoChunks(markdown)
-    local chunks = {}
-    local markdownLength = string.len(markdown)
-    local maxDataChars = 21200  -- Maximum data characters per chunk
-    local targetChunkSize = 21500  -- Target total size (data + padding)
-    
-    -- If content fits in one chunk, return as-is (no padding for single/final chunk)
-    if markdownLength <= maxDataChars then
-        return {
-            {content = markdown}
-        }
-    end
-    
-    -- Split into chunks, always ending on complete lines
-    local chunkNum = 1
-    local pos = 1
-    
-    while pos <= markdownLength do
-        -- Calculate potential end position (maxDataChars from current position)
-        local potentialEnd = math.min(pos + maxDataChars - 1, markdownLength)
-        
-        -- Find the last newline before or at the potential end
-        -- CRITICAL: Always end on a complete line, never split a line
-        local chunkEnd = potentialEnd
-        
-        if potentialEnd < markdownLength then
-            -- Search backwards for a newline within the chunk
-            -- Search up to 1000 chars back to find a safe break point
-            local searchStart = math.max(pos, potentialEnd - 1000)
-            local foundNewline = false
-            
-            for i = potentialEnd, searchStart, -1 do
-                local char = string.sub(markdown, i, i)
-                if char == "\n" then
-                    chunkEnd = i
-                    foundNewline = true
-                    break
-                end
-            end
-            
-            -- If no newline found within search range, search further back
-            if not foundNewline and potentialEnd > pos then
-                local extendedSearchStart = math.max(pos, potentialEnd - 5000)
-                for i = potentialEnd, extendedSearchStart, -1 do
-                    local char = string.sub(markdown, i, i)
-                    if char == "\n" then
-                        chunkEnd = i
-                        foundNewline = true
-                        break
-                    end
-                end
-            end
-            
-            -- Last resort: if still no newline found, use potentialEnd but warn
-            if not foundNewline then
-                CM.Warn(string.format("Chunk %d: No newline found within safe range, using position %d", chunkNum, potentialEnd))
-                chunkEnd = potentialEnd
-            end
-        end
-        
-        -- Extract the chunk data (complete lines only)
-        local chunkData = string.sub(markdown, pos, chunkEnd)
-        local dataChars = string.len(chunkData)
-        
-        -- Check if this is the last chunk (reached end of markdown)
-        local isLastChunk = (chunkEnd >= markdownLength)
-        
-        -- Calculate padding: targetChunkSize = dataChars + spaces
-        -- Formula: 21500 = x (data chars) + y (spaces)
-        -- IMPORTANT: Do NOT apply padding to the final chunk
-        local spacesNeeded = 0
-        if not isLastChunk then
-            spacesNeeded = targetChunkSize - dataChars
-            
-            -- Ensure we don't have negative padding (shouldn't happen, but safety check)
-            if spacesNeeded < 0 then
-                CM.Warn(string.format("Chunk %d: Data exceeds target size (%d > %d), no padding added", chunkNum, dataChars, targetChunkSize))
-                spacesNeeded = 0
-            end
-        end
-        
-        -- Pad with spaces to reach exactly 21,500 characters (except for last chunk)
-        local padding = (spacesNeeded > 0) and string.rep(" ", spacesNeeded) or ""
-        local chunkContent = chunkData .. padding
-        
-        -- Verify final chunk size
-        -- Non-last chunks should be exactly 21,500; last chunk is unpadded
-        local finalSize = string.len(chunkContent)
-        if not isLastChunk and finalSize ~= targetChunkSize then
-            CM.Warn(string.format("Chunk %d: Final size mismatch (expected %d, got %d)", chunkNum, targetChunkSize, finalSize))
-        elseif isLastChunk then
-            CM.DebugPrint("UI", string.format("Chunk %d (final): %d chars (no padding applied)", chunkNum, finalSize))
-        end
-        
-        table.insert(chunks, {
-            content = chunkContent
-        })
-        
-        -- Move to next chunk (start after the newline)
-        pos = chunkEnd + 1
-        chunkNum = chunkNum + 1
-        
-        -- Safety check to prevent infinite loop
-        if pos > markdownLength then
-            break
-        end
-    end
-    
-    -- Log chunking results
-    if #chunks > 1 then
-        CM.DebugPrint("UI", string.format("Split markdown into %d chunks (total: %d chars)", #chunks, markdownLength))
-        for i, chunk in ipairs(chunks) do
-            local chunkLen = string.len(chunk.content)
-            local dataLen = chunkLen
-            -- Try to detect padding (trailing spaces)
-            local paddingMatch = chunk.content:match("%s+$")
-            if paddingMatch then
-                dataLen = chunkLen - string.len(paddingMatch)
-            end
-            CM.DebugPrint("UI", string.format("  Chunk %d: %d total chars (%d data + %d padding)", 
-                i, chunkLen, dataLen, chunkLen - dataLen))
-        end
-    end
-    
-    return chunks
-end
+-- Note: Chunking is now handled in Markdown.lua after full generation
+-- This module only handles displaying chunks received from the generator
 
 -- =====================================================
 -- CHUNK NAVIGATION
@@ -345,9 +381,34 @@ local function ShowChunk(chunkIndex)
         return false
     end
     
+    -- Safety check: ensure chunk content doesn't exceed EditBox limit
+    local chunkContent = chunk.content
+    local chunkSize = string.len(chunkContent)
+    local CHUNKING = CM.constants and CM.constants.CHUNKING
+    local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT) or 10000
+    
+    if chunkSize > EDITBOX_LIMIT then
+        CM.Error(string.format("Chunk %d: Size %d exceeds EditBox limit %d, truncating!", chunkIndex, chunkSize, EDITBOX_LIMIT))
+        -- Truncate at last newline before limit
+        local truncated = string.sub(chunkContent, 1, EDITBOX_LIMIT)
+        local lastNewline = nil
+        for i = string.len(truncated), 1, -1 do
+            if string.sub(truncated, i, i) == "\n" then
+                lastNewline = i
+                break
+            end
+        end
+        if lastNewline then
+            chunkContent = string.sub(truncated, 1, lastNewline)
+        else
+            chunkContent = truncated
+        end
+        CM.Warn(string.format("Chunk %d: Truncated from %d to %d chars", chunkIndex, chunkSize, string.len(chunkContent)))
+    end
+    
     -- Update EditBox
     editBoxControl:SetEditEnabled(true)
-    editBoxControl:SetText(chunk.content)
+    editBoxControl:SetText(chunkContent)
     editBoxControl:SetColor(1, 1, 1, 1)
     editBoxControl:SetEditEnabled(false)
     
@@ -426,7 +487,7 @@ end
 
 function CharacterMarkdown_ShowWindow(markdown, format)
     -- Validate inputs
-    if not markdown or markdown == "" then
+    if not markdown then
         CM.Error("No markdown content provided to window")
         return false
     end
@@ -442,20 +503,140 @@ function CharacterMarkdown_ShowWindow(markdown, format)
         return false
     end
     
-    -- Store full markdown for clipboard operations
-    currentMarkdown = markdown
+    -- Handle both string (single chunk) and table (chunks array) returns
+    local isChunksArray = type(markdown) == "table"
     
-    -- Log markdown length for debugging
-    local markdownLength = string.len(markdown)
-    CM.DebugPrint("UI", string.format("Setting markdown text (%d characters)", markdownLength))
-    
-    -- Split markdown into chunks
-    markdownChunks = SplitMarkdownIntoChunks(markdown)
-    currentChunkIndex = 1
+    if isChunksArray then
+        -- Already chunked - use directly
+        markdownChunks = markdown
+        currentChunkIndex = 1
+        
+        -- Calculate total markdown size for storage
+        local totalSize = 0
+        for _, chunk in ipairs(markdownChunks) do
+            totalSize = totalSize + string.len(chunk.content)
+        end
+        
+        -- Store full markdown as concatenated chunks for clipboard operations
+        -- CRITICAL: Strip padding (85 spaces + newline) when concatenating for paste
+        -- Padding is only needed for chunking logic, not for final paste output
+        local fullMarkdown = ""
+        local CHUNKING = CM.constants and CM.constants.CHUNKING
+        local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
+        
+        for i, chunk in ipairs(markdownChunks) do
+            local chunkContent = chunk.content
+            local isLastChunk = (i == #markdownChunks)
+            
+            -- Strip padding from all chunks (85 spaces + newline + newline)
+            -- Padding is only needed for chunking logic, not for final paste output
+            -- Padding format: content + 85 spaces + newline + newline
+            local paddingPattern = string.rep(" ", paddingSize) .. "\n\n"
+            -- Check if chunk ends with padding (85 spaces + newline + newline)
+            if string.sub(chunkContent, -(paddingSize + 2), -1) == paddingPattern then
+                -- Remove padding: keep content, remove 85 spaces + 2 newlines, keep single newline
+                chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2)) .. "\n"
+                CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
+            end
+            
+            -- Verify chunk ends with newline (unless it's the very last chunk)
+            -- This prevents mid-line/mid-link splits when concatenating
+            if not isLastChunk then
+                local lastChar = string.sub(chunkContent, -1, -1)
+                if lastChar ~= "\n" then
+                    CM.Warn(string.format("Chunk %d/%d: Missing newline at end, adding one to prevent paste truncation", i, #markdownChunks))
+                    chunkContent = chunkContent .. "\n"
+                end
+            end
+            
+            fullMarkdown = fullMarkdown .. chunkContent
+        end
+        currentMarkdown = fullMarkdown
+        
+        CM.DebugPrint("UI", string.format("Received %d chunks (total: %d characters, after padding removal)", #markdownChunks, string.len(fullMarkdown)))
+    else
+        -- Single string - should already be chunked by Markdown.lua if needed
+        -- But handle edge case where a single string was passed that exceeds limit
+        if markdown == "" then
+            CM.Error("Markdown content is empty")
+            return false
+        end
+        
+        local markdownLength = string.len(markdown)
+        local CHUNKING = CM.constants and CM.constants.CHUNKING
+        local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT) or 10000
+        
+        -- If single string exceeds limit, chunk it (shouldn't happen if Markdown.lua is working correctly)
+        if markdownLength > EDITBOX_LIMIT then
+            CM.Warn(string.format("Single string exceeds limit (%d > %d) - this should have been chunked in Markdown.lua", markdownLength, EDITBOX_LIMIT))
+            CM.DebugPrint("UI", "Chunking single string as fallback...")
+            -- Use the consolidated chunking utility
+            local Chunking = CM.utils and CM.utils.Chunking
+            local SplitMarkdownIntoChunksUtil = Chunking and Chunking.SplitMarkdownIntoChunks
+            if SplitMarkdownIntoChunksUtil then
+                markdownChunks = SplitMarkdownIntoChunksUtil(markdown)
+            else
+                CM.Error("Chunking utility not available - markdown may be truncated!")
+                -- Fallback: wrap as single chunk (will be truncated by EditBox)
+                markdownChunks = {{content = markdown}}
+            end
+            currentChunkIndex = 1
+            
+            -- Store full markdown as concatenated chunks for clipboard operations
+            -- CRITICAL: Strip padding (85 spaces + newline) when concatenating for paste
+            -- Padding is only needed for chunking logic, not for final paste output
+            local fullMarkdown = ""
+            local CHUNKING = CM.constants and CM.constants.CHUNKING
+            local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
+            
+            for i, chunk in ipairs(markdownChunks) do
+                local chunkContent = chunk.content
+                local isLastChunk = (i == #markdownChunks)
+                
+                -- Strip padding from non-last chunks (85 spaces + newline = 86 chars)
+                if not isLastChunk then
+                    local paddingPattern = string.rep(" ", paddingSize) .. "\n"
+                    -- Remove padding from end of chunk if present
+                    if string.sub(chunkContent, -(paddingSize + 1), -1) == paddingPattern then
+                        chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2))
+                        CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
+                    end
+                end
+                
+                -- Verify chunk ends with newline (unless it's the very last chunk)
+                -- This prevents mid-line/mid-link splits when concatenating
+                if not isLastChunk then
+                    local lastChar = string.sub(chunkContent, -1, -1)
+                    if lastChar ~= "\n" then
+                        CM.Warn(string.format("Chunk %d/%d: Missing newline at end, adding one to prevent paste truncation", i, #markdownChunks))
+                        chunkContent = chunkContent .. "\n"
+                    end
+                end
+                
+                fullMarkdown = fullMarkdown .. chunkContent
+            end
+            currentMarkdown = fullMarkdown
+            
+            CM.DebugPrint("UI", string.format("Fallback chunked into %d chunks", #markdownChunks))
+        else
+            -- Store full markdown for clipboard operations
+            currentMarkdown = markdown
+            
+            CM.DebugPrint("UI", string.format("Received single chunk (%d characters)", markdownLength))
+            
+            -- Wrap in chunks array format
+            markdownChunks = {{content = markdown}}
+            currentChunkIndex = 1
+        end
+    end
     
     if #markdownChunks > 1 then
+        local totalSize = 0
+        for _, chunk in ipairs(markdownChunks) do
+            totalSize = totalSize + string.len(chunk.content)
+        end
         CM.Info(string.format("📦 Split into %d chunks (content: %d chars)", 
-            #markdownChunks, markdownLength))
+            #markdownChunks, totalSize))
         CM.Info("💡 Use Next/Previous buttons or PageUp/PageDown to navigate chunks")
         
         -- Log chunk info
@@ -557,7 +738,7 @@ function CharacterMarkdown_CloseWindow()
             windowControl:SetTopmost(false)
         end
         windowControl:SetHidden(true)
-        currentMarkdown = ""
+        ClearChunks()  -- Clear chunks to prevent memory leak
         CM.DebugPrint("UI", "Window closed")
     end
 end

@@ -4,7 +4,7 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar, CreateZoneLink
+local FormatNumber, GenerateProgressBar, CreateZoneLink, CreateCollapsible
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
@@ -12,6 +12,7 @@ local function InitializeUtilities()
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
         CreateZoneLink = CM.links.CreateZoneLink
+        CreateCollapsible = (CM.utils and CM.utils.markdown and CM.utils.markdown.CreateCollapsible) or nil
     end
 end
 
@@ -91,16 +92,16 @@ local function GenerateLorebooks(lorebooksData, format)
         end
         markdown = markdown .. "\n"
     else
-        markdown = markdown .. "### 📚 Lorebooks\n\n"
-        markdown = markdown .. "| Category | Collected | Total | Progress |\n"
-        markdown = markdown .. "|:---------|:----------|:------|:--------|\n"
+        -- Build table content
+        local tableContent = "| Category | Collected | Total | Progress |\n"
+        tableContent = tableContent .. "|:---------|:----------|:------|:--------|\n"
         
         -- Show category breakdown
         for categoryName, categoryData in pairs(lorebooksData.categories) do
             if categoryData.total > 0 then
                 local categoryPercent = math.floor((categoryData.collected / categoryData.total) * 100)
                 local progressBar = GenerateProgressBar(categoryPercent, 20)
-                markdown = markdown .. "| **" .. categoryName .. "** | " .. categoryData.collected .. 
+                tableContent = tableContent .. "| **" .. categoryName .. "** | " .. categoryData.collected .. 
                           " | " .. categoryData.total .. " | " .. progressBar .. " " .. categoryPercent .. "% |\n"
             end
         end
@@ -108,8 +109,15 @@ local function GenerateLorebooks(lorebooksData, format)
         -- Overall summary
         local overallProgress = math.floor((lorebooksData.collected / lorebooksData.total) * 100)
         local overallProgressBar = GenerateProgressBar(overallProgress, 20)
-        markdown = markdown .. "| **Total** | " .. lorebooksData.collected .. " | " .. lorebooksData.total .. 
-                  " | " .. overallProgressBar .. " " .. overallProgress .. "% |\n\n"
+        tableContent = tableContent .. "| **Total** | " .. lorebooksData.collected .. " | " .. lorebooksData.total .. 
+                  " | " .. overallProgressBar .. " " .. overallProgress .. "% |\n"
+        
+        -- Wrap in collapsible section (matching format of other collectible types)
+        local summaryText = "📚 Lorebooks (" .. lorebooksData.collected .. " of " .. lorebooksData.total .. ")"
+        markdown = markdown .. "<details>\n"
+        markdown = markdown .. "<summary>" .. summaryText .. "</summary>\n\n"
+        markdown = markdown .. tableContent .. "\n"
+        markdown = markdown .. "</details>\n\n"
     end
     
     return markdown
@@ -226,10 +234,9 @@ local function GenerateWorldProgress(worldProgressData, format)
     end
     
     -- Only show the section if we have some data
+    -- Note: Lorebooks removed - now shown in Collectibles section
     local hasData = false
     if worldProgressData.skyshards and worldProgressData.skyshards.total > 0 then
-        hasData = true
-    elseif worldProgressData.lorebooks and worldProgressData.lorebooks.total > 0 then
         hasData = true
     elseif worldProgressData.zoneCompletion and worldProgressData.zoneCompletion.currentZone ~= "" then
         hasData = true
@@ -243,16 +250,21 @@ local function GenerateWorldProgress(worldProgressData, format)
         return ""
     end
     
-    if format ~= "discord" then
+    -- Add each subsection first
+    local content = ""
+    content = content .. GenerateSkyshards(worldProgressData.skyshards, format)
+    -- Lorebooks removed - now shown in Collectibles section
+    -- content = content .. GenerateLorebooks(worldProgressData.lorebooks, format)
+    -- Zone Completion disabled - not working correctly
+    -- content = content .. GenerateZoneCompletion(worldProgressData.zoneCompletion, format)
+    content = content .. GenerateDungeonProgress(worldProgressData.dungeons, format)
+    
+    -- Only add header if there's actual content
+    if content ~= "" and format ~= "discord" then
         markdown = markdown .. "## 🌍 World Progress\n\n"
     end
     
-    -- Add each subsection
-    markdown = markdown .. GenerateSkyshards(worldProgressData.skyshards, format)
-    markdown = markdown .. GenerateLorebooks(worldProgressData.lorebooks, format)
-    -- Zone Completion disabled - not working correctly
-    -- markdown = markdown .. GenerateZoneCompletion(worldProgressData.zoneCompletion, format)
-    markdown = markdown .. GenerateDungeonProgress(worldProgressData.dungeons, format)
+    markdown = markdown .. content
     
     return markdown
 end

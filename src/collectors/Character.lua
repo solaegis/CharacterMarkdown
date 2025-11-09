@@ -69,7 +69,8 @@ local function CollectDLCAccess()
     local dlcAccess = {
         hasESOPlus = CM.SafeCall(IsESOPlusSubscriber) or false,
         accessible = {},
-        locked = {}
+        locked = {},
+        purchased = {}  -- DLCs that are owned/purchased (not just via ESO Plus)
     }
     
     local dlcZones = {
@@ -88,14 +89,8 @@ local function CollectDLCAccess()
         {name = "Murkmire", zoneId = 726},
     }
     
-    if dlcAccess.hasESOPlus then
-        for _, dlc in ipairs(dlcZones) do
-            table.insert(dlcAccess.accessible, dlc.name)
-        end
-        CM.DebugPrint("COLLECTOR", "DLC access: ESO Plus (all accessible)")
-        return dlcAccess
-    end
-    
+    -- Always check ownership status, even with ESO Plus
+    -- This allows us to show purchased DLCs separately
     for _, dlc in ipairs(dlcZones) do
         local success, canJump, result = pcall(CanJumpToPlayerInZone, dlc.zoneId)
         
@@ -104,6 +99,19 @@ local function CollectDLCAccess()
                 table.insert(dlcAccess.locked, dlc.name)
             else
                 table.insert(dlcAccess.accessible, dlc.name)
+                
+                -- Check if this DLC is actually owned (not just accessible via ESO Plus)
+                -- If ESO Plus is active, we need to check ownership separately
+                -- For now, we'll mark all accessible DLCs as potentially purchased
+                -- The distinction will be made in the generator based on ESO Plus status
+                if not dlcAccess.hasESOPlus then
+                    -- Without ESO Plus, accessible = purchased
+                    table.insert(dlcAccess.purchased, dlc.name)
+                else
+                    -- With ESO Plus, we can't easily distinguish purchased vs ESO Plus access
+                    -- So we'll show all accessible DLCs as "accessible via ESO Plus or purchased"
+                    -- In the generator, we'll list them all
+                end
             end
         else
             CM.DebugPrint("COLLECTOR", "Failed to check DLC:", dlc.name)
@@ -111,7 +119,14 @@ local function CollectDLCAccess()
         end
     end
     
-    CM.DebugPrint("COLLECTOR", "DLC access collected:", #dlcAccess.accessible, "accessible")
+    -- If ESO Plus is active, all accessible DLCs are accessible (either purchased or via ESO Plus)
+    -- We'll show them all in the generator
+    if dlcAccess.hasESOPlus then
+        CM.DebugPrint("COLLECTOR", "DLC access: ESO Plus active,", #dlcAccess.accessible, "accessible")
+    else
+        CM.DebugPrint("COLLECTOR", "DLC access collected:", #dlcAccess.accessible, "accessible (purchased)")
+    end
+    
     return dlcAccess
 end
 

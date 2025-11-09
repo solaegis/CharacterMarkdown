@@ -46,6 +46,14 @@ task lint    # Run Luacheck
 task test    # Full validation
 ```
 
+**In-Game Testing:**
+```
+/markdown test        # Run validation tests
+/markdown unittest    # Run collector unit tests
+```
+
+See [Testing Guide](../TESTING_GUIDE.md) for detailed testing procedures.
+
 ### 4. Commit
 ```bash
 git add .
@@ -184,7 +192,7 @@ local string_format = CM.cached.string_format
 
 ## Testing
 
-### Manual Testing
+### In-Game Testing
 ```bash
 task install:live    # Copy to ESO
 # Launch ESO
@@ -193,12 +201,20 @@ task install:live    # Copy to ESO
 # /reloadui and verify settings saved
 ```
 
+### Validation Commands
+```
+/markdown test        # Run markdown validation tests
+/markdown unittest    # Run collector unit tests
+```
+
 ### Automated Testing
 ```bash
 task lint           # Luacheck
 task validate       # Manifest + structure
 task test           # All checks
 ```
+
+For comprehensive testing procedures, see the [Testing Guide](../TESTING_GUIDE.md).
 
 ### Pre-Release Checklist
 - [ ] All formats generate correctly

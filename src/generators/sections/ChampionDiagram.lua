@@ -2,6 +2,7 @@
 -- Generates personalized CP diagrams showing invested stars
 
 local CM = CharacterMarkdown
+local string_format = string.format
 
 -- =====================================================
 -- STAR MAPPING
@@ -290,6 +291,16 @@ local function GenerateChampionDiagram(cpData)
         if discipline.skills then
             for _, skill in ipairs(discipline.skills) do
                 local starData = STAR_MAP[skill.name]
+                if not starData then
+                    -- Fallback for unmapped stars
+                    CM.DebugPrint("CP", string_format("Star '%s' not in STAR_MAP, using default mapping", skill.name))
+                    starData = {
+                        tree = discipline.name,  -- Use discipline name as fallback
+                        type = "passive",  -- Default to passive
+                        node = string.format("%s_%s", discipline.name:sub(1,1), skill.name:gsub(" ", "_"))
+                    }
+                end
+                
                 if starData then
                     local tree = starData.tree
                     if not treeSkills[tree] then

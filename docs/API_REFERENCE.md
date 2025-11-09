@@ -395,6 +395,12 @@ Check with: `IsUnitInCombat("player")`
 
 ---
 
+## Related Documentation
+
+- **[Architecture](ARCHITECTURE.md)** - Code structure and design patterns
+- **[Development Guide](DEVELOPMENT.md)** - Setup and contribution guidelines
+- **[Testing Guide](../TESTING_GUIDE.md)** - Validation procedures
+
 ## Resources
 
 - **Wiki**: https://wiki.esoui.com/

@@ -28,10 +28,16 @@ CM.utils.SafeGetPlayerStat = SafeGetPlayerStat
 
 -- Safely get player title, checking custom title first, then API
 local function GetPlayerTitle()
-    -- Check for custom title first
+    -- Check for custom title first - try CM.charData, then CharacterMarkdownData
     local customTitle = ""
-    if CM.charData then
-        customTitle = CM.charData.customTitle or ""
+    if CM.charData and CM.charData.customTitle and CM.charData.customTitle ~= "" then
+        customTitle = CM.charData.customTitle
+    elseif CharacterMarkdownData and CharacterMarkdownData.customTitle and CharacterMarkdownData.customTitle ~= "" then
+        customTitle = CharacterMarkdownData.customTitle
+        -- Sync to CM.charData if it exists (for consistency)
+        if CM.charData then
+            CM.charData.customTitle = customTitle
+        end
     end
     
     if customTitle and customTitle ~= "" then

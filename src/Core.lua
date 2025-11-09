@@ -11,19 +11,63 @@ CM.version = "2.1.7"  -- Fallback version
 CM.author = "solaegis"
 CM.apiVersion = 101047
 
--- Update version from manifest after addon loads
+-- Update version and metadata from manifest after addon loads
 -- This function will be called from Events.lua after EVENT_ADD_ON_LOADED
 function CM.UpdateVersion()
-    if GetAddOnMetadata then
-        local version = GetAddOnMetadata(CM.name, "Version")
-        -- If we got a valid version (not nil and not placeholder), use it
-        if version and version ~= "@project-version@" and version ~= "" then
+    if not GetAddOnMetadata then
+        CM.DebugPrint("CORE", "GetAddOnMetadata not available yet")
+        return false
+    end
+    
+    -- Get version from manifest
+    local version = GetAddOnMetadata(CM.name, "Version")
+    if version and version ~= "" then
+        if version == "@project-version@" then
+            -- Placeholder detected - try to get version from Git or use fallback
+            -- In development, this means the manifest hasn't been processed
+            -- We'll keep the fallback version but log a warning
+            CM.DebugPrint("CORE", "Version placeholder @project-version@ detected - using fallback version")
+            CM.DebugPrint("CORE", string.format("Using fallback version: %s (run 'task build' to replace placeholder)", CM.version))
+        else
+            -- Valid version found - update it
             CM.version = version
             CM.DebugPrint("CORE", string.format("Version updated from manifest: %s", version))
-            return true
+        end
+    else
+        CM.DebugPrint("CORE", string.format("Version from manifest invalid or empty: %s", tostring(version)))
+    end
+    
+    -- Also update author from manifest if available
+    local author = GetAddOnMetadata(CM.name, "Author")
+    if author and author ~= "" then
+        CM.author = author
+    end
+    
+    -- Also update API version from manifest if available
+    local apiVersion = GetAddOnMetadata(CM.name, "APIVersion")
+    if apiVersion and apiVersion ~= "" then
+        local apiVersionNum = tonumber(apiVersion)
+        if apiVersionNum then
+            CM.apiVersion = apiVersionNum
+            CM.DebugPrint("CORE", string.format("API version updated from manifest: %d", apiVersionNum))
         end
     end
-    return false
+    
+    -- Also try to get API version from game API as verification/fallback
+    if GetAPIVersion then
+        local gameApiVersion = CM.SafeCall(GetAPIVersion)
+        if gameApiVersion and gameApiVersion > 0 then
+            if gameApiVersion ~= CM.apiVersion then
+                CM.DebugPrint("CORE", string.format("API version mismatch: manifest=%d, game=%d", CM.apiVersion, gameApiVersion))
+                -- Optionally update to match game API (uncomment if desired)
+                -- CM.apiVersion = gameApiVersion
+            else
+                CM.DebugPrint("CORE", string.format("API version verified: %d", gameApiVersion))
+            end
+        end
+    end
+    
+    return true
 end
 
 -- Sub-namespaces
@@ -34,6 +78,15 @@ CM.generators = CM.generators or {}
 CM.commands = CM.commands or {}
 CM.events = CM.events or {}
 CM.Settings = CM.Settings or {}
+CM.constants = CM.constants or {}
+
+-- Constants
+-- Champion Points Discipline Types
+CM.constants.DisciplineType = {
+    WARFARE = "Warfare",
+    FITNESS = "Fitness",
+    CRAFT = "Craft"
+}
 
 -- State management
 CM.currentFormat = "github"
@@ -132,13 +185,29 @@ function CM.ValidateModules()
     return allLoaded
 end
 
+-- Unified settings access helper
+-- Always returns a valid settings table, merging SavedVariables with defaults
+function CM.GetSettings()
+    local settings = CharacterMarkdownSettings
+    if not settings then
+        -- Return defaults if settings not available
+        if CM.Settings and CM.Settings.Defaults then
+            return CM.Settings.Defaults:GetAll()
+        else
+            -- Last resort: return empty table
+            return {}
+        end
+    end
+    return settings
+end
+
 -- Unified link creation
 function CM.CreateLink(text, linkType, format)
     if not text or text == "" or text == "[Empty]" or text == "[Empty Slot]" or text == "Unknown" then
         return text or ""
     end
     
-    local settings = CharacterMarkdownSettings or {}
+    local settings = CM.GetSettings()
     local linksEnabled = true
     
     if linkType == "ability" and settings.enableAbilityLinks == false then
@@ -169,22 +238,26 @@ function CM.CreateLink(text, linkType, format)
     return "[" .. text .. "](" .. url .. ")"
 end
 
--- Initialize SavedVariables
+-- Initialize SavedVariables (deferred - will be properly initialized in Events.lua)
+-- Don't create temporary tables here as they might interfere with real SavedVariables
 local function InitializeSavedVariables()
-    if not CharacterMarkdownSettings then
+    -- Only try to access if they already exist - don't create temporary ones
+    if not CharacterMarkdownSettings and _G.CharacterMarkdownSettings then
         CharacterMarkdownSettings = _G.CharacterMarkdownSettings
+        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownSettings found in _G")
     end
-    if not CharacterMarkdownData then
+    if not CharacterMarkdownData and _G.CharacterMarkdownData then
         CharacterMarkdownData = _G.CharacterMarkdownData
+        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownData found in _G")
     end
     
+    -- Don't create temporary tables - wait for proper initialization in Events.lua
+    -- This prevents race conditions where temporary tables might interfere with real SavedVariables
     if not CharacterMarkdownSettings then
-        CharacterMarkdownSettings = {}
-        CM.DebugPrint("SAVEDVARS", "Created temporary CharacterMarkdownSettings - may not persist")
+        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownSettings not yet available - will initialize in Events.lua")
     end
     if not CharacterMarkdownData then
-        CharacterMarkdownData = {}
-        CM.DebugPrint("SAVEDVARS", "Created temporary CharacterMarkdownData - may not persist")
+        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownData not yet available - will initialize in Events.lua")
     end
 end
 

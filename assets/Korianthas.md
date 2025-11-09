@@ -1,10 +1,10 @@
 <div align="center">
 
-# Kellen Dysart (Grand Sorcerer)
+# Korianthas (Bane of the Gold Coast)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-715-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Sorcerer-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-22-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-721-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Arcanist-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
-**Breton Sorcerer • Daggerfall Covenant Alliance**
+**Breton Arcanist • Ebonheart Pact Alliance**
 
 
 </div>
@@ -52,23 +52,23 @@
 
 | Attribute | Value |
 |:----------|:------|
-| **Build** | [Breton](https://en.uesp.net/wiki/Online:Breton) [Sorcerer](https://en.uesp.net/wiki/Online:Sorcerer) Magicka DPS |
-| **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **Location** | [Alik'r Desert](https://en.uesp.net/wiki/Online:Alik'r_Desert) (Tigonus Dolmen) |
-| **Available Champion Points** | ⚒️ 18 - ⚔️ 43 - 💪 3 |
-| **Gold** | 51,659 |
-| **Sets** | [Necropotence](https://en.uesp.net/wiki/Online:Necropotence_Set) • [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) |
-| **Bank** | ⚠️ Almost Full |
-| **Skill Points** | None |
-| **Attributes** | 🔵 44 / ❤️ 20 / ⚡ 0 |
+| **Build** | [Breton](https://en.uesp.net/wiki/Online:Breton) [Arcanist](https://en.uesp.net/wiki/Online:Arcanist) Magicka DPS |
+| **Alliance** | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Location** | [The Triple Circle Mine](https://en.uesp.net/wiki/Online:The_Triple_Circle_Mine) (202) |
+| **Available Champion Points** | ⚒️ 0 - ⚔️ 10 - 💪 5 |
+| **Gold** | 25,508 |
+| **Sets** | [Armor of the Trainee](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) |
+| **Bank** | OK |
+| **Skill Points** | 16 available |
+| **Attributes** | 🔵 27 / ❤️ 0 / ⚡ 0 |
 
 ## 💰 Currency & Resources
 
 <table>
 <tr>
-<td align="left">💰<br><strong>51,659</strong><br><a href="https://en.uesp.net/wiki/Online:Gold">Gold</a></td>
+<td align="left">💰<br><strong>25,508</strong><br><a href="https://en.uesp.net/wiki/Online:Gold">Gold</a></td>
 <td align="left">⚔️<br><strong>0</strong><br><a href="https://en.uesp.net/wiki/Online:Alliance_Points">Alliance Points</a></td>
-<td align="left">🔮<br><strong>500</strong><br><a href="https://en.uesp.net/wiki/Online:Tel_Var_Stones">Tel Var</a></td>
+<td align="left">🔮<br><strong>0</strong><br><a href="https://en.uesp.net/wiki/Online:Tel_Var_Stones">Tel Var</a></td>
 </tr>
 <tr>
 <td align="left">💎<br><strong>59</strong><br><a href="https://en.uesp.net/wiki/Online:Transmute_Crystals">Crystals</a></td>
@@ -82,8 +82,8 @@
 <summary><strong>🐴 Riding Skills</strong></summary>
 
 Speed:   ████████████████████ 100% (60/60)  
-Stamina: ████████████████████ 100% (60/60)  
-Capacity:████████████████████ 100% (60/60)
+Stamina: ░░░░░░░░░░░░░░░░░░░░ 0% (0/60)  
+Capacity:░░░░░░░░░░░░░░░░░░░░ 0% (0/60)
 
 </details>
 
@@ -91,15 +91,15 @@ Capacity:████████████████████ 100% (60/6
 
 | Storage | Used | Max | Capacity |
 |:--------|-----:|----:|---------:|
-| **Backpack** | 102 | 180 | 56% |
-| **Bank** | 224 | 240 | 93% |
+| **Backpack** | 34 | 80 | 42% |
+| **Bank** | 213 | 240 | 88% |
 | **Crafting Bag** | ∞ | ∞ | ESO Plus |
 
 ## ⚔️ PvP
 
 | Category | Value |
 |:---------|:------|
-| **Alliance War Rank** | Recruit Grade 2 (Rank 4) |
+| **Alliance War Rank** | None (Rank 0) |
 
 ---
 
@@ -167,7 +167,7 @@ Capacity:████████████████████ 100% (60/6
 </details>
 
 <details>
-<summary>👗 Costumes (45 of 312)</summary>
+<summary>👗 Costumes (46 of 312)</summary>
 
 - [Austere Warden Outfit](https://en.uesp.net/wiki/Online:Austere_Warden_Outfit)
 - [Black Hand Robe](https://en.uesp.net/wiki/Online:Black_Hand_Robe)
@@ -188,6 +188,7 @@ Capacity:████████████████████ 100% (60/6
 - [Hollow Moon Garb](https://en.uesp.net/wiki/Online:Hollow_Moon_Garb)
 - [Imperial Chancellor](https://en.uesp.net/wiki/Online:Imperial_Chancellor)
 - [Keeper's Garb](https://en.uesp.net/wiki/Online:Keeper's_Garb)
+- [Lion Guard Knight](https://en.uesp.net/wiki/Online:Lion_Guard_Knight)
 - [Mages Guild Formal Robes](https://en.uesp.net/wiki/Online:Mages_Guild_Formal_Robes)
 - [Mages Guild Leggings Uniform](https://en.uesp.net/wiki/Online:Mages_Guild_Leggings_Uniform)
 - [Mages Guild Research Robes](https://en.uesp.net/wiki/Online:Mages_Guild_Research_Robes)
@@ -301,159 +302,161 @@ Capacity:████████████████████ 100% (60/6
 | Metric | Value |
 |:-------|------:|
 | **Total Items** | 12 |
-| **Total Value** | 621 |
-| **Average Quality** | 🟣 3 |
-| **Active Sets** | 2 |
+| **Total Value** | 312 |
+| **Average Quality** | 🔵 2 |
+| **Active Sets** | 4 |
 | **Upgradeable Items** | 12 |
 
 ### 🎯 Set Bonus Analysis
 
 | Set | Pieces | Status |
 |:----|-------:|:-------|
-| **Necropotence** | 5 | ✅ Complete |
-| **Wisdom of Vanus** | 7 | ✅ Complete |
+| **Armor of the Trainee** | 5 | ✅ Complete |
 
 ### ⬆️ Quality Upgrade Analysis
 
 | Item | Current | Target | Upgrades | Slot |
 |:-----|--------:|-------:|---------:|:----|
-| **Necklace of Necropotence** | 🔵 2 | 🟡 5 | 3 | Neck |
-| **Gloves of Necropotence** | 🟣 3 | 🟡 5 | 2 | Hands |
-| **Vanus's Shoes** | 🟣 3 | 🟡 5 | 2 | Feet |
-| **Ring of Necropotence** | 🟣 3 | 🟡 5 | 2 | Ring 2 |
-| **Vanus's Sash** | 🟣 3 | 🟡 5 | 2 | Waist |
-| **Vanus's Breeches** | 🟣 3 | 🟡 5 | 2 | Legs |
-| **Vanus's Robe** | 🟣 3 | 🟡 5 | 2 | Chest |
-| **Hat of Necropotence** | 🟣 3 | 🟡 5 | 2 | Head |
-| **Epaulets of Necropotence** | 🟣 3 | 🟡 5 | 2 | Shoulders |
-| **Vanus's Restoration Staff** | 🟣 3 | 🟡 5 | 2 | Backup Main Hand |
-| **Ring of Summerset's Champion** | 🟠 4 | 🟡 5 | 1 | Ring 1 |
-| **Staff of the Crystal Tower** | 🟠 4 | 🟡 5 | 1 | Main Hand |
+| **Lion Guard Girdle** | 🔵 2 | 🟡 5 | 3 | Waist |
+| **linen epaulets of Health^p** | 🔵 2 | 🟡 5 | 3 | Shoulders |
+| **Ring of the Trainee** | 🟣 3 | 🟡 5 | 2 | Ring 1 |
+| **Gloves of the Trainee** | 🟣 3 | 🟡 5 | 2 | Hands |
+| **Shoes of the Trainee** | 🟣 3 | 🟡 5 | 2 | Feet |
+| **Ring of the Trainee** | 🟣 3 | 🟡 5 | 2 | Ring 2 |
+| **Werewolf Hide Guards** | 🟣 3 | 🟡 5 | 2 | Legs |
+| **Jack of the Twin Sisters** | 🟣 3 | 🟡 5 | 2 | Chest |
+| **Necklace of the Trainee** | 🟣 3 | 🟡 5 | 2 | Neck |
+| **steel helm of Magicka^n** | 🟣 3 | 🟡 5 | 2 | Head |
+| **oak ice staff of Shock^n** | 🟣 3 | 🟡 5 | 2 | Main Hand |
+| **oak lightning staff of Frost^n** | 🟣 3 | 🟡 5 | 2 | Backup Main Hand |
 
 ### ✨ Enchantment Analysis
 
 | Enchantment | Item | Charge | Status |
 |:------------|:-----|-------:|:-------|
-| **Unknown Enchantment** | Hat of Necropotence | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Necklace of Necropotence | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Vanus's Robe | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Epaulets of Necropotence | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Staff of the Crystal Tower | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Vanus's Sash | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Vanus's Breeches | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Vanus's Shoes | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Ring of Summerset's Champion | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Ring of Necropotence | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Gloves of Necropotence | 0% | 🔴 Critical |
-| **Unknown Enchantment** | Vanus's Restoration Staff | 0% | 🔴 Critical |
+| **Unknown Enchantment** | steel helm of Magicka^n | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Necklace of the Trainee | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Jack of the Twin Sisters | 0% | 🔴 Critical |
+| **Unknown Enchantment** | linen epaulets of Health^p | 0% | 🔴 Critical |
+| **Unknown Enchantment** | oak ice staff of Shock^n | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Lion Guard Girdle | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Werewolf Hide Guards | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Shoes of the Trainee | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Ring of the Trainee | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Ring of the Trainee | 0% | 🔴 Critical |
+| **Unknown Enchantment** | Gloves of the Trainee | 0% | 🔴 Critical |
+| **Unknown Enchantment** | oak lightning staff of Frost^n | 0% | 🔴 Critical |
 
 **Recommendations:**
 | Priority | Action | Item | Enchantment |
 |:---------|:-------|:-----|:------------|
-| 🔴 High | Recharge | Hat of Necropotence | Unknown Enchantment |
-| 🔴 High | Recharge | Necklace of Necropotence | Unknown Enchantment |
-| 🔴 High | Recharge | Vanus's Robe | Unknown Enchantment |
-| 🔴 High | Recharge | Epaulets of Necropotence | Unknown Enchantment |
-| 🔴 High | Recharge | Staff of the Crystal Tower | Unknown Enchantment |
-| 🔴 High | Recharge | Vanus's Sash | Unknown Enchantment |
-| 🔴 High | Recharge | Vanus's Breeches | Unknown Enchantment |
-| 🔴 High | Recharge | Vanus's Shoes | Unknown Enchantment |
-| 🔴 High | Recharge | Ring of Summerset's Champion | Unknown Enchantment |
-| 🔴 High | Recharge | Ring of Necropotence | Unknown Enchantment |
-| 🔴 High | Recharge | Gloves of Necropotence | Unknown Enchantment |
-| 🔴 High | Recharge | Vanus's Restoration Staff | Unknown Enchantment |
+| 🔴 High | Recharge | steel helm of Magicka^n | Unknown Enchantment |
+| 🔴 High | Recharge | Necklace of the Trainee | Unknown Enchantment |
+| 🔴 High | Recharge | Jack of the Twin Sisters | Unknown Enchantment |
+| 🔴 High | Recharge | linen epaulets of Health^p | Unknown Enchantment |
+| 🔴 High | Recharge | oak ice staff of Shock^n | Unknown Enchantment |
+| 🔴 High | Recharge | Lion Guard Girdle | Unknown Enchantment |
+| 🔴 High | Recharge | Werewolf Hide Guards | Unknown Enchantment |
+| 🔴 High | Recharge | Shoes of the Trainee | Unknown Enchantment |
+| 🔴 High | Recharge | Ring of the Trainee | Unknown Enchantment |
+| 🔴 High | Recharge | Ring of the Trainee | Unknown Enchantment |
+| 🔴 High | Recharge | Gloves of the Trainee | Unknown Enchantment |
+| 🔴 High | Recharge | oak lightning staff of Frost^n | Unknown Enchantment |
 
 ### 🔧 Trait Analysis
 
 | Trait | Count | Items |
 |:------|------:|:------|
-| **Charged** | 1 | Staff of the Crystal Tower |
-| **Powered** | 1 | Vanus's Restoration Staff |
-| **Divines** | 1 | Vanus's Breeches |
-| **Invigorating** | 1 | Vanus's Shoes |
-| **Infused** | 1 | Epaulets of Necropotence |
-| **Impenetrable** | 2 | Vanus's Robe, Vanus's Sash |
-| **Reinforced** | 2 | Hat of Necropotence, Gloves of Necropotence |
-| **Arcane** | 3 | Necklace of Necropotence, Ring of Summerset's Champion, Ring of Necropotence |
+| **Infused** | 1 | linen epaulets of Health^p |
+| **Training** | 3 | Jack of the Twin Sisters, Shoes of the Trainee, Gloves of the Trainee |
+| **Charged** | 1 | oak lightning staff of Frost^n |
+| **Sturdy** | 1 | Lion Guard Girdle |
+| **Defending** | 1 | oak ice staff of Shock^n |
+| **Invigorating** | 2 | steel helm of Magicka^n, Werewolf Hide Guards |
+| **Healthy** | 3 | Necklace of the Trainee, Ring of the Trainee, Ring of the Trainee |
 
 **Recommendations:**
 | Priority | Trait | Count | Recommendation |
 |:---------|:------|------:|:---------------|
-| 🟡 Medium | Impenetrable | 2 | Trait Diversity |
-| 🟡 Medium | Reinforced | 2 | Trait Diversity |
-| 🔴 High | Arcane | 3 | Trait Diversity |
+| 🔴 High | Training | 3 | Trait Diversity |
+| 🟡 Medium | Invigorating | 2 | Trait Diversity |
+| 🔴 High | Healthy | 3 | Trait Diversity |
 
 ### 🎯 Optimization Recommendations
 
 | Priority | Category | Recommendation |
 |:---------|:---------|:---------------|
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Necklace of Necropotence from quality 2 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Gloves of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Shoes from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Ring of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Sash from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Breeches from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Robe from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Hat of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Epaulets of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Restoration Staff from quality 3 to legendary |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Hat of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Necklace of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Robe (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Epaulets of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Staff of the Crystal Tower (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Sash (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Breeches (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Shoes (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of Summerset's Champion (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of Necropotence (0% charge) |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Lion Guard Girdle from quality 2 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade linen epaulets of Health^p from quality 2 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Ring of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Gloves of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Shoes of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Ring of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Werewolf Hide Guards from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Jack of the Twin Sisters from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Necklace of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade steel helm of Magicka^n from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade oak ice staff of Shock^n from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade oak lightning staff of Frost^n from quality 3 to legendary |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on steel helm of Magicka^n (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Necklace of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Jack of the Twin Sisters (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on linen epaulets of Health^p (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on oak ice staff of Shock^n (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Lion Guard Girdle (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Werewolf Hide Guards (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Shoes of the Trainee (0% charge) |
 
 [comment]: #
-                                                                                                                                                                                                                                                                         | 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Gloves of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Restoration Staff (0% charge) |
-| 🟡 Medium | 🔧 Trait Optimization | Diversify traits - Impenetrable appears 2 times |
-| 🟡 Medium | 🔧 Trait Optimization | Diversify traits - Reinforced appears 2 times |
-| 🔴 High | 🔧 Trait Optimization | Diversify traits - Arcane appears 3 times |
+                                                                                                                                                                                                               | 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Gloves of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on oak lightning staff of Frost^n (0% charge) |
+| 🔴 High | 🔧 Trait Optimization | Diversify traits - Training appears 3 times |
+| 🟡 Medium | 🔧 Trait Optimization | Diversify traits - Invigorating appears 2 times |
+| 🔴 High | 🔧 Trait Optimization | Diversify traits - Healthy appears 3 times |
 
 ## ⚡ Equipment Enhancement Analysis
 
 | Metric | Value |
 |:-------|------:|
 | **Total Items** | 12 |
-| **Total Value** | 621 |
-| **Average Quality** | 🟣 3 |
-| **Active Sets** | 2 |
+| **Total Value** | 312 |
+| **Average Quality** | 🔵 2 |
+| **Active Sets** | 4 |
 | **Upgradeable Items** | 12 |
 
 ### 🎯 Optimization Recommendations
 
 | Priority | Category | Recommendation |
 |:---------|:---------|:---------------|
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Necklace of Necropotence from quality 2 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Gloves of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Shoes from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Ring of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Sash from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Breeches from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Robe from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Hat of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Epaulets of Necropotence from quality 3 to legendary |
-| 🔴 High | ⬆️ Quality Upgrade | Upgrade Vanus's Restoration Staff from quality 3 to legendary |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Hat of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Necklace of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Robe (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Epaulets of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Staff of the Crystal Tower (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Sash (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Breeches (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Shoes (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of Summerset's Champion (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Gloves of Necropotence (0% charge) |
-| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Vanus's Restoration Staff (0% charge) |
-| 🟡 Medium | 🔧 Trait Optimization | Diversify traits - Impenetrable appears 2 times |
-| 🟡 Medium | 🔧 Trait Optimization | Diversify traits - Reinforced appears 2 times |
-| 🔴 High | 🔧 Trait Optimization | Diversify traits - Arcane appears 3 times |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Lion Guard Girdle from quality 2 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade linen epaulets of Health^p from quality 2 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Ring of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Gloves of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Shoes of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Ring of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Werewolf Hide Guards from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Jack of the Twin Sisters from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade Necklace of the Trainee from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade steel helm of Magicka^n from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade oak ice staff of Shock^n from quality 3 to legendary |
+| 🔴 High | ⬆️ Quality Upgrade | Upgrade oak lightning staff of Frost^n from quality 3 to legendary |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on steel helm of Magicka^n (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Necklace of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Jack of the Twin Sisters (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on linen epaulets of Health^p (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on oak ice staff of Shock^n (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Lion Guard Girdle (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Werewolf Hide Guards (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Shoes of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Ring of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on Gloves of the Trainee (0% charge) |
+| 🔴 High | ✨ Enchantment Analysis | Recharge Unknown Enchantment on oak lightning staff of Frost^n (0% charge) |
+| 🔴 High | 🔧 Trait Optimization | Diversify traits - Training appears 3 times |
+| 🟡 Medium | 🔧 Trait Optimization | Diversify traits - Invigorating appears 2 times |
+| 🔴 High | 🔧 Trait Optimization | Diversify traits - Healthy appears 3 times |
 
 ## 🌍 World Progress
 
@@ -470,7 +473,7 @@ Capacity:████████████████████ 100% (60/6
 
 ### 👑 Titles
 
-**Current Title:** [Grand Sorcerer](https://en.uesp.net/wiki/Online:Grand_Sorcerer)
+**Current Title:** [Bane of the Gold Coast](https://en.uesp.net/wiki/Online:Bane_of_the_Gold_Coast)
 
 **Owned Titles:**
 • [Abyssal Champion](https://en.uesp.net/wiki/Online:Abyssal_Champion)
@@ -529,26 +532,24 @@ Capacity:████████████████████ 100% (60/6
 | Guild Name | Rank | Members | Alliance |
 |:-----------|:-----|:--------|:---------|
 | **Swiftrunners** | Scouts | 58 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
-| **Paradox Raiding** | Member | 497 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
-| **Alphabet Mafia** | Associate | 442 | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
+| **Paradox Raiding** | Member | 496 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Alphabet Mafia** | Associate | 445 | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
 
 ---
 
 ### 🎯 Attribute Distribution
 
-**Magicka:** 44 • **Health:** 20 • **Stamina:** 0 *(Total: 64 points allocated)*
-
-### 🍖 Active Buffs
-
-**Other:** [Minor Protection](https://en.uesp.net/wiki/Online:Minor_Protection), [Increase Max Health](https://en.uesp.net/wiki/Online:Increase_Max_Health), [Summon Twilight Matriarch](https://en.uesp.net/wiki/Online:Summon_Twilight_Matriarch)  
+**Magicka:** 27 • **Health:** 0 • **Stamina:** 0 *(Total: 27 points allocated)*
 
 ---
 
 <details>
 <summary><strong>📈 Progression</strong></summary>
 
-**🎯 Available Champion Points:** 65  
-**🏆 Achievement Points:** 12,175
+**📚 Unspent Skill Points:** 16  
+**⭐ Unspent Attribute Points:** 0  
+**🎯 Available Champion Points:** 16  
+**🏆 Achievement Points:** 12,130
 
 </details>
 
@@ -558,158 +559,49 @@ Capacity:████████████████████ 100% (60/6
 
 | 1 | 2 | 3 | 4 | 5 |
 |:--|:--|:--|:--|:--|
-| [Crushing Shock](https://en.uesp.net/wiki/Online:Crushing_Shock) | [Boundless Storm](https://en.uesp.net/wiki/Online:Boundless_Storm) | [Hardened Ward](https://en.uesp.net/wiki/Online:Hardened_Ward) | [Crystal Fragments](https://en.uesp.net/wiki/Online:Crystal_Fragments) | [Twilight Matriarch Restore](https://en.uesp.net/wiki/Online:Twilight_Matriarch_Restore) |
+| [Soul Trap](https://en.uesp.net/wiki/Online:Soul_Trap) | [Escalating Runeblades](https://en.uesp.net/wiki/Online:Escalating_Runeblades) | [Runic Jolt](https://en.uesp.net/wiki/Online:Runic_Jolt) | [Pragmatic Fatecarver](https://en.uesp.net/wiki/Online:Pragmatic_Fatecarver) | [Evolving Runemend](https://en.uesp.net/wiki/Online:Evolving_Runemend) |
 
-**⚡ Ultimate:** [Greater Storm Atronach](https://en.uesp.net/wiki/Online:Greater_Storm_Atronach)
+**⚡ Ultimate:** [The Unblinking Eye](https://en.uesp.net/wiki/Online:The_Unblinking_Eye)
 
 ### 🔮 🔮 Back Bar (Backup)
 
 | 1 | 2 | 3 | 4 | 5 |
 |:--|:--|:--|:--|:--|
-| [Combat Prayer](https://en.uesp.net/wiki/Online:Combat_Prayer) | [Radiating Regeneration](https://en.uesp.net/wiki/Online:Radiating_Regeneration) | [Healing Springs](https://en.uesp.net/wiki/Online:Healing_Springs) | [Bound Armor](https://en.uesp.net/wiki/Online:Bound_Armor) | [Twilight Matriarch Restore](https://en.uesp.net/wiki/Online:Twilight_Matriarch_Restore) |
+| [Empty Slot] | [Empty Slot] | [Empty Slot] | [Empty Slot] | [Empty Slot] |
 
-**⚡ Ultimate:** [Absorption Field](https://en.uesp.net/wiki/Online:Absorption_Field)
+**⚡ Ultimate:** [Empty]
 
 ---
 
 ## 🌿 Skill Morphs
 
 <details>
-<summary>⚔️ Class (15 abilities with morph choices)</summary>
+<summary>⚔️ Class (4 abilities with morph choices)</summary>
 
-### Dark Magic (Rank 50)
+### Herald of the Tome (Rank 30)
 
-✅ **[Absorption Field](https://en.uesp.net/wiki/Online:Absorption_Field)** (Rank 3)
+⚠️ **[The Unblinking Eye](https://en.uesp.net/wiki/Online:The_Unblinking_Eye)** (Rank 4)
 
-  ⚪ **Morph 1**: [Suppression Field](https://en.uesp.net/wiki/Online:Suppression_Field)
-  ✅ **Morph 2**: [Absorption Field](https://en.uesp.net/wiki/Online:Absorption_Field)
+  ⚪ **Morph 1**: [The Tide King's Gaze](https://en.uesp.net/wiki/Online:The_Tide_King's_Gaze)
+  ⚪ **Morph 2**: [The Languid Eye](https://en.uesp.net/wiki/Online:The_Languid_Eye)
 
-✅ **[Crystal Fragments](https://en.uesp.net/wiki/Online:Crystal_Fragments)** (Rank 4)
+✅ **[Escalating Runeblades](https://en.uesp.net/wiki/Online:Escalating_Runeblades)** (Rank 2)
 
-  ⚪ **Morph 1**: [Crystal Weapon](https://en.uesp.net/wiki/Online:Crystal_Weapon)
-  ✅ **Morph 2**: [Crystal Fragments](https://en.uesp.net/wiki/Online:Crystal_Fragments)
+  ⚪ **Morph 1**: [Writhing Runeblades](https://en.uesp.net/wiki/Online:Writhing_Runeblades)
+  ✅ **Morph 2**: [Escalating Runeblades](https://en.uesp.net/wiki/Online:Escalating_Runeblades)
 
-✅ **[Vibrant Shroud](https://en.uesp.net/wiki/Online:Vibrant_Shroud)** (Rank 1)
+✅ **[Pragmatic Fatecarver](https://en.uesp.net/wiki/Online:Pragmatic_Fatecarver)** (Rank 2)
 
-  ⚪ **Morph 1**: [Shattering Spines](https://en.uesp.net/wiki/Online:Shattering_Spines)
-  ✅ **Morph 2**: [Vibrant Shroud](https://en.uesp.net/wiki/Online:Vibrant_Shroud)
-
-✅ **[Dark Conversion](https://en.uesp.net/wiki/Online:Dark_Conversion)** (Rank 4)
-
-  ⚪ **Morph 1**: [Dark Deal](https://en.uesp.net/wiki/Online:Dark_Deal)
-  ✅ **Morph 2**: [Dark Conversion](https://en.uesp.net/wiki/Online:Dark_Conversion)
+  ⚪ **Morph 1**: [Exhausting Fatecarver](https://en.uesp.net/wiki/Online:Exhausting_Fatecarver)
+  ✅ **Morph 2**: [Pragmatic Fatecarver](https://en.uesp.net/wiki/Online:Pragmatic_Fatecarver)
 
 
-### Daedric Summoning (Rank 50)
+### Curative Runeforms (Rank 22)
 
-✅ **[Greater Storm Atronach](https://en.uesp.net/wiki/Online:Greater_Storm_Atronach)** (Rank 4)
+✅ **[Evolving Runemend](https://en.uesp.net/wiki/Online:Evolving_Runemend)** (Rank 2)
 
-  ✅ **Morph 1**: [Greater Storm Atronach](https://en.uesp.net/wiki/Online:Greater_Storm_Atronach)
-  ⚪ **Morph 2**: [Summon Charged Atronach](https://en.uesp.net/wiki/Online:Summon_Charged_Atronach)
-
-🔒 **[Summon Unstable Familiar](https://en.uesp.net/wiki/Online:Summon_Unstable_Familiar)** (Rank 4)
-
-  ⚪ **Morph 1**: [Summon Unstable Clannfear](https://en.uesp.net/wiki/Online:Summon_Unstable_Clannfear)
-  ⚪ **Morph 2**: [Summon Volatile Familiar](https://en.uesp.net/wiki/Online:Summon_Volatile_Familiar)
-
-🔒 **[Daedric Curse](https://en.uesp.net/wiki/Online:Daedric_Curse)** (Rank 4)
-
-  ⚪ **Morph 1**: [Daedric Prey](https://en.uesp.net/wiki/Online:Daedric_Prey)
-  ⚪ **Morph 2**: [Haunting Curse](https://en.uesp.net/wiki/Online:Haunting_Curse)
-
-✅ **[Summon Twilight Matriarch](https://en.uesp.net/wiki/Online:Summon_Twilight_Matriarch)** (Rank 4)
-
-  ⚪ **Morph 1**: [Summon Twilight Tormentor](https://en.uesp.net/wiki/Online:Summon_Twilight_Tormentor)
-  ✅ **Morph 2**: [Summon Twilight Matriarch](https://en.uesp.net/wiki/Online:Summon_Twilight_Matriarch)
-
-✅ **[Hardened Ward](https://en.uesp.net/wiki/Online:Hardened_Ward)** (Rank 4)
-
-  ✅ **Morph 1**: [Hardened Ward](https://en.uesp.net/wiki/Online:Hardened_Ward)
-  ⚪ **Morph 2**: [Regenerative Ward](https://en.uesp.net/wiki/Online:Regenerative_Ward)
-
-🔒 **[Bound Armor](https://en.uesp.net/wiki/Online:Bound_Armor)** (Rank 4)
-
-  ⚪ **Morph 1**: [Bound Armaments](https://en.uesp.net/wiki/Online:Bound_Armaments)
-  ⚪ **Morph 2**: [Bound Aegis](https://en.uesp.net/wiki/Online:Bound_Aegis)
-
-
-### Storm Calling (Rank 50)
-
-🔒 **[Overload](https://en.uesp.net/wiki/Online:Overload)** (Rank 1)
-
-  ⚪ **Morph 1**: [Power Overload](https://en.uesp.net/wiki/Online:Power_Overload)
-  ⚪ **Morph 2**: [Energy Overload](https://en.uesp.net/wiki/Online:Energy_Overload)
-
-🔒 **[Mages' Fury](https://en.uesp.net/wiki/Online:Mages'_Fury)** (Rank 4)
-
-  ⚪ **Morph 1**: [Mages' Wrath](https://en.uesp.net/wiki/Online:Mages'_Wrath)
-  ⚪ **Morph 2**: [Endless Fury](https://en.uesp.net/wiki/Online:Endless_Fury)
-
-✅ **[Boundless Storm](https://en.uesp.net/wiki/Online:Boundless_Storm)** (Rank 4)
-
-  ⚪ **Morph 1**: [Hurricane](https://en.uesp.net/wiki/Online:Hurricane)
-  ✅ **Morph 2**: [Boundless Storm](https://en.uesp.net/wiki/Online:Boundless_Storm)
-
-🔒 **[Lightning Splash](https://en.uesp.net/wiki/Online:Lightning_Splash)** (Rank 4)
-
-  ⚪ **Morph 1**: [Liquid Lightning](https://en.uesp.net/wiki/Online:Liquid_Lightning)
-  ⚪ **Morph 2**: [Lightning Flood](https://en.uesp.net/wiki/Online:Lightning_Flood)
-
-🔒 **[Bolt Escape](https://en.uesp.net/wiki/Online:Bolt_Escape)** (Rank 1)
-
-  ⚪ **Morph 1**: [Streak](https://en.uesp.net/wiki/Online:Streak)
-  ⚪ **Morph 2**: [Ball of Lightning](https://en.uesp.net/wiki/Online:Ball_of_Lightning)
-
-
-</details>
-
-<details>
-<summary>⚔️ Weapon (8 abilities with morph choices)</summary>
-
-### Destruction Staff (Rank 50)
-
-🔒 **[Elemental Storm](https://en.uesp.net/wiki/Online:Elemental_Storm)** (Rank 1)
-
-  ⚪ **Morph 1**: [Elemental Rage](https://en.uesp.net/wiki/Online:Elemental_Rage)
-  ⚪ **Morph 2**: [Eye of the Storm](https://en.uesp.net/wiki/Online:Eye_of_the_Storm)
-
-✅ **[Crushing Shock](https://en.uesp.net/wiki/Online:Crushing_Shock)** (Rank 4)
-
-  ✅ **Morph 1**: [Crushing Shock](https://en.uesp.net/wiki/Online:Crushing_Shock)
-  ⚪ **Morph 2**: [Force Pulse](https://en.uesp.net/wiki/Online:Force_Pulse)
-
-✅ **[Elemental Blockade](https://en.uesp.net/wiki/Online:Elemental_Blockade)** (Rank 1)
-
-  ⚪ **Morph 1**: [Unstable Wall of Elements](https://en.uesp.net/wiki/Online:Unstable_Wall_of_Elements)
-  ✅ **Morph 2**: [Elemental Blockade](https://en.uesp.net/wiki/Online:Elemental_Blockade)
-
-🔒 **[Destructive Touch](https://en.uesp.net/wiki/Online:Destructive_Touch)** (Rank 4)
-
-  ⚪ **Morph 1**: [Destructive Clench](https://en.uesp.net/wiki/Online:Destructive_Clench)
-  ⚪ **Morph 2**: [Destructive Reach](https://en.uesp.net/wiki/Online:Destructive_Reach)
-
-
-### Restoration Staff (Rank 44)
-
-✅ **[Healing Springs](https://en.uesp.net/wiki/Online:Healing_Springs)** (Rank 4)
-
-  ⚪ **Morph 1**: [Illustrious Healing](https://en.uesp.net/wiki/Online:Illustrious_Healing)
-  ✅ **Morph 2**: [Healing Springs](https://en.uesp.net/wiki/Online:Healing_Springs)
-
-✅ **[Radiating Regeneration](https://en.uesp.net/wiki/Online:Radiating_Regeneration)** (Rank 4)
-
-  ⚪ **Morph 1**: [Rapid Regeneration](https://en.uesp.net/wiki/Online:Rapid_Regeneration)
-  ✅ **Morph 2**: [Radiating Regeneration](https://en.uesp.net/wiki/Online:Radiating_Regeneration)
-
-✅ **[Combat Prayer](https://en.uesp.net/wiki/Online:Combat_Prayer)** (Rank 3)
-
-  ⚪ **Morph 1**: [Blessing of Restoration](https://en.uesp.net/wiki/Online:Blessing_of_Restoration)
-  ✅ **Morph 2**: [Combat Prayer](https://en.uesp.net/wiki/Online:Combat_Prayer)
-
-🔒 **[Force Siphon](https://en.uesp.net/wiki/Online:Force_Siphon)** (Rank 1)
-
-  ⚪ **Morph 1**: [Siphon Spirit](https://en.uesp.net/wiki/Online:Siphon_Spirit)
-  ⚪ **Morph 2**: [Quick Siphon](https://en.uesp.net/wiki/Online:Quick_Siphon)
+  ✅ **Morph 1**: [Evolving Runemend](https://en.uesp.net/wiki/Online:Evolving_Runemend)
+  ⚪ **Morph 2**: [Audacious Runemend](https://en.uesp.net/wiki/Online:Audacious_Runemend)
 
 
 </details>
@@ -717,33 +609,12 @@ Capacity:████████████████████ 100% (60/6
 <details>
 <summary>🌍 World (1 abilities with morph choices)</summary>
 
-### Soul Magic (Rank 1)
+### Soul Magic (Rank 3)
 
 ⚠️ **[Soul Trap](https://en.uesp.net/wiki/Online:Soul_Trap)** (Rank 4)
 
   ⚪ **Morph 1**: [Soul Splitting Trap](https://en.uesp.net/wiki/Online:Soul_Splitting_Trap)
   ⚪ **Morph 2**: [Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap)
-
-
-</details>
-
-<details>
-<summary>🏰 Guild (2 abilities with morph choices)</summary>
-
-### Mages Guild (Rank 6)
-
-🔒 **[Magelight](https://en.uesp.net/wiki/Online:Magelight)** (Rank 4)
-
-  ⚪ **Morph 1**: [Inner Light](https://en.uesp.net/wiki/Online:Inner_Light)
-  ⚪ **Morph 2**: [Radiant Magelight](https://en.uesp.net/wiki/Online:Radiant_Magelight)
-
-
-### Undaunted (Rank 2)
-
-🔒 **[Blood Altar](https://en.uesp.net/wiki/Online:Blood_Altar)** (Rank 4)
-
-  ⚪ **Morph 1**: [Sanguine Altar](https://en.uesp.net/wiki/Online:Sanguine_Altar)
-  ⚪ **Morph 2**: [Overflowing Altar](https://en.uesp.net/wiki/Online:Overflowing_Altar)
 
 
 </details>
@@ -756,20 +627,20 @@ Capacity:████████████████████ 100% (60/6
 
 | Category | Stat | Value |
 |:---------|:-----|------:|
-| 💚 **Resources** | Health | 27,717 |
-| | Magicka | 34,617 |
-| | Stamina | 12,600 |
-| ⚔️ **Offensive** | Weapon Power | 2,793 |
-| | Spell Power | 2,793 |
-| 🎯 **Critical** | Weapon Crit | 3,879 (17.7%) |
-| | Spell Crit | 3,879 (17.7%) |
-| ⚔️ **Penetration** | Physical | 6,924 |
-| | Spell | 6,924 |
-| 🛡️ **Defensive** | Physical Resist | 9,055 (78.3%) |
-| | Spell Resist | 16,447 (86.8%) |
-| ♻️ **Recovery** | Health | 552 |
-| | Magicka | 2,071 |
-| | Stamina | 757 |
+| 💚 **Resources** | Health | 26,421 |
+| | Magicka | 24,900 |
+| | Stamina | 20,356 |
+| ⚔️ **Offensive** | Weapon Power | 2,084 |
+| | Spell Power | 2,322 |
+| 🎯 **Critical** | Weapon Crit | 2,341 (10.6%) |
+| | Spell Crit | 2,341 (10.6%) |
+| ⚔️ **Penetration** | Physical | 350 |
+| | Spell | 350 |
+| 🛡️ **Defensive** | Physical Resist | 14,108 (92.7%) |
+| | Spell Resist | 14,768 (93%) |
+| ♻️ **Recovery** | Health | 1,161 |
+| | Magicka | 1,565 |
+| | Stamina | 1,436 |
 
 ---
 
@@ -778,25 +649,27 @@ Capacity:████████████████████ 100% (60/6
 
 ## ⚔️ Equipment & Active Sets
 
-🟢 **[Necropotence](https://en.uesp.net/wiki/Online:Necropotence_Set)** `5/5` ██████████ 100%  
-🟢 **[Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set)** `5/5` ██████████ 100% *(+2 extra)*
+⚪ **[Hide of the Werewolf](https://en.uesp.net/wiki/Online:Hide_of_the_Werewolf_Set)** `1/5` ██░░░░░░░░ 20%  
+🟢 **[Armor of the Trainee](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set)** `5/5` ██████████ 100%  
+⚪ **[Wyrd Tree's Blessing](https://en.uesp.net/wiki/Online:Wyrd_Tree's_Blessing_Set)** `1/5` ██░░░░░░░░ 20%  
+⚪ **[Twin Sisters](https://en.uesp.net/wiki/Online:Twin_Sisters_Set)** `1/5` ██░░░░░░░░ 20%
 
 ### 📋 Equipment Details
 
 | Slot | Item | Set | Quality | Trait | Type |
 |:-----|:-----|:----|:--------|:------|:-----|
-| ⛑️ **Head** | Hat of Necropotence | [Necropotence](https://en.uesp.net/wiki/Online:Necropotence_Set) | 🔮 Arcane | Reinforced | Light |
-| 💎 **Neck** | Necklace of Necropotence | [Necropotence](https://en.uesp.net/wiki/Online:Necropotence_Set) | ⚡ Magic | Arcane | None |
-| 🛡️ **Chest** | Vanus's Robe | [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Arcane | Impenetrable | Light |
-| 👑 **Shoulders** | Epaulets of Necropotence | [Necropotence](https://en.uesp.net/wiki/Online:Necropotence_Set) | 🔮 Arcane | Infused | Light |
-| ⚔️ **Main Hand** | Staff of the Crystal Tower | [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | ⭐ Artifact | Charged | None |
-| ⚡ **Waist** | Vanus's Sash | [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Arcane | Impenetrable | Light |
-| 👖 **Legs** | Vanus's Breeches | [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Arcane | Divines | Light |
-| 👟 **Feet** | Vanus's Shoes | [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Arcane | Invigorating | Light |
-| 💍 **Ring 1** | Ring of Summerset's Champion | [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | ⭐ Artifact | Arcane | None |
-| 💍 **Ring 2** | Ring of Necropotence | [Necropotence](https://en.uesp.net/wiki/Online:Necropotence_Set) | 🔮 Arcane | Arcane | None |
-| ✋ **Hands** | Gloves of Necropotence | [Necropotence](https://en.uesp.net/wiki/Online:Necropotence_Set) | 🔮 Arcane | Reinforced | Light |
-| 🔮 **Backup Main Hand** | Vanus's Restoration Staff | [Wisdom of Vanus](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Arcane | Powered | None |
+| ⛑️ **Head** | steel helm of Magicka^n | - | 🔮 Arcane | Invigorating | Heavy |
+| 💎 **Neck** | Necklace of the Trainee | [Armor of the Trainee](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Arcane | Healthy | None |
+| 🛡️ **Chest** | Jack of the Twin Sisters | [Twin Sisters](https://en.uesp.net/wiki/Online:Twin_Sisters_Set) | 🔮 Arcane | Training | Medium |
+| 👑 **Shoulders** | linen epaulets of Health^p | - | ⚡ Magic | Infused | Light |
+| ⚔️ **Main Hand** | oak ice staff of Shock^n | - | 🔮 Arcane | Defending | None |
+| ⚡ **Waist** | Lion Guard Girdle | [Wyrd Tree's Blessing](https://en.uesp.net/wiki/Online:Wyrd_Tree's_Blessing_Set) | ⚡ Magic | Sturdy | Heavy |
+| 👖 **Legs** | Werewolf Hide Guards | [Hide of the Werewolf](https://en.uesp.net/wiki/Online:Hide_of_the_Werewolf_Set) | 🔮 Arcane | Invigorating | Medium |
+| 👟 **Feet** | Shoes of the Trainee | [Armor of the Trainee](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Arcane | Training | Light |
+| 💍 **Ring 1** | Ring of the Trainee | [Armor of the Trainee](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Arcane | Healthy | None |
+| 💍 **Ring 2** | Ring of the Trainee | [Armor of the Trainee](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Arcane | Healthy | None |
+| ✋ **Hands** | Gloves of the Trainee | [Armor of the Trainee](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Arcane | Training | Light |
+| 🔮 **Backup Main Hand** | oak lightning staff of Frost^n | - | 🔮 Arcane | Charged | None |
 
 ---
 
@@ -808,38 +681,27 @@ Capacity:████████████████████ 100% (60/6
 
 ### 🔥 Class
 
-#### ✅ Maxed
-**[Dark Magic](https://en.uesp.net/wiki/Online:Dark_Magic)**, **[Daedric Summoning](https://en.uesp.net/wiki/Online:Daedric_Summoning)**, **[Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling)**
+- **[Herald of the Tome](https://en.uesp.net/wiki/Online:Herald_of_the_Tome)**: Rank 30 ████████░░ 89%
+- **[Curative Runeforms](https://en.uesp.net/wiki/Online:Curative_Runeforms)**: Rank 22 █████████░ 92%
 
 #### ✨ Passives
-- ✅ [Unholy Knowledge](https://en.uesp.net/wiki/Online:Unholy_Knowledge) (8/8) *(from [Dark Magic](https://en.uesp.net/wiki/Online:Dark_Magic))*
-- ✅ [Blood Magic](https://en.uesp.net/wiki/Online:Blood_Magic) (14/14) *(from [Dark Magic](https://en.uesp.net/wiki/Online:Dark_Magic))*
-- ✅ [Persistence](https://en.uesp.net/wiki/Online:Persistence) (22/22) *(from [Dark Magic](https://en.uesp.net/wiki/Online:Dark_Magic))*
-- ✅ [Exploitation](https://en.uesp.net/wiki/Online:Exploitation) (39/39) *(from [Dark Magic](https://en.uesp.net/wiki/Online:Dark_Magic))*
-- ✅ [Rebate](https://en.uesp.net/wiki/Online:Rebate) (8/8) *(from [Daedric Summoning](https://en.uesp.net/wiki/Online:Daedric_Summoning))*
-- ✅ [Power Stone](https://en.uesp.net/wiki/Online:Power_Stone) (14/14) *(from [Daedric Summoning](https://en.uesp.net/wiki/Online:Daedric_Summoning))*
-- ✅ [Daedric Protection](https://en.uesp.net/wiki/Online:Daedric_Protection) (22/22) *(from [Daedric Summoning](https://en.uesp.net/wiki/Online:Daedric_Summoning))*
-- ✅ [Expert Summoner](https://en.uesp.net/wiki/Online:Expert_Summoner) (39/39) *(from [Daedric Summoning](https://en.uesp.net/wiki/Online:Daedric_Summoning))*
-- ✅ [Capacitor](https://en.uesp.net/wiki/Online:Capacitor) (8/8) *(from [Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling))*
-- ✅ [Energized](https://en.uesp.net/wiki/Online:Energized) (14/14) *(from [Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling))*
-- ✅ [Amplitude](https://en.uesp.net/wiki/Online:Amplitude) (22/22) *(from [Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling))*
-- ✅ [Expert Mage](https://en.uesp.net/wiki/Online:Expert_Mage) (39/39) *(from [Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling))*
+- ✅ [Fated Fortune](https://en.uesp.net/wiki/Online:Fated_Fortune) (8/8) *(from [Herald of the Tome](https://en.uesp.net/wiki/Online:Herald_of_the_Tome))*
+- ✅ [Harnessed Quintessence](https://en.uesp.net/wiki/Online:Harnessed_Quintessence) (14/14) *(from [Herald of the Tome](https://en.uesp.net/wiki/Online:Herald_of_the_Tome))*
+- ✅ [Psychic Lesion](https://en.uesp.net/wiki/Online:Psychic_Lesion) (22/22) *(from [Herald of the Tome](https://en.uesp.net/wiki/Online:Herald_of_the_Tome))*
+- 🔒 [Splintered Secrets](https://en.uesp.net/wiki/Online:Splintered_Secrets) (39/39) *(from [Herald of the Tome](https://en.uesp.net/wiki/Online:Herald_of_the_Tome))*
+- ✅ [Healing Tides](https://en.uesp.net/wiki/Online:Healing_Tides) (8/8) *(from [Curative Runeforms](https://en.uesp.net/wiki/Online:Curative_Runeforms))*
+- ✅ [Hideous Clarity](https://en.uesp.net/wiki/Online:Hideous_Clarity) (14/14) *(from [Curative Runeforms](https://en.uesp.net/wiki/Online:Curative_Runeforms))*
+- 🔒 [Erudition](https://en.uesp.net/wiki/Online:Erudition) (22/22) *(from [Curative Runeforms](https://en.uesp.net/wiki/Online:Curative_Runeforms))*
+- 🔒 [Intricate Runeforms](https://en.uesp.net/wiki/Online:Intricate_Runeforms) (39/39) *(from [Curative Runeforms](https://en.uesp.net/wiki/Online:Curative_Runeforms))*
 
 ### ⚔️ Weapon
 
-#### ✅ Maxed
-**[Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff)**
-
-#### 📈 In Progress
-- **[Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff)**: Rank 44 █████████░ 95%
-
-#### ⚪ Early Progress
-
-[comment]: #
-                                                                                                                                                                                                                                                             - **[Two Handed](https://en.uesp.net/wiki/Online:Two_Handed)**: Rank 7 ██████░░░░ 67%
-- **[One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield)**: Rank 6 █████░░░░░ 53%
-- **[Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield)**: Rank 7 ██████░░░░ 66%
-- **[Bow](https://en.uesp.net/wiki/Online:Bow)**: Rank 6 █████░░░░░ 53%
+- **[Two Handed](https://en.uesp.net/wiki/Online:Two_Handed)**: Rank 2 ████░░░░░░ 48%
+- **[One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield)**: Rank 1 ░░░░░░░░░░ 0%
+- **[Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield)**: Rank 1 ░░░░░░░░░░ 0%
+- **[Bow](https://en.uesp.net/wiki/Online:Bow)**: Rank 2 ░░░░░░░░░░ 3%
+- **[Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff)**: Rank 15 ████████░░ 89%
+- **[Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff)**: Rank 19 █████████░ 95%
 
 #### ✨ Passives
 - 🔒 [Forceful](https://en.uesp.net/wiki/Online:Forceful) (5/5) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
@@ -862,36 +724,35 @@ Capacity:████████████████████ 100% (60/6
 - 🔒 [Ranger](https://en.uesp.net/wiki/Online:Ranger) (17/17) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
 - 🔒 [Hawk Eye](https://en.uesp.net/wiki/Online:Hawk_Eye) (30/30) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
 - 🔒 [Hasty Retreat](https://en.uesp.net/wiki/Online:Hasty_Retreat) (41/41) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
-- ✅ [Tri Focus](https://en.uesp.net/wiki/Online:Tri_Focus) (5/5) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- ✅ [Penetrating Magic](https://en.uesp.net/wiki/Online:Penetrating_Magic) (10/10) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- ✅ [Elemental Force](https://en.uesp.net/wiki/Online:Elemental_Force) (25/25) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- ✅ [Ancient Knowledge](https://en.uesp.net/wiki/Online:Ancient_Knowledge) (28/28) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- ✅ [Destruction Expert](https://en.uesp.net/wiki/Online:Destruction_Expert) (41/41) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Tri Focus](https://en.uesp.net/wiki/Online:Tri_Focus) (5/5) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Penetrating Magic](https://en.uesp.net/wiki/Online:Penetrating_Magic) (10/10) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Elemental Force](https://en.uesp.net/wiki/Online:Elemental_Force) (25/25) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Ancient Knowledge](https://en.uesp.net/wiki/Online:Ancient_Knowledge) (28/28) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Destruction Expert](https://en.uesp.net/wiki/Online:Destruction_Expert) (41/41) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
 - ✅ [Essence Drain](https://en.uesp.net/wiki/Online:Essence_Drain) (5/5) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
 - ✅ [Restoration Expert](https://en.uesp.net/wiki/Online:Restoration_Expert) (10/10) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-- ✅ [Cycle of Life](https://en.uesp.net/wiki/Online:Cycle_of_Life) (25/25) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-- ✅ [Absorb](https://en.uesp.net/wiki/Online:Absorb) (28/28) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-- ✅ [Restoration Master](https://en.uesp.net/wiki/Online:Restoration_Master) (41/41) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
+- 🔒 [Cycle of Life](https://en.uesp.net/wiki/Online:Cycle_of_Life) (25/25) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
+- 🔒 [Absorb](https://en.uesp.net/wiki/Online:Absorb) (28/28) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
+- 🔒 [Restoration Master](https://en.uesp.net/wiki/Online:Restoration_Master) (41/41) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
 
 ### 🛡️ Armor
 
-#### ✅ Maxed
-**[Light Armor](https://en.uesp.net/wiki/Online:Light_Armor)**
-
-#### 📈 In Progress
-- **[Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor)**: Rank 47 █████████░ 94%
+- **[Light Armor](https://en.uesp.net/wiki/Online:Light_Armor)**: Rank 24 █████████░ 96%
+- **[Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor)**: Rank 20 ████████░░ 87%
 
 #### ⚪ Early Progress
-- **[Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor)**: Rank 16 ████████░░ 84%
+- **[Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor)**: Rank 13 █████████░ 93%
 
 #### ✨ Passives
 - ✅ [Light Armor Bonuses](https://en.uesp.net/wiki/Online:Light_Armor_Bonuses) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Light Armor Penalties](https://en.uesp.net/wiki/Online:Light_Armor_Penalties) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Grace](https://en.uesp.net/wiki/Online:Grace) (2/2) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Evocation](https://en.uesp.net/wiki/Online:Evocation) (6/6) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) (14/14) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) (38/38) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Concentration](https://en.uesp.net/wiki/Online:Concentration) (42/42) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) (14/14) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) (38/38) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+
+[comment]: #
+                                                                                                                                                                                                                                                                                       - 🔒 [Concentration](https://en.uesp.net/wiki/Online:Concentration) (42/42) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
 - ✅ [Medium Armor Bonuses](https://en.uesp.net/wiki/Online:Medium_Armor_Bonuses) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
 - 🔒 [Dexterity](https://en.uesp.net/wiki/Online:Dexterity) (2/2) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
 - 🔒 [Wind Walker](https://en.uesp.net/wiki/Online:Wind_Walker) (6/6) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
@@ -900,18 +761,18 @@ Capacity:████████████████████ 100% (60/6
 - 🔒 [Athletics](https://en.uesp.net/wiki/Online:Athletics) (42/42) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
 - ✅ [Heavy Armor Bonuses](https://en.uesp.net/wiki/Online:Heavy_Armor_Bonuses) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
 - ✅ [Heavy Armor Penalties](https://en.uesp.net/wiki/Online:Heavy_Armor_Penalties) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- ✅ [Resolve](https://en.uesp.net/wiki/Online:Resolve) (2/2) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- ✅ [Constitution](https://en.uesp.net/wiki/Online:Constitution) (6/6) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- ✅ [Juggernaut](https://en.uesp.net/wiki/Online:Juggernaut) (14/14) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- ✅ [Revitalize](https://en.uesp.net/wiki/Online:Revitalize) (38/38) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Resolve](https://en.uesp.net/wiki/Online:Resolve) (2/2) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Constitution](https://en.uesp.net/wiki/Online:Constitution) (6/6) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Juggernaut](https://en.uesp.net/wiki/Online:Juggernaut) (14/14) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Revitalize](https://en.uesp.net/wiki/Online:Revitalize) (38/38) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
 - 🔒 [Rapid Mending](https://en.uesp.net/wiki/Online:Rapid_Mending) (42/42) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
 
 ### 🌍 World
 
 - **[Excavation](https://en.uesp.net/wiki/Online:Excavation)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain)**: Rank 15 █████████░ 92%
+- **[Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain)**: Rank 3 ███████░░░ 76%
 - **[Scrying](https://en.uesp.net/wiki/Online:Scrying)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Soul Magic](https://en.uesp.net/wiki/Online:Soul_Magic)**: Rank 1 ░░░░░░░░░░ 0%
+- **[Soul Magic](https://en.uesp.net/wiki/Online:Soul_Magic)**: Rank 3 ██████░░░░ 66%
 - **[Vampire](https://en.uesp.net/wiki/Online:Vampire)**: Rank 1 ░░░░░░░░░░ 0%
 - **[Werewolf](https://en.uesp.net/wiki/Online:Werewolf)**: Rank 1 ░░░░░░░░░░ 0%
 
@@ -954,12 +815,12 @@ Capacity:████████████████████ 100% (60/6
 
 ### 🏰 Guild
 
-- **[Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood)**: Rank 3 █████████░ 92%
-- **[Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild)**: Rank 8 █████████░ 93%
-- **[Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild)**: Rank 6 ████████░░ 88%
-- **[Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order)**: Rank 2 █████░░░░░ 50%
+- **[Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood)**: Rank 1 ██░░░░░░░░ 20%
+- **[Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild)**: Rank 4 ███████░░░ 71%
+- **[Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild)**: Rank 2 ██████░░░░ 65%
+- **[Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order)**: Rank 1 ░░░░░░░░░░ 0%
 - **[Thieves Guild](https://en.uesp.net/wiki/Online:Thieves_Guild)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Undaunted](https://en.uesp.net/wiki/Online:Undaunted)**: Rank 2 ████████░░ 80%
+- **[Undaunted](https://en.uesp.net/wiki/Online:Undaunted)**: Rank 1 ░░░░░░░░░░ 0%
 
 #### ✨ Passives
 - ✅ [Blade of Woe](https://en.uesp.net/wiki/Online:Blade_of_Woe) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
@@ -978,7 +839,7 @@ Capacity:████████████████████ 100% (60/6
 - 🔒 [Everlasting Magic](https://en.uesp.net/wiki/Online:Everlasting_Magic) (5/5) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
 - 🔒 [Magicka Controller](https://en.uesp.net/wiki/Online:Magicka_Controller) (7/7) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
 - 🔒 [Might of the Guild](https://en.uesp.net/wiki/Online:Might_of_the_Guild) (9/9) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
-- ✅ [See the Unseen](https://en.uesp.net/wiki/Online:See_the_Unseen) *(from [Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order))*
+- 🔒 [See the Unseen](https://en.uesp.net/wiki/Online:See_the_Unseen) *(from [Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order))*
 - 🔒 [Clairvoyance](https://en.uesp.net/wiki/Online:Clairvoyance) (3/3) *(from [Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order))*
 - 🔒 [Spell Orb](https://en.uesp.net/wiki/Online:Spell_Orb) (4/4) *(from [Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order))*
 - 🔒 [Concentrated Barrier](https://en.uesp.net/wiki/Online:Concentrated_Barrier) (6/6) *(from [Psijic Order](https://en.uesp.net/wiki/Online:Psijic_Order))*
@@ -994,9 +855,9 @@ Capacity:████████████████████ 100% (60/6
 
 ### 🏰 Alliance War
 
-- **[Assault](https://en.uesp.net/wiki/Online:Assault)**: Rank 3 ██████░░░░ 63%
+- **[Assault](https://en.uesp.net/wiki/Online:Assault)**: Rank 1 ░░░░░░░░░░ 0%
 - **[Emperor](https://en.uesp.net/wiki/Online:Emperor)**: Rank 1 ░░░░░░░░░░ 0%
-- **[Support](https://en.uesp.net/wiki/Online:Support)**: Rank 3 ██████░░░░ 63%
+- **[Support](https://en.uesp.net/wiki/Online:Support)**: Rank 1 ░░░░░░░░░░ 0%
 
 #### ✨ Passives
 - 🔒 [Continuous Attack](https://en.uesp.net/wiki/Online:Continuous_Attack) (3/3) *(from [Assault](https://en.uesp.net/wiki/Online:Assault))*
@@ -1018,11 +879,9 @@ Capacity:████████████████████ 100% (60/6
 
 #### ✨ Passives
 - ✅ [Opportunist](https://en.uesp.net/wiki/Online:Opportunist) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
-
-[comment]: #
-                                                                                                                                                                                                                             - ✅ [Gift of Magnus](https://en.uesp.net/wiki/Online:Gift_of_Magnus) (5/5) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
+- ✅ [Gift of Magnus](https://en.uesp.net/wiki/Online:Gift_of_Magnus) (5/5) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
 - ✅ [Spell Attunement](https://en.uesp.net/wiki/Online:Spell_Attunement) (10/10) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
-- ✅ [Magicka Mastery](https://en.uesp.net/wiki/Online:Magicka_Mastery) (25/25) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
+- 🔒 [Magicka Mastery](https://en.uesp.net/wiki/Online:Magicka_Mastery) (25/25) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
 - 🔒 [Craftsman](https://en.uesp.net/wiki/Online:Craftsman) *(from [Orc Skills](https://en.uesp.net/wiki/Online:Orc))*
 - 🔒 [Brawny](https://en.uesp.net/wiki/Online:Brawny) (5/5) *(from [Orc Skills](https://en.uesp.net/wiki/Online:Orc))*
 - 🔒 [Unflinching Rage](https://en.uesp.net/wiki/Online:Unflinching_Rage) (10/10) *(from [Orc Skills](https://en.uesp.net/wiki/Online:Orc))*
@@ -1062,17 +921,15 @@ Capacity:████████████████████ 100% (60/6
 
 ### ⚒️ Craft
 
-#### ✅ Maxed
-**[Enchanting](https://en.uesp.net/wiki/Online:Enchanting)**, **[Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting)**
+- **[Alchemy](https://en.uesp.net/wiki/Online:Alchemy)**: Rank 6 ███████░░░ 78%
+- **[Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing)**: Rank 7 ███████░░░ 75%
+- **[Clothing](https://en.uesp.net/wiki/Online:Clothing)**: Rank 7 ███████░░░ 75%
+- **[Enchanting](https://en.uesp.net/wiki/Online:Enchanting)**: Rank 6 ███████░░░ 77%
+- **[Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting)**: Rank 4 ████████░░ 89%
+- **[Provisioning](https://en.uesp.net/wiki/Online:Provisioning)**: Rank 3 █████░░░░░ 54%
 
-#### 📈 In Progress
-- **[Alchemy](https://en.uesp.net/wiki/Online:Alchemy)**: Rank 25 █████████░ 95%
-- **[Clothing](https://en.uesp.net/wiki/Online:Clothing)**: Rank 22 █████████░ 94%
-
-#### ⚪ Early Progress
-- **[Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing)**: Rank 19 █████████░ 92%
-- **[Provisioning](https://en.uesp.net/wiki/Online:Provisioning)**: Rank 18 ████████░░ 89%
-- **[Woodworking](https://en.uesp.net/wiki/Online:Woodworking)**: Rank 17 █████████░ 99%
+[comment]: #
+                                                                                                                                                                                                                          - **[Woodworking](https://en.uesp.net/wiki/Online:Woodworking)**: Rank 8 ████████░░ 86%
 
 #### ✨ Passives
 - ✅ [Solvent Proficiency](https://en.uesp.net/wiki/Online:Solvent_Proficiency) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
@@ -1119,18 +976,50 @@ Capacity:████████████████████ 100% (60/6
 
 ---
 
+## 👥 Active Companion
+
+### 🧙 [Bastian Hallix](https://en.uesp.net/wiki/Online:Bastian_Hallix)
+
+| Attribute | Status |
+|:----------|:-------|
+| **Level** | Level 15 ⚠️ (Needs leveling) |
+| **Equipment** | Max Level: 1 ⚠️ (9 outdated pieces) |
+| **Abilities** | 5/6 abilities slotted ⚠️ (1 empty) |
+
+**⚡ Ultimate:** [Empty]
+
+**Abilities:**
+1. [Provoke](https://en.uesp.net/wiki/Online:Provoke)
+2. [Scorching Strike](https://en.uesp.net/wiki/Online:Scorching_Strike)
+3. [Bashing Bulwark](https://en.uesp.net/wiki/Online:Bashing_Bulwark)
+4. [Basalt Barrier](https://en.uesp.net/wiki/Online:Basalt_Barrier)
+5. [Crimson Font](https://en.uesp.net/wiki/Online:Crimson_Font)
+
+**Equipment:**
+- **Main Hand**: Companion's Sword (Level 1, Arcane) ⚠️
+- **Off Hand**: Companion's Shield (Level 1, Artifact) ⚠️
+- **Head**: Companion's Helm (Level 1, Arcane) ⚠️
+- **Chest**: Companion's Cuirass (Level 1, Magic) ⚠️
+- **Shoulders**: Companion's Pauldrons (Level 1, Arcane) ⚠️
+- **Hands**: Companion's Gauntlets (Level 1, Arcane) ⚠️
+- **Waist**: Companion's Girdle (Level 1, Arcane) ⚠️
+- **Legs**: Companion's Greaves (Level 1, Magic) ⚠️
+- **Feet**: Companion's Sabatons (Level 1, Magic) ⚠️
+
+---
+
 
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-75,547%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-70,690%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown**
 
-<sub>Generated on 11/05/2025</sub>
+<sub>Generated on 11/08/2025</sub>
 
 </div>
 
 [comment]: #
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                    

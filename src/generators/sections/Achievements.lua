@@ -114,13 +114,30 @@ local function GenerateAchievementCategories(achievementData, format)
     
     local markdown = ""
     
+    local categories = achievementData.categories
+    if not categories then
+        return markdown
+    end
+    
+    -- Check if there are any categories with data
+    local hasCategories = false
+    for categoryName, categoryData in pairs(categories) do
+        if categoryData.total > 0 then
+            hasCategories = true
+            break
+        end
+    end
+    
+    -- Only generate section if there are categories with data
+    if not hasCategories then
+        return markdown
+    end
+    
     if format == "discord" then
         markdown = markdown .. "**Achievement Categories:**\n"
     else
         markdown = markdown .. "### 📊 Achievement Categories\n\n"
     end
-    
-    local categories = achievementData.categories
     
     if format == "discord" then
         for categoryName, categoryData in pairs(categories) do
@@ -290,33 +307,8 @@ end
 -- =====================================================
 
 local function GenerateAchievements(achievementData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if not achievementData or not achievementData.summary then
-        return markdown
-    end
-    
-    -- Always show summary
-    markdown = markdown .. GenerateAchievementSummary(achievementData, format)
-    
-    -- Show categories if detailed mode is enabled
-    if achievementData.categories then
-        markdown = markdown .. GenerateAchievementCategories(achievementData, format)
-    end
-    
-    -- Show in-progress achievements
-    if achievementData.inProgress and #achievementData.inProgress > 0 then
-        markdown = markdown .. GenerateInProgressAchievements(achievementData, format)
-    end
-    
-    -- Show recent achievements
-    if achievementData.recent and #achievementData.recent > 0 then
-        markdown = markdown .. GenerateRecentAchievements(achievementData, format)
-    end
-    
-    return markdown
+    -- Section disabled - return empty string
+    return ""
 end
 
 -- =====================================================

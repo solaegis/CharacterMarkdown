@@ -13,13 +13,101 @@ local function InitializeUtilities()
 end
 
 -- =====================================================
+-- ICON LEGEND
+-- =====================================================
+
+local function GenerateLegend(format)
+    if format == "discord" or format == "quick" then
+        return ""
+    end
+    
+    return string_format([[
+---
+
+## 📖 Icon Legend
+
+<table style="width: 100%%; border-collapse: collapse;">
+<tr>
+<td style="vertical-align: top; padding: 0 15px; width: 50%%;">
+
+### Section Icons
+| Icon | Meaning |
+|:-----|:--------|
+| 📋 | Overview & Summary |
+| 💰 | Currency, Resources & Inventory |
+| ⚔️ | PvP & Combat |
+| 🎨 | Collectibles |
+| 🏆 | Achievements & Titles |
+| ⚡ | Equipment Enhancement |
+| 🌍 | World Progress |
+| 🏰 | Guilds, Armory & Undaunted |
+| 🗺️ | DLC & Chapter Access |
+| 🎯 | Champion Points |
+| 🎯 | Attributes & Analysis |
+| 🍖 | Active Buffs |
+| 📈 | Progression & Statistics |
+| 🌿 | Skill Morphs |
+| 📜 | Skill Progression |
+| 👥 | Companion |
+| ⚒️ | Craft Discipline |
+| 💪 | Fitness Discipline |
+| ⚔️ | Warfare Discipline |
+
+</td>
+<td style="vertical-align: top; padding: 0 15px; width: 50%%;">
+
+### Status Indicators
+| Icon | Meaning |
+|:-----|:--------|
+| ✅ | Complete, Maxed, Good Status |
+| ⚠️ | Warning, Needs Attention |
+| 🔴 | Critical, High Priority |
+| 🟡 | Medium Priority, Gold Quality |
+| 🟢 | Low Priority, Green Quality |
+| 🟣 | Purple Quality |
+| 🟠 | Orange Quality |
+| ⚪ | White Quality, Not Started |
+| 🔄 | In Progress, Active |
+
+### Champion Points
+| Icon | Meaning |
+|:-----|:--------|
+| ⭐ | Slotted Slottable Star (Active) |
+| ☆ | Unslotted Slottable Star (Has Points, Not Active) |
+| 🔒 | Passive Skill (No Slotting Required) |
+
+### Attributes
+| Icon | Meaning |
+|:-----|:--------|
+| 🔵 | Magicka |
+| ❤️ | Health |
+| ⚡ | Stamina |
+
+### Investment Levels
+| Icon | Meaning |
+|:-----|:--------|
+| 🔥 | Very High (1500+ CP) |
+| ⭐ | High (1200+ CP) |
+| 💪 | Medium-High (800+ CP) |
+| 📈 | Medium (400+ CP) |
+| 🌱 | Low (<400 CP) |
+
+</td>
+</tr>
+</table>
+
+---
+]], "")
+end
+
+-- =====================================================
 -- FOOTER
 -- =====================================================
 
 local function GenerateFooter(format, contentLength)
     InitializeUtilities()
     
-    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
+    -- Enhanced visuals are now always enabled (baseline)
     
     if format == "quick" then return "" end
     
@@ -46,7 +134,7 @@ local function GenerateFooter(format, contentLength)
         end
     end
     
-    if not enhanced or format == "discord" then
+    if format == "discord" then
         -- Classic format
         return string.format([[
 
@@ -95,5 +183,6 @@ end
 
 CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateFooter = GenerateFooter
+CM.generators.sections.GenerateLegend = GenerateLegend
 
 CM.DebugPrint("GENERATOR", "Footer section generator loaded (enhanced visuals)")

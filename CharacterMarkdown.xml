@@ -64,7 +64,7 @@
                         </Backdrop>
                         
                         <!-- Direct EditBox without scroll wrapper - READ ONLY -->
-                        <EditBox name="$(parent)EditBox" font="ZoFontChat" multiLine="true" maxInputCharacters="1000000" newLineEnabled="true" readonly="true">
+                        <EditBox name="$(parent)EditBox" font="ZoFontChat" multiLine="true" maxInputCharacters="22000" newLineEnabled="true" readonly="true">
                             <Anchor point="TOPLEFT" offsetX="10" offsetY="10" />
                             <Anchor point="BOTTOMRIGHT" offsetX="-10" offsetY="-10" />
                         </EditBox>

@@ -90,7 +90,7 @@ The validation system tests all 9 fixes from `FIXES_APPLIED_SUMMARY.md`:
 [CharacterMarkdown]   ✅ Emoji Compatibility: All emojis use widely-supported characters
 [CharacterMarkdown] ⚠️ WARNINGS (1):
 [CharacterMarkdown]   ⚠️ Issue #4: Enlightenment Callout: No enlightenment callout found (character not enlightened)
-[CharacterMarkdown] Pass Rate: 88% (8/9)
+[CharacterMarkdown] Pass Rate: 100% (8/8 passed, 1 warnings)
 [CharacterMarkdown] All tests passed! (8 passed, 1 warnings)
 ```
 
@@ -104,7 +104,7 @@ The validation system tests all 9 fixes from `FIXES_APPLIED_SUMMARY.md`:
 [CharacterMarkdown]   ❌ Issue #7: PvP Section Duplication: Found 2 PvP sections (should be 1)
 [CharacterMarkdown] ⚠️ WARNINGS (1):
 [CharacterMarkdown]   ⚠️ Issue #4: Enlightenment Callout: No enlightenment callout found (character not enlightened)
-[CharacterMarkdown] Pass Rate: 66% (6/9)
+[CharacterMarkdown] Pass Rate: 75% (6/8 passed, 1 warnings)
 [CharacterMarkdown] Some tests failed: 6 passed, 2 failed, 1 warnings
 ```
 
@@ -126,6 +126,11 @@ The validation system tests all 9 fixes from `FIXES_APPLIED_SUMMARY.md`:
 - Test result is conditional (expected behavior)
 - Example: "No enlightenment callout" when character isn't enlightened
 - These are informational, not errors
+
+### Pass Rate Calculation
+- Pass rate is calculated as: `(passed / (passed + failed)) × 100%`
+- **Warnings are excluded** from pass rate calculation since they're informational, not failures
+- Example: 5 passed, 0 failed, 3 warnings = **100% pass rate** (5/5, not 5/8)
 
 ---
 

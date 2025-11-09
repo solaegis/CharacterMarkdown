@@ -267,6 +267,12 @@ Download: https://help.elderscrollsonline.com/app/answers/detail/a_id/69621
 
 ---
 
+## Related Documentation
+
+- **[Development Guide](DEVELOPMENT.md)** - Setup and workflow
+- **[Architecture](ARCHITECTURE.md)** - Code structure
+- **[Testing Guide](../TESTING_GUIDE.md)** - Pre-release validation
+
 ## Resources
 
 - **ESOUI**: https://www.esoui.com/

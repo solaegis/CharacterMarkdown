@@ -97,7 +97,9 @@ local function GenerateTalesOfTribute(totData, format)
             markdown = markdown .. "### 📚 Decks\n\n"
             local deckPercent = math.floor((decks.owned / decks.total) * 100)
             local deckProgressBar = GenerateProgressBar(deckPercent, 20)
-            markdown = markdown .. "| Progress | " .. deckProgressBar .. " " .. deckPercent .. "% (" .. decks.owned .. "/" .. decks.total .. ") |\n\n"
+            markdown = markdown .. "| Progress |\n"
+            markdown = markdown .. "| --- |\n"
+            markdown = markdown .. "| " .. deckProgressBar .. " " .. deckPercent .. "% (" .. decks.owned .. "/" .. decks.total .. ") |\n\n"
             
             if decks.list and #decks.list > 0 then
                 for _, deck in ipairs(decks.list) do
@@ -113,7 +115,9 @@ local function GenerateTalesOfTribute(totData, format)
             markdown = markdown .. "### 🏆 Achievements\n\n"
             local achPercent = math.floor((achievements.completed / achievements.total) * 100)
             local achProgressBar = GenerateProgressBar(achPercent, 20)
-            markdown = markdown .. "| Progress | " .. achProgressBar .. " " .. achPercent .. "% (" .. achievements.completed .. "/" .. achievements.total .. ") |\n\n"
+            markdown = markdown .. "| Progress |\n"
+            markdown = markdown .. "| --- |\n"
+            markdown = markdown .. "| " .. achProgressBar .. " " .. achPercent .. "% (" .. achievements.completed .. "/" .. achievements.total .. ") |\n\n"
         end
         
         -- Statistics section

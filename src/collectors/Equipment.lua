@@ -10,6 +10,10 @@ local CM = CharacterMarkdown
 local function CollectEquipmentData()
     local equipment = { sets = {}, items = {} }
     
+    -- Check if LibSets integration is available
+    local LibSetsIntegration = CM.utils and CM.utils.LibSetsIntegration
+    local libSetsAvailable = LibSetsIntegration and LibSetsIntegration.IsLibSetsAvailable and LibSetsIntegration.IsLibSetsAvailable()
+    
     local equipSlots = {
         EQUIP_SLOT_HEAD, EQUIP_SLOT_NECK, EQUIP_SLOT_CHEST, EQUIP_SLOT_SHOULDERS,
         EQUIP_SLOT_MAIN_HAND, EQUIP_SLOT_OFF_HAND, EQUIP_SLOT_WAIST, EQUIP_SLOT_LEGS,
@@ -30,9 +34,26 @@ local function CollectEquipmentData()
         end
     end
     
-    -- Format sets array
+    -- Format sets array with LibSets enhancement if available
     for setName, count in pairs(sets) do
-        table.insert(equipment.sets, { name = setName, count = count })
+        local setData = { name = setName, count = count }
+        
+        -- Enhance with LibSets data if available
+        if libSetsAvailable and LibSetsIntegration.GetSetInfo then
+            local setInfo = LibSetsIntegration.GetSetInfo(setName)
+            if setInfo then
+                setData.setType = setInfo.setType
+                setData.setTypeName = setInfo.setTypeName
+                setData.dropLocations = setInfo.dropLocations
+                setData.dropMechanics = setInfo.dropMechanics
+                setData.dropMechanicNames = setInfo.dropMechanicNames
+                setData.dlcId = setInfo.dlcId
+                setData.chapterId = setInfo.chapterId
+                setData.zoneIds = setInfo.zoneIds
+            end
+        end
+        
+        table.insert(equipment.sets, setData)
     end
     
     -- Collect equipment items with extended details
@@ -48,11 +69,20 @@ local function CollectEquipmentData()
             -- ===== NEW: ENCHANTMENT INFO =====
             local enchantName, enchantIcon, enchantCharge, enchantMaxCharge = nil, nil, 0, 0
             local success1, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
-            if success1 and name and name ~= "" then
-                enchantName = name
-                enchantIcon = icon
-                enchantCharge = charge or 0
-                enchantMaxCharge = maxCharge or 0
+            if success1 then
+                -- Always try to get charge data even if name is missing
+                -- charge can be 0 (depleted) or a positive number (has charge)
+                if charge ~= nil then
+                    enchantCharge = charge
+                end
+                if maxCharge ~= nil and maxCharge > 0 then
+                    enchantMaxCharge = maxCharge
+                end
+                -- Only set name if it's a valid non-empty string
+                if name and name ~= "" then
+                    enchantName = name
+                    enchantIcon = icon
+                end
             end
             
             -- ===== NEW: ITEM STYLE =====
@@ -201,10 +231,10 @@ local function CollectMundusData()
         ["Boon: The Warrior"] = "The Warrior",
     }
     
-    local numBuffs = GetNumBuffs("player") or 0
+    local numBuffs = CM.SafeCall(GetNumBuffs, "player") or 0
     
     for i = 1, numBuffs do
-        local buffName = GetUnitBuffInfo("player", i)
+        local buffName = CM.SafeCall(GetUnitBuffInfo, "player", i)
         
         if buffName then
             local mundusMatch = mundusStones[buffName]
@@ -231,10 +261,10 @@ local function CollectActiveBuffs()
     local foodKeywords = {"Food", "Drink", "Broth", "Stew", "Soup", "Meal", "Feast"}
     local potionKeywords = {"Potion", "Elixir", "Draught", "Tonic"}
     
-    local numBuffs = GetNumBuffs("player") or 0
+    local numBuffs = CM.SafeCall(GetNumBuffs, "player") or 0
     
     for i = 1, numBuffs do
-        local buffName = GetUnitBuffInfo("player", i)
+        local buffName = CM.SafeCall(GetUnitBuffInfo, "player", i)
         
         if buffName and buffName ~= "" then
             local isFood = false

@@ -17,6 +17,7 @@ local function GetGenerators()
         GenerateOverview = CM.generators.sections.GenerateOverview,
         GenerateProgression = CM.generators.sections.GenerateProgression,
         GenerateCustomNotes = CM.generators.sections.GenerateCustomNotes,
+        GenerateTableOfContents = CM.generators.sections.GenerateTableOfContents,
         
         -- Economy sections
         GenerateCurrency = CM.generators.sections.GenerateCurrency,
@@ -32,7 +33,7 @@ local function GetGenerators()
         
         -- Combat sections
         GenerateCombatStats = CM.generators.sections.GenerateCombatStats,
-        GenerateAttributes = CM.generators.sections.GenerateAttributes,
+        -- GenerateAttributes removed (no longer relevant)
         GenerateBuffs = CM.generators.sections.GenerateBuffs,
         
         -- Content sections
@@ -144,12 +145,45 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
+        -- Table of Contents (non-Discord/Quick only) - First section after header
+        {
+            name = "TableOfContents",
+            condition = format ~= "discord" and format ~= "quick" and IsSettingEnabled(settings, "includeTableOfContents", true),
+            generator = function()
+                return gen.GenerateTableOfContents(format)
+            end
+        },
+        
         -- Quick Stats Summary (non-Discord only) - Now includes Character Overview merged in
         {
             name = "QuickStats",
             condition = format ~= "discord" and IsSettingEnabled(settings, "includeQuickStats", true),
             generator = function()
-                return gen.GenerateQuickStats(data.character, data.stats, format, data.equipment, data.progression, data.currency, data.cp, data.inventory, data.location)
+                return gen.GenerateQuickStats(data.character, data.stats, format, data.equipment, data.progression, data.currency, data.cp, data.inventory, data.location, data.buffs, data.pvp, data.titlesHousing, data.mundus)
+            end
+        },
+        
+        -- Skill Bars (Combat Arsenal) - Always enabled, moved after Overview
+        {
+            name = "SkillBars",
+            condition = true,  -- Always enabled
+            generator = function()
+                -- Defensive: Ensure data exists and is valid
+                local skillBarData = data.skillBar or {}
+                local skillMorphsData = data.skillMorphs or {}
+                local skillProgressionData = data.skill or {}
+                -- Wrap in pcall for extra safety
+                local success, result = pcall(gen.GenerateSkillBars, skillBarData, format, skillMorphsData, skillProgressionData)
+                if success then
+                    return result or ""
+                else
+                    CM.Warn("GenerateSkillBars failed in generator wrapper: " .. tostring(result))
+                    if format == "discord" then
+                        return "\n**Skill Bars:**\n*Error generating skill bars*\n\n"
+                    else
+                        return "## ⚔️ Combat Arsenal\n\n*Error generating skill bars*\n\n---\n\n"
+                    end
+                end
             end
         },
         
@@ -199,21 +233,22 @@ local function GetSectionRegistry(format, settings, gen, data)
         },
         
         -- FIX #7: Merged PvP section (removed duplicate)
-        -- Now calls GeneratePvPStats with both pvp and pvpStats data
-        {
-            name = "PvP",
-            condition = IsSettingEnabled(settings, "includePvP", true),
-            generator = function()
-                return gen.GeneratePvPStats(data.pvp, data.pvpStats, format)
-            end
-        },
+        -- PvP section disabled - removed per user request
+        -- {
+        --     name = "PvP",
+        --     condition = false,  -- Disabled
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
         
-        -- Collectibles
+        -- Collectibles (includes Titles & Housing as collapsible subsections)
         {
             name = "Collectibles",
             condition = IsSettingEnabled(settings, "includeCollectibles", true),
             generator = function()
-                return gen.GenerateCollectibles(data.collectibles, format)
+                local lorebooksData = (data.worldProgress and data.worldProgress.lorebooks) or nil
+                return gen.GenerateCollectibles(data.collectibles, format, data.dlc, lorebooksData, data.titlesHousing, data.riding)
             end
         },
         
@@ -321,12 +356,10 @@ local function GetSectionRegistry(format, settings, gen, data)
                 
                 -- Show only recommendations if enabled
                 if IsSettingEnabled(settings, "includeEquipmentRecommendations", false) and data.equipmentEnhancement then
-                    -- Filter to show only recommendations
-                    local recommendationsData = {
-                        summary = data.equipmentEnhancement.summary,
-                        recommendations = data.equipmentEnhancement.recommendations or {}
-                    }
-                    markdown = markdown .. gen.GenerateEquipmentEnhancement(recommendationsData, format)
+                    -- Generate recommendations only (without summary header)
+                    -- Recommendations are already included in the main section above
+                    -- This setting is deprecated - recommendations are shown in the main analysis
+                    -- Keeping for backward compatibility but not generating duplicate content
                 end
                 
                 return markdown
@@ -342,23 +375,23 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Titles & Housing
-        {
-            name = "Titles & Housing",
-            condition = IsSettingEnabled(settings, "includeTitlesHousing", true),
-            generator = function()
-                return gen.GenerateTitlesHousing(data.titlesHousing, format)
-            end
-        },
+        -- Titles & Housing - Disabled: Now included in Collectibles section as collapsible subsections
+        -- {
+        --     name = "Titles & Housing",
+        --     condition = false,  -- Disabled: moved to Collectibles
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
         
         -- FIX #7: REMOVED DUPLICATE - Merged into single PvP section above
         
-        -- Armory Builds
+        -- Armory Builds - disabled per user request
         {
             name = "Armory Builds",
-            condition = IsSettingEnabled(settings, "includeArmoryBuilds", true),
+            condition = false,  -- Disabled
             generator = function()
-                return gen.GenerateArmoryBuilds(data.armoryBuilds, format)
+                return ""
             end
         },
         
@@ -371,30 +404,25 @@ local function GetSectionRegistry(format, settings, gen, data)
         --     end
         -- },
         
-        -- Undaunted Pledges
-        {
-            name = "Undaunted Pledges",
-            condition = IsSettingEnabled(settings, "includeUndauntedPledges", true),
-            generator = function()
-                return gen.GenerateUndauntedPledges(data.undauntedPledges, format)
-            end
-        },
-        
-        -- Guilds
+        -- Guilds (includes Undaunted Active Pledges as subsection)
         {
             name = "Guilds",
             condition = IsSettingEnabled(settings, "includeGuilds", true),
             generator = function()
-                return gen.GenerateGuilds(data.guilds, format)
+                local undauntedPledgesData = nil
+                if IsSettingEnabled(settings, "includeUndauntedPledges", true) then
+                    undauntedPledgesData = data.undauntedPledges
+                end
+                return gen.GenerateGuilds(data.guilds, format, undauntedPledgesData)
             end
         },
         
-        -- Attributes
+        -- Attributes - disabled (duplicative, info already shown in Quick Stats)
         {
             name = "Attributes",
-            condition = IsSettingEnabled(settings, "includeAttributes", true),
+            condition = false,  -- Disabled: duplicative
             generator = function()
-                return gen.GenerateAttributes(data.character, format)
+                return ""
             end
         },
         
@@ -426,14 +454,14 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- DLC Access
-        {
-            name = "DLCAccess",
-            condition = IsSettingEnabled(settings, "includeDLCAccess", true),
-            generator = function()
-                return gen.GenerateDLCAccess(data.dlc, format)
-            end
-        },
+        -- DLC Access - Disabled: Now included in Collectibles section as first collapsible
+        -- {
+        --     name = "DLCAccess",
+        --     condition = false,  -- Disabled: moved to Collectibles
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
         
         -- Mundus (Discord only)
         {
@@ -472,30 +500,21 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Skill Bars
-        {
-            name = "SkillBars",
-            condition = IsSettingEnabled(settings, "includeSkillBars", true),
-            generator = function()
-                return gen.GenerateSkillBars(data.skillBar, format)
-            end
-        },
-        
-        -- Skill Morphs
+        -- Skill Morphs - disabled: now shown as subsection within Equipment section
         {
             name = "SkillMorphs",
-            condition = IsSettingEnabled(settings, "includeSkillMorphs", true),
+            condition = false,  -- Disabled: shown in Equipment section instead
             generator = function()
-                return gen.GenerateSkillMorphs(data.skillMorphs, format)
+                return ""
             end
         },
         
-        -- Combat Stats
+        -- Combat Stats - Disabled: Now included in overview section as Stats subsection
         {
             name = "CombatStats",
-            condition = IsSettingEnabled(settings, "includeCombatStats", true),
+            condition = false,  -- Disabled: moved to overview section
             generator = function()
-                return gen.GenerateCombatStats(data.stats, format)
+                return ""
             end
         },
         
@@ -504,7 +523,20 @@ local function GetSectionRegistry(format, settings, gen, data)
             name = "Equipment",
             condition = IsSettingEnabled(settings, "includeEquipment", true),
             generator = function()
-                return gen.GenerateEquipment(data.equipment, format)
+                -- Defensive: Ensure data exists and is valid
+                local equipmentData = data.equipment or {}
+                -- Wrap in pcall for extra safety
+                local success, result = pcall(gen.GenerateEquipment, equipmentData, format)
+                if success then
+                    return result or ""
+                else
+                    CM.Warn("GenerateEquipment failed in generator wrapper: " .. tostring(result))
+                    if format == "discord" then
+                        return "**Equipment & Active Sets:**\n*Error generating equipment data*\n\n"
+                    else
+                        return "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n"
+                    end
+                end
             end
         },
         
@@ -625,13 +657,40 @@ local function GenerateMarkdown(format)
         end
         
         if conditionMet then
-            local success, result = pcall(section.generator)
-            if success then
-                markdown = markdown .. result
-                CM.DebugPrint("GENERATOR", string.format("✅ Section '%s' generated", section.name))
+            -- Defensive: Check if generator function exists
+            if not section.generator or type(section.generator) ~= "function" then
+                CM.Warn(string.format("Section '%s' has no valid generator function", section.name))
+                CM.DebugPrint("GENERATOR", string.format("⏭️  Section '%s' skipped (no generator)", section.name))
             else
-                CM.Warn(string.format("Failed to generate section '%s': %s", section.name, tostring(result)))
-                CM.DebugPrint("GENERATOR", string.format("❌ Section '%s' failed: %s", section.name, tostring(result)))
+                local success, result = pcall(section.generator)
+                if success then
+                    -- CRITICAL: Ensure critical sections (SkillBars, Equipment) always have content
+                    if (section.name == "SkillBars" or section.name == "Equipment") then
+                        if not result or result == "" or (result:gsub("%s+", "") == "") then
+                            CM.Error(string.format("CRITICAL: Section '%s' returned empty content, this should never happen!", section.name))
+                            -- Force placeholder content for critical sections
+                            if section.name == "SkillBars" then
+                                result = "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n---\n\n"
+                            elseif section.name == "Equipment" then
+                                result = "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
+                            end
+                        end
+                    end
+                    markdown = markdown .. result
+                    CM.DebugPrint("GENERATOR", string.format("✅ Section '%s' generated", section.name))
+                else
+                    CM.Warn(string.format("Failed to generate section '%s': %s", section.name, tostring(result)))
+                    CM.DebugPrint("GENERATOR", string.format("❌ Section '%s' failed: %s", section.name, tostring(result)))
+                    -- For critical sections, add placeholder on error
+                    if section.name == "SkillBars" or section.name == "Equipment" then
+                        CM.Error(string.format("CRITICAL: Section '%s' failed, adding placeholder", section.name))
+                        if section.name == "SkillBars" then
+                            markdown = markdown .. "## ⚔️ Combat Arsenal\n\n*Error generating skill bars*\n\n---\n\n"
+                        elseif section.name == "Equipment" then
+                            markdown = markdown .. "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n"
+                        end
+                    end
+                end
             end
         else
             CM.DebugPrint("GENERATOR", string.format("⏭️  Section '%s' skipped (condition not met)", section.name))
@@ -649,7 +708,34 @@ local function GenerateMarkdown(format)
     
     CM.DebugPrint("GENERATOR", string.format("Markdown generation complete: %d bytes", string.len(markdown)))
     
-    return markdown
+    -- Store the complete markdown in a variable
+    local completeMarkdown = markdown
+    local markdownLength = string.len(completeMarkdown)
+    
+    -- Get EditBox limit from constants
+    local CHUNKING = CM.constants and CM.constants.CHUNKING
+    local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT) or 10000
+    
+    -- Once complete, chunk if necessary
+    if markdownLength > EDITBOX_LIMIT then
+        CM.DebugPrint("GENERATOR", string.format("Markdown exceeds EditBox limit (%d > %d), chunking...", markdownLength, EDITBOX_LIMIT))
+        
+        -- Use the consolidated chunking utility (handles tables, lists, padding, etc.)
+        local Chunking = CM.utils and CM.utils.Chunking
+        local SplitMarkdownIntoChunks = Chunking and Chunking.SplitMarkdownIntoChunks
+        
+        if SplitMarkdownIntoChunks then
+            local chunks = SplitMarkdownIntoChunks(completeMarkdown)
+            CM.DebugPrint("GENERATOR", string.format("Split into %d chunks using Chunking utility", #chunks))
+            return chunks
+        else
+            CM.Error("Chunking utility not available - markdown may be truncated!")
+            return completeMarkdown
+        end
+    end
+    
+    -- Markdown fits in one chunk - return as string
+    return completeMarkdown
 end
 
 -- =====================================================

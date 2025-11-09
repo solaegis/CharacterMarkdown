@@ -164,6 +164,26 @@ Enable debug mode for troubleshooting:
 
 ---
 
+## Testing & Validation
+
+CharacterMarkdown includes built-in validation tests to ensure markdown output is correct:
+
+### Run Tests
+```
+/markdown test
+```
+
+This validates:
+- HTML structure integrity
+- Callout syntax correctness
+- Resource value accuracy
+- Progress bar consistency
+- Section presence and formatting
+
+For detailed testing information, see the [Testing Guide](../TESTING_GUIDE.md).
+
+---
+
 ## Troubleshooting
 
 ### Common Issues
@@ -236,4 +256,7 @@ Include this information:
 
 ---
 
-**Need more help?** Check the [Development Guide](DEVELOPMENT.md) for technical details or [report an issue](https://github.com/yourusername/CharacterMarkdown/issues).
+**Need more help?** 
+- Check the [Development Guide](DEVELOPMENT.md) for technical details
+- Review the [Testing Guide](../TESTING_GUIDE.md) for validation procedures
+- [Report an issue](https://github.com/yourusername/CharacterMarkdown/issues)

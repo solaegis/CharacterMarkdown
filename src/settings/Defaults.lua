@@ -12,10 +12,6 @@ CM.Settings.Defaults = {}
 
 function CM.Settings.Defaults:GetAll()
     return {
-        -- ====================================
-        -- VISUAL ENHANCEMENT (NEW)
-        -- ====================================
-        enableEnhancedVisuals = true,  -- Use advanced markdown techniques (callouts, badges, collapsible sections, etc.)
         
         -- ====================================
         -- FORMAT SETTINGS
@@ -27,6 +23,8 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         includeChampionPoints = true,
         includeChampionDetailed = false,
+        includeChampionConstellationTable = false,  -- Show all stars in constellation tables
+        includeChampionPointStarTables = false,  -- Show tables of assigned points per discipline
         -- includeChampionDiagram = false,  -- DISABLED: Experimental feature
         includeSkillBars = true,
         includeSkills = true,
@@ -42,6 +40,7 @@ function CM.Settings.Defaults:GetAll()
         includeBuildNotes = true,  -- Include custom build notes
         includeQuickStats = true,   -- Quick stats at top (GitHub/VSCode only)
         includeAttentionNeeded = true,  -- Attention needed section (GitHub/VSCode only)
+        includeTableOfContents = true,  -- Table of contents (GitHub/VSCode only)
         
         -- ====================================
         -- EXTENDED CONTENT SECTIONS
@@ -92,7 +91,7 @@ function CM.Settings.Defaults:GetAll()
         hideEmptySlots = false,     -- Hide equipment slots with no item
         
         -- ====================================
-        -- FILTER MANAGER (Phase 8)
+        -- FILTER MANAGER
         -- ====================================
         activeFilter = "None",      -- Currently active filter preset
         filters = {},               -- User-saved filter presets

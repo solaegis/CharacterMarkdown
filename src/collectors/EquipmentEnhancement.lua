@@ -154,7 +154,13 @@ local function AnalyzeEnchantments(equipmentData)
     }
     
     for _, item in ipairs(equipmentData.items or {}) do
-        if item.name and item.name ~= "-" and item.enchantment and item.enchantment ~= false then
+        -- Check if item has an enchantment (enchantment is truthy and not false, and has charge data)
+        -- Items with enchantments should have either enchantment name or enchantCharge > 0
+        local hasEnchantment = (item.enchantment and item.enchantment ~= false and item.enchantment ~= "") or 
+                               (item.enchantCharge and (type(item.enchantCharge) == "number" and item.enchantCharge > 0) or 
+                                (type(item.enchantCharge) == "string" and item.enchantCharge ~= ""))
+        
+        if item.name and item.name ~= "-" and hasEnchantment then
             -- Convert enchantCharge to number for calculations
             local numericCharge = 0
             if type(item.enchantCharge) == "number" then
@@ -167,8 +173,22 @@ local function AnalyzeEnchantments(equipmentData)
                 end
             end
             
+            -- Get enchantment name - try multiple sources
+            -- Strip ESO color codes from enchantment names
+            local StripColorCodes = CM.utils and CM.utils.StripColorCodes
+            local stripColors = StripColorCodes or function(text) return text end
+            
+            local enchantName = "Unknown Enchantment"
+            if type(item.enchantment) == "string" and item.enchantment ~= "" then
+                enchantName = stripColors(item.enchantment)
+            elseif item.enchantCharge and type(item.enchantCharge) == "string" and item.enchantCharge ~= "" then
+                -- Try to extract enchantment name from charge string if available
+                -- Format might be like "Adds 802 Maximum Magicka" - use the description as name
+                enchantName = stripColors(item.enchantCharge)
+            end
+            
             local enchantData = {
-                name = (type(item.enchantment) == "string" and item.enchantment) or "Unknown Enchantment",
+                name = enchantName,
                 item = item.name,
                 slot = item.slotName,
                 currentCharge = numericCharge,
@@ -184,8 +204,11 @@ local function AnalyzeEnchantments(equipmentData)
     end
     
     -- Identify low charge enchantments
+    -- Only recommend recharge if charge is actually low (not unknown/100%)
     for _, enchant in ipairs(analysis.enchantments) do
-        if enchant.chargePercent < 50 then
+        -- Only recommend if we have valid charge data and it's actually low
+        -- chargePercent of 0 might mean unknown (maxCharge = 0) or depleted (charge = 0, maxCharge > 0)
+        if enchant.maxCharge > 0 and enchant.chargePercent < 50 then
             table.insert(analysis.recommendations, {
                 type = "Recharge",
                 item = enchant.item,

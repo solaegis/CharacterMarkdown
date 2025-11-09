@@ -53,6 +53,9 @@ function CM.Settings.Panel:Initialize()
         slashCommand = "/cmdsettings",
         registerForRefresh = true,
         registerForDefaults = true,
+        website = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html",
+        feedback = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html#comments",
+        donation = "https://www.buymeacoffee.com/lewisvavasw",
     }
     
     LAM:RegisterAddonPanel("CharacterMarkdownPanel", panelData)
@@ -1110,6 +1113,45 @@ function CM.Settings.Panel:AddActions(options)
             ReloadUI()
         end,
         width = "half",
+    })
+    
+    -- Support section
+    table.insert(options, {
+        type = "header",
+        name = "Support",
+        width = "full",
+    })
+    
+    table.insert(options, {
+        type = "description",
+        text = "|cFFD700Enjoying CharacterMarkdown?|r\n\nIf you find this addon useful, consider supporting its development!",
+        width = "full",
+    })
+    
+    table.insert(options, {
+        type = "button",
+        name = "☕ Buy Me a Coffee",
+        tooltip = "Support the development of CharacterMarkdown\n\nOpens your browser to the Buy Me a Coffee page",
+        func = function()
+            -- Try to open URL using ESO's RequestOpenURL if available
+            local success, result = pcall(function()
+                if RequestOpenURL then
+                    RequestOpenURL("https://www.buymeacoffee.com/lewisvavasw")
+                    return true
+                end
+                return false
+            end)
+            
+            if success and result then
+                CM.Info("Opening Buy Me a Coffee page...")
+            else
+                -- Fallback: Show URL in chat
+                d("|cFFD700[CharacterMarkdown]|r |cFFFFFFBuy Me a Coffee:|r")
+                d("|c3B88C3https://www.buymeacoffee.com/lewisvavasw|r")
+                d("|cFFFF00(Copy the URL above and paste it in your browser)|r")
+            end
+        end,
+        width = "full",
     })
 end
 

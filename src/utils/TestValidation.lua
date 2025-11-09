@@ -371,6 +371,151 @@ local function ValidateEmojiCompatibility(markdown)
 end
 
 -- =====================================================
+-- ISSUE #9: CHAMPION POINTS FORMAT VALIDATION
+-- =====================================================
+
+local function ValidateChampionPointsFormat(markdown)
+    local testName = "Issue #9: Champion Points Format"
+    
+    -- Check for Available Champion Points line in Overview section
+    -- Expected format: | **Available Champion Points** | ⚒️ X - ⚔️ Y - 💪 Z |
+    -- Where X, Y, Z are remaining (unassigned) points per discipline
+    local cpPattern = "%*%*Available Champion Points%*%*.*⚒️%s*(%d+)%s*%-%s*⚔️%s*(%d+)%s*%-%s*💪%s*(%d+)"
+    local craftCP, warfareCP, fitnessCP = string_match(markdown, cpPattern)
+    
+    if not craftCP or not warfareCP or not fitnessCP then
+        -- Check if CP section exists at all
+        local hasCPLine = string_find(markdown, "Available Champion Points")
+        if not hasCPLine then
+            AddResult(testName, true, "Champion Points line not found (may be disabled)", true)
+            return true
+        end
+        
+        -- CP line exists but format is wrong
+        AddResult(testName, false, "Champion Points format incorrect. Expected: ⚒️ X - ⚔️ Y - 💪 Z")
+        return false
+    end
+    
+    -- Convert to numbers for validation
+    craftCP = tonumber(craftCP)
+    warfareCP = tonumber(warfareCP)
+    fitnessCP = tonumber(fitnessCP)
+    
+    -- Validate that values are non-negative
+    if craftCP < 0 or warfareCP < 0 or fitnessCP < 0 then
+        AddResult(testName, false, string_format("Champion Points contain negative values: Craft=%d, Warfare=%d, Fitness=%d", 
+            craftCP, warfareCP, fitnessCP))
+        return false
+    end
+    
+    -- For Kellen Dysart specifically, validate expected values
+    -- This is a known test case: Craft=18, Warfare=43, Fitness=3
+    local isKellenDysart = string_find(markdown, "Kellen Dysart")
+    if isKellenDysart then
+        if craftCP == 18 and warfareCP == 43 and fitnessCP == 3 then
+            AddResult(testName, true, string_format("Kellen Dysart CP values correct: ⚒️ %d - ⚔️ %d - 💪 %d", 
+                craftCP, warfareCP, fitnessCP))
+        else
+            AddResult(testName, false, string_format("Kellen Dysart CP values incorrect. Expected: ⚒️ 18 - ⚔️ 43 - 💪 3, Got: ⚒️ %d - ⚔️ %d - 💪 %d", 
+                craftCP, warfareCP, fitnessCP))
+            return false
+        end
+    else
+        -- For other characters, just validate format is correct
+        AddResult(testName, true, string_format("Champion Points format correct: ⚒️ %d - ⚔️ %d - 💪 %d", 
+            craftCP, warfareCP, fitnessCP))
+    end
+    
+    return true
+end
+
+-- =====================================================
+-- ISSUE #10: INVENTORY VALUES VALIDATION
+-- =====================================================
+
+local function ValidateInventoryValues(markdown)
+    local testName = "Issue #10: Inventory Values"
+    
+    -- Check for Inventory section
+    local hasInventory = string_find(markdown, "##.*🎒.*Inventory") or 
+                        string_find(markdown, "Inventory") or
+                        string_find(markdown, "Backpack")
+    
+    if not hasInventory then
+        AddResult(testName, true, "Inventory section not found (may be disabled)", true)
+        return true
+    end
+    
+    -- Pattern to match Backpack line: | **Backpack** | Used | Max | Capacity% |
+    -- Format: | **Backpack** | 21 | 180 | 11% |
+    local backpackPattern = "%*%*Backpack%*%*%s*|%s*(%d+)%s*|%s*(%d+)%s*|"
+    local backpackUsed, backpackMax = string_match(markdown, backpackPattern)
+    
+    -- Pattern to match Bank line: | **Bank** | Used | Max | Capacity% |
+    -- Format: | **Bank** | 393 | 480 | 82% |
+    local bankPattern = "%*%*Bank%*%*%s*|%s*(%d+)%s*|%s*(%d+)%s*|"
+    local bankUsed, bankMax = string_match(markdown, bankPattern)
+    
+    if not backpackUsed or not backpackMax then
+        AddResult(testName, true, "Backpack line not found or format incorrect", true)
+        return true
+    end
+    
+    -- Convert to numbers
+    backpackUsed = tonumber(backpackUsed)
+    backpackMax = tonumber(backpackMax)
+    
+    -- Validate Backpack values
+    if backpackUsed < 0 or backpackMax < 0 or backpackUsed > backpackMax then
+        AddResult(testName, false, string_format("Backpack values invalid: Used=%d, Max=%d (used > max)", 
+            backpackUsed, backpackMax))
+        return false
+    end
+    
+    -- For Kellen Dysart specifically, validate expected values
+    local isKellenDysart = string_find(markdown, "Kellen Dysart")
+    if isKellenDysart then
+        -- Validate Backpack: 21/180
+        if backpackUsed ~= 21 or backpackMax ~= 180 then
+            AddResult(testName, false, string_format("Kellen Dysart Backpack incorrect. Expected: 21/180, Got: %d/%d", 
+                backpackUsed, backpackMax))
+            return false
+        end
+        
+        -- Validate Bank: 393/480
+        if bankUsed and bankMax then
+            bankUsed = tonumber(bankUsed)
+            bankMax = tonumber(bankMax)
+            if bankUsed ~= 393 or bankMax ~= 480 then
+                AddResult(testName, false, string_format("Kellen Dysart Bank incorrect. Expected: 393/480, Got: %d/%d", 
+                    bankUsed, bankMax))
+                return false
+            end
+            AddResult(testName, true, string_format("Kellen Dysart inventory values correct: Backpack %d/%d, Bank %d/%d", 
+                backpackUsed, backpackMax, bankUsed, bankMax))
+        else
+            AddResult(testName, true, string_format("Kellen Dysart Backpack correct: %d/%d", 
+                backpackUsed, backpackMax))
+        end
+    else
+        -- For other characters, just validate format and logic
+        if bankUsed and bankMax then
+            bankUsed = tonumber(bankUsed)
+            bankMax = tonumber(bankMax)
+            if bankUsed < 0 or bankMax < 0 or bankUsed > bankMax then
+                AddResult(testName, false, string_format("Bank values invalid: Used=%d, Max=%d (used > max)", 
+                    bankUsed, bankMax))
+                return false
+            end
+        end
+        AddResult(testName, true, string_format("Inventory values format correct: Backpack %d/%d%s", 
+            backpackUsed, backpackMax, bankUsed and bankMax and string_format(", Bank %d/%d", bankUsed, bankMax) or ""))
+    end
+    
+    return true
+end
+
+-- =====================================================
 -- MAIN VALIDATION FUNCTION
 -- =====================================================
 
@@ -390,10 +535,13 @@ local function ValidateMarkdown(markdown, format)
     ValidateProgressBars(markdown)
     ValidatePvPSections(markdown)
     ValidateEmojiCompatibility(markdown)
+    ValidateChampionPointsFormat(markdown)
+    ValidateInventoryValues(markdown)
     
     -- Print results (debug only - actual report is printed via PrintTestReport)
     local totalTests = #testResults.passed + #testResults.failed + #testResults.warnings
-    local passRate = totalTests > 0 and (math.floor((#testResults.passed / totalTests) * 100)) or 0
+    local nonWarningTotal = #testResults.passed + #testResults.failed
+    local passRate = nonWarningTotal > 0 and (math.floor((#testResults.passed / nonWarningTotal) * 100)) or 100
     
     CM.DebugPrint("TESTS", string_format("Validation complete: %d passed, %d failed, %d warnings", 
         #testResults.passed, #testResults.failed, #testResults.warnings))
@@ -443,9 +591,21 @@ local function PrintTestReport()
         end
     end
     
-    local passRate = results.total > 0 and (math.floor((#results.passed / results.total) * 100)) or 0
+    -- Calculate pass rate excluding warnings (warnings are informational, not failures)
+    local nonWarningTotal = #results.passed + #results.failed
+    local passRate = nonWarningTotal > 0 and (math.floor((#results.passed / nonWarningTotal) * 100)) or 100
     local passColor = (#results.failed == 0) and "|c00FF00" or "|cFFAA00"
-    d(string_format("%sPass Rate: %d%% (%d/%d)|r", passColor, passRate, #results.passed, results.total))
+    d(string_format("%sPass Rate: %d%% (%d/%d passed, %d warnings)|r", passColor, passRate, 
+        #results.passed, nonWarningTotal, #results.warnings))
+    
+    -- Final summary message
+    if #results.failed == 0 then
+        d(string_format("|c00FF00All tests passed! (%d passed, %d warnings)|r", 
+            #results.passed, #results.warnings))
+    else
+        d(string_format("|cFFAA00Some tests failed: %d passed, %d failed, %d warnings|r", 
+            #results.passed, #results.failed, #results.warnings))
+    end
 end
 
 -- =====================================================

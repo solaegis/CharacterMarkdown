@@ -6,6 +6,7 @@ local CM = CharacterMarkdown
 -- Cache for utility functions (lazy-initialized on first use)
 local FormatNumber, CreateCampaignLink, CreateCurrencyLink, markdown
 local string_format = string.format
+local string_rep = string.rep
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
@@ -26,9 +27,8 @@ local function GenerateCurrency(currencyData, format)
     
     if not currencyData or (CM.settings and CM.settings.includeCurrency == false) then return "" end
     
-    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
-    
-    -- Build currency items for grid (enhanced) or table (classic)
+    -- Enhanced visuals are now always enabled (baseline)
+    -- Build currency items for grid (enhanced visuals are baseline)
     -- Use CreateCurrencyLink for labels if available
     local goldLabel = (CreateCurrencyLink and CreateCurrencyLink("Gold", format)) or "Gold"
     local apLabel = (CreateCurrencyLink and CreateCurrencyLink("Alliance Points", format)) or "AP"
@@ -47,7 +47,7 @@ local function GenerateCurrency(currencyData, format)
     }
     
     -- Classic format: show detailed table with bank gold, total, crowns, etc.
-    if not enhanced or not markdown then
+    if not markdown then
         local result = "## 💰 Currency & Resources\n\n"
         result = result .. "| Currency | Amount |\n"
         result = result .. "|:---------|-------:|\n"
@@ -101,10 +101,10 @@ local function GenerateCurrency(currencyData, format)
         return result .. "\n"
     end
     
-    -- ENHANCED: Compact grid layout (with nil checks)
+    -- ENHANCED: Compact grid layout (left-aligned for consistency with other sections)
     local content = ""
-    if markdown.CreateCompactGrid then
-        content = markdown.CreateCompactGrid(items, 3, format) or ""
+    if markdown and markdown.CreateCompactGrid then
+        content = markdown.CreateCompactGrid(items, 3, format, "left") or ""
     end
     if content == "" then
         -- Fallback if CreateCompactGrid fails
@@ -116,7 +116,7 @@ local function GenerateCurrency(currencyData, format)
     end
     
     local header = ""
-    if markdown.CreateHeader then
+    if markdown and markdown.CreateHeader then
         header = markdown.CreateHeader("Currency & Resources", "💰", nil, 2) or "## 💰 Currency & Resources\n\n"
     else
         header = "## 💰 Currency & Resources\n\n"
@@ -136,8 +136,7 @@ local function GenerateRidingSkills(ridingData, format)
     
     if not ridingData or (CM.settings and CM.settings.includeRidingSkills == false) then return "" end
     
-    local enhanced = CM.settings and CM.settings.enableEnhancedVisuals
-    
+    -- Enhanced visuals are now always enabled (baseline)
     local speed = ridingData.speed or 0
     local stamina = ridingData.stamina or 0
     local capacity = ridingData.capacity or 0
@@ -152,7 +151,7 @@ local function GenerateRidingSkills(ridingData, format)
         return result .. "\n"
     end
     
-    if not enhanced or not markdown then
+    if not markdown then
         -- Classic table format (matches old output)
         local result = "## 🐎 Riding Skills\n\n"
         result = result .. "| Skill | Progress | Status |\n"
@@ -177,17 +176,54 @@ local function GenerateRidingSkills(ridingData, format)
     
     -- ENHANCED: Progress bars (with nil checks)
     local progressBars = {}
-    if markdown.CreateProgressBar then
-        local speedBar = markdown.CreateProgressBar(speed, maxRiding, 20, format, "Speed") or ("Speed: " .. speed .. "/60")
-        local staminaBar = markdown.CreateProgressBar(stamina, maxRiding, 20, format, "Stamina") or ("Stamina: " .. stamina .. "/60")
-        local capacityBar = markdown.CreateProgressBar(capacity, maxRiding, 20, format, "Capacity") or ("Capacity: " .. capacity .. "/60")
+    if markdown and markdown.CreateProgressBar then
+        -- Calculate progress bars manually with aligned labels
+        local speedPercent = math.floor((speed / maxRiding) * 100)
+        local staminaPercent = math.floor((stamina / maxRiding) * 100)
+        local capacityPercent = math.floor((capacity / maxRiding) * 100)
+        
+        local speedFilled = math.floor((speedPercent / 100) * 20)
+        local staminaFilled = math.floor((staminaPercent / 100) * 20)
+        local capacityFilled = math.floor((capacityPercent / 100) * 20)
+        
+        -- Align colons: "Speed:" (5) + 3 spaces = 8, "Stamina:" (7) + 1 space = 8, "Capacity:" (8) = 8
+        local speedBar = string_format("%8s %s%s %d%% (%d/%d)", 
+            "Speed:", string_rep("█", speedFilled), string_rep("░", 20 - speedFilled),
+            speedPercent, speed, maxRiding)
+        local staminaBar = string_format("%8s %s%s %d%% (%d/%d)", 
+            "Stamina:", string_rep("█", staminaFilled), string_rep("░", 20 - staminaFilled),
+            staminaPercent, stamina, maxRiding)
+        local capacityBar = string_format("%8s %s%s %d%% (%d/%d)", 
+            "Capacity:", string_rep("█", capacityFilled), string_rep("░", 20 - capacityFilled),
+            capacityPercent, capacity, maxRiding)
+        
         table.insert(progressBars, speedBar)
         table.insert(progressBars, staminaBar)
         table.insert(progressBars, capacityBar)
     else
-        table.insert(progressBars, "Speed: " .. speed .. "/60")
-        table.insert(progressBars, "Stamina: " .. stamina .. "/60")
-        table.insert(progressBars, "Capacity: " .. capacity .. "/60")
+        -- Fallback: Use fixed-width format for alignment
+        local speedPercent = math.floor((speed / maxRiding) * 100)
+        local staminaPercent = math.floor((stamina / maxRiding) * 100)
+        local capacityPercent = math.floor((capacity / maxRiding) * 100)
+        
+        local speedFilled = math.floor((speedPercent / 100) * 20)
+        local staminaFilled = math.floor((staminaPercent / 100) * 20)
+        local capacityFilled = math.floor((capacityPercent / 100) * 20)
+        
+        -- Align colons: "Speed:" (6) + 2 spaces = 8, "Stamina:" (7) + 1 space = 8, "Capacity:" (8) = 8
+        -- Use left-alignment (%-8s) to pad labels on the right, aligning colons
+        local speedBar = string_format("%-8s %s%s %d%% (%d/%d)", 
+            "Speed:", string_rep("█", speedFilled), string_rep("░", 20 - speedFilled),
+            speedPercent, speed, maxRiding)
+        local staminaBar = string_format("%-8s %s%s %d%% (%d/%d)", 
+            "Stamina:", string_rep("█", staminaFilled), string_rep("░", 20 - staminaFilled),
+            staminaPercent, stamina, maxRiding)
+        local capacityBar = string_format("%-8s %s%s %d%% (%d/%d)", 
+            "Capacity:", string_rep("█", capacityFilled), string_rep("░", 20 - capacityFilled),
+            capacityPercent, capacity, maxRiding)
+        table.insert(progressBars, speedBar)
+        table.insert(progressBars, staminaBar)
+        table.insert(progressBars, capacityBar)
     end
     
     local content = table.concat(progressBars, "  \n")
@@ -277,6 +313,62 @@ local function GeneratePvP(pvpData, format)
 end
 
 CM.generators.sections.GeneratePvP = GeneratePvP
+
+-- =====================================================
+-- MERGED: CURRENCY, RESOURCES & INVENTORY
+-- =====================================================
+
+local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inventoryData, format, cpData)
+    InitializeUtilities()
+    
+    -- Check if any of the components should be included
+    local includeCurrency = currencyData and (CM.settings == nil or CM.settings.includeCurrency ~= false)
+    local includeInventory = inventoryData and (CM.settings == nil or CM.settings.includeInventory ~= false)
+    
+    if not includeCurrency and not includeInventory then
+        return ""
+    end
+    
+    local result = ""
+    
+    if format == "discord" then
+        -- Discord: Simple format, combine all
+        if includeCurrency then
+            local currencyResult = GenerateCurrency(currencyData, format)
+            result = result .. currencyResult
+        end
+        if includeInventory then
+            local inventoryResult = GenerateInventory(inventoryData, format)
+            result = result .. inventoryResult
+        end
+        return result
+    end
+    
+    -- Non-Discord: Create merged section without headers (headers removed for Overview section)
+    -- Add Currency title
+    result = result .. "### Currency\n\n"
+    
+    -- Currency & Resources subsection
+    if includeCurrency then
+        -- Get currency content without header
+        local currencyContent = GenerateCurrency(currencyData, format)
+        -- Remove the header line (## 💰 Currency & Resources)
+        currencyContent = currencyContent:gsub("^##%s+💰%s+Currency%s+&%s+Resources%s*\n%s*\n", "")
+        result = result .. currencyContent
+    end
+    
+    -- Inventory subsection
+    if includeInventory then
+        local inventoryContent = GenerateInventory(inventoryData, format)
+        -- Remove the header line (## 🎒 Inventory)
+        inventoryContent = inventoryContent:gsub("^##%s+🎒%s+Inventory%s*\n%s*\n", "")
+        result = result .. inventoryContent
+    end
+    
+    return result
+end
+
+CM.generators.sections.GenerateCurrencyResourcesInventory = GenerateCurrencyResourcesInventory
 
 -- =====================================================
 -- MODULE INITIALIZATION

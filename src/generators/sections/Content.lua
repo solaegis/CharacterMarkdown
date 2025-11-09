@@ -5,7 +5,9 @@ local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
 local CreateMundusLink, CreateCPSkillLink, CreateCollectibleLink
-local FormatNumber, GenerateProgressBar
+local FormatNumber, GenerateProgressBar, CreateCollapsible
+local string_format = string.format
+local string_rep = string.rep
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
@@ -15,6 +17,7 @@ local function InitializeUtilities()
         CreateCollectibleLink = CM.links.CreateCollectibleLink
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+        CreateCollapsible = (CM.utils and CM.utils.markdown and CM.utils.markdown.CreateCollapsible) or nil
     end
 end
 
@@ -25,14 +28,40 @@ end
 local function GenerateDLCAccess(dlcData, format)
     local markdown = ""
     
-    -- If ESO Plus active, only mention it (don't list DLCs)
+    -- Handle nil or empty dlcData
+    if not dlcData then
+        dlcData = {}
+    end
+    
+    -- Ensure accessible array exists
+    if not dlcData.accessible then dlcData.accessible = {} end
+    if not dlcData.locked then dlcData.locked = {} end
+    
+    -- If ESO Plus active, show section with ESO Plus status AND list all accessible DLCs
     if dlcData.hasESOPlus then
         if format == "discord" then
-            markdown = markdown .. "**DLC Access:** ESO Plus (All DLCs Available)\n\n"
+            markdown = markdown .. "**DLC Access:** ESO Plus (All DLCs Available)\n"
+            if #dlcData.accessible > 0 then
+                for _, dlcName in ipairs(dlcData.accessible) do
+                    markdown = markdown .. "✅ " .. dlcName .. "\n"
+                end
+            end
+            markdown = markdown .. "\n"
+        else
+            markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
+            
+            -- Show all accessible DLCs (purchased or via ESO Plus)
+            if #dlcData.accessible > 0 then
+                for _, dlcName in ipairs(dlcData.accessible) do
+                    markdown = markdown .. "- ✅ " .. dlcName .. "\n"
+                end
+                markdown = markdown .. "\n"
+            end
+            
+            markdown = markdown .. "**ESO Plus Active** - All DLCs and Chapters are accessible.\n\n"
+            markdown = markdown .. "---\n\n"
         end
-        -- For GitHub/VSCode: ESO Plus is already mentioned in Overview section
-        -- No DLC section needed
-        return ""
+        return markdown
     end
     
     -- Only show DLC section if user does NOT have ESO Plus
@@ -54,8 +83,11 @@ local function GenerateDLCAccess(dlcData, format)
     else
         markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
         
+        -- Ensure accessible and locked arrays exist
+        if not dlcData.accessible then dlcData.accessible = {} end
+        if not dlcData.locked then dlcData.locked = {} end
+        
         if #dlcData.accessible > 0 then
-            markdown = markdown .. "### ✅ Accessible Content\n\n"
             for _, dlcName in ipairs(dlcData.accessible) do
                 markdown = markdown .. "- ✅ " .. dlcName .. "\n"
             end
@@ -68,6 +100,11 @@ local function GenerateDLCAccess(dlcData, format)
                 markdown = markdown .. "- 🔒 " .. dlcName .. "\n"
             end
             markdown = markdown .. "\n"
+        end
+        
+        -- If no accessible or locked content, show a message
+        if #dlcData.accessible == 0 and #dlcData.locked == 0 then
+            markdown = markdown .. "*No DLC access information available*\n\n"
         end
         
         markdown = markdown .. "---\n\n"
@@ -115,7 +152,69 @@ end
 -- COLLECTIBLES
 -- =====================================================
 
-local function GenerateCollectibles(collectiblesData, format)
+-- Helper function to generate DLC content in collectibles format
+local function GenerateDLCAsCollectible(dlcData, format)
+    if not dlcData or format == "discord" or format == "quick" then
+        return ""
+    end
+    
+    local content = ""
+    
+    -- Handle ESO Plus case
+    if dlcData.hasESOPlus then
+        if dlcData.accessible and #dlcData.accessible > 0 then
+            for _, dlcName in ipairs(dlcData.accessible) do
+                content = content .. "- ✅ " .. dlcName .. "\n"
+            end
+        end
+        
+        content = content .. "\n**ESO Plus Active** - All DLCs and Chapters are accessible.\n\n"
+    else
+        -- Show accessible and locked content
+        if dlcData.accessible and #dlcData.accessible > 0 then
+            for _, dlcName in ipairs(dlcData.accessible) do
+                content = content .. "- ✅ " .. dlcName .. "\n"
+            end
+            content = content .. "\n"
+        end
+        
+        if dlcData.locked and #dlcData.locked > 0 then
+            content = content .. "### 🔒 Locked Content\n\n"
+            for _, dlcName in ipairs(dlcData.locked) do
+                content = content .. "- 🔒 " .. dlcName .. "\n"
+            end
+        end
+        
+        if (not dlcData.accessible or #dlcData.accessible == 0) and 
+           (not dlcData.locked or #dlcData.locked == 0) then
+            content = content .. "*No DLC access information available*\n"
+        end
+    end
+    
+    if content == "" then
+        return ""
+    end
+    
+    -- Count total DLCs
+    local totalDLCs = 0
+    local accessibleCount = (dlcData.accessible and #dlcData.accessible) or 0
+    local lockedCount = (dlcData.locked and #dlcData.locked) or 0
+    totalDLCs = accessibleCount + lockedCount
+    
+    -- Create collapsible details block
+    local summaryText = "🗺️ DLC & Chapter Access"
+    if totalDLCs > 0 then
+        summaryText = summaryText .. " (" .. accessibleCount .. " accessible"
+        if lockedCount > 0 then
+            summaryText = summaryText .. ", " .. lockedCount .. " locked"
+        end
+        summaryText = summaryText .. ")"
+    end
+    
+    return "<details>\n<summary>" .. summaryText .. "</summary>\n\n" .. content .. "\n</details>\n\n"
+end
+
+local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooksData, titlesHousingData, ridingData)
     local markdown = ""
     
     -- Check if we have detailed data enabled
@@ -148,10 +247,30 @@ local function GenerateCollectibles(collectiblesData, format)
                 end
             end
         end
+        
+        -- Add Riding Skills for Discord format
+        if ridingData and (CM.settings == nil or CM.settings.includeRidingSkills ~= false) then
+            markdown = markdown .. "**Riding Skills:**\n"
+            local speed = ridingData.speed or 0
+            local stamina = ridingData.stamina or 0
+            local capacity = ridingData.capacity or 0
+            markdown = markdown .. "• Speed: " .. speed .. "/60\n"
+            markdown = markdown .. "• Stamina: " .. stamina .. "/60\n"
+            markdown = markdown .. "• Capacity: " .. capacity .. "/60\n"
+        end
+        
         markdown = markdown .. "\n"
     else
         -- GitHub/VSCode: Show collapsible detailed lists if enabled or if we have owned items
         markdown = markdown .. "## 🎨 Collectibles\n\n"
+        
+        -- Add DLC as first collapsible item
+        if dlcData and (CM.settings == nil or CM.settings.includeDLCAccess ~= false) then
+            local dlcContent = GenerateDLCAsCollectible(dlcData, format)
+            if dlcContent ~= "" then
+                markdown = markdown .. dlcContent
+            end
+        end
         
         if includeDetailed and hasDetailedData and collectiblesData.categories then
             -- Detailed mode: Show collapsible sections with (X of Y) format
@@ -165,8 +284,25 @@ local function GenerateCollectibles(collectiblesData, format)
                     markdown = markdown .. "<summary>" .. category.emoji .. " " .. category.name .. 
                                               " (" .. owned .. " of " .. category.total .. ")</summary>\n\n"
                     
+                    -- Add progress bar
+                    InitializeUtilities()
+                    local progress = math.floor((owned / category.total) * 100)
+                    local progressBar = GenerateProgressBar(progress, 20)
+                    markdown = markdown .. "| Progress |\n"
+                    markdown = markdown .. "| --- |\n"
+                    markdown = markdown .. "| " .. progressBar .. " " .. progress .. "% (" .. 
+                              owned .. "/" .. category.total .. ") |\n\n"
+                    
                         -- List owned collectibles (alphabetically sorted)
                         if owned > 0 then
+                            -- Ensure collectibles are sorted alphabetically by display name (case-insensitive)
+                            -- Sort in-place to ensure consistent ordering
+                            table.sort(category.owned, function(a, b)
+                                local nameA = (a.name or ""):lower()
+                                local nameB = (b.name or ""):lower()
+                                return nameA < nameB
+                            end)
+                            
                             for _, collectible in ipairs(category.owned) do
                                 InitializeUtilities()
                                 -- Use fullName for links (UESP uses full names), display name for text
@@ -187,6 +323,18 @@ local function GenerateCollectibles(collectiblesData, format)
                     markdown = markdown .. "</details>\n\n"
                 end
             end
+            
+            -- Add Lorebooks section (as part of collectibles, after other categories)
+            if lorebooksData and format ~= "discord" and format ~= "quick" then
+                local GenerateLorebooks = CM.generators.sections.GenerateLorebooks
+                if GenerateLorebooks then
+                    local lorebooksContent = GenerateLorebooks(lorebooksData, format)
+                    -- Content is already in collapsible format
+                    if lorebooksContent ~= "" then
+                        markdown = markdown .. lorebooksContent
+                    end
+                end
+            end
         else
             -- Fallback: Show simple count table if detailed data not available
             markdown = markdown .. "| Type | Count |\n"
@@ -204,6 +352,100 @@ local function GenerateCollectibles(collectiblesData, format)
                 markdown = markdown .. "| **🏠 Houses** | " .. collectiblesData.houses .. " |\n"
             end
             markdown = markdown .. "\n"
+        end
+        
+        -- Add Titles & Housing section (collapsible, like other collectibles)
+        if titlesHousingData and format ~= "discord" and format ~= "quick" then
+            local GenerateTitles = CM.generators.sections.GenerateTitles
+            local GenerateHousing = CM.generators.sections.GenerateHousing
+            if GenerateTitles and GenerateHousing then
+                local titlesData = titlesHousingData.titles or {}
+                local housingData = titlesHousingData.housing or {}
+                
+                -- Generate Titles section (collapsible)
+                if titlesData and (titlesData.total and titlesData.total > 0 or (titlesData.list and #titlesData.list > 0)) then
+                    local titlesContent = GenerateTitles(titlesData, format)
+                    -- Remove header if present (will be in summary)
+                    titlesContent = titlesContent:gsub("^###%s+👑%s+Titles%s*\n%s*\n", "")
+                    
+                    if titlesContent ~= "" then
+                        -- Count owned titles
+                        local owned = 0
+                        if titlesData.list and #titlesData.list > 0 then
+                            for _, title in ipairs(titlesData.list) do
+                                if title.unlocked then
+                                    owned = owned + 1
+                                end
+                            end
+                        else
+                            owned = titlesData.owned or 0
+                        end
+                        local total = titlesData.total or 0
+                        
+                        markdown = markdown .. "<details>\n"
+                        markdown = markdown .. "<summary>👑 Titles (" .. owned .. " of " .. total .. ")</summary>\n\n"
+                        markdown = markdown .. titlesContent
+                        markdown = markdown .. "</details>\n\n"
+                    end
+                end
+                
+                -- Generate Housing section (collapsible)
+                if housingData and housingData.total and housingData.total > 0 then
+                    local housingContent = GenerateHousing(housingData, format)
+                    -- Remove header if present (will be in summary)
+                    housingContent = housingContent:gsub("^###%s+🏠%s+Housing%s*\n%s*\n", "")
+                    
+                    if housingContent ~= "" then
+                        local owned = housingData.owned or 0
+                        local total = housingData.total or 0
+                        
+                        markdown = markdown .. "<details>\n"
+                        markdown = markdown .. "<summary>🏠 Housing (" .. owned .. " of " .. total .. ")</summary>\n\n"
+                        markdown = markdown .. housingContent
+                        markdown = markdown .. "</details>\n\n"
+                    end
+                end
+            end
+        end
+        
+        -- Add Riding Skills subsection (after Titles & Housing)
+        if ridingData and (CM.settings == nil or CM.settings.includeRidingSkills ~= false) then
+            InitializeUtilities()
+            
+            local speed = ridingData.speed or 0
+            local stamina = ridingData.stamina or 0
+            local capacity = ridingData.capacity or 0
+            local maxRiding = 60
+            
+            local speedPercent = math.floor((speed / maxRiding) * 100)
+            local staminaPercent = math.floor((stamina / maxRiding) * 100)
+            local capacityPercent = math.floor((capacity / maxRiding) * 100)
+            
+            local speedFilled = math.floor((speedPercent / 100) * 20)
+            local staminaFilled = math.floor((staminaPercent / 100) * 20)
+            local capacityFilled = math.floor((capacityPercent / 100) * 20)
+            
+            -- Align colons: "Speed:" (6) + 2 spaces = 8, "Stamina:" (7) + 1 space = 8, "Capacity:" (8) = 8
+            -- Use left-alignment (%-8s) to pad labels on the right, aligning colons
+            local speedBar = string_format("%-8s %s%s %d%% (%d/%d)", 
+                "Speed:", string_rep("█", speedFilled), string_rep("░", 20 - speedFilled),
+                speedPercent, speed, maxRiding)
+            local staminaBar = string_format("%-8s %s%s %d%% (%d/%d)", 
+                "Stamina:", string_rep("█", staminaFilled), string_rep("░", 20 - staminaFilled),
+                staminaPercent, stamina, maxRiding)
+            local capacityBar = string_format("%-8s %s%s %d%% (%d/%d)", 
+                "Capacity:", string_rep("█", capacityFilled), string_rep("░", 20 - capacityFilled),
+                capacityPercent, capacity, maxRiding)
+            
+            -- Format strings already include correct spacing via %-8s left-alignment (pads on right to align colons)
+            local ridingContent = string_format("%s  \n%s  \n%s", speedBar, staminaBar, capacityBar)
+            
+            -- Wrap in collapsible section
+            if CreateCollapsible then
+                markdown = markdown .. CreateCollapsible("Riding Skills", ridingContent, "🐴", false)
+            else
+                markdown = markdown .. "### 🐴 Riding Skills\n\n" .. ridingContent .. "\n\n"
+            end
         end
     end
     

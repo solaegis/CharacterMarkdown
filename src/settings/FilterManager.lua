@@ -1,5 +1,5 @@
 -- CharacterMarkdown - Filter Manager
--- Phase 8: Advanced filtering and customization system
+-- Advanced filtering and customization system
 
 local CM = CharacterMarkdown
 
@@ -35,7 +35,7 @@ local FILTER_CATEGORIES = {
         emoji = "⚙️",
         description = "Detailed information filters",
         settings = {
-            "includeChampionDetailed", "includeSkillMorphs",
+            "includeChampionDetailed", "includeChampionConstellationTable", "includeChampionPointStarTables", "includeSkillMorphs",
             "includeCollectiblesDetailed", "includeAchievementsDetailed", "showAllAchievements",
             "includeQuestsDetailed", "showAllQuests", "includeEquipmentAnalysis",
             "includeEquipmentRecommendations"
@@ -75,6 +75,133 @@ local FILTER_CATEGORIES = {
 -- =====================================================
 
 local FILTER_PRESETS = {
+    -- Defaults (Reset to Default Values)
+    ["Defaults"] = {
+        name = "Defaults",
+        description = "Reset all settings to their default values",
+        category = "System",
+        filters = {
+            -- Format
+            currentFormat = "github",
+            -- Core sections
+            includeChampionPoints = true,
+            includeChampionDetailed = false,
+            includeChampionConstellationTable = false,
+            includeChampionPointStarTables = false,
+            includeSkillBars = true,
+            includeSkills = true,
+            includeSkillMorphs = false,
+            includeEquipment = true,
+            includeCombatStats = true,
+            includeCompanion = true,
+            includeBuffs = true,
+            includeAttributes = true,
+            includeDLCAccess = true,
+            includeRole = true,
+            includeLocation = true,
+            includeBuildNotes = true,
+            includeQuickStats = true,
+            includeAttentionNeeded = true,
+            includeTableOfContents = true,
+            -- Extended sections
+            includeCurrency = true,
+            includeProgression = false,
+            includeRidingSkills = false,
+            includeInventory = true,
+            includePvP = false,
+            includeCollectibles = true,
+            includeCollectiblesDetailed = false,
+            includeCrafting = false,
+            includeAchievements = false,
+            includeAchievementsDetailed = false,
+            showAllAchievements = true,
+            includeQuests = false,
+            includeQuestsDetailed = false,
+            showAllQuests = true,
+            includeEquipmentEnhancement = false,
+            includeEquipmentAnalysis = false,
+            includeEquipmentRecommendations = false,
+            includeWorldProgress = false,
+            includeTitlesHousing = false,
+            includePvPStats = false,
+            includeArmoryBuilds = false,
+            includeTalesOfTribute = false,
+            includeUndauntedPledges = false,
+            includeGuilds = false,
+            -- Links
+            enableAbilityLinks = true,
+            enableSetLinks = true,
+            -- Quality filters
+            minSkillRank = 1,
+            showMaxedSkills = true,
+            showAllRidingSkills = true,
+            minEquipQuality = 0,
+            hideEmptySlots = false
+        }
+    },
+    
+    -- All (Enable Everything)
+    ["All"] = {
+        name = "All",
+        description = "Enable all sections and features",
+        category = "Complete",
+        filters = {
+            -- Core sections
+            includeChampionPoints = true,
+            includeChampionDetailed = true,
+            includeChampionConstellationTable = true,
+            includeChampionPointStarTables = true,
+            includeSkillBars = true,
+            includeSkills = true,
+            includeSkillMorphs = true,
+            includeEquipment = true,
+            includeCompanion = true,
+            includeCombatStats = true,
+            includeBuffs = true,
+            includeAttributes = true,
+            includeRole = true,
+            includeLocation = true,
+            includeBuildNotes = true,
+            includeQuickStats = true,
+            includeAttentionNeeded = true,
+            includeTableOfContents = true,
+            -- Extended sections
+            includeDLCAccess = true,
+            includeCurrency = true,
+            includeProgression = true,
+            includeRidingSkills = true,
+            includeInventory = true,
+            includePvP = true,
+            includeCollectibles = true,
+            includeCollectiblesDetailed = true,
+            includeCrafting = true,
+            includeAchievements = true,
+            includeAchievementsDetailed = true,
+            showAllAchievements = true,
+            includeQuests = true,
+            includeQuestsDetailed = true,
+            showAllQuests = true,
+            includeEquipmentEnhancement = true,
+            includeEquipmentAnalysis = true,
+            includeEquipmentRecommendations = true,
+            includeWorldProgress = true,
+            includeTitlesHousing = true,
+            includePvPStats = true,
+            includeArmoryBuilds = true,
+            includeTalesOfTribute = true,
+            includeUndauntedPledges = true,
+            includeGuilds = true,
+            -- Links
+            enableAbilityLinks = true,
+            enableSetLinks = true,
+            -- Quality filters (show everything)
+            minSkillRank = 0,
+            showMaxedSkills = true,
+            minEquipQuality = 0,
+            hideEmptySlots = false
+        }
+    },
+    
     -- Combat Focus
     ["Combat Focus"] = {
         name = "Combat Focus",
@@ -82,6 +209,9 @@ local FILTER_PRESETS = {
         category = "Combat",
         filters = {
             includeChampionPoints = true,
+            includeChampionDetailed = false,
+            includeChampionConstellationTable = false,
+            includeChampionPointStarTables = false,
             includeSkillBars = true,
             includeSkills = true,
             includeEquipment = true,
@@ -115,6 +245,9 @@ local FILTER_PRESETS = {
         category = "Crafting",
         filters = {
             includeChampionPoints = true,
+            includeChampionDetailed = false,
+            includeChampionConstellationTable = false,
+            includeChampionPointStarTables = false,
             includeSkillBars = false,
             includeSkills = false,
             includeEquipment = true,
@@ -148,6 +281,9 @@ local FILTER_PRESETS = {
         category = "Social",
         filters = {
             includeChampionPoints = true,
+            includeChampionDetailed = false,
+            includeChampionConstellationTable = false,
+            includeChampionPointStarTables = false,
             includeSkillBars = false,
             includeSkills = false,
             includeEquipment = true,
@@ -181,6 +317,9 @@ local FILTER_PRESETS = {
         category = "Minimal",
         filters = {
             includeChampionPoints = true,
+            includeChampionDetailed = false,
+            includeChampionConstellationTable = false,
+            includeChampionPointStarTables = false,
             includeSkillBars = true,
             includeSkills = false,
             includeEquipment = true,
@@ -215,6 +354,12 @@ local FILTER_PRESETS = {
 CM.Settings.FilterManager = {}
 
 function CM.Settings.FilterManager:Initialize()
+    -- Ensure CM.settings exists
+    if not CM.settings then
+        CM.Error("CM.settings not initialized - cannot initialize FilterManager")
+        return
+    end
+    
     -- Initialize filter manager
     CM.settings.filters = CM.settings.filters or {}
     CM.settings.filterPresets = CM.settings.filterPresets or {}
@@ -235,6 +380,11 @@ end
 -- =====================================================
 
 function CM.Settings.FilterManager:CreateFilter(name, description, category, filters)
+    if not CM.settings then
+        CM.Error("CM.settings not initialized")
+        return false
+    end
+    
     if CM.settings.filters[name] then
         CM.Error("Filter '" .. name .. "' already exists")
         return false
@@ -257,6 +407,11 @@ function CM.Settings.FilterManager:CreateFilter(name, description, category, fil
 end
 
 function CM.Settings.FilterManager:UpdateFilter(name, updates)
+    if not CM.settings then
+        CM.Error("CM.settings not initialized")
+        return false
+    end
+    
     if not CM.settings.filters[name] then
         CM.Error("Filter '" .. name .. "' not found")
         return false
@@ -278,6 +433,11 @@ function CM.Settings.FilterManager:UpdateFilter(name, updates)
 end
 
 function CM.Settings.FilterManager:DeleteFilter(name)
+    if not CM.settings then
+        CM.Error("CM.settings not initialized")
+        return false
+    end
+    
     if not CM.settings.filters[name] then
         CM.Error("Filter '" .. name .. "' not found")
         return false
@@ -296,6 +456,19 @@ function CM.Settings.FilterManager:DeleteFilter(name)
 end
 
 function CM.Settings.FilterManager:ApplyFilter(name)
+    if not CM.settings then
+        CM.Error("CM.settings not initialized")
+        return false
+    end
+    
+    -- Handle "None" filter (clear active filter)
+    if name == "None" or not name or name == "" then
+        CM.settings.activeFilter = "None"
+        CM.settings._lastModified = GetTimeStamp()
+        CM.DebugPrint("FILTER_MANAGER", "Active filter cleared")
+        return true
+    end
+    
     local filter = CM.settings.filters[name] or FILTER_PRESETS[name]
     
     if not filter then
@@ -304,9 +477,12 @@ function CM.Settings.FilterManager:ApplyFilter(name)
     end
     
     -- Apply filter settings
+    -- Apply all filter settings, even if they don't exist in CM.settings yet
+    -- This allows filters to add new settings
     local applied = 0
     for key, value in pairs(filter.filters) do
-        if CM.settings[key] ~= nil then
+        -- Skip internal settings
+        if key ~= "filters" and key ~= "filterPresets" and key ~= "activeFilter" then
             CM.settings[key] = value
             applied = applied + 1
         end
@@ -324,6 +500,11 @@ function CM.Settings.FilterManager:ApplyFilter(name)
 end
 
 function CM.Settings.FilterManager:SaveCurrentAsFilter(name, description, category)
+    if not CM.settings then
+        CM.Error("CM.settings not initialized")
+        return false
+    end
+    
     if CM.settings.filters[name] then
         CM.Error("Filter '" .. name .. "' already exists")
         return false
@@ -347,6 +528,9 @@ end
 -- =====================================================
 
 function CM.Settings.FilterManager:GetFilter(name)
+    if not CM.settings then
+        return FILTER_PRESETS[name]
+    end
     return CM.settings.filters[name] or FILTER_PRESETS[name]
 end
 
@@ -354,7 +538,8 @@ function CM.Settings.FilterManager:GetFilterList()
     local filters = {}
     
     -- Add user filters
-    for name, filter in pairs(CM.settings.filters) do
+    if CM.settings and CM.settings.filters then
+        for name, filter in pairs(CM.settings.filters) do
         table.insert(filters, {
             name = name,
             description = filter.description,
@@ -363,6 +548,7 @@ function CM.Settings.FilterManager:GetFilterList()
             version = filter.version,
             isPreset = false
         })
+        end
     end
     
     -- Add preset filters
@@ -375,11 +561,49 @@ function CM.Settings.FilterManager:GetFilterList()
         })
     end
     
-    -- Sort by name
-    table.sort(filters, function(a, b)
-        if a.isPreset ~= b.isPreset then
-            return not a.isPreset  -- User filters first
+    -- Sort with priority order: None, Defaults, All, then others
+    local function GetFilterPriority(name)
+        if name == "None" then return 1
+        elseif name == "Defaults" then return 2
+        elseif name == "All" then return 3
+        else return 4  -- All other filters
         end
+    end
+    
+    table.sort(filters, function(a, b)
+        -- User filters first (except None, Defaults, All which are presets)
+        if a.isPreset ~= b.isPreset then
+            -- None, Defaults, All are presets but should appear first
+            local aPriority = GetFilterPriority(a.name)
+            local bPriority = GetFilterPriority(b.name)
+            
+            -- If both are priority filters (1-3), sort by priority
+            if aPriority <= 3 and bPriority <= 3 then
+                return aPriority < bPriority
+            end
+            
+            -- If one is priority, it comes first
+            if aPriority <= 3 then return true end
+            if bPriority <= 3 then return false end
+            
+            -- Otherwise, user filters first
+            return not a.isPreset
+        end
+        
+        -- Both are same type (preset or user)
+        local aPriority = GetFilterPriority(a.name)
+        local bPriority = GetFilterPriority(b.name)
+        
+        -- If both have priority, sort by priority
+        if aPriority ~= 4 and bPriority ~= 4 then
+            return aPriority < bPriority
+        end
+        
+        -- If one has priority, it comes first
+        if aPriority ~= 4 then return true end
+        if bPriority ~= 4 then return false end
+        
+        -- Both are regular filters, sort alphabetically
         return a.name < b.name
     end)
     
@@ -399,7 +623,10 @@ function CM.Settings.FilterManager:GetFiltersByCategory(category)
 end
 
 function CM.Settings.FilterManager:GetActiveFilter()
-    return CM.settings.activeFilter
+    if not CM.settings then
+        return "None"
+    end
+    return CM.settings.activeFilter or "None"
 end
 
 -- =====================================================
@@ -407,6 +634,16 @@ end
 -- =====================================================
 
 function CM.Settings.FilterManager:AnalyzeCurrentSettings()
+    if not CM.settings then
+        CM.Error("CM.settings not initialized")
+        return {
+            enabledSections = 0,
+            totalSections = 0,
+            categories = {},
+            recommendations = {}
+        }
+    end
+    
     local analysis = {
         enabledSections = 0,
         totalSections = 0,
@@ -460,6 +697,11 @@ end
 -- =====================================================
 
 function CM.Settings.FilterManager:ExportFilter(name)
+    if not CM.Settings.Initializer or not CM.Settings.Initializer.SerializeTable then
+        CM.Error("SerializeTable function not available")
+        return nil
+    end
+    
     local filter = self:GetFilter(name)
     if not filter then
         CM.Error("Filter '" .. name .. "' not found")
@@ -476,9 +718,22 @@ function CM.Settings.FilterManager:ExportFilter(name)
 end
 
 function CM.Settings.FilterManager:ImportFilter(importString)
-    local success, data = pcall(CM.Settings.Initializer.DeserializeTable, CM.Settings.Initializer, importString)
+    if not CM.settings then
+        CM.Error("CM.settings not initialized")
+        return false
+    end
+    
+    if not CM.Settings.Initializer or not CM.Settings.Initializer.DeserializeTable then
+        CM.Error("DeserializeTable function not available")
+        return false
+    end
+    
+    local success, data = pcall(function()
+        return CM.Settings.Initializer:DeserializeTable(importString)
+    end)
+    
     if not success or not data or not data.filter then
-        CM.Error("Invalid filter import data")
+        CM.Error("Invalid filter import data: " .. (data or "unknown error"))
         return false
     end
     
