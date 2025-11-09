@@ -496,8 +496,25 @@ local function GenerateEquipment(equipmentData, format)
                     end
                     -- Add enchantment charge if available
                     if item.enchantment and item.enchantment ~= false then
-                        local charge = item.enchantCharge or 0
-                        local maxCharge = item.enchantMaxCharge or 0
+                        -- CRITICAL: Ensure charge and maxCharge are numbers, not strings
+                        local charge = 0
+                        if item.enchantCharge ~= nil then
+                            if type(item.enchantCharge) == "number" then
+                                charge = item.enchantCharge
+                            elseif type(item.enchantCharge) == "string" then
+                                charge = tonumber(item.enchantCharge) or 0
+                            end
+                        end
+                        
+                        local maxCharge = 0
+                        if item.enchantMaxCharge ~= nil then
+                            if type(item.enchantMaxCharge) == "number" then
+                                maxCharge = item.enchantMaxCharge
+                            elseif type(item.enchantMaxCharge) == "string" then
+                                maxCharge = tonumber(item.enchantMaxCharge) or 0
+                            end
+                        end
+                        
                         if maxCharge > 0 then
                             local chargePercent = math.floor((charge / maxCharge) * 100)
                             result = result .. " - Charge: " .. string.format("%d/%d (%d%%)", charge, maxCharge, chargePercent)
@@ -514,346 +531,407 @@ local function GenerateEquipment(equipmentData, format)
         
         result = result .. "\n"
         return result
-    end
-    
-    -- ENHANCED HEADER (always enabled)
-    if markdown and markdown.CreateHeader then
-        result = markdown.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2) or "## ⚔️ Equipment & Active Sets\n\n"
-    else
-        result = "## ⚔️ Equipment & Active Sets\n\n"
-    end
-    
-    -- SET DISPLAY: Classic format shows Armor Sets breakdown, Enhanced shows progress bars
-    -- Defensive: Ensure sets array exists before checking length
-    if equipmentData.sets and type(equipmentData.sets) == "table" and #equipmentData.sets > 0 then
+        end
+        
+        -- ENHANCED HEADER (always enabled) - GitHub format
+        -- Ensure markdown is available (it's initialized in InitializeUtilities)
         if not markdown then
-            -- Classic format: Show Active Sets and Partial Sets breakdown (matches old output)
-            local activeSets = {}
-            local partialSets = {}
-            
-            for _, set in ipairs(equipmentData.sets) do
-                local success_set2, setLink = pcall(CreateSetLink, set.name or "", format)
-                if not success_set2 or not setLink then
-                    setLink = set.name or "Unknown Set"
-                end
-                -- Collect slot names for this set
-                local slots = {}
-                if equipmentData.items and type(equipmentData.items) == "table" then
-                    for _, item in ipairs(equipmentData.items) do
-                        if item.setName == set.name then
-                            table.insert(slots, item.slotName or "Unknown")
+            markdown = (CM.utils and CM.utils.markdown) or nil
+        end
+        if markdown and markdown.CreateHeader then
+            result = markdown.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2) or "## ⚔️ Equipment & Active Sets\n\n"
+        else
+            result = "## ⚔️ Equipment & Active Sets\n\n"
+        end
+        
+        -- SET DISPLAY: Classic format shows Armor Sets breakdown, Enhanced shows progress bars
+        -- Defensive: Ensure equipmentData and sets array exist before checking length
+        if equipmentData and type(equipmentData) == "table" and 
+           equipmentData.sets and type(equipmentData.sets) == "table" and #equipmentData.sets > 0 then
+            if not markdown then
+                -- Classic format: Show Active Sets and Partial Sets breakdown (matches old output)
+                local activeSets = {}
+                local partialSets = {}
+                
+                for _, set in ipairs(equipmentData.sets) do
+                    local success_set2, setLink = pcall(CreateSetLink, set.name or "", format)
+                    if not success_set2 or not setLink then
+                        setLink = set.name or "Unknown Set"
+                    end
+                    -- Collect slot names for this set
+                    local slots = {}
+                    if equipmentData.items and type(equipmentData.items) == "table" then
+                        for _, item in ipairs(equipmentData.items) do
+                            if item.setName == set.name then
+                                table.insert(slots, item.slotName or "Unknown")
+                            end
                         end
                     end
-                end
-                local slotsStr = table.concat(slots, ", ")
-                
-                -- Add set type badge if available
-                local setTypeBadge = ""
-                if set.setTypeName then
-                    setTypeBadge = " " .. GetSetTypeBadge(set.setTypeName)
-                end
-                
-                if set.count >= 5 then
-                    table.insert(activeSets, {
-                        name = set.name,
-                        link = setLink,
-                        count = set.count,
-                        slots = slotsStr,
-                        setTypeBadge = setTypeBadge,
-                        setInfo = set
-                    })
-                else
-                    table.insert(partialSets, {
-                        name = set.name,
-                        link = setLink,
-                        count = set.count,
-                        slots = slotsStr,
-                        setTypeBadge = setTypeBadge,
-                        setInfo = set
-                    })
-                end
-            end
-            
-            if #activeSets > 0 then
-                result = result .. "### 🛡️ Armor Sets\n\n"
-                result = result .. "#### ✅ Active Sets (5-piece bonuses)\n\n"
-                for _, set in ipairs(activeSets) do
-                    local setLine = string.format("- ✅ **%s**%s (%d/5 pieces) - %s", set.link, set.setTypeBadge, set.count, set.slots)
-                    result = result .. setLine .. "\n"
+                    local slotsStr = table.concat(slots, ", ")
                     
-                    -- Add LibSets information if available
-                    if set.setInfo and (set.setInfo.dropLocations or set.setInfo.dropMechanicNames or set.setInfo.dlcId) then
-                        local LibSetsIntegration = CM.utils and CM.utils.LibSetsIntegration
-                        if LibSetsIntegration then
-                            local details = {}
-                            
-                            -- Drop locations
-                            if set.setInfo.dropLocations and #set.setInfo.dropLocations > 0 then
-                                local locations = LibSetsIntegration.FormatDropLocations(set.setInfo.dropLocations)
-                                if locations then
-                                    table.insert(details, "📍 " .. locations)
-                                end
-                            end
-                            
-                            -- Drop mechanics
-                            if set.setInfo.dropMechanicNames and #set.setInfo.dropMechanicNames > 0 then
-                                local mechanics = LibSetsIntegration.FormatDropMechanics(set.setInfo.dropMechanics, set.setInfo.dropMechanicNames)
-                                if mechanics then
-                                    table.insert(details, "⚙️ " .. mechanics)
-                                end
-                            end
-                            
-                            -- DLC/Chapter info
-                            if set.setInfo.dlcId or set.setInfo.chapterId then
-                                local dlcInfo = LibSetsIntegration.FormatDLCInfo(set.setInfo.dlcId, set.setInfo.chapterId)
-                                if dlcInfo then
-                                    table.insert(details, "📦 " .. dlcInfo)
-                                end
-                            end
-                            
-                            if #details > 0 then
-                                result = result .. "  " .. table.concat(details, " • ") .. "\n"
-                            end
-                        end
+                    -- Add set type badge if available
+                    local setTypeBadge = ""
+                    if set.setTypeName then
+                        setTypeBadge = " " .. GetSetTypeBadge(set.setTypeName)
+                    end
+                    
+                    if set.count >= 5 then
+                        table.insert(activeSets, {
+                            name = set.name,
+                            link = setLink,
+                            count = set.count,
+                            slots = slotsStr,
+                            setTypeBadge = setTypeBadge,
+                            setInfo = set
+                        })
+                    else
+                        table.insert(partialSets, {
+                            name = set.name,
+                            link = setLink,
+                            count = set.count,
+                            slots = slotsStr,
+                            setTypeBadge = setTypeBadge,
+                            setInfo = set
+                        })
                     end
                 end
-                result = result .. "\n"
-            end
-            
-            if #partialSets > 0 then
+                
                 if #activeSets > 0 then
-                    result = result .. "#### ⚠️ Partial Sets\n\n"
-                else
                     result = result .. "### 🛡️ Armor Sets\n\n"
-                    result = result .. "#### ⚠️ Partial Sets\n\n"
-                end
-                for _, set in ipairs(partialSets) do
-                    local setLine = string.format("- ⚠️ **%s**%s (%d/5 pieces) - %s", set.link, set.setTypeBadge, set.count, set.slots)
-                    result = result .. setLine .. "\n"
-                    
-                    -- Add LibSets information if available
-                    if set.setInfo and (set.setInfo.dropLocations or set.setInfo.dropMechanicNames or set.setInfo.dlcId) then
-                        local LibSetsIntegration = CM.utils and CM.utils.LibSetsIntegration
-                        if LibSetsIntegration then
-                            local details = {}
-                            
-                            -- Drop locations
-                            if set.setInfo.dropLocations and #set.setInfo.dropLocations > 0 then
-                                local locations = LibSetsIntegration.FormatDropLocations(set.setInfo.dropLocations)
-                                if locations then
-                                    table.insert(details, "📍 " .. locations)
+                    result = result .. "#### ✅ Active Sets (5-piece bonuses)\n\n"
+                    for _, set in ipairs(activeSets) do
+                        local setLine = string.format("- ✅ **%s**%s (%d/5 pieces) - %s", set.link, set.setTypeBadge, set.count, set.slots)
+                        result = result .. setLine .. "\n"
+                        
+                        -- Add LibSets information if available
+                        if set.setInfo and (set.setInfo.dropLocations or set.setInfo.dropMechanicNames or set.setInfo.dlcId) then
+                            local LibSetsIntegration = CM.utils and CM.utils.LibSetsIntegration
+                            if LibSetsIntegration then
+                                local details = {}
+                                
+                                -- Drop locations
+                                if set.setInfo.dropLocations and #set.setInfo.dropLocations > 0 then
+                                    local locations = LibSetsIntegration.FormatDropLocations(set.setInfo.dropLocations)
+                                    if locations then
+                                        table.insert(details, "📍 " .. locations)
+                                    end
                                 end
-                            end
-                            
-                            -- Drop mechanics
-                            if set.setInfo.dropMechanicNames and #set.setInfo.dropMechanicNames > 0 then
-                                local mechanics = LibSetsIntegration.FormatDropMechanics(set.setInfo.dropMechanics, set.setInfo.dropMechanicNames)
-                                if mechanics then
-                                    table.insert(details, "⚙️ " .. mechanics)
+                                
+                                -- Drop mechanics
+                                if set.setInfo.dropMechanicNames and #set.setInfo.dropMechanicNames > 0 then
+                                    local mechanics = LibSetsIntegration.FormatDropMechanics(set.setInfo.dropMechanics, set.setInfo.dropMechanicNames)
+                                    if mechanics then
+                                        table.insert(details, "⚙️ " .. mechanics)
+                                    end
                                 end
-                            end
-                            
-                            -- DLC/Chapter info
-                            if set.setInfo.dlcId or set.setInfo.chapterId then
-                                local dlcInfo = LibSetsIntegration.FormatDLCInfo(set.setInfo.dlcId, set.setInfo.chapterId)
-                                if dlcInfo then
-                                    table.insert(details, "📦 " .. dlcInfo)
+                                
+                                -- DLC/Chapter info
+                                if set.setInfo.dlcId or set.setInfo.chapterId then
+                                    local dlcInfo = LibSetsIntegration.FormatDLCInfo(set.setInfo.dlcId, set.setInfo.chapterId)
+                                    if dlcInfo then
+                                        table.insert(details, "📦 " .. dlcInfo)
+                                    end
                                 end
-                            end
-                            
-                            if #details > 0 then
-                                result = result .. "  " .. table.concat(details, " • ") .. "\n"
+                                
+                                if #details > 0 then
+                                    result = result .. "  " .. table.concat(details, " • ") .. "\n"
+                                end
                             end
                         end
                     end
-                end
-                result = result .. "\n"
-            end
-        else
-            -- ENHANCED: Progress indicators (new style)
-            local setLines = {}
-            
-            for _, set in ipairs(equipmentData.sets) do
-                local maxPieces = 5
-                local indicator = "•"
-                if markdown and markdown.GetProgressIndicator then
-                    local success_ind, ind = pcall(markdown.GetProgressIndicator, math.min(set.count or 0, maxPieces), maxPieces)
-                    if success_ind and ind then
-                        indicator = ind
-                    end
-                end
-                local success_set3, setLink = pcall(CreateSetLink, set.name or "", format)
-                if not success_set3 or not setLink then
-                    setLink = set.name or "Unknown Set"
+                    result = result .. "\n"
                 end
                 
-                -- Add set type badge if available
-                local setTypeBadge = ""
-                if set.setTypeName then
-                    setTypeBadge = " " .. GetSetTypeBadge(set.setTypeName)
-                end
-                
-                if markdown and markdown.CreateProgressBar then
-                    local success_pb, progressBar = pcall(markdown.CreateProgressBar, math.min(set.count or 0, maxPieces), maxPieces, 10, format)
-                    if not success_pb or not progressBar then
-                        progressBar = ""
-                    end
-                    if set.count > maxPieces then
-                        table.insert(setLines, string.format("%s **%s**%s `%d/%d` %s *(+%d extra)*", 
-                            indicator, setLink, setTypeBadge, maxPieces, maxPieces, progressBar, set.count - maxPieces))
+                if #partialSets > 0 then
+                    if #activeSets > 0 then
+                        result = result .. "#### ⚠️ Partial Sets\n\n"
                     else
-                        table.insert(setLines, string.format("%s **%s**%s `%d/%d` %s", 
-                            indicator, setLink, setTypeBadge, set.count, maxPieces, progressBar))
+                        result = result .. "### 🛡️ Armor Sets\n\n"
+                        result = result .. "#### ⚠️ Partial Sets\n\n"
                     end
-                else
-                    if set.count > maxPieces then
-                        table.insert(setLines, string.format("%s **%s**%s (%d/%d pieces, +%d extra)", 
-                            indicator, setLink, setTypeBadge, maxPieces, maxPieces, set.count - maxPieces))
-                    else
-                        table.insert(setLines, string.format("%s **%s**%s (%d/%d pieces)", 
-                            indicator, setLink, setTypeBadge, set.count, maxPieces))
+                    for _, set in ipairs(partialSets) do
+                        local setLine = string.format("- ⚠️ **%s**%s (%d/5 pieces) - %s", set.link, set.setTypeBadge, set.count, set.slots)
+                        result = result .. setLine .. "\n"
+                        
+                        -- Add LibSets information if available
+                        if set.setInfo and (set.setInfo.dropLocations or set.setInfo.dropMechanicNames or set.setInfo.dlcId) then
+                            local LibSetsIntegration = CM.utils and CM.utils.LibSetsIntegration
+                            if LibSetsIntegration then
+                                local details = {}
+                                
+                                -- Drop locations
+                                if set.setInfo.dropLocations and #set.setInfo.dropLocations > 0 then
+                                    local locations = LibSetsIntegration.FormatDropLocations(set.setInfo.dropLocations)
+                                    if locations then
+                                        table.insert(details, "📍 " .. locations)
+                                    end
+                                end
+                                
+                                -- Drop mechanics
+                                if set.setInfo.dropMechanicNames and #set.setInfo.dropMechanicNames > 0 then
+                                    local mechanics = LibSetsIntegration.FormatDropMechanics(set.setInfo.dropMechanics, set.setInfo.dropMechanicNames)
+                                    if mechanics then
+                                        table.insert(details, "⚙️ " .. mechanics)
+                                    end
+                                end
+                                
+                                -- DLC/Chapter info
+                                if set.setInfo.dlcId or set.setInfo.chapterId then
+                                    local dlcInfo = LibSetsIntegration.FormatDLCInfo(set.setInfo.dlcId, set.setInfo.chapterId)
+                                    if dlcInfo then
+                                        table.insert(details, "📦 " .. dlcInfo)
+                                    end
+                                end
+                                
+                                if #details > 0 then
+                                    result = result .. "  " .. table.concat(details, " • ") .. "\n"
+                                end
+                            end
+                        end
                     end
+                    result = result .. "\n"
                 end
-            end
-            
-            result = result .. table.concat(setLines, "  \n") .. "\n\n"
-        end
-    end
-    
-    -- Equipment details table
-    -- Defensive: Ensure items array exists before checking length
-    if equipmentData.items and type(equipmentData.items) == "table" and #equipmentData.items > 0 then
-        result = result .. "### 📋 Equipment Details\n\n"
-        result = result .. "| Slot | Item | Set | Quality | Trait | Type | Enchantment Charge |\n"
-        result = result .. "|:-----|:-----|:----|:--------|:------|:-----|:-------------------|\n"
-        
-        -- Create a lookup table for set info by set name
-        local setInfoLookup = {}
-        if equipmentData.sets and type(equipmentData.sets) == "table" then
-            for _, set in ipairs(equipmentData.sets) do
-                if set.name then
-                    setInfoLookup[set.name] = set
-                end
-            end
-        end
-        
-        for _, item in ipairs(equipmentData.items) do
-            local success_item2, setLink = pcall(CreateSetLink, item.setName or "", format)
-            if not success_item2 or not setLink then
-                setLink = item.setName or ""
-            end
-            local itemType = ""
-            
-            -- Add set type badge to set link if available
-            local setInfo = setInfoLookup[item.setName]
-            if setInfo and setInfo.setTypeName then
-                local setTypeBadge = GetSetTypeBadge(setInfo.setTypeName)
-                setLink = setLink .. " " .. setTypeBadge
-            end
-            
-            -- Format armor/weapon type (with safe ESO API calls)
-            if item.armorType then
-                local success_armor, armorTypeName = pcall(GetString, "SI_ARMORTYPE", item.armorType)
-                if success_armor and armorTypeName and armorTypeName ~= "" then
-                    itemType = armorTypeName
-                end
-            elseif item.weaponType then
-                local success_weapon, weaponTypeName = pcall(GetString, "SI_WEAPONTYPE", item.weaponType)
-                if success_weapon and weaponTypeName and weaponTypeName ~= "" then
-                    itemType = weaponTypeName
-                end
-            end
-            
-            -- Add indicators for crafted/stolen items
-            local itemIndicators = {}
-            if item.isCrafted then
-                table.insert(itemIndicators, "⚒️ Crafted")
-            end
-            if item.isStolen then
-                table.insert(itemIndicators, "👤 Stolen")
-            end
-            
-            if #itemIndicators > 0 then
-                itemType = itemType .. (#itemType > 0 and " • " or "") .. table.concat(itemIndicators, " • ")
-            end
-            
-            -- Format enchantment charge
-            local enchantChargeText = "-"
-            if item.enchantment and item.enchantment ~= false then
-                local charge = item.enchantCharge or 0
-                local maxCharge = item.enchantMaxCharge or 0
-                if maxCharge > 0 then
-                    local chargePercent = math.floor((charge / maxCharge) * 100)
-                    enchantChargeText = string.format("%d/%d (%d%%)", charge, maxCharge, chargePercent)
-                elseif charge > 0 then
-                    enchantChargeText = tostring(charge)
-                end
-            end
-            
-            -- Defensive: Ensure all values are strings and handle nil
-            local slotName = item.slotName or "Unknown"
-            local itemName = item.name or "-"
-            local qualityEmoji = item.qualityEmoji or "⚪"
-            local quality = item.quality or "Normal"
-            local trait = item.trait or "None"
-            local itemTypeDisplay = (itemType ~= "" and itemType) or "-"
-            
-            result = result .. "| " .. (item.emoji or "📦") .. " **" .. slotName .. "** | "
-            result = result .. itemName .. " | "
-            result = result .. (setLink or "-") .. " | "
-            result = result .. qualityEmoji .. " " .. quality .. " | "
-            result = result .. trait .. " | "
-            result = result .. itemTypeDisplay .. " | "
-            result = result .. enchantChargeText .. " |\n"
-        end
-        result = result .. "\n"
-    end
-    
-    -- If no sets and no items, show a message
-    -- Defensive: Ensure arrays exist and are tables before checking length
-    local hasSets = equipmentData.sets and type(equipmentData.sets) == "table" and #equipmentData.sets > 0
-    local hasItems = equipmentData.items and type(equipmentData.items) == "table" and #equipmentData.items > 0
-    if not hasSets and not hasItems then
-        result = result .. "*No equipment data available*\n\n"
-    end
-    
-    result = result .. "---\n\n"
-    
-    -- CRITICAL: Ensure result is never empty before wrapping in collapsible
-    if not result or result == "" or (result:gsub("%s+", "") == "") then
-        CM.Error("GenerateEquipment: CRITICAL - result is empty after all checks, forcing placeholder")
-        if format == "discord" then
-            return "**Equipment & Active Sets:**\n*No equipment data available*\n\n"
-        else
-            result = "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
-        end
-    end
-    
-    -- Only wrap in collapsible if markdown utilities are available and result is not empty
-    if markdown and markdown.CreateCollapsible and result and result ~= "" and result:gsub("%s+", "") ~= "" then
-        -- Wrap entire equipment section in collapsible
-        local success5, collapsible = pcall(markdown.CreateCollapsible, "Equipment & Active Sets", result, "⚔️", true)
-        if success5 and collapsible and collapsible ~= "" and collapsible:gsub("%s+", "") ~= "" then
-            return collapsible
-        else
-            if not success5 then
-                CM.Warn("GenerateEquipment: CreateCollapsible failed: " .. tostring(collapsible))
             else
-                CM.Warn("GenerateEquipment: CreateCollapsible returned empty, using original result")
+                -- ENHANCED: Progress indicators (new style)
+                local setLines = {}
+                
+                for _, set in ipairs(equipmentData.sets) do
+                    local maxPieces = 5
+                    local indicator = "•"
+                    if markdown and markdown.GetProgressIndicator then
+                        local success_ind, ind = pcall(markdown.GetProgressIndicator, math.min(set.count or 0, maxPieces), maxPieces)
+                        if success_ind and ind then
+                            indicator = ind
+                        end
+                    end
+                    local success_set3, setLink = pcall(CreateSetLink, set.name or "", format)
+                    if not success_set3 or not setLink then
+                        setLink = set.name or "Unknown Set"
+                    end
+                    
+                    -- Add set type badge if available
+                    local setTypeBadge = ""
+                    if set.setTypeName then
+                        setTypeBadge = " " .. GetSetTypeBadge(set.setTypeName)
+                    end
+                    
+                    if markdown and markdown.CreateProgressBar then
+                        local success_pb, progressBar = pcall(markdown.CreateProgressBar, math.min(set.count or 0, maxPieces), maxPieces, 10, format)
+                        if not success_pb or not progressBar then
+                            progressBar = ""
+                        end
+                        if set.count > maxPieces then
+                            table.insert(setLines, string.format("%s **%s**%s `%d/%d` %s *(+%d extra)*", 
+                                indicator, setLink, setTypeBadge, maxPieces, maxPieces, progressBar, set.count - maxPieces))
+                        else
+                            table.insert(setLines, string.format("%s **%s**%s `%d/%d` %s", 
+                                indicator, setLink, setTypeBadge, set.count, maxPieces, progressBar))
+                        end
+                    else
+                        if set.count > maxPieces then
+                            table.insert(setLines, string.format("%s **%s**%s (%d/%d pieces, +%d extra)", 
+                                indicator, setLink, setTypeBadge, maxPieces, maxPieces, set.count - maxPieces))
+                        else
+                            table.insert(setLines, string.format("%s **%s**%s (%d/%d pieces)", 
+                                indicator, setLink, setTypeBadge, set.count, maxPieces))
+                        end
+                    end
+                end
+                
+                result = result .. table.concat(setLines, "  \n") .. "\n\n"
             end
-            return result
         end
-    end
-    
-    return result
+        
+        -- Equipment details table
+        -- Defensive: Ensure equipmentData and items array exist before checking length
+        if equipmentData and type(equipmentData) == "table" and 
+           equipmentData.items and type(equipmentData.items) == "table" and #equipmentData.items > 0 then
+            result = result .. "### 📋 Equipment Details\n\n"
+            result = result .. "| Slot | Item | Set | Quality | Trait | Type | Enchantment Charge |\n"
+            result = result .. "|:-----|:-----|:----|:--------|:------|:-----|:-------------------|\n"
+            
+            -- Create a lookup table for set info by set name
+            local setInfoLookup = {}
+            if equipmentData.sets and type(equipmentData.sets) == "table" then
+                for _, set in ipairs(equipmentData.sets) do
+                    if set.name then
+                        setInfoLookup[set.name] = set
+                    end
+                end
+            end
+            
+            for _, item in ipairs(equipmentData.items) do
+                local success_item2, setLink = pcall(CreateSetLink, item.setName or "", format)
+                if not success_item2 or not setLink then
+                    setLink = item.setName or ""
+                end
+                local itemType = ""
+                
+                -- Add set type badge to set link if available
+                local setInfo = setInfoLookup[item.setName]
+                if setInfo and setInfo.setTypeName then
+                    local setTypeBadge = GetSetTypeBadge(setInfo.setTypeName)
+                    setLink = setLink .. " " .. setTypeBadge
+                end
+                
+                -- Format armor/weapon type (with safe ESO API calls)
+                if item.armorType then
+                    local success_armor, armorTypeName = pcall(GetString, "SI_ARMORTYPE", item.armorType)
+                    if success_armor and armorTypeName and armorTypeName ~= "" then
+                        itemType = armorTypeName
+                    end
+                elseif item.weaponType then
+                    local success_weapon, weaponTypeName = pcall(GetString, "SI_WEAPONTYPE", item.weaponType)
+                    if success_weapon and weaponTypeName and weaponTypeName ~= "" then
+                        itemType = weaponTypeName
+                    end
+                end
+                
+                -- Add indicators for crafted/stolen items
+                local itemIndicators = {}
+                if item.isCrafted then
+                    table.insert(itemIndicators, "⚒️ Crafted")
+                end
+                if item.isStolen then
+                    table.insert(itemIndicators, "👤 Stolen")
+                end
+                
+                if #itemIndicators > 0 then
+                    itemType = itemType .. (#itemType > 0 and " • " or "") .. table.concat(itemIndicators, " • ")
+                end
+                
+                -- Format enchantment charge
+                local enchantChargeText = "-"
+                if item.enchantment and item.enchantment ~= false then
+                    -- CRITICAL: Ensure charge and maxCharge are numbers, not strings
+                    local charge = 0
+                    if item.enchantCharge ~= nil then
+                        if type(item.enchantCharge) == "number" then
+                            charge = item.enchantCharge
+                        elseif type(item.enchantCharge) == "string" then
+                            -- Try to convert string to number
+                            charge = tonumber(item.enchantCharge) or 0
+                        end
+                    end
+                    
+                    local maxCharge = 0
+                    if item.enchantMaxCharge ~= nil then
+                        if type(item.enchantMaxCharge) == "number" then
+                            maxCharge = item.enchantMaxCharge
+                        elseif type(item.enchantMaxCharge) == "string" then
+                            -- Try to convert string to number
+                            maxCharge = tonumber(item.enchantMaxCharge) or 0
+                        end
+                    end
+                    
+                    if maxCharge > 0 then
+                        local chargePercent = math.floor((charge / maxCharge) * 100)
+                        enchantChargeText = string.format("%d/%d (%d%%)", charge, maxCharge, chargePercent)
+                    elseif charge > 0 then
+                        enchantChargeText = tostring(charge)
+                    end
+                end
+                
+                -- Defensive: Ensure all values are strings and handle nil
+                local slotName = item.slotName or "Unknown"
+                local itemName = item.name or "-"
+                local qualityEmoji = item.qualityEmoji or "⚪"
+                local quality = item.quality or "Normal"
+                local trait = item.trait or "None"
+                local itemTypeDisplay = (itemType ~= "" and itemType) or "-"
+                
+                -- Build entire table row as a single string to prevent chunking/splitting
+                local tableRow = string.format("| %s **%s** | %s | %s | %s %s | %s | %s | %s |",
+                    item.emoji or "📦",
+                    slotName,
+                    itemName,
+                    setLink or "-",
+                    qualityEmoji,
+                    quality,
+                    trait,
+                    itemTypeDisplay,
+                    enchantChargeText
+                )
+                -- CRITICAL: Ensure table row is properly formatted and never merged
+                -- Step 1: Remove ALL trailing whitespace (spaces, tabs, newlines)
+                tableRow = tableRow:gsub("%s+$", "")
+                -- Step 2: Add exactly ONE newline - this is critical for preventing row merging
+                tableRow = tableRow .. "\n"
+                -- Step 3: Verify the row ends with newline (defensive check)
+                if not tableRow:match("\n$") then
+                    CM.Warn("GenerateEquipment: Table row missing newline, forcing add")
+                    tableRow = tableRow .. "\n"
+                end
+                -- Step 4: Append to result - each row MUST be on its own line
+                -- CRITICAL: Never allow table rows to be concatenated without newlines
+                result = result .. tableRow
+            end
+            result = result .. "\n"
+        end
+        
+        -- If no sets and no items, show a message
+        -- Defensive: Ensure equipmentData exists and arrays exist and are tables before checking length
+        local hasSets = equipmentData and type(equipmentData) == "table" and 
+                       equipmentData.sets and type(equipmentData.sets) == "table" and #equipmentData.sets > 0
+        local hasItems = equipmentData and type(equipmentData) == "table" and 
+                        equipmentData.items and type(equipmentData.items) == "table" and #equipmentData.items > 0
+        if not hasSets and not hasItems then
+            result = result .. "*No equipment data available*\n\n"
+        end
+        
+        result = result .. "---\n\n"
+        
+        -- CRITICAL: Ensure result is never empty before wrapping in collapsible
+        if not result or result == "" or (result:gsub("%s+", "") == "") then
+            CM.Error("GenerateEquipment: CRITICAL - result is empty after all checks, forcing placeholder")
+            if format == "discord" then
+                return "**Equipment & Active Sets:**\n*No equipment data available*\n\n"
+            else
+                result = "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
+            end
+        end
+        
+        -- Only wrap in collapsible if markdown utilities are available and result is not empty
+        if markdown and markdown.CreateCollapsible and result and result ~= "" and result:gsub("%s+", "") ~= "" then
+            -- Wrap entire equipment section in collapsible
+            local success5, collapsible = pcall(markdown.CreateCollapsible, "Equipment & Active Sets", result, "⚔️", true)
+            if success5 and collapsible and collapsible ~= "" and collapsible:gsub("%s+", "") ~= "" then
+                return collapsible
+            else
+                if not success5 then
+                    CM.Warn("GenerateEquipment: CreateCollapsible failed: " .. tostring(collapsible))
+                else
+                    CM.Warn("GenerateEquipment: CreateCollapsible returned empty, using original result")
+                end
+                return result
+            end
+        end
+        
+        return result
     end
     
     -- Call internal function with error handling
     local success, result = pcall(GenerateEquipmentInternal, equipmentData, format)
     if success then
-        return result or ""
+        -- Defensive: Ensure we never return empty string
+        if not result or result == "" then
+            CM.Warn("GenerateEquipment: Internal function returned empty result")
+            if format == "discord" then
+                return "**Equipment & Active Sets:**\n*No equipment data available*\n\n"
+            else
+                return "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
+            end
+        end
+        return result
     else
-        CM.Warn("GenerateEquipment: Internal function failed: " .. tostring(result))
+        -- Log the actual error for debugging
+        local errorMsg = tostring(result) or "unknown error"
+        CM.Error("GenerateEquipment: Internal function failed with error: " .. errorMsg)
+        CM.Warn("GenerateEquipment: equipmentData type: " .. type(equipmentData))
+        if equipmentData and type(equipmentData) == "table" then
+            CM.Warn("GenerateEquipment: equipmentData.sets exists: " .. tostring(equipmentData.sets ~= nil))
+            CM.Warn("GenerateEquipment: equipmentData.items exists: " .. tostring(equipmentData.items ~= nil))
+        end
         if format == "discord" then
             return "**Equipment & Active Sets:**\n*Error generating equipment data*\n\n"
         else

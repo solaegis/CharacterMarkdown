@@ -72,16 +72,35 @@ local function CollectEquipmentData()
             if success1 then
                 -- Always try to get charge data even if name is missing
                 -- charge can be 0 (depleted) or a positive number (has charge)
-                if charge ~= nil then
+                -- CRITICAL: Ensure charge is a number, not a string
+                if charge ~= nil and type(charge) == "number" then
                     enchantCharge = charge
+                elseif charge ~= nil and type(charge) == "string" then
+                    -- If charge is a string, it's likely the enchantment name was returned in wrong position
+                    -- Try to extract a number from it, or default to 0
+                    local numCharge = tonumber(charge)
+                    if numCharge then
+                        enchantCharge = numCharge
+                    else
+                        -- If it's a string that's not a number, it might be the name - don't assign to charge
+                        enchantCharge = 0
+                    end
                 end
-                if maxCharge ~= nil and maxCharge > 0 then
+                -- CRITICAL: Ensure maxCharge is a number, not a string
+                if maxCharge ~= nil and type(maxCharge) == "number" and maxCharge > 0 then
                     enchantMaxCharge = maxCharge
+                elseif maxCharge ~= nil and type(maxCharge) == "string" then
+                    local numMaxCharge = tonumber(maxCharge)
+                    if numMaxCharge and numMaxCharge > 0 then
+                        enchantMaxCharge = numMaxCharge
+                    end
                 end
                 -- Only set name if it's a valid non-empty string
-                if name and name ~= "" then
+                if name and name ~= "" and type(name) == "string" then
                     enchantName = name
-                    enchantIcon = icon
+                    if icon then
+                        enchantIcon = icon
+                    end
                 end
             end
             
