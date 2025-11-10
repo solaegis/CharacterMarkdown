@@ -4,13 +4,14 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar
+local FormatNumber, GenerateProgressBar, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -68,6 +69,8 @@ local function GenerateUndauntedPledges(pledgesData, format)
         
         markdown = markdown .. "\n"
     else
+        local anchorId = GenerateAnchor and GenerateAnchor("🏰 Undaunted Pledges") or "undaunted-pledges"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🏰 Undaunted Pledges\n\n"  -- Changed from 🏛️ for better compatibility
         
         -- Show active pledges from quest journal

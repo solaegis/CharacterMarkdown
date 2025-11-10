@@ -18,6 +18,11 @@ local function InitializeUtilities()
         CM.utils.FormatNumber = Formatters.FormatNumber
         CM.utils.GenerateProgressBar = Formatters.GenerateProgressBar
     end
+    
+    -- Load GenerateAnchor
+    if not CM.utils.GenerateAnchor and CM.utils.markdown and CM.utils.markdown.GenerateAnchor then
+        CM.utils.GenerateAnchor = CM.utils.markdown.GenerateAnchor
+    end
 end
 
 -- =====================================================
@@ -89,6 +94,8 @@ local function GenerateQuestSummary(questData, format)
     if format == "discord" then
         markdown = markdown .. "**Quest Progress:**\n"
     else
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 📝 Quest Progress\n\n"
     end
     

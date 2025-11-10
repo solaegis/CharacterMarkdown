@@ -18,6 +18,11 @@ local function InitializeUtilities()
         CM.utils.FormatNumber = Formatters.FormatNumber
         CM.utils.GenerateProgressBar = Formatters.GenerateProgressBar
     end
+    
+    -- Load GenerateAnchor
+    if not CM.utils.GenerateAnchor and CM.utils.markdown and CM.utils.markdown.GenerateAnchor then
+        CM.utils.GenerateAnchor = CM.utils.markdown.GenerateAnchor
+    end
 end
 
 -- =====================================================
@@ -81,6 +86,8 @@ local function GenerateAchievementSummary(achievementData, format)
     if format == "discord" then
         markdown = markdown .. "**Achievement Progress:**\n"
     else
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("🏆 Achievement Progress") or "achievement-progress"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🏆 Achievement Progress\n\n"
     end
     

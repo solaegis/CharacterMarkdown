@@ -47,10 +47,17 @@ local function GetSetTypeBadge(setTypeName)
 end
 
 -- =====================================================
+-- FORWARD DECLARATIONS (for functions called before they're defined)
+-- =====================================================
+
+local GenerateEquipment
+local GenerateSkillMorphs
+
+-- =====================================================
 -- SKILL BARS
 -- =====================================================
 
-local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillProgressionData)
+local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillProgressionData, equipmentData)
     -- Defensive: Handle nil or invalid format
     if not format then format = "github" end
     
@@ -202,6 +209,38 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
             output = output .. "*No skill bars configured*\n\n"
         end
         
+        -- Add Equipment & Active Sets (non-collapsible) before skill progression sections
+        if equipmentData and format ~= "discord" then
+            CM.Info("→ Including Equipment & Active Sets in Combat Arsenal")
+            CM.DebugPrint("EQUIPMENT", string.format("GenerateSkillBars: equipmentData exists, type=%s", type(equipmentData)))
+            if equipmentData.sets then
+                CM.DebugPrint("EQUIPMENT", string.format("equipmentData.sets count: %d", #equipmentData.sets))
+            end
+            if equipmentData.items then
+                CM.DebugPrint("EQUIPMENT", string.format("equipmentData.items count: %d", #equipmentData.items))
+            end
+            
+            -- Pass true for noWrapper parameter to skip collapsible wrapping
+            local success_equip, equipmentContent = pcall(GenerateEquipment, equipmentData, format, true)
+            
+            CM.DebugPrint("EQUIPMENT", string.format("GenerateEquipment result: success=%s, content length=%d", 
+                tostring(success_equip), equipmentContent and #equipmentContent or 0))
+            
+            if success_equip and equipmentContent and equipmentContent ~= "" then
+                -- Equipment content is already formatted without wrapper, just add it
+                CM.Info(string.format("  ✓ Equipment content added: %d chars", #equipmentContent))
+                output = output .. equipmentContent
+            else
+                CM.Error("GenerateSkillBars: Failed to generate Equipment content")
+                CM.Error(string.format("  success=%s, content=%s", tostring(success_equip), tostring(equipmentContent)))
+                -- Add placeholder so user knows equipment failed
+                output = output .. '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n'
+            end
+        else
+            CM.Warn(string.format("GenerateSkillBars: Skipping Equipment - equipmentData=%s, format=%s", 
+                tostring(equipmentData ~= nil), tostring(format)))
+        end
+        
         output = output .. "---\n\n"
         
         -- Add Skill Morphs as collapsible subsection
@@ -232,6 +271,9 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
         
         -- Add Skill Progression categories as collapsible subsections
         if skillProgressionData and #skillProgressionData > 0 then
+            -- Add Character Progress section header (H2)
+            output = output .. "## 📊 Character Progress\n\n"
+            
             for _, category in ipairs(skillProgressionData) do
                 if category.skills and #category.skills > 0 then
                     -- Generate content for this category only
@@ -400,9 +442,9 @@ end
 -- EQUIPMENT
 -- =====================================================
 
-local function GenerateEquipment(equipmentData, format)
+GenerateEquipment = function(equipmentData, format, noWrapper)
     -- Wrap entire function body in error handling
-    local function GenerateEquipmentInternal(equipmentData, format)
+    local function GenerateEquipmentInternal(equipmentData, format, noWrapper)
         -- Defensive: Handle nil or invalid format
         if not format then format = "github" end
         
@@ -441,12 +483,13 @@ local function GenerateEquipment(equipmentData, format)
                 return result
             else
                 if markdown and markdown.CreateHeader then
-                    result = markdown.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2) or "## ⚔️ Equipment & Active Sets\n\n"
+                    result = markdown.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2) or '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
                 else
-                    result = "## ⚔️ Equipment & Active Sets\n\n"
+                    result = '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
                 end
                 result = result .. "*Equipment data not available*\n\n---\n\n"
-                if markdown and markdown.CreateCollapsible then
+                -- Only wrap in collapsible if noWrapper is false
+                if not noWrapper and markdown and markdown.CreateCollapsible then
                     local success4, collapsible = pcall(markdown.CreateCollapsible, "Equipment & Active Sets", result, "⚔️", true)
                     if success4 and collapsible then
                         return collapsible
@@ -539,9 +582,9 @@ local function GenerateEquipment(equipmentData, format)
             markdown = (CM.utils and CM.utils.markdown) or nil
         end
         if markdown and markdown.CreateHeader then
-            result = markdown.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2) or "## ⚔️ Equipment & Active Sets\n\n"
+            result = markdown.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2) or '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
         else
-            result = "## ⚔️ Equipment & Active Sets\n\n"
+            result = '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
         end
         
         -- SET DISPLAY: Classic format shows Armor Sets breakdown, Enhanced shows progress bars
@@ -879,7 +922,10 @@ local function GenerateEquipment(equipmentData, format)
             result = result .. "*No equipment data available*\n\n"
         end
         
-        result = result .. "---\n\n"
+        -- Only add trailing separator if not embedded in Combat Arsenal
+        if not noWrapper then
+            result = result .. "---\n\n"
+        end
         
         -- CRITICAL: Ensure result is never empty before wrapping in collapsible
         if not result or result == "" or (result:gsub("%s+", "") == "") then
@@ -887,12 +933,13 @@ local function GenerateEquipment(equipmentData, format)
             if format == "discord" then
                 return "**Equipment & Active Sets:**\n*No equipment data available*\n\n"
             else
-                result = "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
+                result = '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n'
             end
         end
         
         -- Only wrap in collapsible if markdown utilities are available and result is not empty
-        if markdown and markdown.CreateCollapsible and result and result ~= "" and result:gsub("%s+", "") ~= "" then
+        -- Skip wrapper if noWrapper parameter is true (when called from Combat Arsenal)
+        if not noWrapper and markdown and markdown.CreateCollapsible and result and result ~= "" and result:gsub("%s+", "") ~= "" then
             -- Wrap entire equipment section in collapsible
             local success5, collapsible = pcall(markdown.CreateCollapsible, "Equipment & Active Sets", result, "⚔️", true)
             if success5 and collapsible and collapsible ~= "" and collapsible:gsub("%s+", "") ~= "" then
@@ -911,7 +958,7 @@ local function GenerateEquipment(equipmentData, format)
     end
     
     -- Call internal function with error handling
-    local success, result = pcall(GenerateEquipmentInternal, equipmentData, format)
+    local success, result = pcall(GenerateEquipmentInternal, equipmentData, format, noWrapper)
     if success then
         -- Defensive: Ensure we never return empty string
         if not result or result == "" then
@@ -919,7 +966,7 @@ local function GenerateEquipment(equipmentData, format)
             if format == "discord" then
                 return "**Equipment & Active Sets:**\n*No equipment data available*\n\n"
             else
-                return "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
+                return '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n'
             end
         end
         return result
@@ -935,7 +982,7 @@ local function GenerateEquipment(equipmentData, format)
         if format == "discord" then
             return "**Equipment & Active Sets:**\n*Error generating equipment data*\n\n"
         else
-            return "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n"
+            return '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n'
         end
     end
 end
@@ -1137,7 +1184,7 @@ end
 -- SKILL MORPHS (keeping existing implementation)
 -- =====================================================
 
-local function GenerateSkillMorphs(skillMorphsData, format)
+GenerateSkillMorphs = function(skillMorphsData, format)
     InitializeUtilities()
     
     local output = ""

@@ -42,7 +42,12 @@ local function CreateSetLink(setName, format)
     local url = GenerateSetURL(setName)
     
     if url and (format == "github" or format == "discord") then
-        return "[" .. setName .. "](" .. url .. ")"
+        -- Only add " Set" suffix if it's not already there
+        local displayName = setName
+        if not displayName:match(" Set$") then
+            displayName = displayName .. " Set"
+        end
+        return "[" .. displayName .. "](" .. url .. ")"
     else
         return setName
     end

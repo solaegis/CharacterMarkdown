@@ -4,12 +4,13 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber
+local FormatNumber, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -25,6 +26,8 @@ local function GenerateGuilds(guildsData, format, undauntedPledgesData)
     if not guildsData or #guildsData == 0 then
         -- Show placeholder when enabled but no data available
         if format ~= "discord" then
+            local anchorId = GenerateAnchor and GenerateAnchor("🏰 Guild Membership") or "guild-membership"
+            markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 🏰 Guild Membership\n\n"  -- Changed from 🏛️ for better compatibility
             markdown = markdown .. "*No guild data available*\n\n"
             
@@ -54,6 +57,8 @@ local function GenerateGuilds(guildsData, format, undauntedPledgesData)
         
         markdown = markdown .. "\n"
     else
+        local anchorId = GenerateAnchor and GenerateAnchor("🏰 Guild Membership") or "guild-membership"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🏰 Guild Membership\n\n"  -- Changed from 🏛️ for better compatibility
         
         if #guildsData > 0 then

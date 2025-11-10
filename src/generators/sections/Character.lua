@@ -7,6 +7,7 @@ CM.generators.sections = CM.generators.sections or {}
 
 local string_format = string.format
 local table_concat = table.concat
+local table_insert = table.insert
 
 -- Import advanced markdown utilities (with nil check)
 local markdown = (CM.utils and CM.utils.markdown) or nil
@@ -427,41 +428,80 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
         end
     end
     
+    -- Generate currency subsection (simple inline version to avoid dependency issues)
+    local currencySection = ""
+    if currencyData and format ~= "discord" then
+        currencySection = '\n<a id="currency"></a>\n\n### Currency\n\n'
+        currencySection = currencySection .. "| Currency | Amount |\n"
+        currencySection = currencySection .. "|:---------|-------:|\n"
+        
+        -- Gold
+        if currencyData.gold then
+            currencySection = currencySection .. string_format("| 💰 **Gold** | %s |\n", safeFormat(currencyData.gold))
+        end
+        -- Alliance Points
+        if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
+            currencySection = currencySection .. string_format("| ⚔️ **Alliance Points** | %s |\n", safeFormat(currencyData.alliancePoints))
+        end
+        -- Tel Var
+        if currencyData.telVar and currencyData.telVar > 0 then
+            currencySection = currencySection .. string_format("| 🔮 **Tel Var** | %s |\n", safeFormat(currencyData.telVar))
+        end
+        -- Transmute Crystals
+        if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
+            currencySection = currencySection .. string_format("| 💎 **Transmute Crystals** | %s |\n", safeFormat(currencyData.transmuteCrystals))
+        end
+        -- Writs
+        if currencyData.writs and currencyData.writs > 0 then
+            currencySection = currencySection .. string_format("| 📜 **Writs** | %s |\n", safeFormat(currencyData.writs))
+        end
+        -- Event Tickets
+        if currencyData.eventTickets and currencyData.eventTickets > 0 then
+            currencySection = currencySection .. string_format("| 🎫 **Event Tickets** | %s |\n", safeFormat(currencyData.eventTickets))
+        end
+        
+        currencySection = currencySection .. "\n"
+    end
+    
     if not markdown then
         -- Classic table format
         return string_format([[
+<a id="general"></a>
+
 ### General
 
 | Attribute | Value |
 |:----------|:------|
 | **Build** | %s |
-%s%s%s| **Gold** | %s |
+%s%s%s| **Character Gold** | %s |
 | **Sets** | %s |
-| **Bank** | %s |
+| **Bank Usage** | %s |
 | **Skill Points** | %s |
 | **Attributes** | %s |
 %s%s%s%s
 %s
-]], buildStr, allianceRow, locationRow, pvpRow, safeFormat(gold), setsStr, bankStatus, 
-            skillPointsStr, attributesStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable)
+%s]], buildStr, allianceRow, locationRow, pvpRow, safeFormat(gold), setsStr, bankStatus, 
+            skillPointsStr, attributesStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable, currencySection)
     end
     
     -- ENHANCED: Use detailed table format (keeping enhanced visuals option)
     return string_format([[
+<a id="general"></a>
+
 ### General
 
 | Attribute | Value |
 |:----------|:------|
 | **Build** | %s |
-%s%s%s| **Gold** | %s |
+%s%s%s| **Character Gold** | %s |
 | **Sets** | %s |
-| **Bank** | %s |
+| **Bank Usage** | %s |
 | **Skill Points** | %s |
 | **Attributes** | %s |
 %s%s%s%s
 %s
-]], buildStr, allianceRow, locationRow, pvpRow, safeFormat(gold), setsStr, bankStatus, 
-            skillPointsStr, attributesStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable)
+%s]], buildStr, allianceRow, locationRow, pvpRow, safeFormat(gold), setsStr, bankStatus, 
+            skillPointsStr, attributesStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable, currencySection)
 end
 
 CM.generators.sections.GenerateQuickStats = GenerateQuickStats
@@ -829,7 +869,86 @@ end
 CM.generators.sections.GenerateCustomNotes = GenerateCustomNotes
 
 -- =====================================================
--- TABLE OF CONTENTS
+-- DYNAMIC TABLE OF CONTENTS (from Registry)
+-- =====================================================
+
+-- Generate Table of Contents dynamically from section registry
+-- This ensures TOC always matches actual output
+local function GenerateDynamicTableOfContents(registry, format)
+    if format == "discord" or format == "quick" then return "" end
+    
+    local tocLines = {}
+    
+    -- Helper function to generate anchor links (matches GitHub anchor generation)
+    local function GenerateAnchor(text)
+        if not text then return "" end
+        
+        -- Keep only ASCII letters, numbers, spaces, and basic punctuation
+        -- This removes emojis and other Unicode characters
+        local anchor = ""
+        for i = 1, #text do
+            local byte = text:byte(i)
+            if (byte >= 48 and byte <= 57) or  -- 0-9
+               (byte >= 65 and byte <= 90) or  -- A-Z
+               (byte >= 97 and byte <= 122) or -- a-z
+               byte == 32 or byte == 45 then   -- space or hyphen
+                anchor = anchor .. text:sub(i, i)
+            end
+        end
+        
+        -- Convert to lowercase and replace spaces with hyphens
+        anchor = anchor:lower():gsub("%s+", "-")
+        
+        -- Remove leading/trailing hyphens and collapse multiple hyphens
+        anchor = anchor:gsub("^%-+", ""):gsub("%-+$", ""):gsub("%-%-+", "-")
+        
+        return anchor
+    end
+    
+    -- Loop through registry and build TOC for sections with tocEntry metadata
+    for _, section in ipairs(registry) do
+        -- Check if section has TOC entry and condition is met
+        if section.tocEntry then
+            local shouldInclude = false
+            
+            -- Evaluate condition (can be boolean or function)
+            if type(section.condition) == "function" then
+                shouldInclude = section.condition()
+            else
+                shouldInclude = section.condition
+            end
+            
+            if shouldInclude then
+                local tocEntry = section.tocEntry
+                local anchor = GenerateAnchor(tocEntry.title)
+                
+                -- Main section entry
+                table_insert(tocLines, string_format("- [%s](#%s)", tocEntry.title, anchor))
+                
+                -- Add subsections if present
+                if tocEntry.subsections then
+                    for _, subsection in ipairs(tocEntry.subsections) do
+                        local subAnchor = GenerateAnchor(subsection)
+                        table_insert(tocLines, string_format("  - [%s](#%s)", subsection, subAnchor))
+                    end
+                end
+            end
+        end
+    end
+    
+    -- Build final TOC markdown
+    if #tocLines == 0 then
+        return ""
+    end
+    
+    local tocContent = table_concat(tocLines, "\n")
+    return string_format("## 📑 Table of Contents\n\n%s\n\n---\n\n", tocContent)
+end
+
+CM.generators.sections.GenerateDynamicTableOfContents = GenerateDynamicTableOfContents
+
+-- =====================================================
+-- TABLE OF CONTENTS (Static/Legacy)
 -- =====================================================
 
 -- Generate GitHub markdown anchor from section header text
@@ -882,40 +1001,46 @@ local function GenerateTableOfContents(format)
   - [Currency](#%s)
   - [Character Stats](#%s)
 - [⚔️ Combat Arsenal](#%s)
-  - [🌿 Skill Morphs](#%s)
   - [🔥 Class](#%s)
   - [⚔️ Weapon](#%s)
   - [🛡️ Armor](#%s)
   - [🌍 World](#%s)
   - [🏰 Guild](#%s)
+  - [🏰 Alliance War](#%s)
+  - [⭐ Racial](#%s)
+  - [⚒️ Craft](#%s)
 - [⚔️ Equipment & Active Sets](#%s)
 - [👥 Active Companion](#%s)
 - [🏰 Guild Membership](#%s)
-- [🏰 Undaunted Pledges](#%s)
 - [🎨 Collectibles](#%s)
-  - [✅ Accessible Content](#%s)
-  - [👑 Titles](#%s)
-  - [🏠 Housing](#%s)
+- [⭐ Champion Points](#%s)
+- [🐎 Riding Skills](#%s)
+- [🎒 Inventory](#%s)
+- [⚒️ Crafting](#%s)
+- [🌍 World Progress](#%s)
 ]], 
         GenerateAnchor("📋 Overview"),
         GenerateAnchor("General"),
         GenerateAnchor("Currency"),
         GenerateAnchor("Character Stats"),
         GenerateAnchor("⚔️ Combat Arsenal"),
-        GenerateAnchor("🌿 Skill Morphs"),
         GenerateAnchor("🔥 Class"),
         GenerateAnchor("⚔️ Weapon"),
         GenerateAnchor("🛡️ Armor"),
         GenerateAnchor("🌍 World"),
         GenerateAnchor("🏰 Guild"),
+        GenerateAnchor("🏰 Alliance War"),
+        GenerateAnchor("⭐ Racial"),
+        GenerateAnchor("⚒️ Craft"),
         GenerateAnchor("⚔️ Equipment & Active Sets"),
         GenerateAnchor("👥 Active Companion"),
         GenerateAnchor("🏰 Guild Membership"),
-        GenerateAnchor("🏰 Undaunted Pledges"),
         GenerateAnchor("🎨 Collectibles"),
-        GenerateAnchor("✅ Accessible Content"),
-        GenerateAnchor("👑 Titles"),
-        GenerateAnchor("🏠 Housing")
+        GenerateAnchor("⭐ Champion Points"),
+        GenerateAnchor("🐎 Riding Skills"),
+        GenerateAnchor("🎒 Inventory"),
+        GenerateAnchor("⚒️ Crafting"),
+        GenerateAnchor("🌍 World Progress")
     )
     
     if not markdown then

@@ -4,13 +4,14 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar
+local FormatNumber, GenerateProgressBar, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -99,6 +100,8 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format)
         
         markdown = markdown .. "\n"
     else
+        local anchorId = GenerateAnchor and GenerateAnchor("⚔️ PvP") or "pvp"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## ⚔️ PvP\n\n"
         markdown = markdown .. "| Category | Value |\n"
         markdown = markdown .. "|:---------|:------|\n"

@@ -346,7 +346,7 @@ local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inve
     
     -- Non-Discord: Create merged section without headers (headers removed for Overview section)
     -- Add Currency title
-    result = result .. "### Currency\n\n"
+    result = result .. '<a id="currency"></a>\n\n### Currency\n\n'
     
     -- Currency & Resources subsection
     if includeCurrency then

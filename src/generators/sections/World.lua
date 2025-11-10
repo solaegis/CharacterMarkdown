@@ -261,6 +261,9 @@ local function GenerateWorldProgress(worldProgressData, format)
     
     -- Only add header if there's actual content
     if content ~= "" and format ~= "discord" then
+        local GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
+        local anchorId = GenerateAnchor and GenerateAnchor("🌍 World Progress") or "world-progress"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🌍 World Progress\n\n"
     end
     

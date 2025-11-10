@@ -4,13 +4,14 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar
+local FormatNumber, GenerateProgressBar, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -26,6 +27,8 @@ local function GenerateTalesOfTribute(totData, format)
     if not totData then
         -- Show placeholder when enabled but no data available
         if format ~= "discord" then
+            local anchorId = GenerateAnchor and GenerateAnchor("🎴 Tales of Tribute") or "tales-of-tribute"
+            markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 🎴 Tales of Tribute\n\n"
             markdown = markdown .. "*No Tales of Tribute data available*\n\n---\n\n"
         end
@@ -67,6 +70,8 @@ local function GenerateTalesOfTribute(totData, format)
         
         markdown = markdown .. "\n"
     else
+        local anchorId = GenerateAnchor and GenerateAnchor("🎴 Tales of Tribute") or "tales-of-tribute"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🎴 Tales of Tribute\n\n"
         
         -- Progress section (always show, even if rank is 0)

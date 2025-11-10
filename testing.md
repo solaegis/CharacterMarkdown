@@ -12,6 +12,8 @@
 
 ---
 
+<a id="champion-points"></a>
+
 ## ⭐ Champion Points
 
 | **Total** | **Spent** | **Available** |
@@ -53,225 +55,179 @@
 ## 🎯 Champion Points Visual
 
 ```mermaid
-graph TB
-  %% 🎯 Your Champion Point Investment
-  %% Color intensity shows investment level
-  %% Shapes indicate star types
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#e8f4f0','primaryTextColor':'#000','primaryBorderColor':'#4a9d7f','lineColor':'#999','secondaryColor':'#f0f4f8','tertiaryColor':'#faf0f0'}}}%%
 
-  %% ========================================
-  %% ⚒️ CRAFT CONSTELLATION
-  %% ========================================
+graph LR
+  %%%% Champion Point Investment Visualization
+  %%%% Enhanced readability with clear visual hierarchy
 
-  subgraph CRAFT [⚒️ Craft Constellation]
-    direction LR
+  %%%% ========================================
+  %% ⚒️ CRAFT CONSTELLATION (215/564 pts)
+  %%%% ========================================
 
-    C_R7[●●○ War Mount 75/120 pts]
-    C_C5[[⭐ Treasure Hunter 50/50 pts]]
-    C_IND1[●●○ Steed's Blessing 35/50 pts]
-    C_C3(○○○ Master Gatherer 15/75 pts)
-    C_IND2[○○○ Breakfall 10/50 pts]
-    C_BASE2{○○○ Steadfast Enchantment 10/50 pts}
-    C_R6(○○○ Wanderer 10/100 pts)
-    CRAFT_UNAVAIL([💎 Unassigned: 77 available])
-
-    style C_R7 fill:#4a9d7f,stroke:#666,stroke-width:3px,color:#000
-    style C_C5 fill:#4a9d7f,stroke:#ffd700,stroke-width:3px,color:#000
-    style C_IND1 fill:#4a9d7f,stroke:#666,stroke-width:3px,color:#000
-    style C_C3 fill:#4a9d7f,stroke:#333,stroke-width:2px,color:#000
-    style C_IND2 fill:#4a9d7f,stroke:#666,stroke-width:3px,color:#000
-    style C_BASE2 fill:#4a9d7f,stroke:#ff8c00,stroke-width:2.5px,color:#000
-    style C_R6 fill:#4a9d7f,stroke:#333,stroke-width:2px,color:#000
-    style CRAFT_UNAVAIL fill:#4a9d7f,stroke:#999,stroke-width:2px,stroke-dasharray:5 5,color:#000
-  end
-  style CRAFT fill:#e8f4f0,stroke:#ddd,stroke-width:2px
-
-  %% ========================================
-  %% ⚔️ WARFARE CONSTELLATION
-  %% ========================================
-
-  subgraph WARFARE [⚔️ Warfare Constellation]
-    direction LR
-
-    W_C1(⭐ Fighting Finesse 50/50 pts)
-    W_IND2[[⭐ Master-at-Arms 50/50 pts]]
-    W_IND3[●●● Thaumaturge 46/50 pts]
-    W_IND1[●●● Deadly Aim 45/50 pts]
-    W_R1(○○○ Precision 10/50 pts)
-    W_BASE1{○○○ Eldritch Insight 4/50 pts}
-    WARFARE_UNAVAIL([💎 Unassigned: 77 available])
-
-    style W_C1 fill:#5b7fb8,stroke:#333,stroke-width:2px,color:#000
-    style W_IND2 fill:#5b7fb8,stroke:#ffd700,stroke-width:3px,color:#000
-    style W_IND3 fill:#5b7fb8,stroke:#666,stroke-width:3px,color:#000
-    style W_IND1 fill:#5b7fb8,stroke:#666,stroke-width:3px,color:#000
-    style W_R1 fill:#5b7fb8,stroke:#333,stroke-width:2px,color:#000
-    style W_BASE1 fill:#5b7fb8,stroke:#ff8c00,stroke-width:2.5px,color:#000
-    style WARFARE_UNAVAIL fill:#5b7fb8,stroke:#999,stroke-width:2px,stroke-dasharray:5 5,color:#000
-  end
-  style WARFARE fill:#f0f4f8,stroke:#ddd,stroke-width:2px
-
-  %% ========================================
-  %% 💪 FITNESS CONSTELLATION
-  %% ========================================
-
-  subgraph FITNESS [💪 Fitness Constellation]
-    direction LR
-
-    F_IND3[[⭐ Sustained by Suffering 50/50 pts]]
-    SD4(⭐ Fortified 50/50 pts)
-    F_BASE1{⭐ Boundless Vitality 50/50 pts}
-    F_BASE3{⭐ Rejuvenation 50/50 pts}
-    F_L1(●○○ Tumbling 15/50 pts)
-    F_C1(○○○ Mystic Tenacity 10/50 pts)
-    FITNESS_UNAVAIL([💎 Unassigned: 77 available])
-
-    style F_IND3 fill:#b87a7a,stroke:#ffd700,stroke-width:3px,color:#000
-    style SD4 fill:#b87a7a,stroke:#333,stroke-width:2px,color:#000
-    style F_BASE1 fill:#b87a7a,stroke:#ff8c00,stroke-width:2.5px,color:#000
-    style F_BASE3 fill:#b87a7a,stroke:#ff8c00,stroke-width:2.5px,color:#000
-    style F_L1 fill:#b87a7a,stroke:#333,stroke-width:2px,color:#000
-    style F_C1 fill:#b87a7a,stroke:#333,stroke-width:2px,color:#000
-    style FITNESS_UNAVAIL fill:#b87a7a,stroke:#999,stroke-width:2px,stroke-dasharray:5 5,color:#000
-  end
-  style FITNESS fill:#faf0f0,stroke:#ddd,stroke-width:2px
-
-  %% ========================================
-  %% PREREQUISITE CONNECTIONS
-  %% ========================================
-
-  C_C5 -.-> C_C3
-  C_C3 -.-> C_BASE2
-  C_C5 -.-> C_BASE2
-  C_R6 -.-> C_BASE2
-  C_R7 -.-> C_BASE2
-  C_IND2 -.-> C_BASE2
-  C_IND1 -.-> C_BASE2
-  C_R7 -.-> C_R6
-  C_IND2 -.-> C_IND1
-  W_IND3 -.-> W_IND2
-  W_IND2 -.-> W_IND1
-  W_IND3 -.-> W_IND1
-  W_R1 -.-> W_BASE1
-  W_C1 -.-> W_BASE1
-  W_IND2 -.-> W_BASE1
-  W_IND1 -.-> W_BASE1
-  W_IND3 -.-> W_BASE1
-  F_IND3 -.-> F_C1
-  F_C1 -.-> F_L1
-  F_C1 -.-> F_BASE3
-  F_IND3 -.-> F_BASE3
-  F_L1 -.-> F_BASE3
-  SD4 -.-> F_BASE3
-  F_C1 -.-> F_BASE1
-  F_IND3 -.-> F_BASE1
-  F_L1 -.-> F_BASE1
-  F_BASE3 -.-> F_BASE1
-  SD4 -.-> F_BASE1
-
-  %% ========================================
-  %% EDGE STYLING (Bold lines for readability)
-  %% ========================================
-
-  linkStyle 0 stroke-width:2.5px
-  linkStyle 1 stroke-width:2.5px
-  linkStyle 2 stroke-width:2.5px
-  linkStyle 3 stroke-width:2.5px
-  linkStyle 4 stroke-width:2.5px
-  linkStyle 5 stroke-width:2.5px
-  linkStyle 6 stroke-width:2.5px
-  linkStyle 7 stroke-width:2.5px
-  linkStyle 8 stroke-width:2.5px
-  linkStyle 9 stroke-width:2.5px
-  linkStyle 10 stroke-width:2.5px
-  linkStyle 11 stroke-width:2.5px
-  linkStyle 12 stroke-width:2.5px
-  linkStyle 13 stroke-width:2.5px
-  linkStyle 14 stroke-width:2.5px
-  linkStyle 15 stroke-width:2.5px
-  linkStyle 16 stroke-width:2.5px
-  linkStyle 17 stroke-width:2.5px
-  linkStyle 18 stroke-width:2.5px
-  linkStyle 19 stroke-width:2.5px
-
-  %% ========================================
-  %% LEGEND & KEY
-  %% ========================================
-
-  subgraph LEGEND [📖 Legend]
+  subgraph CRAFT ["⚒️ CRAFT CONSTELLATION"]
     direction TB
+    
+    CRAFT_TITLE["<b>Slottable Stars</b>"]
+    C_R7["War Mount<br/><b>75/120 pts</b> | ●●○ 62%"]
+    C_C5["⭐ Treasure Hunter<br/><b>50/50 pts</b> | MAXED"]
+    C_IND1["Steed's Blessing<br/><b>35/50 pts</b> | ●●○ 70%"]
+    C_IND2["Breakfall<br/><b>10/50 pts</b> | ○○○ 20%"]
+    C_R6["Gifted Rider<br/><b>10/100 pts</b> | ○○○ 10%"]
+    
+    CRAFT_PASS["<b>Passive Stars</b>"]
+    C_C3["Master Gatherer<br/><b>15/75 pts</b> | ○○○ 20%"]
+    C_R6["Wanderer<br/><b>10/100 pts</b> | ○○○ 10%"]
+    
+    CRAFT_BASE["<b>Independent Stars</b>"]
+    C_BASE2["Steadfast Enchantment<br/><b>10/50 pts</b> | ○○○ 20%"]
+    
+    CRAFT_AVAIL["💎 <b>77 points available</b>"]
+    
+    CRAFT_TITLE -.-> C_R7 & C_C5 & C_IND1 & C_IND2 & C_R6
+    CRAFT_PASS -.-> C_C3 & C_R6
+    CRAFT_BASE -.-> C_BASE2
 
-    subgraph LEGEND_MAXED [⭐ Maxed Stars]
-      direction LR
-
-      LEG_SLOT_CRAFT[[⚒️ Craft: Maxed Slottable]]
-      LEG_SLOT_WARFARE[[⚔️ Warfare: Maxed Slottable]]
-      LEG_SLOT_FITNESS[[💪 Fitness: Maxed Slottable]]
-      LEG_PASS_CRAFT(⚒️ Craft: Maxed Passive)
-      LEG_PASS_WARFARE(⚔️ Warfare: Maxed Passive)
-      LEG_PASS_FITNESS(💪 Fitness: Maxed Passive)
-
-      style LEG_SLOT_CRAFT fill:#4a9d7f,stroke:#ffd700,stroke-width:3px,color:#000
-      style LEG_SLOT_WARFARE fill:#5b7fb8,stroke:#ffd700,stroke-width:3px,color:#000
-      style LEG_SLOT_FITNESS fill:#b87a7a,stroke:#ffd700,stroke-width:3px,color:#000
-      style LEG_PASS_CRAFT fill:#4a9d7f,stroke:#333,stroke-width:2px,color:#000
-      style LEG_PASS_WARFARE fill:#5b7fb8,stroke:#333,stroke-width:2px,color:#000
-      style LEG_PASS_FITNESS fill:#b87a7a,stroke:#333,stroke-width:2px,color:#000
-    end
-    style LEGEND_MAXED fill:#f5f5f5,stroke:#ddd,stroke-width:2px
-
-    subgraph LEGEND_BASE [🔷 Independent Stars]
-      direction LR
-
-      LEG_BASE_CRAFT{⚒️ Craft: Independent Star}
-      LEG_BASE_WARFARE{⚔️ Warfare: Independent Star}
-      LEG_BASE_FITNESS{💪 Fitness: Independent Star}
-
-      style LEG_BASE_CRAFT fill:#4a9d7f,stroke:#ff8c00,stroke-width:2.5px,color:#000
-      style LEG_BASE_WARFARE fill:#5b7fb8,stroke:#ff8c00,stroke-width:2.5px,color:#000
-      style LEG_BASE_FITNESS fill:#b87a7a,stroke:#ff8c00,stroke-width:2.5px,color:#000
-    end
-    style LEGEND_BASE fill:#f5f5f5,stroke:#ddd,stroke-width:2px
-
-    subgraph LEGEND_AMOUNT [📊 Fraction]
-      direction TB
-
-      LEG_IND1(⭐ = 100%% Maxed)
-      LEG_IND2(●●● = 75-99%%)
-      LEG_IND3(●●○ = 50-74%%)
-      LEG_IND4(●○○ = 25-49%%)
-      LEG_IND5(○○○ = 1-24%%)
-                                                                         
-      style LEG_IND1 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000
-      style LEG_IND2 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000
-      style LEG_IND3 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000
-      style LEG_IND4 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000
-      style LEG_IND5 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000
-    end
-    style LEGEND_AMOUNT fill:#f5f5f5,stroke:#ddd,stroke-width:2px
+    style CRAFT_TITLE fill:#d4e8df,stroke:none,color:#2c5f4f
+    style CRAFT_PASS fill:#d4e8df,stroke:none,color:#2c5f4f
+    style CRAFT_BASE fill:#d4e8df,stroke:none,color:#2c5f4f
+    style C_R7 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:3px,color:#fff
+    style C_C5 fill:#4a9d7f,stroke:#ffd700,stroke-width:4px,color:#fff
+    style C_IND1 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:3px,color:#fff
+    style C_IND2 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:3px,color:#fff
+    style C_R6 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:3px,color:#fff
+    style C_C3 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    style C_R6 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    style C_BASE2 fill:#4a9d7f,stroke:#ff8c00,stroke-width:3px,color:#fff
+    style CRAFT_AVAIL fill:#d4e8df,stroke:#4a9d7f,stroke-width:2px,stroke-dasharray:5 5,color:#2c5f4f
 
   end
-  style LEGEND fill:#fafafa,stroke:#999,stroke-width:2px
+  style CRAFT fill:#e8f4f0,stroke:#4a9d7f,stroke-width:3px
+
+  %%%% ========================================
+  %% ⚔️ WARFARE CONSTELLATION (215/564 pts)
+  %%%% ========================================
+
+  subgraph WARFARE ["⚔️ WARFARE CONSTELLATION"]
+    direction TB
+    
+    WARFARE_TITLE["<b>Slottable Stars</b>"]
+    W_IND2["⭐ Master-at-Arms<br/><b>50/50 pts</b> | MAXED"]
+    W_IND3["Thaumaturge<br/><b>46/50 pts</b> | ●●● 92%"]
+    W_IND1["Deadly Aim<br/><b>45/50 pts</b> | ●●● 90%"]
+    
+    WARFARE_PASS["<b>Passive Stars</b>"]
+    W_C1["⭐ Fighting Finesse<br/><b>50/50 pts</b> | MAXED"]
+    W_R1["Precision<br/><b>10/50 pts</b> | ○○○ 20%"]
+    
+    WARFARE_BASE["<b>Independent Stars</b>"]
+    W_BASE1["Eldritch Insight<br/><b>4/50 pts</b> | ○○○ 8%"]
+    
+    WARFARE_AVAIL["💎 <b>77 points available</b>"]
+    
+    WARFARE_TITLE -.-> W_IND2 & W_IND3 & W_IND1
+    WARFARE_PASS -.-> W_C1 & W_R1
+    WARFARE_BASE -.-> W_BASE1
+
+    style WARFARE_TITLE fill:#d4e4f0,stroke:none,color:#2c4a5f
+    style WARFARE_PASS fill:#d4e4f0,stroke:none,color:#2c4a5f
+    style WARFARE_BASE fill:#d4e4f0,stroke:none,color:#2c4a5f
+    style W_IND2 fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
+    style W_IND3 fill:#5b7fb8,stroke:#5b7fb8,stroke-width:3px,color:#fff
+    style W_IND1 fill:#5b7fb8,stroke:#5b7fb8,stroke-width:3px,color:#fff
+    style W_C1 fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
+    style W_R1 fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
+    style W_BASE1 fill:#5b7fb8,stroke:#ff8c00,stroke-width:3px,color:#fff
+    style WARFARE_AVAIL fill:#d4e4f0,stroke:#5b7fb8,stroke-width:2px,stroke-dasharray:5 5,color:#2c4a5f
+
+  end
+  style WARFARE fill:#f0f4f8,stroke:#5b7fb8,stroke-width:3px
+
+  %%%% ========================================
+  %% 💪 FITNESS CONSTELLATION (225/564 pts)
+  %%%% ========================================
+
+  subgraph FITNESS ["💪 FITNESS CONSTELLATION"]
+    direction TB
+    
+    FITNESS_TITLE["<b>Slottable Stars</b>"]
+    F_IND3["⭐ Sustained by Suffering<br/><b>50/50 pts</b> | MAXED"]
+    
+    FITNESS_PASS["<b>Passive Stars</b>"]
+    SD4["⭐ Fortified<br/><b>50/50 pts</b> | MAXED"]
+    F_L1["Tumbling<br/><b>15/50 pts</b> | ●○○ 30%"]
+    F_C1["Mystic Tenacity<br/><b>10/50 pts</b> | ○○○ 20%"]
+    
+    FITNESS_BASE["<b>Independent Stars</b>"]
+    F_BASE3["⭐ Rejuvenation<br/><b>50/50 pts</b> | MAXED"]
+    F_BASE1["⭐ Boundless Vitality<br/><b>50/50 pts</b> | MAXED"]
+    
+    FITNESS_AVAIL["💎 <b>77 points available</b>"]
+    
+    FITNESS_TITLE -.-> F_IND3
+    FITNESS_PASS -.-> SD4 & F_L1 & F_C1
+    FITNESS_BASE -.-> F_BASE3 & F_BASE1
+
+    style FITNESS_TITLE fill:#f0d4d4,stroke:none,color:#5f2c2c
+    style FITNESS_PASS fill:#f0d4d4,stroke:none,color:#5f2c2c
+    style FITNESS_BASE fill:#f0d4d4,stroke:none,color:#5f2c2c
+    style F_IND3 fill:#b87a7a,stroke:#ffd700,stroke-width:4px,color:#fff
+    style SD4 fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    style F_L1 fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    style F_C1 fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    style F_BASE3 fill:#b87a7a,stroke:#ff8c00,stroke-width:3px,color:#fff
+    style F_BASE1 fill:#b87a7a,stroke:#ff8c00,stroke-width:3px,color:#fff
+    style FITNESS_AVAIL fill:#f0d4d4,stroke:#b87a7a,stroke-width:2px,stroke-dasharray:5 5,color:#5f2c2c
+
+  end
+  style FITNESS fill:#faf0f0,stroke:#b87a7a,stroke-width:3px
+
+  %%%% ========================================
+  %%%% LEGEND
+  %%%% ========================================
+
+  subgraph LEGEND ["📖 LEGEND & VISUAL GUIDE"]
+    direction TB
+    
+    LEG_STARS["<b>Star Types</b>"]
+    LEG_S1["⭐ Gold Border = Maxed Slottable"]
+    LEG_S2["🔶 Orange Border = Independent Star"]
+    LEG_S3["Standard Border = In Progress"]
+    
+    LEG_FILL["<b>Progress Indicators</b>"]
+    LEG_F1["⭐ = 100% Maxed"]
+    LEG_F2["●●● = 75-99%"]
+    LEG_F3["●●○ = 50-74%"]
+    LEG_F4["●○○ = 25-49%"]
+    LEG_F5["○○○ = 1-24%"]
+    
+    LEG_STARS -.-> LEG_S1 & LEG_S2 & LEG_S3
+    LEG_FILL -.-> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5
+
+    style LEG_STARS fill:#f5f5f5,stroke:none,color:#333
+    style LEG_FILL fill:#f5f5f5,stroke:none,color:#333
+    style LEG_S1 fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333
+    style LEG_S2 fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333
+    style LEG_S3 fill:#fff,stroke:#999,stroke-width:2px,color:#333
+    style LEG_F1 fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style LEG_F2 fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style LEG_F3 fill:#eee,stroke:#333,stroke-width:1px,color:#333                                                                              
+    style LEG_F4 fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style LEG_F5 fill:#eee,stroke:#333,stroke-width:1px,color:#333
+  end
+  style LEGEND fill:#fafafa,stroke:#999,stroke-width:3px
 ```
-
-**Visual Guide:**
-- 🎨 **Color Depth** = Investment level (darker = more points)
-- 🔲 **Node Shape** = Star type and completion status
-- ⭐ **Gold Border** = Maxed slottable stars (ready for Champion Bar)
-- 🟠 **Orange Border** = Base/prerequisite stars
-- 📊 **Points Shown** = Current / Maximum possible
-- ➡️ **Solid Arrow** = Unlocked connection (cluster relationship)
-- ⇢ **Dashed Arrow** = Prerequisite path (may unlock)
-
 
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-9,361%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-8,563%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown**
 
 <sub>Generated on 11/10/2025</sub>
 
 </div>
-                                                                                   
+                                                                                     
+

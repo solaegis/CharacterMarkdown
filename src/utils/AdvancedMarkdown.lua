@@ -9,6 +9,7 @@ CM.utils.markdown = CM.utils.markdown or {}
 -- Localize frequently used functions for performance
 local string_format = string.format
 local string_gsub = string.gsub
+local string_match = string.match
 local string_rep = string.rep
 local table_concat = table.concat
 
@@ -595,23 +596,70 @@ end
 CM.utils.markdown.CreateSeparator = CreateSeparator
 
 -- =====================================================
--- TEXT FORMATTING
+-- TEXT FORMATTING & ANCHORS
 -- =====================================================
 
 --[[
-    Create a header with emoji and optional subtitle
+    Generate a GitHub-compatible anchor from header text
+    Removes emojis and special characters, converts to lowercase kebab-case
+    @param text string - Header text
+    @return string - Anchor ID
+]]
+local function GenerateAnchor(text)
+    if not text then return "" end
+    
+    -- Keep only ASCII letters, numbers, spaces, and basic punctuation
+    -- This removes emojis and other Unicode characters
+    local anchor = ""
+    for i = 1, #text do
+        local byte = text:byte(i)
+        if (byte >= 48 and byte <= 57) or  -- 0-9
+           (byte >= 65 and byte <= 90) or  -- A-Z
+           (byte >= 97 and byte <= 122) or -- a-z
+           byte == 32 or byte == 45 then   -- space or hyphen
+            anchor = anchor .. text:sub(i, i)
+        end
+    end
+    
+    -- Convert to lowercase and replace spaces with hyphens
+    anchor = anchor:lower():gsub("%s+", "-")
+    
+    -- Remove leading/trailing hyphens and collapse multiple hyphens
+    anchor = anchor:gsub("^%-+", ""):gsub("%-+$", ""):gsub("%-%-+", "-")
+    
+    return anchor
+end
+
+CM.utils.markdown.GenerateAnchor = GenerateAnchor
+
+--[[
+    Create a header with emoji, optional subtitle, and HTML anchor for universal markdown support
     @param title string - Main title
     @param emoji string - Optional emoji prefix
     @param subtitle string - Optional subtitle
     @param level number - Header level (1-6, default: 2)
-    @return string - Formatted header
+    @param skipAnchor boolean - Skip anchor generation (default: false)
+    @return string - Formatted header with HTML anchor
 ]]
-local function CreateHeader(title, emoji, subtitle, level)
+local function CreateHeader(title, emoji, subtitle, level, skipAnchor)
     level = level or 2
     local prefix = string_rep("#", level)
     local emoji_prefix = emoji and (emoji .. " ") or ""
     
-    local header = string_format("%s %s%s\n\n", prefix, emoji_prefix, title)
+    -- Generate anchor ID from title (without emoji)
+    local anchorId = ""
+    if not skipAnchor then
+        -- Create anchor from emoji + title for consistency with TOC
+        local fullTitle = (emoji and (emoji .. " ") or "") .. title
+        anchorId = GenerateAnchor(fullTitle)
+    end
+    
+    -- Build header with HTML anchor for universal markdown support
+    local header = ""
+    if not skipAnchor and anchorId ~= "" then
+        header = string_format('<a id="%s"></a>\n\n', anchorId)
+    end
+    header = header .. string_format("%s %s%s\n\n", prefix, emoji_prefix, title)
     
     if subtitle and subtitle ~= "" then
         header = header .. string_format("*%s*\n\n", subtitle)

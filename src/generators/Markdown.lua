@@ -18,6 +18,7 @@ local function GetGenerators()
         GenerateProgression = CM.generators.sections.GenerateProgression,
         GenerateCustomNotes = CM.generators.sections.GenerateCustomNotes,
         GenerateTableOfContents = CM.generators.sections.GenerateTableOfContents,
+        GenerateDynamicTableOfContents = CM.generators.sections.GenerateDynamicTableOfContents,
         
         -- Economy sections
         GenerateCurrency = CM.generators.sections.GenerateCurrency,
@@ -147,44 +148,66 @@ local function GetSectionRegistry(format, settings, gen, data)
         tostring(settings.includeChampionPoints), type(settings.includeChampionPoints),
         tostring(settings.includeChampionDiagram), type(settings.includeChampionDiagram)))
     return {
-        -- Header (always included)
+        -- Header (always included, not in TOC)
         {
             name = "Header",
+            tocEntry = nil,  -- Not in TOC
             condition = true,
             generator = function()
                 return gen.GenerateHeader(data.character, data.cp, format)
             end
         },
         
-        -- Table of Contents (non-Discord/Quick only) - First section after header
+        -- Table of Contents (non-Discord/Quick only, not in TOC itself)
         {
             name = "TableOfContents",
-            condition = format ~= "discord" and format ~= "quick" and IsSettingEnabled(settings, "includeTableOfContents", true),
+            tocEntry = nil,  -- Not in TOC
+            condition = function()
+                local enabled = format ~= "discord" and format ~= "quick" and IsSettingEnabled(settings, "includeTableOfContents", true)
+                CM.DebugPrint("TOC", string.format("TOC condition: format=%s, enabled=%s", tostring(format), tostring(enabled)))
+                return enabled
+            end,
             generator = function()
-                return gen.GenerateTableOfContents(format)
-            end
+                -- TOC will be generated dynamically from this registry
+                -- Note: registry reference will be injected after registry is built
+                return ""  -- Will be replaced during generation
+            end,
+            dynamicTOC = true  -- Flag to indicate this needs special handling
         },
         
-        -- Quick Stats Summary (non-Discord only) - Now includes Character Overview merged in
+        -- ========================================
+        -- SECTIONS IN TOC ORDER (as shown in Table of Contents)
+        -- ========================================
+        
+        -- 1. 📋 Overview (Quick Stats Summary)
         {
             name = "QuickStats",
+            tocEntry = {
+                title = "📋 Overview",
+                subsections = {"General", "Currency", "Character Stats"}
+            },
             condition = format ~= "discord" and IsSettingEnabled(settings, "includeQuickStats", true),
             generator = function()
                 return gen.GenerateQuickStats(data.character, data.stats, format, data.equipment, data.progression, data.currency, data.cp, data.inventory, data.location, data.buffs, data.pvp, data.titlesHousing, data.mundus)
             end
         },
         
-        -- Skill Bars (Combat Arsenal)
+        -- 2. ⚔️ Combat Arsenal (Skill Bars + Equipment)
         {
             name = "SkillBars",
+            tocEntry = {
+                title = "⚔️ Combat Arsenal",
+                subsections = {"Equipment & Active Sets", "🔥 Class", "⚔️ Weapon", "🛡️ Armor", "🌍 World", "🏰 Guild", "🏰 Alliance War", "⭐ Racial", "⚒️ Craft"}
+            },
             condition = IsSettingEnabled(settings, "includeSkillBars", true),
             generator = function()
                 -- Defensive: Ensure data exists and is valid
                 local skillBarData = data.skillBar or {}
                 local skillMorphsData = data.skillMorphs or {}
                 local skillProgressionData = data.skill or {}
+                local equipmentData = data.equipment or {}  -- Pass equipment data
                 -- Wrap in pcall for extra safety
-                local success, result = pcall(gen.GenerateSkillBars, skillBarData, format, skillMorphsData, skillProgressionData)
+                local success, result = pcall(gen.GenerateSkillBars, skillBarData, format, skillMorphsData, skillProgressionData, equipmentData)
                 if success then
                     return result or ""
                 else
@@ -198,27 +221,75 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Attention Needed (non-Discord only)
+        -- 3. ⚔️ Equipment & Active Sets (DISABLED - now part of Combat Arsenal)
+        {
+            name = "Equipment",
+            tocEntry = nil,  -- Not in TOC (now integrated into Combat Arsenal)
+            condition = false,  -- Disabled: Equipment is now generated within Combat Arsenal
+            generator = function()
+                return ""
+            end
+        },
+        
+        -- 4. 👥 Active Companion
+        {
+            name = "Companion",
+            tocEntry = {
+                title = "👥 Active Companion"
+            },
+            condition = IsSettingEnabled(settings, "includeCompanion", true) and data.companion.active,
+            generator = function()
+                return gen.GenerateCompanion(data.companion, format)
+            end
+        },
+        
+        -- 5. 🏰 Guild Membership (includes Undaunted Active Pledges as subsection)
+        {
+            name = "Guilds",
+            tocEntry = {
+                title = "🏰 Guild Membership"
+            },
+            condition = IsSettingEnabled(settings, "includeGuilds", true),
+            generator = function()
+                local undauntedPledgesData = nil
+                if IsSettingEnabled(settings, "includeUndauntedPledges", true) then
+                    undauntedPledgesData = data.undauntedPledges
+                end
+                return gen.GenerateGuilds(data.guilds, format, undauntedPledgesData)
+            end
+        },
+        
+        -- 6. 🎨 Collectibles (includes Accessible Content, Titles & Housing as collapsible subsections)
+        {
+            name = "Collectibles",
+            tocEntry = {
+                title = "🎨 Collectibles"
+            },
+            condition = IsSettingEnabled(settings, "includeCollectibles", true),
+            generator = function()
+                local lorebooksData = (data.worldProgress and data.worldProgress.lorebooks) or nil
+                return gen.GenerateCollectibles(data.collectibles, format, data.dlc, lorebooksData, data.titlesHousing, data.riding)
+            end
+        },
+        
+        -- ========================================
+        -- ADDITIONAL SECTIONS (not in TOC)
+        -- ========================================
+        
+        -- Attention Needed (non-Discord only, not in TOC)
         {
             name = "AttentionNeeded",
+            tocEntry = nil,  -- Not shown in TOC
             condition = format ~= "discord" and IsSettingEnabled(settings, "includeAttentionNeeded", true),
             generator = function()
                 return gen.GenerateAttentionNeeded(data.progression, data.inventory, data.riding, data.companion, data.currency, format)
             end
         },
         
-        -- Overview section disabled - merged into QuickStats above
-        -- {
-        --     name = "Overview",
-        --     condition = false, -- Disabled: merged into QuickStats
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- Currency
+        -- Currency (standalone section, optional in TOC if enabled)
         {
             name = "Currency",
+            tocEntry = nil,  -- Not shown in TOC (already in Overview)
             condition = IsSettingEnabled(settings, "includeCurrency", true),
             generator = function()
                 return gen.GenerateCurrency(data.currency, format)
@@ -228,6 +299,9 @@ local function GetSectionRegistry(format, settings, gen, data)
         -- Riding Skills
         {
             name = "RidingSkills",
+            tocEntry = {
+                title = "🐎 Riding Skills"
+            },
             condition = IsSettingEnabled(settings, "includeRidingSkills", true),
             generator = function()
                 return gen.GenerateRidingSkills(data.riding, format)
@@ -237,44 +311,31 @@ local function GetSectionRegistry(format, settings, gen, data)
         -- Inventory
         {
             name = "Inventory",
+            tocEntry = {
+                title = "🎒 Inventory"
+            },
             condition = IsSettingEnabled(settings, "includeInventory", true),
             generator = function()
                 return gen.GenerateInventory(data.inventory, format)
             end
         },
         
-        -- FIX #7: Merged PvP section (removed duplicate)
-        -- PvP section disabled - removed per user request
-        -- {
-        --     name = "PvP",
-        --     condition = false,  -- Disabled
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- Collectibles (includes Titles & Housing as collapsible subsections)
-        {
-            name = "Collectibles",
-            condition = IsSettingEnabled(settings, "includeCollectibles", true),
-            generator = function()
-                local lorebooksData = (data.worldProgress and data.worldProgress.lorebooks) or nil
-                return gen.GenerateCollectibles(data.collectibles, format, data.dlc, lorebooksData, data.titlesHousing, data.riding)
-            end
-        },
-        
         -- Crafting
         {
             name = "Crafting",
+            tocEntry = {
+                title = "⚒️ Crafting"
+            },
             condition = IsSettingEnabled(settings, "includeCrafting", true),
             generator = function()
                 return gen.GenerateCrafting(data.crafting, format)
             end
         },
         
-        -- Achievements
+        -- Achievements (standalone section, not in TOC)
         {
             name = "Achievements",
+            tocEntry = nil,  -- Not shown in TOC
             condition = IsSettingEnabled(settings, "includeAchievements", false),
             generator = function()
                 local markdown = ""
@@ -309,9 +370,10 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Quests
+        -- Quests (standalone section, not in TOC)
         {
             name = "Quests",
+            tocEntry = nil,  -- Not shown in TOC
             condition = IsSettingEnabled(settings, "includeQuests", false),
             generator = function()
                 local markdown = ""
@@ -346,9 +408,10 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Equipment Enhancement
+        -- Equipment Enhancement (optional advanced section, not in default TOC)
         {
             name = "Equipment Enhancement",
+            tocEntry = nil,  -- Not shown in TOC
             condition = IsSettingEnabled(settings, "includeEquipmentEnhancement", false),
             generator = function()
                 local markdown = ""
@@ -380,75 +443,29 @@ local function GetSectionRegistry(format, settings, gen, data)
         -- World Progress
         {
             name = "World Progress",
+            tocEntry = {
+                title = "🌍 World Progress"
+            },
             condition = IsSettingEnabled(settings, "includeWorldProgress", true),
             generator = function()
                 return gen.GenerateWorldProgress(data.worldProgress, format)
             end
         },
         
-        -- Titles & Housing - Disabled: Now included in Collectibles section as collapsible subsections
-        -- {
-        --     name = "Titles & Housing",
-        --     condition = false,  -- Disabled: moved to Collectibles
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- FIX #7: REMOVED DUPLICATE - Merged into single PvP section above
-        
-        -- Armory Builds - disabled per user request
-        {
-            name = "Armory Builds",
-            condition = false,  -- Disabled
-            generator = function()
-                return ""
-            end
-        },
-        
-        -- Tales of Tribute - disabled per user request
-        -- {
-        --     name = "Tales of Tribute",
-        --     condition = false, -- Disabled
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- Guilds (includes Undaunted Active Pledges as subsection)
-        {
-            name = "Guilds",
-            condition = IsSettingEnabled(settings, "includeGuilds", true),
-            generator = function()
-                local undauntedPledgesData = nil
-                if IsSettingEnabled(settings, "includeUndauntedPledges", true) then
-                    undauntedPledgesData = data.undauntedPledges
-                end
-                return gen.GenerateGuilds(data.guilds, format, undauntedPledgesData)
-            end
-        },
-        
-        -- Attributes - disabled (duplicative, info already shown in Quick Stats)
-        {
-            name = "Attributes",
-            condition = false,  -- Disabled: duplicative
-            generator = function()
-                return ""
-            end
-        },
-        
-        -- Buffs
+        -- Buffs (standalone section, not in TOC - shown in Overview table)
         {
             name = "Buffs",
+            tocEntry = nil,  -- Not shown in TOC
             condition = IsSettingEnabled(settings, "includeBuffs", true),
             generator = function()
                 return gen.GenerateBuffs(data.buffs, format)
             end
         },
         
-        -- Custom Notes (requires both setting enabled AND content present)
+        -- Custom Notes (requires both setting enabled AND content present, not in TOC)
         {
             name = "CustomNotes",
+            tocEntry = nil,  -- Not shown in TOC
             condition = IsSettingEnabled(settings, "includeBuildNotes", true) 
                        and data.customNotes and data.customNotes ~= "",
             generator = function()
@@ -456,18 +473,10 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- DLC Access - Disabled: Now included in Collectibles section as first collapsible
-        -- {
-        --     name = "DLCAccess",
-        --     condition = false,  -- Disabled: moved to Collectibles
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- Mundus (Discord only)
+        -- Mundus (Discord only, not in TOC)
         {
             name = "Mundus",
+            tocEntry = nil,  -- Not shown in TOC
             condition = format == "discord",
             generator = function()
                 return gen.GenerateMundus(data.mundus, format)
@@ -477,6 +486,9 @@ local function GetSectionRegistry(format, settings, gen, data)
         -- Champion Points
         {
             name = "ChampionPoints",
+            tocEntry = {
+                title = "⭐ Champion Points"
+            },
             condition = function()
                 -- Re-evaluate condition at generation time to ensure we have latest settings
                 local currentSettings = CM.GetSettings() or settings
@@ -520,12 +532,35 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Progression
+        -- Progression (standalone section, not in TOC)
         {
             name = "Progression",
+            tocEntry = nil,  -- Not shown in TOC
             condition = IsSettingEnabled(settings, "includeProgression", true),
             generator = function()
                 return gen.GenerateProgression(data.progression, data.cp, format)
+            end
+        },
+        
+        -- ========================================
+        -- DISABLED SECTIONS (kept for reference)
+        -- ========================================
+        
+        -- Overview section disabled - merged into QuickStats above
+        -- {
+        --     name = "Overview",
+        --     condition = false, -- Disabled: merged into QuickStats
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
+        
+        -- Skills - DISABLED: Skill progression is already embedded in Combat Arsenal as collapsible sections
+        {
+            name = "Skills",
+            condition = false,  -- Disabled: duplicates Combat Arsenal skill progression
+            generator = function()
+                return ""
             end
         },
         
@@ -547,45 +582,59 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Equipment
+        -- Attributes - disabled (duplicative, info already shown in Quick Stats)
         {
-            name = "Equipment",
-            condition = IsSettingEnabled(settings, "includeEquipment", true),
+            name = "Attributes",
+            condition = false,  -- Disabled: duplicative
             generator = function()
-                -- Defensive: Ensure data exists and is valid
-                local equipmentData = data.equipment or {}
-                -- Wrap in pcall for extra safety
-                local success, result = pcall(gen.GenerateEquipment, equipmentData, format)
-                if success then
-                    return result or ""
-                else
-                    CM.Warn("GenerateEquipment failed in generator wrapper: " .. tostring(result))
-                    if format == "discord" then
-                        return "**Equipment & Active Sets:**\n*Error generating equipment data*\n\n"
-                    else
-                        return "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n"
-                    end
-                end
+                return ""
             end
         },
         
-        -- Skills
+        -- Armory Builds - disabled per user request
         {
-            name = "Skills",
-            condition = IsSettingEnabled(settings, "includeSkills", true),
+            name = "Armory Builds",
+            condition = false,  -- Disabled
             generator = function()
-                return gen.GenerateSkills(data.skill, format)
+                return ""
             end
         },
         
-        -- Companion
-        {
-            name = "Companion",
-            condition = IsSettingEnabled(settings, "includeCompanion", true) and data.companion.active,
-            generator = function()
-                return gen.GenerateCompanion(data.companion, format)
-            end
-        },
+        -- Titles & Housing - Disabled: Now included in Collectibles section as collapsible subsections
+        -- {
+        --     name = "Titles & Housing",
+        --     condition = false,  -- Disabled: moved to Collectibles
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
+        
+        -- DLC Access - Disabled: Now included in Collectibles section as first collapsible
+        -- {
+        --     name = "DLCAccess",
+        --     condition = false,  -- Disabled: moved to Collectibles
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
+        
+        -- PvP section disabled - removed per user request
+        -- {
+        --     name = "PvP",
+        --     condition = false,  -- Disabled
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
+        
+        -- Tales of Tribute - disabled per user request
+        -- {
+        --     name = "Tales of Tribute",
+        --     condition = false, -- Disabled
+        --     generator = function()
+        --         return ""
+        --     end
+        -- },
     }
 end
 
@@ -745,8 +794,32 @@ local function GenerateMarkdown(format)
         
         if conditionMet then
             CM.Info(string.format("→ Generating: %s", section.name))
-            -- Defensive: Check if generator function exists
-            if not section.generator or type(section.generator) ~= "function" then
+            
+            -- Special handling for dynamic TOC
+            if section.dynamicTOC then
+                CM.Info("→ Dynamic TOC generation triggered")
+                CM.DebugPrint("GENERATOR", string.format("Generating dynamic TOC from registry (sections count: %d, format: %s)", #sections, format))
+                
+                -- Verify function exists
+                if not gen.GenerateDynamicTableOfContents then
+                    CM.Error("GenerateDynamicTableOfContents function not found!")
+                else
+                    CM.DebugPrint("GENERATOR", "GenerateDynamicTableOfContents function exists, calling it...")
+                end
+                
+                local success, result = pcall(gen.GenerateDynamicTableOfContents, sections, format)
+                if success then
+                    local resultLength = result and #result or 0
+                    CM.Info(string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength))
+                    if resultLength == 0 then
+                        CM.Warn("Dynamic TOC returned empty string!")
+                    end
+                    markdown = markdown .. result
+                else
+                    CM.Error(string.format("Dynamic TOC generation failed: %s", tostring(result)))
+                end
+            -- Normal section generation
+            elseif not section.generator or type(section.generator) ~= "function" then
                 CM.Warn(string.format("Section '%s' has no valid generator function", section.name))
                 CM.DebugPrint("GENERATOR", string.format("⏭️  Section '%s' skipped (no generator)", section.name))
             else

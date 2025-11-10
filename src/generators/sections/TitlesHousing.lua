@@ -4,7 +4,7 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar, CreateTitleLink, CreateHouseLink
+local FormatNumber, GenerateProgressBar, CreateTitleLink, CreateHouseLink, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
@@ -13,6 +13,7 @@ local function InitializeUtilities()
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
         CreateTitleLink = CM.links.CreateTitleLink
         CreateHouseLink = CM.links.CreateHouseLink
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -287,6 +288,8 @@ local function GenerateTitlesHousing(titlesHousingData, format)
     if not titlesHousingData then
         -- Show placeholder when enabled but no data available
         if format ~= "discord" then
+            local anchorId = GenerateAnchor and GenerateAnchor("🏆 Titles & Housing") or "titles--housing"
+            markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 🏆 Titles & Housing\n\n"
             markdown = markdown .. "*No titles or housing data available*\n\n---\n\n"
         end
@@ -295,6 +298,8 @@ local function GenerateTitlesHousing(titlesHousingData, format)
     
     -- Always show the section when enabled (even if data is minimal/zero)
     if format ~= "discord" then
+        local anchorId = GenerateAnchor and GenerateAnchor("🏆 Titles & Housing") or "titles--housing"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🏆 Titles & Housing\n\n"
     end
     

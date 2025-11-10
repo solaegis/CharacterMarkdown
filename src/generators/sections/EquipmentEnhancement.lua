@@ -18,6 +18,11 @@ local function InitializeUtilities()
         CM.utils.FormatNumber = Formatters.FormatNumber
         CM.utils.GenerateProgressBar = Formatters.GenerateProgressBar
     end
+    
+    -- Load GenerateAnchor
+    if not CM.utils.GenerateAnchor and CM.utils.markdown and CM.utils.markdown.GenerateAnchor then
+        CM.utils.GenerateAnchor = CM.utils.markdown.GenerateAnchor
+    end
 end
 
 -- =====================================================
@@ -70,6 +75,8 @@ local function GenerateEquipmentEnhancementSummary(enhancementData, format)
     if format == "discord" then
         markdown = markdown .. "**Equipment Analysis:**\n"
     else
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("⚡ Equipment Enhancement Analysis") or "equipment-enhancement-analysis"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## ⚡ Equipment Enhancement Analysis\n\n"
     end
     

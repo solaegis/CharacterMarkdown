@@ -58,11 +58,12 @@ function CM.Settings.Panel:Initialize()
         donation = "https://www.buymeacoffee.com/lewisvavasw",
     }
     
-    LAM:RegisterAddonPanel("CharacterMarkdownPanel", panelData)
+    self.panelId = "CharacterMarkdownPanel"
+    LAM:RegisterAddonPanel(self.panelId, panelData)
     
     -- Register options with proper getFunc/setFunc
     local optionsData = self:BuildOptionsData()
-    LAM:RegisterOptionControls("CharacterMarkdownPanel", optionsData)
+    LAM:RegisterOptionControls(self.panelId, optionsData)
     
     CM.DebugPrint("SETTINGS", "Settings panel registered with LAM")
     
@@ -101,7 +102,8 @@ function CM.Settings.Panel:BuildOptionsData()
     local options = {}
     
     -- Add sections in order
-    self:AddVisualEnhancementSection(options)  -- FIRST: Enhanced visuals toggle
+    self:AddActions(options)  -- FIRST: Quick actions and controls
+    self:AddVisualEnhancementSection(options)
     self:AddFormatSection(options)
     self:AddCustomNotes(options)
     self:AddFilterManagerSection(options)
@@ -110,7 +112,6 @@ function CM.Settings.Panel:BuildOptionsData()
     self:AddLinkSettings(options)
     self:AddSkillFilters(options)
     self:AddEquipmentFilters(options)
-    self:AddActions(options)
     
     return options
 end
@@ -1207,8 +1208,11 @@ function CM.Settings.Panel:AddActions(options)
         func = function()
             local shouldEnable = not AreAnySectionsEnabled()
             ToggleAllSections(shouldEnable)
-            -- Note: Button name is a function, so it will update automatically when panel is next shown
-            -- No need to manually refresh
+            -- Force panel refresh to update button text
+            local LAM = LibStub("LibAddonMenu-2.0", true)  -- true = silent, returns nil if not found
+            if LAM and CM.Settings.Panel.panelId then
+                LAM:RefreshPanel(CM.Settings.Panel.panelId)
+            end
         end,
         width = "half",
     })

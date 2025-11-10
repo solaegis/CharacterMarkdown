@@ -5,7 +5,7 @@ local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
 local CreateMundusLink, CreateCPSkillLink, CreateCollectibleLink
-local FormatNumber, GenerateProgressBar, CreateCollapsible
+local FormatNumber, GenerateProgressBar, CreateCollapsible, GenerateAnchor
 local string_format = string.format
 local string_rep = string.rep
 
@@ -18,6 +18,7 @@ local function InitializeUtilities()
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
         CreateCollapsible = (CM.utils and CM.utils.markdown and CM.utils.markdown.CreateCollapsible) or nil
+        GenerateAnchor = (CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor) or nil
     end
 end
 
@@ -48,6 +49,9 @@ local function GenerateDLCAccess(dlcData, format)
             end
             markdown = markdown .. "\n"
         else
+            InitializeUtilities()
+            local anchorId = GenerateAnchor and GenerateAnchor("🗺️ DLC & Chapter Access") or "dlc--chapter-access"
+            markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
             
             -- Show all accessible DLCs (purchased or via ESO Plus)
@@ -81,6 +85,9 @@ local function GenerateDLCAccess(dlcData, format)
             markdown = markdown .. "\n"
         end
     else
+        InitializeUtilities()
+        local anchorId = GenerateAnchor and GenerateAnchor("🗺️ DLC & Chapter Access") or "dlc--chapter-access"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
         
         -- Ensure accessible and locked arrays exist
@@ -128,6 +135,9 @@ local function GenerateMundus(mundusData, format)
             markdown = markdown .. "**Mundus:** " .. mundusText .. "\n\n"
         end
     else
+        InitializeUtilities()
+        local anchorId = GenerateAnchor and GenerateAnchor("🪨 Mundus Stone") or "mundus-stone"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🪨 Mundus Stone\n\n"
         if mundusData.active then
             local mundusText = CreateMundusLink(mundusData.name, format)
@@ -262,6 +272,9 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
         markdown = markdown .. "\n"
     else
         -- GitHub/VSCode: Show collapsible detailed lists if enabled or if we have owned items
+        InitializeUtilities()
+        local anchorId = GenerateAnchor and GenerateAnchor("🎨 Collectibles") or "collectibles"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🎨 Collectibles\n\n"
         
         -- Add DLC as first collapsible item
@@ -419,8 +432,13 @@ end
 local function GenerateCrafting(craftingData, format)
     local markdown = ""
     
+    -- Defensive: Check if craftingData exists
+    if not craftingData or type(craftingData) ~= "table" then
+        return ""
+    end
+    
     -- Only show section if there's data to display
-    local hasData = (craftingData.motifs and craftingData.motifs.total > 0) or 
+    local hasData = (craftingData.motifs and craftingData.motifs.total and craftingData.motifs.total > 0) or 
                    (craftingData.activeResearch and craftingData.activeResearch > 0)
     
     if not hasData then
@@ -429,23 +447,26 @@ local function GenerateCrafting(craftingData, format)
     
     if format == "discord" then
         markdown = markdown .. "**Crafting:**\n"
-        if craftingData.motifs and craftingData.motifs.total > 0 then
-            markdown = markdown .. "• Motifs: " .. craftingData.motifs.known .. "/" .. 
-                                  craftingData.motifs.total .. " (" .. craftingData.motifs.percent .. "%)\n"
+        if craftingData.motifs and craftingData.motifs.total and craftingData.motifs.total > 0 then
+            markdown = markdown .. "• Motifs: " .. (craftingData.motifs.known or 0) .. "/" .. 
+                                  craftingData.motifs.total .. " (" .. (craftingData.motifs.percent or 0) .. "%)\n"
         end
-        if craftingData.activeResearch > 0 then
+        if craftingData.activeResearch and craftingData.activeResearch > 0 then
             markdown = markdown .. "• Active Research: " .. craftingData.activeResearch .. " traits\n"
         end
         markdown = markdown .. "\n"
     else
+        InitializeUtilities()
+        local anchorId = GenerateAnchor and GenerateAnchor("⚒️ Crafting") or "crafting"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## ⚒️ Crafting Knowledge\n\n"
         markdown = markdown .. "| Category | Progress |\n"
         markdown = markdown .. "|:---------|:---------|\n"
-        if craftingData.motifs and craftingData.motifs.total > 0 then
-            markdown = markdown .. "| **📖 Motifs (Basic)** | " .. craftingData.motifs.known .. " / " .. 
-                                  craftingData.motifs.total .. " (" .. craftingData.motifs.percent .. "%) |\n"
+        if craftingData.motifs and craftingData.motifs.total and craftingData.motifs.total > 0 then
+            markdown = markdown .. "| **📖 Motifs (Basic)** | " .. (craftingData.motifs.known or 0) .. " / " .. 
+                                  craftingData.motifs.total .. " (" .. (craftingData.motifs.percent or 0) .. "%) |\n"
         end
-        if craftingData.activeResearch > 0 then
+        if craftingData.activeResearch and craftingData.activeResearch > 0 then
             markdown = markdown .. "| **🔬 Active Research** | " .. craftingData.activeResearch .. " traits |\n"
         end
         markdown = markdown .. "\n"

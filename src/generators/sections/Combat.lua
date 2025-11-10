@@ -4,13 +4,14 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local CreateBuffLink, FormatNumber
+local CreateBuffLink, FormatNumber, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         CreateBuffLink = CM.links.CreateBuffLink
         FormatNumber = CM.utils.FormatNumber
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -56,9 +57,11 @@ local function GenerateCombatStats(statsData, format, inline)
     else
         if not inline then
             markdown = markdown .. "---\n\n"
+            local anchorId = GenerateAnchor and GenerateAnchor("📈 Combat Statistics") or "combat-statistics"
+            markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 📈 Combat Statistics\n\n"
         else
-            markdown = markdown .. "\n### Character Stats\n\n"
+            markdown = markdown .. '\n<a id="character-stats"></a>\n\n### Character Stats\n\n'
         end
         
         markdown = markdown .. "| Category | Stat | Value |\n"

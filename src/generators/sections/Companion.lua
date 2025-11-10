@@ -4,7 +4,7 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local CreateAbilityLink, CreateCompanionLink, Pluralize
+local CreateAbilityLink, CreateCompanionLink, Pluralize, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
@@ -12,6 +12,7 @@ local function InitializeUtilities()
         CreateAbilityLink = CM.links.CreateAbilityLink
         CreateCompanionLink = CM.links.CreateCompanionLink
         Pluralize = CM.generators.helpers.Pluralize
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -29,6 +30,8 @@ local function GenerateCompanion(companionData, format)
         if format == "discord" then
             markdown = markdown .. "**Active Companion:**\n*No active companion*\n\n"
         else
+            local anchorId = GenerateAnchor and GenerateAnchor("👥 Active Companion") or "active-companion"
+            markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 👥 Active Companion\n\n"
             markdown = markdown .. "*No active companion*\n\n---\n\n"
         end
@@ -77,6 +80,8 @@ local function GenerateCompanion(companionData, format)
         end
     else
         local companionNameLinked = CreateCompanionLink(companionData.name, format)
+        local anchorId = GenerateAnchor and GenerateAnchor("👥 Active Companion") or "active-companion"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 👥 Active Companion\n\n"
         markdown = markdown .. "### 🧙 " .. companionNameLinked .. "\n\n"
         

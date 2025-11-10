@@ -61,8 +61,8 @@ src/generators/helpers/Utilities.lua
 
 ## Section generators (modular markdown generation)
 src/generators/sections/Achievements.lua
-src/generators/sections/Character.lua
 src/generators/sections/Economy.lua
+src/generators/sections/Character.lua
 src/generators/sections/Equipment.lua
 src/generators/sections/EquipmentEnhancement.lua
 src/generators/sections/SkillMorphs.lua

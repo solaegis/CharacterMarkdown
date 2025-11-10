@@ -59,6 +59,13 @@ local function InitializeUtilities()
             end
         end
     end
+    
+    -- GenerateAnchor is in CM.utils.markdown (from AdvancedMarkdown.lua)
+    if not CM.utils.GenerateAnchor then
+        if CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor then
+            CM.utils.GenerateAnchor = CM.utils.markdown.GenerateAnchor
+        end
+    end
 end
 
 -- =====================================================
@@ -282,6 +289,8 @@ local function GenerateSlottableChampionPoints(cpData, format)
     if format == "discord" then
         markdown = markdown .. "**Slottable Champion Points:**\n"
     else
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("⭐ Slottable Champion Points") or "slottable-champion-points"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## ⭐ Slottable Champion Points\n\n"
     end
     
@@ -352,6 +361,8 @@ local function GenerateChampionPoints(cpData, format)
     if format == "discord" then
         markdown = markdown .. "**Champion Points:**\n"
     else
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("⭐ Champion Points") or "champion-points"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## ⭐ Champion Points\n\n"
     end
     
@@ -520,6 +531,8 @@ local function GenerateConstellationTable(cpData, format)
     else
         -- Investment Summary section removed
         
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("⭐ Constellation Breakdown (All Stars)") or "constellation-breakdown-all-stars"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## ⭐ Constellation Breakdown (All Stars)\n\n"
     end
     
@@ -795,6 +808,8 @@ local function GenerateChampionPointStarTables(cpData, format)
     if format == "discord" then
         markdown = markdown .. "**Champion Point Star Allocations:**\n"
     else
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("⭐ Champion Point Star Allocations") or "champion-point-star-allocations"
+        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## ⭐ Champion Point Star Allocations\n\n"
     end
     

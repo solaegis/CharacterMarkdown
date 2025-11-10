@@ -4,12 +4,13 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber
+local FormatNumber, GenerateAnchor
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
+        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -25,6 +26,8 @@ local function GenerateArmoryBuilds(armoryData, format)
     if not armoryData or not armoryData.armory then
         -- Show placeholder when enabled but no data available
         if format ~= "discord" then
+            local anchorId = GenerateAnchor and GenerateAnchor("🏰 Armory Builds") or "armory-builds"
+            markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 🏰 Armory Builds\n\n"
             markdown = markdown .. "*No armory builds available*\n\n---\n\n"
         end
@@ -56,6 +59,8 @@ local function GenerateArmoryBuilds(armoryData, format)
         
         markdown = markdown .. "\n"
     else
+        local anchorId = GenerateAnchor and GenerateAnchor("🏰 Armory Builds") or "armory-builds"
+        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🏰 Armory Builds\n\n"
         
         if armory.total and armory.total > 0 then

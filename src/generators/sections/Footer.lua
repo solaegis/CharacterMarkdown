@@ -163,6 +163,8 @@ local function GenerateFooter(format, contentLength)
     local badgeRow = string_format("%s %s", formatBadge, sizeBadge)
     
     local footerContent = string_format([[
+---
+
 <div align="center">
 
 %s
@@ -174,7 +176,7 @@ local function GenerateFooter(format, contentLength)
 </div>
 ]], badgeRow, timestamp)
     
-    return "\n" .. (markdown.CreateSeparator("hr") or "") .. footerContent
+    return footerContent
 end
 
 -- =====================================================
