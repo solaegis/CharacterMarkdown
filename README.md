@@ -28,6 +28,10 @@
 /markdown discord  # Discord format
 /markdown vscode   # VS Code format
 /markdown quick    # One-line summary
+
+# Settings management
+/cmdsettings export  # Export settings to YAML
+/cmdsettings import  # Import settings from YAML
 ```
 
 ### Export Process
@@ -94,6 +98,29 @@ Access settings via:
 - **Quick Reference** - Essentials only
 
 ## 🔧 Advanced Features
+
+### Settings Export/Import
+
+Export and import settings in a human-readable YAML format:
+
+**Export**: `/cmdsettings export`
+- Opens a window with all settings in organized YAML format
+- Text is pre-selected for easy copying
+- Organized into logical groups for readability
+
+**Import**: `/cmdsettings import`
+- Paste YAML settings and import them
+- Supports **partial imports** - only import the settings you provide
+- Validates types and reports errors
+- Requires grouped format (use export to see the structure)
+
+**Example - Partial Import**:
+```yaml
+# Only change link settings
+links:
+  enableAbilityLinks: false
+  enableSetLinks: true
+```
 
 ### Custom Notes
 Add personal build notes that appear in your markdown:

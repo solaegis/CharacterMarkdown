@@ -80,6 +80,22 @@ function CM.Settings.Initializer:TryZOSavedVars()
         CharacterMarkdownSettings = CM.settings
     end
     
+    -- CRITICAL: Ensure all defaults are applied to the actual SavedVariables table
+    -- ZO_SavedVars creates a proxy table, but we need to ensure CharacterMarkdownSettings has all values
+    for key, defaultValue in pairs(defaults) do
+        if CharacterMarkdownSettings[key] == nil then
+            CharacterMarkdownSettings[key] = defaultValue
+            CM.DebugPrint("SETTINGS", "Applied missing default: " .. key .. " = " .. tostring(defaultValue))
+        end
+    end
+    
+    -- Initialize filter manager (CRITICAL: must be done after settings are loaded)
+    if not CM.Settings.FilterManager then
+        local FilterManager = require("src/settings/FilterManager")
+        CM.Settings.FilterManager = FilterManager
+        CM.Settings.FilterManager:Initialize()
+    end
+    
     -- zo_savedvars_available = true -- luacheck: ignore
     CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully")
     return true
@@ -133,6 +149,93 @@ end
 -- =====================================================
 
 function CM.Settings.Initializer:InitializeCharacterData()
+    -- Try ZO_SavedVars first (preferred method, same as boolean settings)
+    local success = self:TryZOCharacterSavedVars()
+    
+    if not success then
+        -- Fallback to direct access (for backwards compatibility)
+        CM.DebugPrint("SETTINGS", "ZO_SavedVars per-character initialization failed - using fallback")
+        self:InitializeCharacterDataFallback()
+    end
+    
+    -- Ensure custom notes and title are initialized
+    if CM.charData.customNotes == nil then
+        CM.charData.customNotes = ""
+    end
+    
+    if CM.charData.customTitle == nil then
+        CM.charData.customTitle = ""
+    end
+    
+    -- Force character data save on first run
+    if not CM.charData._initialized then
+        CM.charData._initialized = true
+        CM.charData._lastModified = GetTimeStamp()
+    end
+    
+    CM.DebugPrint("SETTINGS", "✓ Character data initialized (notes: " .. string.len(CM.charData.customNotes) .. " bytes)")
+end
+
+-- =====================================================
+-- ZO_SAVEDVARS PER-CHARACTER INITIALIZATION (PREFERRED)
+-- =====================================================
+
+function CM.Settings.Initializer:TryZOCharacterSavedVars()
+    -- Check if ZO_SavedVars is available
+    if not ZO_SavedVars or type(ZO_SavedVars.NewCharacterId) ~= "function" then
+        CM.DebugPrint("SETTINGS", "ZO_SavedVars.NewCharacterId not available - addon loaded too early?")
+        return false
+    end
+    
+    -- Default values for per-character data
+    local defaults = {
+        customNotes = "",
+        customTitle = "",
+    }
+    
+    -- Initialize per-character SavedVariables
+    local success, result = pcall(function()
+        CM.charData = ZO_SavedVars:NewCharacterId(
+            "CharacterMarkdownData",  -- SavedVariables name
+            1,  -- Version (increment when changing structure)
+            nil,  -- Namespace (nil = root)
+            defaults  -- Default values
+        )
+    end)
+    
+    if not success then
+        CM.DebugPrint("SETTINGS", "Failed to initialize ZO_SavedVars per-character: " .. tostring(result))
+        return false
+    end
+    
+    -- Verify initialization
+    if not CM.charData or type(CM.charData) ~= "table" then
+        CM.DebugPrint("SETTINGS", "ZO_SavedVars returned invalid character data table")
+        return false
+    end
+    
+    -- Also create global reference for backwards compatibility
+    if not CharacterMarkdownData then
+        CharacterMarkdownData = CM.charData
+    end
+    
+    -- CRITICAL: Ensure all defaults are applied
+    for key, defaultValue in pairs(defaults) do
+        if CM.charData[key] == nil then
+            CM.charData[key] = defaultValue
+            CM.DebugPrint("SETTINGS", "Applied missing default: " .. key .. " = " .. tostring(defaultValue))
+        end
+    end
+    
+    CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars per-character initialized successfully")
+    return true
+end
+
+-- =====================================================
+-- FALLBACK PER-CHARACTER INITIALIZATION
+-- =====================================================
+
+function CM.Settings.Initializer:InitializeCharacterDataFallback()
     -- Access the global per-character SavedVariables
     -- SavedVariablesPerCharacter are created by ESO automatically, but may not be available immediately
     -- Try multiple methods to find CharacterMarkdownData
@@ -152,24 +255,7 @@ function CM.Settings.Initializer:InitializeCharacterData()
     end
     
     CM.charData = CharacterMarkdownData
-    
-    -- Initialize custom notes
-    if CM.charData.customNotes == nil then
-        CM.charData.customNotes = ""
-    end
-    
-    -- Initialize custom title
-    if CM.charData.customTitle == nil then
-        CM.charData.customTitle = ""
-    end
-    
-    -- Force character data save on first run
-    if not CM.charData._initialized then
-        CM.charData._initialized = true
-        CM.charData._lastModified = GetTimeStamp()
-    end
-    
-    CM.DebugPrint("SETTINGS", "✓ Character data initialized (notes: " .. string.len(CM.charData.customNotes) .. " bytes)")
+    CM.DebugPrint("SETTINGS", "✓ Fallback character data initialization complete")
 end
 
 -- =====================================================

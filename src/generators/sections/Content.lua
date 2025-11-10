@@ -407,46 +407,6 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
                 end
             end
         end
-        
-        -- Add Riding Skills subsection (after Titles & Housing)
-        if ridingData and (CM.settings == nil or CM.settings.includeRidingSkills ~= false) then
-            InitializeUtilities()
-            
-            local speed = ridingData.speed or 0
-            local stamina = ridingData.stamina or 0
-            local capacity = ridingData.capacity or 0
-            local maxRiding = 60
-            
-            local speedPercent = math.floor((speed / maxRiding) * 100)
-            local staminaPercent = math.floor((stamina / maxRiding) * 100)
-            local capacityPercent = math.floor((capacity / maxRiding) * 100)
-            
-            local speedFilled = math.floor((speedPercent / 100) * 20)
-            local staminaFilled = math.floor((staminaPercent / 100) * 20)
-            local capacityFilled = math.floor((capacityPercent / 100) * 20)
-            
-            -- Align colons: "Speed:" (6) + 2 spaces = 8, "Stamina:" (7) + 1 space = 8, "Capacity:" (8) = 8
-            -- Use left-alignment (%-8s) to pad labels on the right, aligning colons
-            local speedBar = string_format("%-8s %s%s %d%% (%d/%d)", 
-                "Speed:", string_rep("█", speedFilled), string_rep("░", 20 - speedFilled),
-                speedPercent, speed, maxRiding)
-            local staminaBar = string_format("%-8s %s%s %d%% (%d/%d)", 
-                "Stamina:", string_rep("█", staminaFilled), string_rep("░", 20 - staminaFilled),
-                staminaPercent, stamina, maxRiding)
-            local capacityBar = string_format("%-8s %s%s %d%% (%d/%d)", 
-                "Capacity:", string_rep("█", capacityFilled), string_rep("░", 20 - capacityFilled),
-                capacityPercent, capacity, maxRiding)
-            
-            -- Format strings already include correct spacing via %-8s left-alignment (pads on right to align colons)
-            local ridingContent = string_format("%s  \n%s  \n%s", speedBar, staminaBar, capacityBar)
-            
-            -- Wrap in collapsible section
-            if CreateCollapsible then
-                markdown = markdown .. CreateCollapsible("Riding Skills", ridingContent, "🐴", false)
-            else
-                markdown = markdown .. "### 🐴 Riding Skills\n\n" .. ridingContent .. "\n\n"
-            end
-        end
     end
     
     return markdown

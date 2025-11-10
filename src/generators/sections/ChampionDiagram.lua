@@ -1,5 +1,5 @@
 -- CharacterMarkdown - Champion Points Mermaid Diagram Generator
--- Generates personalized CP diagrams showing invested stars
+-- Generates personalized CP diagrams showing invested stars with prerequisite relationships
 
 local CM = CharacterMarkdown
 local string_format = string.format
@@ -76,11 +76,6 @@ local STAR_MAP = {
     ["Salvation"] = { tree = "Warfare", type = "slottable", node = "MC3", sub = "Mastered Curation" },
     ["Radiating Regen"] = { tree = "Warfare", type = "passive", node = "MC4", sub = "Mastered Curation" },
     
-    -- Sub-Constellation: Staving Death
-    ["Bastion"] = { tree = "Warfare", type = "slottable", node = "SD1", sub = "Staving Death" },
-    ["Bulwark"] = { tree = "Warfare", type = "passive", node = "SD2", sub = "Staving Death" },
-    ["Fortified"] = { tree = "Warfare", type = "passive", node = "SD4", sub = "Staving Death" },
-    
     -- Sub-Constellation: Extended Might
     ["Wrathful Strikes"] = { tree = "Warfare", type = "slottable", node = "EM1", sub = "Extended Might" },
     ["Critical Precision"] = { tree = "Warfare", type = "passive", node = "EM2", sub = "Extended Might" },
@@ -126,10 +121,16 @@ local STAR_MAP = {
     ["Unassailable"] = { tree = "Fitness", type = "slottable", node = "WF3", sub = "Walking Fortress" },
     ["Stalwart Guard"] = { tree = "Fitness", type = "passive", node = "WF4", sub = "Walking Fortress" },
     
+    -- Sub-Constellation: Staving Death (FITNESS, not Warfare!)
+    ["Bastion"] = { tree = "Fitness", type = "slottable", node = "SD1", sub = "Staving Death" },
+    ["Bulwark"] = { tree = "Fitness", type = "passive", node = "SD2", sub = "Staving Death" },
+    ["Fortified"] = { tree = "Fitness", type = "passive", node = "SD4", sub = "Staving Death" },
+    
     -- Alternative/Old names that might appear
-    ["Precision"] = { tree = "Warfare", type = "passive", node = "W_R1" },  -- Alias for Piercing
-    ["Wanderer"] = { tree = "Craft", type = "passive", node = "C_R6" },  -- Old name for Gifted Rider
-    ["Mystic Tenacity"] = { tree = "Warfare", type = "passive", node = "W_C1" },  -- Alternative name
+    -- NOTE: These are aliases for the same stars - they share node IDs and will be deduplicated
+    ["Precision"] = { tree = "Warfare", type = "passive", node = "W_R1" },  -- Alias for Piercing (same node ID)
+    ["Wanderer"] = { tree = "Craft", type = "passive", node = "C_R6" },  -- Old name for Gifted Rider (same node ID, will be deduplicated)
+    ["Mystic Tenacity"] = { tree = "Fitness", type = "passive", node = "F_C1" },  -- FITNESS star, requires Tumbling
 }
 
 -- =====================================================
@@ -216,54 +217,85 @@ local function GenerateNode(skill, starData)
 end
 
 -- =====================================================
--- HELPER: Get tree color with improved palette
+-- HELPER: Get tree color with complementary pale palette
 -- =====================================================
 local function GetTreeColor(tree, intensity)
+    -- Complementary color scheme with pale, harmonious backgrounds
+    -- Craft: Soft sage/teal greens (complementary to coral)
+    -- Warfare: Soft periwinkle/lavender blues (complementary to peach)
+    -- Fitness: Soft coral/peach (complementary to teal)
     local colors = {
         Craft = {
-            high = "#00b359",        -- Rich green (maxed)
-            ["medium-high"] = "#00cc66",  -- Bright green
-            medium = "#4dd98f",      -- Medium green
-            low = "#a6e6c7"          -- Pale green
+            high = "#7fb3a8",        -- Soft teal (maxed) - deeper but still pale
+            ["medium-high"] = "#9fc5bb",  -- Medium teal
+            medium = "#b8d4cc",      -- Light teal
+            low = "#d4e8e1"          -- Very pale sage green
         },
         Warfare = {
-            high = "#0052cc",        -- Deep blue (maxed)
-            ["medium-high"] = "#0066ff",  -- Bright blue
-            medium = "#4d94ff",      -- Medium blue
-            low = "#b3d9ff"          -- Pale blue
+            high = "#8b9dc3",        -- Soft periwinkle (maxed) - deeper but still pale
+            ["medium-high"] = "#a5b3d1",  -- Medium periwinkle
+            medium = "#bfc9df",      -- Light periwinkle
+            low = "#d9dfed"          -- Very pale lavender blue
         },
         Fitness = {
-            high = "#cc0000",        -- Deep red (maxed)
-            ["medium-high"] = "#ff1a1a", -- Bright red
-            medium = "#ff6666",      -- Medium red
-            low = "#ffb3b3"          -- Pale red
+            high = "#d4a5a5",        -- Soft coral (maxed) - deeper but still pale
+            ["medium-high"] = "#e0b8b8",  -- Medium coral
+            medium = "#eccbcb",      -- Light coral
+            low = "#f8dede"          -- Very pale peach
         }
     }
     
-    return colors[tree] and colors[tree][intensity] or "#cccccc"
+    return colors[tree] and colors[tree][intensity] or "#e8e8e8"  -- Neutral pale gray fallback
 end
 
 -- =====================================================
--- HELPER: Get enhanced node shape based on points
+-- HELPER: Get strong node color (for individual stars)
 -- =====================================================
-local function GetNodeShape(starData, points)
-    local maxPoints = GetMaxPoints("")  -- Get default max
+local function GetStrongNodeColor(tree)
+    -- Stronger, more saturated colors for individual nodes
+    local strongColors = {
+        Craft = "#4a9d7f",      -- Strong teal/green
+        Warfare = "#5b7fb8",    -- Strong periwinkle/blue
+        Fitness = "#b87a7a"     -- Strong coral/rose
+    }
+    
+    return strongColors[tree] or "#888888"  -- Neutral gray fallback
+end
+
+-- =====================================================
+-- HELPER: Get pale subgraph background color
+-- =====================================================
+local function GetSubgraphBackgroundColor(tree)
+    -- Very pale background colors for subgraph containers
+    local paleColors = {
+        Craft = "#e8f4f0",      -- Very pale sage/teal
+        Warfare = "#f0f4f8",    -- Very pale periwinkle/lavender
+        Fitness = "#faf0f0"     -- Very pale coral/peach
+    }
+    
+    return paleColors[tree] or "#f5f5f5"  -- Neutral pale gray fallback
+end
+
+-- =====================================================
+-- HELPER: Get enhanced node shape based on points and star type
+-- =====================================================
+local function GetNodeShape(starData, points, maxPoints)
+    maxPoints = maxPoints or 50  -- Default to 50 if not provided
     local isMaxed = points >= maxPoints
     
+    -- Shape is determined by star type to ensure consistency
+    -- Slottables: squares, Passives: circles, Base: hexagons
     if starData.type == "slottable" then
         if isMaxed then
-            return "[[", "]]"  -- Maxed slottable - double square
+            return "[[", "]]"  -- Maxed slottable - double square brackets
         else
-            return "[", "]"    -- Partial slottable - single square
+            return "[", "]"    -- Partial slottable - single square brackets
         end
     elseif starData.type == "base" then
-        return "{", "}"        -- Base stars - hexagon
+        return "{", "}"        -- Base stars - hexagon (curly braces)
     else
-        if isMaxed then
-            return "(", ")"    -- Maxed passive - circle
-        else
-            return "([", "])"  -- Partial passive - stadium shape
-        end
+        -- Passive stars - always use circles for consistency
+        return "(", ")"       -- Passive (maxed or partial) - circle (parentheses)
     end
 end
 
@@ -271,13 +303,14 @@ end
 -- MAIN: Generate Champion Points Diagram
 -- =====================================================
 local function GenerateChampionDiagram(cpData)
+    CM.DebugPrint("CHAMPION_DIAGRAM", "GenerateChampionDiagram called")
     if not cpData or not cpData.disciplines or #cpData.disciplines == 0 then
+        CM.DebugPrint("CHAMPION_DIAGRAM", "No CP data or disciplines, returning empty")
         return ""
     end
     
+    CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Processing %d disciplines", #cpData.disciplines))
     local markdown = "## 🎯 Champion Points Visual\n\n"
-    markdown = markdown .. string.format("**Your CP Investment:** %d earned • %d spent • %d available\n\n", 
-        cpData.total or 0, cpData.spent or 0, (cpData.total or 0) - (cpData.spent or 0))
     
     -- Organize skills by tree
     local treeSkills = {
@@ -287,9 +320,36 @@ local function GenerateChampionDiagram(cpData)
     }
     
     -- Map skills to trees
+    -- Use allStars which contains all skills (including 0 points) for complete diagram
     for _, discipline in ipairs(cpData.disciplines) do
-        if discipline.skills then
-            for _, skill in ipairs(discipline.skills) do
+        CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Processing discipline: %s", discipline.name or "Unknown"))
+        -- Check allStars first (most complete), then fall back to slottableSkills + passiveSkills
+        local skillsToProcess = {}
+        if discipline.allStars and #discipline.allStars > 0 then
+            CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Using allStars: %d skills", #discipline.allStars))
+            skillsToProcess = discipline.allStars
+        elseif discipline.slottableSkills or discipline.passiveSkills then
+            -- Combine slottable and passive skills
+            if discipline.slottableSkills then
+                CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Adding %d slottable skills", #discipline.slottableSkills))
+                for _, skill in ipairs(discipline.slottableSkills) do
+                    table.insert(skillsToProcess, skill)
+                end
+            end
+            if discipline.passiveSkills then
+                CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Adding %d passive skills", #discipline.passiveSkills))
+                for _, skill in ipairs(discipline.passiveSkills) do
+                    table.insert(skillsToProcess, skill)
+                end
+            end
+        else
+            CM.DebugPrint("CHAMPION_DIAGRAM", "No skills found in discipline")
+        end
+        
+        for _, skill in ipairs(skillsToProcess) do
+            -- Only include skills with points invested (for diagram clarity)
+            local points = skill.points or 0
+            if points > 0 then
                 local starData = STAR_MAP[skill.name]
                 if not starData then
                     -- Fallback for unmapped stars
@@ -315,11 +375,57 @@ local function GenerateChampionDiagram(cpData)
         end
     end
     
-    -- Sort skills by points (highest first) for better visual hierarchy
+    -- Deduplicate skills by node ID (in case aliases like "Wanderer" and "Gifted Rider" both appear)
+    -- Keep the one with more points, or the first one if points are equal
     for treeName, skills in pairs(treeSkills) do
+        local nodeIdMap = {}
+        local deduplicated = {}
+        
+        for _, entry in ipairs(skills) do
+            local nodeId = entry.starData.node
+            if not nodeIdMap[nodeId] then
+                -- First occurrence of this node ID
+                nodeIdMap[nodeId] = entry
+                table.insert(deduplicated, entry)
+            else
+                -- Duplicate node ID - keep the one with more points
+                local existing = nodeIdMap[nodeId]
+                if entry.skill.points > existing.skill.points then
+                    -- Replace with the one that has more points
+                    for i, dedupEntry in ipairs(deduplicated) do
+                        if dedupEntry.starData.node == nodeId then
+                            deduplicated[i] = entry
+                            nodeIdMap[nodeId] = entry
+                            break
+                        end
+                    end
+                    CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Deduplicated node %s: kept %s (%d pts) over %s (%d pts)", 
+                        nodeId, entry.skill.name, entry.skill.points, existing.skill.name, existing.skill.points))
+                else
+                    CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Deduplicated node %s: kept %s (%d pts) over %s (%d pts)", 
+                        nodeId, existing.skill.name, existing.skill.points, entry.skill.name, entry.skill.points))
+                end
+            end
+        end
+        
+        treeSkills[treeName] = deduplicated
+    end
+    
+    -- Sort skills by points (highest first) for better visual hierarchy
+    local totalSkillsInDiagram = 0
+    for treeName, skills in pairs(treeSkills) do
+        totalSkillsInDiagram = totalSkillsInDiagram + #skills
+        CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Tree %s: %d skills (after deduplication)", treeName, #skills))
         table.sort(skills, function(a, b)
             return a.skill.points > b.skill.points
         end)
+    end
+    
+    CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Total skills in diagram: %d", totalSkillsInDiagram))
+    
+    if totalSkillsInDiagram == 0 then
+        CM.DebugPrint("CHAMPION_DIAGRAM", "No skills with points found, returning empty diagram")
+        return markdown .. "*No invested Champion Points to visualize*\n\n"
     end
     
     -- Generate diagram
@@ -329,10 +435,20 @@ local function GenerateChampionDiagram(cpData)
     markdown = markdown .. "  %% Color intensity shows investment level\n"
     markdown = markdown .. "  %% Shapes indicate star types\n\n"
     
+    -- Build discipline map for easy lookup
+    local disciplineMap = {}
+    for _, discipline in ipairs(cpData.disciplines) do
+        if discipline.name then
+            disciplineMap[discipline.name] = discipline
+        end
+    end
+    
     -- Generate nodes for each tree
     local treeOrder = {"Craft", "Warfare", "Fitness"}  -- Ensure consistent order
     for _, treeName in ipairs(treeOrder) do
         local skills = treeSkills[treeName]
+        local discipline = disciplineMap[treeName]
+        
         if skills and #skills > 0 then
             local treeEmoji = {
                 Craft = "⚒️",
@@ -346,7 +462,8 @@ local function GenerateChampionDiagram(cpData)
             markdown = markdown .. "  %% " .. treeIcon .. " " .. treeName:upper() .. " CONSTELLATION\n"
             markdown = markdown .. "  %% ========================================\n\n"
             
-            markdown = markdown .. string.format("  subgraph %s[\"<b>%s %s Constellation</b>\"]\n", 
+            -- Mermaid subgraph syntax: subgraph id [label text] (no quotes, but emojis work)
+            markdown = markdown .. string.format("  subgraph %s [%s %s Constellation]\n", 
                 treeName:upper(), treeIcon, treeName)
             markdown = markdown .. "    direction LR\n\n"  -- Horizontal layout within tree
             
@@ -359,15 +476,28 @@ local function GenerateChampionDiagram(cpData)
                 local maxPoints = GetMaxPoints(skill.name)
                 local indicator = GetPointIndicator(points, maxPoints)
                 
-                -- Get enhanced node shape
-                local prefix, suffix = GetNodeShape(starData, points)
+                -- Get enhanced node shape (consistent with star type)
+                local prefix, suffix = GetNodeShape(starData, points, maxPoints)
                 
-                -- Build enhanced label with indicator
-                local label = string.format("%s %s<br/>%d/%d pts", 
+                -- Build label with indicator (single line - line breaks not supported reliably in Mermaid)
+                local label = string.format("%s %s %d/%d pts", 
                     indicator, skill.name, points, maxPoints)
                 
-                markdown = markdown .. string.format("    %s%s\"%s\"%s\n", 
+                markdown = markdown .. string.format("    %s%s%s%s\n", 
                     nodeId, prefix, label, suffix)
+            end
+            
+            -- Add unassigned points node for this discipline
+            if discipline then
+                local available = cpData.available or 0
+                local unassignedNodeId = string.format("%s_UNAVAIL", treeName:upper())
+                
+                -- Create a special node showing unassigned points (shared pool)
+                if available > 0 then
+                    -- Single line label (no quotes needed in Mermaid)
+                    markdown = markdown .. string.format("    %s([💎 Unassigned: %d available])\n", 
+                        unassignedNodeId, available)
+                end
             end
             
             markdown = markdown .. "\n"
@@ -381,8 +511,8 @@ local function GenerateChampionDiagram(cpData)
                 local maxPoints = GetMaxPoints(skill.name)
                 local isMaxed = points >= maxPoints
                 
-                local intensity = GetColorIntensity(points)
-                local color = GetTreeColor(treeName, intensity)
+                -- Use strong node color instead of intensity-based color
+                local color = GetStrongNodeColor(treeName)
                 
                 -- Enhanced styling with better borders
                 local strokeWidth = "2px"
@@ -401,47 +531,315 @@ local function GenerateChampionDiagram(cpData)
                     nodeId, color, strokeColor, strokeWidth)
             end
             
-            markdown = markdown .. "  end\n\n"
+            -- Style the unassigned points node
+            if discipline then
+                local available = cpData.available or 0
+                if available > 0 then
+                    local unassignedNodeId = string.format("%s_UNAVAIL", treeName:upper())
+                    local unassignedColor = GetStrongNodeColor(treeName)
+                    -- Use a dashed border style to distinguish it as available points
+                    markdown = markdown .. string.format("    style %s fill:%s,stroke:#999,stroke-width:2px,stroke-dasharray:5 5,color:#000\n", 
+                        unassignedNodeId, unassignedColor)
+                end
+            end
+            
+            markdown = markdown .. "  end\n"
+            
+            -- Add subgraph background color styling (outside subgraph, after closing)
+            local subgraphBgColor = GetSubgraphBackgroundColor(treeName)
+            markdown = markdown .. string.format("  style %s fill:%s,stroke:#ddd,stroke-width:2px\n\n", 
+                treeName:upper(), subgraphBgColor)
         end
     end
     
-    -- Add enhanced legend
+    -- Add prerequisite connections using pathfinder data
+    -- Discover cluster relationships and add edges
+    markdown = markdown .. "  %% ========================================\n"
+    markdown = markdown .. "  %% PREREQUISITE CONNECTIONS\n"
+    markdown = markdown .. "  %% ========================================\n\n"
+    
+    -- Build skill ID to node ID mapping
+    local skillIdToNode = {}
+    for _, discipline in ipairs(cpData.disciplines) do
+        if discipline.allStars then
+            for _, star in ipairs(discipline.allStars) do
+                if star.skillId and star.points and star.points > 0 then
+                    local starData = STAR_MAP[star.name]
+                    if starData then
+                        skillIdToNode[star.skillId] = starData.node
+                    end
+                end
+            end
+        end
+    end
+    
+    -- Discover cluster relationships and add edges
+    local edgesAdded = {}
+    local edgesList = {}  -- Track edges in order for linkStyle
+    local edgeIndex = 0   -- Track edge index for linkStyle (0-based)
+    local disciplineIndexMap = {
+        ["Craft"] = 1,
+        ["Warfare"] = 2,
+        ["Fitness"] = 3
+    }
+    
+    for _, discipline in ipairs(cpData.disciplines) do
+        local disciplineIndex = disciplineIndexMap[discipline.name]
+        if disciplineIndex and discipline.allStars then
+            -- Find cluster roots and their relationships
+            for _, star in ipairs(discipline.allStars) do
+                if star.skillId then
+                    local successRoot, isRoot = pcall(IsChampionSkillClusterRoot, star.skillId)
+                    if successRoot and isRoot then
+                        -- Get all skills in this cluster
+                        local successCluster, clusterSkills = pcall(function()
+                            return {GetChampionClusterSkillIds(star.skillId)}
+                        end)
+                        
+                        if successCluster and clusterSkills then
+                            local rootNode = skillIdToNode[star.skillId]
+                            if rootNode then
+                                -- Connect cluster members to root (prerequisite relationship)
+                                -- Root is the prerequisite, cluster members are dependents
+                                -- Arrow direction: dependent -> prerequisite (e.g., SBS -> MT)
+                                for _, clusterSkillId in ipairs(clusterSkills) do
+                                    if clusterSkillId ~= star.skillId then
+                                        local clusterNode = skillIdToNode[clusterSkillId]
+                                        if clusterNode then
+                                            -- For prerequisites, arrow goes from dependent to prerequisite
+                                            -- So: clusterNode (dependent) -> rootNode (prerequisite)
+                                            local edgeKey = clusterNode .. "->" .. rootNode
+                                            if not edgesAdded[edgeKey] then
+                                                -- Test if cluster skill is unlocked to determine edge style
+                                                local successUnlock, isUnlocked = pcall(WouldChampionSkillNodeBeUnlocked, clusterSkillId, 0)
+                                                -- Use edge style without labels (labels with pipes cause parse errors in some Mermaid versions)
+                                                if successUnlock and isUnlocked then
+                                                    markdown = markdown .. string_format("  %s --> %s\n", 
+                                                        clusterNode, rootNode)
+                                                    table.insert(edgesList, {type = "solid", index = edgeIndex})
+                                                    edgeIndex = edgeIndex + 1
+                                                else
+                                                    markdown = markdown .. string_format("  %s -.-> %s\n", 
+                                                        clusterNode, rootNode)
+                                                    table.insert(edgesList, {type = "dashed", index = edgeIndex})
+                                                    edgeIndex = edgeIndex + 1
+                                                end
+                                                edgesAdded[edgeKey] = true
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            
+            -- Discover prerequisite relationships beyond clusters
+            -- Check for direct prerequisites (e.g., Tumbling -> Mystic Tenacity)
+            -- Strategy: For each skill with points, check if other skills in same branch/branch are prerequisites
+            for _, star1 in ipairs(discipline.allStars) do
+                if star1.skillId and star1.points and star1.points > 0 then
+                    local node1 = skillIdToNode[star1.skillId]
+                    local star1Data = STAR_MAP[star1.name]
+                    if node1 and star1Data then
+                        for _, star2 in ipairs(discipline.allStars) do
+                            if star2.skillId and star2.skillId ~= star1.skillId and star2.points and star2.points > 0 then
+                                local node2 = skillIdToNode[star2.skillId]
+                                local star2Data = STAR_MAP[star2.name]
+                                if node2 and star2Data and star1Data.tree == star2Data.tree then
+                                    -- Both stars are in the same constellation
+                                    -- Check if star1 is a prerequisite for star2
+                                    -- Heuristic 1: If star1 is a base star and star2 is not, star1 might be prerequisite
+                                    if star1Data.type == "base" and star2Data.type ~= "base" then
+                                        local edgeKey = node2 .. "->" .. node1
+                                        if not edgesAdded[edgeKey] then
+                                            markdown = markdown .. string_format("  %s -.-> %s\n", 
+                                                node2, node1)
+                                            table.insert(edgesList, {type = "dashed", index = edgeIndex})
+                                            edgeIndex = edgeIndex + 1
+                                            edgesAdded[edgeKey] = true
+                                        end
+                                    -- Heuristic 2: Check if they're in the same branch and star1 comes before star2
+                                    elseif star1Data.node and star2Data.node then
+                                        -- Extract branch and number from node IDs (e.g., F_L1, F_L2, F_C1, F_C2)
+                                        local branch1 = star1Data.node:match("^([A-Z]_[A-Z])")
+                                        local branch2 = star2Data.node:match("^([A-Z]_[A-Z])")
+                                        if branch1 and branch2 then
+                                            if branch1 == branch2 then
+                                                -- Same branch - check if star1 comes before star2 numerically
+                                                local num1 = tonumber(star1Data.node:match("%d+"))
+                                                local num2 = tonumber(star2Data.node:match("%d+"))
+                                                if num1 and num2 and num1 < num2 then
+                                                    -- star1 is earlier in the branch, so it might be a prerequisite
+                                                    local edgeKey = node2 .. "->" .. node1
+                                                    if not edgesAdded[edgeKey] then
+                                                        markdown = markdown .. string_format("  %s -.-> %s\n", 
+                                                            node2, node1)
+                                                        edgesAdded[edgeKey] = true
+                                                    end
+                                                end
+                                            else
+                                                -- Different branches - check for cross-branch prerequisites
+                                                -- Common pattern: Left branch (L) often prerequisites Center branch (C)
+                                                -- Extract branch letters (L, C, R, BASE, IND, etc.)
+                                                local branchLetter1 = star1Data.node:match("_[A-Z]+") or ""
+                                                local branchLetter2 = star2Data.node:match("_[A-Z]+") or ""
+                                                local num1 = tonumber(star1Data.node:match("%d+"))
+                                                local num2 = tonumber(star2Data.node:match("%d+"))
+                                                
+                                                -- Check if star1 is in Left branch (L) and star2 is in Center branch (C)
+                                                -- This is a common prerequisite pattern (e.g., Tumbling F_L1 -> Mystic Tenacity F_C1)
+                                                if branchLetter1:match("_L") and branchLetter2:match("_C") and num1 and num2 then
+                                                    -- Left branch skill might be prerequisite for Center branch skill
+                                                    local edgeKey = node2 .. "->" .. node1
+                                                    if not edgesAdded[edgeKey] then
+                                                        markdown = markdown .. string_format("  %s -.-> %s\n", 
+                                                            node2, node1)
+                                                        edgesAdded[edgeKey] = true
+                                                    end
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            
+            -- Also check for cluster relationships between skills with points
+            for _, star1 in ipairs(discipline.allStars) do
+                if star1.skillId and star1.points and star1.points > 0 then
+                    local node1 = skillIdToNode[star1.skillId]
+                    if node1 then
+                        for _, star2 in ipairs(discipline.allStars) do
+                            if star2.skillId and star2.skillId ~= star1.skillId and star2.points and star2.points > 0 then
+                                local node2 = skillIdToNode[star2.skillId]
+                                if node2 then
+                                    -- Check if they're in a cluster relationship
+                                    local successUnlock1, isUnlocked1 = pcall(WouldChampionSkillNodeBeUnlocked, star1.skillId, 0)
+                                    local successUnlock2, isUnlocked2 = pcall(WouldChampionSkillNodeBeUnlocked, star2.skillId, 0)
+                                    
+                                    if successUnlock1 and successUnlock2 and isUnlocked1 and isUnlocked2 then
+                                        -- Both are unlocked - check if they're in a cluster relationship
+                                        local successRoot1, isRoot1 = pcall(IsChampionSkillClusterRoot, star1.skillId)
+                                        if successRoot1 and isRoot1 then
+                                            local successCluster, clusterSkills = pcall(function()
+                                                return {GetChampionClusterSkillIds(star1.skillId)}
+                                            end)
+                                            if successCluster and clusterSkills then
+                                                for _, clusterSkillId in ipairs(clusterSkills) do
+                                                    if clusterSkillId == star2.skillId then
+                                                        -- star2 is in star1's cluster, so star2 depends on star1
+                                                        -- Arrow: star2 -> star1 (star2 requires star1)
+                                                        local edgeKey = node2 .. "->" .. node1
+                                                        if not edgesAdded[edgeKey] then
+                                                            markdown = markdown .. string_format("  %s -.-> %s\n", 
+                                                                node2, node1)
+                                                            table.insert(edgesList, {type = "dashed", index = edgeIndex})
+                                                            edgeIndex = edgeIndex + 1
+                                                            edgesAdded[edgeKey] = true
+                                                        end
+                                                        break
+                                                    end
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            
+            -- Note: Additional prerequisite relationships beyond clusters would require
+            -- more sophisticated pathfinding. The cluster relationships above should cover
+            -- most of the visual structure. For detailed unlock paths, use the pathfinder
+            -- utility functions directly.
+        end
+    end
+    
+    -- Add bold styling to all edges for better visibility
+    if #edgesList > 0 then
+        markdown = markdown .. "\n  %% ========================================\n"
+        markdown = markdown .. "  %% EDGE STYLING (Bold lines for readability)\n"
+        markdown = markdown .. "  %% ========================================\n\n"
+        for _, edge in ipairs(edgesList) do
+            -- Make edges thicker: 3px for solid, 2.5px for dashed
+            local strokeWidth = edge.type == "solid" and "3px" or "2.5px"
+            markdown = markdown .. string_format("  linkStyle %d stroke-width:%s\n", edge.index, strokeWidth)
+        end
+    end
+    
+    markdown = markdown .. "\n"
+    
+    -- Add enhanced legend with parent subgraph containing three child subgraphs
     markdown = markdown .. "  %% ========================================\n"
     markdown = markdown .. "  %% LEGEND & KEY\n"
     markdown = markdown .. "  %% ========================================\n\n"
     
-    markdown = markdown .. "  subgraph LEGEND[\"<b>📋 Legend & Investment Guide</b>\"]\n"
+    -- Parent legend subgraph
+    markdown = markdown .. "  subgraph LEGEND [📖 Legend]\n"
     markdown = markdown .. "    direction TB\n\n"
     
-    -- Star types
-    markdown = markdown .. "    LEG_SLOT[[\"⭐ Maxed Slottable<br/>Must Equip to Bar\"]]\n"
-    markdown = markdown .. "    LEG_SLOT_PART[\"●●○ Partial Slottable<br/>Can Equip to Bar\"]\n"
-    markdown = markdown .. "    LEG_PASS(\"●●● Maxed Passive<br/>Always Active\")\n"
-    markdown = markdown .. "    LEG_PASS_PART([\"●○○ Partial Passive<br/>Always Active\"])\n"
-    markdown = markdown .. "    LEG_BASE{\"Base Star<br/>Prerequisite\"}\n"
+    -- Subgraph 1: Maxed Stars
+    markdown = markdown .. "    subgraph LEGEND_MAXED [⭐ Maxed Stars]\n"
+    markdown = markdown .. "      direction LR\n\n"
+    markdown = markdown .. "      LEG_SLOT_CRAFT[[⚒️ Craft: Maxed Slottable]]\n"
+    markdown = markdown .. "      LEG_SLOT_WARFARE[[⚔️ Warfare: Maxed Slottable]]\n"
+    markdown = markdown .. "      LEG_SLOT_FITNESS[[💪 Fitness: Maxed Slottable]]\n"
+    markdown = markdown .. "      LEG_PASS_CRAFT(⚒️ Craft: Maxed Passive)\n"
+    markdown = markdown .. "      LEG_PASS_WARFARE(⚔️ Warfare: Maxed Passive)\n"
+    markdown = markdown .. "      LEG_PASS_FITNESS(💪 Fitness: Maxed Passive)\n"
     markdown = markdown .. "\n"
+    -- Styling for maxed stars
+    markdown = markdown .. "      style LEG_SLOT_CRAFT fill:#4a9d7f,stroke:#ffd700,stroke-width:3px,color:#000\n"
+    markdown = markdown .. "      style LEG_SLOT_WARFARE fill:#5b7fb8,stroke:#ffd700,stroke-width:3px,color:#000\n"
+    markdown = markdown .. "      style LEG_SLOT_FITNESS fill:#b87a7a,stroke:#ffd700,stroke-width:3px,color:#000\n"
+    markdown = markdown .. "      style LEG_PASS_CRAFT fill:#4a9d7f,stroke:#333,stroke-width:2px,color:#000\n"
+    markdown = markdown .. "      style LEG_PASS_WARFARE fill:#5b7fb8,stroke:#333,stroke-width:2px,color:#000\n"
+    markdown = markdown .. "      style LEG_PASS_FITNESS fill:#b87a7a,stroke:#333,stroke-width:2px,color:#000\n"
+    markdown = markdown .. "    end\n"
+    markdown = markdown .. "    style LEGEND_MAXED fill:#f5f5f5,stroke:#ddd,stroke-width:2px\n\n"
     
-    -- Investment indicators
-    markdown = markdown .. "    LEG_IND1[\"⭐ = 100%% Maxed\"]\n"
-    markdown = markdown .. "    LEG_IND2[\"●●● = 75-99%%\"]\n"
-    markdown = markdown .. "    LEG_IND3[\"●●○ = 50-74%%\"]\n"
-    markdown = markdown .. "    LEG_IND4[\"●○○ = 25-49%%\"]\n"
-    markdown = markdown .. "    LEG_IND5[\"○○○ = 1-24%%\"]\n"
+    -- Subgraph 2: Independent Stars
+    markdown = markdown .. "    subgraph LEGEND_BASE [🔷 Independent Stars]\n"
+    markdown = markdown .. "      direction LR\n\n"
+    markdown = markdown .. "      LEG_BASE_CRAFT{⚒️ Craft: Independent Star}\n"
+    markdown = markdown .. "      LEG_BASE_WARFARE{⚔️ Warfare: Independent Star}\n"
+    markdown = markdown .. "      LEG_BASE_FITNESS{💪 Fitness: Independent Star}\n"
     markdown = markdown .. "\n"
+    -- Styling for independent stars
+    markdown = markdown .. "      style LEG_BASE_CRAFT fill:#4a9d7f,stroke:#ff8c00,stroke-width:2.5px,color:#000\n"
+    markdown = markdown .. "      style LEG_BASE_WARFARE fill:#5b7fb8,stroke:#ff8c00,stroke-width:2.5px,color:#000\n"
+    markdown = markdown .. "      style LEG_BASE_FITNESS fill:#b87a7a,stroke:#ff8c00,stroke-width:2.5px,color:#000\n"
+    markdown = markdown .. "    end\n"
+    markdown = markdown .. "    style LEGEND_BASE fill:#f5f5f5,stroke:#ddd,stroke-width:2px\n\n"
     
-    -- Styling for legend items
-    markdown = markdown .. "    style LEG_SLOT fill:#00cc66,stroke:#ffd700,stroke-width:3px,color:#000\n"
-    markdown = markdown .. "    style LEG_SLOT_PART fill:#4dd98f,stroke:#666,stroke-width:3px,color:#000\n"
-    markdown = markdown .. "    style LEG_PASS fill:#00b359,stroke:#333,stroke-width:2px,color:#fff\n"
-    markdown = markdown .. "    style LEG_PASS_PART fill:#a6e6c7,stroke:#333,stroke-width:2px,color:#000\n"
-    markdown = markdown .. "    style LEG_BASE fill:#ffffcc,stroke:#ff8c00,stroke-width:2.5px,color:#000\n"
+    -- Subgraph 3: Fraction Indicators
+    markdown = markdown .. "    subgraph LEGEND_AMOUNT [📊 Fraction]\n"
+    markdown = markdown .. "      direction TB\n\n"
+    markdown = markdown .. "      LEG_IND1(⭐ = 100%% Maxed)\n"
+    markdown = markdown .. "      LEG_IND2(●●● = 75-99%%)\n"
+    markdown = markdown .. "      LEG_IND3(●●○ = 50-74%%)\n"
+    markdown = markdown .. "      LEG_IND4(●○○ = 25-49%%)\n"
+    markdown = markdown .. "      LEG_IND5(○○○ = 1-24%%)\n"
+    markdown = markdown .. "\n"
+    -- Styling for fraction indicators (neutral)
+    markdown = markdown .. "      style LEG_IND1 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000\n"
+    markdown = markdown .. "      style LEG_IND2 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000\n"
+    markdown = markdown .. "      style LEG_IND3 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000\n"
+    markdown = markdown .. "      style LEG_IND4 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000\n"
+    markdown = markdown .. "      style LEG_IND5 fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#000\n"
+    markdown = markdown .. "    end\n"
+    markdown = markdown .. "    style LEGEND_AMOUNT fill:#f5f5f5,stroke:#ddd,stroke-width:2px\n\n"
     
-    markdown = markdown .. "    style LEG_IND1 fill:#f0f0f0,stroke:#333,stroke-width:1px,color:#000\n"
-    markdown = markdown .. "    style LEG_IND2 fill:#f0f0f0,stroke:#333,stroke-width:1px,color:#000\n"
-    markdown = markdown .. "    style LEG_IND3 fill:#f0f0f0,stroke:#333,stroke-width:1px,color:#000\n"
-    markdown = markdown .. "    style LEG_IND4 fill:#f0f0f0,stroke:#333,stroke-width:1px,color:#000\n"
-    markdown = markdown .. "    style LEG_IND5 fill:#f0f0f0,stroke:#333,stroke-width:1px,color:#000\n"
+    -- Close parent legend subgraph
     markdown = markdown .. "  end\n"
+    markdown = markdown .. "  style LEGEND fill:#fafafa,stroke:#999,stroke-width:2px\n"
     
     markdown = markdown .. "```\n\n"
     
@@ -450,12 +848,12 @@ local function GenerateChampionDiagram(cpData)
     markdown = markdown .. "- 🔲 **Node Shape** = Star type and completion status\n"
     markdown = markdown .. "- ⭐ **Gold Border** = Maxed slottable stars (ready for Champion Bar)\n"
     markdown = markdown .. "- 🟠 **Orange Border** = Base/prerequisite stars\n"
-    markdown = markdown .. "- 📊 **Points Shown** = Current / Maximum possible\n\n"
+    markdown = markdown .. "- 📊 **Points Shown** = Current / Maximum possible\n"
+    markdown = markdown .. "- ➡️ **Solid Arrow** = Unlocked connection (cluster relationship)\n"
+    markdown = markdown .. "- ⇢ **Dashed Arrow** = Prerequisite path (may unlock)\n\n"
     
     return markdown
 end
 
-CM.generators.GenerateChampionDiagram = GenerateChampionDiagram
-
-return CM.generators.GenerateChampionDiagram
+CM.generators.sections.GenerateChampionDiagram = GenerateChampionDiagram
 

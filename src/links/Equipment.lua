@@ -30,8 +30,8 @@ local function CreateSetLink(setName, format)
     
     -- Check settings: if external links are disabled, return plain text
     -- Check both enableSetLinks and enableAbilityLinks (they're toggled together in UI)
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings then
         -- If either setting is explicitly false, disable links
         if settings.enableSetLinks == false or settings.enableAbilityLinks == false then

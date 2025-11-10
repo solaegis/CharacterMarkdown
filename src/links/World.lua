@@ -23,8 +23,8 @@ local function CreateRaceLink(raceName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return raceName
     end
@@ -59,8 +59,8 @@ local function CreateClassLink(className, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return className
     end
@@ -95,8 +95,8 @@ local function CreateAllianceLink(allianceName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return allianceName
     end
@@ -133,8 +133,8 @@ local function CreateZoneLink(zoneName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return zoneName
     end
@@ -172,8 +172,8 @@ local function CreateTitleLink(titleName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return titleName
     end
@@ -210,8 +210,8 @@ local function CreateHouseLink(houseName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return houseName
     end
@@ -258,8 +258,8 @@ local function CreateSkillLineLink(skillLineName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return skillLineName
     end
@@ -294,8 +294,8 @@ local function CreateServerLink(serverName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return serverName
     end

@@ -74,6 +74,57 @@ local FILTER_CATEGORIES = {
 -- FILTER PRESETS
 -- =====================================================
 
+-- Build "None" filter dynamically - turns off ALL boolean settings
+local function BuildNoneFilter()
+    local defaults = CM.Settings.Defaults:GetAll()
+    local noneFilters = {
+        currentFormat = "github",  -- Keep format setting
+    }
+    
+    -- Turn off all boolean settings
+    for key, value in pairs(defaults) do
+        -- Skip internal settings
+        if key ~= "filters" and key ~= "filterPresets" and key ~= "activeFilter" and
+           key ~= "profiles" and key ~= "settingsVersion" and key ~= "_initialized" and
+           key ~= "_lastModified" and key ~= "_panelOpened" and key ~= "_firstRun" then
+            
+            if type(value) == "boolean" then
+                -- All booleans set to false (including includeSkillMorphs)
+                noneFilters[key] = false
+            elseif type(value) == "number" then
+                -- For numeric filters that control visibility, set to hide everything
+                if key == "minSkillRank" or key == "minEquipQuality" then
+                    noneFilters[key] = 999  -- High value to hide everything
+                else
+                    noneFilters[key] = value  -- Keep other numeric defaults
+                end
+            elseif type(value) == "string" then
+                -- Keep string settings (like currentFormat)
+                noneFilters[key] = value
+            end
+        end
+    end
+    
+    -- Special handling for inverse boolean pairs
+    if noneFilters.hideMaxedSkills ~= nil then
+        noneFilters.hideMaxedSkills = true  -- Hide maxed skills
+    end
+    if noneFilters.showMaxedSkills ~= nil then
+        noneFilters.showMaxedSkills = false  -- Don't show maxed skills
+    end
+    if noneFilters.hideEmptySlots ~= nil then
+        noneFilters.hideEmptySlots = true  -- Hide empty slots
+    end
+    
+    -- Verify includeSkillMorphs is included
+    if noneFilters.includeSkillMorphs == nil then
+        CM.Warn("BuildNoneFilter: includeSkillMorphs not found in defaults!")
+        noneFilters.includeSkillMorphs = false  -- Force it to false
+    end
+    
+    return noneFilters
+end
+
 local FILTER_PRESETS = {
     -- Defaults (Reset to Default Values)
     ["Defaults"] = {
@@ -135,68 +186,6 @@ local FILTER_PRESETS = {
             minSkillRank = 1,
             showMaxedSkills = true,
             showAllRidingSkills = true,
-            minEquipQuality = 0,
-            hideEmptySlots = false
-        }
-    },
-    
-    -- All (Enable Everything)
-    ["All"] = {
-        name = "All",
-        description = "Enable all sections and features",
-        category = "Complete",
-        filters = {
-            -- Core sections
-            includeChampionPoints = true,
-            includeChampionDetailed = true,
-            includeChampionConstellationTable = true,
-            includeChampionPointStarTables = true,
-            includeSkillBars = true,
-            includeSkills = true,
-            includeSkillMorphs = true,
-            includeEquipment = true,
-            includeCompanion = true,
-            includeCombatStats = true,
-            includeBuffs = true,
-            includeAttributes = true,
-            includeRole = true,
-            includeLocation = true,
-            includeBuildNotes = true,
-            includeQuickStats = true,
-            includeAttentionNeeded = true,
-            includeTableOfContents = true,
-            -- Extended sections
-            includeDLCAccess = true,
-            includeCurrency = true,
-            includeProgression = true,
-            includeRidingSkills = true,
-            includeInventory = true,
-            includePvP = true,
-            includeCollectibles = true,
-            includeCollectiblesDetailed = true,
-            includeCrafting = true,
-            includeAchievements = true,
-            includeAchievementsDetailed = true,
-            showAllAchievements = true,
-            includeQuests = true,
-            includeQuestsDetailed = true,
-            showAllQuests = true,
-            includeEquipmentEnhancement = true,
-            includeEquipmentAnalysis = true,
-            includeEquipmentRecommendations = true,
-            includeWorldProgress = true,
-            includeTitlesHousing = true,
-            includePvPStats = true,
-            includeArmoryBuilds = true,
-            includeTalesOfTribute = true,
-            includeUndauntedPledges = true,
-            includeGuilds = true,
-            -- Links
-            enableAbilityLinks = true,
-            enableSetLinks = true,
-            -- Quality filters (show everything)
-            minSkillRank = 0,
-            showMaxedSkills = true,
             minEquipQuality = 0,
             hideEmptySlots = false
         }
@@ -363,7 +352,40 @@ function CM.Settings.FilterManager:Initialize()
     -- Initialize filter manager
     CM.settings.filters = CM.settings.filters or {}
     CM.settings.filterPresets = CM.settings.filterPresets or {}
-    CM.settings.activeFilter = CM.settings.activeFilter or "None"
+    CM.settings.activeFilter = CM.settings.activeFilter or ""  -- Empty means no filter applied
+    
+    -- Clean up: Remove any user-created filters that conflict with preset names
+    -- (Presets take priority, so user filters with same names should be removed)
+    local presetNames = {}
+    for name, _ in pairs(FILTER_PRESETS) do
+        presetNames[name] = true
+    end
+    
+    local removedCount = 0
+    for name, _ in pairs(CM.settings.filters) do
+        if presetNames[name] then
+            CM.settings.filters[name] = nil
+            removedCount = removedCount + 1
+            CM.DebugPrint("FILTER_MANAGER", "Removed user filter '" .. name .. "' (conflicts with preset)")
+        end
+    end
+    
+    if removedCount > 0 then
+        CM.settings._lastModified = GetTimeStamp()
+    end
+    
+    -- CRITICAL: Always clear dangerous filters on initialization
+    -- "None" and "All" filters were removed but may still exist in old SavedVariables
+    if not CM.settings.activeFilter or CM.settings.activeFilter == "None" or CM.settings.activeFilter == "All" then
+        CM.DebugPrint("FILTER_MANAGER", string.format("Clearing dangerous filter: '%s'", tostring(CM.settings.activeFilter)))
+        CM.settings.activeFilter = ""  -- Empty means no filter applied
+        CM.settings._lastModified = GetTimeStamp()
+        
+        -- Force save to ensure it persists
+        if CM.settings.SetValue then
+            CM.settings:SetValue("activeFilter", "")
+        end
+    end
     
     -- Initialize default filter presets
     for name, preset in pairs(FILTER_PRESETS) do
@@ -372,7 +394,7 @@ function CM.Settings.FilterManager:Initialize()
         end
     end
     
-    CM.DebugPrint("FILTER_MANAGER", "Filter manager initialized")
+    CM.DebugPrint("FILTER_MANAGER", "Filter manager initialized" .. (removedCount > 0 and (" (" .. removedCount .. " conflicting filters removed)") or ""))
 end
 
 -- =====================================================
@@ -446,9 +468,9 @@ function CM.Settings.FilterManager:DeleteFilter(name)
     CM.settings.filters[name] = nil
     CM.settings._lastModified = GetTimeStamp()
     
-    -- If this was the active filter, switch to None
+    -- If this was the active filter, clear it
     if CM.settings.activeFilter == name then
-        CM.settings.activeFilter = "None"
+        CM.settings.activeFilter = ""
     end
     
     CM.Info("Filter '" .. name .. "' deleted")
@@ -461,11 +483,11 @@ function CM.Settings.FilterManager:ApplyFilter(name)
         return false
     end
     
-    -- Handle "None" filter (clear active filter)
-    if name == "None" or not name or name == "" then
-        CM.settings.activeFilter = "None"
+    -- Handle empty filter (no filter applied)
+    if not name or name == "" then
+        CM.settings.activeFilter = ""
         CM.settings._lastModified = GetTimeStamp()
-        CM.DebugPrint("FILTER_MANAGER", "Active filter cleared")
+        CM.DebugPrint("FILTER_MANAGER", "Active filter cleared (no filter applied)")
         return true
     end
     
@@ -476,11 +498,17 @@ function CM.Settings.FilterManager:ApplyFilter(name)
         return false
     end
     
+    -- Get filters (handle lazy loading for "None" filter)
+    local filters = filter.filters
+    if type(filters) == "function" then
+        filters = filters()
+    end
+    
     -- Apply filter settings
     -- Apply all filter settings, even if they don't exist in CM.settings yet
     -- This allows filters to add new settings
     local applied = 0
-    for key, value in pairs(filter.filters) do
+    for key, value in pairs(filters) do
         -- Skip internal settings
         if key ~= "filters" and key ~= "filterPresets" and key ~= "activeFilter" then
             CM.settings[key] = value
@@ -536,72 +564,55 @@ end
 
 function CM.Settings.FilterManager:GetFilterList()
     local filters = {}
+    local seenNames = {}  -- Track names to prevent duplicates
     
-    -- Add user filters
-    if CM.settings and CM.settings.filters then
-        for name, filter in pairs(CM.settings.filters) do
-        table.insert(filters, {
-            name = name,
-            description = filter.description,
-            category = filter.category,
-            created = filter.created,
-            version = filter.version,
-            isPreset = false
-        })
+    -- Add preset filters first (these take priority)
+    for name, filter in pairs(FILTER_PRESETS) do
+        if not seenNames[name] then
+            table.insert(filters, {
+                name = name,
+                description = filter.description,
+                category = filter.category,
+                isPreset = true
+            })
+            seenNames[name] = true
         end
     end
     
-    -- Add preset filters
-    for name, filter in pairs(FILTER_PRESETS) do
-        table.insert(filters, {
-            name = name,
-            description = filter.description,
-            category = filter.category,
-            isPreset = true
-        })
+    -- Add user filters (skip any that conflict with preset names)
+    if CM.settings and CM.settings.filters then
+        for name, filter in pairs(CM.settings.filters) do
+            -- Skip if this name already exists as a preset OR if we've already seen it
+            if not FILTER_PRESETS[name] and not seenNames[name] then
+                table.insert(filters, {
+                    name = name,
+                    description = filter.description,
+                    category = filter.category,
+                    created = filter.created,
+                    version = filter.version,
+                    isPreset = false
+                })
+                seenNames[name] = true
+            end
+        end
     end
     
-    -- Sort with priority order: None, Defaults, All, then others
+    -- Sort with priority order: Defaults first, then others alphabetically
     local function GetFilterPriority(name)
-        if name == "None" then return 1
-        elseif name == "Defaults" then return 2
-        elseif name == "All" then return 3
-        else return 4  -- All other filters
+        if name == "Defaults" then return 1
+        else return 2  -- All other filters
         end
     end
     
     table.sort(filters, function(a, b)
-        -- User filters first (except None, Defaults, All which are presets)
-        if a.isPreset ~= b.isPreset then
-            -- None, Defaults, All are presets but should appear first
-            local aPriority = GetFilterPriority(a.name)
-            local bPriority = GetFilterPriority(b.name)
-            
-            -- If both are priority filters (1-3), sort by priority
-            if aPriority <= 3 and bPriority <= 3 then
-                return aPriority < bPriority
-            end
-            
-            -- If one is priority, it comes first
-            if aPriority <= 3 then return true end
-            if bPriority <= 3 then return false end
-            
-            -- Otherwise, user filters first
-            return not a.isPreset
-        end
-        
         -- Both are same type (preset or user)
         local aPriority = GetFilterPriority(a.name)
         local bPriority = GetFilterPriority(b.name)
         
         -- If both have priority, sort by priority
-        if aPriority ~= 4 and bPriority ~= 4 then
+        if aPriority ~= bPriority then
             return aPriority < bPriority
         end
-        
-        -- If one has priority, it comes first
-        if aPriority ~= 4 then return true end
-        if bPriority ~= 4 then return false end
         
         -- Both are regular filters, sort alphabetically
         return a.name < b.name
@@ -624,9 +635,20 @@ end
 
 function CM.Settings.FilterManager:GetActiveFilter()
     if not CM.settings then
-        return "None"
+        return ""
     end
-    return CM.settings.activeFilter or "None"
+    return CM.settings.activeFilter or ""
+end
+
+-- Reset active filter when settings are manually changed
+function CM.Settings.FilterManager:ResetIfFilterActive()
+    if CM.settings and CM.settings.activeFilter and CM.settings.activeFilter ~= "" then
+        CM.settings.activeFilter = ""
+        CM.settings._lastModified = GetTimeStamp()
+        CM.DebugPrint("FILTER_MANAGER", "Active filter reset due to manual setting change")
+        return true
+    end
+    return false
 end
 
 -- =====================================================
@@ -708,10 +730,21 @@ function CM.Settings.FilterManager:ExportFilter(name)
         return nil
     end
     
+    -- Get filters (handle lazy loading) - create a copy for export
+    local filterCopy = {}
+    for k, v in pairs(filter) do
+        filterCopy[k] = v
+    end
+    
+    -- Resolve lazy-loaded filters
+    if type(filter.filters) == "function" then
+        filterCopy.filters = filter.filters()
+    end
+    
     local export = {
         version = CM.version,
         timestamp = GetTimeStamp(),
-        filter = filter
+        filter = filterCopy
     }
     
     return CM.Settings.Initializer:SerializeTable(export)
@@ -765,13 +798,19 @@ function CM.Settings.FilterManager:ValidateFilter(filter)
         table.insert(errors, "Filter name is required")
     end
     
-    if not filter.filters or type(filter.filters) ~= "table" then
+    -- Get filters (handle lazy loading)
+    local filters = filter.filters
+    if type(filters) == "function" then
+        filters = filters()
+    end
+    
+    if not filters or type(filters) ~= "table" then
         table.insert(errors, "Filter settings are required")
     end
     
     -- Validate filter settings
-    if filter.filters then
-        for key, value in pairs(filter.filters) do
+    if filters then
+        for key, value in pairs(filters) do
             if type(value) ~= "boolean" and type(value) ~= "number" and type(value) ~= "string" then
                 table.insert(errors, "Invalid value for setting '" .. key .. "'")
             end

@@ -91,6 +91,301 @@ local function IsListLine(line)
     return line:match("^%s*[-*+]%s") ~= nil or line:match("^%s*%d+[.)]%s") ~= nil
 end
 
+-- Helper function to check if a position is inside a Mermaid code block or subgraph
+local function IsInsideMermaidBlock(markdown, pos)
+    local markdownLen = string.len(markdown)
+    
+    -- First, check if we're inside a ```mermaid code block
+    local mermaidStart = nil
+    local codeBlockStart = nil
+    
+    -- Search backwards for code block markers
+    for i = pos, 1, -1 do
+        local substr = string.sub(markdown, math.max(1, i - 10), i)
+        if substr:match("```mermaid") then
+            mermaidStart = i - 9  -- Position of start of ```mermaid
+            break
+        elseif substr:match("```") and not substr:match("```mermaid") then
+            -- Found a code block marker, but need to check if it's closing or opening
+            -- Look a bit further back to see if there's a newline before it
+            local checkPos = math.max(1, i - 11)
+            if string.sub(markdown, checkPos, checkPos) == "\n" or checkPos == 1 then
+                codeBlockStart = i - 2  -- Position of start of ```
+                break
+            end
+        end
+    end
+    
+    -- If we found a mermaid code block, check if we're inside it
+    if mermaidStart then
+        -- Look forwards from mermaidStart to find the closing ```
+        local blockEnd = nil
+        for i = mermaidStart + 10, markdownLen do
+            local substr = string.sub(markdown, i, math.min(markdownLen, i + 2))
+            if substr == "```" then
+                -- Check if it's at start of line or after newline
+                if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
+                    blockEnd = i + 2  -- Position of end of closing ```
+                    break
+                end
+            end
+        end
+        
+        if blockEnd and pos >= mermaidStart and pos <= blockEnd then
+            -- We're inside a mermaid code block - now check for subgraphs
+            -- Search backwards from pos to find if we're inside a subgraph
+            local subgraphStart = nil
+            local subgraphEnd = nil
+            
+            -- Find the start of the current subgraph (if any) by searching backwards line by line
+            -- Look for "subgraph" keyword (may have leading whitespace)
+            local lineStart = pos
+            -- Find the start of the current line
+            for k = pos, math.max(1, pos - 1000), -1 do
+                if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
+                    lineStart = k
+                    break
+                end
+            end
+            
+            -- Search backwards line by line from current position
+            local searchPos = lineStart - 1
+            while searchPos >= mermaidStart + 10 do
+                -- Find the start of this line
+                local currentLineStart = searchPos + 1
+                for k = searchPos, math.max(1, searchPos - 1000), -1 do
+                    if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
+                        currentLineStart = k
+                        break
+                    end
+                end
+                
+                -- Find the end of this line
+                local currentLineEnd = searchPos
+                for k = searchPos + 1, math.min(markdownLen, searchPos + 500) do
+                    if string.sub(markdown, k, k) == "\n" then
+                        currentLineEnd = k
+                        break
+                    end
+                end
+                
+                local line = string.sub(markdown, currentLineStart, currentLineEnd - 1)
+                
+                -- Check if this line contains "subgraph"
+                if line:match("subgraph%s") then
+                    subgraphStart = currentLineStart
+                        
+                    -- Now find the matching "end" for this subgraph
+                    -- Count subgraph depth to handle nested subgraphs
+                    -- Search more aggressively - up to 50000 chars or end of mermaid block, whichever comes first
+                    local depth = 1
+                    local searchStart = currentLineEnd + 1
+                    local extendedSearchEnd = math.min(markdownLen, math.max(blockEnd, subgraphStart + 50000))
+                    
+                    -- Search forwards line by line
+                    local forwardPos = searchStart
+                    while forwardPos < extendedSearchEnd do
+                        -- Find the start of this line (for accurate line detection)
+                        local forwardLineStart = forwardPos
+                        for k = forwardPos, math.max(1, forwardPos - 1000), -1 do
+                            if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
+                                forwardLineStart = k
+                                break
+                            end
+                        end
+                        
+                        -- Find the end of this line
+                        local forwardLineEnd = forwardPos
+                        for k = forwardPos, math.min(markdownLen, forwardPos + 500) do
+                            if string.sub(markdown, k, k) == "\n" then
+                                forwardLineEnd = k
+                                break
+                            end
+                        end
+                        
+                        local forwardLine = string.sub(markdown, forwardLineStart, forwardLineEnd - 1)
+                        
+                        -- Check if line contains "subgraph" or "end" (with optional leading whitespace)
+                        if forwardLine:match("subgraph%s") then
+                            depth = depth + 1
+                        elseif forwardLine:match("%send%s") or forwardLine:match("%send$") or forwardLine:match("%send\n") then
+                            depth = depth - 1
+                            if depth == 0 then
+                                -- Found matching end
+                                subgraphEnd = forwardLineEnd
+                                break
+                            end
+                        end
+                        
+                        -- Move to next line (skip to end of current line + 1)
+                        if forwardLineEnd > forwardPos then
+                            forwardPos = forwardLineEnd + 1
+                        else
+                            -- No newline found, move forward by 1 to avoid infinite loop
+                            forwardPos = forwardPos + 1
+                        end
+                    end
+                    break
+                end
+                
+                -- Move to previous line
+                searchPos = currentLineStart - 1
+            end
+            
+            -- If we're inside a subgraph, return subgraph boundaries
+            -- Even if we can't find the end yet, if we found a start and pos is after it, we're in a subgraph
+            if subgraphStart and pos >= subgraphStart then
+                if subgraphEnd then
+                    -- We found both start and end - return subgraph boundaries
+                    if pos <= subgraphEnd then
+                        return true, subgraphStart, subgraphEnd
+                    end
+                else
+                    -- We're in a subgraph but haven't found the end yet
+                    -- Search more aggressively for the end (might be beyond blockEnd if subgraph is large)
+                    -- Search up to 50000 chars forward to find the matching end
+                    local extendedSearchEnd = math.min(markdownLen, subgraphStart + 50000)
+                    local depth = 1
+                    local searchStart = subgraphStart + 9  -- After "subgraph "
+                    
+                    for j = searchStart, extendedSearchEnd do
+                        -- Find start of line
+                        local lineStart = j
+                        for k = j, math.max(1, j - 1000), -1 do
+                            if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
+                                lineStart = k
+                                break
+                            end
+                        end
+                        
+                        -- Find end of line
+                        local lineEnd = j
+                        for k = j, math.min(markdownLen, j + 500) do
+                            if string.sub(markdown, k, k) == "\n" then
+                                lineEnd = k
+                                break
+                            end
+                        end
+                        
+                        local line = string.sub(markdown, lineStart, lineEnd - 1)
+                        
+                        if line:match("subgraph%s") then
+                            depth = depth + 1
+                        elseif line:match("%send%s") or line:match("%send$") or line:match("%send\n") then
+                            depth = depth - 1
+                            if depth == 0 then
+                                subgraphEnd = lineEnd
+                                break
+                            end
+                        end
+                        
+                        j = lineEnd  -- Skip to next line
+                    end
+                    
+                    if subgraphEnd then
+                        -- Found the end - return subgraph boundaries
+                        return true, subgraphStart, subgraphEnd
+                    else
+                        -- Still can't find end - return subgraph start and code block end
+                        -- This tells the chunking logic to extend to the end of the code block
+                        return true, subgraphStart, blockEnd
+                    end
+                end
+            end
+            
+            -- Not in a subgraph, return code block boundaries
+            return true, mermaidStart, blockEnd
+        end
+    end
+    
+    -- Not inside a mermaid block
+    return false, nil, nil
+end
+
+-- Helper function to find the end of a Mermaid code block or subgraph starting at a given position
+local function FindMermaidBlockEnd(markdown, startPos, maxSearch)
+    local markdownLen = string.len(markdown)
+    local searchEnd = math.min(startPos + maxSearch, markdownLen)
+    
+    -- First check if we're looking at a subgraph
+    local subgraphStart = nil
+    for i = startPos, math.min(startPos + 100, markdownLen) do
+        local substr = string.sub(markdown, i, math.min(markdownLen, i + 8))
+        if substr:match("^subgraph%s") then
+            subgraphStart = i
+            break
+        end
+    end
+    
+    if subgraphStart then
+        -- Find the matching "end" for this subgraph
+        -- Count subgraph depth to find matching end
+        local depth = 1
+        local searchStart = subgraphStart + 9  -- After "subgraph "
+        
+        for i = searchStart, searchEnd do
+            -- Find start of line
+            local lineStart = i
+            for k = i, math.max(1, i - 100), -1 do
+                if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
+                    lineStart = k
+                    break
+                end
+            end
+            
+            -- Get the line content
+            local lineEnd = i
+            for k = i, math.min(markdownLen, i + 100) do
+                if string.sub(markdown, k, k) == "\n" then
+                    lineEnd = k
+                    break
+                end
+            end
+            local line = string.sub(markdown, lineStart, lineEnd - 1)
+            
+            -- Check if line contains "subgraph" or "end" (with optional leading whitespace)
+            if line:match("subgraph%s") then
+                depth = depth + 1
+            elseif line:match("%send%s") or line:match("%send$") or line:match("%send\n") then
+                depth = depth - 1
+                if depth == 0 then
+                    -- Found matching end - return end of line
+                    return lineEnd
+                end
+            end
+        end
+        -- Subgraph not closed within search range - return nil
+        return nil
+    end
+    
+    -- Not a subgraph - look for ```mermaid opening
+    local blockStart = nil
+    for i = startPos, math.min(startPos + 100, markdownLen) do
+        local substr = string.sub(markdown, i, math.min(markdownLen, i + 9))
+        if substr == "```mermaid" then
+            blockStart = i
+            break
+        end
+    end
+    
+    if not blockStart then
+        return nil
+    end
+    
+    -- Find the closing ```
+    for i = blockStart + 10, searchEnd do
+        local substr = string.sub(markdown, i, math.min(markdownLen, i + 2))
+        if substr == "```" then
+            -- Check if it's at start of line or after newline
+            if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
+                return i + 2  -- Return position after closing ```
+            end
+        end
+    end
+    
+    return nil
+end
+
 -- Helper function to find the end of a list starting at a given position
 local function FindListEnd(markdown, startPos, maxSearch)
     local markdownLen = string.len(markdown)
@@ -400,18 +695,25 @@ local function SplitMarkdownIntoChunks(markdown)
         -- Recalculate isLastChunk after adjusting for padding
         isLastChunk = (potentialEnd >= markdownLength)
         
+        -- CRITICAL: Check if we're inside a Mermaid block
+        isInsideMermaid, mermaidBlockStart, mermaidBlockEnd = IsInsideMermaidBlock(markdown, potentialEnd)
+        
         if potentialEnd < markdownLength then
             local searchStart = math.max(pos, potentialEnd - 1000)
             
-            -- CONSERVATIVE: Before finding a newline, check if we're about to enter a table/list
+            -- CONSERVATIVE: Before finding a newline, check if we're about to enter a table/list/Mermaid block
             -- If so, and it won't fit, stop the chunk before it starts
             -- CRITICAL: Also check if we're on the line IMMEDIATELY BEFORE a table - never chunk there
+            -- CRITICAL: Never split Mermaid code blocks - they must be contiguous
             local lookAheadStart = potentialEnd + 1
             local lookAheadEnd = math.min(potentialEnd + 500, markdownLength)  -- Check up to 500 chars ahead
             local foundUpcomingStructure = false
             local structureStartPos = nil
             local isBeforeTable = false
             local tableStartPos = nil
+            local isInsideMermaid = false
+            local mermaidBlockStart = nil
+            local mermaidBlockEnd = nil
             
             -- Skip empty lines and check for upcoming table/list
             local checkPos = lookAheadStart
@@ -429,6 +731,8 @@ local function SplitMarkdownIntoChunks(markdown)
                     end
                     
                     local line = string.sub(markdown, checkPos, lineEnd - 1)
+                    -- Check for Mermaid code block start or subgraph
+                    -- Note: Mermaid blocks can be chunked normally (no special restrictions)
                     if IsTableLine(line) then
                         -- Found a table starting - CRITICAL: Never chunk on the line before a table
                         tableStartPos = checkPos
@@ -620,9 +924,13 @@ local function SplitMarkdownIntoChunks(markdown)
             -- If no newline found, chunkEnd stays at markdownLength
         end
         
+        -- Note: Mermaid blocks can be chunked normally (no special restrictions)
+        -- Previously we tried to keep subgraphs contiguous, but that's not necessary
+        
         -- CRITICAL: Check if chunkEnd is in the middle of a table or list
-        -- NEVER allow chunking in the middle of a table - always extend to end or backtrack before start
+        -- NEVER allow chunking in the middle of these structures - always extend to end or backtrack before start
         if foundNewline or isLastChunk then
+            
             -- Check if we're in the middle of a table
             -- First check if chunkEnd is actually on a table line
             local isOnTableLine = false
@@ -1788,6 +2096,14 @@ local function SplitMarkdownIntoChunks(markdown)
         local chunkData = string.sub(markdown, pos, chunkEnd)
         local dataChars = string.len(chunkData)
         local isLastChunk = (chunkEnd >= markdownLength)
+        
+        -- CRITICAL: Prepend newline to chunks after the first one
+        -- This ensures proper markdown formatting when chunks are split
+        if chunkNum > 1 then
+            chunkData = "\n" .. chunkData
+            dataChars = dataChars + 1
+            CM.DebugPrint("CHUNKING", string.format("Chunk %d: Prepended newline (chunk after first)", chunkNum))
+        end
         
         -- CRITICAL: If previous chunk backtracked before a header, prepend newline to this chunk
         -- This ensures the header starts on its own line after the previous chunk's padding

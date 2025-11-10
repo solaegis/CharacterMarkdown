@@ -23,8 +23,8 @@ local function CreateMundusLink(mundusName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return mundusName
     end
@@ -60,7 +60,8 @@ local function CreateCPSkillLink(skillName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    local settings = CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return skillName
     end
@@ -95,7 +96,8 @@ local function CreateCampaignLink(campaignName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    local settings = CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return campaignName
     end
@@ -141,7 +143,8 @@ local function CreateBuffLink(buffName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    local settings = CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return buffName
     end
@@ -204,8 +207,8 @@ local function CreateCurrencyLink(currencyName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return currencyName
     end
@@ -247,8 +250,8 @@ local function CreateCollectibleLink(collectibleName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return collectibleName
     end

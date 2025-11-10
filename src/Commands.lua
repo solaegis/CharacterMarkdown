@@ -20,16 +20,22 @@ local function ParseCommandArgs(args)
 end
 
 local function ShowHelp()
-    CM.Info("=== Usage ===")
+    CM.Info("=== CharacterMarkdown Commands ===")
     d("  /markdown           - Generate profile (current: " .. CM.currentFormat .. ")")
     d("  /markdown github    - Generate GitHub format")
     d("  /markdown vscode    - Generate VS Code format")
     d("  /markdown discord   - Generate Discord format")
     d("  /markdown quick     - Generate quick summary")
-    d("  /markdown test      - Run validation tests on generated markdown")
-    d("  /markdown unittest  - Run unit tests for collectors (riding skills, skill points)")
+    d("  /markdown test      - Run diagnostic + validation tests (comprehensive)")
+    d("  /markdown unittest  - Run unit tests for collectors")
+    d("  /markdown filter:clear - Force clear active filter")
     d("  /markdown help      - Show this help")
     d("  /markdown save      - Force save settings to file")
+    d(" ")
+    d("  /cmdsettings export - Export settings to YAML (grouped format)")
+    d("  /cmdsettings import - Import settings from YAML (supports partial import)")
+    d("  /cmdsettings test:import-export - Run export/import tests")
+    d("  /cmdsettings        - Open settings panel")
     d(" ")
     d("Settings: ESC → Settings → Add-Ons → CharacterMarkdown")
 end
@@ -47,44 +53,161 @@ local function CommandHandler(args)
         return
     end
     
-    -- Test command
+    -- Test command - comprehensive diagnostic and validation
     if args and args:lower():match("^%s*test") then
-        CM.Info("Running validation tests...")
+        CM.Info("=== CharacterMarkdown Diagnostic & Validation ===")
+        d(" ")
+        
+        -- ================================================
+        -- PHASE 1: SETTINGS DIAGNOSTIC
+        -- ================================================
+        CM.Info("|cFFD700[1/4] Settings Diagnostic|r")
+        d(" ")
+        
+        -- Check if SavedVariables exist
+        if not CharacterMarkdownSettings then
+            CM.Error("CharacterMarkdownSettings is NIL!")
+            d("  This means your settings aren't being saved")
+            d("  Try: /reloadui")
+            return
+        end
+        CM.Success("✓ CharacterMarkdownSettings exists")
+        
+        -- Check CM.GetSettings()
+        if not CM.GetSettings then
+            CM.Error("✗ CM.GetSettings() not available")
+            return
+        end
+        CM.Success("✓ CM.GetSettings() available")
+        
+        -- Check critical settings
+        local criticalSettings = {
+            "includeChampionPoints",
+            "includeChampionDiagram",
+            "includeSkillBars",
+            "includeSkills",
+            "includeEquipment",
+            "includeCompanion",
+            "includeCurrency",
+            "includeInventory",
+            "includeCollectibles",
+            "includeQuickStats",
+            "includeTableOfContents",
+        }
+        
+        d(" ")
+        d("Critical Setting Values:")
+        local merged = CM.GetSettings()
+        local hasMismatch = false
+        
+        for _, setting in ipairs(criticalSettings) do
+            local raw = CharacterMarkdownSettings[setting]
+            local merged_val = merged[setting]
+            
+            if raw ~= merged_val then
+                d(string.format("  |cFFFF00⚠ %s = %s (raw) vs %s (merged)|r", 
+                    setting, tostring(raw), tostring(merged_val)))
+                hasMismatch = true
+            else
+                local color = raw == true and "|c00FF00" or "|cFF0000"
+                d(string.format("  %s%s = %s|r", color, setting, tostring(raw)))
+            end
+        end
+        
+        if hasMismatch then
+            d(" ")
+            CM.Warn("⚠ Settings merge has mismatches - this may cause issues")
+        else
+            d(" ")
+            CM.Success("✓ Settings merge working correctly")
+        end
+        
+        -- Check active filter
+        d(" ")
+        if CharacterMarkdownSettings.activeFilter and CharacterMarkdownSettings.activeFilter ~= "" then
+            CM.Warn(string.format("Active filter: '%s' (may override settings)", CharacterMarkdownSettings.activeFilter))
+        else
+            CM.Success("✓ No active filter (using custom settings)")
+        end
+        
+        -- ================================================
+        -- PHASE 2: DATA COLLECTION TEST
+        -- ================================================
+        d(" ")
+        CM.Info("|cFFD700[2/4] Data Collection Test|r")
+        
+        -- Test CP data collection
+        if CM.collectors and CM.collectors.CollectChampionPointData then
+            local success, cpData = pcall(CM.collectors.CollectChampionPointData)
+            if success and cpData then
+                CM.Success("✓ Champion Points data collected")
+                d(string.format("  Total: %d | Spent: %d | Available: %d", 
+                    cpData.total or 0, cpData.spent or 0, (cpData.total or 0) - (cpData.spent or 0)))
+                
+                if cpData.disciplines and #cpData.disciplines > 0 then
+                    d(string.format("  Disciplines: %d", #cpData.disciplines))
+                    for _, disc in ipairs(cpData.disciplines) do
+                        local skillCount = 0
+                        if disc.allStars then
+                            skillCount = #disc.allStars
+                        elseif disc.slottableSkills and disc.passiveSkills then
+                            skillCount = #disc.slottableSkills + #disc.passiveSkills
+                        end
+                        d(string.format("    %s: %d CP, %d skills", disc.name or "Unknown", disc.total or 0, skillCount))
+                    end
+                else
+                    CM.Warn("  ⚠ No disciplines data")
+                end
+            else
+                CM.Error("✗ Failed to collect CP data: " .. tostring(cpData))
+            end
+        else
+            CM.Error("✗ CollectChampionPointData not available")
+        end
+        
+        -- ================================================
+        -- PHASE 3: MARKDOWN GENERATION TEST
+        -- ================================================
+        d(" ")
+        CM.Info("|cFFD700[3/4] Markdown Generation Test|r")
         
         if not CM.tests or not CM.tests.validation then
-            CM.Error("Test validation module not loaded")
+            CM.Error("✗ Test validation module not loaded")
             return
         end
         
-        -- Use current settings (don't enable all settings)
-        CM.Info("Testing with current settings configuration...")
-        
         -- Generate markdown with current settings
         local testFormat = CM.currentFormat or "github"
+        d(string.format("Generating %s format with current settings...", testFormat))
+        
         local success, markdown = pcall(function()
             return CM.generators.GenerateMarkdown(testFormat)
         end)
         
         if not success or not markdown then
-            CM.Error("Failed to generate markdown for testing")
+            CM.Error("✗ Failed to generate markdown: " .. tostring(markdown))
             return
         end
         
-        -- Handle both string and chunks array returns for testing
+        CM.Success("✓ Markdown generated successfully")
+        
+        -- Handle both string and chunks array returns
         local isChunksArray = type(markdown) == "table"
+        local markdownString = markdown
         if isChunksArray then
-            -- Concatenate chunks for validation
+            d(string.format("  Generated %d chunks", #markdown))
             local fullMarkdown = ""
             for _, chunk in ipairs(markdown) do
                 fullMarkdown = fullMarkdown .. chunk.content
             end
-            markdown = fullMarkdown
+            markdownString = fullMarkdown
         end
+        
+        d(string.format("  Total size: %d chars", #markdownString))
         
         -- Get current settings for section presence tests
         local testSettings = {}
         if CharacterMarkdownSettings then
-            -- Copy current settings for testing
             for key, value in pairs(CharacterMarkdownSettings) do
                 if type(value) ~= "function" and key:sub(1, 1) ~= "_" then
                     testSettings[key] = value
@@ -92,13 +215,19 @@ local function CommandHandler(args)
             end
         end
         
-        -- Run validation tests
-        local validationResults = CM.tests.validation.ValidateMarkdown(markdown, testFormat)
+        -- ================================================
+        -- PHASE 4: VALIDATION TESTS
+        -- ================================================
+        d(" ")
+        CM.Info("|cFFD700[4/4] Validation Tests|r")
         
-        -- Run section presence tests (using current settings)
+        -- Run validation tests
+        local validationResults = CM.tests.validation.ValidateMarkdown(markdownString, testFormat)
+        
+        -- Run section presence tests
         local sectionResults = nil
         if CM.tests and CM.tests.sectionPresence then
-            sectionResults = CM.tests.sectionPresence.ValidateSectionPresence(markdown, testFormat, testSettings)
+            sectionResults = CM.tests.sectionPresence.ValidateSectionPresence(markdownString, testFormat, testSettings)
         end
         
         -- Print validation report
@@ -106,24 +235,31 @@ local function CommandHandler(args)
         
         -- Print section presence report
         if sectionResults and CM.tests.sectionPresence then
-            d(" ")  -- Blank line separator
             CM.tests.sectionPresence.PrintSectionTestReport()
         end
         
-        -- Summary
+        -- ================================================
+        -- FINAL SUMMARY
+        -- ================================================
+        d(" ")
+        CM.Info("=== Test Summary ===")
+        
         local totalFailed = #validationResults.failed
         local totalWarnings = #validationResults.warnings
         if sectionResults then
             totalFailed = totalFailed + #sectionResults.failed
         end
         
-        if totalFailed == 0 then
-            CM.Success(string.format("All tests passed! (%d validation, %d sections)", 
+        if totalFailed == 0 and totalWarnings == 0 then
+            CM.Success(string.format("✓ ALL TESTS PASSED! (%d validation, %d sections)", 
                 #validationResults.passed, sectionResults and #sectionResults.passed or 0))
+        elseif totalFailed == 0 then
+            CM.Warn(string.format("⚠ Tests passed with %d warnings", totalWarnings))
         else
-            CM.Warn(string.format("Some tests failed: %d validation passed, %d failed, %d warnings", 
+            CM.Error(string.format("✗ TESTS FAILED: %d validation passed, %d failed, %d warnings", 
                 #validationResults.passed, totalFailed, totalWarnings))
         end
+        d("Tip: Run '/markdown' to see the actual generated output")
         
         return
     end
@@ -148,6 +284,91 @@ local function CommandHandler(args)
         
         return
     end
+    
+    -- Legacy diag command - redirect to test
+    if args and args:lower():match("^%s*diag") then
+        CM.Info("Note: '/markdown diag' has been merged into '/markdown test'")
+        d("Redirecting to comprehensive test command...")
+        d(" ")
+        -- Recursively call with test argument
+        return CommandHandler("test")
+    end
+    
+    -- Filter subcommands
+    if args and args:lower():match("^%s*filter:") then
+        local subcommand = args:lower():match("^%s*filter:(%S+)")
+        
+        if subcommand == "clear" then
+            if not CharacterMarkdownSettings then
+                CM.Error("Settings not available")
+                return
+            end
+            
+            local oldFilter = CharacterMarkdownSettings.activeFilter or ""
+            CharacterMarkdownSettings.activeFilter = ""
+            CharacterMarkdownSettings._lastModified = GetTimeStamp()
+            
+            if oldFilter == "" then
+                CM.Info("No active filter to clear")
+            else
+                CM.Success(string.format("Cleared active filter: '%s'", oldFilter))
+                d("All settings reset to their individual values")
+                d("Tip: Run '/markdown test' to verify settings")
+            end
+            return
+        else
+            CM.Error("Unknown filter subcommand: " .. subcommand)
+            d("Available: filter:clear")
+            return
+        end
+    end
+    
+    -- Reset command - force CP-only settings
+    if args and args:lower():match("^%s*reset") then
+        CM.Info("=== RESETTING TO CP-ONLY ===")
+        d(" ")
+        
+        if not CharacterMarkdownSettings then
+            CM.Error("CharacterMarkdownSettings not available!")
+            return
+        end
+        
+        -- Disable everything
+        CharacterMarkdownSettings.includeSkillBars = false
+        CharacterMarkdownSettings.includeSkills = false
+        CharacterMarkdownSettings.includeEquipment = false
+        CharacterMarkdownSettings.includeCompanion = false
+        CharacterMarkdownSettings.includeCombatStats = false
+        CharacterMarkdownSettings.includeBuffs = false
+        CharacterMarkdownSettings.includeAttributes = false
+        CharacterMarkdownSettings.includeDLCAccess = false
+        CharacterMarkdownSettings.includeRole = false
+        CharacterMarkdownSettings.includeLocation = false
+        CharacterMarkdownSettings.includeBuildNotes = false
+        CharacterMarkdownSettings.includeQuickStats = false
+        CharacterMarkdownSettings.includeAttentionNeeded = false
+        CharacterMarkdownSettings.includeTableOfContents = false
+        CharacterMarkdownSettings.includeCurrency = false
+        CharacterMarkdownSettings.includeProgression = false
+        CharacterMarkdownSettings.includeRidingSkills = false
+        CharacterMarkdownSettings.includeInventory = false
+        CharacterMarkdownSettings.includePvP = false
+        CharacterMarkdownSettings.includeCollectibles = false
+        CharacterMarkdownSettings.includeCrafting = false
+        CharacterMarkdownSettings.includeGuilds = false
+        CharacterMarkdownSettings.includeUndauntedPledges = false
+        CharacterMarkdownSettings.includeWorldProgress = false
+        
+        -- Enable ONLY CP
+        CharacterMarkdownSettings.includeChampionPoints = true
+        CharacterMarkdownSettings.includeChampionDiagram = true
+        
+        CM.Success("|c00FF00Settings reset to CP-only!|r")
+        d(" ")
+        d("Now try: /markdown")
+        return
+    end
+    
     
     if args and args:lower():match("^%s*save") then
         if CharacterMarkdownSettings then
@@ -258,6 +479,161 @@ CM.commands.ParseCommandArgs = ParseCommandArgs
 CM.commands.ShowHelp = ShowHelp
 
 SLASH_COMMANDS["/markdown"] = CommandHandler
+
+-- =====================================================
+-- SETTINGS EXPORT COMMAND
+-- =====================================================
+
+local function SettingsExportCommandHandler(args)
+    if not CM.isInitialized then
+        CM.Error("Addon not fully initialized. Try again in a moment or /reloadui")
+        return
+    end
+    
+    -- Get all settings
+    local settings = CM.GetSettings()
+    if not settings then
+        CM.Error("Settings not available")
+        return
+    end
+    
+    -- Format settings for readable export
+    if not CM.utils or not CM.utils.FormatSettingsForExport then
+        CM.Error("Settings formatter not available")
+        return
+    end
+    
+    local formattedSettings = CM.utils.FormatSettingsForExport(settings)
+    if not formattedSettings then
+        CM.Error("Failed to format settings")
+        return
+    end
+    
+    -- Convert to YAML
+    if not CM.utils.TableToYAML then
+        CM.Error("YAML serializer not available")
+        return
+    end
+    
+    local yamlContent = CM.utils.TableToYAML(formattedSettings)
+    
+    if not yamlContent or yamlContent == "" then
+        CM.Error("Failed to generate YAML")
+        return
+    end
+    
+    CM.Info("Opening settings export window...")
+    
+    -- Show settings in window
+    if CharacterMarkdown_ShowSettingsExport then
+        CharacterMarkdown_ShowSettingsExport(yamlContent)
+    else
+        CM.Error("Settings export window not available")
+    end
+end
+
+-- =====================================================
+-- SETTINGS IMPORT COMMAND
+-- =====================================================
+
+local function SettingsImportCommandHandler(args)
+    if not CM.isInitialized then
+        CM.Error("Addon not fully initialized. Try again in a moment or /reloadui")
+        return
+    end
+    
+    CM.Info("Opening settings import window...")
+    
+    -- Show import dialog
+    if CharacterMarkdown_ShowSettingsImport then
+        CharacterMarkdown_ShowSettingsImport()
+    else
+        CM.Error("Settings import window not available")
+    end
+end
+
+
+-- Register command handler after LibAddonMenu has registered (if it exists)
+-- This ensures our handler wraps LibAddonMenu's handler
+local isRegistered = false
+local function RegisterCmdSettingsCommand()
+    -- Prevent double registration
+    if isRegistered then
+        CM.DebugPrint("COMMANDS", "/cmdsettings command already registered, skipping")
+        return
+    end
+    
+    -- Store LibAddonMenu's handler BEFORE we overwrite it
+    local lamHandler = SLASH_COMMANDS["/cmdsettings"]
+    
+    -- Register our handler (will wrap LibAddonMenu's if it exists)
+    SLASH_COMMANDS["/cmdsettings"] = function(args)
+        -- Check if this is one of our commands first
+        if args and args ~= "" then
+            local trimmedArgs = args:lower():match("^%s*(.-)%s*$")
+            
+            -- Check for subcommand pattern: command:subcommand
+            local command, subcommand = trimmedArgs:match("^(%S+):(%S+)$")
+            if not command then
+                -- Try simple command without colon
+                command = trimmedArgs:match("^(%S+)")
+            end
+            
+            if command == "export" then
+                SettingsExportCommandHandler(args)
+                return
+            elseif command == "import" then
+                SettingsImportCommandHandler(args)
+                return
+            elseif command == "test" and subcommand == "import-export" then
+                -- Export/Import test command
+                CM.Info("Running export/import tests...")
+                
+                if not CM.tests or not CM.tests.exportImport then
+                    CM.Error("Export/Import test module not loaded")
+                    return
+                end
+                
+                local results = CM.tests.exportImport.RunAllTests()
+                
+                if results.failed and #results.failed == 0 then
+                    CM.Success(string.format("All export/import tests passed! (%d/%d)", #results.passed, results.total))
+                else
+                    CM.Warn(string.format("Some export/import tests failed: %d passed, %d failed out of %d total", 
+                        #results.passed, #results.failed, results.total))
+                end
+                return
+            end
+        end
+        
+        -- Not one of our commands - delegate to LibAddonMenu's handler if it exists
+        if lamHandler and type(lamHandler) == "function" then
+            lamHandler(args)
+        elseif LibAddonMenu2 then
+            -- Fallback: open settings panel manually
+            SCENE_MANAGER:Show("gameMenuInGame")
+            PlaySound(SOUNDS.MENU_SHOW)
+            zo_callLater(function()
+                local mainMenu = SYSTEMS:GetObject("mainMenu")
+                if mainMenu then
+                    mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
+                end
+            end, 100)
+        else
+            CM.Info("Usage:")
+            CM.Info("  /cmdsettings export - Export settings to YAML")
+            CM.Info("  /cmdsettings import - Import settings from YAML")
+            CM.Info("  /cmdsettings test:import-export - Run export/import tests")
+            CM.Info("Or use: ESC → Settings → Add-Ons → CharacterMarkdown")
+        end
+    end
+    
+    isRegistered = true
+    CM.DebugPrint("COMMANDS", "/cmdsettings command registered (wrapped LibAddonMenu handler)")
+end
+
+-- Export function to register command after Panel initialization
+CM.commands.RegisterCmdSettingsCommand = RegisterCmdSettingsCommand
 
 CM.DebugPrint("COMMANDS", "Command module loaded")
 CM.DebugPrint("COMMANDS", "/markdown command registered")

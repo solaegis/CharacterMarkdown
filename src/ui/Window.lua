@@ -734,6 +734,21 @@ end
 
 function CharacterMarkdown_CloseWindow()
     if windowControl then
+        -- Reset import mode if active
+        if windowControl._isImportMode then
+            local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
+            if dismissButton then
+                local label = dismissButton:GetNamedChild("Label")
+                if label then
+                    label:SetText("Dismiss")
+                end
+                dismissButton:SetHandler("OnClicked", function()
+                    CharacterMarkdownWindow:SetHidden(true)
+                end)
+            end
+            windowControl._isImportMode = false
+        end
+        
         if windowControl.SetTopmost then
             windowControl:SetTopmost(false)
         end
@@ -781,5 +796,406 @@ local function OnAddOnLoaded(event, addonName)
 end
 
 EVENT_MANAGER:RegisterForEvent("CharacterMarkdown_UI", EVENT_ADD_ON_LOADED, OnAddOnLoaded)
+
+-- =====================================================
+-- SHOW SETTINGS EXPORT WINDOW
+-- =====================================================
+
+function CharacterMarkdown_ShowSettingsExport(yamlContent)
+    -- Validate input
+    if not yamlContent or yamlContent == "" then
+        CM.Error("No YAML content provided")
+        return false
+    end
+    
+    -- Initialize controls if needed
+    if not InitializeWindowControls() then
+        CM.Error("Window initialization failed")
+        return false
+    end
+    
+    -- Update window title
+    local titleLabel = CharacterMarkdownWindowTitleLabel
+    if titleLabel then
+        titleLabel:SetText("Character Markdown - Settings Export")
+    end
+    
+    -- Update instructions
+    local instructionsLabel = CharacterMarkdownWindowInstructions
+    if instructionsLabel then
+        instructionsLabel:SetText("Settings in YAML format - Text selected, ready to copy!")
+    end
+    
+    -- Hide chunk navigation buttons (not needed for settings)
+    local prevButton = CharacterMarkdownWindowButtonContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowButtonContainerNextChunkButton
+    if prevButton then prevButton:SetHidden(true) end
+    if nextButton then nextButton:SetHidden(true) end
+    
+    -- Hide regenerate button (not needed for settings)
+    local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
+    if regenerateButton then regenerateButton:SetHidden(true) end
+    
+    -- Reset dismiss button to normal
+    local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
+    if dismissButton then
+        dismissButton:SetHidden(false)
+        local label = dismissButton:GetNamedChild("Label")
+        if label then
+            label:SetText("Dismiss")
+        end
+        dismissButton:SetHandler("OnClicked", function()
+            CharacterMarkdownWindow:SetHidden(true)
+        end)
+    end
+    
+    -- Clear import mode flag
+    windowControl._isImportMode = false
+    
+    -- Store YAML content
+    currentMarkdown = yamlContent
+    markdownChunks = {{content = yamlContent}}
+    currentChunkIndex = 1
+    
+    -- Update the EditBox with YAML content
+    editBoxControl:SetEditEnabled(true)
+    editBoxControl:SetText(yamlContent)
+    editBoxControl:SetColor(1, 1, 1, 1)
+    editBoxControl:SetEditEnabled(false)
+    
+    -- Show window
+    windowControl:SetHidden(false)
+    
+    -- Bring window to top
+    if windowControl.SetTopmost then
+        windowControl:SetTopmost(true)
+    end
+    if windowControl.Activate then
+        windowControl:Activate()
+    end
+    if windowControl.RequestMoveToForeground then
+        windowControl:RequestMoveToForeground()
+    end
+    
+    -- Auto-select text and take focus (ready for immediate copy)
+    zo_callLater(function()
+        if not windowControl:IsHidden() then
+            -- Enable editing temporarily to allow selection
+            editBoxControl:SetEditEnabled(true)
+            -- Take focus first
+            editBoxControl:TakeFocus()
+            -- Select all text for easy copying
+            editBoxControl:SelectAll()
+            -- Make read-only after selection
+            editBoxControl:SetEditEnabled(false)
+            
+            CM.DebugPrint("UI", "Settings export window opened - YAML ready to copy (Ctrl+C)")
+        end
+    end, 100)
+    
+    -- Also try to take focus immediately (fallback)
+    editBoxControl:TakeFocus()
+    
+    return true
+end
+
+-- =====================================================
+-- SHOW SETTINGS IMPORT WINDOW
+-- =====================================================
+
+function CharacterMarkdown_ShowSettingsImport()
+    -- Initialize controls if needed
+    if not InitializeWindowControls() then
+        CM.Error("Window initialization failed")
+        return false
+    end
+    
+    -- Update window title
+    local titleLabel = CharacterMarkdownWindowTitleLabel
+    if titleLabel then
+        titleLabel:SetText("Character Markdown - Settings Import")
+    end
+    
+    -- Update instructions
+    local instructionsLabel = CharacterMarkdownWindowInstructions
+    if instructionsLabel then
+        instructionsLabel:SetText("Paste YAML settings below, then click 'Import' to apply")
+    end
+    
+    -- Hide chunk navigation buttons (not needed for import)
+    local prevButton = CharacterMarkdownWindowButtonContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowButtonContainerNextChunkButton
+    if prevButton then prevButton:SetHidden(true) end
+    if nextButton then nextButton:SetHidden(true) end
+    
+    -- Hide regenerate button (not needed for import)
+    local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
+    if regenerateButton then regenerateButton:SetHidden(true) end
+    
+    -- Hide select all button (not needed for import)
+    local selectAllButton = CharacterMarkdownWindowButtonContainerSelectAllButton
+    if selectAllButton then selectAllButton:SetHidden(true) end
+    
+    -- Modify dismiss button to be Import button
+    local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
+    if dismissButton then
+        dismissButton:SetHidden(false)
+        local label = dismissButton:GetNamedChild("Label")
+        if label then
+            label:SetText("Import")
+        end
+        -- Store original handler and replace with import handler
+        dismissButton:SetHandler("OnClicked", function()
+            CharacterMarkdown_ImportSettings()
+        end)
+    end
+    
+    -- Clear content and make editable
+    editBoxControl:SetEditEnabled(true)
+    editBoxControl:SetText("")
+    editBoxControl:SetColor(1, 1, 1, 1)
+    
+    -- Store import mode flag in window control
+    windowControl._isImportMode = true
+    
+    -- Show window
+    windowControl:SetHidden(false)
+    
+    -- Bring window to top
+    if windowControl.SetTopmost then
+        windowControl:SetTopmost(true)
+    end
+    if windowControl.Activate then
+        windowControl:Activate()
+    end
+    if windowControl.RequestMoveToForeground then
+        windowControl:RequestMoveToForeground()
+    end
+    
+    -- Take focus on EditBox (ready for immediate paste)
+    zo_callLater(function()
+        if not windowControl:IsHidden() then
+            -- Ensure EditBox is editable and focused
+            editBoxControl:SetEditEnabled(true)
+            editBoxControl:TakeFocus()
+            -- Clear any existing selection
+            editBoxControl:SetCursorPosition(0)
+            
+            CM.DebugPrint("UI", "Settings import window opened - ready for YAML paste (Ctrl+V)")
+        end
+    end, 100)
+    
+    -- Also try to take focus immediately (fallback)
+    editBoxControl:TakeFocus()
+    
+    return true
+end
+
+-- =====================================================
+-- IMPORT SETTINGS FROM YAML
+-- =====================================================
+
+function CharacterMarkdown_ImportSettings()
+    if not editBoxControl then
+        CM.Error("EditBox not available")
+        return false
+    end
+    
+    local yamlContent = editBoxControl:GetText()
+    if not yamlContent or yamlContent == "" then
+        CM.Error("No YAML content provided")
+        return false
+    end
+    
+    -- Parse YAML
+    if not CM.utils or not CM.utils.YAMLToTable then
+        CM.Error("YAML parser not available")
+        return false
+    end
+    
+    local parsed, errorMsg = CM.utils.YAMLToTable(yamlContent)
+    if not parsed then
+        CM.Error("Failed to parse YAML: " .. (errorMsg or "Unknown error"))
+        return false
+    end
+    
+    -- Validate and enforce grouped format
+    local validGroups = {
+        core = true,
+        links = true,
+        visuals = true,
+        content = true,
+        extended = true,
+        champion = true,
+        equipment = true,
+        skills = true,
+        display = true,
+        _metadata = true,  -- Allow metadata but skip it
+    }
+    
+    -- Check if this is the grouped format
+    local isGroupedFormat = false
+    local hasTopLevelSettings = false
+    
+    for key, value in pairs(parsed) do
+        if validGroups[key] then
+            isGroupedFormat = true
+        elseif key ~= "_metadata" and type(value) ~= "table" then
+            -- This looks like a flat format setting (direct key-value, not in a group)
+            hasTopLevelSettings = true
+        end
+    end
+    
+    -- Enforce grouped format - reject flat format
+    if hasTopLevelSettings and not isGroupedFormat then
+        CM.Error("Invalid format: Settings must use grouped structure (core, links, content, etc.)")
+        CM.Info("Expected format:")
+        CM.Info("  core:")
+        CM.Info("    currentFormat: \"github\"")
+        CM.Info("  links:")
+        CM.Info("    enableAbilityLinks: true")
+        CM.Info("  ...")
+        CM.Info("Use /cmdsettings export to see the correct format")
+        return false
+    end
+    
+    -- Flatten grouped format for processing
+    local settingsToImport = {}
+    if isGroupedFormat then
+        if CM.utils and CM.utils.FlattenSettingsForImport then
+            settingsToImport = CM.utils.FlattenSettingsForImport(parsed)
+            if not settingsToImport then
+                CM.Error("Failed to flatten grouped settings")
+                return false
+            end
+        else
+            CM.Error("Grouped format detected but flatten function not available")
+            return false
+        end
+    else
+        -- No valid format detected
+        CM.Error("Invalid format: No recognized settings groups found")
+        CM.Info("Expected format with groups: core, links, content, extended, champion, equipment, skills, display, visuals")
+        return false
+    end
+    
+    -- Validate against defaults
+    local defaults = CM.Settings.Defaults:GetAll()
+    if not defaults then
+        CM.Error("Defaults not available")
+        return false
+    end
+    
+    -- Get current settings
+    local settings = CM.GetSettings()
+    if not settings then
+        CM.Error("Settings not available")
+        return false
+    end
+    
+    -- Validate and apply settings (partial import - only apply provided values)
+    local appliedCount = 0
+    local skippedCount = 0
+    local errors = {}
+    
+    -- Track which groups were provided for better feedback
+    local providedGroups = {}
+    for groupName, _ in pairs(parsed) do
+        if validGroups[groupName] and groupName ~= "_metadata" then
+            providedGroups[groupName] = true
+        end
+    end
+    
+    if #providedGroups > 0 then
+        local groupList = {}
+        for group, _ in pairs(providedGroups) do
+            table.insert(groupList, group)
+        end
+        CM.Info(string.format("Importing settings from groups: %s", table.concat(groupList, ", ")))
+    end
+    
+    for key, value in pairs(settingsToImport) do
+        -- Skip internal keys
+        if type(key) == "string" and key:sub(1, 1) == "_" then
+            skippedCount = skippedCount + 1
+        -- Check if key exists in defaults (partial import - only validate provided keys)
+        elseif defaults[key] == nil then
+            table.insert(errors, string.format("Unknown setting: %s (will be skipped)", key))
+            skippedCount = skippedCount + 1
+        else
+            -- Validate type
+            local defaultValue = defaults[key]
+            if type(value) ~= type(defaultValue) then
+                -- Try to convert if possible
+                if type(defaultValue) == "boolean" and type(value) == "string" then
+                    if value:lower() == "true" then
+                        value = true
+                    elseif value:lower() == "false" then
+                        value = false
+                    else
+                        table.insert(errors, string.format("Invalid type for %s: expected boolean, got %s", key, type(value)))
+                        skippedCount = skippedCount + 1
+                    end
+                elseif type(defaultValue) == "number" and type(value) == "string" then
+                    local num = tonumber(value)
+                    if num then
+                        value = num
+                    else
+                        table.insert(errors, string.format("Invalid type for %s: expected number, got %s", key, type(value)))
+                        skippedCount = skippedCount + 1
+                    end
+                else
+                    table.insert(errors, string.format("Invalid type for %s: expected %s, got %s", key, type(defaultValue), type(value)))
+                    skippedCount = skippedCount + 1
+                end
+            end
+            
+            -- Apply setting (only if we didn't skip due to type conversion failure)
+            if type(value) == type(defaultValue) then
+                settings[key] = value
+                appliedCount = appliedCount + 1
+            end
+        end
+    end
+    
+    -- Report results
+    if appliedCount > 0 then
+        CM.Success(string.format("Imported %d setting(s) successfully (partial import)", appliedCount))
+        if skippedCount > 0 then
+            CM.Info(string.format("Skipped %d setting(s) (unknown keys or errors)", skippedCount))
+        end
+    else
+        CM.Warn("No settings were imported")
+    end
+    
+    -- Save settings if any were applied
+    if appliedCount > 0 then
+        if CharacterMarkdownSettings and CharacterMarkdownSettings.SetValue then
+            CharacterMarkdownSettings:SetValue("_lastModified", GetTimeStamp())
+        elseif CharacterMarkdownSettings then
+            CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        end
+        
+        -- Refresh settings panel if open
+        if LibAddonMenu2 then
+            -- Trigger refresh
+            zo_callLater(function()
+                CM.Info("Settings updated! You may need to refresh the settings panel to see changes.")
+            end, 100)
+        end
+    end
+    
+    if #errors > 0 then
+        CM.Warn("Validation errors:")
+        for _, error in ipairs(errors) do
+            CM.Warn("  " .. error)
+        end
+    end
+    
+    -- Close window
+    windowControl:SetHidden(true)
+    
+    return true
+end
 
 CM.DebugPrint("UI", "Window module loaded successfully")

@@ -187,6 +187,7 @@ end
 
 -- Unified settings access helper
 -- Always returns a valid settings table, merging SavedVariables with defaults
+-- This ensures settings are NEVER nil - they're always true or false
 function CM.GetSettings()
     local settings = CharacterMarkdownSettings
     if not settings then
@@ -198,6 +199,42 @@ function CM.GetSettings()
             return {}
         end
     end
+    
+    -- CRITICAL: Merge with defaults to ensure no nil values
+    -- This guarantees that every setting is either true or false, never nil
+    if CM.Settings and CM.Settings.Defaults then
+        local defaults = CM.Settings.Defaults:GetAll()
+        local merged = {}
+        
+        -- First, copy all defaults
+        for key, defaultValue in pairs(defaults) do
+            merged[key] = defaultValue
+        end
+        
+        -- Then, overlay saved values (which may be true, false, or other types)
+        -- IMPORTANT: We must overlay ALL saved values, including false, to respect user settings
+        local overlayCount = 0
+        for key, savedValue in pairs(settings) do
+            -- Only merge keys that exist in defaults (ignore internal keys like _metadata, filters, etc.)
+            if defaults[key] ~= nil then
+                -- Overlay saved value (even if it's false - this respects user's disabled settings)
+                local oldValue = merged[key]
+                merged[key] = savedValue
+                overlayCount = overlayCount + 1
+                -- Debug: Log important setting overrides
+                if key == "includeSkillBars" or key == "includeSkills" or key == "includeEquipment" or 
+                   key == "includeQuickStats" or key == "includeTableOfContents" or 
+                   key == "includeChampionPoints" or key == "includeChampionDiagram" then
+                    CM.DebugPrint("SETTINGS_MERGE", string.format("Overlayed '%s': default=%s -> saved=%s -> final=%s", 
+                        key, tostring(oldValue), tostring(savedValue), tostring(merged[key])))
+                end
+            end
+        end
+        CM.DebugPrint("SETTINGS_MERGE", string.format("Merged settings: %d keys overlaid from SavedVariables", overlayCount))
+        
+        return merged
+    end
+    
     return settings
 end
 

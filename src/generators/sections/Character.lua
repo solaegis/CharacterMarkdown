@@ -191,12 +191,9 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
     
     -- CP breakdown (similar to Attributes format)
     -- Always show breakdown format - matches Attributes display style
-    local cp1 = 0  -- Warfare (spent)
-    local cp2 = 0  -- Fitness (spent)
-    local cp3 = 0  -- Craft (spent)
-    local max1 = 0  -- Warfare (max allocated)
-    local max2 = 0  -- Fitness (max allocated)
-    local max3 = 0  -- Craft (max allocated)
+    local cp1 = 0  -- Warfare (spent/assigned)
+    local cp2 = 0  -- Fitness (spent/assigned)
+    local cp3 = 0  -- Craft (spent/assigned)
     
     if cpData then
         -- Disciplines are stored as an array, not an object
@@ -204,17 +201,14 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
             local DisciplineType = CM.constants.DisciplineType
             for _, discipline in ipairs(cpData.disciplines) do
                 local name = discipline.name or ""
-                local total = discipline.total or 0  -- Spent points
-                local maxAllocated = discipline.maxAllocated or 0  -- Maximum allocated to this discipline
+                -- Use assigned from API if available, otherwise use total (spent)
+                local assigned = discipline.assigned or discipline.total or 0
                 if name == DisciplineType.WARFARE then
-                    cp1 = total
-                    max1 = maxAllocated
+                    cp1 = assigned
                 elseif name == DisciplineType.FITNESS then
-                    cp2 = total
-                    max2 = maxAllocated
+                    cp2 = assigned
                 elseif name == DisciplineType.CRAFT then
-                    cp3 = total
-                    max3 = maxAllocated
+                    cp3 = assigned
                 end
             end
         end
@@ -240,188 +234,30 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
         cpTotal = cp  -- Fallback to character CP if available
     end
     
-    -- Calculate unassigned points per discipline
-    -- Each discipline has its own independent maximum allocated CP
-    -- Unassigned = max allocated per discipline - spent in that discipline
-    -- If maxAllocated is not available from API, use better fallback calculation
-    local unassignedCraft = 0
-    local unassignedWarfare = 0
-    local unassignedFitness = 0
+    -- Calculate "available capacity" per discipline
+    -- Unassigned CP is a shared pool, but we show it per discipline to indicate
+    -- "available capacity" (max - assigned) for each discipline
+    -- Max per discipline = assigned + unassigned (shared pool)
+    -- Available capacity = max - assigned = (assigned + unassigned) - assigned = unassigned
+    -- Since unassigned is shared, all disciplines show the same available capacity
     
-    -- Get total available CP for better fallback calculation
-    local totalAvailable = 0
+    -- Get unassigned CP (shared pool)
+    local totalUnassigned = 0
     if cpData and cpData.available then
-        totalAvailable = cpData.available or 0
+        totalUnassigned = cpData.available or 0
     elseif cpData and cpData.total and cpData.spent then
-        totalAvailable = math.max(0, cpData.total - cpData.spent)
+        totalUnassigned = math.max(0, cpData.total - cpData.spent)
     end
     
-    -- Calculate total spent across all disciplines
-    local totalSpent = cp1 + cp2 + cp3
+    -- All disciplines show the same unassigned value (shared pool)
+    -- This represents "how much more can be allocated to this discipline"
+    local unassignedCraft = totalUnassigned
+    local unassignedWarfare = totalUnassigned
+    local unassignedFitness = totalUnassigned
     
-    if max3 > 0 then
-        -- Use API-provided max allocated
-        unassignedCraft = math.max(0, max3 - cp3)
-    elseif totalAvailable > 0 and totalSpent > 0 then
-        -- Fallback: distribute available CP proportionally based on spent points
-        -- If a discipline has more spent points, it likely has more available points
-        local craftRatio = (cp3 > 0) and (cp3 / totalSpent) or (1 / 3)
-        unassignedCraft = math.max(0, math.floor(totalAvailable * craftRatio))
-    else
-        -- Last resort: divide equally (may not be accurate)
-        local cpMaxPerDiscipline = math.floor(cpTotal / 3)
-        unassignedCraft = math.max(0, cpMaxPerDiscipline - cp3)
-    end
-    
-    if max1 > 0 then
-        unassignedWarfare = math.max(0, max1 - cp1)
-    elseif totalAvailable > 0 and totalSpent > 0 then
-        local warfareRatio = (cp1 > 0) and (cp1 / totalSpent) or (1 / 3)
-        unassignedWarfare = math.max(0, math.floor(totalAvailable * warfareRatio))
-    else
-        local cpMaxPerDiscipline = math.floor(cpTotal / 3)
-        unassignedWarfare = math.max(0, cpMaxPerDiscipline - cp1)
-    end
-    
-    if max2 > 0 then
-        unassignedFitness = math.max(0, max2 - cp2)
-    elseif totalAvailable > 0 and totalSpent > 0 then
-        local fitnessRatio = (cp2 > 0) and (cp2 / totalSpent) or (1 / 3)
-        unassignedFitness = math.max(0, math.floor(totalAvailable * fitnessRatio))
-    else
-        local cpMaxPerDiscipline = math.floor(cpTotal / 3)
-        unassignedFitness = math.max(0, cpMaxPerDiscipline - cp2)
-    end
-    
-    -- If we used proportional distribution, ensure total matches available CP
-    -- Adjust to account for rounding differences
-    -- Only adjust if we actually used fallback (some maxAllocated values are 0)
-    local usedFallback = (max1 == 0 or max2 == 0 or max3 == 0)
-    if usedFallback and totalAvailable > 0 then
-        local calculatedTotal = unassignedCraft + unassignedWarfare + unassignedFitness
-        local difference = totalAvailable - calculatedTotal
-        if difference ~= 0 then
-            -- Distribute the difference more intelligently
-            -- Try to distribute evenly, but prefer disciplines that used fallback
-            if math.abs(difference) == 1 then
-                -- Small difference (usually ±1): add to discipline that used fallback, or distribute evenly
-                if max3 == 0 and max1 > 0 and max2 > 0 then
-                    -- Only Craft used fallback
-                    unassignedCraft = unassignedCraft + difference
-                elseif max1 == 0 and max2 > 0 and max3 > 0 then
-                    -- Only Warfare used fallback
-                    unassignedWarfare = unassignedWarfare + difference
-                elseif max2 == 0 and max1 > 0 and max3 > 0 then
-                    -- Only Fitness used fallback
-                    unassignedFitness = unassignedFitness + difference
-                elseif max3 == 0 and max2 == 0 and max1 > 0 then
-                    -- Craft and Fitness used fallback, Warfare has maxAllocated
-                    -- Distribute: if positive, add to both equally; if negative, subtract from both
-                    if difference > 0 then
-                        unassignedCraft = unassignedCraft + 1
-                        unassignedFitness = unassignedFitness + (difference - 1)
-                    else
-                        -- Negative: subtract from the larger one
-                        if unassignedCraft >= unassignedFitness then
-                            unassignedCraft = unassignedCraft + difference
-                        else
-                            unassignedFitness = unassignedFitness + difference
-                        end
-                    end
-                elseif max1 == 0 and max3 == 0 and max2 > 0 then
-                    -- Warfare and Craft used fallback, Fitness has maxAllocated
-                    if difference > 0 then
-                        unassignedCraft = unassignedCraft + 1
-                        unassignedWarfare = unassignedWarfare + (difference - 1)
-                    else
-                        if unassignedCraft >= unassignedWarfare then
-                            unassignedCraft = unassignedCraft + difference
-                        else
-                            unassignedWarfare = unassignedWarfare + difference
-                        end
-                    end
-                elseif max2 == 0 and max3 == 0 and max1 > 0 then
-                    -- Fitness and Craft used fallback, Warfare has maxAllocated
-                    if difference > 0 then
-                        unassignedCraft = unassignedCraft + 1
-                        unassignedFitness = unassignedFitness + (difference - 1)
-                    else
-                        if unassignedCraft >= unassignedFitness then
-                            unassignedCraft = unassignedCraft + difference
-                        else
-                            unassignedFitness = unassignedFitness + difference
-                        end
-                    end
-                else
-                    -- All used fallback: distribute evenly or to most balanced
-                    -- Try to keep values as equal as possible
-                    local avg = math.floor((unassignedCraft + unassignedWarfare + unassignedFitness + difference) / 3)
-                    local targetCraft = avg
-                    local targetWarfare = avg
-                    local targetFitness = avg
-                    local remainder = (unassignedCraft + unassignedWarfare + unassignedFitness + difference) - (avg * 3)
-                    
-                    -- Distribute remainder to make total exact
-                    if remainder == 1 then
-                        -- Add 1 to the discipline that's currently lowest
-                        if unassignedCraft <= unassignedWarfare and unassignedCraft <= unassignedFitness then
-                            targetCraft = avg + 1
-                        elseif unassignedWarfare <= unassignedFitness then
-                            targetWarfare = avg + 1
-                        else
-                            targetFitness = avg + 1
-                        end
-                    elseif remainder == 2 then
-                        -- Add 1 to two disciplines
-                        if unassignedCraft <= unassignedWarfare and unassignedCraft <= unassignedFitness then
-                            targetCraft = avg + 1
-                            if unassignedWarfare <= unassignedFitness then
-                                targetWarfare = avg + 1
-                            else
-                                targetFitness = avg + 1
-                            end
-                        elseif unassignedWarfare <= unassignedFitness then
-                            targetWarfare = avg + 1
-                            targetFitness = avg + 1
-                        else
-                            targetCraft = avg + 1
-                            targetFitness = avg + 1
-                        end
-                    end
-                    
-                    unassignedCraft = targetCraft
-                    unassignedWarfare = targetWarfare
-                    unassignedFitness = targetFitness
-                end
-            else
-                -- Larger difference: distribute proportionally
-                if max3 == 0 and (max1 > 0 or max2 > 0) then
-                    unassignedCraft = unassignedCraft + difference
-                elseif max1 == 0 and (max2 > 0 or max3 > 0) then
-                    unassignedWarfare = unassignedWarfare + difference
-                elseif max2 == 0 and (max1 > 0 or max3 > 0) then
-                    unassignedFitness = unassignedFitness + difference
-                else
-                    -- All used fallback: distribute to keep values balanced
-                    local total = unassignedCraft + unassignedWarfare + unassignedFitness + difference
-                    local avg = math.floor(total / 3)
-                    local remainder = total - (avg * 3)
-                    
-                    unassignedCraft = avg
-                    unassignedWarfare = avg
-                    unassignedFitness = avg
-                    
-                    -- Distribute remainder
-                    if remainder >= 1 then
-                        unassignedCraft = unassignedCraft + 1
-                    end
-                    if remainder >= 2 then
-                        unassignedFitness = unassignedFitness + 1
-                    end
-                end
-            end
-        end
-    end
+    -- Note: We no longer use maxAllocated from API since it was incorrect
+    -- Max is simply: assigned + unassigned (shared pool)
+    -- All three disciplines show the same unassigned value (shared pool)
     
     local cpDisplayValue = string_format("⚒️ %d - ⚔️ %d - 💪 %d", 
         unassignedCraft, unassignedWarfare, unassignedFitness)
@@ -527,9 +363,21 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
     -- Add Current Title row if titles data is available
     local titleRow = ""
     if titlesData and titlesData.current and titlesData.current ~= "" then
-        local CreateTitleLink = CM.links and CM.links.CreateTitleLink
-        local currentTitleLink = (CreateTitleLink and CreateTitleLink(titlesData.current, format)) or titlesData.current
-        titleRow = string_format("| **👑 Current Title** | %s |\n", currentTitleLink)
+        -- Check if this is a custom title (user-entered) - custom titles should never be linked
+        local isCustomTitle = false
+        if CM.charData and CM.charData.customTitle and CM.charData.customTitle ~= "" then
+            isCustomTitle = (titlesData.current == CM.charData.customTitle)
+        elseif CharacterMarkdownData and CharacterMarkdownData.customTitle and CharacterMarkdownData.customTitle ~= "" then
+            isCustomTitle = (titlesData.current == CharacterMarkdownData.customTitle)
+        end
+        
+        local currentTitleText = titlesData.current
+        -- Only link if it's NOT a custom title (game titles can be linked, respecting enableAbilityLinks)
+        if not isCustomTitle then
+            local CreateTitleLink = CM.links and CM.links.CreateTitleLink
+            currentTitleText = (CreateTitleLink and CreateTitleLink(titlesData.current, format)) or titlesData.current
+        end
+        titleRow = string_format("| **👑 Current Title** | %s |\n", currentTitleText)
     end
     
     -- Add Active Buffs row if buffs data is available

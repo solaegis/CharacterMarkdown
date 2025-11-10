@@ -88,6 +88,8 @@ local function GetInvestmentLevelDescription(level)
 end
 
 -- Calculate available CP breakdown by discipline (⚒️ Craft - ⚔️ Warfare - 💪 Fitness)
+-- Note: Unassigned CP is a shared pool, but we show it per discipline to indicate
+-- "available capacity" (max - assigned) for each discipline
 local function GetAvailableCPBreakdown(cpData)
     if not cpData or not cpData.disciplines then
         return ""
@@ -98,173 +100,38 @@ local function GetAvailableCPBreakdown(cpData)
         return ""
     end
     
-    local unassignedCraft = 0
-    local unassignedWarfare = 0
-    local unassignedFitness = 0
-    
-    local totalAvailable = cpData.available or 0
-    if totalAvailable == 0 and cpData.total and cpData.spent then
-        totalAvailable = math.max(0, cpData.total - cpData.spent)
+    -- Get unassigned CP (shared pool)
+    local totalUnassigned = cpData.available or 0
+    if totalUnassigned == 0 and cpData.total and cpData.spent then
+        totalUnassigned = math.max(0, cpData.total - cpData.spent)
     end
     
-    -- Get spent points and max allocated per discipline
-    local cp1 = 0  -- Warfare
-    local cp2 = 0  -- Fitness
-    local cp3 = 0  -- Craft
-    local max1 = 0  -- Warfare max
-    local max2 = 0  -- Fitness max
-    local max3 = 0  -- Craft max
+    -- Get assigned points per discipline
+    local craftAssigned = 0
+    local warfareAssigned = 0
+    local fitnessAssigned = 0
     
     for _, discipline in ipairs(cpData.disciplines) do
         local name = discipline.name or ""
-        local total = discipline.total or 0
-        local maxAllocated = discipline.maxAllocated or 0
+        local assigned = discipline.assigned or discipline.total or 0
         
-        if name == DisciplineType.WARFARE then
-            cp1 = total
-            max1 = maxAllocated
+        if name == DisciplineType.CRAFT then
+            craftAssigned = assigned
+        elseif name == DisciplineType.WARFARE then
+            warfareAssigned = assigned
         elseif name == DisciplineType.FITNESS then
-            cp2 = total
-            max2 = maxAllocated
-        elseif name == DisciplineType.CRAFT then
-            cp3 = total
-            max3 = maxAllocated
+            fitnessAssigned = assigned
         end
     end
     
-    -- Calculate unassigned points per discipline
-    -- CRITICAL: In CP 3.0, GetChampionPointsInDiscipline returns the MAXIMUM that CAN be allocated
-    -- (based on total CP), NOT the current allocated (spent + unassigned)
-    -- We need to calculate current allocated = spent + unassigned, where unassigned is distributed from totalAvailable
-    
-    -- Check if maxAllocated values are actually the maximum possible (theoretical max) or current allocated
-    local theoreticalMaxPerDiscipline = math.floor((cpData.total or 0) / 3)
-    local usedMaxAllocated = false
-    
-    -- For Craft
-    if max3 > 0 and max3 >= cp3 then
-        -- Check if this is theoretical max or current allocated
-        if max3 == theoreticalMaxPerDiscipline or max3 == theoreticalMaxPerDiscipline + 1 then
-            -- This is theoretical max, not current allocated - calculate from totalAvailable
-            CM.DebugPrint("CP", string_format("Craft: max3=%d is theoretical max, calculating unassigned from totalAvailable", max3))
-        else
-            -- This might be current allocated - use it
-            unassignedCraft = max3 - cp3
-            usedMaxAllocated = true
-            CM.DebugPrint("CP", string_format("Craft: Using API maxAllocated %d, spent %d, unassigned %d", max3, cp3, unassignedCraft))
-        end
-    end
-    
-    if not usedMaxAllocated and totalAvailable > 0 then
-        -- Calculate from totalAvailable using better distribution
-        local totalSpent = cp1 + cp2 + cp3
-        if totalSpent > 0 then
-            -- Distribute proportionally to spent points
-            local craftRatio = (cp3 > 0) and (cp3 / totalSpent) or (1 / 3)
-            unassignedCraft = math.max(0, math.floor(totalAvailable * craftRatio))
-        else
-            unassignedCraft = math.floor(totalAvailable / 3)
-        end
-        CM.DebugPrint("CP", string_format("Craft: Calculated from totalAvailable %d, unassigned %d", totalAvailable, unassignedCraft))
-    end
-    
-    usedMaxAllocated = false
-    -- For Warfare
-    if max1 > 0 and max1 >= cp1 then
-        if max1 == theoreticalMaxPerDiscipline or max1 == theoreticalMaxPerDiscipline + 1 then
-            CM.DebugPrint("CP", string_format("Warfare: max1=%d is theoretical max, calculating unassigned from totalAvailable", max1))
-        else
-            unassignedWarfare = max1 - cp1
-            usedMaxAllocated = true
-            CM.DebugPrint("CP", string_format("Warfare: Using API maxAllocated %d, spent %d, unassigned %d", max1, cp1, unassignedWarfare))
-        end
-    end
-    
-    if not usedMaxAllocated and totalAvailable > 0 then
-        local totalSpent = cp1 + cp2 + cp3
-        if totalSpent > 0 then
-            local warfareRatio = (cp1 > 0) and (cp1 / totalSpent) or (1 / 3)
-            unassignedWarfare = math.max(0, math.floor(totalAvailable * warfareRatio))
-        else
-            unassignedWarfare = math.floor(totalAvailable / 3)
-        end
-        CM.DebugPrint("CP", string_format("Warfare: Calculated from totalAvailable %d, unassigned %d", totalAvailable, unassignedWarfare))
-    end
-    
-    usedMaxAllocated = false
-    -- For Fitness
-    if max2 > 0 and max2 >= cp2 then
-        if max2 == theoreticalMaxPerDiscipline or max2 == theoreticalMaxPerDiscipline + 1 then
-            CM.DebugPrint("CP", string_format("Fitness: max2=%d is theoretical max, calculating unassigned from totalAvailable", max2))
-        else
-            unassignedFitness = max2 - cp2
-            usedMaxAllocated = true
-            CM.DebugPrint("CP", string_format("Fitness: Using API maxAllocated %d, spent %d, unassigned %d", max2, cp2, unassignedFitness))
-        end
-    end
-    
-    if not usedMaxAllocated and totalAvailable > 0 then
-        local totalSpent = cp1 + cp2 + cp3
-        if totalSpent > 0 then
-            local fitnessRatio = (cp2 > 0) and (cp2 / totalSpent) or (1 / 3)
-            unassignedFitness = math.max(0, math.floor(totalAvailable * fitnessRatio))
-        else
-            unassignedFitness = math.floor(totalAvailable / 3)
-        end
-        CM.DebugPrint("CP", string_format("Fitness: Calculated from totalAvailable %d, unassigned %d", totalAvailable, unassignedFitness))
-    end
-    
-    -- Adjust for rounding differences to ensure total matches totalAvailable
-    -- This is critical when using fallback calculations from totalAvailable
-    local calculatedTotal = unassignedCraft + unassignedWarfare + unassignedFitness
-    local difference = totalAvailable - calculatedTotal
-    if difference ~= 0 and totalAvailable > 0 then
-        -- Distribute the difference to make total match totalAvailable exactly
-        -- This handles rounding errors from proportional distribution
-        if math.abs(difference) <= 3 then
-            -- Small difference: distribute to balance the values
-            if difference > 0 then
-                -- Add to the discipline with the lowest unassigned
-                if unassignedCraft <= unassignedWarfare and unassignedCraft <= unassignedFitness then
-                    unassignedCraft = unassignedCraft + difference
-                elseif unassignedWarfare <= unassignedFitness then
-                    unassignedWarfare = unassignedWarfare + difference
-                else
-                    unassignedFitness = unassignedFitness + difference
-                end
-            else
-                -- Subtract from the discipline with the highest unassigned
-                if unassignedCraft >= unassignedWarfare and unassignedCraft >= unassignedFitness then
-                    unassignedCraft = unassignedCraft + difference
-                elseif unassignedWarfare >= unassignedFitness then
-                    unassignedWarfare = unassignedWarfare + difference
-                else
-                    unassignedFitness = unassignedFitness + difference
-                end
-            end
-        else
-            -- Larger difference: redistribute more evenly
-            -- Calculate target values that sum to totalAvailable
-            local avg = math.floor(totalAvailable / 3)
-            local remainder = totalAvailable - (avg * 3)
-            
-            -- Start with equal distribution
-            unassignedCraft = avg
-            unassignedWarfare = avg
-            unassignedFitness = avg
-            
-            -- Distribute remainder (0, 1, or 2 points)
-            if remainder >= 1 then
-                unassignedCraft = unassignedCraft + 1
-            end
-            if remainder >= 2 then
-                unassignedWarfare = unassignedWarfare + 1
-            end
-            
-            CM.DebugPrint("CP", string_format("Redistributed unassigned CP: Craft=%d, Warfare=%d, Fitness=%d (total=%d)", 
-                unassignedCraft, unassignedWarfare, unassignedFitness, unassignedCraft + unassignedWarfare + unassignedFitness))
-        end
-    end
+    -- Calculate "available capacity" per discipline
+    -- Max per discipline = assigned + unassigned (shared pool)
+    -- Available capacity = max - assigned = (assigned + unassigned) - assigned = unassigned
+    -- Since unassigned is shared, all disciplines show the same available capacity
+    -- This represents "how much more can be allocated to this discipline"
+    local unassignedCraft = totalUnassigned
+    local unassignedWarfare = totalUnassigned
+    local unassignedFitness = totalUnassigned
     
     return string_format("⚒️ %d - ⚔️ %d - 💪 %d", unassignedCraft, unassignedWarfare, unassignedFitness)
 end
@@ -520,52 +387,36 @@ local function GenerateChampionPoints(cpData, format)
             end
         end
     else
-        -- Compact table format
-        markdown = markdown .. "| Category | Value |\n"
-        markdown = markdown .. "|:---------|------:|\n"
-        markdown = markdown .. "| **Total** | " .. CM.utils.FormatNumber(totalCP) .. " |\n"
-        markdown = markdown .. "| **Spent** | " .. CM.utils.FormatNumber(spentCP) .. " |\n"
+        -- Compact table format (row layout)
+        markdown = markdown .. "| **Total** | **Spent** | **Available** |\n"
+        markdown = markdown .. "|:---------:|:---------:|:-------------:|\n"
         if availableCP > 0 then
-            markdown = markdown .. "| **Available** | " .. CM.utils.FormatNumber(availableCP) .. " ⚠️ |\n"
+            markdown = markdown .. "| " .. CM.utils.FormatNumber(totalCP) .. " | " .. CM.utils.FormatNumber(spentCP) .. " | " .. CM.utils.FormatNumber(availableCP) .. " ⚠️ |\n"
         else
-            markdown = markdown .. "| **Available** | " .. CM.utils.FormatNumber(availableCP) .. " |\n"
+            markdown = markdown .. "| " .. CM.utils.FormatNumber(totalCP) .. " | " .. CM.utils.FormatNumber(spentCP) .. " | " .. CM.utils.FormatNumber(availableCP) .. " |\n"
         end
         markdown = markdown .. "\n"
         
         -- Always show disciplines section if data exists
         if cpData.disciplines and #cpData.disciplines > 0 then
-            -- Calculate max possible points per discipline (CP 3.0 system allows up to 660 per tree)
-            -- Use discipline.maxAllocated if available, otherwise use constant or scale from total CP
-            local defaultMaxPerDiscipline = CP_CONSTANTS.MAX_CP_PER_DISCIPLINE
-            if cpData.total and cpData.total > 0 and cpData.total < 1980 then
-                -- Scale down for lower CP totals (90% of equal distribution)
-                defaultMaxPerDiscipline = math.floor((cpData.total / 3) * 0.9)
-            end
-            -- Ensure defaultMaxPerDiscipline is never 0 (fallback to constant if calculation fails)
-            if defaultMaxPerDiscipline == 0 then
-                defaultMaxPerDiscipline = CP_CONSTANTS.MAX_CP_PER_DISCIPLINE
-            end
-            
             local hasDisciplinesWithPoints = false
+            local unassignedCP = availableCP or 0  -- Unassigned CP (shared pool)
             
             for _, discipline in ipairs(cpData.disciplines) do
                 local disciplineTotal = discipline.total or 0
-                -- Use maxAllocated if it's a valid positive number, otherwise use default
-                local maxPerDiscipline = (discipline.maxAllocated and discipline.maxAllocated > 0) and discipline.maxAllocated or defaultMaxPerDiscipline
+                local disciplineAssigned = discipline.assigned or disciplineTotal  -- Use assigned from API, fallback to total
                 
-                -- Ensure maxPerDiscipline is never 0 (use default if calculated value is 0)
-                if maxPerDiscipline == 0 then
-                    maxPerDiscipline = defaultMaxPerDiscipline
+                -- Calculate max per discipline: assigned + unassigned (per API guide)
+                -- Max = what's already assigned + what's available to assign
+                local maxPerDiscipline = disciplineAssigned + unassignedCP
+                
+                -- Ensure max is at least equal to assigned (safety check)
+                if maxPerDiscipline < disciplineAssigned then
+                    maxPerDiscipline = disciplineAssigned
                 end
                 
-                -- CRITICAL: Max can never be less than spent points
-                -- If spent points exceed the calculated max, use spent points as minimum max
-                -- This handles cases where API returns incorrect max or user has redistributed points
-                if disciplineTotal > maxPerDiscipline then
-                    CM.DebugPrint("CP", string_format("Discipline %s: spent (%d) > max (%d), adjusting max to spent", 
-                        discipline.name or "Unknown", disciplineTotal, maxPerDiscipline))
-                    maxPerDiscipline = disciplineTotal
-                end
+                -- Use total (spent) for display, but assigned for max calculation
+                -- This ensures progress bar shows correct percentage
                 
                 -- Show all disciplines (even with 0 points) so user can see the structure
                 -- But mark those with 0 points differently
@@ -610,6 +461,12 @@ local function GenerateChampionPoints(cpData, format)
                     end
                 else
                     -- Show discipline even with 0 points (for visibility)
+                    local disciplineAssigned = discipline.assigned or 0
+                    local maxPerDiscipline = disciplineAssigned + unassignedCP
+                    if maxPerDiscipline == 0 then
+                        maxPerDiscipline = unassignedCP  -- At least show unassigned as max if nothing assigned
+                    end
+                    
                     local disciplinePercent = 0
                     local progressBar = CM.utils.GenerateProgressBar(0, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
                     
@@ -744,13 +601,30 @@ local function GenerateConstellationTable(cpData, format)
         
         -- Filter to only stars with points > 0 and add slot status
         local starsWithPoints = {}
+        -- Create lookup map from discipline.skills for isSlottable flag
+        local skillSlottableMap = {}
+        if discipline.skills then
+            for _, skill in ipairs(discipline.skills) do
+                if skill.skillId then
+                    skillSlottableMap[skill.skillId] = skill.isSlottable or false
+                end
+            end
+        end
+        
         for _, star in ipairs(allStars) do
             local points = star.points
             -- Check if points exists and is a number > 0
             if points and type(points) == "number" and points > 0 then
-                local isSlottable = slottableSkillsMap[star.name] or false
-                local isSlotted = false
+                -- Get isSlottable from collector data (API-based), fallback to hardcoded map if needed
+                local isSlottable = false
+                if star.skillId and skillSlottableMap[star.skillId] ~= nil then
+                    isSlottable = skillSlottableMap[star.skillId]
+                else
+                    -- Fallback to hardcoded map (shouldn't happen if collector worked correctly)
+                    isSlottable = slottableSkillsMap[star.name] or false
+                end
                 
+                local isSlotted = false
                 if isSlottable and star.skillId then
                     for _, slottedId in ipairs(slottedSkillIds) do
                         if slottedId == star.skillId then
@@ -826,20 +700,13 @@ local function GenerateConstellationTable(cpData, format)
                     end
                     
                     -- Calculate maximum points for this constellation
-                    -- Use discipline.maxAllocated if available, otherwise calculate from total CP / 3
-                    local maxPoints = 0
-                    if discipline.maxAllocated and discipline.maxAllocated > 0 then
-                        maxPoints = discipline.maxAllocated
-                    elseif cpData and cpData.total and cpData.total > 0 then
-                        -- Distribute total CP equally across 3 constellations (rounded)
-                        maxPoints = math.floor(cpData.total / 3)
-                    end
+                    -- Max = assigned + unassigned (shared pool)
+                    local unassignedCP = (cpData and cpData.available) or 0
+                    local disciplineAssigned = discipline.assigned or assignedPoints
+                    local maxPoints = disciplineAssigned + unassignedCP
                     
-                    -- CRITICAL: Max can never be less than assigned points
-                    -- If assigned points exceed the calculated max, use assigned points as minimum max
-                    if assignedPoints > maxPoints then
-                        CM.DebugPrint("CP", string_format("Constellation %s: assigned (%d) > max (%d), adjusting max to assigned", 
-                            discipline.name or "Unknown", assignedPoints, maxPoints))
+                    -- Ensure max is at least equal to assigned (safety check)
+                    if maxPoints < assignedPoints then
                         maxPoints = assignedPoints
                     end
                     

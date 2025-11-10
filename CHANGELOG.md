@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Settings Export/Import**: New commands for exporting and importing settings in YAML format
+  - `/cmdsettings export` - Export all settings to human-readable YAML format
+  - `/cmdsettings import` - Import settings from YAML (supports partial imports)
+  - Grouped format with logical sections: core, links, visuals, content, extended, champion, equipment, skills, display
+  - Partial import support - only import the settings you provide, leave others unchanged
+  - Format enforcement - imports must use the grouped structure
+  - Type validation and error reporting
+  - Metadata header with version and export date
+
+### Changed
+- **Settings Export Format**: Improved readability with organized grouping
+  - Settings are now organized into logical sections instead of flat structure
+  - Removed deep ZO_SavedVars nesting for cleaner output
+  - Added metadata header with version and export timestamp
+  - Excluded filter presets from export to keep it concise
+
 ### Planned
 
 ## [2.1.11] - 2025-01-21

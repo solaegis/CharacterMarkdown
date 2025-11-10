@@ -25,7 +25,7 @@ function CM.Settings.Defaults:GetAll()
         includeChampionDetailed = false,
         includeChampionConstellationTable = false,  -- Show all stars in constellation tables
         includeChampionPointStarTables = false,  -- Show tables of assigned points per discipline
-        -- includeChampionDiagram = false,  -- DISABLED: Experimental feature
+        includeChampionDiagram = false,  -- Mermaid diagram (GitHub/VSCode only - Mermaid doesn't render in Discord)
         includeSkillBars = true,
         includeSkills = true,
         includeSkillMorphs = false,  -- Show all morphable skills with choices

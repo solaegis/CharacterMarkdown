@@ -74,8 +74,20 @@ local function GenerateTitles(titlesData, format)
     if format == "discord" then
         if titlesData.current and titlesData.current ~= "" then
             markdown = markdown .. "**Titles:**\n"
-            local currentTitleLink = (CreateTitleLink and CreateTitleLink(titlesData.current, format)) or titlesData.current
-            markdown = markdown .. "• Current: " .. currentTitleLink .. "\n"
+            -- Check if this is a custom title (user-entered) - custom titles should never be linked
+            local isCustomTitle = false
+            if CM.charData and CM.charData.customTitle and CM.charData.customTitle ~= "" then
+                isCustomTitle = (titlesData.current == CM.charData.customTitle)
+            elseif CharacterMarkdownData and CharacterMarkdownData.customTitle and CharacterMarkdownData.customTitle ~= "" then
+                isCustomTitle = (titlesData.current == CharacterMarkdownData.customTitle)
+            end
+            
+            local currentTitleText = titlesData.current
+            -- Only link if it's NOT a custom title (game titles can be linked, respecting enableAbilityLinks)
+            if not isCustomTitle then
+                currentTitleText = (CreateTitleLink and CreateTitleLink(titlesData.current, format)) or titlesData.current
+            end
+            markdown = markdown .. "• Current: " .. currentTitleText .. "\n"
             
             if titlesData.total and titlesData.total > 0 then
                 markdown = markdown .. "• Owned: " .. (titlesData.owned or 0) .. "/" .. titlesData.total .. 

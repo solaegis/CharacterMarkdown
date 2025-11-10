@@ -41,8 +41,7 @@ local function GetGenerators()
         GenerateMundus = CM.generators.sections.GenerateMundus,
         GenerateChampionPoints = CM.generators.sections.GenerateChampionPoints,
         GenerateDetailedChampionPoints = CM.generators.sections.GenerateDetailedChampionPoints,
-        -- DISABLED: Champion Diagram (experimental)
-        -- GenerateChampionDiagram = CM.generators.GenerateChampionDiagram,
+        GenerateChampionDiagram = CM.generators.sections.GenerateChampionDiagram,
         GenerateCollectibles = CM.generators.sections.GenerateCollectibles,
         GenerateCrafting = CM.generators.sections.GenerateCrafting,
         GenerateAchievements = CM.generators.sections.GenerateAchievements,
@@ -119,13 +118,20 @@ end
 -- =====================================================
 
 -- Helper function to check if a setting is enabled
--- Returns true if setting is true OR nil (default enabled)
--- Returns false if setting is explicitly false
+-- Settings are guaranteed to be true or false (never nil) via CM.GetSettings()
+-- Returns true only if setting is explicitly true, false otherwise
 local function IsSettingEnabled(settings, settingName, defaultValue)
-    local value = settings[settingName]
-    if value == nil then
-        return defaultValue  -- Use provided default
+    if not settings then
+        CM.Warn(string.format("IsSettingEnabled: settings table is nil for '%s', using default: %s", settingName, tostring(defaultValue)))
+        return defaultValue
     end
+    local value = settings[settingName]
+    -- Settings should never be nil (CM.GetSettings() ensures this), but handle it defensively
+    if value == nil then
+        CM.Warn(string.format("IsSettingEnabled: '%s' is nil (should never happen!), using default: %s", settingName, tostring(defaultValue)))
+        return defaultValue
+    end
+    -- Explicitly check for true - false means disabled
     return value == true
 end
 
@@ -134,7 +140,12 @@ end
 -- =====================================================
 
 -- Section configuration: defines all sections with their conditions
+-- NOTE: settings parameter must be the FLATTENED settings table
 local function GetSectionRegistry(format, settings, gen, data)
+    -- Debug: Log settings at registry creation time
+    CM.DebugPrint("REGISTRY", string.format("Building section registry - includeChampionPoints: %s (type: %s), includeChampionDiagram: %s (type: %s)", 
+        tostring(settings.includeChampionPoints), type(settings.includeChampionPoints),
+        tostring(settings.includeChampionDiagram), type(settings.includeChampionDiagram)))
     return {
         -- Header (always included)
         {
@@ -163,10 +174,10 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Skill Bars (Combat Arsenal) - Always enabled, moved after Overview
+        -- Skill Bars (Combat Arsenal)
         {
             name = "SkillBars",
-            condition = true,  -- Always enabled
+            condition = IsSettingEnabled(settings, "includeSkillBars", true),
             generator = function()
                 -- Defensive: Ensure data exists and is valid
                 local skillBarData = data.skillBar or {}
@@ -445,15 +456,6 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Divider (non-Discord only)
-        {
-            name = "Divider",
-            condition = format ~= "discord",
-            generator = function()
-                return "---\n\n"
-            end
-        },
-        
         -- DLC Access - Disabled: Now included in Collectibles section as first collapsible
         -- {
         --     name = "DLCAccess",
@@ -475,16 +477,43 @@ local function GetSectionRegistry(format, settings, gen, data)
         -- Champion Points
         {
             name = "ChampionPoints",
-            condition = IsSettingEnabled(settings, "includeChampionPoints", true),
+            condition = function()
+                -- Re-evaluate condition at generation time to ensure we have latest settings
+                local currentSettings = CM.GetSettings() or settings
+                local enabled = IsSettingEnabled(currentSettings, "includeChampionPoints", true)
+                CM.DebugPrint("REGISTRY", string.format("ChampionPoints condition (runtime): %s (settings.includeChampionPoints = %s)", 
+                    tostring(enabled), tostring(currentSettings.includeChampionPoints)))
+                return enabled
+            end,
             generator = function()
+                -- Use current settings from CM.GetSettings() to ensure we have latest values
+                local currentSettings = CM.GetSettings() or settings
+                local cpEnabled = IsSettingEnabled(currentSettings, "includeChampionPoints", true)
+                CM.DebugPrint("CHAMPION_POINTS", string.format("Section condition: %s, CP data exists: %s", tostring(cpEnabled), tostring(data.cp ~= nil)))
+                if data.cp then
+                    CM.DebugPrint("CHAMPION_POINTS", string.format("CP data - total: %s, spent: %s, disciplines: %s", 
+                        tostring(data.cp.total), tostring(data.cp.spent), tostring(data.cp.disciplines and #data.cp.disciplines or 0)))
+                end
+                
                 local markdown = ""
                 
                 -- Show all Champion Points
-                markdown = markdown .. gen.GenerateChampionPoints(data.cp, format)
+                local cpResult = gen.GenerateChampionPoints(data.cp, format)
+                CM.DebugPrint("CHAMPION_POINTS", string.format("GenerateChampionPoints returned length: %d", #cpResult))
+                markdown = markdown .. cpResult
                 
                 -- Add detailed analysis if enabled
-                if IsSettingEnabled(settings, "includeChampionDetailed", false) then
+                if IsSettingEnabled(currentSettings, "includeChampionDetailed", false) then
                     markdown = markdown .. gen.GenerateDetailedChampionPoints(data.cp, format)
+                end
+                
+                -- Add Mermaid diagram if enabled (GitHub/VSCode only - Mermaid doesn't render in Discord)
+                local diagramEnabled = IsSettingEnabled(currentSettings, "includeChampionDiagram", false)
+                CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Diagram enabled: %s, format: %s", tostring(diagramEnabled), tostring(format)))
+                if diagramEnabled and format ~= "discord" then
+                    local diagramResult = gen.GenerateChampionDiagram(data.cp)
+                    CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Diagram generated, length: %d", #diagramResult))
+                    markdown = markdown .. diagramResult
                 end
                 
                 return markdown
@@ -629,7 +658,56 @@ local function GenerateMarkdown(format)
     
     CM.DebugPrint("GENERATOR", string.format("Data collection completed with %d error(s)", #collectionErrors))
     
-    local settings = CharacterMarkdownSettings or {}
+    -- Get settings - use CM.GetSettings() which guarantees no nil values
+    -- Settings are always stored in flat format in SavedVariables
+    -- CM.GetSettings() merges with defaults to ensure every setting is true or false, never nil
+    local settings = CM.GetSettings() or {}
+    
+    -- CRITICAL: Also check raw CharacterMarkdownSettings to ensure we're reading the latest values
+    -- This helps catch any issues with settings not being persisted or read correctly
+    if CharacterMarkdownSettings then
+        -- Log raw values for debugging
+        CM.DebugPrint("GENERATOR", string.format("Raw CharacterMarkdownSettings - includeChampionPoints: %s, includeChampionDiagram: %s", 
+            tostring(CharacterMarkdownSettings.includeChampionPoints), 
+            tostring(CharacterMarkdownSettings.includeChampionDiagram)))
+        
+        -- Ensure critical settings are synced from raw to merged (defensive check)
+        -- Force sync to ensure we use the actual saved values
+        if CharacterMarkdownSettings.includeChampionPoints ~= nil then
+            settings.includeChampionPoints = CharacterMarkdownSettings.includeChampionPoints
+            CM.Info(string.format("Synced includeChampionPoints: %s", tostring(settings.includeChampionPoints)))
+        end
+        if CharacterMarkdownSettings.includeChampionDiagram ~= nil then
+            settings.includeChampionDiagram = CharacterMarkdownSettings.includeChampionDiagram
+            CM.Info(string.format("Synced includeChampionDiagram: %s", tostring(settings.includeChampionDiagram)))
+        end
+    end
+    
+    -- Debug: Log relevant settings for troubleshooting
+    CM.DebugPrint("GENERATOR", string.format("Settings source: %s", CM.settings and "CM.settings" or "CM.GetSettings()"))
+    CM.DebugPrint("GENERATOR", string.format("Final settings check - includeChampionPoints: %s (type: %s), includeChampionDiagram: %s (type: %s), includeSkillBars: %s (type: %s), includeSkills: %s (type: %s), includeEquipment: %s (type: %s), includeQuickStats: %s (type: %s), includeTableOfContents: %s (type: %s)", 
+        tostring(settings.includeChampionPoints), type(settings.includeChampionPoints),
+        tostring(settings.includeChampionDiagram), type(settings.includeChampionDiagram),
+        tostring(settings.includeSkillBars), type(settings.includeSkillBars),
+        tostring(settings.includeSkills), type(settings.includeSkills), 
+        tostring(settings.includeEquipment), type(settings.includeEquipment), 
+        tostring(settings.includeQuickStats), type(settings.includeQuickStats), 
+        tostring(settings.includeTableOfContents), type(settings.includeTableOfContents)))
+    
+    -- Debug: Check if settings table has the expected keys
+    local sampleKeys = {"includeChampionPoints", "includeSkillBars", "includeSkills", "includeEquipment"}
+    for _, key in ipairs(sampleKeys) do
+        local hasKey = settings[key] ~= nil
+        CM.DebugPrint("GENERATOR", string.format("Setting '%s' exists: %s, value: %s", key, tostring(hasKey), tostring(settings[key])))
+    end
+    
+    -- Debug: Check CP data
+    if collectedData.cp then
+        CM.DebugPrint("GENERATOR", string.format("CP data collected - total: %s, spent: %s, available: %s", 
+            tostring(collectedData.cp.total), tostring(collectedData.cp.spent), tostring(collectedData.cp.available)))
+    else
+        CM.DebugPrint("GENERATOR", "WARNING: CP data is nil!")
+    end
     
     -- Get section generators
     local gen = GetGenerators()
@@ -644,10 +722,16 @@ local function GenerateMarkdown(format)
     
     local markdown = ""
     
-    -- Get section registry
+    -- Verify settings are accessible before building registry
+    CM.DebugPrint("GENERATOR", string.format("Final settings check before registry - includeChampionPoints: %s (type: %s), includeChampionDiagram: %s (type: %s)", 
+        tostring(settings.includeChampionPoints), type(settings.includeChampionPoints),
+        tostring(settings.includeChampionDiagram), type(settings.includeChampionDiagram)))
+    
+    -- Get section registry (pass flattened settings)
     local sections = GetSectionRegistry(format, settings, gen, collectedData)
     
     -- Generate all sections based on registry
+    CM.Info("=== Section Generation ===")
     for _, section in ipairs(sections) do
         local conditionMet = false
         if type(section.condition) == "function" then
@@ -656,7 +740,11 @@ local function GenerateMarkdown(format)
             conditionMet = section.condition
         end
         
+        -- Log every section's condition status
+        CM.DebugPrint("GENERATOR", string.format("Section '%s' - condition: %s", section.name, tostring(conditionMet)))
+        
         if conditionMet then
+            CM.Info(string.format("→ Generating: %s", section.name))
             -- Defensive: Check if generator function exists
             if not section.generator or type(section.generator) ~= "function" then
                 CM.Warn(string.format("Section '%s' has no valid generator function", section.name))
@@ -664,6 +752,15 @@ local function GenerateMarkdown(format)
             else
                 local success, result = pcall(section.generator)
                 if success then
+                    -- Log result for ALL sections
+                    local resultLength = result and #result or 0
+                    local isEmpty = result == "" or not result
+                    CM.Info(string.format("  ✓ %s: %d chars", section.name, resultLength))
+                    
+                    if isEmpty then
+                        CM.Warn(string.format("  ⚠ %s returned EMPTY despite condition=true!", section.name))
+                    end
+                    
                     -- CRITICAL: Ensure critical sections (SkillBars, Equipment) always have content
                     if (section.name == "SkillBars" or section.name == "Equipment") then
                         if not result or result == "" or (result:gsub("%s+", "") == "") then
@@ -677,9 +774,9 @@ local function GenerateMarkdown(format)
                         end
                     end
                     markdown = markdown .. result
-                    CM.DebugPrint("GENERATOR", string.format("✅ Section '%s' generated", section.name))
+                    CM.DebugPrint("GENERATOR", string.format("✅ Section '%s' appended to markdown", section.name))
                 else
-                    CM.Warn(string.format("Failed to generate section '%s': %s", section.name, tostring(result)))
+                    CM.Error(string.format("  ✗ %s FAILED: %s", section.name, tostring(result)))
                     CM.DebugPrint("GENERATOR", string.format("❌ Section '%s' failed: %s", section.name, tostring(result)))
                     -- For critical sections, add placeholder on error
                     if section.name == "SkillBars" or section.name == "Equipment" then
@@ -693,9 +790,10 @@ local function GenerateMarkdown(format)
                 end
             end
         else
-            CM.DebugPrint("GENERATOR", string.format("⏭️  Section '%s' skipped (condition not met)", section.name))
+            CM.DebugPrint("GENERATOR", string.format("⏭️  Section '%s' skipped (condition=false)", section.name))
         end
     end
+    CM.Info(string.format("=== Total markdown: %d chars ===", #markdown))
     
     -- Footer (always included)
     local footerSuccess, footerResult = pcall(gen.GenerateFooter, format, string.len(markdown))

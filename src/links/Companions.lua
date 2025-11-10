@@ -28,8 +28,8 @@ local function CreateCompanionLink(companionName, format)
     end
     
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
-    -- Try CM.settings first, then fallback to CharacterMarkdownSettings
-    local settings = (CM and CM.settings) or CharacterMarkdownSettings or {}
+    -- Use CM.GetSettings() which merges with defaults to ensure no nil values
+    local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return companionName
     end

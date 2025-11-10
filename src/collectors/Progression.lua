@@ -20,19 +20,23 @@ local CP_CONSTANTS = {
 -- =====================================================
 
 -- Get discipline info (emoji and display name) by ID
+-- ESO API discipline IDs:
+-- 1 = CHAMPION_DISCIPLINE_TYPE_COMBAT (Warfare)
+-- 2 = CHAMPION_DISCIPLINE_TYPE_CONDITIONING (Fitness)
+-- 3 = CHAMPION_DISCIPLINE_TYPE_WORLD (Craft)
 local function GetDisciplineInfo(disciplineId)
     local DisciplineType = CM.constants.DisciplineType
     local emoji, displayName
     
     if disciplineId == 1 then
-        emoji = "⚒️"
-        displayName = DisciplineType.CRAFT
-    elseif disciplineId == 2 then
         emoji = "⚔️"
         displayName = DisciplineType.WARFARE
-    elseif disciplineId == 3 then
+    elseif disciplineId == 2 then
         emoji = "💪"
         displayName = DisciplineType.FITNESS
+    elseif disciplineId == 3 then
+        emoji = "⚒️"
+        displayName = DisciplineType.CRAFT
     else
         emoji = "⚔️"
         displayName = "Unknown"
@@ -42,17 +46,21 @@ local function GetDisciplineInfo(disciplineId)
 end
 
 -- Get discipline type constant safely
+-- ESO API discipline type constants:
+-- CHAMPION_DISCIPLINE_TYPE_COMBAT = 1 (Warfare)
+-- CHAMPION_DISCIPLINE_TYPE_CONDITIONING = 2 (Fitness)
+-- CHAMPION_DISCIPLINE_TYPE_WORLD = 3 (Craft)
 local function GetDisciplineTypeConstant(disciplineId)
     local constSuccess, constValue = false, nil
     
     if disciplineId == 1 then
-        constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_WORLD end)
+        constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_COMBAT end)
         return (constSuccess and constValue) and constValue or 1
     elseif disciplineId == 2 then
-        constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_COMBAT end)
+        constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_CONDITIONING end)
         return (constSuccess and constValue) and constValue or 2
     elseif disciplineId == 3 then
-        constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_CONDITIONING end)
+        constSuccess, constValue = pcall(function() return CHAMPION_DISCIPLINE_TYPE_WORLD end)
         return (constSuccess and constValue) and constValue or 3
     end
     
@@ -96,15 +104,15 @@ local function CollectChampionPointData()
         }
     }
     
+    -- Get total CP earned (account-wide)
     data.total = CM.SafeCall(GetPlayerChampionPointsEarned) or 0
-    -- Get available (unspent) CP
-    -- Use pcall to track whether API call succeeded (to distinguish between "returned 0" vs "failed")
-    -- Note: In Lua, 0 is falsy, so we check apiCallSuccess explicitly, not the value
+    
+    -- Get unassigned CP (shared pool available to any discipline)
     local apiCallSuccess, apiAvailable = pcall(GetUnitChampionPoints, "player")
     if apiCallSuccess and apiAvailable ~= nil then
-        data.available = apiAvailable  -- API call succeeded and returned a value (0 is valid)
+        data.available = apiAvailable  -- Unassigned CP (0 is valid)
     else
-        data.available = nil  -- API call failed or returned nil, we'll calculate from total - spent later
+        data.available = nil  -- API call failed, will calculate from total - spent later
     end
     
     if data.total < CP_CONSTANTS.MIN_CP_FOR_SYSTEM then
@@ -145,91 +153,31 @@ local function CollectChampionPointData()
                     -- Get discipline type constant safely
                     local disciplineTypeConstant = GetDisciplineTypeConstant(disciplineId)
                     
-                    -- Get total spent points in this discipline (tries multiple methods, returns first success)
-                    local disciplineTotalSpent = GetDisciplineSpentPoints(disciplineId, disciplineTypeConstant)
-                    
-                    CM.DebugPrint("CP", string_format("Discipline %s (ID %d, constant %s): %d points spent", 
-                        displayName, disciplineId, tostring(disciplineTypeConstant), disciplineTotalSpent))
-                    
-                    -- Get maximum allocated CP for this discipline
-                    -- In ESO CP 3.0, each discipline has its own independent maximum
-                    -- Try multiple API methods to get the allocated maximum
-                    local disciplineMaxAllocated = 0
+                    -- Get assigned points in this discipline using the correct API
+                    -- GetChampionPointsInDiscipline() returns assigned points (not max possible)
+                    local disciplineAssigned = 0
                     if disciplineTypeConstant then
-                        -- Method 1: Try GetChampionPointsInDiscipline
-                        -- IMPORTANT: In CP 3.0, this API returns the MAXIMUM CP that CAN be allocated to this discipline
-                        -- This is based on total CP earned, NOT the current allocated amount (spent + unassigned)
-                        -- The maximum per discipline = total CP / 3 (approximately, with rounding)
-                        -- To get current allocated (spent + unassigned), we need to use a different approach
-                        local successMax, maxValue = pcall(GetChampionPointsInDiscipline, disciplineTypeConstant)
-                        if successMax and maxValue then
-                            -- Check if this value represents the maximum possible (based on total CP)
-                            -- or the current allocated amount (spent + unassigned)
-                            -- If it's greater than spent, it might be current allocated
-                            -- If it equals spent, it might be maximum possible or current allocated with 0 unassigned
-                            if maxValue > disciplineTotalSpent then
-                                -- Likely current allocated (spent + unassigned)
-                                disciplineMaxAllocated = maxValue
-                                CM.DebugPrint("CP", string_format("Discipline %s: API returned current allocated %d (spent %d, unassigned %d)", 
-                                    displayName, maxValue, disciplineTotalSpent, maxValue - disciplineTotalSpent))
-                            elseif maxValue == disciplineTotalSpent then
-                                -- Could be maximum possible (if user has allocated all available to this discipline)
-                                -- Or could be API limitation (returning spent instead of allocated)
-                                -- Check if this matches the theoretical maximum (total CP / 3)
-                                local theoreticalMax = math.floor((data.total or 0) / 3)
-                                if maxValue == theoreticalMax or maxValue == theoreticalMax + 1 then
-                                    -- This is likely the maximum possible, not current allocated
-                                    -- Calculate current allocated as spent + (portion of available)
-                                    -- But we don't know the distribution yet, so leave as 0 for generator to calculate
-                                    CM.DebugPrint("CP", string_format("Discipline %s: API returned %d (matches theoretical max %d), will calculate allocated from totalAvailable", 
-                                        displayName, maxValue, theoreticalMax))
-                                else
-                                    -- Might be current allocated with 0 unassigned, or API limitation
-                                    -- Leave as 0 and let generator calculate
-                                    CM.DebugPrint("CP", string_format("Discipline %s: API returned %d (same as spent, not theoretical max), will calculate from totalAvailable", 
-                                        displayName, maxValue))
-                                end
-                            else
-                                -- API returned less than spent - invalid, don't use
-                                CM.DebugPrint("CP", string_format("Discipline %s: API returned %d (less than spent %d), invalid, will calculate from totalAvailable", 
-                                    displayName, maxValue, disciplineTotalSpent))
-                            end
-                        end
-                        
-                        -- Method 2: Try GetNumChampionPointsAllocatedToDiscipline if it exists
-                        if disciplineMaxAllocated == 0 then
-                            local successMax2, maxValue2 = pcall(function() 
-                                if GetNumChampionPointsAllocatedToDiscipline then
-                                    return GetNumChampionPointsAllocatedToDiscipline(disciplineTypeConstant)
-                                end
-                                return nil
-                            end)
-                            if successMax2 and maxValue2 and maxValue2 >= disciplineTotalSpent then
-                                disciplineMaxAllocated = maxValue2
-                                CM.DebugPrint("CP", string_format("Discipline %s: Method 2 returned max allocated %d", displayName, maxValue2))
-                            end
-                        end
-                        
-                        -- Method 3: If API returned same as spent, it might mean API limitation
-                        -- In CP 3.0, GetChampionPointsInDiscipline might return the maximum that CAN be allocated
-                        -- (based on total CP), not the current allocated amount
-                        -- We need to calculate maxAllocated as spent + unassigned, where unassigned comes from totalAvailable
-                        -- But we don't know the distribution yet, so leave as 0 and let generator calculate
-                        if disciplineMaxAllocated == 0 then
-                            CM.DebugPrint("CP", string_format("Discipline %s: No API max found, will calculate from totalAvailable in generator", displayName))
+                        local successAssigned, assignedValue = pcall(GetChampionPointsInDiscipline, disciplineTypeConstant)
+                        if successAssigned and assignedValue and assignedValue >= 0 then
+                            disciplineAssigned = assignedValue
                         end
                     end
                     
-                    CM.DebugPrint("CP", string_format("Discipline %s: maxAllocated=%d, spent=%d", 
-                        displayName, disciplineMaxAllocated, disciplineTotalSpent))
+                    -- Fallback: Try GetDisciplineSpentPoints if assigned is 0 (for backward compatibility)
+                    if disciplineAssigned == 0 then
+                        disciplineAssigned = GetDisciplineSpentPoints(disciplineId, disciplineTypeConstant)
+                    end
+                    
+                    CM.DebugPrint("CP", string_format("Discipline %s (ID %d): %d points assigned", 
+                        displayName, disciplineId, disciplineAssigned))
                     
                     local disciplineData = { 
                         name = displayName, 
                         emoji = emoji,
                         skills = {}, 
                         allStars = {},  -- All stars including 0 points (for constellation table view)
-                        total = 0,  -- Will be calculated from skill points (spent points)
-                        maxAllocated = disciplineMaxAllocated,  -- Maximum CP allocated to this discipline
+                        assigned = disciplineAssigned,  -- Points assigned to this discipline (from API)
+                        total = 0,  -- Will be calculated from skill points (may differ from assigned if API is wrong)
                         slottable = 0,
                         passive = 0,
                         slottableSkills = {},
@@ -237,89 +185,65 @@ local function CollectChampionPointData()
                     }
                     
                     -- Still iterate through skills for detailed breakdown (slottable vs passive)
-                    local numSkills = GetNumChampionDisciplineSkills(disciplineId)
+                    -- CRITICAL: Use disciplineIndex (1-3) for iteration functions, not disciplineId
+                    local numSkills = GetNumChampionDisciplineSkills(disciplineIndex)
                     if numSkills then
                         for skillIndex = 1, numSkills do
-                            local skillId = GetChampionSkillId(disciplineId, skillIndex)
+                            local skillId = GetChampionSkillId(disciplineIndex, skillIndex)
                             if skillId then
                                 local pointsSpent = GetNumPointsSpentOnChampionSkill(skillId) or 0
                                 local skillName = GetChampionSkillName(skillId) or "Unknown"
+                                
+                                -- Get max points for this star (useful for display/validation)
+                                local maxPoints = 0
+                                local successMax, maxValue = pcall(GetChampionSkillMaxPoints, skillId)
+                                if successMax and maxValue then
+                                    maxPoints = maxValue
+                                end
                                 
                                 -- Always add to allStars array (including 0 points) for constellation table view
                                 table.insert(disciplineData.allStars, {
                                     name = skillName,
                                     points = pointsSpent,
+                                    maxPoints = maxPoints,  -- Max points for this star
                                     skillId = skillId,
                                     skillIndex = skillIndex
                                 })
                                 
                                 -- Only process skills with points > 0 for the main breakdown
                                 if pointsSpent > 0 then
-                                    -- Determine if skill is slottable or passive using hardcoded mapping
+                                    -- Determine if skill is slottable or passive using API
+                                    -- GetChampionSkillType() returns the skill type enum
+                                    local apiSkillType = nil
+                                    local successType, skillTypeValue = pcall(GetChampionSkillType, skillId)
+                                    if successType and skillTypeValue then
+                                        apiSkillType = skillTypeValue
+                                    end
+                                    
+                                    -- Check if skill is slottable using API
+                                    -- CHAMPION_SKILL_TYPE_NORMAL = passive, others = slottable
                                     local isSlottable = false
                                     local skillType = "passive"
                                     
-                                    -- Hardcoded mapping of slottable champion skills (ESO CP 2.0/Update 45)
-                                    local slottableSkills = {
-                                        -- Craft constellation slottable skills (Update 45: many converted to passives)
-                                        ["Steed's Blessing"] = true,
-                                        ["Shadowstrike"] = true,
-                                        ["Gifted Rider"] = true,
-                                        ["Reel Technique"] = true,
-                                        ["Master Gatherer"] = true,
-                                        
-                                        -- Warfare constellation slottable skills - Main Constellation
-                                        ["Deadly Aim"] = true,
-                                        ["Master-at-Arms"] = true,
-                                        ["Wrathful Strikes"] = true,
-                                        ["Thaumaturge"] = true,
-                                        ["Backstabber"] = true,
-                                        ["Fighting Finesse"] = true,
-                                        
-                                        -- Warfare - Mastered Curation (Healing Sub-constellation)
-                                        ["Blessed"] = true,
-                                        ["Eldritch Insight"] = true,
-                                        ["Cleansing Revival"] = true,
-                                        ["Foresight"] = true,
-                                        
-                                        -- Warfare - Extended Might (Damage Sub-constellation)
-                                        ["Arcane Supremacy"] = true,
-                                        ["Ironclad"] = true,
-                                        ["Preparation"] = true,
-                                        ["Exploiter"] = true,
-                                        
-                                        -- Warfare - Staving Death (Defense Sub-constellation)
-                                        ["Fortified"] = true,
-                                        ["Boundless Vitality"] = true,
-                                        ["Survival Instincts"] = true,
-                                        ["Rejuvenation"] = true,
-                                        
-                                        -- Fitness constellation slottable skills - Main Constellation
-                                        ["Tumbling"] = true,
-                                        ["Defiance"] = true,
-                                        ["Siphoning Spells"] = true,
-                                        ["Fortification"] = true,
-                                        ["Hero's Vigor"] = true,
-                                        ["Strategic Reserve"] = true,
-                                        
-                                        -- Fitness - Survivor's Spite (Recovery Sub-constellation)
-                                        ["Bloody Renewal"] = true,
-                                        ["Tireless Discipline"] = true,
-                                        ["Relentlessness"] = true,
-                                        ["Mystic Tenacity"] = true,
-                                        ["Hasty"] = true,
-                                        
-                                        -- Fitness - Wind Chaser (Movement Sub-constellation)
-                                        ["Celerity"] = true,
-                                        ["Piercing Gaze"] = true,
-                                        
-                                        -- Fitness - Walking Fortress (Block Sub-constellation)
-                                        ["Bracing Anchor"] = true,
-                                        ["Shield Expert"] = true,
-                                    }
+                                    if apiSkillType then
+                                        -- Try to access enum constants safely
+                                        local successNormal, normalType = pcall(function() return CHAMPION_SKILL_TYPE_NORMAL end)
+                                        if successNormal and normalType then
+                                            -- If skill type is not NORMAL, it's slottable
+                                            isSlottable = (apiSkillType ~= normalType)
+                                        else
+                                            -- Fallback: if we can't access enum, assume any non-zero/nil value means slottable
+                                            -- This is a conservative approach - better to mark as slottable if unsure
+                                            isSlottable = (apiSkillType ~= 0 and apiSkillType ~= nil)
+                                        end
+                                    else
+                                        -- API call failed - use fallback: check if skill name matches known slottable patterns
+                                        -- This is a last resort fallback
+                                        CM.DebugPrint("CP", string_format("GetChampionSkillType failed for %s, using fallback", skillName))
+                                        -- Could add minimal hardcoded fallback here if needed, but prefer API
+                                    end
                                     
-                                    if slottableSkills[skillName] then
-                                        isSlottable = true
+                                    if isSlottable then
                                         skillType = "slottable"
                                         slottableCount = slottableCount + 1
                                         disciplineData.slottable = disciplineData.slottable + pointsSpent
@@ -351,17 +275,17 @@ local function CollectChampionPointData()
                         end
                     end
                     
-                    -- Calculate discipline total from sum of skill points (more reliable than API call)
-                    -- This gives us the actual assigned points per discipline
+                    -- Calculate discipline total from sum of skill points
+                    -- This gives us the actual spent points per discipline
                     local calculatedDisciplineTotal = disciplineData.slottable + disciplineData.passive
                     if calculatedDisciplineTotal > 0 then
                         -- Use calculated total if we found any skills with points
                         disciplineData.total = calculatedDisciplineTotal
-                        CM.DebugPrint("CP", string_format("Discipline %s: Using calculated total %d (API returned %d)", 
-                            displayName, calculatedDisciplineTotal, disciplineTotalSpent))
+                        CM.DebugPrint("CP", string_format("Discipline %s: Using calculated total %d (API assigned %d)", 
+                            displayName, calculatedDisciplineTotal, disciplineAssigned))
                     else
-                        -- No skills found with points, use API value (or 0 if API also failed)
-                        disciplineData.total = disciplineTotalSpent or 0
+                        -- No skills found with points, use API assigned value (or 0 if API also failed)
+                        disciplineData.total = disciplineAssigned or 0
                     end
                     
                     -- Add discipline total to overall total spent (use calculated value)
@@ -392,13 +316,13 @@ local function CollectChampionPointData()
             if not disciplineMap[discId] then
                 local emoji, displayName = GetDisciplineInfo(discId)
                 
-                -- Try to get max allocated for missing discipline
-                local missingDisciplineMax = 0
+                -- Get assigned points for missing discipline
+                local missingDisciplineAssigned = 0
                 local disciplineTypeConstant = GetDisciplineTypeConstant(discId)
                 
-                local successMax, maxValue = pcall(GetChampionPointsInDiscipline, disciplineTypeConstant)
-                if successMax and maxValue and maxValue > 0 then
-                    missingDisciplineMax = maxValue
+                local successAssigned, assignedValue = pcall(GetChampionPointsInDiscipline, disciplineTypeConstant)
+                if successAssigned and assignedValue and assignedValue >= 0 then
+                    missingDisciplineAssigned = assignedValue
                 end
                 
                 local missingDiscipline = {
@@ -406,8 +330,8 @@ local function CollectChampionPointData()
                     emoji = emoji,
                     skills = {},
                     allStars = {},  -- All stars including 0 points (for constellation table view)
-                    total = 0,
-                    maxAllocated = missingDisciplineMax,
+                    assigned = missingDisciplineAssigned,
+                    total = missingDisciplineAssigned,  -- Use assigned as total for missing disciplines
                     slottable = 0,
                     passive = 0,
                     slottableSkills = {},
@@ -415,6 +339,7 @@ local function CollectChampionPointData()
                 }
                 
                 -- Collect all stars for missing discipline (even if API didn't return it)
+                -- CRITICAL: Use discId as disciplineIndex (1-3) for iteration functions
                 local numSkills = GetNumChampionDisciplineSkills(discId)
                 if numSkills then
                     for skillIndex = 1, numSkills do
@@ -423,9 +348,17 @@ local function CollectChampionPointData()
                             local pointsSpent = GetNumPointsSpentOnChampionSkill(skillId) or 0
                             local skillName = GetChampionSkillName(skillId) or "Unknown"
                             
+                            -- Get max points for this star
+                            local maxPoints = 0
+                            local successMax, maxValue = pcall(GetChampionSkillMaxPoints, skillId)
+                            if successMax and maxValue then
+                                maxPoints = maxValue
+                            end
+                            
                             table.insert(missingDiscipline.allStars, {
                                 name = skillName,
                                 points = pointsSpent,
+                                maxPoints = maxPoints,
                                 skillId = skillId,
                                 skillIndex = skillIndex
                             })
@@ -459,8 +392,7 @@ local function CollectChampionPointData()
     end)
     
     if success and allocations then
-        -- Calculate totalSpent from discipline totals if individual skills failed
-        -- This is more reliable than summing individual skills which may return 0
+        -- Calculate totalSpent from discipline totals
         local calculatedSpent = 0
         if allocations.disciplines and #allocations.disciplines > 0 then
             for _, discipline in ipairs(allocations.disciplines) do
@@ -470,29 +402,55 @@ local function CollectChampionPointData()
             end
         end
         
-        -- Use calculated spent from disciplines if it's greater than allocations.totalSpent
-        -- This handles cases where individual skill queries return 0 but discipline totals are correct
+        -- Use calculated spent from disciplines if available, otherwise use allocations.totalSpent
         if calculatedSpent > 0 then
             data.spent = calculatedSpent
         else
             data.spent = allocations.totalSpent
         end
         
-        -- Calculate available CP with priority: API value > calculated from spent > calculated from available
-        -- Validate consistency: available + spent should equal total (within 1 point tolerance)
-        if data.available == nil or (data.spent > 0 and data.available == data.total) then
-            -- API failed or returned invalid value (all available when points are spent), calculate from spent
-            data.available = data.total - data.spent
-            CM.DebugPrint("CP", string_format("Calculated available CP: %d (from total %d - spent %d)", 
-                data.available, data.total, data.spent))
-        elseif data.spent > 0 then
-            -- Validate: available + spent should equal total (within 1 point tolerance for rounding)
-            local calculatedTotal = data.available + data.spent
-            if math.abs(calculatedTotal - data.total) > 1 then
-                -- Mismatch detected, recalculate from spent (more reliable)
-                CM.Warn(string_format("CP mismatch detected: available=%d, spent=%d, total=%d (diff=%d) - recalculating", 
-                    data.available, data.spent, data.total, math.abs(calculatedTotal - data.total)))
+        -- Verify: total = assigned + unassigned
+        -- Calculate total assigned from discipline assigned values (more reliable than spent)
+        local totalAssigned = 0
+        if allocations.disciplines and #allocations.disciplines > 0 then
+            for _, discipline in ipairs(allocations.disciplines) do
+                if discipline.assigned and discipline.assigned > 0 then
+                    totalAssigned = totalAssigned + discipline.assigned
+                end
+            end
+        end
+        
+        -- If we have assigned values, use them for verification
+        if totalAssigned > 0 then
+            -- Verify: total = assigned + unassigned
+            if data.available == nil then
+                data.available = data.total - totalAssigned
+                CM.DebugPrint("CP", string_format("Calculated unassigned CP: %d (from total %d - assigned %d)", 
+                    data.available, data.total, totalAssigned))
+            else
+                -- Verify consistency
+                local calculatedTotal = totalAssigned + data.available
+                if math.abs(calculatedTotal - data.total) > 1 then
+                    CM.Warn(string_format("CP verification failed: assigned=%d, unassigned=%d, total=%d (diff=%d) - using API unassigned", 
+                        totalAssigned, data.available, data.total, math.abs(calculatedTotal - data.total)))
+                    -- Recalculate unassigned from assigned
+                    data.available = data.total - totalAssigned
+                end
+            end
+        else
+            -- Fallback: use spent for calculation
+            if data.available == nil or (data.spent > 0 and data.available == data.total) then
                 data.available = data.total - data.spent
+                CM.DebugPrint("CP", string_format("Calculated unassigned CP: %d (from total %d - spent %d)", 
+                    data.available, data.total, data.spent))
+            elseif data.spent > 0 then
+                -- Validate: available + spent should equal total (within 1 point tolerance)
+                local calculatedTotal = data.available + data.spent
+                if math.abs(calculatedTotal - data.total) > 1 then
+                    CM.Warn(string_format("CP mismatch detected: unassigned=%d, spent=%d, total=%d (diff=%d) - recalculating", 
+                        data.available, data.spent, data.total, math.abs(calculatedTotal - data.total)))
+                    data.available = data.total - data.spent
+                end
             end
         end
         

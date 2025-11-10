@@ -25,6 +25,7 @@ src/utils/Chunking.lua
 src/utils/TestValidation.lua
 src/utils/SectionPresenceTests.lua
 src/utils/CollectorUnitTests.lua
+src/utils/ExportImportTests.lua
 src/utils/LibSetsIntegration.lua
 
 ## Link generators (depend on utils)
@@ -68,8 +69,7 @@ src/generators/sections/SkillMorphs.lua
 src/generators/sections/Combat.lua
 src/generators/sections/Content.lua
 src/generators/sections/ChampionPoints.lua
-## DISABLED: Champion Points Mermaid diagram (keep code, not active)
-## src/generators/sections/ChampionDiagram.lua
+src/generators/sections/ChampionDiagram.lua
 src/generators/sections/Quests.lua
 src/generators/sections/World.lua
 src/generators/sections/TitlesHousing.lua

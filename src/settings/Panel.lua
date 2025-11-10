@@ -27,7 +27,7 @@ function CM.Settings.Panel:Initialize()
     end
     
     -- Ensure settings are initialized
-    if not CM.settings then
+    if not CharacterMarkdownSettings then
         CM.Error("Settings not initialized! Cannot create panel.")
         return false
     end
@@ -65,6 +65,31 @@ function CM.Settings.Panel:Initialize()
     LAM:RegisterOptionControls("CharacterMarkdownPanel", optionsData)
     
     CM.DebugPrint("SETTINGS", "Settings panel registered with LAM")
+    
+    -- Register /cmdsettings command handler AFTER LibAddonMenu has registered
+    -- This ensures our handler wraps LibAddonMenu's handler
+    -- LibAddonMenu registers the slash command when RegisterAddonPanel is called,
+    -- but we use a small delay to ensure it's registered
+    if CM.commands and CM.commands.RegisterCmdSettingsCommand then
+        zo_callLater(function()
+            -- Retry logic in case LibAddonMenu hasn't registered yet
+            local attempts = 0
+            local maxAttempts = 5
+            local function TryRegister()
+                attempts = attempts + 1
+                local existingHandler = SLASH_COMMANDS["/cmdsettings"]
+                -- If handler exists and it's not our wrapper, LibAddonMenu has registered
+                if existingHandler or attempts >= maxAttempts then
+                    CM.commands.RegisterCmdSettingsCommand()
+                else
+                    -- Wait a bit longer and try again
+                    zo_callLater(TryRegister, 50)
+                end
+            end
+            TryRegister()
+        end, 50)
+    end
+    
     return true
 end
 
@@ -114,9 +139,9 @@ function CM.Settings.Panel:AddVisualEnhancementSection(options)
                  "• Emoji indicators for status\n" ..
                  "• Info boxes for important messages\n\n" ..
                  "When disabled, uses classic markdown format.",
-        getFunc = function() return CM.settings.enableEnhancedVisuals end,
+        getFunc = function() return CharacterMarkdownSettings.enableEnhancedVisuals end,
         setFunc = function(value) 
-            CM.settings.enableEnhancedVisuals = value
+            CharacterMarkdownSettings.enableEnhancedVisuals = value
             CM.Info(value and "Enhanced visuals ENABLED" or "Enhanced visuals DISABLED")
         end,
         width = "full",
@@ -155,9 +180,9 @@ function CM.Settings.Panel:AddFormatSection(options)
         tooltip = "Select the default output format for /markdown command",
         choices = {"GitHub", "VS Code", "Discord", "Quick Summary"},
         choicesValues = {"github", "vscode", "discord", "quick"},
-        getFunc = function() return CM.settings.currentFormat end,
+        getFunc = function() return CharacterMarkdownSettings.currentFormat end,
         setFunc = function(value)
-            CM.settings.currentFormat = value
+            CharacterMarkdownSettings.currentFormat = value
             CM.currentFormat = value  -- Sync to core
         end,
         width = "full",
@@ -218,22 +243,25 @@ function CM.Settings.Panel:AddFilterManagerSection(options)
     
     -- Build choices list for dropdown
     local function GetFilterChoices()
-        local choices = {"None"}
-        local choicesValues = {"None"}
+        local choices = {""}  -- Empty option for "no filter"
+        local choicesValues = {""}
         
         -- Add user filters
-        if CM.settings and CM.settings.filters then
-            for name, _ in pairs(CM.settings.filters) do
+        if CharacterMarkdownSettings and CharacterMarkdownSettings.filters then
+            for name, _ in pairs(CharacterMarkdownSettings.filters) do
                 table.insert(choices, name)
                 table.insert(choicesValues, name)
             end
         end
         
-        -- Add preset filters
+        -- Add preset filters (exclude "None" and "All" which are removed)
         if CM.Settings.FilterManager and CM.Settings.FilterManager.FILTER_PRESETS then
             for name, _ in pairs(CM.Settings.FilterManager.FILTER_PRESETS) do
-                table.insert(choices, name .. " (Preset)")
-                table.insert(choicesValues, name)
+                -- Skip "None" and "All" as they're removed
+                if name ~= "None" and name ~= "All" then
+                    table.insert(choices, name .. " (Preset)")
+                    table.insert(choicesValues, name)
+                end
             end
         end
         
@@ -245,19 +273,19 @@ function CM.Settings.Panel:AddFilterManagerSection(options)
     table.insert(options, {
         type = "dropdown",
         name = "Active Filter",
-        tooltip = "Select an active filter to apply to your character data display",
+        tooltip = "Select an active filter to apply to your character data display. Empty means no filter is applied.",
         choices = filterChoices,
         choicesValues = filterChoicesValues,
-        getFunc = function() return CM.settings.activeFilter or "None" end,
+        getFunc = function() return CharacterMarkdownSettings.activeFilter or "" end,
         setFunc = function(value)
-            if value ~= "None" then
+            if value and value ~= "" then
                 CM.Settings.FilterManager:ApplyFilter(value)
             else
-                CM.settings.activeFilter = "None"
+                CharacterMarkdownSettings.activeFilter = ""
             end
         end,
         width = "full",
-        default = "None",
+        default = "",
     })
     
     -- Filter management buttons
@@ -340,6 +368,21 @@ end
 -- =====================================================
 
 function CM.Settings.Panel:AddCoreSections(options)
+    -- Helper function to wrap setFunc and reset filter if active
+    -- Must be defined first before it's used
+    local function WrapSetFunc(originalSetFunc)
+        return function(value)
+            -- Reset filter if one is active
+            if CM.Settings.FilterManager then
+                CM.Settings.FilterManager:ResetIfFilterActive()
+            end
+            -- Call original setFunc
+            if originalSetFunc then
+                originalSetFunc(value)
+            end
+        end
+    end
+    
     table.insert(options, {
         type = "header",
         name = "Core Content Sections",
@@ -350,32 +393,31 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Champion Points",
         tooltip = "Show Champion Point allocation and discipline breakdown",
-        getFunc = function() return CM.settings.includeChampionPoints end,
-        setFunc = function(value) CM.settings.includeChampionPoints = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeChampionPoints end,
+        setFunc = WrapSetFunc(function(value) CharacterMarkdownSettings.includeChampionPoints = value end),
         width = "half",
         default = true,
     })
     
-    -- EXPERIMENTAL: CP Visual Diagram - Hidden from UI for now, code kept for future work
-    -- table.insert(options, {
-    --     type = "checkbox",
-    --     name = "  ↳ Include CP Visual Diagram",
-    --     tooltip = "Show a Mermaid diagram visualizing your invested Champion Points (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. ⚠️ EXPERIMENTAL FEATURE - May not render correctly in all viewers.",
-    --     getFunc = function() return CM.settings.includeChampionDiagram end,
-    --     setFunc = function(value) CM.settings.includeChampionDiagram = value end,
-    --     disabled = function() return not CM.settings.includeChampionPoints end,
-    --     width = "half",
-    --     default = false,
-    --     warning = "Experimental feature - Code is complete but not fully tested.",
-    -- })
+    -- CP Visual Diagram (Mermaid) - Enabled with pathfinder support
+    table.insert(options, {
+        type = "checkbox",
+        name = "  ↳ Include CP Visual Diagram",
+        tooltip = "Show a Mermaid diagram visualizing your invested Champion Points with prerequisite relationships (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. Uses cluster API to discover skill relationships.",
+        getFunc = function() return CharacterMarkdownSettings.includeChampionDiagram end,
+        setFunc = function(value) CharacterMarkdownSettings.includeChampionDiagram = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeChampionPoints end,
+        width = "half",
+        default = false,
+    })
     
     table.insert(options, {
         type = "checkbox",
         name = "  ↳ Detailed CP Analysis",
         tooltip = "Show detailed Champion Point allocation analysis including slottable vs passive breakdown, investment levels, and optimization suggestions (Phase 4).",
-        getFunc = function() return CM.settings.includeChampionDetailed end,
-        setFunc = function(value) CM.settings.includeChampionDetailed = value end,
-        disabled = function() return not CM.settings.includeChampionPoints end,
+        getFunc = function() return CharacterMarkdownSettings.includeChampionDetailed end,
+        setFunc = function(value) CharacterMarkdownSettings.includeChampionDetailed = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeChampionPoints end,
         width = "half",
         default = false,
     })
@@ -385,8 +427,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Skill Bars",
         tooltip = "Show front and back bar abilities with ultimates",
-        getFunc = function() return CM.settings.includeSkillBars end,
-        setFunc = function(value) CM.settings.includeSkillBars = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeSkillBars end,
+        setFunc = function(value) CharacterMarkdownSettings.includeSkillBars = value end,
         width = "half",
         default = true,
     })
@@ -395,8 +437,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Skill Progression",
         tooltip = "Show skill line ranks and progress",
-        getFunc = function() return CM.settings.includeSkills end,
-        setFunc = function(value) CM.settings.includeSkills = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeSkills end,
+        setFunc = function(value) CharacterMarkdownSettings.includeSkills = value end,
         width = "half",
         default = true,
     })
@@ -409,9 +451,9 @@ function CM.Settings.Panel:AddCoreSections(options)
                  "When enabled, displays comprehensive morph information for all unlocked skills.\n" ..
                  "When disabled, shows only equipped abilities on bars.\n" ..
                  "⚠️ Note: Can generate 2-5KB of additional text for fully skilled characters.",
-        getFunc = function() return CM.settings.includeSkillMorphs end,
-        setFunc = function(value) CM.settings.includeSkillMorphs = value end,
-        disabled = function() return not CM.settings.includeSkills end,
+        getFunc = function() return CharacterMarkdownSettings.includeSkillMorphs end,
+        setFunc = function(value) CharacterMarkdownSettings.includeSkillMorphs = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeSkills end,
         width = "half",
         default = false,
     })
@@ -420,8 +462,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Equipment",
         tooltip = "Show equipped items and armor sets",
-        getFunc = function() return CM.settings.includeEquipment end,
-        setFunc = function(value) CM.settings.includeEquipment = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeEquipment end,
+        setFunc = function(value) CharacterMarkdownSettings.includeEquipment = value end,
         width = "half",
         default = true,
     })
@@ -430,8 +472,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Combat Statistics",
         tooltip = "Show health, resources, weapon/spell power, resistances",
-        getFunc = function() return CM.settings.includeCombatStats end,
-        setFunc = function(value) CM.settings.includeCombatStats = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeCombatStats end,
+        setFunc = function(value) CharacterMarkdownSettings.includeCombatStats = value end,
         width = "half",
         default = true,
     })
@@ -440,8 +482,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Companion Info",
         tooltip = "Show active companion details (if summoned)",
-        getFunc = function() return CM.settings.includeCompanion end,
-        setFunc = function(value) CM.settings.includeCompanion = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeCompanion end,
+        setFunc = function(value) CharacterMarkdownSettings.includeCompanion = value end,
         width = "half",
         default = true,
     })
@@ -450,8 +492,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Active Buffs",
         tooltip = "Show food, potions, and other active buffs",
-        getFunc = function() return CM.settings.includeBuffs end,
-        setFunc = function(value) CM.settings.includeBuffs = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeBuffs end,
+        setFunc = function(value) CharacterMarkdownSettings.includeBuffs = value end,
         width = "half",
         default = true,
     })
@@ -460,8 +502,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include Attribute Distribution",
         tooltip = "Show magicka/health/stamina attribute points",
-        getFunc = function() return CM.settings.includeAttributes end,
-        setFunc = function(value) CM.settings.includeAttributes = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeAttributes end,
+        setFunc = function(value) CharacterMarkdownSettings.includeAttributes = value end,
         width = "half",
         default = true,
     })
@@ -470,8 +512,8 @@ function CM.Settings.Panel:AddCoreSections(options)
         type = "checkbox",
         name = "Include DLC/Chapter Access",
         tooltip = "Show which DLCs and Chapters are accessible\n(~400-600 chars - large section)",
-        getFunc = function() return CM.settings.includeDLCAccess end,
-        setFunc = function(value) CM.settings.includeDLCAccess = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeDLCAccess end,
+        setFunc = function(value) CharacterMarkdownSettings.includeDLCAccess = value end,
         width = "half",
         default = true,
     })
@@ -498,8 +540,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Currency & Resources",
         tooltip = "Show gold, Alliance Points, Tel Var, Transmutes, Writs, Event Tickets, etc.\n(~500-800 chars)",
-        getFunc = function() return CM.settings.includeCurrency end,
-        setFunc = function(value) CM.settings.includeCurrency = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeCurrency end,
+        setFunc = function(value) CharacterMarkdownSettings.includeCurrency = value end,
         width = "half",
         default = true,
     })
@@ -508,8 +550,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Progression Info",
         tooltip = "Show unspent skill/attribute points, achievement score, vampire/werewolf status, enlightenment\n(~300-500 chars)",
-        getFunc = function() return CM.settings.includeProgression end,
-        setFunc = function(value) CM.settings.includeProgression = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeProgression end,
+        setFunc = function(value) CharacterMarkdownSettings.includeProgression = value end,
         width = "half",
         default = false,
     })
@@ -518,8 +560,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Riding Skills",
         tooltip = "Show riding speed, stamina, and capacity progress\n(~200-300 chars)",
-        getFunc = function() return CM.settings.includeRidingSkills end,
-        setFunc = function(value) CM.settings.includeRidingSkills = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeRidingSkills end,
+        setFunc = function(value) CharacterMarkdownSettings.includeRidingSkills = value end,
         width = "half",
         default = false,
     })
@@ -528,8 +570,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Inventory Space",
         tooltip = "Show backpack and bank space usage\n(~150-200 chars)",
-        getFunc = function() return CM.settings.includeInventory end,
-        setFunc = function(value) CM.settings.includeInventory = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeInventory end,
+        setFunc = function(value) CharacterMarkdownSettings.includeInventory = value end,
         width = "half",
         default = true,
     })
@@ -538,8 +580,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include PvP Information",
         tooltip = "Show Alliance War rank and current campaign\n(~150-200 chars)",
-        getFunc = function() return CM.settings.includePvP end,
-        setFunc = function(value) CM.settings.includePvP = value end,
+        getFunc = function() return CharacterMarkdownSettings.includePvP end,
+        setFunc = function(value) CharacterMarkdownSettings.includePvP = value end,
         width = "half",
         default = false,
     })
@@ -548,8 +590,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Role",
         tooltip = "Show selected role (Tank/Healer/DPS) in overview",
-        getFunc = function() return CM.settings.includeRole end,
-        setFunc = function(value) CM.settings.includeRole = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeRole end,
+        setFunc = function(value) CharacterMarkdownSettings.includeRole = value end,
         width = "half",
         default = true,
     })
@@ -558,8 +600,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Current Location",
         tooltip = "Show current zone/location in overview\n(Minimal size impact)",
-        getFunc = function() return CM.settings.includeLocation end,
-        setFunc = function(value) CM.settings.includeLocation = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeLocation end,
+        setFunc = function(value) CharacterMarkdownSettings.includeLocation = value end,
         width = "half",
         default = true,
     })
@@ -568,8 +610,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Collectibles",
         tooltip = "Show counts for mounts, pets, costumes, and houses owned\n(~200-300 chars)",
-        getFunc = function() return CM.settings.includeCollectibles end,
-        setFunc = function(value) CM.settings.includeCollectibles = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeCollectibles end,
+        setFunc = function(value) CharacterMarkdownSettings.includeCollectibles = value end,
         width = "half",
         default = true,
     })
@@ -578,8 +620,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Crafting Knowledge",
         tooltip = "Show known motifs and active research slots\n(~150-200 chars)",
-        getFunc = function() return CM.settings.includeCrafting end,
-        setFunc = function(value) CM.settings.includeCrafting = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeCrafting end,
+        setFunc = function(value) CharacterMarkdownSettings.includeCrafting = value end,
         width = "half",
         default = false,
     })
@@ -588,8 +630,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Achievement Tracking",
         tooltip = "Show detailed achievement progress, categories, and completion status (Phase 5).",
-        getFunc = function() return CM.settings.includeAchievements end,
-        setFunc = function(value) CM.settings.includeAchievements = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeAchievements end,
+        setFunc = function(value) CharacterMarkdownSettings.includeAchievements = value end,
         width = "half",
         default = false,
     })
@@ -598,9 +640,9 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "  ↳ Detailed Achievement Categories",
         tooltip = "Show achievement breakdown by categories (Combat, PvP, Exploration, Crafting, etc.) with progress tracking.",
-        getFunc = function() return CM.settings.includeAchievementsDetailed end,
-        setFunc = function(value) CM.settings.includeAchievementsDetailed = value end,
-        disabled = function() return not CM.settings.includeAchievements end,
+        getFunc = function() return CharacterMarkdownSettings.includeAchievementsDetailed end,
+        setFunc = function(value) CharacterMarkdownSettings.includeAchievementsDetailed = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeAchievements end,
         width = "half",
         default = false,
     })
@@ -609,9 +651,9 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "  ↳ Show All Achievements",
         tooltip = "Show all achievements. When disabled, shows only achievements that are currently in progress (have some progress but not completed). Useful for goal tracking when disabled.",
-        getFunc = function() return CM.settings.showAllAchievements ~= false end,
-        setFunc = function(value) CM.settings.showAllAchievements = value end,
-        disabled = function() return not CM.settings.includeAchievements end,
+        getFunc = function() return CharacterMarkdownSettings.showAllAchievements ~= false end,
+        setFunc = function(value) CharacterMarkdownSettings.showAllAchievements = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeAchievements end,
         width = "half",
         default = true,
     })
@@ -620,8 +662,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Quest Tracking",
         tooltip = "Show active quests, progress tracking, and quest categorization (Phase 6).",
-        getFunc = function() return CM.settings.includeQuests end,
-        setFunc = function(value) CM.settings.includeQuests = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeQuests end,
+        setFunc = function(value) CharacterMarkdownSettings.includeQuests = value end,
         width = "half",
         default = false,
     })
@@ -630,9 +672,9 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "  ↳ Detailed Quest Categories",
         tooltip = "Show quest breakdown by categories (Main Story, Guild Quests, DLC Quests, etc.) with zone tracking.",
-        getFunc = function() return CM.settings.includeQuestsDetailed end,
-        setFunc = function(value) CM.settings.includeQuestsDetailed = value end,
-        disabled = function() return not CM.settings.includeQuests end,
+        getFunc = function() return CharacterMarkdownSettings.includeQuestsDetailed end,
+        setFunc = function(value) CharacterMarkdownSettings.includeQuestsDetailed = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeQuests end,
         width = "half",
         default = false,
     })
@@ -641,9 +683,9 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "  ↳ Show All Quests",
         tooltip = "Show all quests. When disabled, shows only currently active quests. Useful for current objective tracking when disabled.",
-        getFunc = function() return CM.settings.showAllQuests ~= false end,
-        setFunc = function(value) CM.settings.showAllQuests = value end,
-        disabled = function() return not CM.settings.includeQuests end,
+        getFunc = function() return CharacterMarkdownSettings.showAllQuests ~= false end,
+        setFunc = function(value) CharacterMarkdownSettings.showAllQuests = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeQuests end,
         width = "half",
         default = true,
     })
@@ -652,8 +694,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Equipment Enhancement",
         tooltip = "Show equipment analysis, optimization suggestions, and upgrade tracking (Phase 7).",
-        getFunc = function() return CM.settings.includeEquipmentEnhancement end,
-        setFunc = function(value) CM.settings.includeEquipmentEnhancement = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeEquipmentEnhancement end,
+        setFunc = function(value) CharacterMarkdownSettings.includeEquipmentEnhancement = value end,
         width = "half",
         default = false,
     })
@@ -662,9 +704,9 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "  ↳ Detailed Equipment Analysis",
         tooltip = "Show detailed equipment analysis including set bonuses, quality upgrades, and enchantment analysis.",
-        getFunc = function() return CM.settings.includeEquipmentAnalysis end,
-        setFunc = function(value) CM.settings.includeEquipmentAnalysis = value end,
-        disabled = function() return not CM.settings.includeEquipmentEnhancement end,
+        getFunc = function() return CharacterMarkdownSettings.includeEquipmentAnalysis end,
+        setFunc = function(value) CharacterMarkdownSettings.includeEquipmentAnalysis = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeEquipmentEnhancement end,
         width = "half",
         default = false,
     })
@@ -673,9 +715,9 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "  ↳ Optimization Recommendations",
         tooltip = "Show equipment optimization recommendations and upgrade suggestions.",
-        getFunc = function() return CM.settings.includeEquipmentRecommendations end,
-        setFunc = function(value) CM.settings.includeEquipmentRecommendations = value end,
-        disabled = function() return not CM.settings.includeEquipmentEnhancement end,
+        getFunc = function() return CharacterMarkdownSettings.includeEquipmentRecommendations end,
+        setFunc = function(value) CharacterMarkdownSettings.includeEquipmentRecommendations = value end,
+        disabled = function() return not CharacterMarkdownSettings.includeEquipmentEnhancement end,
         width = "half",
         default = false,
     })
@@ -684,8 +726,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include World Progress",
         tooltip = "Show lorebook collection, zone completion, and world exploration progress.",
-        getFunc = function() return CM.settings.includeWorldProgress end,
-        setFunc = function(value) CM.settings.includeWorldProgress = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeWorldProgress end,
+        setFunc = function(value) CharacterMarkdownSettings.includeWorldProgress = value end,
         width = "half",
         default = false,
     })
@@ -694,8 +736,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Titles & Housing",
         tooltip = "Show character titles and owned houses.",
-        getFunc = function() return CM.settings.includeTitlesHousing end,
-        setFunc = function(value) CM.settings.includeTitlesHousing = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeTitlesHousing end,
+        setFunc = function(value) CharacterMarkdownSettings.includeTitlesHousing = value end,
         width = "half",
         default = false,
     })
@@ -704,8 +746,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include PvP Statistics",
         tooltip = "Show detailed PvP statistics and achievements.",
-        getFunc = function() return CM.settings.includePvPStats end,
-        setFunc = function(value) CM.settings.includePvPStats = value end,
+        getFunc = function() return CharacterMarkdownSettings.includePvPStats end,
+        setFunc = function(value) CharacterMarkdownSettings.includePvPStats = value end,
         width = "half",
         default = false,
     })
@@ -714,8 +756,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Armory Builds",
         tooltip = "Show saved armory builds and configurations.",
-        getFunc = function() return CM.settings.includeArmoryBuilds end,
-        setFunc = function(value) CM.settings.includeArmoryBuilds = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeArmoryBuilds end,
+        setFunc = function(value) CharacterMarkdownSettings.includeArmoryBuilds = value end,
         width = "half",
         default = false,
     })
@@ -724,8 +766,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Tales of Tribute",
         tooltip = "Show Tales of Tribute progress and deck information.",
-        getFunc = function() return CM.settings.includeTalesOfTribute end,
-        setFunc = function(value) CM.settings.includeTalesOfTribute = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeTalesOfTribute end,
+        setFunc = function(value) CharacterMarkdownSettings.includeTalesOfTribute = value end,
         width = "half",
         default = false,
     })
@@ -734,8 +776,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Undaunted Pledges",
         tooltip = "Show active Undaunted pledges from quest journal.",
-        getFunc = function() return CM.settings.includeUndauntedPledges end,
-        setFunc = function(value) CM.settings.includeUndauntedPledges = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeUndauntedPledges end,
+        setFunc = function(value) CharacterMarkdownSettings.includeUndauntedPledges = value end,
         width = "half",
         default = false,
     })
@@ -744,8 +786,8 @@ function CM.Settings.Panel:AddExtendedSections(options)
         type = "checkbox",
         name = "Include Guild Membership",
         tooltip = "Show guild membership information including guild names, member counts, and your rank.",
-        getFunc = function() return CM.settings.includeGuilds end,
-        setFunc = function(value) CM.settings.includeGuilds = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeGuilds end,
+        setFunc = function(value) CharacterMarkdownSettings.includeGuilds = value end,
         width = "half",
         default = false,
     })
@@ -772,10 +814,10 @@ function CM.Settings.Panel:AddLinkSettings(options)
         type = "checkbox",
         name = "Enable UESP Links",
         tooltip = "Make game elements clickable links to UESP wiki:\n• Abilities (skills on bars)\n• Armor sets\n• Race, Class, Alliance\n• Mundus stones\n• Champion Point skills\n• Zones/Locations\n• PvP Campaigns\n• Companions",
-        getFunc = function() return CM.settings.enableAbilityLinks end,
+        getFunc = function() return CharacterMarkdownSettings.enableAbilityLinks end,
         setFunc = function(value) 
-            CM.settings.enableAbilityLinks = value
-            CM.settings.enableSetLinks = value
+            CharacterMarkdownSettings.enableAbilityLinks = value
+            CharacterMarkdownSettings.enableSetLinks = value
         end,
         width = "full",
         default = true,
@@ -800,8 +842,8 @@ function CM.Settings.Panel:AddSkillFilters(options)
         min = 1,
         max = 50,
         step = 1,
-        getFunc = function() return CM.settings.minSkillRank end,
-        setFunc = function(value) CM.settings.minSkillRank = value end,
+        getFunc = function() return CharacterMarkdownSettings.minSkillRank end,
+        setFunc = function(value) CharacterMarkdownSettings.minSkillRank = value end,
         width = "half",
         default = 1,
     })
@@ -810,8 +852,8 @@ function CM.Settings.Panel:AddSkillFilters(options)
         type = "checkbox",
         name = "Show Maxed Skills",
         tooltip = "Show maxed (fully leveled) skills. When disabled, only shows skills that are still progressing.",
-        getFunc = function() return CM.settings.showMaxedSkills ~= false end,
-        setFunc = function(value) CM.settings.showMaxedSkills = value end,
+        getFunc = function() return CharacterMarkdownSettings.showMaxedSkills ~= false end,
+        setFunc = function(value) CharacterMarkdownSettings.showMaxedSkills = value end,
         width = "half",
         default = true,
     })
@@ -820,8 +862,8 @@ function CM.Settings.Panel:AddSkillFilters(options)
         type = "checkbox",
         name = "Show All Riding Skills",
         tooltip = "Show all riding skills. When disabled, only shows skills that are not maxed (still need training).",
-        getFunc = function() return CM.settings.showAllRidingSkills ~= false end,
-        setFunc = function(value) CM.settings.showAllRidingSkills = value end,
+        getFunc = function() return CharacterMarkdownSettings.showAllRidingSkills ~= false end,
+        setFunc = function(value) CharacterMarkdownSettings.showAllRidingSkills = value end,
         width = "half",
         default = true,
     })
@@ -842,8 +884,8 @@ function CM.Settings.Panel:AddCustomNotes(options)
         type = "checkbox",
         name = "Include Build Notes",
         tooltip = "Include custom build notes in the markdown output\nNotes must be entered below to appear in output",
-        getFunc = function() return CM.settings.includeBuildNotes end,
-        setFunc = function(value) CM.settings.includeBuildNotes = value end,
+        getFunc = function() return CharacterMarkdownSettings.includeBuildNotes end,
+        setFunc = function(value) CharacterMarkdownSettings.includeBuildNotes = value end,
         width = "half",
         default = true,
     })
@@ -877,21 +919,21 @@ function CM.Settings.Panel:AddCustomNotes(options)
             -- Normalize value (empty string if nil)
             local newValue = value or ""
             
-            -- CRITICAL: Always save to both CM.charData AND CharacterMarkdownData
-            -- LibAddonMenu may call setFunc multiple times during UI lifecycle, but we need to persist every change
+            -- CRITICAL: Save to CM.charData (ZO_SavedVars proxy - automatically persists)
+            -- Also update CharacterMarkdownData for backwards compatibility with fallback method
+            -- With ZO_SavedVars, CM.charData is the proxy table and changes persist automatically
+            -- (same persistence mechanism as boolean settings)
             local currentValue = CM.charData.customTitle or ""
             
-            -- Update CM.charData first (this is the active reference)
+            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
             CM.charData.customTitle = newValue
             CM.charData._lastModified = GetTimeStamp()
             
-            -- Then ALWAYS update CharacterMarkdownData (this is the SavedVariables that persists)
-            -- This ensures data persists even if CM.charData gets reset
-            if CharacterMarkdownData then
+            -- Also update CharacterMarkdownData for backwards compatibility
+            -- (With ZO_SavedVars, this is the same reference, but safe to update for fallback compatibility)
+            if CharacterMarkdownData and CharacterMarkdownData ~= CM.charData then
                 CharacterMarkdownData.customTitle = newValue
                 CharacterMarkdownData._lastModified = GetTimeStamp()
-            else
-                CM.Warn("CharacterMarkdownData not available - custom title may not persist!")
             end
             
             -- Log the save (only log if value actually changed)
@@ -936,21 +978,21 @@ function CM.Settings.Panel:AddCustomNotes(options)
             -- Normalize value (empty string if nil)
             local newValue = value or ""
             
-            -- CRITICAL: Always save to both CM.charData AND CharacterMarkdownData
-            -- LibAddonMenu may call setFunc multiple times during UI lifecycle, but we need to persist every change
+            -- CRITICAL: Save to CM.charData (ZO_SavedVars proxy - automatically persists)
+            -- Also update CharacterMarkdownData for backwards compatibility with fallback method
+            -- With ZO_SavedVars, CM.charData is the proxy table and changes persist automatically
+            -- (same persistence mechanism as boolean settings)
             local currentValue = CM.charData.customNotes or ""
             
-            -- Update CM.charData first (this is the active reference)
+            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
             CM.charData.customNotes = newValue
             CM.charData._lastModified = GetTimeStamp()
             
-            -- Then ALWAYS update CharacterMarkdownData (this is the SavedVariables that persists)
-            -- This ensures data persists even if CM.charData gets reset
-            if CharacterMarkdownData then
+            -- Also update CharacterMarkdownData for backwards compatibility
+            -- (With ZO_SavedVars, this is the same reference, but safe to update for fallback compatibility)
+            if CharacterMarkdownData and CharacterMarkdownData ~= CM.charData then
                 CharacterMarkdownData.customNotes = newValue
                 CharacterMarkdownData._lastModified = GetTimeStamp()
-            else
-                CM.Warn("CharacterMarkdownData not available - notes may not persist!")
             end
             
             -- Log the save (only log if value actually changed)
@@ -986,8 +1028,8 @@ function CM.Settings.Panel:AddEquipmentFilters(options)
         tooltip = "Show items of this quality or higher (filters out lower quality items)",
         choices = {"All", "Green", "Blue", "Purple", "Gold"},
         choicesValues = {0, 2, 3, 4, 5},
-        getFunc = function() return CM.settings.minEquipQuality end,
-        setFunc = function(value) CM.settings.minEquipQuality = value end,
+        getFunc = function() return CharacterMarkdownSettings.minEquipQuality end,
+        setFunc = function(value) CharacterMarkdownSettings.minEquipQuality = value end,
         width = "half",
         default = 0,
     })
@@ -996,8 +1038,8 @@ function CM.Settings.Panel:AddEquipmentFilters(options)
         type = "checkbox",
         name = "Hide Empty Slots",
         tooltip = "Don't show equipment slots with no item equipped",
-        getFunc = function() return CM.settings.hideEmptySlots end,
-        setFunc = function(value) CM.settings.hideEmptySlots = value end,
+        getFunc = function() return CharacterMarkdownSettings.hideEmptySlots end,
+        setFunc = function(value) CharacterMarkdownSettings.hideEmptySlots = value end,
         width = "half",
         default = false,
     })
@@ -1028,65 +1070,145 @@ function CM.Settings.Panel:AddActions(options)
         width = "half",
     })
     
+    -- Helper function to check if any sections are enabled
+    local function AreAnySectionsEnabled()
+        return CharacterMarkdownSettings.includeChampionPoints or
+               CharacterMarkdownSettings.includeChampionDiagram or
+               CharacterMarkdownSettings.includeChampionDetailed or
+               CharacterMarkdownSettings.includeChampionConstellationTable or
+               CharacterMarkdownSettings.includeChampionPointStarTables or
+               CharacterMarkdownSettings.includeSkillBars or
+               CharacterMarkdownSettings.includeSkillBars or
+               CharacterMarkdownSettings.includeSkillMorphs or
+               CharacterMarkdownSettings.includeEquipment or
+               CharacterMarkdownSettings.includeCompanion or
+               CharacterMarkdownSettings.includeCombatStats or
+               CharacterMarkdownSettings.includeBuffs or
+               CharacterMarkdownSettings.includeAttributes or
+               CharacterMarkdownSettings.includeDLCAccess or
+               CharacterMarkdownSettings.includeRole or
+               CharacterMarkdownSettings.includeLocation or
+               CharacterMarkdownSettings.includeQuickStats or
+               CharacterMarkdownSettings.includeAttentionNeeded or
+               CharacterMarkdownSettings.includeTableOfContents or
+               CharacterMarkdownSettings.includeCurrency or
+               CharacterMarkdownSettings.includeProgression or
+               CharacterMarkdownSettings.includeRidingSkills or
+               CharacterMarkdownSettings.includeInventory or
+               CharacterMarkdownSettings.includePvP or
+               CharacterMarkdownSettings.includeCollectibles or
+               CharacterMarkdownSettings.includeCollectiblesDetailed or
+               CharacterMarkdownSettings.includeCrafting or
+               CharacterMarkdownSettings.includeAchievements or
+               CharacterMarkdownSettings.includeAchievementsDetailed or
+               CharacterMarkdownSettings.showAllAchievements or
+               CharacterMarkdownSettings.includeQuests or
+               CharacterMarkdownSettings.includeQuestsDetailed or
+               CharacterMarkdownSettings.showAllQuests or
+               CharacterMarkdownSettings.includeEquipmentEnhancement or
+               CharacterMarkdownSettings.includeEquipmentAnalysis or
+               CharacterMarkdownSettings.includeEquipmentRecommendations or
+               CharacterMarkdownSettings.includeWorldProgress or
+               CharacterMarkdownSettings.includeTitlesHousing or
+               CharacterMarkdownSettings.includePvPStats or
+               CharacterMarkdownSettings.includeArmoryBuilds or
+               CharacterMarkdownSettings.includeTalesOfTribute or
+               CharacterMarkdownSettings.includeUndauntedPledges or
+               CharacterMarkdownSettings.includeGuilds or
+               CharacterMarkdownSettings.enableAbilityLinks or
+               CharacterMarkdownSettings.enableSetLinks
+    end
+    
+    -- Helper function to enable/disable all sections
+    local function ToggleAllSections(enable)
+        -- Reset filter if active
+        if CM.Settings.FilterManager then
+            CM.Settings.FilterManager:ResetIfFilterActive()
+        end
+        
+        local value = enable == true
+        -- Core sections
+        CharacterMarkdownSettings.includeChampionPoints = value
+        CharacterMarkdownSettings.includeChampionDiagram = value
+        CharacterMarkdownSettings.includeChampionDetailed = value
+        CharacterMarkdownSettings.includeChampionConstellationTable = value
+        CharacterMarkdownSettings.includeChampionPointStarTables = value
+        CharacterMarkdownSettings.includeSkillBars = value
+        CharacterMarkdownSettings.includeSkills = value
+        CharacterMarkdownSettings.includeSkillMorphs = value
+        CharacterMarkdownSettings.includeEquipment = value
+        CharacterMarkdownSettings.includeCompanion = value
+        CharacterMarkdownSettings.includeCombatStats = value
+        CharacterMarkdownSettings.includeBuffs = value
+        CharacterMarkdownSettings.includeAttributes = value
+        CharacterMarkdownSettings.includeDLCAccess = value
+        CharacterMarkdownSettings.includeRole = value
+        CharacterMarkdownSettings.includeLocation = value
+        -- Note: includeBuildNotes is intentionally excluded - custom title and build notes
+        -- text fields should remain visible and editable even when toggled off
+        CharacterMarkdownSettings.includeQuickStats = value
+        CharacterMarkdownSettings.includeAttentionNeeded = value
+        CharacterMarkdownSettings.includeTableOfContents = value
+        
+        -- Extended sections
+        CharacterMarkdownSettings.includeCurrency = value
+        CharacterMarkdownSettings.includeProgression = value
+        CharacterMarkdownSettings.includeRidingSkills = value
+        CharacterMarkdownSettings.includeInventory = value
+        CharacterMarkdownSettings.includePvP = value
+        CharacterMarkdownSettings.includeCollectibles = value
+        CharacterMarkdownSettings.includeCollectiblesDetailed = value
+        CharacterMarkdownSettings.includeCrafting = value
+        CharacterMarkdownSettings.includeAchievements = value
+        CharacterMarkdownSettings.includeAchievementsDetailed = value
+        CharacterMarkdownSettings.showAllAchievements = value
+        CharacterMarkdownSettings.includeQuests = value
+        CharacterMarkdownSettings.includeQuestsDetailed = value
+        CharacterMarkdownSettings.showAllQuests = value
+        CharacterMarkdownSettings.includeEquipmentEnhancement = value
+        CharacterMarkdownSettings.includeEquipmentAnalysis = value
+        CharacterMarkdownSettings.includeEquipmentRecommendations = value
+        CharacterMarkdownSettings.includeWorldProgress = value
+        CharacterMarkdownSettings.includeTitlesHousing = value
+        CharacterMarkdownSettings.includePvPStats = value
+        CharacterMarkdownSettings.includeArmoryBuilds = value
+        CharacterMarkdownSettings.includeTalesOfTribute = value
+        CharacterMarkdownSettings.includeUndauntedPledges = value
+        CharacterMarkdownSettings.includeGuilds = value
+        
+        -- Links
+        CharacterMarkdownSettings.enableAbilityLinks = value
+        CharacterMarkdownSettings.enableSetLinks = value
+        
+        -- Quality filters
+        if value then
+            CharacterMarkdownSettings.minSkillRank = 0
+            CharacterMarkdownSettings.showMaxedSkills = true
+            CharacterMarkdownSettings.showAllRidingSkills = true
+            CharacterMarkdownSettings.minEquipQuality = 0
+            CharacterMarkdownSettings.hideEmptySlots = false
+        else
+            CharacterMarkdownSettings.minSkillRank = 999
+            CharacterMarkdownSettings.showMaxedSkills = false
+            CharacterMarkdownSettings.showAllRidingSkills = false
+            CharacterMarkdownSettings.minEquipQuality = 999
+            CharacterMarkdownSettings.hideEmptySlots = true
+        end
+        
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.Info(value and "All sections enabled!" or "All sections disabled!")
+    end
+    
+    -- Toggle button for Enable All / Disable All
     table.insert(options, {
         type = "button",
-        name = "Enable All Sections",
-        tooltip = "Turn on all content sections (Champion Points, Equipment, Currency, etc.)",
+        name = function() return AreAnySectionsEnabled() and "Disable All Sections" or "Enable All Sections" end,
+        tooltip = function() return AreAnySectionsEnabled() and "Turn off all content sections" or "Turn on all content sections (Champion Points, Equipment, Currency, etc.)" end,
         func = function()
-            -- Core sections
-            CM.settings.includeChampionPoints = true
-            -- CM.settings.includeChampionDiagram = true  -- Keep disabled (experimental)
-            CM.settings.includeChampionDetailed = true  -- Enable detailed CP analysis
-            CM.settings.includeSkillBars = true
-            CM.settings.includeSkills = true
-            CM.settings.includeSkillMorphs = true  -- Enable morphs when enabling all
-            CM.settings.includeEquipment = true
-            CM.settings.includeCompanion = true
-            CM.settings.includeCombatStats = true
-            CM.settings.includeBuffs = true
-            CM.settings.includeAttributes = true
-            CM.settings.includeRole = true
-            CM.settings.includeLocation = true
-            CM.settings.includeBuildNotes = true
-            CM.settings.includeQuickStats = true  -- Explicitly enable (defaults to true but explicit for clarity)
-            CM.settings.includeAttentionNeeded = true  -- Explicitly enable (defaults to true but explicit for clarity)
-            
-            -- Extended sections
-            CM.settings.includeDLCAccess = true
-            CM.settings.includeCurrency = true
-            CM.settings.includeProgression = true
-            CM.settings.includeRidingSkills = true
-            CM.settings.includeInventory = true
-            CM.settings.includePvP = true
-            CM.settings.includeCollectibles = true
-            CM.settings.includeCollectiblesDetailed = false  -- Optional: enable for full detail
-            CM.settings.includeCrafting = true
-            CM.settings.includeAchievements = true  -- Enable achievement tracking
-            CM.settings.includeAchievementsDetailed = true  -- Enable detailed achievements
-            CM.settings.showAllAchievements = true  -- Show all achievements
-            CM.settings.includeQuests = true  -- Enable quest tracking
-            CM.settings.includeQuestsDetailed = true  -- Enable detailed quest categories
-            CM.settings.showAllQuests = true  -- Show all quests
-            CM.settings.includeEquipmentEnhancement = true  -- Enable equipment analysis
-            CM.settings.includeEquipmentAnalysis = true  -- Enable detailed equipment analysis
-            CM.settings.includeEquipmentRecommendations = true  -- Enable optimization recommendations
-            CM.settings.includeWorldProgress = true  -- Enable world progress tracking
-            CM.settings.includeTitlesHousing = true  -- Enable titles and housing
-            CM.settings.includePvPStats = true  -- Enable PvP statistics
-            CM.settings.includeArmoryBuilds = true  -- Enable armory builds
-            CM.settings.includeTalesOfTribute = true  -- Enable Tales of Tribute
-            CM.settings.includeUndauntedPledges = true  -- Enable Undaunted pledges
-            CM.settings.includeGuilds = true  -- Enable guild membership
-            
-            -- Note: includeQuickStats and includeAttentionNeeded are controlled by format (non-Discord only)
-            -- They default to true and don't need explicit enabling here
-            
-            -- Links
-            CM.settings.enableAbilityLinks = true
-            CM.settings.enableSetLinks = true
-            
-            CM.Info("All sections enabled!")
-            SCENE_MANAGER:Show("gameMenuInGame")  -- Refresh UI
+            local shouldEnable = not AreAnySectionsEnabled()
+            ToggleAllSections(shouldEnable)
+            -- Note: Button name is a function, so it will update automatically when panel is next shown
+            -- No need to manually refresh
         end,
         width = "half",
     })

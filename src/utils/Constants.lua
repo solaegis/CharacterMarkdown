@@ -8,15 +8,15 @@ local CM = CharacterMarkdown
 -- =====================================================
 
 CM.constants.CHUNKING = {
-    EDITBOX_LIMIT = 10000,              -- ESO EditBox character limit (display)
-    COPY_LIMIT = 10000,                 -- ESO EditBox copy limit
-    MAX_DATA_CHARS = 9913,              -- Maximum data characters per chunk (10000 - 87 for padding: 85 spaces + 2 newlines)
+    EDITBOX_LIMIT = 8500,               -- ESO EditBox character limit (display) - reduced for safer copy
+    COPY_LIMIT = 8500,                  -- ESO EditBox copy limit - reduced to avoid truncation
+    MAX_DATA_CHARS = 8413,              -- Maximum data characters per chunk (8500 - 87 for padding: 85 spaces + 2 newlines)
     -- Padding constants (kept for reference, but padding is disabled - no longer needed with smaller limits)
     PADDING_OVERHEAD_BASE = 17,         -- Base overhead for padding (comment + newlines) - DISABLED
     PADDING_INVISIBLE_CHAR_LENGTH = 3,  -- Length of invisible char (3 bytes in UTF-8) - DISABLED
     MIN_FINAL_CHUNK_PADDING = 50,      -- Minimum padding for final chunk - DISABLED
     MAX_FINAL_CHUNK_PADDING = 300,     -- Maximum padding for final chunk - DISABLED
-    TARGET_CHUNK_SIZE = 9913,          -- Target total size for non-final chunks (10000 - 87 for padding: 85 spaces + 2 newlines)
+    TARGET_CHUNK_SIZE = 8413,          -- Target total size for non-final chunks (8500 - 87 for padding: 85 spaces + 2 newlines)
     SAFE_PADDING_RESERVE = 50,         -- Reserve for padding calculation - DISABLED
     PADDING_COMMENT = "\n[comment]: #\n",  -- Invisible markdown comment - DISABLED
     PADDING_INVISIBLE_CHAR = "\226\128\139",  -- Zero-width space (U+200B) - DISABLED

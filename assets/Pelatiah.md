@@ -443,15 +443,6 @@
 | 💰 **95,512** [Gold](https://en.uesp.net/wiki/Online:Gold) | ⚔️ **0** [Alliance Points](https://en.uesp.net/wiki/Online:Alliance_Points) | 🔮 **7,027** [Tel Var](https://en.uesp.net/wiki/Online:Tel_Var_Stones) |
 | 💎 **60** [Crystals](https://en.uesp.net/wiki/Online:Transmute_Crystals) | 📜 **0** [Writs](https://en.uesp.net/wiki/Online:Writ_Vouchers) | 🎫 **2** [Tickets](https://en.uesp.net/wiki/Online:Event_Tickets) |
 
-<details>
-<summary><strong>🐴 Riding Skills</strong></summary>
-
-  Speed: ████████████████████ 100% (60/60)  
-Stamina: ████████████████████ 100% (60/60)  
-Capacity: ████████████████████ 100% (60/60)
-
-</details>
-
 ## 🎒 Inventory
 
 | Storage | Used | Max | Capacity |
