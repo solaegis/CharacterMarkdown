@@ -108,6 +108,16 @@
 - Chunking handled in `src/utils/Chunking.lua`
 - Window display in `src/ui/Window.lua` handles chunk navigation
 
+### Settings Panel (LibAddonMenu-2.0)
+- **NO emojis or Unicode icons in LAM settings**: LibAddonMenu-2.0 does not render emojis/icons properly
+  - NEVER use emojis in checkbox names, section headers, or tooltips
+  - NEVER use Unicode arrows (↳, └─, etc.) - they render as empty boxes
+  - Use plain text and spaces only for all LAM UI elements
+  - Example: Use "Combat & Build" not "🎯 Combat & Build"
+- Organize settings by player intent and workflow, not arbitrary "core" vs "extended"
+- Use plain spaces for indenting dependent/sub-options (4 spaces for first level, 8 for nested)
+- Keep tooltips informative with character count estimates for large sections
+
 ### ESO API Guidelines
 - Follow ESOUI best practices: https://wiki.esoui.com/
 - Use ZO_SavedVars for settings persistence

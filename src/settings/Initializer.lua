@@ -89,12 +89,17 @@ function CM.Settings.Initializer:TryZOSavedVars()
         end
     end
     
-    -- Initialize filter manager (CRITICAL: must be done after settings are loaded)
-    if not CM.Settings.FilterManager then
-        local FilterManager = require("src/settings/FilterManager")
-        CM.Settings.FilterManager = FilterManager
-        CM.Settings.FilterManager:Initialize()
+    -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
+    -- If settingsVersion is less than 2, update quest settings to new defaults
+    if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 2 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
+        CharacterMarkdownSettings.includeQuests = true
+        CharacterMarkdownSettings.includeQuestsDetailed = true
+        CharacterMarkdownSettings.showAllQuests = true
+        CharacterMarkdownSettings.settingsVersion = 2
+        CM.Info("Quest tracking has been enabled in your settings!")
     end
+    
     
     -- zo_savedvars_available = true -- luacheck: ignore
     CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully")
@@ -134,14 +139,18 @@ function CM.Settings.Initializer:InitializeFallback()
         end
     end
     
-    CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")
-    
-    -- Initialize filter manager
-    if not CM.Settings.FilterManager then
-        local FilterManager = require("src/settings/FilterManager")
-        CM.Settings.FilterManager = FilterManager
-        CM.Settings.FilterManager:Initialize()
+    -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
+    -- If settingsVersion is less than 2, update quest settings to new defaults
+    if not CM.settings.settingsVersion or CM.settings.settingsVersion < 2 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
+        CM.settings.includeQuests = true
+        CM.settings.includeQuestsDetailed = true
+        CM.settings.showAllQuests = true
+        CM.settings.settingsVersion = 2
+        CM.Info("Quest tracking has been enabled in your settings!")
     end
+    
+    CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")
 end
 
 -- =====================================================
@@ -333,16 +342,6 @@ function CM.Settings.Initializer:ValidateSettings()
         fixed = fixed + 1
     end
     
-    -- Validate numeric ranges
-    if CM.settings.minSkillRank < 0 or CM.settings.minSkillRank > 50 then
-        CM.settings.minSkillRank = 1
-        fixed = fixed + 1
-    end
-    
-    if not CM.Settings.Defaults:IsValidQuality(CM.settings.minEquipQuality) then
-        CM.settings.minEquipQuality = 0
-        fixed = fixed + 1
-    end
     
     if fixed > 0 then
         CM.DebugPrint("SETTINGS", "Validated and fixed " .. fixed .. " settings")

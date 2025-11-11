@@ -46,6 +46,7 @@ local function GetGenerators()
         GenerateCollectibles = CM.generators.sections.GenerateCollectibles,
         GenerateCrafting = CM.generators.sections.GenerateCrafting,
         GenerateAchievements = CM.generators.sections.GenerateAchievements,
+        GenerateAntiquities = CM.generators.sections.GenerateAntiquities,
         GenerateQuests = CM.generators.sections.GenerateQuests,
         GenerateEquipmentEnhancement = CM.generators.sections.GenerateEquipmentEnhancement,
         
@@ -56,7 +57,6 @@ local function GetGenerators()
         GenerateTitlesHousing = CM.generators.sections.GenerateTitlesHousing,
         GeneratePvPStats = CM.generators.sections.GeneratePvPStats,
         GenerateArmoryBuilds = CM.generators.sections.GenerateArmoryBuilds,
-        GenerateTalesOfTribute = CM.generators.sections.GenerateTalesOfTribute,
         GenerateUndauntedPledges = CM.generators.sections.GenerateUndauntedPledges,
         GenerateGuilds = CM.generators.sections.GenerateGuilds,
         
@@ -77,10 +77,11 @@ local collectionErrors = {}
 local function SafeCollect(collectorName, collectorFunc)
     -- Check if function exists before trying to call it
     if not collectorFunc or type(collectorFunc) ~= "function" then
-        CM.DebugPrint("COLLECTOR", string.format("⚠️ %s not available (function is nil)", collectorName))
+        CM.Warn(string.format("⚠️ %s not available (function is nil)", collectorName))
         return {}  -- Return empty data if function doesn't exist
     end
     
+    CM.Info(string.format("Calling collector: %s", collectorName))
     local success, result = pcall(collectorFunc)
     
     if not success then
@@ -88,11 +89,28 @@ local function SafeCollect(collectorName, collectorFunc)
             collector = collectorName,
             error = tostring(result)
         })
-        CM.DebugPrint("COLLECTOR", string.format("❌ %s failed: %s", collectorName, tostring(result)))
+        CM.Error(string.format("❌ %s failed: %s", collectorName, tostring(result)))
+        -- Show the error immediately in chat for quest collector
+        if collectorName == "CollectQuestData" then
+            d("[CharacterMarkdown] Quest collector error: " .. tostring(result))
+        end
         return {}  -- Return empty data on failure
     end
     
-    CM.DebugPrint("COLLECTOR", string.format("✅ %s completed", collectorName))
+    if collectorName == "CollectQuestData" then
+        CM.Info(string.format("✅ %s completed - result type: %s", collectorName, type(result)))
+        if result then
+            CM.Info(string.format("  - result.summary exists: %s", tostring(result.summary ~= nil)))
+            CM.Info(string.format("  - result.active exists: %s", tostring(result.active ~= nil)))
+            if result.summary then
+                CM.Info(string.format("  - result.summary.activeQuests: %s", tostring(result.summary.activeQuests)))
+            end
+        else
+            CM.Error("  - result is NIL!")
+        end
+    else
+        CM.DebugPrint("COLLECTOR", string.format("✅ %s completed", collectorName))
+    end
     return result
 end
 
@@ -188,7 +206,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             },
             condition = format ~= "discord" and IsSettingEnabled(settings, "includeQuickStats", true),
             generator = function()
-                return gen.GenerateQuickStats(data.character, data.stats, format, data.equipment, data.progression, data.currency, data.cp, data.inventory, data.location, data.buffs, data.pvp, data.titlesHousing, data.mundus)
+                return gen.GenerateQuickStats(data.character, data.stats, format, data.equipment, data.progression, data.currency, data.cp, data.inventory, data.location, data.buffs, data.pvp, data.titlesHousing, data.mundus, data.riding)
             end
         },
         
@@ -231,6 +249,55 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
+        -- 3.5. ⭐ Champion Points (moved before Companion)
+        {
+            name = "ChampionPoints",
+            tocEntry = {
+                title = "⭐ Champion Points"
+            },
+            condition = function()
+                -- Re-evaluate condition at generation time to ensure we have latest settings
+                local currentSettings = CM.GetSettings() or settings
+                local enabled = IsSettingEnabled(currentSettings, "includeChampionPoints", true)
+                CM.DebugPrint("REGISTRY", string.format("ChampionPoints condition (runtime): %s (settings.includeChampionPoints = %s)", 
+                    tostring(enabled), tostring(currentSettings.includeChampionPoints)))
+                return enabled
+            end,
+            generator = function()
+                -- Use current settings from CM.GetSettings() to ensure we have latest values
+                local currentSettings = CM.GetSettings() or settings
+                local cpEnabled = IsSettingEnabled(currentSettings, "includeChampionPoints", true)
+                CM.DebugPrint("CHAMPION_POINTS", string.format("Section condition: %s, CP data exists: %s", tostring(cpEnabled), tostring(data.cp ~= nil)))
+                if data.cp then
+                    CM.DebugPrint("CHAMPION_POINTS", string.format("CP data - total: %s, spent: %s, disciplines: %s", 
+                        tostring(data.cp.total), tostring(data.cp.spent), tostring(data.cp.disciplines and #data.cp.disciplines or 0)))
+                end
+                
+                local markdown = ""
+                
+                -- Show all Champion Points
+                local cpResult = gen.GenerateChampionPoints(data.cp, format)
+                CM.DebugPrint("CHAMPION_POINTS", string.format("GenerateChampionPoints returned length: %d", #cpResult))
+                markdown = markdown .. cpResult
+                
+                -- Add detailed analysis if enabled
+                if IsSettingEnabled(currentSettings, "includeChampionDetailed", false) then
+                    markdown = markdown .. gen.GenerateDetailedChampionPoints(data.cp, format)
+                end
+                
+                -- Add Mermaid diagram if enabled (GitHub/VSCode only - Mermaid doesn't render in Discord)
+                local diagramEnabled = IsSettingEnabled(currentSettings, "includeChampionDiagram", false)
+                CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Diagram enabled: %s, format: %s", tostring(diagramEnabled), tostring(format)))
+                if diagramEnabled and format ~= "discord" then
+                    local diagramResult = gen.GenerateChampionDiagram(data.cp)
+                    CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Diagram generated, length: %d", #diagramResult))
+                    markdown = markdown .. diagramResult
+                end
+                
+                return markdown
+            end
+        },
+        
         -- 4. 👥 Active Companion
         {
             name = "Companion",
@@ -243,7 +310,19 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- 5. 🏰 Guild Membership (includes Undaunted Active Pledges as subsection)
+        -- 5. ⚔️ PvP Profile
+        {
+            name = "PvPStats",
+            tocEntry = {
+                title = "⚔️ PvP Profile"
+            },
+            condition = IsSettingEnabled(settings, "includePvPStats", false),
+            generator = function()
+                return gen.GeneratePvPStats(data.pvp, data.pvpStats, format)
+            end
+        },
+        
+        -- 6. 🏰 Guild Membership (includes Undaunted Active Pledges as subsection)
         {
             name = "Guilds",
             tocEntry = {
@@ -259,7 +338,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- 6. 🎨 Collectibles (includes Accessible Content, Titles & Housing as collapsible subsections)
+        -- 7. 🎨 Collectibles (includes Accessible Content, Titles & Housing as collapsible subsections)
         {
             name = "Collectibles",
             tocEntry = {
@@ -370,17 +449,40 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
+        -- Antiquities (standalone section, not in TOC)
+        {
+            name = "Antiquities",
+            tocEntry = nil,  -- Not shown in TOC
+            condition = IsSettingEnabled(settings, "includeAntiquities", false),
+            generator = function()
+                local markdown = ""
+                
+                if not data.antiquities then
+                    return markdown
+                end
+                
+                -- Generate antiquities section
+                markdown = markdown .. gen.GenerateAntiquities(data.antiquities, format)
+                
+                return markdown
+            end
+        },
+        
         -- Quests (standalone section, not in TOC)
         {
             name = "Quests",
             tocEntry = nil,  -- Not shown in TOC
-            condition = IsSettingEnabled(settings, "includeQuests", false),
+            condition = IsSettingEnabled(settings, "includeQuests", false),  -- Default to false (disabled by default)
             generator = function()
                 local markdown = ""
                 
-                if not data.quests then
+                -- Check if quest data exists and has meaningful content
+                if not data.quests or not data.quests.summary then
+                    CM.DebugPrint("QUESTS", "GenerateQuests generator: no quest data or summary")
                     return markdown
                 end
+                
+                CM.DebugPrint("QUESTS", string.format("GenerateQuests generator: data.quests exists, calling gen.GenerateQuests"))
                 
                 -- Check if we should show all quests or filter to active only
                 local showAllQuests = settings.showAllQuests ~= false  -- Default to true (show all)
@@ -404,6 +506,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                     markdown = markdown .. gen.GenerateQuests(activeData, format)
                 end
                 
+                CM.DebugPrint("QUESTS", string.format("GenerateQuests generator: returned %d chars", #markdown))
                 return markdown
             end
         },
@@ -483,55 +586,6 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- Champion Points
-        {
-            name = "ChampionPoints",
-            tocEntry = {
-                title = "⭐ Champion Points"
-            },
-            condition = function()
-                -- Re-evaluate condition at generation time to ensure we have latest settings
-                local currentSettings = CM.GetSettings() or settings
-                local enabled = IsSettingEnabled(currentSettings, "includeChampionPoints", true)
-                CM.DebugPrint("REGISTRY", string.format("ChampionPoints condition (runtime): %s (settings.includeChampionPoints = %s)", 
-                    tostring(enabled), tostring(currentSettings.includeChampionPoints)))
-                return enabled
-            end,
-            generator = function()
-                -- Use current settings from CM.GetSettings() to ensure we have latest values
-                local currentSettings = CM.GetSettings() or settings
-                local cpEnabled = IsSettingEnabled(currentSettings, "includeChampionPoints", true)
-                CM.DebugPrint("CHAMPION_POINTS", string.format("Section condition: %s, CP data exists: %s", tostring(cpEnabled), tostring(data.cp ~= nil)))
-                if data.cp then
-                    CM.DebugPrint("CHAMPION_POINTS", string.format("CP data - total: %s, spent: %s, disciplines: %s", 
-                        tostring(data.cp.total), tostring(data.cp.spent), tostring(data.cp.disciplines and #data.cp.disciplines or 0)))
-                end
-                
-                local markdown = ""
-                
-                -- Show all Champion Points
-                local cpResult = gen.GenerateChampionPoints(data.cp, format)
-                CM.DebugPrint("CHAMPION_POINTS", string.format("GenerateChampionPoints returned length: %d", #cpResult))
-                markdown = markdown .. cpResult
-                
-                -- Add detailed analysis if enabled
-                if IsSettingEnabled(currentSettings, "includeChampionDetailed", false) then
-                    markdown = markdown .. gen.GenerateDetailedChampionPoints(data.cp, format)
-                end
-                
-                -- Add Mermaid diagram if enabled (GitHub/VSCode only - Mermaid doesn't render in Discord)
-                local diagramEnabled = IsSettingEnabled(currentSettings, "includeChampionDiagram", false)
-                CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Diagram enabled: %s, format: %s", tostring(diagramEnabled), tostring(format)))
-                if diagramEnabled and format ~= "discord" then
-                    local diagramResult = gen.GenerateChampionDiagram(data.cp)
-                    CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Diagram generated, length: %d", #diagramResult))
-                    markdown = markdown .. diagramResult
-                end
-                
-                return markdown
-            end
-        },
-        
         -- Progression (standalone section, not in TOC)
         {
             name = "Progression",
@@ -558,7 +612,7 @@ local function GetSectionRegistry(format, settings, gen, data)
         -- Skills - DISABLED: Skill progression is already embedded in Combat Arsenal as collapsible sections
         {
             name = "Skills",
-            condition = false,  -- Disabled: duplicates Combat Arsenal skill progression
+            condition = false,  -- Disabled: duplicates Combat Arsenal character progress
             generator = function()
                 return ""
             end
@@ -626,15 +680,6 @@ local function GetSectionRegistry(format, settings, gen, data)
         --         return ""
         --     end
         -- },
-        
-        -- Tales of Tribute - disabled per user request
-        -- {
-        --     name = "Tales of Tribute",
-        --     condition = false, -- Disabled
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
     }
 end
 
@@ -690,13 +735,13 @@ local function GenerateMarkdown(format)
         collectibles = SafeCollect("CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
         crafting = SafeCollect("CollectCraftingKnowledgeData", CM.collectors.CollectCraftingKnowledgeData),
         achievements = SafeCollect("CollectAchievementData", CM.collectors.CollectAchievementData),
+        antiquities = SafeCollect("CollectAntiquityData", CM.collectors.CollectAntiquityData),
         quests = SafeCollect("CollectQuestData", CM.collectors.CollectQuestData),
         equipmentEnhancement = SafeCollect("CollectEquipmentEnhancementData", CM.collectors.CollectEquipmentEnhancementData),
         worldProgress = SafeCollect("CollectWorldProgressData", CM.collectors.CollectWorldProgressData),
         titlesHousing = SafeCollect("CollectTitlesHousingData", CM.collectors.CollectTitlesHousingData),
         pvpStats = SafeCollect("CollectPvPStatsData", CM.collectors.CollectPvPStatsData),
         armoryBuilds = SafeCollect("CollectArmoryBuildsData", CM.collectors.CollectArmoryBuildsData),
-        talesOfTribute = SafeCollect("CollectTalesOfTributeData", CM.collectors.CollectTalesOfTributeData),
         undauntedPledges = SafeCollect("CollectUndauntedPledgesData", CM.collectors.CollectUndauntedPledgesData),
         guilds = SafeCollect("CollectGuildData", CM.collectors.CollectGuildData),
         customNotes = (CM.charData and CM.charData.customNotes) or (CharacterMarkdownData and CharacterMarkdownData.customNotes) or ""

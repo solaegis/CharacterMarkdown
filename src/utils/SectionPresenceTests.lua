@@ -328,9 +328,9 @@ local SECTION_PATTERNS = {
     {
         name = "Skills",
         patterns = {
-            github = { "##.*📜.*Skill Progression", "Skill Progression", "Skill.*Line" },
-            discord = { "**Skill Progression:**", "Skill Progression" },
-            fallback = { "Skill Progression", "Skills" }
+            github = { "##.*📜.*Character Progress", "Character Progress", "Skill.*Line" },
+            discord = { "**Character Progress:**", "Character Progress" },
+            fallback = { "Character Progress", "Skills" }
         }
     },
     {

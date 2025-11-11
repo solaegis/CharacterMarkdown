@@ -28,7 +28,7 @@ local function ShowHelp()
     d("  /markdown quick     - Generate quick summary")
     d("  /markdown test      - Run diagnostic + validation tests (comprehensive)")
     d("  /markdown unittest  - Run unit tests for collectors")
-    d("  /markdown filter:clear - Force clear active filter")
+    d("  /markdown debug     - Toggle debug mode (current: " .. tostring(CM.debug) .. ")")
     d("  /markdown help      - Show this help")
     d("  /markdown save      - Force save settings to file")
     d(" ")
@@ -50,6 +50,18 @@ local function CommandHandler(args)
     
     if args and args:lower():match("^%s*help") then
         ShowHelp()
+        return
+    end
+    
+    -- Debug command - toggle debug mode
+    if args and args:lower():match("^%s*debug") then
+        CM.debug = not CM.debug
+        if CM.debug then
+            CM.Success("Debug mode ENABLED - debug output will show in chat")
+            d("Run /markdown again to see debug output for quest collection")
+        else
+            CM.Success("Debug mode DISABLED")
+        end
         return
     end
     
@@ -122,13 +134,6 @@ local function CommandHandler(args)
             CM.Success("✓ Settings merge working correctly")
         end
         
-        -- Check active filter
-        d(" ")
-        if CharacterMarkdownSettings.activeFilter and CharacterMarkdownSettings.activeFilter ~= "" then
-            CM.Warn(string.format("Active filter: '%s' (may override settings)", CharacterMarkdownSettings.activeFilter))
-        else
-            CM.Success("✓ No active filter (using custom settings)")
-        end
         
         -- ================================================
         -- PHASE 2: DATA COLLECTION TEST
@@ -292,35 +297,6 @@ local function CommandHandler(args)
         d(" ")
         -- Recursively call with test argument
         return CommandHandler("test")
-    end
-    
-    -- Filter subcommands
-    if args and args:lower():match("^%s*filter:") then
-        local subcommand = args:lower():match("^%s*filter:(%S+)")
-        
-        if subcommand == "clear" then
-            if not CharacterMarkdownSettings then
-                CM.Error("Settings not available")
-                return
-            end
-            
-            local oldFilter = CharacterMarkdownSettings.activeFilter or ""
-            CharacterMarkdownSettings.activeFilter = ""
-            CharacterMarkdownSettings._lastModified = GetTimeStamp()
-            
-            if oldFilter == "" then
-                CM.Info("No active filter to clear")
-            else
-                CM.Success(string.format("Cleared active filter: '%s'", oldFilter))
-                d("All settings reset to their individual values")
-                d("Tip: Run '/markdown test' to verify settings")
-            end
-            return
-        else
-            CM.Error("Unknown filter subcommand: " .. subcommand)
-            d("Available: filter:clear")
-            return
-        end
     end
     
     -- Reset command - force CP-only settings

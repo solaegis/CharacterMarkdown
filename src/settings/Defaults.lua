@@ -23,8 +23,6 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         includeChampionPoints = true,
         includeChampionDetailed = false,
-        includeChampionConstellationTable = false,  -- Show all stars in constellation tables
-        includeChampionPointStarTables = false,  -- Show tables of assigned points per discipline
         includeChampionDiagram = false,  -- Mermaid diagram (GitHub/VSCode only - Mermaid doesn't render in Discord)
         includeSkillBars = true,
         includeSkills = true,
@@ -53,12 +51,17 @@ function CM.Settings.Defaults:GetAll()
         includeCollectibles = true,
         includeCollectiblesDetailed = false,  -- Show full lists vs counts
         includeCrafting = false,
-        includeAchievements = false,  -- Achievement tracking (Phase 5)
-        includeAchievementsDetailed = false,  -- Detailed category breakdown
+        includeAchievements = true,  -- Achievement tracking (Phase 5)
+        includeAchievementsDetailed = true,  -- Detailed category breakdown
         showAllAchievements = true,  -- Show all achievements vs in-progress only
-        includeQuests = false,  -- Quest tracking (Phase 6)
-        includeQuestsDetailed = false,  -- Detailed quest categories
-        showAllQuests = true,  -- Show all quests vs active only
+        includeAntiquities = true,  -- Antiquities tracking
+        includeAntiquitiesDetailed = false,  -- Detailed antiquity sets breakdown
+        -- includeQuests = true,  -- Quest tracking (Phase 6) - DISABLED
+        -- includeQuestsDetailed = true,  -- Detailed quest categories - DISABLED
+        -- showAllQuests = true,  -- Show all quests vs active only - DISABLED
+        includeQuests = false,  -- Quest tracking disabled temporarily
+        includeQuestsDetailed = false,
+        showAllQuests = false,
         includeEquipmentEnhancement = false,  -- Equipment analysis (Phase 7)
         includeEquipmentAnalysis = false,  -- Detailed equipment analysis
         includeEquipmentRecommendations = false,  -- Optimization recommendations
@@ -66,35 +69,23 @@ function CM.Settings.Defaults:GetAll()
         includeTitlesHousing = false,  -- Titles and housing
         includePvPStats = false,  -- PvP statistics
         includeArmoryBuilds = false,  -- Armory builds
-        includeTalesOfTribute = false,  -- Tales of Tribute
         includeUndauntedPledges = false,  -- Undaunted pledges
         includeGuilds = false,  -- Guild membership
         
         -- ====================================
+        -- PVP DISPLAY SETTINGS
+        -- ====================================
+        showPvPProgression = false,  -- Include rank progress bars and percentages
+        showCampaignRewards = false,  -- Display reward tier and loyalty streak
+        showLeaderboards = false,  -- Include leaderboard ranking (requires API query)
+        showBattlegrounds = false,  -- Include BG leaderboard stats
+        detailedPvP = false,  -- Full comprehensive mode with all PvP details
+        
+        -- ====================================
         -- LINK SETTINGS
         -- ====================================
-        enableAbilityLinks = true,  -- Add UESP wiki links to abilities
-        enableSetLinks = true,      -- Add UESP wiki links to armor sets
-        
-        -- ====================================
-        -- SKILL FILTERS
-        -- ====================================
-        minSkillRank = 1,           -- Minimum skill rank to show
-        hideMaxedSkills = false,    -- Hide fully maxed skill lines
-        showMaxedSkills = true,     -- Show maxed skills (inverse of hideMaxedSkills for LAM)
-        showAllRidingSkills = true, -- Show all riding skills vs incomplete only
-        
-        -- ====================================
-        -- EQUIPMENT FILTERS
-        -- ====================================
-        minEquipQuality = 0,        -- Minimum equipment quality (0=all, 2=green, 3=blue, 4=purple, 5=gold)
-        hideEmptySlots = false,     -- Hide equipment slots with no item
-        
-        -- ====================================
-        -- FILTER MANAGER
-        -- ====================================
-        activeFilter = "None",      -- Currently active filter preset
-        filters = {},               -- User-saved filter presets
+        enableAbilityLinks = false,  -- Add UESP wiki links to abilities
+        enableSetLinks = false,      -- Add UESP wiki links to armor sets
     }
 end
 

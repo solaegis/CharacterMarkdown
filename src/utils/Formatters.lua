@@ -340,7 +340,6 @@ local function FormatSettingsForExport(settings)
         -- Core settings
         core = {
             currentFormat = actualSettings.currentFormat or "github",
-            activeFilter = actualSettings.activeFilter or "All",
             activeProfile = actualSettings.activeProfile or "Custom",
             chunkSize = actualSettings.chunkSize or 10000,
             customTitle = actualSettings.customTitle or "",
@@ -355,7 +354,6 @@ local function FormatSettingsForExport(settings)
         
         -- Visual settings
         visuals = {
-            enableEnhancedVisuals = actualSettings.enableEnhancedVisuals ~= false,
             useMultiColumnLayout = actualSettings.useMultiColumnLayout == true,
         },
         
@@ -393,7 +391,6 @@ local function FormatSettingsForExport(settings)
             includePvP = actualSettings.includePvP ~= false,
             includePvPStats = actualSettings.includePvPStats == true,
             includeUndauntedPledges = actualSettings.includeUndauntedPledges ~= false,
-            includeTalesOfTribute = actualSettings.includeTalesOfTribute ~= false,
             includeWorldProgress = actualSettings.includeWorldProgress ~= false,
             includeArmoryBuilds = actualSettings.includeArmoryBuilds == true,
         },
@@ -401,9 +398,7 @@ local function FormatSettingsForExport(settings)
         -- Champion Point details
         champion = {
             includeChampionDetailed = actualSettings.includeChampionDetailed == true,
-            includeChampionConstellationTable = actualSettings.includeChampionConstellationTable == true,
             includeChampionDiagram = actualSettings.includeChampionDiagram == true,
-            includeChampionPointStarTables = actualSettings.includeChampionPointStarTables == true,
             includeChampionSlottableOnly = actualSettings.includeChampionSlottableOnly == true,
         },
         
@@ -412,8 +407,6 @@ local function FormatSettingsForExport(settings)
             includeEquipmentEnhancement = actualSettings.includeEquipmentEnhancement ~= false,
             includeEquipmentAnalysis = actualSettings.includeEquipmentAnalysis == true,
             includeEquipmentRecommendations = actualSettings.includeEquipmentRecommendations == true,
-            hideEmptySlots = actualSettings.hideEmptySlots == true,
-            minEquipQuality = actualSettings.minEquipQuality or 0,
         },
         
         -- Skill details
@@ -421,9 +414,6 @@ local function FormatSettingsForExport(settings)
             includeSkillMorphs = actualSettings.includeSkillMorphs ~= false,
             includeBuffs = actualSettings.includeBuffs ~= false,
             includeRidingSkills = actualSettings.includeRidingSkills ~= false,
-            minSkillRank = actualSettings.minSkillRank or 1,
-            showMaxedSkills = actualSettings.showMaxedSkills ~= false,
-            hideMaxedSkills = actualSettings.hideMaxedSkills == true,
         },
         
         -- Display options
@@ -433,7 +423,6 @@ local function FormatSettingsForExport(settings)
             includeAttentionNeeded = actualSettings.includeAttentionNeeded ~= false,
             showAllAchievements = actualSettings.showAllAchievements ~= false,
             showAllQuests = actualSettings.showAllQuests ~= false,
-            showAllRidingSkills = actualSettings.showAllRidingSkills ~= false,
         },
     }
     

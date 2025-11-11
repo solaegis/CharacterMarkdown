@@ -83,19 +83,23 @@ local QUEST_CATEGORIES = {
 -- HELPER FUNCTIONS
 -- =====================================================
 
+-- Cache string functions for performance
+local string_lower = string.lower
+local string_find = string.find
+
 local function CategorizeQuest(questName, questType, questLevel)
     if not questName then
         return "Miscellaneous"
     end
     
-    local name = string.lower(questName)
-    local typeStr = string.lower(questType or "")
+    local name = string_lower(questName)
+    local typeStr = string_lower(questType or "")
     local combined = name .. " " .. typeStr
     
     -- Check each category
-    for category, data in pairs(QUEST_CATEGORIES) do
-        for _, keyword in ipairs(data.keywords) do
-            if string.find(combined, string.lower(keyword)) then
+    for category, categoryData in pairs(QUEST_CATEGORIES) do
+        for _, keyword in ipairs(categoryData.keywords) do
+            if string_find(combined, string_lower(keyword)) then
                 return category
             end
         end
@@ -104,46 +108,42 @@ local function CategorizeQuest(questName, questType, questLevel)
     return "Miscellaneous"
 end
 
-local function GetQuestProgress(questIndex)
-    local numSteps = GetJournalQuestNumSteps(questIndex) or 0
-    local completedSteps = 0
-    local currentStep = 0
-    
-    for i = 1, numSteps do
-        local success, stepText, stepType, stepTracker, stepCompleted = pcall(GetJournalQuestStepInfo, questIndex, i)
-        if success then
-            if stepCompleted then
-                completedSteps = completedSteps + 1
-            else
-                currentStep = i
-                break
-            end
-        end
-    end
-    
+local function BuildQuestProgress(activeStepText, completed)
+    -- Build progress data from already-fetched quest info
+    -- No redundant API calls
     return {
-        totalSteps = numSteps,
-        completedSteps = completedSteps,
-        currentStep = currentStep,
-        progressPercent = numSteps > 0 and math.floor((completedSteps / numSteps) * 100) or 0
+        totalSteps = completed and 1 or 1,  -- Simple completion tracking
+        completedSteps = completed and 1 or 0,
+        currentStep = completed and 1 or 1,
+        progressPercent = completed and 100 or 0,
+        activeStepText = activeStepText or nil
     }
 end
 
 local function GetQuestZone(questIndex)
-    local success, zoneName = pcall(GetJournalQuestZoneInfo, questIndex)
-    return success and zoneName or "Unknown Zone"
-end
-
-local function GetQuestReward(questIndex)
-    local success, rewardType, rewardAmount = pcall(GetJournalQuestRewardInfo, questIndex)
-    if success and rewardType and rewardAmount then
-        return {
-            type = rewardType,
-            amount = rewardAmount,
-            description = GetString("SI_QUESTREWARDTYPE", rewardType) or "Unknown Reward"
-        }
+    -- ESO doesn't provide a reliable API for quest zone lookup
+    -- The quest journal doesn't expose zone information directly
+    -- We could try to parse it from quest text, but that's unreliable
+    
+    -- Return the current player zone as a reasonable approximation
+    -- Most active quests are in the player's current zone
+    local success, zoneName = pcall(GetPlayerLocationName)
+    if success and zoneName and zoneName ~= "" then
+        return zoneName
     end
-    return nil
+    
+    -- Fallback to zone ID if location name fails
+    local success2, zoneId = pcall(GetZoneId, GetUnitZoneIndex("player"))
+    if success2 and zoneId then
+        local success3, name = pcall(GetZoneNameById, zoneId)
+        if success3 and name and name ~= "" then
+            return name
+        end
+        return "Zone " .. tostring(zoneId)
+    end
+    
+    -- Last resort: be honest about not knowing
+    return "Unknown Zone"
 end
 
 -- =====================================================
@@ -164,50 +164,81 @@ local function CollectQuestData()
         zones = {}
     }
     
-    local numActiveQuests = GetNumJournalQuests() or 0
+    -- Wrap GetNumJournalQuests in pcall for safety
+    local success, numActiveQuests = pcall(GetNumJournalQuests)
+    if not success then
+        CM.Error("GetNumJournalQuests failed: " .. tostring(numActiveQuests))
+        return data  -- Return empty but valid structure
+    end
+    
+    numActiveQuests = numActiveQuests or 0
     data.summary.activeQuests = numActiveQuests
     
+    CM.DebugPrint("QUESTS", "===== QUEST COLLECTOR STARTING =====")
+    CM.DebugPrint("QUESTS", string.format("GetNumJournalQuests() returned: %d", numActiveQuests))
+    
     if numActiveQuests == 0 then
+        CM.DebugPrint("QUESTS", "No active quests found, returning empty data")
         return data
     end
     
     -- Initialize category tracking
-    for category, _ in pairs(QUEST_CATEGORIES) do
-        data.categories[category] = {
-            name = category,
-            emoji = QUEST_CATEGORIES[category].emoji,
-            description = QUEST_CATEGORIES[category].description,
+    for categoryName, categoryInfo in pairs(QUEST_CATEGORIES) do
+        data.categories[categoryName] = {
+            name = categoryName,
+            emoji = categoryInfo.emoji,
+            description = categoryInfo.description,
             active = 0,
             completed = 0,
             quests = {}
         }
-        data.summary.questsByCategory[category] = 0
+        data.summary.questsByCategory[categoryName] = 0
     end
     
     -- Process active quests
+    CM.DebugPrint("QUESTS", string.format("Starting to process %d quests...", numActiveQuests))
     for i = 1, numActiveQuests do
-        local success, questInfo = pcall(function()
-            local questName, _, _, _, _, _, questLevel, questType = GetJournalQuestInfo(i)
-            local zoneName = GetQuestZone(i)
-            local progress = GetQuestProgress(i)
-            local reward = GetQuestReward(i)
+        CM.DebugPrint("QUESTS", string.format("Processing quest %d/%d", i, numActiveQuests))
+        -- Use pcall for ESO API call (returns multiple values, so we need pcall not SafeCall)
+        -- Returns: questName, backgroundText, activeStepText, activeStepType, activeStepTrackerOverrideText, 
+        --          completed, tracked, questLevel (we only capture what we need)
+        local success, questName, _, activeStepText, _, _, completed, _, questLevel = pcall(GetJournalQuestInfo, i)
+        
+        CM.DebugPrint("QUESTS", string.format("Quest %d: success=%s, name='%s', level=%s, completed=%s", 
+            i, tostring(success), tostring(questName), tostring(questLevel), tostring(completed)))
+        
+        if success and questName then
+            -- Get zone name (tries ESO API, falls back to current zone)
+            -- Wrap in pcall to prevent any errors from crashing the collector
+            local zoneSuccess, zoneName = pcall(GetQuestZone, i)
+            if not zoneSuccess then
+                CM.Warn("GetQuestZone failed for quest " .. i .. ": " .. tostring(zoneName))
+                zoneName = "Unknown Zone"
+            end
             
-            return {
+            -- Build progress data from already-fetched info (no redundant API call)
+            local progress = BuildQuestProgress(activeStepText, completed)
+            
+            -- Quest type string - ESO doesn't provide easy localization for quest types
+            local questTypeStr = "Quest"
+            
+            local questInfo = {
                 index = i,
                 name = questName or "Unknown Quest",
                 level = questLevel or 0,
-                type = questType and GetString("SI_QUESTTYPE", questType) or "Quest",
+                type = questTypeStr,
                 zone = zoneName,
-                category = CategorizeQuest(questName, questType, questLevel),
+                category = CategorizeQuest(questName, questTypeStr, questLevel),
                 progress = progress,
-                reward = reward,
-                isActive = true,
-                isCompleted = false
+                reward = nil,  -- Not available via ESO API
+                isActive = not completed,
+                isCompleted = completed == true,  -- Explicit boolean check
+                activeStepText = activeStepText
             }
-        end)
-        
-        if success and questInfo then
+            
             table.insert(data.active, questInfo)
+            
+            CM.DebugPrint("QUESTS", string.format("  Added quest: '%s' to category '%s'", questName, questInfo.category))
             
             -- Update category data
             local category = questInfo.category
@@ -228,201 +259,21 @@ local function CollectQuestData()
             end
             data.zones[questInfo.zone].active = data.zones[questInfo.zone].active + 1
             table.insert(data.zones[questInfo.zone].quests, questInfo)
+        else
+            CM.Warn(string.format("Quest %d: Failed to process - success=%s, name=%s", i, tostring(success), tostring(questName)))
         end
     end
     
-    -- Note: Completed quests are not easily accessible via the ESO API
-    -- This would require additional tracking or external data sources
+    -- Note: Completed quests are not easily accessible via the ESO API.
+    -- ESO only provides journal access to active quests. Completed quest history
+    -- would require external tracking or addon-specific saved variables.
     data.summary.totalQuests = numActiveQuests
     data.summary.completedQuests = 0  -- Not available via API
     
+    CM.DebugPrint("QUESTS", string.format("===== QUEST COLLECTOR COMPLETE: Processed %d quests, %d in data.active =====", numActiveQuests, #data.active))
+    CM.DebugPrint("QUESTS", string.format("Summary: activeQuests=%d, totalQuests=%d", data.summary.activeQuests, data.summary.totalQuests))
+    
     return data
-end
-
--- =====================================================
--- SPECIALIZED QUEST COLLECTORS
--- =====================================================
-
-local function CollectMainStoryQuests()
-    local mainStory = {
-        total = 0,
-        completed = 0,
-        active = 0,
-        quests = {}
-    }
-    
-    local numQuests = GetNumJournalQuests() or 0
-    
-    for i = 1, numQuests do
-        local success, questName, _, _, _, _, questLevel, questType = pcall(GetJournalQuestInfo, i)
-        if success and questName then
-            local category = CategorizeQuest(questName, questType, questLevel)
-            if category == "Main Story" then
-                local progress = GetQuestProgress(i)
-                local zone = GetQuestZone(i)
-                
-                table.insert(mainStory.quests, {
-                    name = questName,
-                    level = questLevel or 0,
-                    type = questType and GetString("SI_QUESTTYPE", questType) or "Quest",
-                    zone = zone,
-                    progress = progress,
-                    isActive = true,
-                    isCompleted = false
-                })
-                
-                mainStory.active = mainStory.active + 1
-                mainStory.total = mainStory.total + 1
-            end
-        end
-    end
-    
-    return mainStory
-end
-
-local function CollectGuildQuests()
-    local guildQuests = {
-        total = 0,
-        completed = 0,
-        active = 0,
-        byGuild = {}
-    }
-    
-    local guilds = {
-        "Fighters Guild",
-        "Mages Guild", 
-        "Thieves Guild",
-        "Dark Brotherhood",
-        "Psijic Order"
-    }
-    
-    for _, guildName in ipairs(guilds) do
-        guildQuests.byGuild[guildName] = {
-            name = guildName,
-            active = 0,
-            completed = 0,
-            quests = {}
-        }
-    end
-    
-    local numQuests = GetNumJournalQuests() or 0
-    
-    for i = 1, numQuests do
-        local success, questName, _, _, _, _, questLevel, questType = pcall(GetJournalQuestInfo, i)
-        if success and questName then
-            local category = CategorizeQuest(questName, questType, questLevel)
-            if category == "Guild Quests" then
-                local progress = GetQuestProgress(i)
-                local zone = GetQuestZone(i)
-                
-                -- Determine which guild this quest belongs to
-                local guildName = "Unknown Guild"
-                local questNameLower = string.lower(questName)
-                if string.find(questNameLower, "fighter") then
-                    guildName = "Fighters Guild"
-                elseif string.find(questNameLower, "mage") then
-                    guildName = "Mages Guild"
-                elseif string.find(questNameLower, "thief") then
-                    guildName = "Thieves Guild"
-                elseif string.find(questNameLower, "dark brotherhood") or string.find(questNameLower, "brotherhood") then
-                    guildName = "Dark Brotherhood"
-                elseif string.find(questNameLower, "psijic") then
-                    guildName = "Psijic Order"
-                end
-                
-                local questData = {
-                    name = questName,
-                    level = questLevel or 0,
-                    type = questType and GetString("SI_QUESTTYPE", questType) or "Quest",
-                    zone = zone,
-                    progress = progress,
-                    isActive = true,
-                    isCompleted = false
-                }
-                
-                table.insert(guildQuests.byGuild[guildName].quests, questData)
-                guildQuests.byGuild[guildName].active = guildQuests.byGuild[guildName].active + 1
-                guildQuests.active = guildQuests.active + 1
-                guildQuests.total = guildQuests.total + 1
-            end
-        end
-    end
-    
-    return guildQuests
-end
-
-local function CollectDailyQuests()
-    local dailyQuests = {
-        total = 0,
-        completed = 0,
-        active = 0,
-        byType = {}
-    }
-    
-    local dailyTypes = {
-        "Crafting Writs",
-        "Provisioning Writs", 
-        "Enchanting Writs",
-        "Alchemy Writs",
-        "Daily Quests",
-        "Repeatable Quests"
-    }
-    
-    for _, typeName in ipairs(dailyTypes) do
-        dailyQuests.byType[typeName] = {
-            name = typeName,
-            active = 0,
-            completed = 0,
-            quests = {}
-        }
-    end
-    
-    local numQuests = GetNumJournalQuests() or 0
-    
-    for i = 1, numQuests do
-        local success, questName, _, _, _, _, questLevel, questType = pcall(GetJournalQuestInfo, i)
-        if success and questName then
-            local category = CategorizeQuest(questName, questType, questLevel)
-            if category == "Daily Quests" then
-                local progress = GetQuestProgress(i)
-                local zone = GetQuestZone(i)
-                
-                -- Determine daily quest type
-                local typeName = "Daily Quests"
-                local questNameLower = string.lower(questName)
-                if string.find(questNameLower, "writ") then
-                    if string.find(questNameLower, "craft") then
-                        typeName = "Crafting Writs"
-                    elseif string.find(questNameLower, "provision") then
-                        typeName = "Provisioning Writs"
-                    elseif string.find(questNameLower, "enchant") then
-                        typeName = "Enchanting Writs"
-                    elseif string.find(questNameLower, "alchemy") then
-                        typeName = "Alchemy Writs"
-                    end
-                elseif string.find(questNameLower, "repeat") then
-                    typeName = "Repeatable Quests"
-                end
-                
-                local questData = {
-                    name = questName,
-                    level = questLevel or 0,
-                    type = questType and GetString("SI_QUESTTYPE", questType) or "Quest",
-                    zone = zone,
-                    progress = progress,
-                    isActive = true,
-                    isCompleted = false
-                }
-                
-                table.insert(dailyQuests.byType[typeName].quests, questData)
-                dailyQuests.byType[typeName].active = dailyQuests.byType[typeName].active + 1
-                dailyQuests.active = dailyQuests.active + 1
-                dailyQuests.total = dailyQuests.total + 1
-            end
-        end
-    end
-    
-    return dailyQuests
 end
 
 -- =====================================================
@@ -430,13 +281,7 @@ end
 -- =====================================================
 
 CM.collectors.CollectQuestData = CollectQuestData
-CM.collectors.CollectMainStoryQuests = CollectMainStoryQuests
-CM.collectors.CollectGuildQuests = CollectGuildQuests
-CM.collectors.CollectDailyQuests = CollectDailyQuests
 
 return {
-    CollectQuestData = CollectQuestData,
-    CollectMainStoryQuests = CollectMainStoryQuests,
-    CollectGuildQuests = CollectGuildQuests,
-    CollectDailyQuests = CollectDailyQuests
+    CollectQuestData = CollectQuestData
 }

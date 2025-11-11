@@ -12,14 +12,32 @@ local function InitializeUtilities()
         CM.utils = {}
     end
     
-    -- Lazy load utilities
+    -- FormatNumber is already exported by Formatters.lua to CM.utils.FormatNumber
+    -- Just create fallback if somehow not loaded
     if not CM.utils.FormatNumber then
-        local Formatters = CM.generators.helpers.Utilities
-        CM.utils.FormatNumber = Formatters.FormatNumber
-        CM.utils.GenerateProgressBar = Formatters.GenerateProgressBar
+        CM.utils.FormatNumber = function(num)
+            if not num then return "0" end
+            local formatted = tostring(num)
+            return formatted:reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
+        end
     end
     
-    -- Load GenerateAnchor
+    -- GenerateProgressBar is exported by helpers/Utilities.lua
+    if not CM.utils.GenerateProgressBar and CM.generators and CM.generators.helpers then
+        CM.utils.GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
+    end
+    
+    -- Fallback progress bar if helpers not loaded
+    if not CM.utils.GenerateProgressBar then
+        CM.utils.GenerateProgressBar = function(percent, width)
+            width = width or 10
+            local filled = math.floor((percent / 100) * width)
+            local empty = width - filled
+            return string.rep("█", filled) .. string.rep("░", empty)
+        end
+    end
+    
+    -- Load GenerateAnchor from markdown utils
     if not CM.utils.GenerateAnchor and CM.utils.markdown and CM.utils.markdown.GenerateAnchor then
         CM.utils.GenerateAnchor = CM.utils.markdown.GenerateAnchor
     end
@@ -314,8 +332,35 @@ end
 -- =====================================================
 
 local function GenerateAchievements(achievementData, format)
-    -- Section disabled - return empty string
-    return ""
+    InitializeUtilities()
+    
+    -- Return empty if no achievement data
+    if not achievementData or not achievementData.summary then
+        return ""
+    end
+    
+    local markdown = ""
+    local settings = CM.GetSettings()
+    
+    -- Generate achievement summary (always shown)
+    markdown = markdown .. GenerateAchievementSummary(achievementData, format)
+    
+    -- Generate detailed sections if enabled
+    if settings.includeAchievementsDetailed then
+        markdown = markdown .. GenerateAchievementCategories(achievementData, format)
+    end
+    
+    -- Show in-progress achievements
+    if #achievementData.inProgress > 0 then
+        markdown = markdown .. GenerateInProgressAchievements(achievementData, format)
+    end
+    
+    -- Show recent achievements
+    if #achievementData.recent > 0 then
+        markdown = markdown .. GenerateRecentAchievements(achievementData, format)
+    end
+    
+    return markdown
 end
 
 -- =====================================================

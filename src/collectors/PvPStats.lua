@@ -11,13 +11,51 @@ local function CollectPvPStatsData()
     local pvpStats = {
         rank = 0,
         rankName = "",
+        rankPoints = 0,
         alliance = "",
         allianceName = "",
         campaign = {
             id = 0,
             name = "",
             type = "",
-            status = ""
+            status = "",
+            isActive = false,
+            ruleset = {
+                id = 0,
+                name = "",
+                type = "",
+                allowsCP = false
+            },
+            timing = {
+                secondsToStart = 0,
+                secondsToEnd = 0
+            },
+            underpop = {
+                underdogAlliance = 0,
+                hasBonus = false
+            }
+        },
+        progression = {
+            currentPoints = 0,
+            subRankStart = 0,
+            nextSubRank = 0,
+            rankStart = 0,
+            nextRank = 0,
+            pointsToNext = 0,
+            progressPercent = 0
+        },
+        rewards = {
+            earnedTier = 0,
+            nextProgress = 0,
+            nextTotal = 0,
+            loyaltyStreak = 0
+        },
+        emperor = {
+            hasCampaignEmperor = false,
+            empAlliance = 0,
+            empName = "",
+            empDisplay = "",
+            reignDuration = 0
         },
         stats = {
             kills = 0,
@@ -28,7 +66,7 @@ local function CollectPvPStatsData()
         }
     }
     
-    -- Get PvP rank (same method as Quick Stats in World.lua)
+    -- Get PvP rank
     local rank = CM.SafeCall(GetUnitAvARank, "player") or 0
     if rank and rank > 0 then
         pvpStats.rank = rank
@@ -39,56 +77,114 @@ local function CollectPvPStatsData()
         end
     end
     
+    -- Get rank points
+    local rankPoints = CM.SafeCall(GetUnitAvARankPoints, "player") or 0
+    pvpStats.rankPoints = rankPoints
+    pvpStats.progression.currentPoints = rankPoints
+    
+    -- Get rank progression
+    if rankPoints > 0 then
+        local success, subRankStart, nextSubRank, rankStart, nextRank = pcall(GetAvARankProgress, rankPoints)
+        if success then
+            pvpStats.progression.subRankStart = subRankStart or 0
+            pvpStats.progression.nextSubRank = nextSubRank or 0
+            pvpStats.progression.rankStart = rankStart or 0
+            pvpStats.progression.nextRank = nextRank or 0
+            
+            if nextSubRank and subRankStart and nextSubRank > subRankStart then
+                pvpStats.progression.pointsToNext = nextSubRank - rankPoints
+                local progress = ((rankPoints - subRankStart) / (nextSubRank - subRankStart)) * 100
+                pvpStats.progression.progressPercent = progress
+            end
+        end
+    end
+    
     -- Get alliance
-    local success3, alliance = pcall(GetUnitAlliance, "player")
-    if success3 and alliance then
+    local alliance = CM.SafeCall(GetUnitAlliance, "player")
+    if alliance then
         pvpStats.alliance = alliance
-        local success4, allianceName = pcall(GetAllianceName, alliance)
-        if success4 and allianceName then
+        local allianceName = CM.SafeCall(GetAllianceName, alliance)
+        if allianceName then
             pvpStats.allianceName = allianceName
         end
     end
     
     -- Get campaign info
-    local success5, campaignId = pcall(GetAssignedCampaignId)
-    if success5 and campaignId and campaignId > 0 then
+    local campaignId = CM.SafeCall(GetAssignedCampaignId)
+    if campaignId and campaignId > 0 then
         pvpStats.campaign.id = campaignId
-        local success6, campaignName = pcall(GetCampaignName, campaignId)
-        if success6 and campaignName then
+        
+        local campaignName = CM.SafeCall(GetCampaignName, campaignId)
+        if campaignName then
             pvpStats.campaign.name = campaignName
         end
         
-        local success7, campaignType = pcall(GetCampaignType, campaignId)
-        if success7 and campaignType then
-            pvpStats.campaign.type = campaignType
+        -- Check if active in campaign
+        local isActive = CM.SafeCall(IsInCampaign)
+        pvpStats.campaign.isActive = isActive or false
+        
+        -- Get campaign ruleset
+        local rulesetId = CM.SafeCall(GetCampaignRulesetId, campaignId)
+        if rulesetId then
+            pvpStats.campaign.ruleset.id = rulesetId
+            
+            local rulesetName = CM.SafeCall(GetCampaignRulesetName, rulesetId)
+            if rulesetName then
+                pvpStats.campaign.ruleset.name = rulesetName
+            end
+            
+            local rulesetType = CM.SafeCall(GetCampaignRulesetType, rulesetId)
+            if rulesetType then
+                pvpStats.campaign.ruleset.type = rulesetType
+            end
         end
         
-        local success8, campaignStatus = pcall(GetCampaignStatus, campaignId)
-        if success8 and campaignStatus then
-            pvpStats.campaign.status = campaignStatus
+        -- Check if CP is allowed
+        local allowsCP = CM.SafeCall(DoesCurrentCampaignRulesetAllowChampionPoints)
+        pvpStats.campaign.ruleset.allowsCP = allowsCP or false
+        
+        -- Get campaign timing
+        local secondsToStart = CM.SafeCall(GetSecondsUntilCampaignStart, campaignId) or 0
+        pvpStats.campaign.timing.secondsToStart = secondsToStart
+        
+        local secondsToEnd = CM.SafeCall(GetSecondsUntilCampaignEnd, campaignId) or 0
+        pvpStats.campaign.timing.secondsToEnd = secondsToEnd
+        
+        -- Get underpop bonus info
+        if alliance then
+            local underdogAlliance = CM.SafeCall(GetCampaignUnderdogLeaderAlliance, campaignId) or 0
+            pvpStats.campaign.underpop.underdogAlliance = underdogAlliance
+            
+            local hasBonus = CM.SafeCall(IsUnderpopBonusEnabled, campaignId, alliance) or false
+            pvpStats.campaign.underpop.hasBonus = hasBonus
         end
-    end
-    
-    -- Get PvP statistics (if available)
-    local success9, kills = pcall(GetPlayerKillCount)
-    if success9 and kills then
-        pvpStats.stats.kills = kills
-    end
-    
-    local success10, deaths = pcall(GetPlayerDeathCount)
-    if success10 and deaths then
-        pvpStats.stats.deaths = deaths
-    end
-    
-    local success11, assists = pcall(GetPlayerAssistCount)
-    if success11 and assists then
-        pvpStats.stats.assists = assists
-    end
-    
-    -- Get PvP morale (health equivalent in PvP areas)
-    local success12, morale = pcall(GetUnitRawMorale, "player")
-    if success12 and morale then
-        pvpStats.stats.morale = morale
+        
+        -- Get campaign rewards
+        local success, earnedTier, nextProgress, nextTotal = pcall(GetPlayerCampaignRewardTierInfo, campaignId)
+        if success and earnedTier then
+            pvpStats.rewards.earnedTier = earnedTier
+            pvpStats.rewards.nextProgress = nextProgress or 0
+            pvpStats.rewards.nextTotal = nextTotal or 0
+        end
+        
+        local loyaltyStreak = CM.SafeCall(GetCurrentCampaignLoyaltyStreak) or 0
+        pvpStats.rewards.loyaltyStreak = loyaltyStreak
+        
+        -- Get emperor info
+        local hasCampaignEmperor = CM.SafeCall(DoesCampaignHaveEmperor, campaignId) or false
+        pvpStats.emperor.hasCampaignEmperor = hasCampaignEmperor
+        
+        if hasCampaignEmperor then
+            local success2, empAlliance, empName, empDisplay = pcall(GetCampaignEmperorInfo, campaignId)
+            if success2 then
+                pvpStats.emperor.empAlliance = empAlliance or 0
+                pvpStats.emperor.empName = empName or ""
+                pvpStats.emperor.empDisplay = empDisplay or ""
+            end
+            
+            local reignDuration = CM.SafeCall(GetCampaignEmperorReignDuration, campaignId) or 0
+            pvpStats.emperor.reignDuration = reignDuration
+        end
     end
     
     return pvpStats
@@ -100,19 +196,47 @@ end
 
 local function CollectCampaignLeaderboardsData()
     local leaderboards = {
-        current = {},
-        historical = {}
+        playerPosition = {
+            rank = 0,
+            ap = 0,
+            found = false
+        },
+        allianceScores = {}
     }
     
-    -- Get current campaign leaderboard
-    local success, campaignId = pcall(GetAssignedCampaignId)
-    if success and campaignId and campaignId > 0 then
-        local success2, numAlliances = pcall(GetNumCampaignAlliances, campaignId)
-        if success2 and numAlliances then
+    -- Get player alliance
+    local alliance = CM.SafeCall(GetUnitAlliance, "player")
+    local campaignId = CM.SafeCall(GetAssignedCampaignId)
+    
+    if campaignId and campaignId > 0 then
+        -- Query campaign leaderboard for player's alliance
+        if alliance then
+            -- Note: QueryCampaignLeaderboardData must be called to populate data
+            -- This is async, so data may not be immediately available
+            CM.SafeCall(QueryCampaignLeaderboardData, alliance)
+            
+            -- Try to find player in leaderboard
+            local numEntries = CM.SafeCall(GetNumCampaignLeaderboardEntries, campaignId) or 0
+            for i = 1, numEntries do
+                local success, isPlayer, ranking, charName, ap, classId, entryAlliance, displayName = 
+                    pcall(GetCampaignLeaderboardEntryInfo, campaignId, i)
+                
+                if success and isPlayer then
+                    leaderboards.playerPosition.found = true
+                    leaderboards.playerPosition.rank = ranking or 0
+                    leaderboards.playerPosition.ap = ap or 0
+                    break
+                end
+            end
+        end
+        
+        -- Get alliance scores
+        local success, numAlliances = pcall(GetNumCampaignAlliances, campaignId)
+        if success and numAlliances then
             for i = 1, numAlliances do
-                local success3, allianceId, allianceName, score = pcall(GetCampaignAllianceScore, campaignId, i)
-                if success3 and allianceId and allianceName then
-                    table.insert(leaderboards.current, {
+                local success2, allianceId, allianceName, score = pcall(GetCampaignAllianceScore, campaignId, i)
+                if success2 and allianceId and allianceName then
+                    table.insert(leaderboards.allianceScores, {
                         alliance = allianceId,
                         name = allianceName,
                         score = score or 0,
@@ -132,46 +256,88 @@ end
 
 local function CollectBattlegroundsData()
     local battlegrounds = {
-        stats = {
-            wins = 0,
-            losses = 0,
-            ties = 0,
-            total = 0
+        leaderboards = {
+            deathmatch = {
+                rank = 0,
+                score = 0
+            },
+            flagGames = {
+                rank = 0,
+                score = 0
+            },
+            landGrab = {
+                rank = 0,
+                score = 0
+            }
         },
-        current = {
-            type = "",
-            map = "",
-            status = ""
+        currentMatch = {
+            isActive = false,
+            kills = 0,
+            deaths = 0,
+            assists = 0,
+            medals = {}
         }
     }
     
-    -- Get battleground statistics
-    local success, wins = pcall(GetBattlegroundStat, BGSTAT_TYPE_WINS)
-    if success and wins then
-        battlegrounds.stats.wins = wins
+    -- Query battleground leaderboards (async, data may not be immediately available)
+    CM.SafeCall(QueryBattlegroundLeaderboardData, BATTLEGROUND_LEADERBOARD_TYPE_DEATHMATCH)
+    CM.SafeCall(QueryBattlegroundLeaderboardData, BATTLEGROUND_LEADERBOARD_TYPE_FLAG_GAMES)
+    CM.SafeCall(QueryBattlegroundLeaderboardData, BATTLEGROUND_LEADERBOARD_TYPE_LAND_GRAB)
+    
+    -- Get leaderboard positions
+    local success, dmRank, dmScore = pcall(GetBattlegroundLeaderboardLocalPlayerInfo, BATTLEGROUND_LEADERBOARD_TYPE_DEATHMATCH)
+    if success and dmRank then
+        battlegrounds.leaderboards.deathmatch.rank = dmRank
+        battlegrounds.leaderboards.deathmatch.score = dmScore or 0
     end
     
-    local success2, losses = pcall(GetBattlegroundStat, BGSTAT_TYPE_LOSSES)
-    if success2 and losses then
-        battlegrounds.stats.losses = losses
+    local success2, fgRank, fgScore = pcall(GetBattlegroundLeaderboardLocalPlayerInfo, BATTLEGROUND_LEADERBOARD_TYPE_FLAG_GAMES)
+    if success2 and fgRank then
+        battlegrounds.leaderboards.flagGames.rank = fgRank
+        battlegrounds.leaderboards.flagGames.score = fgScore or 0
     end
     
-    local success3, ties = pcall(GetBattlegroundStat, BGSTAT_TYPE_TIES)
-    if success3 and ties then
-        battlegrounds.stats.ties = ties
+    local success3, lgRank, lgScore = pcall(GetBattlegroundLeaderboardLocalPlayerInfo, BATTLEGROUND_LEADERBOARD_TYPE_LAND_GRAB)
+    if success3 and lgRank then
+        battlegrounds.leaderboards.landGrab.rank = lgRank
+        battlegrounds.leaderboards.landGrab.score = lgScore or 0
     end
     
-    battlegrounds.stats.total = battlegrounds.stats.wins + battlegrounds.stats.losses + battlegrounds.stats.ties
+    -- Check if currently in a battleground
+    local isActive = CM.SafeCall(IsActiveWorldBattleground) or false
+    battlegrounds.currentMatch.isActive = isActive
     
-    -- Get current battleground info
-    local success4, bgType = pcall(GetCurrentBattlegroundType)
-    if success4 and bgType then
-        battlegrounds.current.type = bgType
-    end
-    
-    local success5, bgMap = pcall(GetCurrentBattlegroundMap)
-    if success5 and bgMap then
-        battlegrounds.current.map = bgMap
+    if isActive then
+        -- Get current match stats
+        local playerIndex = CM.SafeCall(GetScoreboardLocalPlayerEntryIndex)
+        if playerIndex then
+            local kills = CM.SafeCall(GetScoreboardEntryScoreByType, playerIndex, SCORE_TRACKER_TYPE_KILL_COUNT) or 0
+            battlegrounds.currentMatch.kills = kills
+            
+            local deaths = CM.SafeCall(GetScoreboardEntryScoreByType, playerIndex, SCORE_TRACKER_TYPE_DEATH_COUNT) or 0
+            battlegrounds.currentMatch.deaths = deaths
+            
+            local assists = CM.SafeCall(GetScoreboardEntryScoreByType, playerIndex, SCORE_TRACKER_TYPE_ASSIST_COUNT) or 0
+            battlegrounds.currentMatch.assists = assists
+            
+            -- Get medals earned
+            local medalId = CM.SafeCall(GetNextScoreboardEntryMedalId, playerIndex, nil, nil)
+            while medalId do
+                local count = CM.SafeCall(GetScoreboardEntryNumEarnedMedalsById, playerIndex, medalId) or 0
+                if count > 0 then
+                    local success4, name, icon, condition, scoreReward = pcall(GetMedalInfo, medalId)
+                    if success4 and name then
+                        table.insert(battlegrounds.currentMatch.medals, {
+                            name = name,
+                            count = count,
+                            icon = icon,
+                            scoreReward = scoreReward or 0
+                        })
+                    end
+                end
+                medalId = CM.SafeCall(GetNextScoreboardEntryMedalId, playerIndex, nil, medalId)
+            end
+        end
     end
     
     return battlegrounds

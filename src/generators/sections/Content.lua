@@ -271,6 +271,39 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
         
         markdown = markdown .. "\n"
     else
+        -- GitHub/VSCode: Only show section if there's content to display
+        -- Check if we should show anything
+        local hasContent = false
+        
+        -- Check if detailed mode has content
+        if includeDetailed and hasDetailedData and collectiblesData.categories then
+            hasContent = true
+        end
+        
+        -- Check if fallback mode has content (any counts > 0)
+        if not hasContent then
+            if (collectiblesData.mounts and collectiblesData.mounts > 0) or
+               (collectiblesData.pets and collectiblesData.pets > 0) or
+               (collectiblesData.costumes and collectiblesData.costumes > 0) or
+               (collectiblesData.houses and collectiblesData.houses > 0) then
+                hasContent = true
+            end
+        end
+        
+        -- Check if titles/housing would add content
+        if not hasContent and titlesHousingData and format ~= "discord" and format ~= "quick" then
+            local titlesData = titlesHousingData.titles or {}
+            local housingData = titlesHousingData.housing or {}
+            if (titlesData.total and titlesData.total > 0) or (housingData.total and housingData.total > 0) then
+                hasContent = true
+            end
+        end
+        
+        -- Only create section if we have content to show
+        if not hasContent then
+            return ""
+        end
+        
         -- GitHub/VSCode: Show collapsible detailed lists if enabled or if we have owned items
         InitializeUtilities()
         local anchorId = GenerateAnchor and GenerateAnchor("🎨 Collectibles") or "collectibles"

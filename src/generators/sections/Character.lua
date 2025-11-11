@@ -127,7 +127,7 @@ CM.generators.sections.GenerateHeader = GenerateHeader
 -- QUICK STATS (At-a-glance info box)
 -- =====================================================
 
-local function GenerateQuickStats(charData, statsData, format, equipmentData, progressionData, currencyData, cpData, inventoryData, locationData, buffsData, pvpData, titlesData, mundusData)
+local function GenerateQuickStats(charData, statsData, format, equipmentData, progressionData, currencyData, cpData, inventoryData, locationData, buffsData, pvpData, titlesData, mundusData, ridingData)
     if not charData then return "" end
     if format == "discord" then return "" end -- Skip for Discord
     
@@ -316,6 +316,15 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
     -- Attributes with emojis (🔵 Magicka, ❤️ Health, ⚡ Stamina)
     local attributesStr = string_format("🔵 %d / ❤️ %d / ⚡ %d", magicka, health, stamina)
     
+    -- Riding Skills (🏇 Speed, 💨 Stamina, 🎒 Capacity)
+    local ridingStr = ""
+    if ridingData then
+        local speed = ridingData.speed or 0
+        local stamina = ridingData.stamina or 0
+        local capacity = ridingData.capacity or 0
+        ridingStr = string_format("| **Riding Skills** | 🏇 %d / 💨 %d / 🎒 %d |\n", speed, stamina, capacity)
+    end
+    
     -- Achievements percentage
     local achievementPercent = 0
     if progressionData and progressionData.totalAchievements and progressionData.totalAchievements > 0 then
@@ -478,10 +487,10 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
 | **Bank Usage** | %s |
 | **Skill Points** | %s |
 | **Attributes** | %s |
-%s%s%s%s
+%s%s%s%s%s
 %s
 %s]], buildStr, allianceRow, locationRow, pvpRow, safeFormat(gold), setsStr, bankStatus, 
-            skillPointsStr, attributesStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable, currencySection)
+            skillPointsStr, attributesStr, ridingStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable, currencySection)
     end
     
     -- ENHANCED: Use detailed table format (keeping enhanced visuals option)
@@ -498,10 +507,10 @@ local function GenerateQuickStats(charData, statsData, format, equipmentData, pr
 | **Bank Usage** | %s |
 | **Skill Points** | %s |
 | **Attributes** | %s |
-%s%s%s%s
+%s%s%s%s%s
 %s
 %s]], buildStr, allianceRow, locationRow, pvpRow, safeFormat(gold), setsStr, bankStatus, 
-            skillPointsStr, attributesStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable, currencySection)
+            skillPointsStr, attributesStr, ridingStr, progressionRows, titleRow, buffsRow, mundusRow, statsTable, currencySection)
 end
 
 CM.generators.sections.GenerateQuickStats = GenerateQuickStats

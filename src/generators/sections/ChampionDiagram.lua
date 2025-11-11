@@ -263,17 +263,12 @@ local function GetStrongNodeColor(tree)
 end
 
 -- =====================================================
--- HELPER: Get pale subgraph background color
+-- HELPER: Get subgraph background color
 -- =====================================================
 local function GetSubgraphBackgroundColor(tree)
-    -- Very pale background colors for subgraph containers
-    local paleColors = {
-        Craft = "#e8f4f0",      -- Very pale sage/teal
-        Warfare = "#f0f4f8",    -- Very pale periwinkle/lavender
-        Fitness = "#faf0f0"     -- Very pale coral/peach
-    }
-    
-    return paleColors[tree] or "#f5f5f5"  -- Neutral pale gray fallback
+    -- Transparent backgrounds for subgraph containers
+    -- This allows the diagram to blend with any background (GitHub, VS Code, Discord, etc.)
+    return "transparent"
 end
 
 -- =====================================================
@@ -448,7 +443,7 @@ local function GenerateChampionDiagram(cpData)
     
     -- Generate diagram with new cleaner format
     markdown = markdown .. "```mermaid\n"
-    markdown = markdown .. "%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#e8f4f0','primaryTextColor':'#000','primaryBorderColor':'#4a9d7f','lineColor':'#999','secondaryColor':'#f0f4f8','tertiaryColor':'#faf0f0'}}}%%\n\n"
+    markdown = markdown .. "%%{init: {'theme':'base', 'themeVariables': { 'background':'transparent','fontSize':'14px','primaryColor':'#e8f4f0','primaryTextColor':'#000','primaryBorderColor':'#4a9d7f','lineColor':'#999','secondaryColor':'#f0f4f8','tertiaryColor':'#faf0f0'}}}%%\n\n"
     markdown = markdown .. "graph LR\n"
     markdown = markdown .. "  %%%% Champion Point Investment Visualization\n"
     markdown = markdown .. "  %%%% Enhanced readability with clear visual hierarchy\n\n"
@@ -567,15 +562,17 @@ local function GenerateChampionDiagram(cpData)
             end
             
             -- Add title node styles
+            -- Using transparent backgrounds for title nodes to blend with any environment
+            -- Bright text colors for visibility against transparent backgrounds
             local titleBgColor = {
-                Craft = "#d4e8df",
-                Warfare = "#d4e4f0",
-                Fitness = "#f0d4d4"
+                Craft = "transparent",
+                Warfare = "transparent",
+                Fitness = "transparent"
             }
             local titleTextColor = {
-                Craft = "#2c5f4f",
-                Warfare = "#2c4a5f",
-                Fitness = "#5f2c2c"
+                Craft = "#4a9d7f",   -- Bright teal (matches craft theme)
+                Warfare = "#5b7fb8",  -- Bright blue (matches warfare theme)
+                Fitness = "#b87a7a"   -- Bright coral (matches fitness theme)
             }
             
             markdown = markdown .. "\n"
@@ -613,9 +610,14 @@ local function GenerateChampionDiagram(cpData)
                 end
             end
             
-            -- Style the available points node
+            -- Style the available points node with subtle background
+            local availBgColor = {
+                Craft = "#d4e8df",
+                Warfare = "#d4e4f0",
+                Fitness = "#f0d4d4"
+            }
             markdown = markdown .. string.format("    style %s_AVAIL fill:%s,stroke:%s,stroke-width:2px,stroke-dasharray:5 5,color:%s\n", 
-                treeName:upper(), titleBgColor[treeName], nodeColor, titleTextColor[treeName])
+                treeName:upper(), availBgColor[treeName], nodeColor, titleTextColor[treeName])
             
             markdown = markdown .. "\n  end\n"
             
@@ -656,8 +658,9 @@ local function GenerateChampionDiagram(cpData)
     markdown = markdown .. "    LEG_FILL -.-> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5\n\n"
     
     -- Styling for legend elements
-    markdown = markdown .. "    style LEG_STARS fill:#f5f5f5,stroke:none,color:#333\n"
-    markdown = markdown .. "    style LEG_FILL fill:#f5f5f5,stroke:none,color:#333\n"
+    -- Title nodes are transparent with bright text, example nodes have fills with dark text
+    markdown = markdown .. "    style LEG_STARS fill:transparent,stroke:none,color:#ccc\n"
+    markdown = markdown .. "    style LEG_FILL fill:transparent,stroke:none,color:#ccc\n"
     markdown = markdown .. "    style LEG_S1 fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333\n"
     markdown = markdown .. "    style LEG_S2 fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333\n"
     markdown = markdown .. "    style LEG_S3 fill:#fff,stroke:#999,stroke-width:2px,color:#333\n"
@@ -669,7 +672,7 @@ local function GenerateChampionDiagram(cpData)
     
     -- Close legend subgraph
     markdown = markdown .. "  end\n"
-    markdown = markdown .. "  style LEGEND fill:#fafafa,stroke:#999,stroke-width:3px\n"
+    markdown = markdown .. "  style LEGEND fill:transparent,stroke:#999,stroke-width:3px\n"
     
     markdown = markdown .. "```\n\n"
     

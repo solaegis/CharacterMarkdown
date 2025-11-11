@@ -211,22 +211,7 @@ local function CollectSkillProgressionData()
                         isMaxed = true
                     end
                     
-                    -- Apply skill filters from settings (skip filters for racial)
-                    local settings = CharacterMarkdownSettings or {}
-                    local minRank = settings.minSkillRank or 1
-                    local showMaxed = settings.showMaxedSkills ~= false  -- Default to true (show all)
-                    
-                    local passesFilters = true
-                    if not isRacial then
-                        if skillLineRank < minRank then
-                            passesFilters = false
-                        end
-                        if not showMaxed and isMaxed then
-                            passesFilters = false
-                        end
-                    end
-                    
-                    if passesFilters then
+                    -- Always include all skill lines (no filters)
                         -- Collect passives for this skill line
                         local passives = {}
                         local numAbilities = GetNumSkillAbilities(skillType, skillLineIndex) or 0
@@ -299,7 +284,6 @@ local function CollectSkillProgressionData()
                         
                         -- Always add the skill line (for racial, even if no passives found, as the skill line itself is valid)
                         -- For regular skills, passives are optional, but the skill line progression should still show
-                        if true then  -- Always add - we already filtered at passesFilters level
                             table.insert(skills, {
                                 name = skillLineName, 
                                 rank = skillLineRankDisplay, 
@@ -313,8 +297,6 @@ local function CollectSkillProgressionData()
                                 CM.DebugPrint("RACIAL", string.format("Added racial skill line: %s with %d passives", 
                                     tostring(skillLineName), #passives))
                             end
-                        end
-                    end  -- end if passesFilters
                 end  -- end if isValid
                 end  -- end else for success check
             end  -- end for skillLineIndex

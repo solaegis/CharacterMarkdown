@@ -37,6 +37,7 @@ src/links/Companions.lua
 
 ## Data collectors (depend on utils + links)
 src/collectors/Achievements.lua
+src/collectors/Antiquities.lua
 src/collectors/Character.lua
 src/collectors/Progression.lua
 src/collectors/Quests.lua
@@ -50,7 +51,6 @@ src/collectors/World.lua
 src/collectors/TitlesHousing.lua
 src/collectors/PvPStats.lua
 src/collectors/ArmoryBuilds.lua
-src/collectors/TalesOfTribute.lua
 src/collectors/UndauntedPledges.lua
 src/collectors/Companion.lua
 src/collectors/Extended.lua
@@ -61,6 +61,7 @@ src/generators/helpers/Utilities.lua
 
 ## Section generators (modular markdown generation)
 src/generators/sections/Achievements.lua
+src/generators/sections/Antiquities.lua
 src/generators/sections/Economy.lua
 src/generators/sections/Character.lua
 src/generators/sections/Equipment.lua
@@ -75,7 +76,6 @@ src/generators/sections/World.lua
 src/generators/sections/TitlesHousing.lua
 src/generators/sections/PvPStats.lua
 src/generators/sections/ArmoryBuilds.lua
-src/generators/sections/TalesOfTribute.lua
 src/generators/sections/UndauntedPledges.lua
 src/generators/sections/Guilds.lua
 src/generators/sections/Companion.lua
@@ -92,7 +92,6 @@ src/Events.lua
 src/settings/Defaults.lua
 src/settings/Initializer.lua
 src/settings/Panel.lua
-src/settings/FilterManager.lua
 
 ## UI components
 CharacterMarkdown.xml

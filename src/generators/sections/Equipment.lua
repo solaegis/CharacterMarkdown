@@ -209,7 +209,7 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
             output = output .. "*No skill bars configured*\n\n"
         end
         
-        -- Add Equipment & Active Sets (non-collapsible) before skill progression sections
+        -- Add Equipment & Active Sets (non-collapsible) before Character Progress sections
         if equipmentData and format ~= "discord" then
             CM.Info("→ Including Equipment & Active Sets in Combat Arsenal")
             CM.DebugPrint("EQUIPMENT", string.format("GenerateSkillBars: equipmentData exists, type=%s", type(equipmentData)))
@@ -269,10 +269,10 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
             end
         end
         
-        -- Add Skill Progression categories as collapsible subsections
+        -- Add Character Progress categories as collapsible subsections
         if skillProgressionData and #skillProgressionData > 0 then
             -- Add Character Progress section header (H2)
-            output = output .. "## 📊 Character Progress\n\n"
+            output = output .. "## 📜 Character Progress\n\n"
             
             for _, category in ipairs(skillProgressionData) do
                 if category.skills and #category.skills > 0 then
@@ -998,7 +998,7 @@ local function GenerateSkills(skillData, format)
     
     if format == "discord" then
         -- Discord: Show all skills, compact format
-        output = output .. "\n**Skill Progression:**\n"
+        output = output .. "\n**Character Progress:**\n"
         for _, category in ipairs(skillData) do
             if category.skills and #category.skills > 0 then
                 output = output .. (category.emoji or "⚔️") .. " **" .. category.name .. "**\n"
@@ -1056,7 +1056,7 @@ local function GenerateSkills(skillData, format)
             end
         end
     else
-        output = output .. "## 📜 Skill Progression\n\n"
+        output = output .. "## 📜 Character Progress\n\n"
         for _, category in ipairs(skillData) do
             output = output .. "### " .. (category.emoji or "⚔️") .. " " .. category.name .. "\n\n"
             if category.skills and #category.skills > 0 then

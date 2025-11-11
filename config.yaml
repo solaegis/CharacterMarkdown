@@ -3,10 +3,8 @@
 # Exported: 2025-11-09 20:05:26
 
 champion:
-  includeChampionConstellationTable: true
   includeChampionDetailed: false
   includeChampionDiagram: true
-  includeChampionPointStarTables: true
   includeChampionSlottableOnly: false
 content:
   includeAttributes: false
@@ -57,7 +55,6 @@ extended:
   includeQuests: false
   includeQuestsActiveOnly: true
   includeQuestsDetailed: true
-  includeTalesOfTribute: false
   includeTitlesHousing: false
   includeUndauntedPledges: false
   includeWorldProgress: true
@@ -65,12 +62,10 @@ links:
   enableAbilityLinks: true
   enableSetLinks: true
 skills:
-  hideMaxedSkills: false
   includeBuffs: false
   includeRidingSkills: true
   includeSkillMorphs: true
   minSkillRank: 0
   showMaxedSkills: true
 visuals:
-  enableEnhancedVisuals: true
   useMultiColumnLayout: false

@@ -4,30 +4,57 @@
 local CM = CharacterMarkdown
 
 -- =====================================================
+-- CONSTANTS
+-- =====================================================
+
+local PROGRESS_BAR_WIDTH = 12
+
+-- Cache frequently used functions for performance
+local table_insert = table.insert
+local table_concat = table.concat
+local table_sort = table.sort
+
+-- =====================================================
 -- UTILITIES
 -- =====================================================
 
+-- Initialize utilities once at module load
+local utilitiesInitialized = false
+
 local function InitializeUtilities()
-    if not CM.utils then
-        CM.utils = {}
+    if utilitiesInitialized then
+        return true
     end
     
-    -- Lazy load utilities
-    if not CM.utils.FormatNumber then
-        local Formatters = CM.generators.helpers.Utilities
-        CM.utils.FormatNumber = Formatters.FormatNumber
-        CM.utils.GenerateProgressBar = Formatters.GenerateProgressBar
+    -- Verify required utilities are loaded
+    -- FormatNumber is exported by src/utils/Formatters.lua as CM.utils.FormatNumber
+    if not CM.utils or not CM.utils.FormatNumber then
+        CM.Error("Quest generator: CM.utils.FormatNumber not available!")
+        return false
     end
     
-    -- Load GenerateAnchor
+    -- Load GenerateAnchor if available
     if not CM.utils.GenerateAnchor and CM.utils.markdown and CM.utils.markdown.GenerateAnchor then
         CM.utils.GenerateAnchor = CM.utils.markdown.GenerateAnchor
     end
+    
+    utilitiesInitialized = true
+    return true
 end
 
 -- =====================================================
 -- HELPER FUNCTIONS
 -- =====================================================
+
+local function GetSortedKeys(tbl)
+    -- Return sorted keys for deterministic output
+    local keys = {}
+    for key, _ in pairs(tbl) do
+        table_insert(keys, key)
+    end
+    table_sort(keys)
+    return keys
+end
 
 local function GetQuestStatusIcon(quest)
     if quest.isCompleted then
@@ -41,14 +68,14 @@ end
 
 local function GetProgressText(quest)
     if quest.isCompleted then
-        return "Completed"
-    elseif quest.progress and quest.progress.totalSteps > 0 then
-        return string.format("Step %d/%d (%d%%)", 
-            quest.progress.currentStep, 
-            quest.progress.totalSteps, 
-            quest.progress.progressPercent)
+        return "✅ Completed"
+    elseif quest.activeStepText and quest.activeStepText ~= "" then
+        -- Show the active step text from the quest
+        return "🔄 " .. quest.activeStepText
+    elseif quest.progress and quest.progress.activeStepText and quest.progress.activeStepText ~= "" then
+        return "🔄 " .. quest.progress.activeStepText
     else
-        return "Not Started"
+        return "⚪ Active"
     end
 end
 
@@ -87,34 +114,35 @@ end
 -- =====================================================
 
 local function GenerateQuestSummary(questData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if format == "discord" then
-        markdown = markdown .. "**Quest Progress:**\n"
-    else
-        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
-        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## 📝 Quest Progress\n\n"
+    if not InitializeUtilities() then
+        return ""
     end
     
+    CM.DebugPrint("QUESTS", "GenerateQuestSummary called")
+    
+    local parts = {}
     local summary = questData.summary
     
+    CM.DebugPrint("QUESTS", string.format("Summary: active=%d, total=%d", summary.activeQuests or 0, summary.totalQuests or 0))
+    
     if format == "discord" then
-        markdown = markdown .. "Active: " .. CM.utils.FormatNumber(summary.activeQuests) .. " | "
-        markdown = markdown .. "Total: " .. CM.utils.FormatNumber(summary.totalQuests) .. " | "
-        markdown = markdown .. "Completed: " .. CM.utils.FormatNumber(summary.completedQuests) .. "\n"
+        table_insert(parts, "**Quest Progress:**\n")
+        table_insert(parts, "Active: " .. CM.utils.FormatNumber(summary.activeQuests) .. " | ")
+        table_insert(parts, "Total: " .. CM.utils.FormatNumber(summary.totalQuests) .. " | ")
+        table_insert(parts, "Completed: " .. CM.utils.FormatNumber(summary.completedQuests) .. "\n")
     else
-        markdown = markdown .. "| Metric | Value |\n"
-        markdown = markdown .. "|:-------|------:|\n"
-        markdown = markdown .. "| **Active Quests** | " .. CM.utils.FormatNumber(summary.activeQuests) .. " |\n"
-        markdown = markdown .. "| **Total Quests** | " .. CM.utils.FormatNumber(summary.totalQuests) .. " |\n"
-        markdown = markdown .. "| **Completed Quests** | " .. CM.utils.FormatNumber(summary.completedQuests) .. " |\n"
-        markdown = markdown .. "\n"
+        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
+        table_insert(parts, string.format('<a id="%s"></a>\n\n', anchorId))
+        table_insert(parts, "## 📝 Quest Progress\n\n")
+        table_insert(parts, "| **Active Quests** | **Total Quests** | **Completed Quests** |\n")
+        table_insert(parts, "|------------------:|----------------:|---------------------:|\n")
+        table_insert(parts, "| " .. CM.utils.FormatNumber(summary.activeQuests) .. " | " 
+            .. CM.utils.FormatNumber(summary.totalQuests) .. " | " 
+            .. CM.utils.FormatNumber(summary.completedQuests) .. " |\n")
+        table_insert(parts, "\n")
     end
     
-    return markdown
+    return table_concat(parts)
 end
 
 -- =====================================================
@@ -122,42 +150,44 @@ end
 -- =====================================================
 
 local function GenerateQuestCategories(questData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if format == "discord" then
-        markdown = markdown .. "**Quest Categories:**\n"
-    else
-        markdown = markdown .. "### 📊 Quest Categories\n\n"
+    if not InitializeUtilities() then
+        return ""
     end
     
+    local parts = {}
     local categories = questData.categories
     
     if format == "discord" then
-        for categoryName, categoryData in pairs(categories) do
+        table_insert(parts, "**Quest Categories:**\n")
+        
+        -- Sort categories for deterministic output
+        for _, categoryName in ipairs(GetSortedKeys(categories)) do
+            local categoryData = categories[categoryName]
             if categoryData.active > 0 then
                 local emoji = GetCategoryEmoji(categoryName)
-                markdown = markdown .. emoji .. " **" .. categoryName .. "**: " .. categoryData.active .. " active\n"
+                table_insert(parts, emoji .. " **" .. categoryName .. "**: " .. categoryData.active .. " active\n")
             end
         end
     else
-        markdown = markdown .. "| Category | Active | Completed | Total |\n"
-        markdown = markdown .. "|:---------|-------:|----------:|------:|\n"
+        table_insert(parts, "### 📊 Quest Categories\n\n")
+        table_insert(parts, "| Category | Active | Completed | Total |\n")
+        table_insert(parts, "|:---------|-------:|----------:|------:|\n")
         
-        for categoryName, categoryData in pairs(categories) do
+        -- Sort categories for deterministic output
+        for _, categoryName in ipairs(GetSortedKeys(categories)) do
+            local categoryData = categories[categoryName]
             if categoryData.active > 0 or categoryData.completed > 0 then
                 local emoji = GetCategoryEmoji(categoryName)
                 local total = categoryData.active + categoryData.completed
                 
-                markdown = markdown .. "| " .. emoji .. " **" .. categoryName .. "** | " .. 
-                    categoryData.active .. " | " .. categoryData.completed .. " | " .. total .. " |\n"
+                table_insert(parts, "| " .. emoji .. " **" .. categoryName .. "** | " .. 
+                    categoryData.active .. " | " .. categoryData.completed .. " | " .. total .. " |\n")
             end
         end
-        markdown = markdown .. "\n"
+        table_insert(parts, "\n")
     end
     
-    return markdown
+    return table_concat(parts)
 end
 
 -- =====================================================
@@ -165,21 +195,22 @@ end
 -- =====================================================
 
 local function GenerateActiveQuests(questData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if format == "discord" then
-        markdown = markdown .. "**Active Quests:**\n"
-    else
-        markdown = markdown .. "### 🔄 Active Quests\n\n"
+    if not InitializeUtilities() then
+        return ""
     end
     
+    local parts = {}
     local active = questData.active
     
+    if format == "discord" then
+        table_insert(parts, "**Active Quests:**\n")
+    else
+        table_insert(parts, "### 🔄 Active Quests\n\n")
+    end
+    
     if #active == 0 then
-        markdown = markdown .. "*No active quests*\n\n"
-        return markdown
+        table_insert(parts, "*No active quests*\n\n")
+        return table_concat(parts)
     end
     
     if format == "discord" then
@@ -187,26 +218,26 @@ local function GenerateActiveQuests(questData, format)
             local statusIcon = GetQuestStatusIcon(quest)
             local progressText = GetProgressText(quest)
             local typeEmoji = GetQuestTypeEmoji(quest.type)
-            markdown = markdown .. statusIcon .. " **" .. quest.name .. "** (" .. quest.level .. ") - " .. 
-                typeEmoji .. " " .. quest.type .. " - " .. progressText .. "\n"
+            table_insert(parts, statusIcon .. " **" .. quest.name .. "** (" .. quest.level .. ") - " .. 
+                typeEmoji .. " " .. quest.type .. " - " .. progressText .. "\n")
         end
     else
-        markdown = markdown .. "| Quest | Level | Type | Progress | Zone |\n"
-        markdown = markdown .. "|:------|------:|:-----|:---------|:-----|\n"
+        table_insert(parts, "| Quest | Level | Type | Progress | Zone |\n")
+        table_insert(parts, "|:------|------:|:-----|:---------|:-----|\n")
         
         for _, quest in ipairs(active) do
             local statusIcon = GetQuestStatusIcon(quest)
             local progressText = GetProgressText(quest)
             local typeEmoji = GetQuestTypeEmoji(quest.type)
             
-            markdown = markdown .. "| " .. statusIcon .. " **" .. quest.name .. "** | " .. 
+            table_insert(parts, "| " .. statusIcon .. " **" .. quest.name .. "** | " .. 
                 quest.level .. " | " .. typeEmoji .. " " .. quest.type .. " | " .. 
-                progressText .. " | " .. quest.zone .. " |\n"
+                progressText .. " | " .. quest.zone .. " |\n")
         end
-        markdown = markdown .. "\n"
+        table_insert(parts, "\n")
     end
     
-    return markdown
+    return table_concat(parts)
 end
 
 -- =====================================================
@@ -214,136 +245,41 @@ end
 -- =====================================================
 
 local function GenerateZoneQuests(questData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if format == "discord" then
-        markdown = markdown .. "**Quests by Zone:**\n"
-    else
-        markdown = markdown .. "### 🗺️ Quests by Zone\n\n"
+    if not InitializeUtilities() then
+        return ""
     end
     
+    local parts = {}
     local zones = questData.zones
     
     if format == "discord" then
-        for zoneName, zoneData in pairs(zones) do
+        table_insert(parts, "**Quests by Zone:**\n")
+        
+        -- Sort zones for deterministic output
+        for _, zoneName in ipairs(GetSortedKeys(zones)) do
+            local zoneData = zones[zoneName]
             if zoneData.active > 0 then
-                markdown = markdown .. "🗺️ **" .. zoneName .. "**: " .. zoneData.active .. " active\n"
+                table_insert(parts, "🗺️ **" .. zoneName .. "**: " .. zoneData.active .. " active\n")
             end
         end
     else
-        markdown = markdown .. "| Zone | Active | Completed | Total |\n"
-        markdown = markdown .. "|:-----|-------:|----------:|------:|\n"
+        table_insert(parts, "### 🗺️ Quests by Zone\n\n")
+        table_insert(parts, "| Zone | Active | Completed | Total |\n")
+        table_insert(parts, "|:-----|-------:|----------:|------:|\n")
         
-        for zoneName, zoneData in pairs(zones) do
+        -- Sort zones for deterministic output
+        for _, zoneName in ipairs(GetSortedKeys(zones)) do
+            local zoneData = zones[zoneName]
             if zoneData.active > 0 or zoneData.completed > 0 then
                 local total = zoneData.active + zoneData.completed
-                markdown = markdown .. "| 🗺️ **" .. zoneName .. "** | " .. 
-                    zoneData.active .. " | " .. zoneData.completed .. " | " .. total .. " |\n"
+                table_insert(parts, "| 🗺️ **" .. zoneName .. "** | " .. 
+                    zoneData.active .. " | " .. zoneData.completed .. " | " .. total .. " |\n")
             end
         end
-        markdown = markdown .. "\n"
+        table_insert(parts, "\n")
     end
     
-    return markdown
-end
-
--- =====================================================
--- SPECIALIZED QUEST GENERATORS
--- =====================================================
-
-local function GenerateMainStoryQuests(mainStoryData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if format == "discord" then
-        markdown = markdown .. "**Main Story Progress:**\n"
-        markdown = markdown .. "Active: " .. mainStoryData.active .. " | Total: " .. mainStoryData.total .. "\n"
-    else
-        markdown = markdown .. "### 📖 Main Story Progress\n\n"
-        markdown = markdown .. "| Metric | Value |\n"
-        markdown = markdown .. "|:-------|------:|\n"
-        markdown = markdown .. "| **Active** | " .. mainStoryData.active .. " |\n"
-        markdown = markdown .. "| **Total** | " .. mainStoryData.total .. " |\n"
-        markdown = markdown .. "| **Progress** | " .. CM.utils.GenerateProgressBar(math.floor((mainStoryData.active / mainStoryData.total) * 100), 12) .. " |\n"
-        markdown = markdown .. "\n"
-    end
-    
-    return markdown
-end
-
-local function GenerateGuildQuests(guildData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if format == "discord" then
-        markdown = markdown .. "**Guild Quest Progress:**\n"
-    else
-        markdown = markdown .. "### 🏰 Guild Quest Progress\n\n"  -- Changed from 🏛️ for better compatibility
-    end
-    
-    local byGuild = guildData.byGuild
-    
-    if format == "discord" then
-        for guildName, guildInfo in pairs(byGuild) do
-            if guildInfo.active > 0 then
-                markdown = markdown .. "🏰 **" .. guildName .. "**: " .. guildInfo.active .. " active\n"  -- Changed from 🏛️ for better compatibility
-            end
-        end
-    else
-        markdown = markdown .. "| Guild | Active | Completed | Total |\n"
-        markdown = markdown .. "|:------|-------:|----------:|------:|\n"
-        
-        for guildName, guildInfo in pairs(byGuild) do
-            if guildInfo.active > 0 or guildInfo.completed > 0 then
-                local total = guildInfo.active + guildInfo.completed
-                markdown = markdown .. "| 🏰 **" .. guildName .. "** | " ..  -- Changed from 🏛️ for better compatibility 
-                    guildInfo.active .. " | " .. guildInfo.completed .. " | " .. total .. " |\n"
-            end
-        end
-        markdown = markdown .. "\n"
-    end
-    
-    return markdown
-end
-
-local function GenerateDailyQuests(dailyData, format)
-    InitializeUtilities()
-    
-    local markdown = ""
-    
-    if format == "discord" then
-        markdown = markdown .. "**Daily Quest Progress:**\n"
-    else
-        markdown = markdown .. "### 🔄 Daily Quest Progress\n\n"
-    end
-    
-    local byType = dailyData.byType
-    
-    if format == "discord" then
-        for typeName, typeInfo in pairs(byType) do
-            if typeInfo.active > 0 then
-                markdown = markdown .. "🔄 **" .. typeName .. "**: " .. typeInfo.active .. " active\n"
-            end
-        end
-    else
-        markdown = markdown .. "| Type | Active | Completed | Total |\n"
-        markdown = markdown .. "|:-----|-------:|----------:|------:|\n"
-        
-        for typeName, typeInfo in pairs(byType) do
-            if typeInfo.active > 0 or typeInfo.completed > 0 then
-                local total = typeInfo.active + typeInfo.completed
-                markdown = markdown .. "| 🔄 **" .. typeName .. "** | " .. 
-                    typeInfo.active .. " | " .. typeInfo.completed .. " | " .. total .. " |\n"
-            end
-        end
-        markdown = markdown .. "\n"
-    end
-    
-    return markdown
+    return table_concat(parts)
 end
 
 -- =====================================================
@@ -351,32 +287,89 @@ end
 -- =====================================================
 
 local function GenerateQuests(questData, format)
-    InitializeUtilities()
+    CM.DebugPrint("QUESTS", "=== GenerateQuests called ===")
+    CM.DebugPrint("QUESTS", string.format("Format: %s", tostring(format)))
     
-    local markdown = ""
-    
-    if not questData or not questData.summary then
-        return markdown
+    if not InitializeUtilities() then
+        CM.Error("Quest generator failed to initialize utilities")
+        -- Return visible error message instead of empty string
+        if format == "discord" then
+            return "**📝 Quests:**\n*Error: Quest utilities not available*\n\n"
+        else
+            return "## 📝 Quests\n\n*Error: Quest utilities not available*\n\n---\n\n"
+        end
     end
     
+    if not questData then
+        CM.Error("GenerateQuests: questData is nil!")
+        -- Return visible message instead of empty string
+        if format == "discord" then
+            return "**📝 Quests:**\n*Error: Quest data not collected*\n\n"
+        else
+            return "## 📝 Quests\n\n*Error: Quest data not collected*\n\n---\n\n"
+        end
+    end
+    
+    CM.DebugPrint("QUESTS", "questData exists, checking structure...")
+    CM.DebugPrint("QUESTS", string.format("questData.summary: %s", tostring(questData.summary ~= nil)))
+    CM.DebugPrint("QUESTS", string.format("questData.active: %s", tostring(questData.active ~= nil)))
+    CM.DebugPrint("QUESTS", string.format("questData.categories: %s", tostring(questData.categories ~= nil)))
+    CM.DebugPrint("QUESTS", string.format("questData.zones: %s", tostring(questData.zones ~= nil)))
+    
+    if not questData.summary then
+        CM.Error("GenerateQuests: questData.summary is nil!")
+        if format == "discord" then
+            return "**📝 Quests:**\n*Error: Quest summary missing*\n\n"
+        else
+            return "## 📝 Quests\n\n*Error: Quest summary missing*\n\n---\n\n"
+        end
+    end
+    
+    CM.DebugPrint("QUESTS", string.format("Summary - activeQuests: %s, totalQuests: %s", 
+        tostring(questData.summary.activeQuests), tostring(questData.summary.totalQuests)))
+    CM.DebugPrint("QUESTS", string.format("Active quests count: %d", #(questData.active or {})))
+    
+    -- Check if there are any quests at all
+    local hasQuests = questData.summary.activeQuests > 0 or questData.summary.totalQuests > 0
+    
+    if not hasQuests then
+        CM.DebugPrint("QUESTS", "No quests found, generating empty section message")
+        if format == "discord" then
+            return "**📝 Quests:**\n*No active quests*\n\n"
+        else
+            return "## 📝 Quests\n\n*No active quests*\n\n---\n\n"
+        end
+    end
+    
+    CM.DebugPrint("QUESTS", "Generating quest sections...")
+    
+    local parts = {}
+    
     -- Always show summary
-    markdown = markdown .. GenerateQuestSummary(questData, format)
+    table_insert(parts, GenerateQuestSummary(questData, format))
     
     -- Show categories if detailed mode is enabled
     if questData.categories then
-        markdown = markdown .. GenerateQuestCategories(questData, format)
+        table_insert(parts, GenerateQuestCategories(questData, format))
     end
     
     -- Show active quests
     if questData.active and #questData.active > 0 then
-        markdown = markdown .. GenerateActiveQuests(questData, format)
+        table_insert(parts, GenerateActiveQuests(questData, format))
     end
     
     -- Show zone breakdown if detailed mode is enabled
     if questData.zones then
-        markdown = markdown .. GenerateZoneQuests(questData, format)
+        table_insert(parts, GenerateZoneQuests(questData, format))
     end
     
+    -- Add section separator (except for discord)
+    if format ~= "discord" then
+        table_insert(parts, "---\n\n")
+    end
+    
+    local markdown = table_concat(parts)
+    CM.DebugPrint("QUESTS", string.format("GenerateQuests complete: %d chars", #markdown))
     return markdown
 end
 
@@ -386,13 +379,7 @@ end
 
 CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateQuests = GenerateQuests
-CM.generators.sections.GenerateMainStoryQuests = GenerateMainStoryQuests
-CM.generators.sections.GenerateGuildQuests = GenerateGuildQuests
-CM.generators.sections.GenerateDailyQuests = GenerateDailyQuests
 
 return {
-    GenerateQuests = GenerateQuests,
-    GenerateMainStoryQuests = GenerateMainStoryQuests,
-    GenerateGuildQuests = GenerateGuildQuests,
-    GenerateDailyQuests = GenerateDailyQuests
+    GenerateQuests = GenerateQuests
 }

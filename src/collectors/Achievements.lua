@@ -183,18 +183,6 @@ local function CollectAchievementData()
         completed = {}
     }
     
-    -- Use CM.SafeCall for consistent error handling
-    local numAchievements = CM.SafeCall(GetNumAchievements) or 0
-    data.summary.totalAchievements = numAchievements
-    
-    if numAchievements == 0 then
-        return data
-    end
-    
-    local completedCount = 0
-    local earnedPoints = 0
-    local totalPoints = 0
-    
     -- Initialize category tracking
     for category, _ in pairs(ACHIEVEMENT_CATEGORIES) do
         data.categories[category] = {
@@ -208,62 +196,186 @@ local function CollectAchievementData()
         }
     end
     
-    -- Process each achievement
-    for i = 1, numAchievements do
-        -- GetAchievementInfo returns multiple values, so we need pcall, not CM.SafeCall
-        -- CM.SafeCall only returns the first value, which would be just the name
-        local success, name, description, points, icon, completed = pcall(GetAchievementInfo, i)
+    -- Use ESO's built-in functions for overall stats (much simpler!)
+    data.summary.earnedPoints = CM.SafeCall(GetEarnedAchievementPoints) or 0
+    data.summary.totalPoints = CM.SafeCall(GetTotalAchievementPoints) or 0
+    
+    local totalAchievements = 0
+    local completedCount = 0
+    
+    -- ESO uses a category-based achievement system
+    -- Iterate through all achievement categories
+    local numCategories = CM.SafeCall(GetNumAchievementCategories) or 0
+    CM.Info(string.format("[ACHIEVEMENTS] Found %d achievement categories", numCategories))
+    
+    if numCategories == 0 then
+        CM.Error("[ACHIEVEMENTS] WARNING: No achievement categories found - this is unexpected!")
+        return data
+    end
+    
+    -- Process each top-level category
+    for topIndex = 1, numCategories do
+        -- GetAchievementCategoryInfo returns: name, numSubCats, numAchievements, earnedPoints, totalPoints, hidesPoints
+        local success, catName, numSubCats, numAchievements, earnedPoints, catTotalPoints = pcall(GetAchievementCategoryInfo, topIndex)
         
-        if success and name then
-            local category = CategorizeAchievement(name, description)
-            local achievementData = {
-                id = i,
-                name = name,
-                description = description or "",
-                points = points or 0,
-                completed = completed or false,
-                category = category,
-                progress = GetAchievementProgress(i)
-            }
-            
-            -- Update summary
-            totalPoints = totalPoints + (points or 0)
-            if completed then
-                completedCount = completedCount + 1
-                earnedPoints = earnedPoints + (points or 0)
-                table.insert(data.completed, achievementData)
+        CM.Info(string.format("[ACHIEVEMENTS] Category %d: success=%s, name=%s, numSubCats=%s, numAchievements=%s", 
+            topIndex, tostring(success), tostring(catName), tostring(numSubCats), tostring(numAchievements)))
+        
+        if success and catName then
+            -- If category has subcategories, iterate through them
+            if numSubCats and numSubCats > 0 then
+                for subIndex = 1, numSubCats do
+                    -- GetAchievementSubCategoryInfo returns: subName, numAchievements, earnedPoints, totalPoints
+                    local success2, subName, subNumAchievements = pcall(GetAchievementSubCategoryInfo, topIndex, subIndex)
+                    
+                    if success2 and subName and subNumAchievements then
+                        -- Iterate through achievements in this subcategory
+                        for achIndex = 1, subNumAchievements do
+                            local achievementId = CM.SafeCall(GetAchievementId, topIndex, subIndex, achIndex)
+                            
+                            if achievementId and achievementId > 0 then
+                                totalAchievements = totalAchievements + 1
+                                
+                                -- GetAchievementInfo returns: name, description, points, icon, completed, date, time
+                                local success, name, description, points, icon, completed = pcall(GetAchievementInfo, achievementId)
+                                local timestamp = CM.SafeCall(GetAchievementTimestamp, achievementId) or 0
+                                
+                                if success and name and name ~= "" then
+                                    local category = CategorizeAchievement(name, description or "")
+                                    local achievementData = {
+                                        id = achievementId,
+                                        name = name,
+                                        description = description or "",
+                                        points = points or 0,
+                                        completed = completed or false,
+                                        timestamp = timestamp,
+                                        category = category,
+                                        progress = GetAchievementProgress(achievementId)
+                                    }
+                                    
+                                    -- Track completed vs in-progress
+                                    if completed then
+                                        completedCount = completedCount + 1
+                                        table.insert(data.completed, achievementData)
+                                    else
+                                        -- Check if in progress
+                                        if achievementData.progress.totalRequired > 0 and achievementData.progress.totalProgress > 0 then
+                                            table.insert(data.inProgress, achievementData)
+                                        end
+                                    end
+                                    
+                                    -- Update category data
+                                    if data.categories[category] then
+                                        data.categories[category].total = data.categories[category].total + 1
+                                        data.categories[category].points = data.categories[category].points + points
+                                        if completed then
+                                            data.categories[category].completed = data.categories[category].completed + 1
+                                        end
+                                        table.insert(data.categories[category].achievements, achievementData)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
             else
-                -- Check if in progress (has some progress but not completed)
-                if achievementData.progress.totalRequired > 0 and achievementData.progress.totalProgress > 0 then
-                    table.insert(data.inProgress, achievementData)
+                -- Category has no subcategories, check for direct achievements
+                if numAchievements and numAchievements > 0 then
+                    for achIndex = 1, numAchievements do
+                        -- For categories without subcategories, use nil for subIndex
+                        local achievementId = CM.SafeCall(GetAchievementId, topIndex, nil, achIndex)
+                        
+                        if achievementId and achievementId > 0 then
+                            totalAchievements = totalAchievements + 1
+                            
+                            -- GetAchievementInfo returns: name, description, points, icon, completed, date, time
+                            local success, name, description, points, icon, completed = pcall(GetAchievementInfo, achievementId)
+                            local timestamp = CM.SafeCall(GetAchievementTimestamp, achievementId) or 0
+                            
+                            if success and name and name ~= "" then
+                                local category = CategorizeAchievement(name, description or "")
+                                local achievementData = {
+                                    id = achievementId,
+                                    name = name,
+                                    description = description or "",
+                                    points = points or 0,
+                                    completed = completed or false,
+                                    timestamp = timestamp,
+                                    category = category,
+                                    progress = GetAchievementProgress(achievementId)
+                                }
+                                
+                                -- Track completed vs in-progress
+                                if completed then
+                                    completedCount = completedCount + 1
+                                    table.insert(data.completed, achievementData)
+                                else
+                                    -- Check if in progress
+                                    if achievementData.progress.totalRequired > 0 and achievementData.progress.totalProgress > 0 then
+                                        table.insert(data.inProgress, achievementData)
+                                    end
+                                end
+                                
+                                -- Update category data
+                                if data.categories[category] then
+                                    data.categories[category].total = data.categories[category].total + 1
+                                    data.categories[category].points = data.categories[category].points + (points or 0)
+                                    if completed then
+                                        data.categories[category].completed = data.categories[category].completed + 1
+                                    end
+                                    table.insert(data.categories[category].achievements, achievementData)
+                                end
+                            end
+                        end
+                    end
                 end
-            end
-            
-            -- Update category data
-            if data.categories[category] then
-                data.categories[category].total = data.categories[category].total + 1
-                data.categories[category].points = data.categories[category].points + (points or 0)
-                if completed then
-                    data.categories[category].completed = data.categories[category].completed + 1
-                end
-                table.insert(data.categories[category].achievements, achievementData)
             end
         end
     end
     
-    -- Update summary
+    -- Update summary totals
+    data.summary.totalAchievements = totalAchievements
     data.summary.completedAchievements = completedCount
-    data.summary.totalPoints = totalPoints
-    data.summary.earnedPoints = earnedPoints
-    data.summary.completionPercent = numAchievements > 0 and math.floor((completedCount / numAchievements) * 100) or 0
+    data.summary.completionPercent = totalAchievements > 0 and math.floor((completedCount / totalAchievements) * 100) or 0
     
-    -- Sort recent achievements (last 10 completed)
-    table.sort(data.completed, function(a, b)
-        return a.id > b.id  -- Assuming higher ID = more recent
-    end)
-    data.recent = {}
-    for i = 1, math.min(10, #data.completed) do
-        table.insert(data.recent, data.completed[i])
+    CM.Info(string.format("[ACHIEVEMENTS] Collection complete: %d total achievements, %d completed, %d/%d points", 
+        totalAchievements, completedCount, data.summary.earnedPoints, data.summary.totalPoints))
+    CM.Info(string.format("[ACHIEVEMENTS] Categories with data: %d in-progress, %d completed", 
+        #data.inProgress, #data.completed))
+    
+    -- Get recent achievements using ESO's built-in function
+    -- GetRecentlyCompletedAchievements returns variable number of values
+    local recentResults = {pcall(GetRecentlyCompletedAchievements, 10)}
+    if recentResults[1] then  -- success
+        -- First return value is success, rest are achievement IDs
+        for i = 2, #recentResults do
+            local achievementId = recentResults[i]
+            if achievementId and achievementId > 0 then
+                local success, name, description, points, icon, completed = pcall(GetAchievementInfo, achievementId)
+                local timestamp = CM.SafeCall(GetAchievementTimestamp, achievementId) or 0
+                
+                if success and name and name ~= "" then
+                    local category = CategorizeAchievement(name, description or "")
+                    table.insert(data.recent, {
+                        id = achievementId,
+                        name = name,
+                        description = description or "",
+                        points = points or 0,
+                        completed = true,
+                        timestamp = timestamp,
+                        category = category
+                    })
+                end
+            end
+        end
+    else
+        -- Fallback: sort completed by timestamp
+        table.sort(data.completed, function(a, b)
+            return (a.timestamp or 0) > (b.timestamp or 0)
+        end)
+        for i = 1, math.min(10, #data.completed) do
+            table.insert(data.recent, data.completed[i])
+        end
     end
     
     -- Sort in-progress by progress percentage

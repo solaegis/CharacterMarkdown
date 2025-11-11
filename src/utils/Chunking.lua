@@ -1081,16 +1081,20 @@ local function SplitMarkdownIntoChunks(markdown)
             end
             
             -- CRITICAL: If we're in a table (on, after, before, between table lines) OR on line before table, we MUST extend
+            -- Exception: If table is VERY large (too big to fit in chunk), allow chunking within table at row boundaries
             -- Never allow chunking in the middle of a table or on the line before a table
             -- If we're on a header before a table, we MUST extend to include header+table or backtrack before header
             if (isInTable or isOnLineBeforeTable) and tableEnd and tableEnd > chunkEnd then
                 -- We're in a table or before a table - MUST extend to end of table, not backtrack
+                -- Exception: If table is too large, allow chunking within table
+                local tableSize = tableEnd - chunkEnd + 1
+                local structureOverageAllowance = 2000
+                local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
+                
                 -- If we're on a header before a table, ensure header+table stay together
                 if isHeaderBeforeTable and headerLineStart then
                     -- Check if we can include header+table
                     local headerTableChunkSize = tableEnd - headerLineStart + 1
-                    local structureOverageAllowance = 2000
-                    local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
                     
                     if headerTableChunkSize <= effectiveMaxForStructures then
                         -- Can include header+table - EXTEND IMMEDIATELY to keep them together
@@ -1110,8 +1114,61 @@ local function SplitMarkdownIntoChunks(markdown)
                         isHeaderBeforeTable = false
                         tableEnd = nil
                     end
+                elseif tableSize > effectiveMaxForStructures then
+                    -- Table is too large to fit in one chunk - allow chunking within table at row boundaries
+                    -- Verify chunkEnd is at a newline between table rows (not in middle of a row)
+                    if string.sub(markdown, chunkEnd, chunkEnd) == "\n" then
+                        -- Already at a newline - verify it's between table rows
+                        local isAtRowBoundary = (isAfterTableLine or isBetweenTableRows)
+                        if isAtRowBoundary then
+                            CM.DebugPrint("CHUNKING", string.format("Chunk %d: Table too large (%d chars), allowing chunk at row boundary (pos %d)", chunkNum, tableSize, chunkEnd))
+                            -- OK to chunk here - we're at a row boundary in a very large table
+                        else
+                            -- Not at row boundary - find previous row boundary
+                            for i = chunkEnd - 1, math.max(pos, chunkEnd - 2000), -1 do
+                                if string.sub(markdown, i, i) == "\n" then
+                                    -- Check if this is between table rows
+                                    local prevLine = nil
+                                    local prevLineStart = i
+                                    for j = i - 1, math.max(pos, i - 500), -1 do
+                                        if j == pos or string.sub(markdown, j - 1, j - 1) == "\n" then
+                                            prevLineStart = (j == pos) and pos or j
+                                            break
+                                        end
+                                    end
+                                    prevLine = string.sub(markdown, prevLineStart, i - 1)
+                                    if IsTableLine(prevLine) then
+                                        chunkEnd = i
+                                        CM.DebugPrint("CHUNKING", string.format("Chunk %d: Large table - moved to row boundary at %d", chunkNum, chunkEnd))
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    else
+                        -- Not at newline - find previous newline between table rows
+                        for i = chunkEnd - 1, math.max(pos, chunkEnd - 2000), -1 do
+                            if string.sub(markdown, i, i) == "\n" then
+                                -- Check if this is between table rows
+                                local prevLine = nil
+                                local prevLineStart = i
+                                for j = i - 1, math.max(pos, i - 500), -1 do
+                                    if j == pos or string.sub(markdown, j - 1, j - 1) == "\n" then
+                                        prevLineStart = (j == pos) and pos or j
+                                        break
+                                    end
+                                end
+                                prevLine = string.sub(markdown, prevLineStart, i - 1)
+                                if IsTableLine(prevLine) then
+                                    chunkEnd = i
+                                    CM.DebugPrint("CHUNKING", string.format("Chunk %d: Large table - moved to row boundary at %d", chunkNum, chunkEnd))
+                                    break
+                                end
+                            end
+                        end
+                    end
                 else
-                    -- Not a header, will extend in logic below
+                    -- Table is not too large, will extend in logic below
                     CM.DebugPrint("CHUNKING", string.format("Chunk %d: In table or before table, will extend to table end at %d", chunkNum, tableEnd))
                 end
             elseif tableEnd and tableEnd > chunkEnd and not isInTable and not isOnLineBeforeTable then
@@ -2267,8 +2324,9 @@ local function SplitMarkdownIntoChunks(markdown)
                     if safeNewlineBefore then
                         chunkEnd = safeNewlineBefore
                         CM.Warn(string.format("Chunk %d: Detected incomplete link at end, backtracked to safe newline at %d", chunkNum, chunkEnd))
-                        -- Recalculate dataChars after backtracking
-                        dataChars = chunkEnd - pos + 1
+                        -- CRITICAL: Re-extract chunk data after adjusting chunkEnd
+                        chunkData = string.sub(markdown, pos, chunkEnd)
+                        dataChars = string.len(chunkData)
                     else
                         -- Try to find any newline before actualEndPos that's not in a link
                         for i = actualEndPos - 1, math.max(pos, actualEndPos - 2000), -1 do
@@ -2277,7 +2335,9 @@ local function SplitMarkdownIntoChunks(markdown)
                                 if not testLinkEnd or testLinkEnd <= i then
                                     chunkEnd = i
                                     CM.Warn(string.format("Chunk %d: Found safe newline at %d to avoid incomplete link", chunkNum, chunkEnd))
-                                    dataChars = chunkEnd - pos + 1
+                                    -- CRITICAL: Re-extract chunk data after adjusting chunkEnd
+                                    chunkData = string.sub(markdown, pos, chunkEnd)
+                                    dataChars = string.len(chunkData)
                                     break
                                 end
                             end
@@ -2289,14 +2349,18 @@ local function SplitMarkdownIntoChunks(markdown)
                     if safeNewline and safeNewline - pos + 1 <= maxSafeDataSize then
                         chunkEnd = safeNewline
                         CM.DebugPrint("CHUNKING", string.format("Chunk %d: Final check - chunkEnd was inside link, moved to safe newline at %d", chunkNum, chunkEnd))
-                        dataChars = chunkEnd - pos + 1
+                        -- CRITICAL: Re-extract chunk data after adjusting chunkEnd
+                        chunkData = string.sub(markdown, pos, chunkEnd)
+                        dataChars = string.len(chunkData)
                     else
                         -- Can't extend, backtrack to before the link
                         local safeNewlineBefore = FindSafeNewline(markdown, pos, actualEndPos - 1)
                         if safeNewlineBefore then
                             chunkEnd = safeNewlineBefore
                             CM.Warn(string.format("Chunk %d: Final check - chunkEnd was inside link, moved back to safe newline at %d", chunkNum, chunkEnd))
-                            dataChars = chunkEnd - pos + 1
+                            -- CRITICAL: Re-extract chunk data after adjusting chunkEnd
+                            chunkData = string.sub(markdown, pos, chunkEnd)
+                            dataChars = string.len(chunkData)
                         end
                     end
                 end

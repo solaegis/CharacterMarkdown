@@ -47,7 +47,7 @@ local function GenerateLegend(format)
 | 🍖 | Active Buffs |
 | 📈 | Progression & Statistics |
 | 🌿 | Skill Morphs |
-| 📜 | Skill Progression |
+| 📜 | Character Progress |
 | 👥 | Companion |
 | ⚒️ | Craft Discipline |
 | 💪 | Fitness Discipline |
