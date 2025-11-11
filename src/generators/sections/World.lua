@@ -20,7 +20,7 @@ end
 -- SKYSHARDS
 -- =====================================================
 
-local function GenerateSkyshards(skyshardsData, format)
+local function GenerateSkyshards(skyshardsData, format, asColumn)
     InitializeUtilities()
     
     local markdown = ""
@@ -42,24 +42,26 @@ local function GenerateSkyshards(skyshardsData, format)
         end
         markdown = markdown .. "\n"
     else
-        markdown = markdown .. "### 🌟 Skyshards\n\n"
-        markdown = markdown .. "| Zone | Collected | Total | Progress |\n"
-        markdown = markdown .. "|:-----|:----------|:------|:--------|\n"
+        -- Use h4 (####) when in column mode, h3 (###) when standalone
+        local headerLevel = asColumn and "####" or "###"
+        markdown = markdown .. headerLevel .. " 🌟 Skyshards\n\n"
+        markdown = markdown .. "| Zone | Collected | Progress |\n"
+        markdown = markdown .. "|:-----|:----------|:--------|\n"
         
         -- Show zone-specific data
         for zoneName, zoneData in pairs(skyshardsData.zones) do
             if zoneData.total > 0 then
-                local progressBar = GenerateProgressBar(zoneData.percentage, 20)
-                markdown = markdown .. "| **" .. zoneName .. "** | " .. zoneData.collected .. 
-                          " | " .. zoneData.total .. " | " .. progressBar .. " " .. zoneData.percentage .. "% |\n"
+                local progressBar = GenerateProgressBar(zoneData.percentage, 10)
+                markdown = markdown .. "| **" .. zoneName .. "** | " .. zoneData.collected .. "/" .. zoneData.total .. 
+                          " | " .. progressBar .. " " .. zoneData.percentage .. "% |\n"
             end
         end
         
         -- Overall summary
         local overallProgress = math.floor((skyshardsData.collected / skyshardsData.total) * 100)
-        local overallProgressBar = GenerateProgressBar(overallProgress, 20)
-        markdown = markdown .. "| **Total** | " .. skyshardsData.collected .. " | " .. skyshardsData.total .. 
-                  " | " .. overallProgressBar .. " " .. overallProgress .. "% |\n\n"
+        local overallProgressBar = GenerateProgressBar(overallProgress, 10)
+        markdown = markdown .. "| **Total** | " .. skyshardsData.collected .. "/" .. skyshardsData.total .. 
+                  " | " .. overallProgressBar .. " " .. overallProgress .. "% |\n"
     end
     
     return markdown
@@ -160,7 +162,7 @@ end
 -- DUNGEONS (DELVES & PUBLIC DUNGEONS)
 -- =====================================================
 
-local function GenerateDungeonProgress(dungeonData, format)
+local function GenerateDungeonProgress(dungeonData, format, asColumn)
     InitializeUtilities()
     
     local markdown = ""
@@ -190,30 +192,20 @@ local function GenerateDungeonProgress(dungeonData, format)
         end
         markdown = markdown .. "\n"
     else
-        markdown = markdown .. "### 🏰 Dungeon Progress\n\n"
+        -- Use h4 (####) when in column mode, h3 (###) when standalone
+        local headerLevel = asColumn and "####" or "###"
+        markdown = markdown .. headerLevel .. " 🏰 Dungeon Progress\n\n"
         
         if hasDelves then
-            markdown = markdown .. "#### Delves\n\n"
-            markdown = markdown .. "| Delve | Status |\n"
-            markdown = markdown .. "|:------|:-------|\n"
-            
-            for _, delve in ipairs(dungeonData.delves.list) do
-                local status = delve.completed and "✅ Completed" or "⏳ Pending"
-                markdown = markdown .. "| " .. delve.name .. " | " .. status .. " |\n"
-            end
-            markdown = markdown .. "\n"
+            local delvePercent = math.floor((dungeonData.delves.completed / dungeonData.delves.total) * 100)
+            markdown = markdown .. "**Delves:** " .. dungeonData.delves.completed .. "/" .. dungeonData.delves.total .. 
+                      " (" .. delvePercent .. "%)\n\n"
         end
         
         if hasPublicDungeons then
-            markdown = markdown .. "#### Public Dungeons\n\n"
-            markdown = markdown .. "| Dungeon | Status |\n"
-            markdown = markdown .. "|:--------|:-------|\n"
-            
-            for _, dungeon in ipairs(dungeonData.publicDungeons.list) do
-                local status = dungeon.completed and "✅ Completed" or "⏳ Pending"
-                markdown = markdown .. "| " .. dungeon.name .. " | " .. status .. " |\n"
-            end
-            markdown = markdown .. "\n"
+            local dungeonPercent = math.floor((dungeonData.publicDungeons.completed / dungeonData.publicDungeons.total) * 100)
+            markdown = markdown .. "**Public Dungeons:** " .. dungeonData.publicDungeons.completed .. "/" .. 
+                      dungeonData.publicDungeons.total .. " (" .. dungeonPercent .. "%)\n"
         end
     end
     
@@ -250,24 +242,32 @@ local function GenerateWorldProgress(worldProgressData, format)
         return ""
     end
     
-    -- Add each subsection first
-    local content = ""
-    content = content .. GenerateSkyshards(worldProgressData.skyshards, format)
-    -- Lorebooks removed - now shown in Collectibles section
-    -- content = content .. GenerateLorebooks(worldProgressData.lorebooks, format)
-    -- Zone Completion disabled - not working correctly
-    -- content = content .. GenerateZoneCompletion(worldProgressData.zoneCompletion, format)
-    content = content .. GenerateDungeonProgress(worldProgressData.dungeons, format)
-    
-    -- Only add header if there's actual content
-    if content ~= "" and format ~= "discord" then
+    -- Discord format stays vertical
+    if format == "discord" then
+        local content = ""
+        content = content .. GenerateSkyshards(worldProgressData.skyshards, format, false)
+        content = content .. GenerateDungeonProgress(worldProgressData.dungeons, format, false)
+        markdown = markdown .. content
+    else
+        -- GitHub/VSCode: Use 2-column layout
         local GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
         local anchorId = GenerateAnchor and GenerateAnchor("🌍 World Progress") or "world-progress"
         markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🌍 World Progress\n\n"
+        
+        local CreateTwoColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateTwoColumnLayout
+        
+        if CreateTwoColumnLayout then
+            local column1 = GenerateSkyshards(worldProgressData.skyshards, format, true)
+            local column2 = GenerateDungeonProgress(worldProgressData.dungeons, format, true)
+            
+            markdown = markdown .. CreateTwoColumnLayout(column1, column2)
+        else
+            -- Fallback to vertical layout
+            markdown = markdown .. GenerateSkyshards(worldProgressData.skyshards, format, false)
+            markdown = markdown .. GenerateDungeonProgress(worldProgressData.dungeons, format, false)
+        end
     end
-    
-    markdown = markdown .. content
     
     return markdown
 end

@@ -775,15 +775,6 @@ end
 
 CM.generators.sections.GenerateOverview = GenerateOverview
 
--- =====================================================
--- PROGRESSION SECTION
--- =====================================================
-
-local function GenerateProgression(progressionData, cpData, format)
-    -- Progression section disabled - removed per user request
-    return ""
-end
-
 CM.generators.sections.GenerateProgression = GenerateProgression
 
 -- =====================================================

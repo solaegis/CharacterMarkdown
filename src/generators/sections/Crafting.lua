@@ -15,6 +15,124 @@ local function InitializeUtilities()
 end
 
 -- =====================================================
+-- HELPER: GENERATE MOTIFS COLUMN
+-- =====================================================
+
+local function GenerateMotifsColumn(craftingData)
+    local markdown = ""
+    
+    if not craftingData.motifs or #craftingData.motifs == 0 then
+        return markdown
+    end
+    
+    markdown = markdown .. "#### 🎨 Known Motifs\n\n"
+    
+    local knownMotifs = {}
+    local unknownMotifs = {}
+    
+    for _, motif in ipairs(craftingData.motifs) do
+        if motif.known then
+            table.insert(knownMotifs, motif)
+        else
+            table.insert(unknownMotifs, motif)
+        end
+    end
+    
+    if #knownMotifs > 0 then
+        markdown = markdown .. "**Known (" .. #knownMotifs .. "):**\n"
+        for _, motif in ipairs(knownMotifs) do
+            markdown = markdown .. "- ✅ " .. motif.name
+            if motif.category and motif.category ~= "" then
+                markdown = markdown .. " (" .. motif.category .. ")"
+            end
+            markdown = markdown .. "\n"
+        end
+        markdown = markdown .. "\n"
+    end
+    
+    if #unknownMotifs > 0 then
+        markdown = markdown .. "**Unknown (" .. #unknownMotifs .. "):**\n"
+        for _, motif in ipairs(unknownMotifs) do
+            markdown = markdown .. "- ❌ " .. motif.name
+            if motif.category and motif.category ~= "" then
+                markdown = markdown .. " (" .. motif.category .. ")"
+            end
+            markdown = markdown .. "\n"
+        end
+    end
+    
+    return markdown
+end
+
+-- =====================================================
+-- HELPER: GENERATE RECIPES COLUMN
+-- =====================================================
+
+local function GenerateRecipesColumn(craftingData)
+    local markdown = ""
+    
+    if not craftingData.recipes then
+        return markdown
+    end
+    
+    markdown = markdown .. "#### 📜 Recipe Knowledge\n\n"
+    
+    local craftTypes = {
+        {name = "Provisioning", key = "provisioning", emoji = "🍳"},
+        {name = "Alchemy", key = "alchemy", emoji = "🧪"},
+        {name = "Enchanting", key = "enchanting", emoji = "✨"},
+        {name = "Blacksmithing", key = "blacksmithing", emoji = "⚒️"},
+        {name = "Clothing", key = "clothing", emoji = "🧵"},
+        {name = "Woodworking", key = "woodworking", emoji = "🪵"},
+        {name = "Jewelry", key = "jewelry", emoji = "💎"}
+    }
+    
+    for _, craftType in ipairs(craftTypes) do
+        local recipes = craftingData.recipes[craftType.key]
+        if recipes and #recipes > 0 then
+            markdown = markdown .. "**" .. craftType.emoji .. " " .. craftType.name .. "** (" .. #recipes .. ")\n"
+        end
+    end
+    
+    return markdown
+end
+
+-- =====================================================
+-- HELPER: GENERATE RESEARCH COLUMN
+-- =====================================================
+
+local function GenerateResearchColumn(craftingData)
+    local markdown = ""
+    
+    if not craftingData.research then
+        return markdown
+    end
+    
+    markdown = markdown .. "#### 🔬 Research Progress\n\n"
+    
+    local craftTypes = {
+        {name = "Blacksmithing", key = "blacksmithing", emoji = "⚒️"},
+        {name = "Clothing", key = "clothing", emoji = "🧵"},
+        {name = "Woodworking", key = "woodworking", emoji = "🪵"},
+        {name = "Jewelry", key = "jewelry", emoji = "💎"}
+    }
+    
+    for _, craftType in ipairs(craftTypes) do
+        local researchLines = craftingData.research[craftType.key]
+        if researchLines and #researchLines > 0 then
+            markdown = markdown .. "**" .. craftType.emoji .. " " .. craftType.name .. "**\n"
+            
+            for _, line in ipairs(researchLines) do
+                markdown = markdown .. "- " .. line.name .. ": " .. (line.numTraits or 0) .. " traits\n"
+            end
+            markdown = markdown .. "\n"
+        end
+    end
+    
+    return markdown
+end
+
+-- =====================================================
 -- CRAFTING KNOWLEDGE
 -- =====================================================
 
@@ -59,129 +177,27 @@ local function GenerateCrafting(craftingData, format)
         markdown = markdown .. "🔬 **Research:** " .. totalResearchLines .. " lines\n"
         
     else
-        -- GitHub/VSCode: Detailed format
+        -- GitHub/VSCode: Detailed format with 3-column layout
         local anchorId = GenerateAnchor and GenerateAnchor("🔨 Crafting Knowledge") or "crafting-knowledge"
         markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🔨 Crafting Knowledge\n\n"
         
-        -- ===== MOTIFS =====
-        if #craftingData.motifs > 0 then
-            markdown = markdown .. "### 🎨 Known Motifs\n\n"
-            
-            local knownMotifs = {}
-            local unknownMotifs = {}
-            
-            for _, motif in ipairs(craftingData.motifs) do
-                if motif.known then
-                    table.insert(knownMotifs, motif)
-                else
-                    table.insert(unknownMotifs, motif)
-                end
-            end
-            
-            if #knownMotifs > 0 then
-                markdown = markdown .. "**Known Motifs (" .. #knownMotifs .. "):**\n"
-                for _, motif in ipairs(knownMotifs) do
-                    markdown = markdown .. "- ✅ " .. motif.name
-                    if motif.category and motif.category ~= "" then
-                        markdown = markdown .. " (" .. motif.category .. ")"
-                    end
-                    markdown = markdown .. "\n"
-                end
-                markdown = markdown .. "\n"
-            end
-            
-            if #unknownMotifs > 0 then
-                markdown = markdown .. "**Unknown Motifs (" .. #unknownMotifs .. "):**\n"
-                for _, motif in ipairs(unknownMotifs) do
-                    markdown = markdown .. "- ❌ " .. motif.name
-                    if motif.category and motif.category ~= "" then
-                        markdown = markdown .. " (" .. motif.category .. ")"
-                    end
-                    markdown = markdown .. "\n"
-                end
-                markdown = markdown .. "\n"
-            end
-        end
+        -- Use 3-column layout for crafting areas (GitHub/VSCode only)
+        local CreateThreeColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateThreeColumnLayout
         
-        -- ===== RECIPES =====
-        if craftingData.recipes then
-            markdown = markdown .. "### 📜 Recipe Knowledge\n\n"
+        if CreateThreeColumnLayout then
+            -- Generate each crafting area in its own column
+            local column1 = GenerateMotifsColumn(craftingData)
+            local column2 = GenerateRecipesColumn(craftingData)
+            local column3 = GenerateResearchColumn(craftingData)
             
-            local craftTypes = {
-                {name = "Provisioning", key = "provisioning", emoji = "🍳"},
-                {name = "Alchemy", key = "alchemy", emoji = "🧪"},
-                {name = "Enchanting", key = "enchanting", emoji = "✨"},
-                {name = "Blacksmithing", key = "blacksmithing", emoji = "⚒️"},
-                {name = "Clothing", key = "clothing", emoji = "🧵"},
-                {name = "Woodworking", key = "woodworking", emoji = "🪵"},
-                {name = "Jewelry", key = "jewelry", emoji = "💎"}
-            }
-            
-            for _, craftType in ipairs(craftTypes) do
-                local recipes = craftingData.recipes[craftType.key]
-                if recipes and #recipes > 0 then
-                    markdown = markdown .. "#### " .. craftType.emoji .. " " .. craftType.name .. " (" .. #recipes .. " recipes)\n\n"
-                    
-                    -- Group recipes by quality
-                    local qualityGroups = {}
-                    for _, recipe in ipairs(recipes) do
-                        local quality = recipe.quality or 1
-                        if not qualityGroups[quality] then
-                            qualityGroups[quality] = {}
-                        end
-                        table.insert(qualityGroups[quality], recipe)
-                    end
-                    
-                    -- Display recipes by quality
-                    for quality = 1, 5 do
-                        if qualityGroups[quality] then
-                            local qualityNames = {"White", "Green", "Blue", "Purple", "Gold"}
-                            local qualityName = qualityNames[quality] or "Unknown"
-                            markdown = markdown .. "**" .. qualityName .. " Quality (" .. #qualityGroups[quality] .. "):**\n"
-                            
-                            for _, recipe in ipairs(qualityGroups[quality]) do
-                                markdown = markdown .. "- " .. recipe.name
-                                if recipe.type and recipe.type ~= "" then
-                                    markdown = markdown .. " (" .. recipe.type .. ")"
-                                end
-                                markdown = markdown .. "\n"
-                            end
-                            markdown = markdown .. "\n"
-                        end
-                    end
-                end
-            end
-        end
-        
-        -- ===== RESEARCH =====
-        if craftingData.research then
-            markdown = markdown .. "### 🔬 Research Progress\n\n"
-            
-            local craftTypes = {
-                {name = "Blacksmithing", key = "blacksmithing", emoji = "⚒️"},
-                {name = "Clothing", key = "clothing", emoji = "🧵"},
-                {name = "Woodworking", key = "woodworking", emoji = "🪵"},
-                {name = "Jewelry", key = "jewelry", emoji = "💎"}
-            }
-            
-            for _, craftType in ipairs(craftTypes) do
-                local researchLines = craftingData.research[craftType.key]
-                if researchLines and #researchLines > 0 then
-                    markdown = markdown .. "#### " .. craftType.emoji .. " " .. craftType.name .. "\n\n"
-                    
-                    for _, line in ipairs(researchLines) do
-                        markdown = markdown .. "**" .. line.name .. ":**\n"
-                        markdown = markdown .. "- Traits: " .. (line.numTraits or 0) .. "\n"
-                        markdown = markdown .. "- Time Required: " .. (line.timeRequired or 0) .. " hours\n"
-                        
-                        if line.traitTimes and #line.traitTimes > 0 then
-                            markdown = markdown .. "- Trait Times: " .. table.concat(line.traitTimes, ", ") .. " hours\n"
-                        end
-                        markdown = markdown .. "\n"
-                    end
-                end
-            end
+            -- Wrap in 3-column layout
+            markdown = markdown .. CreateThreeColumnLayout(column1, column2, column3)
+        else
+            -- Fallback to vertical layout if multi-column not available
+            markdown = markdown .. GenerateMotifsColumn(craftingData) .. "\n"
+            markdown = markdown .. GenerateRecipesColumn(craftingData) .. "\n"
+            markdown = markdown .. GenerateResearchColumn(craftingData) .. "\n"
         end
         
         markdown = markdown .. "---\n\n"

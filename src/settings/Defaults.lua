@@ -19,10 +19,15 @@ function CM.Settings.Defaults:GetAll()
         currentFormat = "github",  -- Default format: github, vscode, discord, quick
         
         -- ====================================
+        -- LAYOUT SETTINGS
+        -- ====================================
+        includeHeader = true,   -- Include character header section
+        includeFooter = true,   -- Include footer section
+        
+        -- ====================================
         -- CORE CONTENT SECTIONS
         -- ====================================
         includeChampionPoints = true,
-        includeChampionDetailed = false,
         includeChampionDiagram = false,  -- Mermaid diagram (GitHub/VSCode only - Mermaid doesn't render in Discord)
         includeSkillBars = true,
         includeSkills = true,

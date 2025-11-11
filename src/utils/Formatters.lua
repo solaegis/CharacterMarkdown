@@ -397,7 +397,6 @@ local function FormatSettingsForExport(settings)
         
         -- Champion Point details
         champion = {
-            includeChampionDetailed = actualSettings.includeChampionDetailed == true,
             includeChampionDiagram = actualSettings.includeChampionDiagram == true,
             includeChampionSlottableOnly = actualSettings.includeChampionSlottableOnly == true,
         },

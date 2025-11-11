@@ -287,6 +287,117 @@ end
 CM.utils.markdown.CreateMultiColumns = CreateMultiColumns
 
 -- =====================================================
+-- CSS GRID MULTI-COLUMN LAYOUTS
+-- =====================================================
+
+--[[
+    Create a 2-column layout using CSS Grid
+    Only works with GitHub/VSCode markdown (not Discord)
+    @param column1 string - Content for first column
+    @param column2 string - Content for second column
+    @param gap string - Gap between columns (default: "20px")
+    @return string - HTML div with CSS Grid
+]]
+local function CreateTwoColumnLayout(column1, column2, gap)
+    if not column1 or not column2 then return (column1 or "") .. (column2 or "") end
+    
+    gap = gap or "20px"
+    
+    return string_format([[
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: %s;">
+<div>
+
+%s
+
+</div>
+<div>
+
+%s
+
+</div>
+</div>
+
+]], gap, column1, column2)
+end
+
+CM.utils.markdown.CreateTwoColumnLayout = CreateTwoColumnLayout
+
+--[[
+    Create a 3-column layout using CSS Grid
+    Only works with GitHub/VSCode markdown (not Discord)
+    @param column1 string - Content for first column
+    @param column2 string - Content for second column
+    @param column3 string - Content for third column
+    @param gap string - Gap between columns (default: "20px")
+    @return string - HTML div with CSS Grid
+]]
+local function CreateThreeColumnLayout(column1, column2, column3, gap)
+    if not column1 and not column2 and not column3 then return "" end
+    
+    -- Handle missing columns gracefully
+    column1 = column1 or ""
+    column2 = column2 or ""
+    column3 = column3 or ""
+    gap = gap or "20px"
+    
+    return string_format([[
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: %s;">
+<div>
+
+%s
+
+</div>
+<div>
+
+%s
+
+</div>
+<div>
+
+%s
+
+</div>
+</div>
+
+]], gap, column1, column2, column3)
+end
+
+CM.utils.markdown.CreateThreeColumnLayout = CreateThreeColumnLayout
+
+--[[
+    Create an N-column responsive layout using CSS Grid with auto-fit
+    Only works with GitHub/VSCode markdown (not Discord)
+    @param columns table - Array of content strings for each column
+    @param minColumnWidth string - Minimum column width (default: "300px")
+    @param gap string - Gap between columns (default: "20px")
+    @return string - HTML div with CSS Grid
+]]
+local function CreateResponsiveColumns(columns, minColumnWidth, gap)
+    if not columns or #columns == 0 then return "" end
+    if #columns == 1 then return columns[1] end
+    
+    minColumnWidth = minColumnWidth or "300px"
+    gap = gap or "20px"
+    
+    local gridStyle = string_format('display: grid; grid-template-columns: repeat(auto-fit, minmax(%s, 1fr)); gap: %s;', minColumnWidth, gap)
+    
+    local parts = {}
+    table.insert(parts, string_format('<div style="%s">\n', gridStyle))
+    
+    for _, content in ipairs(columns) do
+        table.insert(parts, "<div>\n\n")
+        table.insert(parts, content or "")
+        table.insert(parts, "\n\n</div>\n")
+    end
+    
+    table.insert(parts, "</div>\n\n")
+    
+    return table_concat(parts, "")
+end
+
+CM.utils.markdown.CreateResponsiveColumns = CreateResponsiveColumns
+
+-- =====================================================
 -- FANCY BOXES & CARDS
 -- =====================================================
 

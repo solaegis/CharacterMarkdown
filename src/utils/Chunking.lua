@@ -91,6 +91,51 @@ local function IsListLine(line)
     return line:match("^%s*[-*+]%s") ~= nil or line:match("^%s*%d+[.)]%s") ~= nil
 end
 
+-- Helper function to check if a position is inside an HTML block (like <div>)
+local function IsInsideHtmlBlock(markdown, pos)
+    local markdownLen = string.len(markdown)
+    
+    -- Search backwards for opening <div> tags
+    local divStart = nil
+    local searchStart = math.max(1, pos - 5000)  -- Search up to 5000 chars back
+    
+    for i = pos, searchStart, -1 do
+        local substr = string.sub(markdown, i, math.min(markdownLen, i + 4))
+        if substr:match("^<div") then
+            divStart = i
+            break
+        end
+    end
+    
+    -- If we found a <div>, check if we're inside it by finding the closing </div>
+    if divStart then
+        local divEnd = nil
+        local divDepth = 0  -- Track nested divs
+        
+        -- Start from divStart and track nesting
+        for i = divStart, math.min(markdownLen, divStart + 20000) do
+            local openSubstr = string.sub(markdown, i, math.min(markdownLen, i + 4))
+            local closeSubstr = string.sub(markdown, i, math.min(markdownLen, i + 5))
+            
+            if openSubstr:match("^<div") then
+                divDepth = divDepth + 1
+            elseif closeSubstr:match("^</div>") then
+                divDepth = divDepth - 1
+                if divDepth == 0 then
+                    divEnd = i + 5  -- Position after </div>
+                    break
+                end
+            end
+        end
+        
+        if divEnd and pos >= divStart and pos <= divEnd then
+            return true, divStart, divEnd
+        end
+    end
+    
+    return false, nil, nil
+end
+
 -- Helper function to check if a position is inside a Mermaid code block or subgraph
 local function IsInsideMermaidBlock(markdown, pos)
     local markdownLen = string.len(markdown)
@@ -695,8 +740,9 @@ local function SplitMarkdownIntoChunks(markdown)
         -- Recalculate isLastChunk after adjusting for padding
         isLastChunk = (potentialEnd >= markdownLength)
         
-        -- CRITICAL: Check if we're inside a Mermaid block
+        -- CRITICAL: Check if we're inside a Mermaid block or HTML block
         isInsideMermaid, mermaidBlockStart, mermaidBlockEnd = IsInsideMermaidBlock(markdown, potentialEnd)
+        local isInsideHtml, htmlBlockStart, htmlBlockEnd = IsInsideHtmlBlock(markdown, potentialEnd)
         
         if potentialEnd < markdownLength then
             local searchStart = math.max(pos, potentialEnd - 1000)
@@ -926,6 +972,31 @@ local function SplitMarkdownIntoChunks(markdown)
         
         -- Note: Mermaid blocks can be chunked normally (no special restrictions)
         -- Previously we tried to keep subgraphs contiguous, but that's not necessary
+        
+        -- CRITICAL: Check if chunkEnd is inside an HTML block
+        -- If so, backtrack to before the HTML block start
+        if isInsideHtml and htmlBlockStart and htmlBlockEnd then
+            local htmlBlockSize = htmlBlockEnd - htmlBlockStart + 1
+            local structureOverageAllowance = 5000  -- Allow more overage for HTML blocks
+            local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
+            
+            if htmlBlockSize <= effectiveMaxForStructures then
+                -- Can include the whole HTML block - extend to its end
+                chunkEnd = htmlBlockEnd
+                foundNewline = true
+                CM.DebugPrint("CHUNKING", string.format("Chunk %d: Extending to include HTML block at %d (ends at %d)", chunkNum, htmlBlockStart, htmlBlockEnd))
+            else
+                -- HTML block is too large - backtrack to before it
+                for i = htmlBlockStart - 1, math.max(pos, htmlBlockStart - 1000), -1 do
+                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
+                        chunkEnd = (i == pos) and pos or (i - 1)
+                        foundNewline = true
+                        CM.DebugPrint("CHUNKING", string.format("Chunk %d: Backtracked to %d to avoid splitting HTML block", chunkNum, chunkEnd))
+                        break
+                    end
+                end
+            end
+        end
         
         -- CRITICAL: Check if chunkEnd is in the middle of a table or list
         -- NEVER allow chunking in the middle of these structures - always extend to end or backtrack before start

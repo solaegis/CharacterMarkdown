@@ -166,11 +166,11 @@ local function GetSectionRegistry(format, settings, gen, data)
         tostring(settings.includeChampionPoints), type(settings.includeChampionPoints),
         tostring(settings.includeChampionDiagram), type(settings.includeChampionDiagram)))
     return {
-        -- Header (always included, not in TOC)
+        -- Header (controlled by includeHeader setting, not in TOC)
         {
             name = "Header",
             tocEntry = nil,  -- Not in TOC
-            condition = true,
+            condition = IsSettingEnabled(settings, "includeHeader", true),
             generator = function()
                 return gen.GenerateHeader(data.character, data.cp, format)
             end
@@ -239,16 +239,6 @@ local function GetSectionRegistry(format, settings, gen, data)
             end
         },
         
-        -- 3. ⚔️ Equipment & Active Sets (DISABLED - now part of Combat Arsenal)
-        {
-            name = "Equipment",
-            tocEntry = nil,  -- Not in TOC (now integrated into Combat Arsenal)
-            condition = false,  -- Disabled: Equipment is now generated within Combat Arsenal
-            generator = function()
-                return ""
-            end
-        },
-        
         -- 3.5. ⭐ Champion Points (moved before Companion)
         {
             name = "ChampionPoints",
@@ -279,11 +269,6 @@ local function GetSectionRegistry(format, settings, gen, data)
                 local cpResult = gen.GenerateChampionPoints(data.cp, format)
                 CM.DebugPrint("CHAMPION_POINTS", string.format("GenerateChampionPoints returned length: %d", #cpResult))
                 markdown = markdown .. cpResult
-                
-                -- Add detailed analysis if enabled
-                if IsSettingEnabled(currentSettings, "includeChampionDetailed", false) then
-                    markdown = markdown .. gen.GenerateDetailedChampionPoints(data.cp, format)
-                end
                 
                 -- Add Mermaid diagram if enabled (GitHub/VSCode only - Mermaid doesn't render in Discord)
                 local diagramEnabled = IsSettingEnabled(currentSettings, "includeChampionDiagram", false)
@@ -595,91 +580,6 @@ local function GetSectionRegistry(format, settings, gen, data)
                 return gen.GenerateProgression(data.progression, data.cp, format)
             end
         },
-        
-        -- ========================================
-        -- DISABLED SECTIONS (kept for reference)
-        -- ========================================
-        
-        -- Overview section disabled - merged into QuickStats above
-        -- {
-        --     name = "Overview",
-        --     condition = false, -- Disabled: merged into QuickStats
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- Skills - DISABLED: Skill progression is already embedded in Combat Arsenal as collapsible sections
-        {
-            name = "Skills",
-            condition = false,  -- Disabled: duplicates Combat Arsenal character progress
-            generator = function()
-                return ""
-            end
-        },
-        
-        -- Skill Morphs - disabled: now shown as subsection within Equipment section
-        {
-            name = "SkillMorphs",
-            condition = false,  -- Disabled: shown in Equipment section instead
-            generator = function()
-                return ""
-            end
-        },
-        
-        -- Combat Stats - Disabled: Now included in overview section as Stats subsection
-        {
-            name = "CombatStats",
-            condition = false,  -- Disabled: moved to overview section
-            generator = function()
-                return ""
-            end
-        },
-        
-        -- Attributes - disabled (duplicative, info already shown in Quick Stats)
-        {
-            name = "Attributes",
-            condition = false,  -- Disabled: duplicative
-            generator = function()
-                return ""
-            end
-        },
-        
-        -- Armory Builds - disabled per user request
-        {
-            name = "Armory Builds",
-            condition = false,  -- Disabled
-            generator = function()
-                return ""
-            end
-        },
-        
-        -- Titles & Housing - Disabled: Now included in Collectibles section as collapsible subsections
-        -- {
-        --     name = "Titles & Housing",
-        --     condition = false,  -- Disabled: moved to Collectibles
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- DLC Access - Disabled: Now included in Collectibles section as first collapsible
-        -- {
-        --     name = "DLCAccess",
-        --     condition = false,  -- Disabled: moved to Collectibles
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
-        
-        -- PvP section disabled - removed per user request
-        -- {
-        --     name = "PvP",
-        --     condition = false,  -- Disabled
-        --     generator = function()
-        --         return ""
-        --     end
-        -- },
     }
 end
 
@@ -913,13 +813,17 @@ local function GenerateMarkdown(format)
     end
     CM.Info(string.format("=== Total markdown: %d chars ===", #markdown))
     
-    -- Footer (always included)
-    local footerSuccess, footerResult = pcall(gen.GenerateFooter, format, string.len(markdown))
-    if footerSuccess then
-        markdown = markdown .. footerResult
-        CM.DebugPrint("GENERATOR", "✅ Footer generated")
+    -- Footer (controlled by includeFooter setting)
+    if IsSettingEnabled(settings, "includeFooter", true) then
+        local footerSuccess, footerResult = pcall(gen.GenerateFooter, format, string.len(markdown))
+        if footerSuccess then
+            markdown = markdown .. footerResult
+            CM.DebugPrint("GENERATOR", "✅ Footer generated")
+        else
+            CM.Warn(string.format("Failed to generate footer: %s", tostring(footerResult)))
+        end
     else
-        CM.Warn(string.format("Failed to generate footer: %s", tostring(footerResult)))
+        CM.DebugPrint("GENERATOR", "⏭️ Footer skipped (disabled in settings)")
     end
     
     CM.DebugPrint("GENERATOR", string.format("Markdown generation complete: %d bytes", string.len(markdown)))

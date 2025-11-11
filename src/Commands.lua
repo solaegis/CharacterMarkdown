@@ -28,6 +28,7 @@ local function ShowHelp()
     d("  /markdown quick     - Generate quick summary")
     d("  /markdown test      - Run diagnostic + validation tests (comprehensive)")
     d("  /markdown unittest  - Run unit tests for collectors")
+    d("  /markdown multicolumn - Check multi-column layout system status")
     d("  /markdown debug     - Toggle debug mode (current: " .. tostring(CM.debug) .. ")")
     d("  /markdown help      - Show this help")
     d("  /markdown save      - Force save settings to file")
@@ -62,6 +63,49 @@ local function CommandHandler(args)
         else
             CM.Success("Debug mode DISABLED")
         end
+        return
+    end
+    
+    -- Multi-column diagnostic command
+    if args and args:lower():match("^%s*multicolumn") then
+        CM.Info("=== Multi-Column Layout Diagnostic ===")
+        d(" ")
+        
+        -- Check if multi-column functions exist
+        local hasMarkdownUtils = CM.utils and CM.utils.markdown
+        local hasTwoColumn = hasMarkdownUtils and CM.utils.markdown.CreateTwoColumnLayout
+        local hasThreeColumn = hasMarkdownUtils and CM.utils.markdown.CreateThreeColumnLayout
+        
+        if hasMarkdownUtils then
+            CM.Success("✓ CM.utils.markdown is loaded")
+        else
+            CM.Error("✗ CM.utils.markdown is NOT loaded!")
+        end
+        
+        if hasTwoColumn then
+            CM.Success("✓ CreateTwoColumnLayout is available")
+        else
+            CM.Error("✗ CreateTwoColumnLayout is NOT available!")
+        end
+        
+        if hasThreeColumn then
+            CM.Success("✓ CreateThreeColumnLayout is available")
+        else
+            CM.Error("✗ CreateThreeColumnLayout is NOT available!")
+        end
+        
+        d(" ")
+        
+        -- Check section settings
+        local settings = CM.GetSettings()
+        CM.Info("Section Settings:")
+        d(string.format("  includeCrafting: %s", tostring(settings.includeCrafting)))
+        d(string.format("  includeWorldProgress: %s", tostring(settings.includeWorldProgress)))
+        d(string.format("  includePvPStats: %s", tostring(settings.includePvPStats)))
+        d(string.format("  includeChampionPoints: %s", tostring(settings.includeChampionPoints)))
+        
+        d(" ")
+        CM.Info("If multi-column functions are missing, try: /reloadui")
         return
     end
     

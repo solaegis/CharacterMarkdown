@@ -388,14 +388,6 @@ local function GenerateRecommendations(recommendations, format)
     return markdown
 end
 
--- =====================================================
--- MAIN EQUIPMENT ENHANCEMENT GENERATOR
--- =====================================================
-
-local function GenerateEquipmentEnhancement(enhancementData, format)
-    -- Section disabled - return empty string
-    return ""
-end
 
 -- =====================================================
 -- EXPORTS

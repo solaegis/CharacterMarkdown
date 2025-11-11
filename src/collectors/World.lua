@@ -321,29 +321,41 @@ local function CollectSkyshardsData()
         zones = {}
     }
     
-    -- Get current zone
-    local currentZone = GetUnitZone("player")
-    if currentZone and currentZone ~= "" then
-        local success, totalInZone = pcall(GetNumSkyshardsInZone)
-        if success and totalInZone then
-            skyshards.total = totalInZone
-            
-            -- Count collected skyshards in current zone
-            local collected = 0
-            for i = 1, totalInZone do
-                local success2, isCollected = pcall(GetSkyshardCollectedInZone, i)
-                if success2 and isCollected then
-                    collected = collected + 1
+    -- Skyshards are tracked via achievements in ESO
+    -- Scan all achievements for skyshard-related ones
+    local numAchievements = GetNumAchievements() or 0
+    
+    for i = 1, numAchievements do
+        local success, name = pcall(GetAchievementInfo, i)
+        if success and name and (name:find("Skyshard") or name:find("skyshard")) then
+            -- Get achievement criteria (each zone is a criterion)
+            local numCriteria = GetAchievementNumCriteria(i) or 0
+            for j = 1, numCriteria do
+                local criterionSuccess, criterionDesc, numCompleted, numRequired = pcall(GetAchievementCriterion, i, j)
+                if criterionSuccess and numRequired and numRequired > 0 then
+                    -- Extract zone name from criterion description if possible
+                    -- Criterion description format is typically "Zone Name" or "Zone Name Skyshards"
+                    local zoneName = criterionDesc
+                    if zoneName then
+                        -- Clean up the zone name (remove " Skyshards" suffix if present)
+                        zoneName = zoneName:gsub(" Skyshards?$", "")
+                        zoneName = zoneName:gsub(" Skyshard Hunter$", "")
+                        
+                        -- Store zone-specific data
+                        if not skyshards.zones[zoneName] then
+                            skyshards.zones[zoneName] = {
+                                total = numRequired,
+                                collected = numCompleted or 0,
+                                percentage = numRequired > 0 and math.floor(((numCompleted or 0) / numRequired) * 100) or 0
+                            }
+                            
+                            -- Add to totals
+                            skyshards.total = skyshards.total + numRequired
+                            skyshards.collected = skyshards.collected + (numCompleted or 0)
+                        end
+                    end
                 end
             end
-            skyshards.collected = collected
-            
-            -- Store zone-specific data
-            skyshards.zones[currentZone] = {
-                total = totalInZone,
-                collected = collected,
-                percentage = totalInZone > 0 and math.floor((collected / totalInZone) * 100) or 0
-            }
         end
     end
     
@@ -587,47 +599,34 @@ local function CollectDungeonProgressData()
         }
     }
     
-    -- Get current zone for context
-    local currentZone = GetUnitZone("player")
+    -- Dungeons are tracked via achievements - scan all achievements
+    local numAchievements = GetNumAchievements() or 0
     
-    -- Try to get delve information
-    local success, numDelves = pcall(GetNumDelvesInZone)
-    if success and numDelves then
-        dungeons.delves.total = numDelves
-        
-        for i = 1, numDelves do
-            local success2, delveName, isCompleted = pcall(GetDelveInfo, i)
-            if success2 and delveName then
-                if isCompleted then
-                    dungeons.delves.completed = dungeons.delves.completed + 1
+    for i = 1, numAchievements do
+        local success, name = pcall(GetAchievementInfo, i)
+        if success and name then
+            -- Look for Cave Delver achievements (e.g., "Bangkorai Cave Delver", "Pact Cave Delver")
+            if name:find("Cave Delver") then
+                local numCriteria = GetAchievementNumCriteria(i) or 0
+                for j = 1, numCriteria do
+                    local criterionSuccess, criterionDesc, numCompleted, numRequired = pcall(GetAchievementCriterion, i, j)
+                    if criterionSuccess and numRequired and numRequired > 0 then
+                        dungeons.delves.total = dungeons.delves.total + numRequired
+                        dungeons.delves.completed = dungeons.delves.completed + (numCompleted or 0)
+                    end
                 end
-                
-                table.insert(dungeons.delves.list, {
-                    name = delveName,
-                    completed = isCompleted or false,
-                    zone = currentZone
-                })
             end
-        end
-    end
-    
-    -- Try to get public dungeon information
-    local success3, numPublicDungeons = pcall(GetNumPublicDungeonsInZone)
-    if success3 and numPublicDungeons then
-        dungeons.publicDungeons.total = numPublicDungeons
-        
-        for i = 1, numPublicDungeons do
-            local success4, dungeonName, isCompleted = pcall(GetPublicDungeonInfo, i)
-            if success4 and dungeonName then
-                if isCompleted then
-                    dungeons.publicDungeons.completed = dungeons.publicDungeons.completed + 1
+            
+            -- Look for Public Dungeon achievements
+            if name:find("Group Event") or name:find("Vanquisher") then
+                local numCriteria = GetAchievementNumCriteria(i) or 0
+                for j = 1, numCriteria do
+                    local criterionSuccess, criterionDesc, numCompleted, numRequired = pcall(GetAchievementCriterion, i, j)
+                    if criterionSuccess and numRequired and numRequired > 0 then
+                        dungeons.publicDungeons.total = dungeons.publicDungeons.total + numRequired
+                        dungeons.publicDungeons.completed = dungeons.publicDungeons.completed + (numCompleted or 0)
+                    end
                 end
-                
-                table.insert(dungeons.publicDungeons.list, {
-                    name = dungeonName,
-                    completed = isCompleted or false,
-                    zone = currentZone
-                })
             end
         end
     end

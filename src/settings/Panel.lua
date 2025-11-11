@@ -105,6 +105,7 @@ function CM.Settings.Panel:BuildOptionsData()
     self:AddActions(options)  -- FIRST: Quick actions and controls
     self:AddFormatSection(options)
     self:AddCustomNotes(options)
+    self:AddLayoutSection(options)  -- Layout options (Header/Footer)
     self:AddCombatBuildSection(options)  -- Combat & Build
     self:AddCharacterIdentitySection(options)  -- Character Identity & Progression
     self:AddEconomyResourcesSection(options)  -- Economy & Resources
@@ -175,6 +176,46 @@ function CM.Settings.Panel:AddFormatSection(options)
 end
 
 -- =====================================================
+-- LAYOUT SECTION
+-- =====================================================
+
+function CM.Settings.Panel:AddLayoutSection(options)
+    table.insert(options, {
+        type = "header",
+        name = "Layout",
+        width = "full",
+    })
+    
+    table.insert(options, {
+        type = "description",
+        text = "Control which structural elements appear in your markdown output.",
+        width = "full",
+    })
+    
+    -- Header
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Header",
+        tooltip = "Show character name, level, CP, class, and alliance at the top of the markdown.",
+        getFunc = function() return CharacterMarkdownSettings.includeHeader end,
+        setFunc = function(value) CharacterMarkdownSettings.includeHeader = value end,
+        width = "half",
+        default = true,
+    })
+    
+    -- Footer
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Footer",
+        tooltip = "Show format badge, size, and generation date at the bottom of the markdown.",
+        getFunc = function() return CharacterMarkdownSettings.includeFooter end,
+        setFunc = function(value) CharacterMarkdownSettings.includeFooter = value end,
+        width = "half",
+        default = true,
+    })
+end
+
+-- =====================================================
 -- COMBAT & BUILD SECTION
 -- =====================================================
 
@@ -208,17 +249,6 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         tooltip = "Show a Mermaid diagram visualizing your invested Champion Points with prerequisite relationships (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. Uses cluster API to discover skill relationships.",
         getFunc = function() return CharacterMarkdownSettings.includeChampionDiagram end,
         setFunc = function(value) CharacterMarkdownSettings.includeChampionDiagram = value end,
-        disabled = function() return not CharacterMarkdownSettings.includeChampionPoints end,
-        width = "half",
-        default = false,
-    })
-    
-    table.insert(options, {
-        type = "checkbox",
-        name = "    Detailed CP Analysis",
-        tooltip = "Show detailed Champion Point allocation analysis including slottable vs passive breakdown, investment levels, and optimization suggestions.",
-        getFunc = function() return CharacterMarkdownSettings.includeChampionDetailed end,
-        setFunc = function(value) CharacterMarkdownSettings.includeChampionDetailed = value end,
         disabled = function() return not CharacterMarkdownSettings.includeChampionPoints end,
         width = "half",
         default = false,
@@ -963,10 +993,13 @@ function CM.Settings.Panel:AddActions(options)
     local function ToggleAllSections(enable)
         local value = enable == true
         
+        -- LAYOUT
+        CharacterMarkdownSettings.includeHeader = value
+        CharacterMarkdownSettings.includeFooter = value
+        
         -- COMBAT & BUILD
         CharacterMarkdownSettings.includeChampionPoints = value
         CharacterMarkdownSettings.includeChampionDiagram = value
-        CharacterMarkdownSettings.includeChampionDetailed = value
         CharacterMarkdownSettings.includeSkillBars = value
         CharacterMarkdownSettings.includeSkills = value
         CharacterMarkdownSettings.includeSkillMorphs = value
