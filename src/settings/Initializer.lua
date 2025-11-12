@@ -296,9 +296,10 @@ function CM.Settings.Initializer:SaveProfile(profileName, includeNotes)
         version = CM.version,
     }
 
-    -- Copy all settings (except meta fields)
+    -- Copy all settings (except meta fields and per-character data)
     local excludeKeys = {
         profiles = true,
+        perCharacterData = true, -- Don't copy per-character data to profiles
         activeProfile = true,
         settingsVersion = true,
         _initialized = true,
@@ -437,9 +438,10 @@ function CM.Settings.Initializer:ExportSettings()
         settings = {},
     }
 
-    -- Copy all settings except meta fields
+    -- Copy all settings except meta fields and structural data
     local excludeKeys = {
         profiles = true, -- Don't export profiles
+        perCharacterData = true, -- Don't export all characters' data (export current character separately)
         settingsVersion = true,
         _initialized = true,
         _lastModified = true,
@@ -580,19 +582,27 @@ function CM.Settings.Initializer:ResetToDefaults()
     CM.Info("Resetting all settings to defaults...")
 
     local defaults = CM.Settings.Defaults:GetAll()
+    
+    -- Preserve per-character data before reset (don't wipe other characters' data)
+    local preservedPerCharData = CM.settings.perCharacterData
 
     -- Apply defaults
     for key, value in pairs(defaults) do
         CM.settings[key] = value
     end
+    
+    -- Restore per-character data (preserve all characters' custom titles/notes)
+    CM.settings.perCharacterData = preservedPerCharData or {}
 
     -- Reset version
     CM.settings.settingsVersion = 1
     CM.settings.activeProfile = "Custom"
 
-    -- Reset character notes
+    -- Optionally clear CURRENT character's custom data
     if CM.charData then
         CM.charData.customNotes = ""
+        CM.charData.customTitle = ""
+        CM.charData.playStyle = ""
     end
 
     -- Sync format to core
@@ -600,5 +610,5 @@ function CM.Settings.Initializer:ResetToDefaults()
 
     CM.settings._lastModified = GetTimeStamp()
 
-    CM.Success("All settings reset to defaults")
+    CM.Success("All settings reset to defaults (per-character data preserved)")
 end

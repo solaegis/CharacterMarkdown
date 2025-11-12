@@ -434,18 +434,11 @@ local function InitializeSavedVariables()
         CharacterMarkdownSettings = _G.CharacterMarkdownSettings
         CM.DebugPrint("SAVEDVARS", "CharacterMarkdownSettings found in _G")
     end
-    if not CharacterMarkdownData and _G.CharacterMarkdownData then
-        CharacterMarkdownData = _G.CharacterMarkdownData
-        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownData found in _G")
-    end
 
     -- Don't create temporary tables - wait for proper initialization in Events.lua
     -- This prevents race conditions where temporary tables might interfere with real SavedVariables
     if not CharacterMarkdownSettings then
         CM.DebugPrint("SAVEDVARS", "CharacterMarkdownSettings not yet available - will initialize in Events.lua")
-    end
-    if not CharacterMarkdownData then
-        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownData not yet available - will initialize in Events.lua")
     end
 end
 
