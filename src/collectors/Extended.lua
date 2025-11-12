@@ -10,10 +10,10 @@ local CM = CharacterMarkdown
 
 local function CollectMailData()
     local mail = {}
-    
+
     mail.count = GetNumMail() or 0
     mail.unread = 0
-    
+
     -- Count unread mail
     for i = 1, mail.count do
         local _, _, _, _, unread = GetMailItemInfo(i)
@@ -21,7 +21,7 @@ local function CollectMailData()
             mail.unread = mail.unread + 1
         end
     end
-    
+
     return mail
 end
 
@@ -33,7 +33,7 @@ CM.collectors.CollectMailData = CollectMailData
 
 local function CollectGuildData()
     local guilds = {}
-    
+
     -- Cached globals - standard ESO APIs
     local GetNumGuilds = GetNumGuilds
     local GetGuildId = GetGuildId
@@ -43,29 +43,29 @@ local function CollectGuildData()
     local GetGuildRankCustomName = GetGuildRankCustomName
     local GetDisplayName = GetDisplayName
     local GetAllianceName = GetAllianceName
-    
+
     -- Get number of guilds
     local numGuilds = CM.SafeCall(GetNumGuilds)
-    
+
     if not numGuilds or numGuilds == 0 then
         -- No guilds
         return guilds
     end
-    
+
     -- Loop through guild indices (1 to numGuilds) and get the actual guild ID
     for i = 1, numGuilds do
         -- Get the actual guild ID for this index
         local guildId = CM.SafeCall(GetGuildId, i)
-        
+
         if guildId then
             -- Get guild name using the actual guild ID
             local guildName = CM.SafeCall(GetGuildName, guildId)
-            
+
             -- Skip if we can't get a guild name
             if guildName and guildName ~= "" then
                 -- Get number of members using the actual guild ID
                 local numMembers = CM.SafeCall(GetNumGuildMembers, guildId) or 0
-                
+
                 -- Get guild alliance (if available)
                 local guildAlliance = nil
                 local GetGuildAllianceFunc = rawget(_G, "GetGuildAlliance")
@@ -75,17 +75,18 @@ local function CollectGuildData()
                         guildAlliance = alliance
                     end
                 end
-                
+
                 -- Get player's rank info using GetGuildMemberInfo (the correct API function)
                 -- Returns: displayName, note, rankIndex, playerStatus, secsSinceLogoff
                 local rankName = "Member"
-                
+
                 local displayName = CM.SafeCall(GetDisplayName) or ""
                 if displayName and displayName ~= "" and numMembers > 0 then
                     -- Search through guild members to find the player
                     -- Note: GetGuildMemberInfo returns multiple values, so we must use pcall
                     for memberIndex = 1, numMembers do
-                        local success, memberDisplayName, note, rankIndex, playerStatus, secsSinceLogoff = pcall(GetGuildMemberInfo, guildId, memberIndex)
+                        local success, memberDisplayName, note, rankIndex, playerStatus, secsSinceLogoff =
+                            pcall(GetGuildMemberInfo, guildId, memberIndex)
                         if success and memberDisplayName == displayName and rankIndex then
                             -- Found the player! Now get the rank name using GetGuildRankCustomName
                             local rankNameResult = CM.SafeCall(GetGuildRankCustomName, guildId, rankIndex)
@@ -97,7 +98,7 @@ local function CollectGuildData()
                         end
                     end
                 end
-                
+
                 local allianceName = "Cross-Alliance"
                 if guildAlliance then
                     local nameResult = CM.SafeCall(GetAllianceName, guildAlliance)
@@ -105,19 +106,19 @@ local function CollectGuildData()
                         allianceName = nameResult
                     end
                 end
-                
+
                 table.insert(guilds, {
                     name = guildName,
                     memberCount = numMembers,
                     rank = rankName,
                     alliance = allianceName,
                     guildId = guildId,
-                    index = i
+                    index = i,
                 })
             end
         end
     end
-    
+
     return guilds
 end
 
@@ -129,11 +130,11 @@ CM.collectors.CollectGuildData = CollectGuildData
 
 local function CollectBountyData()
     local bounty = {}
-    
+
     bounty.amount = GetBounty() or 0
     bounty.infamy = GetInfamy() or 0
     bounty.heatLevel = bounty.amount > 0 and "Active" or "Clean"
-    
+
     -- Determine bounty severity
     if bounty.amount == 0 then
         bounty.severity = "None"
@@ -144,7 +145,7 @@ local function CollectBountyData()
     else
         bounty.severity = "High"
     end
-    
+
     return bounty
 end
 
@@ -156,16 +157,17 @@ CM.collectors.CollectBountyData = CollectBountyData
 
 local function CollectCharacterAgeData()
     local age = {}
-    
+
     -- Get current timestamp
     local currentTime = GetTimeStamp()
-    
+
     -- Character creation timestamp (from savedvariables if available)
     if CharacterMarkdownData and CharacterMarkdownData.characterCreated then
         age.createdTimestamp = CharacterMarkdownData.characterCreated
         age.ageSeconds = currentTime - age.createdTimestamp
         age.ageDays = math.floor(age.ageSeconds / 86400)
-        age.ageReadable = FormatTimeSeconds(age.ageSeconds, TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL, TIME_FORMAT_PRECISION_TWELVE_HOUR)
+        age.ageReadable =
+            FormatTimeSeconds(age.ageSeconds, TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL, TIME_FORMAT_PRECISION_TWELVE_HOUR)
     else
         -- First time tracking - store creation time (approximate)
         CharacterMarkdownData = CharacterMarkdownData or {}
@@ -175,7 +177,7 @@ local function CollectCharacterAgeData()
         age.ageDays = 0
         age.ageReadable = "Just created"
     end
-    
+
     return age
 end
 
@@ -187,19 +189,19 @@ CM.collectors.CollectCharacterAgeData = CollectCharacterAgeData
 
 local function CollectQuestData()
     local quests = {}
-    
+
     local numQuests = GetNumJournalQuests() or 0
     quests.activeCount = numQuests
     quests.active = {}
-    
+
     local settings = CharacterMarkdownSettings or {}
-    local maxQuests = settings.maxQuestsToShow or 5  -- Configurable limit
-    
+    local maxQuests = settings.maxQuestsToShow or 5 -- Configurable limit
+
     for i = 1, math.min(numQuests, maxQuests) do
         local success, questInfo = pcall(function()
             local questName, _, _, _, _, _, questLevel, questType = GetJournalQuestInfo(i)
             local stepText, _, stepTracker = GetJournalQuestStepInfo(i, 1)
-            
+
             return {
                 name = questName or "Unknown Quest",
                 level = questLevel or 0,
@@ -207,12 +209,12 @@ local function CollectQuestData()
                 currentStep = stepText or "",
             }
         end)
-        
+
         if success and questInfo then
             table.insert(quests.active, questInfo)
         end
     end
-    
+
     return quests
 end
 
@@ -224,28 +226,28 @@ CM.collectors.CollectQuestData = CollectQuestData
 
 local function CollectResearchData()
     local research = {}
-    
+
     local craftingTypes = {
         [CRAFTING_TYPE_BLACKSMITHING] = "Blacksmithing",
         [CRAFTING_TYPE_CLOTHIER] = "Clothier",
         [CRAFTING_TYPE_WOODWORKING] = "Woodworking",
         [CRAFTING_TYPE_JEWELRYCRAFTING] = "Jewelry Crafting",
     }
-    
+
     research.active = {}
     research.totalActive = 0
-    
+
     for craftingType, craftingName in pairs(craftingTypes) do
         local numLines = GetNumSmithingResearchLines(craftingType) or 0
-        
+
         for lineIndex = 1, numLines do
             local name, icon = GetSmithingResearchLineInfo(craftingType, lineIndex)
             local numTraits = GetNumSmithingResearchLineTraits(craftingType, lineIndex) or 0
-            
+
             for traitIndex = 1, numTraits do
                 local traitType, _, known = GetSmithingResearchLineTraitInfo(craftingType, lineIndex, traitIndex)
                 local duration, timeRemaining = GetSmithingResearchLineTraitTimes(craftingType, lineIndex, traitIndex)
-                
+
                 if not known and duration and duration > 0 and timeRemaining and timeRemaining > 0 then
                     table.insert(research.active, {
                         craft = craftingName,
@@ -259,7 +261,7 @@ local function CollectResearchData()
             end
         end
     end
-    
+
     return research
 end
 
@@ -271,20 +273,20 @@ CM.collectors.CollectResearchData = CollectResearchData
 
 local function CollectDyeData()
     local dyes = {}
-    
+
     local numDyes = GetNumDyes() or 0
     dyes.total = numDyes
     dyes.unlocked = 0
-    
+
     for dyeIndex = 1, numDyes do
         local dyeId = GetDyeId(dyeIndex)
         if IsPlayerDyeUnlocked(dyeId) then
             dyes.unlocked = dyes.unlocked + 1
         end
     end
-    
+
     dyes.percent = numDyes > 0 and math.floor((dyes.unlocked / numDyes) * 100) or 0
-    
+
     return dyes
 end
 
@@ -296,11 +298,11 @@ CM.collectors.CollectDyeData = CollectDyeData
 
 local function CollectMotifData()
     local motifs = {}
-    
+
     motifs.knownChapters = 0
     motifs.totalChapters = 0
     motifs.byStyle = {}
-    
+
     local settings = CharacterMarkdownSettings or {}
     if not settings.includeMotifDetailed then
         -- Just count totals
@@ -310,7 +312,7 @@ local function CollectMotifData()
             if styleId then
                 local numChapters = GetNumSmithingPatterns(styleId) or 0
                 motifs.totalChapters = motifs.totalChapters + numChapters
-                
+
                 for chapterIndex = 1, numChapters do
                     if IsSmithingPatternKnown(chapterIndex, styleId) then
                         motifs.knownChapters = motifs.knownChapters + 1
@@ -327,13 +329,13 @@ local function CollectMotifData()
                 local styleName = GetItemStyleName(styleId)
                 local numChapters = GetNumSmithingPatterns(styleId) or 0
                 local knownCount = 0
-                
+
                 for chapterIndex = 1, numChapters do
                     if IsSmithingPatternKnown(chapterIndex, styleId) then
                         knownCount = knownCount + 1
                     end
                 end
-                
+
                 if knownCount > 0 then
                     table.insert(motifs.byStyle, {
                         name = styleName,
@@ -341,16 +343,15 @@ local function CollectMotifData()
                         total = numChapters,
                     })
                 end
-                
+
                 motifs.knownChapters = motifs.knownChapters + knownCount
                 motifs.totalChapters = motifs.totalChapters + numChapters
             end
         end
     end
-    
-    motifs.percent = motifs.totalChapters > 0 and 
-        math.floor((motifs.knownChapters / motifs.totalChapters) * 100) or 0
-    
+
+    motifs.percent = motifs.totalChapters > 0 and math.floor((motifs.knownChapters / motifs.totalChapters) * 100) or 0
+
     return motifs
 end
 
@@ -362,17 +363,17 @@ CM.collectors.CollectMotifData = CollectMotifData
 
 local function CollectRecipeData()
     local recipes = {}
-    
+
     recipes.known = 0
     recipes.total = 0
-    
+
     local numRecipeLists = GetNumRecipeLists() or 0
-    
+
     for recipeListIndex = 1, numRecipeLists do
         local recipeListName, numRecipes = GetRecipeListInfo(recipeListIndex)
         if numRecipes then
             recipes.total = recipes.total + numRecipes
-            
+
             for recipeIndex = 1, numRecipes do
                 local known = GetRecipeInfo(recipeListIndex, recipeIndex)
                 if known then
@@ -381,10 +382,9 @@ local function CollectRecipeData()
             end
         end
     end
-    
-    recipes.percent = recipes.total > 0 and 
-        math.floor((recipes.known / recipes.total) * 100) or 0
-    
+
+    recipes.percent = recipes.total > 0 and math.floor((recipes.known / recipes.total) * 100) or 0
+
     return recipes
 end
 
@@ -396,19 +396,19 @@ CM.collectors.CollectRecipeData = CollectRecipeData
 
 local function CollectSoulGemData()
     local soulGems = {}
-    
+
     soulGems.filled = 0
     soulGems.empty = 0
-    
+
     local numSlots = GetBagSize(BAG_BACKPACK) or 0
-    
+
     for slotIndex = 0, numSlots - 1 do
         local itemType = GetItemType(BAG_BACKPACK, slotIndex)
-        
+
         if itemType == ITEMTYPE_SOUL_GEM then
             local stackCount = GetSlotStackSize(BAG_BACKPACK, slotIndex)
             local itemLink = GetItemLink(BAG_BACKPACK, slotIndex)
-            
+
             -- Check if filled (contains "Filled" in name typically)
             local itemName = GetItemLinkName(itemLink)
             if itemName and itemName:find("Filled") then
@@ -418,7 +418,7 @@ local function CollectSoulGemData()
             end
         end
     end
-    
+
     return soulGems
 end
 
@@ -430,17 +430,17 @@ CM.collectors.CollectSoulGemData = CollectSoulGemData
 
 local function CollectFriendsData()
     local friends = {}
-    
+
     friends.total = GetNumFriends() or 0
     friends.online = 0
-    
+
     for i = 1, friends.total do
         local _, _, online = GetFriendInfo(i)
         if online then
             friends.online = friends.online + 1
         end
     end
-    
+
     return friends
 end
 
@@ -452,12 +452,12 @@ CM.collectors.CollectFriendsData = CollectFriendsData
 
 local function CollectSkyshardsData()
     local skyshards = {}
-    
+
     -- Get skyshard achievement data
     local numAchievements = GetNumAchievements() or 0
     skyshards.collected = 0
     skyshards.total = 0
-    
+
     -- Scan for skyshard-related achievements
     for i = 1, numAchievements do
         local name = GetAchievementInfo(i)
@@ -472,9 +472,9 @@ local function CollectSkyshardsData()
             end
         end
     end
-    
+
     skyshards.skillPointsEarned = math.floor(skyshards.collected / 3)
-    
+
     return skyshards
 end
 

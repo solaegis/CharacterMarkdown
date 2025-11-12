@@ -30,9 +30,9 @@ end
 
 -- Validate critical functions
 local criticalFunctions = {
-    {name = "CommandHandler", ref = CM.commands.CommandHandler},
-    {name = "GenerateMarkdown", ref = CM.generators.GenerateMarkdown},
-    {name = "CollectCharacterData", ref = CM.collectors.CollectCharacterData},
+    { name = "CommandHandler", ref = CM.commands.CommandHandler },
+    { name = "GenerateMarkdown", ref = CM.generators.GenerateMarkdown },
+    { name = "CollectCharacterData", ref = CM.collectors.CollectCharacterData },
 }
 
 for _, func in ipairs(criticalFunctions) do
@@ -56,6 +56,14 @@ end
 if allValid then
     CM.Success("CharacterMarkdown v" .. CM.version .. " loaded successfully")
     CM.Success("Type /markdown to generate a character profile")
+
+    -- Check for optional dependencies and inform user
+    if not LibDebugLogger then
+        d(
+            "|cFFFF00[CharacterMarkdown] INFO:|r LibDebugLogger not installed - diagnostic logging will show in chat instead"
+        )
+        d("|cFFFF00[CharacterMarkdown] INFO:|r For cleaner chat, install LibDebugLogger from ESOUI.com")
+    end
 else
     CM.Error("Initialization completed with errors")
 end

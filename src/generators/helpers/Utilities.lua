@@ -26,11 +26,11 @@ local function GetSkillStatusEmoji(rank, progress)
     if rank >= 50 or progress >= 100 then
         return "✅"
     elseif rank >= 40 or progress >= 80 then
-        return "🟠"     -- Changed from 🔶 (orange diamond) to 🟠 (orange circle - more widely supported)
+        return "🟠" -- Changed from 🔶 (orange diamond) to 🟠 (orange circle - more widely supported)
     elseif rank >= 20 or progress >= 40 then
         return "📈"
     else
-        return "🔰"     -- Keeping 🔰 (widely supported in modern systems)
+        return "🔰" -- Keeping 🔰 (widely supported in modern systems)
     end
 end
 
@@ -45,6 +45,92 @@ local function Pluralize(count, singular, plural)
 end
 
 -- =====================================================
+-- SECTION GENERATOR HELPERS
+-- =====================================================
+
+-- Generate section header with anchor
+-- @param name: Section name (e.g., "Champion Points")
+-- @param emoji: Optional emoji prefix (e.g., "⭐")
+-- @param format: Output format ("github", "vscode", "discord", "quick")
+-- @return: Formatted header string
+local function GenerateSectionHeader(name, emoji, format)
+    if format == "discord" then
+        local header = "**" .. name .. ":**"
+        if emoji then
+            header = emoji .. " " .. header
+        end
+        return header .. "\n"
+    else
+        -- GitHub/VSCode format with anchor
+        local markdown = CM.utils and CM.utils.markdown
+        local anchorId = markdown and markdown.GenerateAnchor and markdown.GenerateAnchor(name)
+            or name:lower():gsub("[^%w]+", "-")
+        local header = ""
+        if anchorId then
+            header = string.format('<a id="%s"></a>\n\n', anchorId)
+        end
+        local title = name
+        if emoji then
+            title = emoji .. " " .. title
+        end
+        header = header .. "## " .. title .. "\n\n"
+        return header
+    end
+end
+
+-- Handle empty data case with consistent messaging
+-- @param message: Message to display when data is empty
+-- @param format: Output format
+-- @param sectionName: Optional section name for header
+-- @param emoji: Optional emoji for header
+-- @return: Formatted empty state message
+local function HandleEmptyData(message, format, sectionName, emoji)
+    if format == "discord" then
+        local header = ""
+        if sectionName then
+            header = "**" .. sectionName .. ":**\n"
+            if emoji then
+                header = emoji .. " " .. header
+            end
+        end
+        return header .. "*" .. message .. "*\n\n"
+    else
+        local header = ""
+        if sectionName then
+            local markdown = CM.utils and CM.utils.markdown
+            local anchorId = markdown and markdown.GenerateAnchor and markdown.GenerateAnchor(sectionName)
+                or sectionName:lower():gsub("[^%w]+", "-")
+            if anchorId then
+                header = string.format('<a id="%s"></a>\n\n', anchorId)
+            end
+            local title = sectionName
+            if emoji then
+                title = emoji .. " " .. title
+            end
+            header = header .. "## " .. title .. "\n\n"
+        end
+        return header .. "*" .. message .. "*\n\n---\n\n"
+    end
+end
+
+-- Format section footer (separator)
+-- @param format: Output format
+-- @return: Footer separator string
+local function FormatSectionFooter(format)
+    if format == "discord" then
+        return "\n"
+    else
+        -- Use CreateSeparator for consistent separator styling
+        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+        if CreateSeparator then
+            return CreateSeparator("hr")
+        else
+            return "---\n\n"
+        end
+    end
+end
+
+-- =====================================================
 -- EXPORTS
 -- =====================================================
 
@@ -52,4 +138,6 @@ CM.generators.helpers = CM.generators.helpers or {}
 CM.generators.helpers.GenerateProgressBar = GenerateProgressBar
 CM.generators.helpers.GetSkillStatusEmoji = GetSkillStatusEmoji
 CM.generators.helpers.Pluralize = Pluralize
-
+CM.generators.helpers.GenerateSectionHeader = GenerateSectionHeader
+CM.generators.helpers.HandleEmptyData = HandleEmptyData
+CM.generators.helpers.FormatSectionFooter = FormatSectionFooter

@@ -33,16 +33,17 @@ tasks:
     silent: true
 
   # =============================================================================
-  # DEPENDENCY INSTALLATION
+  # SETUP & DEPENDENCIES
   # =============================================================================
   
-  install:deps:
-    desc: Install development dependencies (LuaJIT, Luacheck, pre-commit)
+  setup:deps:
+    desc: Install development dependencies (LuaJIT, Luacheck, StyLua, pre-commit)
     cmds:
       - echo "📦 Installing development dependencies..."
       - brew list luajit &>/dev/null || brew install luajit
       - brew list luarocks &>/dev/null || brew install luarocks
       - luarocks list luacheck | grep -q luacheck || luarocks install luacheck
+      - brew list stylua &>/dev/null || brew install stylua
       - command -v pre-commit &>/dev/null || brew install pre-commit
       - pre-commit install
       - echo "✅ Dependencies installed successfully"
@@ -50,200 +51,100 @@ tasks:
       - echo "Installed:"
       - luajit -v
       - luacheck --version
+      - stylua --version
       - pre-commit --version
-
-  # =============================================================================
-  # ESO INSTALLATION TASKS
-  # =============================================================================
-  
-  install:live:
-    desc: Install addon to ESO Live client (copy)
-    cmds:
-      - |
-        echo "📥 Installing {{.ADDON_NAME}} to ESO Live..."
-        mkdir -p "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
-        
-        # Copy manifest (.addon format)
-        cp {{.MANIFEST_FILE}} "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
-        
-        # Copy other core files
-        cp {{.ADDON_NAME}}.xml "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
-        
-        # Copy assets directory if exists
-        if [ -d "assets" ]; then
-          cp -r assets/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/assets/"
-          echo "  ✓ Copied assets/"
-        fi
-        
-        # Copy source files
-        cp -r {{.SRC_DIR}}/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
-        echo "  ✓ Copied {{.SRC_DIR}}/"
-        
-        # Copy optional documentation files
-        if [ -f "README.md" ]; then
-          cp README.md "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
-          echo "  ✓ Copied README.md"
-        fi
-        
-        if [ -f "LICENSE" ]; then
-          cp LICENSE "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
-          echo "  ✓ Copied LICENSE"
-        fi
-        
-        echo "✅ Installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-    silent: true
-
-  install:pts:
-    desc: Install addon to ESO PTS client (copy)
-    cmds:
-      - |
-        echo "📥 Installing {{.ADDON_NAME}} to ESO PTS..."
-        mkdir -p "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
-        
-        # Copy manifest
-        cp {{.MANIFEST_FILE}} "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
-        
-        # Copy other core files
-        cp {{.ADDON_NAME}}.xml "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
-        
-        # Copy assets directory if exists
-        if [ -d "assets" ]; then
-          cp -r assets/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/assets/"
-          echo "  ✓ Copied assets/"
-        fi
-        
-        # Copy settings directory if exists
-        if [ -d "settings" ]; then
-          cp -r settings/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/settings/"
-          echo "  ✓ Copied settings/"
-        fi
-        
-        # Copy source files
-        cp -r {{.SRC_DIR}}/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
-        echo "  ✓ Copied {{.SRC_DIR}}/"
-        
-        # Copy optional documentation files
-        if [ -f "README.md" ]; then
-          cp README.md "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
-          echo "  ✓ Copied README.md"
-        fi
-        
-        if [ -f "LICENSE" ]; then
-          cp LICENSE "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
-          echo "  ✓ Copied LICENSE"
-        fi
-        
-        echo "✅ Installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
-    silent: true
-
-  install:dev:
-    desc: Install addon as symlink for live development
-    cmds:
-      - |
-        echo "🔗 Creating development symlink..."
-        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-        ln -s "{{.PWD}}" "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-        echo "✅ Development symlink created"
-        echo "   Edit files here, use /reloadui in-game to test"
-    silent: true
-
-  install:built:
-    desc: Install built/validated files to ESO Live client
-    deps: [build]
-    cmds:
-      - |
-        echo "📦 Installing built {{.ADDON_NAME}} to ESO Live..."
-        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-        cp -r "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-        echo "✅ Built addon installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-        echo "   Files validated and ready for testing"
-    silent: true
-
-  install:built:pts:
-    desc: Install built/validated files to ESO PTS client
-    deps: [build]
-    cmds:
-      - |
-        echo "📦 Installing built {{.ADDON_NAME}} to ESO PTS..."
-        rm -rf "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
-        cp -r "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
-        echo "✅ Built addon installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
-        echo "   Files validated and ready for testing"
-    silent: true
-
-  uninstall:live:
-    desc: Remove addon from ESO Live client
-    cmds:
-      - |
-        echo "🗑️  Removing {{.ADDON_NAME}} from ESO Live..."
-        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-        echo "✅ Uninstalled from Live"
-    silent: true
-
-  uninstall:pts:
-    desc: Remove addon from ESO PTS client
-    cmds:
-      - |
-        echo "🗑️  Removing {{.ADDON_NAME}} from ESO PTS..."
-        rm -rf "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
-        echo "✅ Uninstalled from PTS"
-    silent: true
-
-  uninstall:dev:
-    desc: Remove development symlink and install normally
-    cmds:
-      - |
-        echo "🗑️  Removing development symlink..."
-        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
-        echo "✅ Symlink removed"
-        echo ""
-      - task: install:live
-    silent: true
-
-  clean:savedvars:
-    desc: Remove saved variables file for clean reinstall
-    cmds:
-      - |
-        echo "🗑️  Removing saved variables..."
-        if [ -f "{{.ESO_LIVE_SAVEDVARS}}/{{.ADDON_NAME}}.lua" ]; then
-          rm -f "{{.ESO_LIVE_SAVEDVARS}}/{{.ADDON_NAME}}.lua"
-          echo "✅ Saved variables removed"
-        else
-          echo "ℹ️  No saved variables file found"
-        fi
     silent: true
 
   # =============================================================================
-  # VALIDATION & LINTING
+  # DEVELOPMENT WORKFLOW
   # =============================================================================
   
-  lint:
+  dev:start:
+    desc: Start development mode (symlink + watch)
+    cmds:
+      - task: install:dev
+      - echo ""
+      - echo "🔥 Development mode active!"
+      - echo "  - Edit files in this directory"
+      - echo "  - Use /reloadui in ESO to test changes"
+      - echo "  - Press Ctrl+C to stop watching"
+      - echo ""
+      - task: dev:watch
+    silent: true
+
+  dev:watch:
+    desc: Watch for file changes (requires fswatch)
+    cmds:
+      - |
+        if ! command -v fswatch &> /dev/null; then
+          echo "⚠️  fswatch not installed. Install with: brew install fswatch"
+          exit 1
+        fi
+        echo "👀 Watching for changes..."
+        fswatch -o {{.ADDON_NAME}}.xml {{.SRC_DIR}}/ | while read; do
+          echo "[$(date +%H:%M:%S)] Files changed - use /reloadui in ESO"
+        done
+    silent: true
+
+  dev:lint:
     desc: Run Luacheck on all Lua files
     cmds:
       - |
         echo "🔍 Running Luacheck..."
         luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --ignore 212 || true
       - echo "✅ Lint passed"
+    silent: true
 
-  lint:fix:
+  dev:lint:fix:
     desc: Auto-fix Luacheck issues where possible
     cmds:
       - |
         echo "🔧 Auto-fixing Luacheck issues..."
         luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --ignore 212 --fix || true
       - echo "✅ Auto-fix complete"
+    silent: true
 
-  validate:
+  dev:format:
+    desc: Format Lua code with StyLua
+    cmds:
+      - |
+        echo "✨ Formatting Lua code with StyLua..."
+        if command -v stylua &>/dev/null; then
+          stylua --config-path .stylua.toml {{.SRC_DIR}}
+          echo "✅ Code formatted successfully"
+        else
+          echo "❌ StyLua not found. Install with: cargo install stylua"
+          echo "   Or: brew install stylua"
+          exit 1
+        fi
+    silent: true
+
+  dev:format:check:
+    desc: Check if Lua code is formatted correctly (without modifying)
+    cmds:
+      - |
+        echo "🔍 Checking Lua code formatting..."
+        if command -v stylua &>/dev/null; then
+          stylua --config-path .stylua.toml --check {{.SRC_DIR}}
+          echo "✅ Code formatting is correct"
+        else
+          echo "❌ StyLua not found. Install with: cargo install stylua"
+          echo "   Or: brew install stylua"
+          exit 1
+        fi
+    silent: true
+
+  dev:validate:
     desc: Validate addon manifest and project structure
     cmds:
       - echo "✅ Validating project..."
-      - task: validate:files
-      - task: validate:manifest
-      - task: validate:syntax
+      - task: dev:validate:files
+      - task: dev:validate:manifest
+      - task: dev:validate:syntax
       - echo "✅ All validations passed"
     silent: true
 
-  validate:files:
+  dev:validate:files:
     desc: Check that all required files exist
     cmds:
       - echo "  Checking required files..."
@@ -261,7 +162,7 @@ tasks:
       - echo "    ✓ All required files present"
     silent: true
 
-  validate:manifest:
+  dev:validate:manifest:
     desc: Validate addon manifest file
     cmds:
       - echo "  Validating manifest..."
@@ -282,7 +183,7 @@ tasks:
         echo "    ✓ Manifest valid"
     silent: true
 
-  validate:syntax:
+  dev:validate:syntax:
     desc: Check Lua syntax with LuaJIT
     cmds:
       - echo "  Checking Lua syntax..."
@@ -293,17 +194,28 @@ tasks:
       - echo "    ✓ All Lua files syntax valid"
     silent: true
 
-  test:
+  dev:test:
     desc: Run all tests (lint + validate)
-    deps: [lint, validate]
+    deps: [dev:lint, dev:validate]
     cmds:
       - echo "✅ All tests passed"
+    silent: true
+
+  dev:backup:
+    desc: Create backup of current addon
+    cmds:
+      - |
+        BACKUP_NAME="backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz"
+        echo "💾 Creating backup: $BACKUP_NAME"
+        tar czf "$BACKUP_NAME" {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE {{.SRC_DIR}}/
+        echo "✅ Backup created: $BACKUP_NAME"
+    silent: true
 
   # =============================================================================
-  # BUILD & PACKAGING
+  # BUILD & PACKAGE
   # =============================================================================
 
-  clean:
+  build:clean:
     desc: Clean build artifacts
     cmds:
       - |
@@ -312,10 +224,11 @@ tasks:
         rm -rf {{.DIST_DIR}}
         rm -f {{.ADDON_NAME}}-*.zip
         echo "✅ Clean complete"
+    silent: true
 
-  build:
+  build:release:
     desc: Build release ZIP artifact with full validation
-    deps: [clean, test]
+    deps: [build:clean, dev:test]
     cmds:
       - |
         echo "📦 Building {{.ADDON_NAME}} release..."
@@ -369,7 +282,7 @@ tasks:
 
   build:fast:
     desc: Build without tests (fast local iteration)
-    deps: [clean]
+    deps: [build:clean]
     cmds:
       - |
         echo "📦 Building {{.ADDON_NAME}} (fast mode)..."
@@ -405,22 +318,40 @@ tasks:
         cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
         echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
 
-  package:
-    desc: Alias for build (backward compatibility)
-    deps: [build]
-
-  package:esoui:
-    desc: Create ESOUI-compatible package (same as build)
-    deps: [build]
+  build:esoui:
+    desc: Create ESOUI-compatible package (same as build:release)
+    deps: [build:release]
     cmds:
       - |
         echo "✅ ESOUI package ready: {{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip"
+    silent: true
+
+  build:verify:
+    desc: Verify package meets ESOUI requirements
+    cmds:
+      - echo "✅ Verifying ESOUI package requirements..."
+      - |
+        if [ ! -f "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" ]; then
+          echo "❌ Package not found. Run: task build:release"
+          exit 1
+        fi
+      - echo "  ✓ Package exists"
+      - |
+        SIZE=$(stat -f%z "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" 2>/dev/null || stat -c%s "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip")
+        SIZE_MB=$((SIZE / 1024 / 1024))
+        if [ $SIZE_MB -gt 10 ]; then
+          echo "  ⚠️  Warning: Package >10MB (${SIZE_MB}MB)"
+        else
+          echo "  ✓ Package size OK (${SIZE_MB}MB)"
+        fi
+      - echo "  ✓ Ready for ESOUI/Minion upload"
+    silent: true
 
   # =============================================================================
   # VERSION MANAGEMENT
   # =============================================================================
 
-  version:
+  version:show:
     desc: Show current version info (Git tag/commit based)
     cmds:
       - |
@@ -526,7 +457,248 @@ tasks:
     silent: true
 
   # =============================================================================
-  # GIT TASKS
+  # RELEASE WORKFLOW
+  # =============================================================================
+
+  release:prepare:
+    desc: Prepare for release (validate and show checklist)
+    cmds:
+      - echo "🚀 Preparing release..."
+      - echo "⚠️  Ensure CHANGELOG.md is updated with release notes"
+      - echo "⚠️  Ensure version in {{.MANIFEST_FILE}} is correct"
+      - task: dev:test
+      - |
+        VERSION="{{.VERSION}}"
+        echo ""
+        echo "📋 Release Checklist:"
+        echo "  1. ✅ Tests passed"
+        echo "  2. Update CHANGELOG.md with version ${VERSION}"
+        echo "  3. Commit changes: git commit -am 'Release v${VERSION}'"
+        echo "  4. Create tag: git tag v${VERSION}"
+        echo "  5. Push: git push origin main --tags"
+        echo ""
+        echo "GitHub Actions will automatically:"
+        echo "  - Build release ZIP"
+        echo "  - Create GitHub release"
+        echo "  - Upload to ESOUI (if configured)"
+    silent: true
+
+  release:tag:
+    desc: Create and push release tag (interactive)
+    cmds:
+      - |
+        VERSION="{{.VERSION}}"
+        echo "📋 Creating release tag v${VERSION}"
+        read -p "Create tag v${VERSION}? (y/N): " CONFIRM
+        if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
+          git tag -a "v${VERSION}" -m "Release v${VERSION}"
+          echo "✅ Tag created: v${VERSION}"
+          echo ""
+          read -p "Push tag to origin? (y/N): " PUSH
+          if [ "$PUSH" = "y" ] || [ "$PUSH" = "Y" ]; then
+            git push origin main --tags
+            echo "✅ Tag pushed to GitHub"
+            echo "🚀 GitHub Actions will now build and release"
+          else
+            echo "⚠️  Tag created locally but not pushed"
+            echo "   Push with: git push origin main --tags"
+          fi
+        else
+          echo "❌ Tag creation cancelled"
+        fi
+    silent: true
+
+  release:full:
+    desc: Create full release (build, package, tag) - backward compatibility
+    deps: [dev:validate]
+    cmds:
+      - task: build:release
+      - task: git:tag
+      - |
+        echo ""
+        echo "✅ Release v{{.VERSION}} ready!"
+        echo ""
+        echo "Next steps:"
+        echo "  1. Push tag: git push origin main --tags"
+        echo "  2. Upload: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
+        echo "  3. GitHub Actions will handle the rest"
+    silent: true
+
+  release:github:
+    desc: Create GitHub release (requires gh CLI)
+    deps: [build:release]
+    cmds:
+      - |
+        echo "🚀 Creating GitHub release v{{.VERSION}}..."
+        gh release create "v{{.VERSION}}" "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" \
+          --title "v{{.VERSION}}" \
+          --notes-file CHANGELOG.md
+        echo "✅ GitHub release created"
+    silent: true
+
+  # =============================================================================
+  # ESO INSTALLATION
+  # =============================================================================
+  
+  install:live:
+    desc: Install addon to ESO Live client (copy)
+    cmds:
+      - |
+        echo "📥 Installing {{.ADDON_NAME}} to ESO Live..."
+        mkdir -p "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+        
+        # Copy manifest (.addon format)
+        cp {{.MANIFEST_FILE}} "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy other core files
+        cp {{.ADDON_NAME}}.xml "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy assets directory if exists
+        if [ -d "assets" ]; then
+          cp -r assets/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/assets/"
+          echo "  ✓ Copied assets/"
+        fi
+        
+        # Copy source files
+        cp -r {{.SRC_DIR}}/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+        echo "  ✓ Copied {{.SRC_DIR}}/"
+        
+        # Copy optional documentation files
+        if [ -f "README.md" ]; then
+          cp README.md "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied README.md"
+        fi
+        
+        if [ -f "LICENSE" ]; then
+          cp LICENSE "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied LICENSE"
+        fi
+        
+        echo "✅ Installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+    silent: true
+
+  install:pts:
+    desc: Install addon to ESO PTS client (copy)
+    cmds:
+      - |
+        echo "📥 Installing {{.ADDON_NAME}} to ESO PTS..."
+        mkdir -p "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+        
+        # Copy manifest
+        cp {{.MANIFEST_FILE}} "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy other core files
+        cp {{.ADDON_NAME}}.xml "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+        
+        # Copy assets directory if exists
+        if [ -d "assets" ]; then
+          cp -r assets/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/assets/"
+          echo "  ✓ Copied assets/"
+        fi
+        
+        # Copy settings directory if exists
+        if [ -d "settings" ]; then
+          cp -r settings/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/settings/"
+          echo "  ✓ Copied settings/"
+        fi
+        
+        # Copy source files
+        cp -r {{.SRC_DIR}}/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+        echo "  ✓ Copied {{.SRC_DIR}}/"
+        
+        # Copy optional documentation files
+        if [ -f "README.md" ]; then
+          cp README.md "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied README.md"
+        fi
+        
+        if [ -f "LICENSE" ]; then
+          cp LICENSE "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+          echo "  ✓ Copied LICENSE"
+        fi
+        
+        echo "✅ Installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+    silent: true
+
+  install:dev:
+    desc: Install addon as symlink for live development
+    cmds:
+      - |
+        echo "🔗 Creating development symlink..."
+        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        ln -s "{{.PWD}}" "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Development symlink created"
+        echo "   Edit files here, use /reloadui in-game to test"
+    silent: true
+
+  install:built:
+    desc: Install built/validated files to ESO Live client
+    deps: [build:release]
+    cmds:
+      - |
+        echo "📦 Installing built {{.ADDON_NAME}} to ESO Live..."
+        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        cp -r "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Built addon installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        echo "   Files validated and ready for testing"
+    silent: true
+
+  install:built:pts:
+    desc: Install built/validated files to ESO PTS client
+    deps: [build:release]
+    cmds:
+      - |
+        echo "📦 Installing built {{.ADDON_NAME}} to ESO PTS..."
+        rm -rf "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+        cp -r "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Built addon installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+        echo "   Files validated and ready for testing"
+    silent: true
+
+  install:uninstall:live:
+    desc: Remove addon from ESO Live client
+    cmds:
+      - |
+        echo "🗑️  Removing {{.ADDON_NAME}} from ESO Live..."
+        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Uninstalled from Live"
+    silent: true
+
+  install:uninstall:pts:
+    desc: Remove addon from ESO PTS client
+    cmds:
+      - |
+        echo "🗑️  Removing {{.ADDON_NAME}} from ESO PTS..."
+        rm -rf "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Uninstalled from PTS"
+    silent: true
+
+  install:uninstall:dev:
+    desc: Remove development symlink and install normally
+    cmds:
+      - |
+        echo "🗑️  Removing development symlink..."
+        rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+        echo "✅ Symlink removed"
+        echo ""
+      - task: install:live
+    silent: true
+
+  install:clean:savedvars:
+    desc: Remove saved variables file for clean reinstall
+    cmds:
+      - |
+        echo "🗑️  Removing saved variables..."
+        if [ -f "{{.ESO_LIVE_SAVEDVARS}}/{{.ADDON_NAME}}.lua" ]; then
+          rm -f "{{.ESO_LIVE_SAVEDVARS}}/{{.ADDON_NAME}}.lua"
+          echo "✅ Saved variables removed"
+        else
+          echo "ℹ️  No saved variables file found"
+        fi
+    silent: true
+
+  # =============================================================================
+  # GIT OPERATIONS
   # =============================================================================
 
   git:status:
@@ -557,124 +729,10 @@ tasks:
     silent: true
 
   # =============================================================================
-  # RELEASE WORKFLOW
+  # INFORMATION & HELP
   # =============================================================================
 
-  release:prepare:
-    desc: Prepare for release (validate and show checklist)
-    cmds:
-      - echo "🚀 Preparing release..."
-      - echo "⚠️  Ensure CHANGELOG.md is updated with release notes"
-      - echo "⚠️  Ensure version in {{.MANIFEST_FILE}} is correct"
-      - task: test
-      - |
-        VERSION="{{.VERSION}}"
-        echo ""
-        echo "📋 Release Checklist:"
-        echo "  1. ✅ Tests passed"
-        echo "  2. Update CHANGELOG.md with version ${VERSION}"
-        echo "  3. Commit changes: git commit -am 'Release v${VERSION}'"
-        echo "  4. Create tag: git tag v${VERSION}"
-        echo "  5. Push: git push origin main --tags"
-        echo ""
-        echo "GitHub Actions will automatically:"
-        echo "  - Build release ZIP"
-        echo "  - Create GitHub release"
-        echo "  - Upload to ESOUI (if configured)"
-
-  release:tag:
-    desc: Create and push release tag (interactive)
-    cmds:
-      - |
-        VERSION="{{.VERSION}}"
-        echo "📋 Creating release tag v${VERSION}"
-        read -p "Create tag v${VERSION}? (y/N): " CONFIRM
-        if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
-          git tag -a "v${VERSION}" -m "Release v${VERSION}"
-          echo "✅ Tag created: v${VERSION}"
-          echo ""
-          read -p "Push tag to origin? (y/N): " PUSH
-          if [ "$PUSH" = "y" ] || [ "$PUSH" = "Y" ]; then
-            git push origin main --tags
-            echo "✅ Tag pushed to GitHub"
-            echo "🚀 GitHub Actions will now build and release"
-          else
-            echo "⚠️  Tag created locally but not pushed"
-            echo "   Push with: git push origin main --tags"
-          fi
-        else
-          echo "❌ Tag creation cancelled"
-        fi
-
-  release:
-    desc: Create full release (build, package, tag) - backward compatibility
-    deps: [validate]
-    cmds:
-      - task: package
-      - task: git:tag
-      - |
-        echo ""
-        echo "✅ Release v{{.VERSION}} ready!"
-        echo ""
-        echo "Next steps:"
-        echo "  1. Push tag: git push origin main --tags"
-        echo "  2. Upload: {{.DIST_DIR}}/{{.ADDON_NAME}}-v{{.VERSION}}.zip"
-        echo "  3. GitHub Actions will handle the rest"
-    silent: true
-
-  release:github:
-    desc: Create GitHub release (requires gh CLI)
-    deps: [package]
-    cmds:
-      - |
-        echo "🚀 Creating GitHub release v{{.VERSION}}..."
-        gh release create "v{{.VERSION}}" "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" \
-          --title "v{{.VERSION}}" \
-          --notes-file CHANGELOG.md
-        echo "✅ GitHub release created"
-    silent: true
-
-  # =============================================================================
-  # DEVELOPMENT WORKFLOW
-  # =============================================================================
-
-  dev:
-    desc: Start development mode (symlink + watch)
-    cmds:
-      - task: install:dev
-      - echo ""
-      - echo "🔥 Development mode active!"
-      - echo "  - Edit files in this directory"
-      - echo "  - Use /reloadui in ESO to test changes"
-      - echo "  - Press Ctrl+C to stop watching"
-      - echo ""
-      - task: dev:watch
-    silent: true
-
-  dev:watch:
-    desc: Watch for file changes (requires fswatch)
-    cmds:
-      - |
-        if ! command -v fswatch &> /dev/null; then
-          echo "⚠️  fswatch not installed. Install with: brew install fswatch"
-          exit 1
-        fi
-        echo "👀 Watching for changes..."
-        fswatch -o {{.ADDON_NAME}}.xml {{.SRC_DIR}}/ | while read; do
-          echo "[$(date +%H:%M:%S)] Files changed - use /reloadui in ESO"
-        done
-    silent: true
-
-  dev:lint:
-    desc: Lint Lua code (alias for lint)
-    cmds:
-      - task: lint
-
-  # =============================================================================
-  # DOCUMENTATION & INFO
-  # =============================================================================
-
-  info:
+  info:show:
     desc: Show addon information
     cmds:
       - |
@@ -694,7 +752,7 @@ tasks:
         find {{.SRC_DIR}} -name "*.lua" -type f | wc -l | xargs echo "  Lua files:"
     silent: true
 
-  size:
+  info:size:
     desc: Show file sizes and package size
     cmds:
       - |
@@ -708,20 +766,10 @@ tasks:
         du -sh .
         echo ""
         echo "Distribution size:"
-        du -sh {{.DIST_DIR}} 2>/dev/null || echo "  (not built yet - run 'task build')"
+        du -sh {{.DIST_DIR}} 2>/dev/null || echo "  (not built yet - run 'task build:release')"
     silent: true
 
-  backup:
-    desc: Create backup of current addon
-    cmds:
-      - |
-        BACKUP_NAME="backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz"
-        echo "💾 Creating backup: $BACKUP_NAME"
-        tar czf "$BACKUP_NAME" {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE {{.SRC_DIR}}/
-        echo "✅ Backup created: $BACKUP_NAME"
-    silent: true
-
-  docs:
+  info:docs:
     desc: Show documentation files
     cmds:
       - echo "📖 Documentation files:"
@@ -733,68 +781,26 @@ tasks:
       - echo "  - docs/PROGRESS_CHART.md (visual progress)"
     silent: true
 
-  docs:serve:
+  info:docs:serve:
     desc: Serve documentation locally (requires Python)
     cmds:
       - echo "📚 Serving docs at http://localhost:8000"
       - python3 -m http.server 8000
     silent: true
 
-  # =============================================================================
-  # MINION / ESOUI TASKS
-  # =============================================================================
-
-  minion:prepare:
-    desc: Prepare package for Minion/ESOUI upload
-    deps: [package:esoui]
-    cmds:
-      - |
-        echo "📦 Package ready for ESOUI/Minion:"
-        echo "   {{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip"
-        echo ""
-        echo "Upload options:"
-        echo "  1. Manual: https://www.esoui.com/downloads/upload-update.php"
-        echo "  2. Automated: Push git tag (GitHub Actions handles upload)"
-    silent: true
-
-  minion:verify:
-    desc: Verify package meets ESOUI requirements
-    cmds:
-      - echo "✅ Verifying ESOUI package requirements..."
-      - |
-        if [ ! -f "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" ]; then
-          echo "❌ Package not found. Run: task build"
-          exit 1
-        fi
-      - echo "  ✓ Package exists"
-      - |
-        SIZE=$(stat -f%z "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" 2>/dev/null || stat -c%s "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip")
-        SIZE_MB=$((SIZE / 1024 / 1024))
-        if [ $SIZE_MB -gt 10 ]; then
-          echo "  ⚠️  Warning: Package >10MB (${SIZE_MB}MB)"
-        else
-          echo "  ✓ Package size OK (${SIZE_MB}MB)"
-        fi
-      - echo "  ✓ Ready for ESOUI/Minion upload"
-    silent: true
-
-  # =============================================================================
-  # HELP TASKS
-  # =============================================================================
-
   help:install:
     desc: Show installation help
     cmds:
       - echo "📥 Installation Commands:"
-      - echo "  task install:live      - Copy source files to ESO Live (fast)"
-      - echo "  task install:pts       - Copy source files to ESO PTS (fast)"
-      - echo "  task install:built     - Install built/validated files to ESO Live"
-      - echo "  task install:built:pts - Install built/validated files to ESO PTS"
-      - echo "  task install:dev       - Symlink for live development"
-      - echo "  task uninstall:live    - Remove from ESO Live"
-      - echo "  task uninstall:pts     - Remove from ESO PTS"
-      - echo "  task uninstall:dev     - Remove symlink"
-      - echo "  task clean:savedvars   - Remove saved variables for clean reinstall"
+      - echo "  task install:live            - Copy source files to ESO Live (fast)"
+      - echo "  task install:pts             - Copy source files to ESO PTS (fast)"
+      - echo "  task install:built           - Install built/validated files to ESO Live"
+      - echo "  task install:built:pts       - Install built/validated files to ESO PTS"
+      - echo "  task install:dev             - Symlink for live development"
+      - echo "  task install:uninstall:live  - Remove from ESO Live"
+      - echo "  task install:uninstall:pts   - Remove from ESO PTS"
+      - echo "  task install:uninstall:dev   - Remove symlink"
+      - echo "  task install:clean:savedvars - Remove saved variables for clean reinstall"
       - echo ""
       - echo "💡 Use Cases:"
       - echo "  install:live/dev       - Fast development iteration"
@@ -807,7 +813,7 @@ tasks:
       - echo "🚀 Release Workflow:"
       - echo "  1. task version:bump -- patch   (or minor/major)"
       - echo "  2. Edit CHANGELOG.md"
-      - echo "  3. task test                    (validate everything)"
+      - echo "  3. task dev:test                (validate everything)"
       - echo "  4. task git:commit -- 'Release vX.X.X'"
       - echo "  5. task release:tag             (creates and pushes tag)"
       - echo "  6. GitHub Actions handles the rest!"
@@ -825,7 +831,109 @@ tasks:
       - echo "  1. task install:dev     - Setup dev mode (symlink)"
       - echo "  2. Edit .lua/.xml files"
       - echo "  3. /reloadui in ESO     - Test changes instantly"
-      - echo "  4. task lint            - Check code quality"
-      - echo "  5. task test            - Full validation"
-      - echo "  6. git commit           - Pre-commit hooks run automatically"
+      - echo "  4. task dev:lint        - Check code quality"
+      - echo "  5. task dev:format      - Format code"
+      - echo "  6. task dev:test        - Full validation"
+      - echo "  7. git commit           - Pre-commit hooks run automatically"
+    silent: true
+
+  # =============================================================================
+  # DOCUMENTATION (mdBook)
+  # =============================================================================
+
+  docs:install:
+    desc: Verify mdbook is installed
+    cmds:
+      - |
+        if ! command -v mdbook &> /dev/null; then
+          echo "❌ mdbook not found. Install with: brew install mdbook"
+          exit 1
+        fi
+        echo "✅ mdbook is installed"
+        mdbook --version
+    silent: true
+
+  docs:serve:
+    desc: Start mdBook development server (auto-reload on changes)
+    cmds:
+      - task: docs:install
+      - echo "📚 Starting mdBook server..."
+      - echo "   Open http://localhost:3000 in your browser"
+      - echo "   Press Ctrl+C to stop"
+      - mdbook serve --open
+
+  docs:build:
+    desc: Build static documentation site
+    cmds:
+      - task: docs:install
+      - echo "📚 Building documentation..."
+      - mdbook build
+      - echo "✅ Documentation built in book/ directory"
+
+  docs:clean:
+    desc: Remove mdBook build artifacts
+    cmds:
+      - echo "🧹 Cleaning mdBook build artifacts..."
+      - mdbook clean
+      - echo "✅ Cleaned"
+
+  docs:test:
+    desc: Test documentation links
+    cmds:
+      - task: docs:install
+      - echo "🔍 Testing documentation links..."
+      - mdbook test
+      - echo "✅ All links valid"
+
+  docs:deploy:
+    desc: Build and prepare for GitHub Pages deployment
+    cmds:
+      - task: docs:build
+      - echo "📦 Documentation ready for deployment"
+      - echo "   Push book/ directory to gh-pages branch or use GitHub Actions"
+
+  # =============================================================================
+  # BACKWARD COMPATIBILITY ALIASES
+  # =============================================================================
+
+  lint:
+    desc: Alias for dev:lint
+    cmds:
+      - task: dev:lint
+    silent: true
+
+  format:
+    desc: Alias for dev:format
+    cmds:
+      - task: dev:format
+    silent: true
+
+  test:
+    desc: Alias for dev:test
+    cmds:
+      - task: dev:test
+    silent: true
+
+  build:
+    desc: Alias for build:release
+    cmds:
+      - task: build:release
+    silent: true
+
+  clean:
+    desc: Alias for build:clean
+    cmds:
+      - task: build:clean
+    silent: true
+
+  version:
+    desc: Alias for version:show
+    cmds:
+      - task: version:show
+    silent: true
+
+  release:
+    desc: Alias for release:full
+    cmds:
+      - task: release:full
     silent: true

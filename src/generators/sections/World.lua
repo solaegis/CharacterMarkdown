@@ -22,22 +22,36 @@ end
 
 local function GenerateSkyshards(skyshardsData, format, asColumn)
     InitializeUtilities()
-    
+
     local markdown = ""
-    
+
     if not skyshardsData or skyshardsData.total == 0 then
         return ""
     end
-    
+
     if format == "discord" then
-        markdown = markdown .. "**Skyshards:** " .. skyshardsData.collected .. "/" .. skyshardsData.total .. 
-                  " (" .. math.floor((skyshardsData.collected / skyshardsData.total) * 100) .. "%)\n"
-        
+        markdown = markdown
+            .. "**Skyshards:** "
+            .. skyshardsData.collected
+            .. "/"
+            .. skyshardsData.total
+            .. " ("
+            .. math.floor((skyshardsData.collected / skyshardsData.total) * 100)
+            .. "%)\n"
+
         -- Show zone-specific data if available
         for zoneName, zoneData in pairs(skyshardsData.zones) do
             if zoneData.total > 0 then
-                markdown = markdown .. "• " .. zoneName .. ": " .. zoneData.collected .. "/" .. zoneData.total .. 
-                          " (" .. zoneData.percentage .. "%)\n"
+                markdown = markdown
+                    .. "• "
+                    .. zoneName
+                    .. ": "
+                    .. zoneData.collected
+                    .. "/"
+                    .. zoneData.total
+                    .. " ("
+                    .. zoneData.percentage
+                    .. "%)\n"
             end
         end
         markdown = markdown .. "\n"
@@ -47,23 +61,41 @@ local function GenerateSkyshards(skyshardsData, format, asColumn)
         markdown = markdown .. headerLevel .. " 🌟 Skyshards\n\n"
         markdown = markdown .. "| Zone | Collected | Progress |\n"
         markdown = markdown .. "|:-----|:----------|:--------|\n"
-        
+
         -- Show zone-specific data
         for zoneName, zoneData in pairs(skyshardsData.zones) do
             if zoneData.total > 0 then
                 local progressBar = GenerateProgressBar(zoneData.percentage, 10)
-                markdown = markdown .. "| **" .. zoneName .. "** | " .. zoneData.collected .. "/" .. zoneData.total .. 
-                          " | " .. progressBar .. " " .. zoneData.percentage .. "% |\n"
+                markdown = markdown
+                    .. "| **"
+                    .. zoneName
+                    .. "** | "
+                    .. zoneData.collected
+                    .. "/"
+                    .. zoneData.total
+                    .. " | "
+                    .. progressBar
+                    .. " "
+                    .. zoneData.percentage
+                    .. "% |\n"
             end
         end
-        
+
         -- Overall summary
         local overallProgress = math.floor((skyshardsData.collected / skyshardsData.total) * 100)
         local overallProgressBar = GenerateProgressBar(overallProgress, 10)
-        markdown = markdown .. "| **Total** | " .. skyshardsData.collected .. "/" .. skyshardsData.total .. 
-                  " | " .. overallProgressBar .. " " .. overallProgress .. "% |\n"
+        markdown = markdown
+            .. "| **Total** | "
+            .. skyshardsData.collected
+            .. "/"
+            .. skyshardsData.total
+            .. " | "
+            .. overallProgressBar
+            .. " "
+            .. overallProgress
+            .. "% |\n"
     end
-    
+
     return markdown
 end
 
@@ -73,23 +105,37 @@ end
 
 local function GenerateLorebooks(lorebooksData, format)
     InitializeUtilities()
-    
+
     local markdown = ""
-    
+
     if not lorebooksData or lorebooksData.total == 0 then
         return ""
     end
-    
+
     if format == "discord" then
-        markdown = markdown .. "**Lorebooks:** " .. lorebooksData.collected .. "/" .. lorebooksData.total .. 
-                  " (" .. math.floor((lorebooksData.collected / lorebooksData.total) * 100) .. "%)\n"
-        
+        markdown = markdown
+            .. "**Lorebooks:** "
+            .. lorebooksData.collected
+            .. "/"
+            .. lorebooksData.total
+            .. " ("
+            .. math.floor((lorebooksData.collected / lorebooksData.total) * 100)
+            .. "%)\n"
+
         -- Show category breakdown
         for categoryName, categoryData in pairs(lorebooksData.categories) do
             if categoryData.total > 0 then
                 local categoryPercent = math.floor((categoryData.collected / categoryData.total) * 100)
-                markdown = markdown .. "• " .. categoryName .. ": " .. categoryData.collected .. "/" .. 
-                          categoryData.total .. " (" .. categoryPercent .. "%)\n"
+                markdown = markdown
+                    .. "• "
+                    .. categoryName
+                    .. ": "
+                    .. categoryData.collected
+                    .. "/"
+                    .. categoryData.total
+                    .. " ("
+                    .. categoryPercent
+                    .. "%)\n"
             end
         end
         markdown = markdown .. "\n"
@@ -97,23 +143,41 @@ local function GenerateLorebooks(lorebooksData, format)
         -- Build table content
         local tableContent = "| Category | Collected | Total | Progress |\n"
         tableContent = tableContent .. "|:---------|:----------|:------|:--------|\n"
-        
+
         -- Show category breakdown
         for categoryName, categoryData in pairs(lorebooksData.categories) do
             if categoryData.total > 0 then
                 local categoryPercent = math.floor((categoryData.collected / categoryData.total) * 100)
                 local progressBar = GenerateProgressBar(categoryPercent, 20)
-                tableContent = tableContent .. "| **" .. categoryName .. "** | " .. categoryData.collected .. 
-                          " | " .. categoryData.total .. " | " .. progressBar .. " " .. categoryPercent .. "% |\n"
+                tableContent = tableContent
+                    .. "| **"
+                    .. categoryName
+                    .. "** | "
+                    .. categoryData.collected
+                    .. " | "
+                    .. categoryData.total
+                    .. " | "
+                    .. progressBar
+                    .. " "
+                    .. categoryPercent
+                    .. "% |\n"
             end
         end
-        
+
         -- Overall summary
         local overallProgress = math.floor((lorebooksData.collected / lorebooksData.total) * 100)
         local overallProgressBar = GenerateProgressBar(overallProgress, 20)
-        tableContent = tableContent .. "| **Total** | " .. lorebooksData.collected .. " | " .. lorebooksData.total .. 
-                  " | " .. overallProgressBar .. " " .. overallProgress .. "% |\n"
-        
+        tableContent = tableContent
+            .. "| **Total** | "
+            .. lorebooksData.collected
+            .. " | "
+            .. lorebooksData.total
+            .. " | "
+            .. overallProgressBar
+            .. " "
+            .. overallProgress
+            .. "% |\n"
+
         -- Wrap in collapsible section (matching format of other collectible types)
         local summaryText = "📚 Lorebooks (" .. lorebooksData.collected .. " of " .. lorebooksData.total .. ")"
         markdown = markdown .. "<details>\n"
@@ -121,7 +185,7 @@ local function GenerateLorebooks(lorebooksData, format)
         markdown = markdown .. tableContent .. "\n"
         markdown = markdown .. "</details>\n\n"
     end
-    
+
     return markdown
 end
 
@@ -131,30 +195,40 @@ end
 
 local function GenerateZoneCompletion(zoneCompletionData, format)
     InitializeUtilities()
-    
+
     local markdown = ""
-    
+
     if not zoneCompletionData or zoneCompletionData.currentZone == "" then
         return ""
     end
-    
+
     -- Create zone link if available (conditional based on settings)
     local zoneName = zoneCompletionData.currentZone
     local zoneLink = (CreateZoneLink and CreateZoneLink(zoneName, format)) or zoneName
-    
+
     if format == "discord" then
-        markdown = markdown .. "**Zone Completion:** " .. zoneLink .. 
-                  " (" .. zoneCompletionData.completionPercentage .. "%)\n\n"
+        markdown = markdown
+            .. "**Zone Completion:** "
+            .. zoneLink
+            .. " ("
+            .. zoneCompletionData.completionPercentage
+            .. "%)\n\n"
     else
         markdown = markdown .. "### 🗺️ Zone Completion\n\n"
         markdown = markdown .. "| Zone | Completion |\n"
         markdown = markdown .. "|:-----|:----------|\n"
-        
+
         local progressBar = GenerateProgressBar(zoneCompletionData.completionPercentage, 20)
-        markdown = markdown .. "| **" .. zoneLink .. "** | " .. 
-                  progressBar .. " " .. zoneCompletionData.completionPercentage .. "% |\n\n"
+        markdown = markdown
+            .. "| **"
+            .. zoneLink
+            .. "** | "
+            .. progressBar
+            .. " "
+            .. zoneCompletionData.completionPercentage
+            .. "% |\n\n"
     end
-    
+
     return markdown
 end
 
@@ -164,51 +238,77 @@ end
 
 local function GenerateDungeonProgress(dungeonData, format, asColumn)
     InitializeUtilities()
-    
+
     local markdown = ""
-    
+
     if not dungeonData then
         return ""
     end
-    
+
     local hasDelves = dungeonData.delves and dungeonData.delves.total > 0
     local hasPublicDungeons = dungeonData.publicDungeons and dungeonData.publicDungeons.total > 0
-    
+
     if not hasDelves and not hasPublicDungeons then
         return ""
     end
-    
+
     if format == "discord" then
         if hasDelves then
             local delvePercent = math.floor((dungeonData.delves.completed / dungeonData.delves.total) * 100)
-            markdown = markdown .. "**Delves:** " .. dungeonData.delves.completed .. "/" .. dungeonData.delves.total .. 
-                      " (" .. delvePercent .. "%)\n"
+            markdown = markdown
+                .. "**Delves:** "
+                .. dungeonData.delves.completed
+                .. "/"
+                .. dungeonData.delves.total
+                .. " ("
+                .. delvePercent
+                .. "%)\n"
         end
-        
+
         if hasPublicDungeons then
-            local dungeonPercent = math.floor((dungeonData.publicDungeons.completed / dungeonData.publicDungeons.total) * 100)
-            markdown = markdown .. "**Public Dungeons:** " .. dungeonData.publicDungeons.completed .. "/" .. 
-                      dungeonData.publicDungeons.total .. " (" .. dungeonPercent .. "%)\n"
+            local dungeonPercent =
+                math.floor((dungeonData.publicDungeons.completed / dungeonData.publicDungeons.total) * 100)
+            markdown = markdown
+                .. "**Public Dungeons:** "
+                .. dungeonData.publicDungeons.completed
+                .. "/"
+                .. dungeonData.publicDungeons.total
+                .. " ("
+                .. dungeonPercent
+                .. "%)\n"
         end
         markdown = markdown .. "\n"
     else
         -- Use h4 (####) when in column mode, h3 (###) when standalone
         local headerLevel = asColumn and "####" or "###"
         markdown = markdown .. headerLevel .. " 🏰 Dungeon Progress\n\n"
-        
+
         if hasDelves then
             local delvePercent = math.floor((dungeonData.delves.completed / dungeonData.delves.total) * 100)
-            markdown = markdown .. "**Delves:** " .. dungeonData.delves.completed .. "/" .. dungeonData.delves.total .. 
-                      " (" .. delvePercent .. "%)\n\n"
+            markdown = markdown
+                .. "**Delves:** "
+                .. dungeonData.delves.completed
+                .. "/"
+                .. dungeonData.delves.total
+                .. " ("
+                .. delvePercent
+                .. "%)\n\n"
         end
-        
+
         if hasPublicDungeons then
-            local dungeonPercent = math.floor((dungeonData.publicDungeons.completed / dungeonData.publicDungeons.total) * 100)
-            markdown = markdown .. "**Public Dungeons:** " .. dungeonData.publicDungeons.completed .. "/" .. 
-                      dungeonData.publicDungeons.total .. " (" .. dungeonPercent .. "%)\n"
+            local dungeonPercent =
+                math.floor((dungeonData.publicDungeons.completed / dungeonData.publicDungeons.total) * 100)
+            markdown = markdown
+                .. "**Public Dungeons:** "
+                .. dungeonData.publicDungeons.completed
+                .. "/"
+                .. dungeonData.publicDungeons.total
+                .. " ("
+                .. dungeonPercent
+                .. "%)\n"
         end
     end
-    
+
     return markdown
 end
 
@@ -218,13 +318,13 @@ end
 
 local function GenerateWorldProgress(worldProgressData, format)
     InitializeUtilities()
-    
+
     local markdown = ""
-    
+
     if not worldProgressData then
         return ""
     end
-    
+
     -- Only show the section if we have some data
     -- Note: Lorebooks removed - now shown in Collectibles section
     local hasData = false
@@ -232,16 +332,20 @@ local function GenerateWorldProgress(worldProgressData, format)
         hasData = true
     elseif worldProgressData.zoneCompletion and worldProgressData.zoneCompletion.currentZone ~= "" then
         hasData = true
-    elseif worldProgressData.dungeons and 
-           ((worldProgressData.dungeons.delves and worldProgressData.dungeons.delves.total > 0) or
-            (worldProgressData.dungeons.publicDungeons and worldProgressData.dungeons.publicDungeons.total > 0)) then
+    elseif
+        worldProgressData.dungeons
+        and (
+            (worldProgressData.dungeons.delves and worldProgressData.dungeons.delves.total > 0)
+            or (worldProgressData.dungeons.publicDungeons and worldProgressData.dungeons.publicDungeons.total > 0)
+        )
+    then
         hasData = true
     end
-    
+
     if not hasData then
         return ""
     end
-    
+
     -- Discord format stays vertical
     if format == "discord" then
         local content = ""
@@ -250,25 +354,32 @@ local function GenerateWorldProgress(worldProgressData, format)
         markdown = markdown .. content
     else
         -- GitHub/VSCode: Use 2-column layout
-        local GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
-        local anchorId = GenerateAnchor and GenerateAnchor("🌍 World Progress") or "world-progress"
-        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## 🌍 World Progress\n\n"
-        
         local CreateTwoColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateTwoColumnLayout
-        
+
         if CreateTwoColumnLayout then
             local column1 = GenerateSkyshards(worldProgressData.skyshards, format, true)
             local column2 = GenerateDungeonProgress(worldProgressData.dungeons, format, true)
-            
-            markdown = markdown .. CreateTwoColumnLayout(column1, column2)
+
+            -- Only add header if there's actual content
+            local layoutContent = CreateTwoColumnLayout(column1, column2)
+            if layoutContent and layoutContent ~= "" then
+                markdown = markdown .. "## 🌍 World Progress\n\n"
+                markdown = markdown .. layoutContent
+            end
         else
             -- Fallback to vertical layout
-            markdown = markdown .. GenerateSkyshards(worldProgressData.skyshards, format, false)
-            markdown = markdown .. GenerateDungeonProgress(worldProgressData.dungeons, format, false)
+            local content = ""
+            content = content .. GenerateSkyshards(worldProgressData.skyshards, format, false)
+            content = content .. GenerateDungeonProgress(worldProgressData.dungeons, format, false)
+
+            -- Only add header if there's actual content
+            if content and content ~= "" then
+                markdown = markdown .. "## 🌍 World Progress\n\n"
+                markdown = markdown .. content
+            end
         end
     end
-    
+
     return markdown
 end
 

@@ -7,20 +7,47 @@ local CM = CharacterMarkdown
 -- QUALITY HELPERS
 -- =====================================================
 
--- Get quality name from quality constant
+-- Get quality name from quality constant (ESO standard names)
 local function GetQualityColor(quality)
     local colors = {
         [ITEM_QUALITY_TRASH] = "Trash",
-        [ITEM_QUALITY_NORMAL] = "Normal",
-        [ITEM_QUALITY_MAGIC] = "Magic",
-        [ITEM_QUALITY_ARCANE] = "Arcane",
-        [ITEM_QUALITY_ARTIFACT] = "Artifact",
-        [ITEM_QUALITY_LEGENDARY] = "Legendary",
+        [ITEM_QUALITY_NORMAL] = "Normal",      -- White
+        [ITEM_QUALITY_MAGIC] = "Fine",         -- Green
+        [ITEM_QUALITY_ARCANE] = "Superior",    -- Blue
+        [ITEM_QUALITY_ARTIFACT] = "Epic",      -- Purple
+        [ITEM_QUALITY_LEGENDARY] = "Legendary", -- Gold
     }
     return colors[quality] or "Unknown"
 end
 
 CM.utils.GetQualityColor = GetQualityColor
+
+-- Get quality constant from quality string name (inverse of GetQualityColor)
+-- Uses ESO standard names as primary, with old names as aliases for backward compatibility
+local function GetQualityConstantFromString(qualityString)
+    if not qualityString then
+        return ITEM_QUALITY_NORMAL
+    end
+
+    local stringLower = qualityString:lower()
+    local mapping = {
+        -- ESO standard names (primary)
+        normal = ITEM_QUALITY_NORMAL,      -- White
+        fine = ITEM_QUALITY_MAGIC,          -- Green
+        superior = ITEM_QUALITY_ARCANE,     -- Blue
+        epic = ITEM_QUALITY_ARTIFACT,        -- Purple
+        legendary = ITEM_QUALITY_LEGENDARY, -- Gold
+        -- Old names (aliases for backward compatibility)
+        trash = ITEM_QUALITY_TRASH,
+        magic = ITEM_QUALITY_MAGIC,         -- Alias for Fine
+        arcane = ITEM_QUALITY_ARCANE,       -- Alias for Superior
+        artifact = ITEM_QUALITY_ARTIFACT,   -- Alias for Epic
+    }
+
+    return mapping[stringLower] or ITEM_QUALITY_NORMAL
+end
+
+CM.utils.GetQualityConstantFromString = GetQualityConstantFromString
 
 -- Get quality emoji from quality constant
 local function GetQualityEmoji(quality)
@@ -69,18 +96,18 @@ CM.utils.GetEquipSlotName = GetEquipSlotName
 -- Using widely-supported Unicode emojis (no newer/variant emojis for better compatibility)
 local function GetSlotEmoji(slotIndex)
     local emojis = {
-        [EQUIP_SLOT_HEAD] = "⛑️",     -- Changed from 🪖 (newer emoji) to ⛑️ (widely supported)
-        [EQUIP_SLOT_NECK] = "💎",     -- Changed from 📿 (may not render) to 💎 (widely supported)
+        [EQUIP_SLOT_HEAD] = "⛑️", -- Changed from 🪖 (newer emoji) to ⛑️ (widely supported)
+        [EQUIP_SLOT_NECK] = "💎", -- Changed from 📿 (may not render) to 💎 (widely supported)
         [EQUIP_SLOT_CHEST] = "🛡️",
         [EQUIP_SLOT_SHOULDERS] = "👑",
         [EQUIP_SLOT_MAIN_HAND] = "⚔️",
         [EQUIP_SLOT_OFF_HAND] = "🛡️",
         [EQUIP_SLOT_WAIST] = "⚡",
-        [EQUIP_SLOT_LEGS] = "👖",     -- Changed from 🦵 (newer emoji) to 👖 (widely supported)
-        [EQUIP_SLOT_FEET] = "👟",     -- Changed from 👢 (may not render) to 👟 (widely supported)
+        [EQUIP_SLOT_LEGS] = "👖", -- Changed from 🦵 (newer emoji) to 👖 (widely supported)
+        [EQUIP_SLOT_FEET] = "👟", -- Changed from 👢 (may not render) to 👟 (widely supported)
         [EQUIP_SLOT_RING1] = "💍",
         [EQUIP_SLOT_RING2] = "💍",
-        [EQUIP_SLOT_HAND] = "✋",     -- Changed from 🧤 (newer emoji) to ✋ (widely supported)
+        [EQUIP_SLOT_HAND] = "✋", -- Changed from 🧤 (newer emoji) to ✋ (widely supported)
         [EQUIP_SLOT_BACKUP_MAIN] = "🔮",
         [EQUIP_SLOT_BACKUP_OFF] = "🛡️",
     }

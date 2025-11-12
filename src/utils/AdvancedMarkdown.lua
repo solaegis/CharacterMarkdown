@@ -23,38 +23,38 @@ local CALLOUT_TYPES = {
     note = {
         tag = "NOTE",
         emoji = "ℹ️",
-        desc = "Information that users should take into account"
+        desc = "Information that users should take into account",
     },
     tip = {
         tag = "TIP",
         emoji = "💡",
-        desc = "Optional information to help user success"
+        desc = "Optional information to help user success",
     },
     important = {
         tag = "IMPORTANT",
         emoji = "❗",
-        desc = "Crucial information necessary for users to succeed"
+        desc = "Crucial information necessary for users to succeed",
     },
     warning = {
         tag = "WARNING",
         emoji = "⚠️",
-        desc = "Critical content demanding immediate attention"
+        desc = "Critical content demanding immediate attention",
     },
     caution = {
         tag = "CAUTION",
         emoji = "🔥",
-        desc = "Negative potential consequences of an action"
+        desc = "Negative potential consequences of an action",
     },
     success = {
         tag = "TIP", -- Map to TIP for GitHub compatibility
         emoji = "✅",
-        desc = "Successful completion or positive outcome"
+        desc = "Successful completion or positive outcome",
     },
     danger = {
         tag = "CAUTION", -- Map to CAUTION for GitHub compatibility
         emoji = "❌",
-        desc = "Critical danger or failure state"
-    }
+        desc = "Critical danger or failure state",
+    },
 }
 
 --[[
@@ -65,11 +65,13 @@ local CALLOUT_TYPES = {
     @return string - Formatted callout
 ]]
 local function CreateCallout(type, content, format)
-    if not content or content == "" then return "" end
-    
+    if not content or content == "" then
+        return ""
+    end
+
     local callout = CALLOUT_TYPES[type] or CALLOUT_TYPES.note
     format = format or "github"
-    
+
     -- Escape newlines in content for proper rendering
     -- Prefix all lines (including first) with "> "
     local escaped_content = string_gsub(content, "\n", "\n> ")
@@ -77,7 +79,7 @@ local function CreateCallout(type, content, format)
     if not string_match(escaped_content, "^> ") then
         escaped_content = "> " .. escaped_content
     end
-    
+
     if format == "github" or format == "vscode" then
         -- GitHub/VS Code native callout syntax
         return string_format("> [!%s]\n%s\n\n", callout.tag, escaped_content)
@@ -107,25 +109,23 @@ CM.utils.markdown.CreateCallout = CreateCallout
 local function CreateBadge(label, value, color, style)
     color = color or "blue"
     style = style or "flat"
-    
+
     -- Sanitize label and value: remove control characters and ensure they're strings
     local safe_label = tostring(label or "")
     local safe_value = tostring(value or "")
-    
+
     -- Remove control characters that could break URLs
     safe_label = safe_label:gsub("[\r\n\t<>]", "")
     safe_value = safe_value:gsub("[\r\n\t<>]", "")
-    
+
     -- URL-encode label and value (spaces to %20)
     local encoded_label = string_gsub(safe_label, " ", "%%20")
     local encoded_value = string_gsub(safe_value, " ", "%%20")
-    
+
     -- Ensure URL is complete and valid
-    local url = string_format(
-        "https://img.shields.io/badge/%s-%s-%s?style=%s",
-        encoded_label, encoded_value, color, style
-    )
-    
+    local url =
+        string_format("https://img.shields.io/badge/%s-%s-%s?style=%s", encoded_label, encoded_value, color, style)
+
     -- Validate URL is complete before returning
     if url:find("^https://img.shields.io/badge/") and url:find("?style=") then
         return string_format("![%s](<%s>)", safe_label, url)
@@ -146,16 +146,19 @@ CM.utils.markdown.CreateBadge = CreateBadge
 local function CreateBadgeRow(badges, separator)
     separator = separator or " "
     local badge_strings = {}
-    
+
     for _, badge in ipairs(badges) do
-        table.insert(badge_strings, CreateBadge(
-            badge.label or badge[1],
-            badge.value or badge[2],
-            badge.color or badge[3],
-            badge.style or badge[4]
-        ))
+        table.insert(
+            badge_strings,
+            CreateBadge(
+                badge.label or badge[1],
+                badge.value or badge[2],
+                badge.color or badge[3],
+                badge.style or badge[4]
+            )
+        )
     end
-    
+
     return table_concat(badge_strings, separator)
 end
 
@@ -174,12 +177,15 @@ CM.utils.markdown.CreateBadgeRow = CreateBadgeRow
     @return string - HTML details/summary block
 ]]
 local function CreateCollapsible(title, content, emoji, defaultOpen)
-    if not content or content == "" then return "" end
-    
+    if not content or content == "" then
+        return ""
+    end
+
     local open_attr = defaultOpen and " open" or ""
     local emoji_prefix = emoji and (emoji .. " ") or ""
-    
-    return string_format([[
+
+    return string_format(
+        [[
 <details%s>
 <summary><strong>%s%s</strong></summary>
 
@@ -187,7 +193,12 @@ local function CreateCollapsible(title, content, emoji, defaultOpen)
 
 </details>
 
-]], open_attr, emoji_prefix, title, content)
+]],
+        open_attr,
+        emoji_prefix,
+        title,
+        content
+    )
 end
 
 CM.utils.markdown.CreateCollapsible = CreateCollapsible
@@ -202,93 +213,31 @@ CM.utils.markdown.CreateCollapsible = CreateCollapsible
     @return string - HTML-centered content
 ]]
 local function CreateCenteredBlock(content)
-    if not content or content == "" then return "" end
-    
-    return string_format([[
+    if not content or content == "" then
+        return ""
+    end
+
+    return string_format(
+        [[
 <div align="center">
 
 %s
 
 </div>
 
-]], content)
+]],
+        content
+    )
 end
 
 CM.utils.markdown.CreateCenteredBlock = CreateCenteredBlock
 
---[[
-    Create a two-column layout
-    @param left_content string - Content for left column
-    @param right_content string - Content for right column
-    @param left_width number - Width percentage for left column (default: 50)
-    @return string - HTML table with two columns
-]]
-local function CreateTwoColumns(left_content, right_content, left_width)
-    left_width = left_width or 50
-    local right_width = 100 - left_width
-    
-    return string_format([[
-<table>
-<tr>
-<td width="%d%%" valign="top">
-
-%s
-
-</td>
-<td width="%d%%" valign="top">
-
-%s
-
-</td>
-</tr>
-</table>
-
-]], left_width, left_content, right_width, right_content)
-end
-
-CM.utils.markdown.CreateTwoColumns = CreateTwoColumns
-
---[[
-    Create a multi-column layout (2-4 columns)
-    @param columns array - Array of content strings for each column
-    @param widths array - Optional array of width percentages (default: equal widths)
-    @return string - HTML table with multiple columns
-]]
-local function CreateMultiColumns(columns, widths)
-    if not columns or #columns == 0 then return "" end
-    if #columns == 1 then return columns[1] end
-    
-    local numColumns = #columns
-    local columnWidth = math.floor(100 / numColumns)
-    
-    -- Use provided widths or default to equal
-    if not widths or #widths ~= numColumns then
-        widths = {}
-        for i = 1, numColumns do
-            widths[i] = columnWidth
-        end
-    end
-    
-    local tableRows = {}
-    table.insert(tableRows, "<table style=\"width: 100%; border-collapse: collapse;\">\n<tr>\n")
-    
-    for i = 1, numColumns do
-        local width = widths[i] or columnWidth
-        table.insert(tableRows, string_format("<td style=\"vertical-align: top; padding: 0 15px; width: %.2f%%;\">\n\n", width))
-        table.insert(tableRows, columns[i] or "")
-        table.insert(tableRows, "\n\n</td>\n")
-    end
-    
-    table.insert(tableRows, "</tr>\n</table>\n\n")
-    
-    return table.concat(tableRows, "")
-end
-
-CM.utils.markdown.CreateMultiColumns = CreateMultiColumns
-
 -- =====================================================
 -- CSS GRID MULTI-COLUMN LAYOUTS
 -- =====================================================
+-- Note: CreateTwoColumns and CreateMultiColumns (HTML table-based) have been removed
+-- in favor of CSS Grid versions (CreateTwoColumnLayout, CreateThreeColumnLayout, CreateResponsiveColumns)
+-- which provide better responsiveness and Discord fallback support.
 
 --[[
     Create a 2-column layout using CSS Grid
@@ -299,11 +248,27 @@ CM.utils.markdown.CreateMultiColumns = CreateMultiColumns
     @return string - HTML div with CSS Grid
 ]]
 local function CreateTwoColumnLayout(column1, column2, gap)
-    if not column1 or not column2 then return (column1 or "") .. (column2 or "") end
-    
+    -- Check if both columns are nil or empty strings
+    local col1Empty = not column1 or column1 == ""
+    local col2Empty = not column2 or column2 == ""
+
+    -- If both columns are empty, return empty string
+    if col1Empty and col2Empty then
+        return ""
+    end
+
+    -- If only one column is empty, return the non-empty one without layout
+    if col1Empty then
+        return column2
+    end
+    if col2Empty then
+        return column1
+    end
+
     gap = gap or "20px"
-    
-    return string_format([[
+
+    return string_format(
+        [[
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: %s;">
 <div>
 
@@ -317,7 +282,11 @@ local function CreateTwoColumnLayout(column1, column2, gap)
 </div>
 </div>
 
-]], gap, column1, column2)
+]],
+        gap,
+        column1,
+        column2
+    )
 end
 
 CM.utils.markdown.CreateTwoColumnLayout = CreateTwoColumnLayout
@@ -332,15 +301,24 @@ CM.utils.markdown.CreateTwoColumnLayout = CreateTwoColumnLayout
     @return string - HTML div with CSS Grid
 ]]
 local function CreateThreeColumnLayout(column1, column2, column3, gap)
-    if not column1 and not column2 and not column3 then return "" end
-    
-    -- Handle missing columns gracefully
+    -- Check if all columns are nil or empty strings
+    local col1Empty = not column1 or column1 == ""
+    local col2Empty = not column2 or column2 == ""
+    local col3Empty = not column3 or column3 == ""
+
+    -- If all columns are empty, return empty string
+    if col1Empty and col2Empty and col3Empty then
+        return ""
+    end
+
+    -- If only one or two columns have content, still use the layout but mark empty columns
     column1 = column1 or ""
     column2 = column2 or ""
     column3 = column3 or ""
     gap = gap or "20px"
-    
-    return string_format([[
+
+    return string_format(
+        [[
 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: %s;">
 <div>
 
@@ -359,7 +337,12 @@ local function CreateThreeColumnLayout(column1, column2, column3, gap)
 </div>
 </div>
 
-]], gap, column1, column2, column3)
+]],
+        gap,
+        column1,
+        column2,
+        column3
+    )
 end
 
 CM.utils.markdown.CreateThreeColumnLayout = CreateThreeColumnLayout
@@ -373,25 +356,49 @@ CM.utils.markdown.CreateThreeColumnLayout = CreateThreeColumnLayout
     @return string - HTML div with CSS Grid
 ]]
 local function CreateResponsiveColumns(columns, minColumnWidth, gap)
-    if not columns or #columns == 0 then return "" end
-    if #columns == 1 then return columns[1] end
-    
+    if not columns or #columns == 0 then
+        return ""
+    end
+
+    -- Check if all columns are empty
+    local hasContent = false
+    for _, content in ipairs(columns) do
+        if content and content ~= "" then
+            hasContent = true
+            break
+        end
+    end
+
+    -- If all columns are empty, return empty string
+    if not hasContent then
+        return ""
+    end
+
+    -- If only one column has content, return it directly
+    if #columns == 1 then
+        return columns[1] or ""
+    end
+
     minColumnWidth = minColumnWidth or "300px"
     gap = gap or "20px"
-    
-    local gridStyle = string_format('display: grid; grid-template-columns: repeat(auto-fit, minmax(%s, 1fr)); gap: %s;', minColumnWidth, gap)
-    
+
+    local gridStyle = string_format(
+        "display: grid; grid-template-columns: repeat(auto-fit, minmax(%s, 1fr)); gap: %s;",
+        minColumnWidth,
+        gap
+    )
+
     local parts = {}
     table.insert(parts, string_format('<div style="%s">\n', gridStyle))
-    
+
     for _, content in ipairs(columns) do
         table.insert(parts, "<div>\n\n")
         table.insert(parts, content or "")
         table.insert(parts, "\n\n</div>\n")
     end
-    
+
     table.insert(parts, "</div>\n\n")
-    
+
     return table_concat(parts, "")
 end
 
@@ -401,52 +408,8 @@ CM.utils.markdown.CreateResponsiveColumns = CreateResponsiveColumns
 -- FANCY BOXES & CARDS
 -- =====================================================
 
---[[
-    Create a highlighted info box (always uses page width for responsiveness)
-    @param content string - Content to display
-    @param width number - Deprecated: ignored (always uses 100% page width)
-    @return string - HTML table-based box
-]]
-local function CreateInfoBox(content, width)
-    if not content or content == "" then return "" end
-    -- width parameter is deprecated - always use page width (100%) for responsive design
-    
-    -- Clean content: remove leading/trailing whitespace, replace newlines with spaces for inline display
-    local cleanContent = tostring(content)
-    cleanContent = cleanContent:gsub("^%s+", "")  -- Remove leading whitespace
-    cleanContent = cleanContent:gsub("%s+$", "")  -- Remove trailing whitespace
-    cleanContent = cleanContent:gsub("%s+", " ")  -- Replace all whitespace sequences with single space
-    cleanContent = cleanContent:gsub("\n", " ")   -- Replace newlines with spaces
-    
-    -- Convert markdown to HTML (markdown doesn't work inside HTML tags)
-    cleanContent = cleanContent:gsub("%*%*(.-)%*%*", "<strong>%1</strong>")  -- **bold**
-    cleanContent = cleanContent:gsub("%*(.-)%*", "<em>%1</em>")  -- *italic*
-    
-    -- Escape remaining HTML-breaking characters (but keep the HTML we just created)
-    cleanContent = cleanContent:gsub("<", "&lt;"):gsub(">", "&gt;")
-    cleanContent = cleanContent:gsub("&lt;strong&gt;", "<strong>")
-    cleanContent = cleanContent:gsub("&lt;/strong&gt;", "</strong>")
-    cleanContent = cleanContent:gsub("&lt;em&gt;", "<em>")
-    cleanContent = cleanContent:gsub("&lt;/em&gt;", "</em>")
-    
-    -- Use 100% width for responsive page width
-    return string_format([[
-<div align="center">
-<table width="100%%">
-<tbody>
-<tr>
-<td align="center">
-<sub>%s</sub>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-]], cleanContent)
-end
-
-CM.utils.markdown.CreateInfoBox = CreateInfoBox
+-- Note: CreateInfoBox (HTML table-based) has been removed.
+-- Use CreateCallout() for highlighted information boxes with better styling and format support.
 
 -- =====================================================
 -- VISUAL STAT BARS
@@ -462,18 +425,20 @@ CM.utils.markdown.CreateInfoBox = CreateInfoBox
     @return string - Text-based progress bar
 ]]
 local function CreateProgressBar(current, max, width, style, label)
-    if not current or not max or max == 0 then return "" end
-    
+    if not current or not max or max == 0 then
+        return ""
+    end
+
     width = width or 20
     style = style or "github"
-    
+
     local percentage = math.floor((current / max) * 100)
     local filled = math.floor((percentage / 100) * width)
     local empty = width - filled
-    
+
     -- STANDARDIZED: Always use █ (filled) and ░ (empty) for consistency across all sections
     local bar = string_rep("█", filled) .. string_rep("░", empty)
-    
+
     if label then
         return string_format("%s: %s %d%% (%d/%d)", label, bar, percentage, current, max)
     else
@@ -495,11 +460,13 @@ CM.utils.markdown.CreateProgressBar = CreateProgressBar
     @return string - Emoji indicator
 ]]
 local function GetProgressIndicator(value, max, thresholds)
-    if not value or not max or max == 0 then return "⚪" end
-    
-    thresholds = thresholds or {complete = 100, high = 75, medium = 50, low = 25}
+    if not value or not max or max == 0 then
+        return "⚪"
+    end
+
+    thresholds = thresholds or { complete = 100, high = 75, medium = 50, low = 25 }
     local percentage = (value / max) * 100
-    
+
     -- Using widely-supported emoji circles (🟢🟡🟠🔴 may not render on all systems)
     -- Fallback to simpler symbols for maximum compatibility
     if percentage >= thresholds.complete then
@@ -519,23 +486,40 @@ CM.utils.markdown.GetProgressIndicator = GetProgressIndicator
 
 --[[
     Get quality/tier indicator emoji
-    @param quality string - Quality tier ("legendary", "epic", "superior", "fine", "normal", "trash")
-    @return string - Emoji + quality name
+    @param quality string|number - Quality tier name ("legendary", "epic", etc.) or ESO quality constant
+    @return string - Emoji indicator
 ]]
 local function GetQualityIndicator(quality)
+    -- Handle both string names and ESO constants
+    local qualityString = quality
+    if type(quality) == "number" then
+        -- Convert constant to string using GetQualityColor
+        if CM.utils and CM.utils.GetQualityColor then
+            qualityString = CM.utils.GetQualityColor(quality)
+        else
+            return "⚪" -- Fallback if utility not available
+        end
+    end
+
+    if not qualityString or qualityString == "" then
+        return "⚪"
+    end
+
     -- Using widely-supported quality indicators (avoiding newer colored squares)
     local indicators = {
-        legendary = "⭐",    -- Gold/Star (changed from 🟨 - more widely supported)
-        epic = "💜",         -- Purple heart (changed from 🟪 - more widely supported)
-        superior = "💙",     -- Blue heart (changed from 🟦 - more widely supported)
-        fine = "💚",         -- Green heart (changed from 🟩 - more widely supported)
-        normal = "⚪",       -- White circle (changed from ⬜ - more widely supported)
-        trash = "⚫",        -- Black circle (changed from ⬛ - more widely supported)
-        artifact = "🟠",     -- Orange circle (for ESO artifacts - widely supported)
-        mythic = "💜✨"      -- Purple heart with sparkle (more widely supported)
+        legendary = "⭐", -- Gold/Star (changed from 🟨 - more widely supported)
+        epic = "💜", -- Purple heart (changed from 🟪 - more widely supported)
+        artifact = "💜", -- Alias for epic
+        superior = "💙", -- Blue heart (changed from 🟦 - more widely supported)
+        arcane = "💙", -- Alias for superior
+        fine = "💚", -- Green heart (changed from 🟩 - more widely supported)
+        magic = "💚", -- Alias for fine
+        normal = "⚪", -- White circle (changed from ⬜ - more widely supported)
+        trash = "⚫", -- Black circle (changed from ⬛ - more widely supported)
+        mythic = "💜✨", -- Purple heart with sparkle (more widely supported)
     }
-    
-    return indicators[quality:lower()] or "⚪"
+
+    return indicators[qualityString:lower()] or "⚪"
 end
 
 CM.utils.markdown.GetQualityIndicator = GetQualityIndicator
@@ -553,33 +537,36 @@ CM.utils.markdown.GetQualityIndicator = GetQualityIndicator
 ]]
 -- Helper function to convert markdown links to HTML links
 local function ConvertMarkdownLinksToHTML(text)
-    if not text or text == "" then return text end
+    if not text or text == "" then
+        return text
+    end
     -- Convert [text](url) to <a href="url">text</a>
     return string_gsub(text, "%[(.-)%]%((.-)%)", '<a href="%2">%1</a>')
 end
 
 local function CreateCompactGrid(items, columns, format, align)
-    if not items or #items == 0 then return "" end
-    
+    if not items or #items == 0 then
+        return ""
+    end
+
     columns = columns or 4
     format = format or "github"
-    align = align or "center"  -- Default to center for backwards compatibility
-    
+    align = align or "center" -- Default to center for backwards compatibility
+
     if format ~= "github" and format ~= "vscode" then
         -- Fallback to simple list for Discord
         local lines = {}
         for _, item in ipairs(items) do
-            table.insert(lines, string_format("%s **%s**: %s", 
-                item.emoji or "•", item.label, item.value))
+            table.insert(lines, string_format("%s **%s**: %s", item.emoji or "•", item.label, item.value))
         end
         return table_concat(lines, "\n") .. "\n\n"
     end
-    
+
     -- Use native markdown table instead of HTML table
     -- Format: Simple table with emoji, value, and label in each cell (single line)
     local rows = {}
     local numRows = math.ceil(#items / columns)
-    
+
     -- Create separator row with proper alignment
     local separatorRow = "|"
     for col = 1, columns do
@@ -588,10 +575,10 @@ local function CreateCompactGrid(items, columns, format, align)
         elseif align == "right" then
             separatorRow = separatorRow .. "---:|"
         else
-            separatorRow = separatorRow .. ":---:|"  -- Center (default)
+            separatorRow = separatorRow .. ":---:|" -- Center (default)
         end
     end
-    
+
     -- Build data rows
     for row = 1, numRows do
         local rowCells = {}
@@ -600,16 +587,15 @@ local function CreateCompactGrid(items, columns, format, align)
             if idx <= #items then
                 local item = items[idx]
                 -- Format as single line: emoji **value** label (pure markdown, no HTML)
-                local cellContent = string_format("%s **%s** %s", 
-                    item.emoji or "", item.value, item.label or "")
+                local cellContent = string_format("%s **%s** %s", item.emoji or "", item.value, item.label or "")
                 -- Escape pipe characters in cell content
                 cellContent = string_gsub(cellContent, "|", "\\|")
                 table.insert(rowCells, cellContent)
             else
-                table.insert(rowCells, "")  -- Empty cell for incomplete rows
+                table.insert(rowCells, "") -- Empty cell for incomplete rows
             end
         end
-        
+
         -- Create markdown table row
         if row == 1 then
             -- First row: create empty header row
@@ -620,14 +606,14 @@ local function CreateCompactGrid(items, columns, format, align)
             table.insert(rows, headerRow)
             table.insert(rows, separatorRow)
         end
-        
+
         -- Data row - pure markdown table format
         local dataRow = "| " .. table_concat(rowCells, " | ") .. " |"
         table.insert(rows, dataRow)
     end
-    
+
     table.insert(rows, "\n")
-    
+
     return table_concat(rows, "\n")
 end
 
@@ -638,21 +624,156 @@ CM.utils.markdown.CreateCompactGrid = CreateCompactGrid
 -- =====================================================
 
 --[[
-    Create a styled table with alternating row colors (GitHub only)
+    Create a styled table with optional colored headers for VSCode
     @param headers table - Array of header strings
     @param rows table - Array of row arrays
-    @param alignment table - Optional alignment for each column ("left", "center", "right")
-    @return string - Markdown table
+    @param options table|string - Options table or alignment array (for backward compatibility)
+        - alignment: table of alignments per column ("left", "center", "right")
+        - format: string ("github", "vscode", "discord", "quick")
+        - coloredHeaders: boolean (default: true for vscode, false otherwise)
+    @return string - Markdown or HTML table
 ]]
-local function CreateStyledTable(headers, rows, alignment)
-    if not headers or #headers == 0 then return "" end
-    
-    alignment = alignment or {}
+local function CreateStyledTable(headers, rows, options)
+    if not headers or #headers == 0 then
+        return ""
+    end
+
+    -- Handle backward compatibility: if options is array, treat as alignment
+    local alignment, format, coloredHeaders, tableWidth
+    if type(options) == "table" and options[1] ~= nil then
+        -- Old-style: array of alignments
+        alignment = options
+        format = "github"
+        coloredHeaders = false
+        tableWidth = nil
+    elseif type(options) == "table" then
+        -- New-style: options table
+        alignment = options.alignment or {}
+        format = options.format or "github"
+        coloredHeaders = options.coloredHeaders
+        tableWidth = options.width or options.tableWidth
+        -- Auto-enable colored headers for vscode if not explicitly set
+        if coloredHeaders == nil and format == "vscode" then
+            coloredHeaders = true
+        end
+    else
+        -- No options provided
+        alignment = {}
+        format = "github"
+        coloredHeaders = false
+        tableWidth = nil
+    end
+
+    -- Bold all headers - use HTML for VSCode, markdown for others
+    local boldHeaders = {}
+    local useHtmlBold = (format == "vscode" and coloredHeaders)
+
+    for i, header in ipairs(headers) do
+        -- Check if already bolded (markdown or HTML)
+        local alreadyMarkdownBold = string.match(header, "^%*%*.*%*%*$")
+        local alreadyHtmlBold = string.match(header, "^<strong>.*</strong>$")
+
+        if useHtmlBold then
+            -- Use HTML bolding for VSCode format
+            if alreadyHtmlBold then
+                boldHeaders[i] = header
+            elseif alreadyMarkdownBold then
+                -- Convert markdown bold to HTML bold
+                boldHeaders[i] = header:gsub("%*%*(.-)%*%*", "<strong>%1</strong>")
+            else
+                boldHeaders[i] = "<strong>" .. header .. "</strong>"
+            end
+        else
+            -- Use markdown bolding for other formats
+            if alreadyMarkdownBold then
+                boldHeaders[i] = header
+            elseif alreadyHtmlBold then
+                -- Convert HTML bold to markdown bold
+                boldHeaders[i] = header:gsub("<strong>(.-)</strong>", "**%1**")
+            else
+                boldHeaders[i] = "**" .. header .. "**"
+            end
+        end
+    end
+
+    -- VSCode with colored headers: use HTML table
+    if format == "vscode" and coloredHeaders then
+        local html = {}
+        -- Add table width style if specified, otherwise default to 100%
+        local widthStyle = ' style="width: 100%;"'
+        if tableWidth then
+            if type(tableWidth) == "string" then
+                widthStyle = string_format(' style="width: %s;"', tableWidth)
+            elseif type(tableWidth) == "number" then
+                widthStyle = string_format(' style="width: %dpx;"', tableWidth)
+            end
+        end
+        
+        table.insert(html, string_format('<table%s>', widthStyle))
+        table.insert(html, "<thead>")
+        table.insert(html, "<tr>")
+
+        -- Header row with colored background
+        for i, header in ipairs(boldHeaders) do
+            local align = alignment[i] or "left"
+            local alignStyle = ""
+            if align == "center" then
+                alignStyle = "text-align: center;"
+            elseif align == "right" then
+                alignStyle = "text-align: right;"
+            else
+                alignStyle = "text-align: left;"
+            end
+            table.insert(
+                html,
+                string_format(
+                    '<th style="background-color: #0078d4; color: white; padding: 8px; %s">%s</th>',
+                    alignStyle,
+                    header
+                )
+            )
+        end
+
+        table.insert(html, "</tr>")
+        table.insert(html, "</thead>")
+        table.insert(html, "<tbody>")
+
+        -- Data rows
+        for _, row in ipairs(rows) do
+            table.insert(html, "<tr>")
+            for i, cell in ipairs(row) do
+                local align = alignment[i] or "left"
+                local alignStyle = ""
+                if align == "center" then
+                    alignStyle = "text-align: center;"
+                elseif align == "right" then
+                    alignStyle = "text-align: right;"
+                else
+                    alignStyle = "text-align: left;"
+                end
+                -- Convert markdown bold to HTML bold for VSCode format
+                local cellContent = cell
+                if useHtmlBold then
+                    cellContent = cellContent:gsub("%*%*(.-)%*%*", "<strong>%1</strong>")
+                end
+                table.insert(html, string_format('<td style="padding: 8px; %s">%s</td>', alignStyle, cellContent))
+            end
+            table.insert(html, "</tr>")
+        end
+
+        table.insert(html, "</tbody>")
+        table.insert(html, "</table>")
+        table.insert(html, "")
+
+        return table_concat(html, "\n") .. "\n"
+    end
+
+    -- Standard Markdown table (for all other cases)
     local lines = {}
-    
+
     -- Header row
-    table.insert(lines, "| " .. table_concat(headers, " | ") .. " |")
-    
+    table.insert(lines, "| " .. table_concat(boldHeaders, " | ") .. " |")
+
     -- Separator row with alignment
     local separators = {}
     for i = 1, #headers do
@@ -666,12 +787,12 @@ local function CreateStyledTable(headers, rows, alignment)
         end
     end
     table.insert(lines, "| " .. table_concat(separators, " | ") .. " |")
-    
+
     -- Data rows
     for _, row in ipairs(rows) do
         table.insert(lines, "| " .. table_concat(row, " | ") .. " |")
     end
-    
+
     return table_concat(lines, "\n") .. "\n\n"
 end
 
@@ -689,7 +810,7 @@ CM.utils.markdown.CreateStyledTable = CreateStyledTable
 ]]
 local function CreateSeparator(style, emoji)
     style = style or "hr"
-    
+
     if style == "hr" then
         return "---\n\n"
     elseif style == "emoji" then
@@ -717,27 +838,32 @@ CM.utils.markdown.CreateSeparator = CreateSeparator
     @return string - Anchor ID
 ]]
 local function GenerateAnchor(text)
-    if not text then return "" end
-    
+    if not text then
+        return ""
+    end
+
     -- Keep only ASCII letters, numbers, spaces, and basic punctuation
     -- This removes emojis and other Unicode characters
     local anchor = ""
     for i = 1, #text do
         local byte = text:byte(i)
-        if (byte >= 48 and byte <= 57) or  -- 0-9
-           (byte >= 65 and byte <= 90) or  -- A-Z
-           (byte >= 97 and byte <= 122) or -- a-z
-           byte == 32 or byte == 45 then   -- space or hyphen
+        if
+            (byte >= 48 and byte <= 57) -- 0-9
+            or (byte >= 65 and byte <= 90) -- A-Z
+            or (byte >= 97 and byte <= 122) -- a-z
+            or byte == 32
+            or byte == 45
+        then -- space or hyphen
             anchor = anchor .. text:sub(i, i)
         end
     end
-    
+
     -- Convert to lowercase and replace spaces with hyphens
     anchor = anchor:lower():gsub("%s+", "-")
-    
+
     -- Remove leading/trailing hyphens and collapse multiple hyphens
     anchor = anchor:gsub("^%-+", ""):gsub("%-+$", ""):gsub("%-%-+", "-")
-    
+
     return anchor
 end
 
@@ -756,7 +882,7 @@ local function CreateHeader(title, emoji, subtitle, level, skipAnchor)
     level = level or 2
     local prefix = string_rep("#", level)
     local emoji_prefix = emoji and (emoji .. " ") or ""
-    
+
     -- Generate anchor ID from title (without emoji)
     local anchorId = ""
     if not skipAnchor then
@@ -764,40 +890,127 @@ local function CreateHeader(title, emoji, subtitle, level, skipAnchor)
         local fullTitle = (emoji and (emoji .. " ") or "") .. title
         anchorId = GenerateAnchor(fullTitle)
     end
-    
+
     -- Build header with HTML anchor for universal markdown support
     local header = ""
     if not skipAnchor and anchorId ~= "" then
         header = string_format('<a id="%s"></a>\n\n', anchorId)
     end
     header = header .. string_format("%s %s%s\n\n", prefix, emoji_prefix, title)
-    
+
     if subtitle and subtitle ~= "" then
         header = header .. string_format("*%s*\n\n", subtitle)
     end
-    
+
     return header
 end
 
 CM.utils.markdown.CreateHeader = CreateHeader
 
 --[[
+    Create attention needed/warning section with format-specific styling
+    @param warnings table - Array of warning message strings
+    @param format string - Format type ("github", "vscode", "discord", "quick")
+    @param headerTitle string - Optional header title (default: "Attention Needed")
+    @return string - Formatted warnings section (two-column table: label | value)
+]]
+local function CreateAttentionNeeded(warnings, format, headerTitle)
+    if not warnings or #warnings == 0 then
+        return ""
+    end
+
+    headerTitle = headerTitle or "Attention Needed"
+    format = format or "github"
+
+    -- Parse warnings into two columns (split on first colon)
+    local rows = {}
+
+    for _, warning in ipairs(warnings) do
+        local leftCol, rightCol
+
+        -- Find first colon
+        local colonPos = string.find(warning, ":", 1, true)
+
+        if colonPos then
+            -- Split on colon
+            leftCol = string.sub(warning, 1, colonPos - 1)
+            rightCol = string.sub(warning, colonPos + 1)
+            -- Trim leading whitespace from right column
+            rightCol = string.gsub(rightCol, "^%s+", "")
+        else
+            -- No colon: put entire warning in left column
+            leftCol = warning
+            rightCol = ""
+        end
+
+        -- Note: CreateStyledTable will handle markdown-to-HTML bold conversion for VSCode format
+
+        table.insert(rows, { leftCol, rightCol })
+    end
+
+    -- Use styled table for all formats (two columns)
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    if CreateStyledTable then
+        -- Add ⚠️ emoji to header title for VSCode format
+        local displayTitle = headerTitle
+        if format == "vscode" then
+            displayTitle = "⚠️ " .. headerTitle
+        end
+        local headers = { displayTitle, "" } -- Empty second header
+        local options = {
+            alignment = { "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        return CreateStyledTable(headers, rows, options)
+    else
+        -- Fallback to markdown table if CreateStyledTable not available
+        local lines = {}
+        table.insert(lines, "| " .. headerTitle .. " | |")
+        table.insert(lines, "| --- | --- |")
+        for _, row in ipairs(rows) do
+            table.insert(lines, "| " .. row[1] .. " | " .. row[2] .. " |")
+        end
+        return table_concat(lines, "\n") .. "\n\n"
+    end
+end
+
+CM.utils.markdown.CreateAttentionNeeded = CreateAttentionNeeded
+
+--[[
     Format text with multiple styles
     @param text string - Text to format
     @param styles table - Array of style names: "bold", "italic", "code", "strikethrough"
+    @param format string - Target format ("github", "vscode", "discord") - defaults to "github"
     @return string - Formatted text
 ]]
-local function FormatText(text, styles)
-    if not text or text == "" then return "" end
-    if not styles or #styles == 0 then return text end
-    
+local function FormatText(text, styles, format)
+    if not text or text == "" then
+        return ""
+    end
+    if not styles or #styles == 0 then
+        return text
+    end
+
+    format = format or "github"
     local result = text
-    
+
+    -- VSCode with colored headers uses HTML for better compatibility
+    local useHtml = (format == "vscode")
+
     for _, style in ipairs(styles) do
         if style == "bold" then
-            result = "**" .. result .. "**"
+            if useHtml then
+                result = "<strong>" .. result .. "</strong>"
+            else
+                result = "**" .. result .. "**"
+            end
         elseif style == "italic" then
-            result = "*" .. result .. "*"
+            if useHtml then
+                result = "<em>" .. result .. "</em>"
+            else
+                result = "*" .. result .. "*"
+            end
         elseif style == "code" then
             result = "`" .. result .. "`"
         elseif style == "strikethrough" then
@@ -808,7 +1021,7 @@ local function FormatText(text, styles)
             result = "<mark>" .. result .. "</mark>"
         end
     end
-    
+
     return result
 end
 
@@ -818,8 +1031,10 @@ CM.utils.markdown.FormatText = FormatText
 -- MODULE INITIALIZATION
 -- =====================================================
 
-CM.DebugPrint("UTILS", "AdvancedMarkdown module loaded with " .. 
-    "callouts, badges, collapsible sections, progress bars, and styled tables")
+CM.DebugPrint(
+    "UTILS",
+    "AdvancedMarkdown module loaded with " .. "callouts, badges, collapsible sections, progress bars, and styled tables"
+)
 
 -- Functions are already exported to CM.utils.markdown above
 -- No need to return (this is not a module requiring return)

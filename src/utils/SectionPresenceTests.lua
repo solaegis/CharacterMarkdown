@@ -17,7 +17,7 @@ local string_format = string.format
 local function IsSettingEnabled(settings, settingName, defaultValue)
     local value = settings[settingName]
     if value == nil then
-        return defaultValue  -- Use provided default
+        return defaultValue -- Use provided default
     end
     return value == true
 end
@@ -29,7 +29,7 @@ local function GetDefaultSetting(settingName)
         return defaults[settingName]
     end
     -- Fallback defaults for sections not in defaults
-    return true  -- Most sections default to enabled
+    return true -- Most sections default to enabled
 end
 
 -- Map section names to their setting names (for special cases)
@@ -40,7 +40,7 @@ local SECTION_SETTING_MAP = {
     ["CustomNotes"] = "includeBuildNotes",
     ["DLCAccess"] = "includeDLCAccess",
     ["PvP"] = "includePvP",
-    ["PvPStats"] = "includePvPStats",  -- Note: PvPStats is merged into PvP section
+    ["PvPStats"] = "includePvPStats", -- Note: PvPStats is merged into PvP section
 }
 
 -- Get setting name for a section
@@ -60,24 +60,24 @@ end
 local testResults = {
     passed = {},
     failed = {},
-    optional = {}  -- Optional sections (e.g., Companion only if active)
+    optional = {}, -- Optional sections (e.g., Companion only if active)
 }
 
 local function AddResult(sectionName, passed, message, optional)
     if optional then
         table.insert(testResults.optional, {
             section = sectionName,
-            message = message or ""
+            message = message or "",
         })
     elseif passed then
         table.insert(testResults.passed, {
             section = sectionName,
-            message = message or ""
+            message = message or "",
         })
     else
         table.insert(testResults.failed, {
             section = sectionName,
-            message = message or ""
+            message = message or "",
         })
     end
 end
@@ -97,260 +97,260 @@ end
 local SECTION_PATTERNS = {
     {
         name = "Header",
-        always = true,  -- Always present
+        always = true, -- Always present
         patterns = {
             github = { "^# [^#\n]+", "##.*Character" },
             discord = { "^# [^#\n]+", "**Character" },
-            fallback = { "^# " }
-        }
+            fallback = { "^# " },
+        },
     },
     {
         name = "QuickStats",
-        formatSpecific = { "github", "vscode" },  -- Not in discord
+        formatSpecific = { "github", "vscode" }, -- Not in discord
         patterns = {
             github = { "##.*Quick Stats", "> %[!NOTE%].*Health", "Level.*CP.*Alliance" },
             vscode = { "##.*Quick Stats", "> %[!NOTE%].*Health", "Level.*CP.*Alliance" },
-            fallback = { "Quick Stats", "Level.*CP" }
-        }
+            fallback = { "Quick Stats", "Level.*CP" },
+        },
     },
     {
         name = "AttentionNeeded",
-        formatSpecific = { "github", "vscode" },  -- Not in discord
-        conditional = true,  -- Only appears if there are warnings
+        formatSpecific = { "github", "vscode" }, -- Not in discord
+        conditional = true, -- Only appears if there are warnings
         patterns = {
             github = { "##.*⚠️.*Attention", "> %[!WARNING%]", "Attention Needed" },
             vscode = { "##.*⚠️.*Attention", "> %[!WARNING%]", "Attention Needed" },
-            fallback = { "Attention Needed", "> %[!WARNING%]" }
-        }
+            fallback = { "Attention Needed", "> %[!WARNING%]" },
+        },
     },
     {
         name = "Currency",
         patterns = {
             github = { "##.*💰.*Currency", "Currency & Resources", "Gold.*Amount" },
             discord = { "**Currency:**", "💰.*Gold" },
-            fallback = { "Currency", "Gold" }
-        }
+            fallback = { "Currency", "Gold" },
+        },
     },
     {
         name = "RidingSkills",
         patterns = {
             github = { "##.*🐴.*Riding", "Riding Skills", "Speed.*Capacity.*Stamina" },
             discord = { "**Riding:**", "🐴.*Speed" },
-            fallback = { "Riding", "Speed" }
-        }
+            fallback = { "Riding", "Speed" },
+        },
     },
     {
         name = "Inventory",
         patterns = {
             github = { "##.*🎒.*Inventory", "Inventory", "Backpack.*%d+/%d+" },
             discord = { "**Inventory:**", "🎒.*Backpack" },
-            fallback = { "Inventory", "Backpack" }
-        }
+            fallback = { "Inventory", "Backpack" },
+        },
     },
     {
         name = "PvP",
         patterns = {
             github = { "##.*⚔️.*PvP", "PvP Stats", "Campaign", "Rank" },
             discord = { "**PvP:**", "⚔️.*Campaign" },
-            fallback = { "PvP", "Campaign" }
-        }
+            fallback = { "PvP", "Campaign" },
+        },
     },
     {
         name = "Collectibles",
         patterns = {
             github = { "##.*🎨.*Collectibles", "Collectibles", "Collectible" },
             discord = { "**Collectibles:**", "🎨.*Collectible" },
-            fallback = { "Collectibles" }
-        }
+            fallback = { "Collectibles" },
+        },
     },
     {
         name = "Crafting",
         patterns = {
             github = { "##.*🔨.*Crafting", "Crafting", "Blacksmithing.*Enchanting" },
             discord = { "**Crafting:**", "🔨.*Blacksmithing" },
-            fallback = { "Crafting", "Blacksmithing" }
-        }
+            fallback = { "Crafting", "Blacksmithing" },
+        },
     },
     {
         name = "Achievements",
         patterns = {
             github = { "##.*🏆.*Achievements", "Achievements", "Achievement Points" },
             discord = { "**Achievements:**", "🏆.*Achievement" },
-            fallback = { "Achievements" }
-        }
+            fallback = { "Achievements" },
+        },
     },
     {
         name = "Quests",
         patterns = {
             github = { "##.*📜.*Quests", "Quests", "Quest.*Progress" },
             discord = { "**Quests:**", "📜.*Quest" },
-            fallback = { "Quests" }
-        }
+            fallback = { "Quests" },
+        },
     },
     {
         name = "Equipment Enhancement",
         patterns = {
             github = { "##.*⚙️.*Equipment", "Equipment Enhancement", "Enhancement.*Quality" },
             discord = { "**Equipment Enhancement:**", "⚙️.*Enhancement" },
-            fallback = { "Equipment Enhancement", "Enhancement" }
-        }
+            fallback = { "Equipment Enhancement", "Enhancement" },
+        },
     },
     {
         name = "World Progress",
         patterns = {
             github = { "##.*🗺️.*World", "World Progress", "Zone.*Progress" },
             discord = { "**World Progress:**", "🗺️.*World" },
-            fallback = { "World Progress", "Zone" }
-        }
+            fallback = { "World Progress", "Zone" },
+        },
     },
     {
         name = "Titles & Housing",
         patterns = {
             github = { "##.*🏆.*Titles", "Titles & Housing", "Title.*Housing" },
             discord = { "**Titles & Housing:**", "🏆.*Title" },
-            fallback = { "Titles", "Housing" }
-        }
+            fallback = { "Titles", "Housing" },
+        },
     },
     {
         name = "Armory Builds",
         patterns = {
             github = { "##.*🎯.*Armory", "Armory Builds", "Armory" },
             discord = { "**Armory Builds:**", "🎯.*Armory" },
-            fallback = { "Armory" }
-        }
+            fallback = { "Armory" },
+        },
     },
     {
         name = "Undaunted Pledges",
         patterns = {
             github = { "##.*⚔️.*Undaunted", "Undaunted Pledges", "Pledge" },
             discord = { "**Undaunted Pledges:**", "⚔️.*Undaunted" },
-            fallback = { "Undaunted", "Pledge" }
-        }
+            fallback = { "Undaunted", "Pledge" },
+        },
     },
     {
         name = "Guilds",
         patterns = {
             github = { "##.*👥.*Guilds", "Guilds", "Guild.*Membership" },
             discord = { "**Guilds:**", "👥.*Guild" },
-            fallback = { "Guilds", "Guild" }
-        }
+            fallback = { "Guilds", "Guild" },
+        },
     },
     {
         name = "Attributes",
         patterns = {
             github = { "##.*⚡.*Attributes", "Attributes", "Magicka.*Health.*Stamina" },
             discord = { "**Attributes:**", "⚡.*Magicka" },
-            fallback = { "Attributes", "Magicka" }
-        }
+            fallback = { "Attributes", "Magicka" },
+        },
     },
     {
         name = "Buffs",
         patterns = {
             github = { "##.*✨.*Buffs", "Buffs", "Active.*Buff" },
             discord = { "**Buffs:**", "✨.*Buff" },
-            fallback = { "Buffs", "Buff" }
-        }
+            fallback = { "Buffs", "Buff" },
+        },
     },
     {
         name = "CustomNotes",
-        optional = true,  -- Only if customNotes content exists
+        optional = true, -- Only if customNotes content exists
         patterns = {
             github = { "##.*📝.*Notes", "Custom Notes", "Build Notes" },
             discord = { "**Custom Notes:**", "📝.*Notes" },
-            fallback = { "Custom Notes", "Build Notes" }
-        }
+            fallback = { "Custom Notes", "Build Notes" },
+        },
     },
     {
         name = "DLCAccess",
-        conditional = true,  -- Only appears if ESO Plus is NOT active
+        conditional = true, -- Only appears if ESO Plus is NOT active
         patterns = {
             github = { "##.*🗺️.*DLC", "DLC & Chapter Access", "DLC Access" },
             discord = { "**DLC Access:**", "DLC Access" },
-            fallback = { "DLC", "Chapter" }
-        }
+            fallback = { "DLC", "Chapter" },
+        },
     },
     {
         name = "Mundus",
-        formatSpecific = { "discord" },  -- Discord only
+        formatSpecific = { "discord" }, -- Discord only
         patterns = {
             discord = { "**Mundus:**", "Mundus" },
-            fallback = { "Mundus" }
-        }
+            fallback = { "Mundus" },
+        },
     },
     {
         name = "ChampionPoints",
         patterns = {
             github = { "##.*⭐.*Champion Points", "Champion Points", "Total.*Spent.*Available" },
             discord = { "**Champion Points:**", "⭐.*Champion" },
-            fallback = { "Champion Points", "CP.*Total" }
-        }
+            fallback = { "Champion Points", "CP.*Total" },
+        },
     },
     {
         name = "Progression",
         patterns = {
             github = { "##.*📈.*Progression", "Progression", "Unspent.*Skill.*Points" },
             discord = { "**Progression:**", "📈.*Progression" },
-            fallback = { "Progression", "Unspent" }
-        }
+            fallback = { "Progression", "Unspent" },
+        },
     },
     {
         name = "SkillBars",
         patterns = {
             github = { "##.*🎮.*Skill Bars", "Skill Bars", "Bar.*Slot" },
             discord = { "**Skill Bars:**", "🎮.*Skill" },
-            fallback = { "Skill Bars", "Bar" }
-        }
+            fallback = { "Skill Bars", "Bar" },
+        },
     },
     {
         name = "SkillMorphs",
         patterns = {
             github = { "##.*🔀.*Skill Morphs", "Skill Morphs", "Morph.*Choice" },
             discord = { "**Skill Morphs:**", "🔀.*Morph" },
-            fallback = { "Skill Morphs", "Morph" }
-        }
+            fallback = { "Skill Morphs", "Morph" },
+        },
     },
     {
         name = "CombatStats",
         patterns = {
             github = { "##.*📈.*Combat Statistics", "Combat Statistics", "Weapon.*Spell.*Power" },
             discord = { "**Stats:**", "HP.*Mag.*Stam" },
-            fallback = { "Combat", "Weapon Power" }
-        }
+            fallback = { "Combat", "Weapon Power" },
+        },
     },
     {
         name = "Equipment",
         patterns = {
             github = { "##.*⚔️.*Equipment", "Equipment", "Head.*Chest.*Shoulders" },
             discord = { "**Equipment:**", "⚔️.*Equipment" },
-            fallback = { "Equipment", "Head" }
-        }
+            fallback = { "Equipment", "Head" },
+        },
     },
     {
         name = "Skills",
         patterns = {
             github = { "##.*📜.*Character Progress", "Character Progress", "Skill.*Line" },
             discord = { "**Character Progress:**", "Character Progress" },
-            fallback = { "Character Progress", "Skills" }
-        }
+            fallback = { "Character Progress", "Skills" },
+        },
     },
     {
         name = "Companion",
-        optional = true,  -- Only if companion is active
+        optional = true, -- Only if companion is active
         patterns = {
             github = { "##.*👤.*Companion", "Companion", "Companion.*Rapport" },
             discord = { "**Companion:**", "👤.*Companion" },
-            fallback = { "Companion", "Rapport" }
-        }
+            fallback = { "Companion", "Rapport" },
+        },
     },
     {
         name = "Footer",
-        always = true,  -- Always present
+        always = true, -- Always present
         patterns = {
             github = { "Generated by CharacterMarkdown", "Total size", "CharacterMarkdown" },
             discord = { "Generated by CharacterMarkdown", "Total size" },
-            fallback = { "CharacterMarkdown", "Generated" }
-        }
-    }
+            fallback = { "CharacterMarkdown", "Generated" },
+        },
+    },
 }
 
 -- =====================================================
@@ -360,7 +360,7 @@ local SECTION_PATTERNS = {
 -- Check if a section is present in markdown using its patterns
 local function DetectSection(sectionConfig, markdown, format)
     local sectionName = sectionConfig.name
-    
+
     -- Check if section is format-specific
     if sectionConfig.formatSpecific then
         local isFormatSpecific = false
@@ -375,17 +375,17 @@ local function DetectSection(sectionConfig, markdown, format)
             return nil, "format-specific"
         end
     end
-    
+
     -- Get patterns for this format
     local patterns = sectionConfig.patterns[format] or sectionConfig.patterns.fallback or {}
-    
+
     -- Try each pattern
     for _, pattern in ipairs(patterns) do
         if string_find(markdown, pattern) then
             return true, "found"
         end
     end
-    
+
     return false, "not found"
 end
 
@@ -397,15 +397,15 @@ end
 local function ValidateSectionPresence(markdown, format, settings)
     format = format or "github"
     settings = settings or {}
-    
+
     ResetResults()
-    
+
     CM.DebugPrint("SECTION_TESTS", "Starting section presence validation...")
-    
+
     -- Count expected sections
     local expectedCount = 0
     local optionalCount = 0
-    
+
     for _, sectionConfig in ipairs(SECTION_PATTERNS) do
         -- Skip if format-specific and not for this format
         local shouldSkip = false
@@ -422,12 +422,12 @@ local function ValidateSectionPresence(markdown, format, settings)
                 shouldSkip = true
             end
         end
-        
+
         if not shouldSkip then
             -- Check if section should be enabled based on settings
             local settingName = GetSettingNameForSection(sectionConfig.name)
             local isEnabled = true
-            
+
             -- Special handling for conditional sections
             if sectionConfig.name == "QuickStats" or sectionConfig.name == "AttentionNeeded" then
                 -- These are format-specific and check setting
@@ -435,7 +435,7 @@ local function ValidateSectionPresence(markdown, format, settings)
                     local defaultValue = GetDefaultSetting(settingName)
                     isEnabled = IsSettingEnabled(settings, settingName, defaultValue)
                 else
-                    isEnabled = false  -- Not for this format
+                    isEnabled = false -- Not for this format
                 end
             elseif sectionConfig.name == "CustomNotes" then
                 -- CustomNotes requires both setting AND content
@@ -450,17 +450,22 @@ local function ValidateSectionPresence(markdown, format, settings)
                 local defaultValue = GetDefaultSetting(settingName)
                 isEnabled = IsSettingEnabled(settings, settingName, defaultValue)
             end
-            
+
             if isEnabled then
                 -- Test section presence
                 local found, reason = DetectSection(sectionConfig, markdown, format)
-                
+
                 if sectionConfig.optional then
                     optionalCount = optionalCount + 1
                     if found then
                         AddResult(sectionConfig.name, true, "Optional section found", true)
                     else
-                        AddResult(sectionConfig.name, false, string_format("Optional section not found (%s)", reason), true)
+                        AddResult(
+                            sectionConfig.name,
+                            false,
+                            string_format("Optional section not found (%s)", reason),
+                            true
+                        )
                     end
                 elseif sectionConfig.conditional then
                     -- Conditional sections only appear under certain conditions
@@ -469,7 +474,12 @@ local function ValidateSectionPresence(markdown, format, settings)
                     if found then
                         AddResult(sectionConfig.name, true, "Conditional section found", true)
                     else
-                        AddResult(sectionConfig.name, false, string_format("Conditional section not found - may not be applicable (%s)", reason), true)
+                        AddResult(
+                            sectionConfig.name,
+                            false,
+                            string_format("Conditional section not found - may not be applicable (%s)", reason),
+                            true
+                        )
                     end
                 elseif sectionConfig.always or isEnabled then
                     expectedCount = expectedCount + 1
@@ -482,17 +492,25 @@ local function ValidateSectionPresence(markdown, format, settings)
             end
         end
     end
-    
-    CM.DebugPrint("SECTION_TESTS", string_format("Validation complete: %d expected, %d optional, %d passed, %d failed", 
-        expectedCount, optionalCount, #testResults.passed, #testResults.failed))
-    
+
+    CM.DebugPrint(
+        "SECTION_TESTS",
+        string_format(
+            "Validation complete: %d expected, %d optional, %d passed, %d failed",
+            expectedCount,
+            optionalCount,
+            #testResults.passed,
+            #testResults.failed
+        )
+    )
+
     return {
         passed = testResults.passed,
         failed = testResults.failed,
         optional = testResults.optional,
         total = expectedCount + optionalCount,
         expected = expectedCount,
-        optionalCount = optionalCount
+        optionalCount = optionalCount,
     }
 end
 
@@ -502,17 +520,17 @@ local function GetSectionTestResults()
         passed = testResults.passed,
         failed = testResults.failed,
         optional = testResults.optional,
-        total = #testResults.passed + #testResults.failed + #testResults.optional
+        total = #testResults.passed + #testResults.failed + #testResults.optional,
     }
 end
 
 -- Print test report
 local function PrintSectionTestReport()
     local results = GetSectionTestResults()
-    
+
     -- Always print to chat (not just debug)
     d("|cFFFF00=== SECTION PRESENCE TEST ===|r")
-    
+
     if #results.passed > 0 then
         d(string_format("|c00FF00✅ PASSED (%d):|r", #results.passed))
         local sectionNames = {}
@@ -521,14 +539,14 @@ local function PrintSectionTestReport()
         end
         d(string_format("  %s", table.concat(sectionNames, ", ")))
     end
-    
+
     if #results.failed > 0 then
         d(string_format("|cFF0000❌ MISSING (%d):|r", #results.failed))
         for _, test in ipairs(results.failed) do
             d(string_format("  |cFF0000❌|r |cFFFFFF%s:|r %s", test.section, test.message))
         end
     end
-    
+
     if #results.optional > 0 then
         d(string_format("|cFFAA00⚠️ OPTIONAL (%d):|r", #results.optional))
         for _, test in ipairs(results.optional) do
@@ -536,7 +554,7 @@ local function PrintSectionTestReport()
             d(string_format("  %s |cFFFFFF%s:|r %s", status, test.section, test.message))
         end
     end
-    
+
     local passRate = results.total > 0 and (math.floor((#results.passed / results.total) * 100)) or 0
     local passColor = (#results.failed == 0) and "|c00FF00" or "|cFFAA00"
     d(string_format("%sPass Rate: %d%% (%d/%d sections found)|r", passColor, passRate, #results.passed, results.total))
@@ -553,4 +571,3 @@ CM.tests.sectionPresence.PrintSectionTestReport = PrintSectionTestReport
 CM.DebugPrint("SECTION_TESTS", "Section presence test module loaded")
 
 return CM.tests.sectionPresence
-

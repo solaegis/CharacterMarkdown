@@ -9,11 +9,11 @@ local CM = CharacterMarkdown
 
 local function CollectLocationData()
     local location = {}
-    
+
     location.zone = GetUnitZone("player") or "Unknown"
     location.subzone = GetPlayerActiveSubzoneName() or ""
-    location.zoneIndex = CM.SafeCall(GetUnitZoneIndex, "player") or 0  -- Zone index/number
-    
+    location.zoneIndex = CM.SafeCall(GetUnitZoneIndex, "player") or 0 -- Zone index/number
+
     return location
 end
 
@@ -25,10 +25,10 @@ CM.collectors.CollectLocationData = CollectLocationData
 
 local function CollectPvPData()
     local pvp = {}
-    
+
     pvp.rank = GetUnitAvARank("player") or 0
     pvp.rankName = GetAvARankName(GetUnitGender("player"), pvp.rank) or "Recruit"
-    
+
     local campaignId = GetAssignedCampaignId()
     if campaignId and campaignId > 0 then
         pvp.campaignName = GetCampaignName(campaignId) or "None"
@@ -37,7 +37,7 @@ local function CollectPvPData()
         pvp.campaignName = "None"
         pvp.campaignId = nil
     end
-    
+
     return pvp
 end
 
@@ -49,7 +49,7 @@ CM.collectors.CollectPvPData = CollectPvPData
 
 local function CollectRoleData()
     local role = {}
-    
+
     local selectedRole = GetGroupMemberSelectedRole("player")
     if selectedRole == LFG_ROLE_TANK then
         role.selected = "Tank"
@@ -64,7 +64,7 @@ local function CollectRoleData()
         role.selected = "None"
         role.emoji = "❓"
     end
-    
+
     return role
 end
 
@@ -77,15 +77,15 @@ CM.collectors.CollectRoleData = CollectRoleData
 -- Category definitions
 -- Note: Houses are excluded from collectibles since they have their own dedicated section
 local COLLECTIBLE_CATEGORIES = {
-    {type = COLLECTIBLE_CATEGORY_TYPE_MOUNT, key = "mounts", emoji = "🐴", name = "Mounts"},
-    {type = COLLECTIBLE_CATEGORY_TYPE_VANITY_PET, key = "pets", emoji = "🐾", name = "Pets"},
-    {type = COLLECTIBLE_CATEGORY_TYPE_COSTUME, key = "costumes", emoji = "👗", name = "Costumes"},
+    { type = COLLECTIBLE_CATEGORY_TYPE_MOUNT, key = "mounts", emoji = "🐴", name = "Mounts" },
+    { type = COLLECTIBLE_CATEGORY_TYPE_VANITY_PET, key = "pets", emoji = "🐾", name = "Pets" },
+    { type = COLLECTIBLE_CATEGORY_TYPE_COSTUME, key = "costumes", emoji = "👗", name = "Costumes" },
     -- {type = COLLECTIBLE_CATEGORY_TYPE_HOUSE, key = "houses", emoji = "🏠", name = "Houses"}, -- Excluded: shown in Housing section
-    {type = COLLECTIBLE_CATEGORY_TYPE_EMOTE, key = "emotes", emoji = "🎭", name = "Emotes"},
-    {type = COLLECTIBLE_CATEGORY_TYPE_MEMENTO, key = "mementos", emoji = "🎪", name = "Mementos"},
-    {type = COLLECTIBLE_CATEGORY_TYPE_SKIN, key = "skins", emoji = "🎨", name = "Skins"},
-    {type = COLLECTIBLE_CATEGORY_TYPE_POLYMORPH, key = "polymorphs", emoji = "🦎", name = "Polymorphs"},
-    {type = COLLECTIBLE_CATEGORY_TYPE_PERSONALITY, key = "personalities", emoji = "🎭", name = "Personalities"},
+    { type = COLLECTIBLE_CATEGORY_TYPE_EMOTE, key = "emotes", emoji = "🎭", name = "Emotes" },
+    { type = COLLECTIBLE_CATEGORY_TYPE_MEMENTO, key = "mementos", emoji = "🎪", name = "Mementos" },
+    { type = COLLECTIBLE_CATEGORY_TYPE_SKIN, key = "skins", emoji = "🎨", name = "Skins" },
+    { type = COLLECTIBLE_CATEGORY_TYPE_POLYMORPH, key = "polymorphs", emoji = "🦎", name = "Polymorphs" },
+    { type = COLLECTIBLE_CATEGORY_TYPE_PERSONALITY, key = "personalities", emoji = "🎭", name = "Personalities" },
 }
 
 -- Quality names mapping (if quality info is available)
@@ -101,36 +101,36 @@ local QUALITY_NAMES = {
 local function CollectCollectiblesData()
     local collectibles = {
         categories = {},
-        hasDetailedData = false
+        hasDetailedData = false,
     }
-    
+
     -- Get settings to check if detailed collection is enabled
     local settings = CharacterMarkdownSettings or {}
     local includeDetailed = settings.includeCollectiblesDetailed or false
-    
+
     for _, category in ipairs(COLLECTIBLE_CATEGORIES) do
         local categoryData = {
             name = category.name,
             emoji = category.emoji,
             owned = {},
             total = 0,
-            ownedCount = 0  -- Count of owned collectibles
+            ownedCount = 0, -- Count of owned collectibles
         }
-        
+
         local success, total = pcall(function()
             return GetTotalCollectiblesByCategoryType(category.type)
         end)
-        
+
         if success and total then
             categoryData.total = total
-            
+
             -- Count owned collectibles by checking each one (always count, not just in detailed mode)
             local ownedCount = 0
             for i = 1, total do
                 local collectibleSuccess, collectibleId = pcall(function()
                     return GetCollectibleIdFromType(category.type, i)
                 end)
-                
+
                 if collectibleSuccess and collectibleId then
                     -- Check if collectible is actually owned using IsCollectibleUnlocked
                     local isOwned = false
@@ -146,10 +146,10 @@ local function CollectCollectiblesData()
                             isOwned = unlocked or false
                         end
                     end
-                    
+
                     if isOwned then
                         ownedCount = ownedCount + 1
-                        
+
                         -- Get collectible name (always collect for potential display)
                         local name = ""
                         local infoSuccess, collectibleName = pcall(function()
@@ -159,7 +159,7 @@ local function CollectCollectiblesData()
                         if infoSuccess and collectibleName then
                             name = collectibleName
                         end
-                        
+
                         -- Always collect individual collectibles data if owned
                         -- This allows display even if includeDetailed setting is off
                         -- Get nickname if available (for mounts/pets)
@@ -170,9 +170,17 @@ local function CollectCollectiblesData()
                         if nicknameSuccess and nick and nick ~= "" then
                             nickname = nick
                         end
-                        
+
+                        -- Strip superscript markers from collectible names (^n, ^N, ^F, etc.)
+                        if nickname ~= "" then
+                            nickname = nickname:gsub("%^%w+$", "")
+                        end
+                        if name ~= "" then
+                            name = name:gsub("%^%w+$", "")
+                        end
+
                         local displayName = (nickname ~= "" and nickname) or name or "Unknown"
-                        
+
                         -- Try to get quality/rarity if available
                         local quality = nil
                         local qualitySuccess, qual = pcall(function()
@@ -181,19 +189,19 @@ local function CollectCollectiblesData()
                         if qualitySuccess and qual then
                             quality = QUALITY_NAMES[qual] or nil
                         end
-                        
+
                         table.insert(categoryData.owned, {
                             id = collectibleId,
                             name = displayName,
                             fullName = name,
-                            quality = quality
+                            quality = quality,
                         })
                     end
                 end
             end
-            
+
             categoryData.ownedCount = ownedCount
-            
+
             -- Sort alphabetically by display name (case-insensitive) if we have owned items
             if #categoryData.owned > 0 then
                 table.sort(categoryData.owned, function(a, b)
@@ -208,17 +216,17 @@ local function CollectCollectiblesData()
             categoryData.total = 0
             categoryData.ownedCount = 0
         end
-        
+
         collectibles.categories[category.key] = categoryData
     end
-    
+
     -- Legacy fields for backward compatibility (simple count mode)
     -- Use ownedCount (what player has) instead of total (what exists in game)
     collectibles.mounts = collectibles.categories.mounts and collectibles.categories.mounts.ownedCount or 0
     collectibles.pets = collectibles.categories.pets and collectibles.categories.pets.ownedCount or 0
     collectibles.costumes = collectibles.categories.costumes and collectibles.categories.costumes.ownedCount or 0
     collectibles.houses = collectibles.categories.houses and collectibles.categories.houses.ownedCount or 0
-    
+
     return collectibles
 end
 
@@ -233,13 +241,13 @@ local function CollectCraftingKnowledgeData()
         motifs = {},
         recipes = {},
         research = {},
-        timers = {}
+        timers = {},
     }
-    
+
     -- ===== MOTIFS =====
     local function CollectMotifs()
         local motifs = {}
-        
+
         -- Get all style pages
         local success, numPages = pcall(GetNumSmithingStylePages)
         if success and numPages then
@@ -252,32 +260,32 @@ local function CollectCraftingKnowledgeData()
                         category = pageCategory,
                         subcategory = pageSubcategory,
                         known = (success3 and isKnown) or false,
-                        pageIndex = pageIndex
+                        pageIndex = pageIndex,
                     })
                 end
             end
         end
-        
+
         return motifs
     end
-    
+
     -- ===== RESEARCH =====
     local function CollectResearch()
         local research = {
             blacksmithing = {},
             clothing = {},
             woodworking = {},
-            jewelry = {}
+            jewelry = {},
         }
-        
+
         -- Get research lines for each craft
         local craftTypes = {
-            {name = "blacksmithing", func = GetNumSmithingResearchLines},
-            {name = "clothing", func = GetNumSmithingResearchLines},
-            {name = "woodworking", func = GetNumSmithingResearchLines},
-            {name = "jewelry", func = GetNumSmithingResearchLines}
+            { name = "blacksmithing", func = GetNumSmithingResearchLines },
+            { name = "clothing", func = GetNumSmithingResearchLines },
+            { name = "woodworking", func = GetNumSmithingResearchLines },
+            { name = "jewelry", func = GetNumSmithingResearchLines },
         }
-        
+
         for _, craftType in ipairs(craftTypes) do
             local success, numLines = pcall(craftType.func)
             if success and numLines then
@@ -290,20 +298,20 @@ local function CollectCraftingKnowledgeData()
                             numTraits = numTraits or 0,
                             timeRequired = timeRequired or 0,
                             traitTimes = (success3 and traitTimes) or {},
-                            lineIndex = lineIndex
+                            lineIndex = lineIndex,
                         })
                     end
                 end
             end
         end
-        
+
         return research
     end
-    
+
     -- Collect all crafting data
     crafting.motifs = CollectMotifs()
-    crafting.recipes = CollectResearch()  -- Map research to recipes for generator compatibility
-    
+    crafting.recipes = CollectResearch() -- Map research to recipes for generator compatibility
+
     return crafting
 end
 
@@ -318,47 +326,69 @@ local function CollectSkyshardsData()
     local skyshards = {
         total = 0,
         collected = 0,
-        zones = {}
+        zones = {},
     }
-    
-    -- Skyshards are tracked via achievements in ESO
-    -- Scan all achievements for skyshard-related ones
-    local numAchievements = GetNumAchievements() or 0
-    
-    for i = 1, numAchievements do
-        local success, name = pcall(GetAchievementInfo, i)
-        if success and name and (name:find("Skyshard") or name:find("skyshard")) then
-            -- Get achievement criteria (each zone is a criterion)
-            local numCriteria = GetAchievementNumCriteria(i) or 0
-            for j = 1, numCriteria do
-                local criterionSuccess, criterionDesc, numCompleted, numRequired = pcall(GetAchievementCriterion, i, j)
-                if criterionSuccess and numRequired and numRequired > 0 then
-                    -- Extract zone name from criterion description if possible
-                    -- Criterion description format is typically "Zone Name" or "Zone Name Skyshards"
-                    local zoneName = criterionDesc
-                    if zoneName then
-                        -- Clean up the zone name (remove " Skyshards" suffix if present)
-                        zoneName = zoneName:gsub(" Skyshards?$", "")
-                        zoneName = zoneName:gsub(" Skyshard Hunter$", "")
-                        
-                        -- Store zone-specific data
-                        if not skyshards.zones[zoneName] then
-                            skyshards.zones[zoneName] = {
-                                total = numRequired,
-                                collected = numCompleted or 0,
-                                percentage = numRequired > 0 and math.floor(((numCompleted or 0) / numRequired) * 100) or 0
-                            }
-                            
-                            -- Add to totals
-                            skyshards.total = skyshards.total + numRequired
-                            skyshards.collected = skyshards.collected + (numCompleted or 0)
+
+    -- CORRECT API: Achievements are organized in categories/subcategories
+    local numCategories = CM.SafeCall(GetNumAchievementCategories) or 0
+    local achievementsFound = 0
+
+    -- Loop through all categories
+    for catIndex = 1, numCategories do
+        local catName = CM.SafeCall(GetAchievementCategoryInfo, catIndex)
+        local numSubCategories = CM.SafeCall(GetNumAchievementSubCategories, catIndex) or 0
+
+        -- Loop through subcategories
+        for subCatIndex = 1, numSubCategories do
+            local numAchievements = CM.SafeCall(GetNumAchievements, catIndex, subCatIndex) or 0
+
+            -- Loop through achievements in this subcategory
+            for achIndex = 1, numAchievements do
+                local achievementId = CM.SafeCall(GetAchievementId, catIndex, subCatIndex, achIndex)
+
+                if achievementId then
+                    local success, name = pcall(GetAchievementInfo, achievementId)
+                    if success and name and (name:find("Skyshard") or name:find("skyshard")) then
+                        achievementsFound = achievementsFound + 1
+
+                        -- Get achievement criteria (each zone is a criterion)
+                        local numCriteria = CM.SafeCall(GetAchievementNumCriteria, achievementId) or 0
+                        for j = 1, numCriteria do
+                            local success2, criterionDesc, numCompleted, numRequired =
+                                pcall(GetAchievementCriterion, achievementId, j)
+                            if success2 and numRequired and numRequired > 0 then
+                                -- Extract zone name from criterion description
+                                local zoneName = criterionDesc
+                                if zoneName then
+                                    -- Clean up the zone name
+                                    zoneName = zoneName:gsub(" Skyshards?$", "")
+                                    zoneName = zoneName:gsub(" Skyshard Hunter$", "")
+
+                                    -- Store zone-specific data
+                                    if not skyshards.zones[zoneName] then
+                                        skyshards.zones[zoneName] = {
+                                            total = numRequired,
+                                            collected = numCompleted or 0,
+                                            percentage = numRequired > 0
+                                                    and math.floor(((numCompleted or 0) / numRequired) * 100)
+                                                or 0,
+                                        }
+
+                                        -- Add to totals
+                                        skyshards.total = skyshards.total + numRequired
+                                        skyshards.collected = skyshards.collected + (numCompleted or 0)
+                                    end
+                                end
+                            end
                         end
                     end
                 end
             end
         end
     end
-    
+
+    CM.Info(string.format("Skyshards: %d/%d collected", skyshards.collected, skyshards.total))
+
     return skyshards
 end
 
@@ -367,9 +397,9 @@ local function CollectLorebooksData()
     local lorebooks = {
         total = 0,
         collected = 0,
-        categories = {}
+        categories = {},
     }
-    
+
     -- Get all lorebook categories
     local success, numCategories = pcall(GetNumLoreCategories)
     if success and numCategories then
@@ -380,9 +410,9 @@ local function CollectLorebooksData()
                     name = categoryName,
                     total = numBooks,
                     collected = 0,
-                    books = {}
+                    books = {},
                 }
-                
+
                 -- Get books in this category
                 for bookIndex = 1, numBooks do
                     local success3, bookName, isCollected = pcall(GetLoreBookInfo, categoryIndex, bookIndex)
@@ -390,21 +420,21 @@ local function CollectLorebooksData()
                         if isCollected then
                             categoryData.collected = categoryData.collected + 1
                         end
-                        
+
                         table.insert(categoryData.books, {
                             name = bookName,
-                            collected = isCollected or false
+                            collected = isCollected or false,
                         })
                     end
                 end
-                
+
                 lorebooks.categories[categoryName] = categoryData
                 lorebooks.total = lorebooks.total + numBooks
                 lorebooks.collected = lorebooks.collected + categoryData.collected
             end
         end
     end
-    
+
     return lorebooks
 end
 
@@ -413,17 +443,17 @@ local function CollectZoneCompletionData()
     local zoneCompletion = {
         currentZone = "",
         completionPercentage = 0,
-        zones = {}
+        zones = {},
     }
-    
+
     -- Get current zone and zone index
     local currentZone = GetUnitZone("player")
     if currentZone and currentZone ~= "" then
         zoneCompletion.currentZone = currentZone
-        
+
         -- Get zone index for POI-based tracking
         local zoneIndex = CM.SafeCall(GetUnitZoneIndex, "player") or 0
-        
+
         -- Try GetZoneCompletionStatus first (if it exists and works)
         local GetZoneCompletionStatusFunc = rawget(_G, "GetZoneCompletionStatus")
         if GetZoneCompletionStatusFunc and type(GetZoneCompletionStatusFunc) == "function" then
@@ -433,20 +463,24 @@ local function CollectZoneCompletionData()
                 zoneCompletion.completionPercentage = math.floor(percentage)
                 -- Store and return if we got a valid percentage
                 zoneCompletion.zones[currentZone] = {
-                    completionPercentage = zoneCompletion.completionPercentage
+                    completionPercentage = zoneCompletion.completionPercentage,
                 }
                 return zoneCompletion
             end
         end
-        
+
         -- Fallback: Try POI-based tracking if available
         local GetPOIInfoFunc = rawget(_G, "GetPOIInfo")
         local GetNumPOIsForDifficultyLevelAndZoneFunc = rawget(_G, "GetNumPOIsForDifficultyLevelAndZone")
         local GetCurrentMapZoneIndexFunc = rawget(_G, "GetCurrentMapZoneIndex")
-        
-        if GetPOIInfoFunc and type(GetPOIInfoFunc) == "function" and 
-           GetNumPOIsForDifficultyLevelAndZoneFunc and type(GetNumPOIsForDifficultyLevelAndZoneFunc) == "function" and
-           zoneIndex > 0 then
+
+        if
+            GetPOIInfoFunc
+            and type(GetPOIInfoFunc) == "function"
+            and GetNumPOIsForDifficultyLevelAndZoneFunc
+            and type(GetNumPOIsForDifficultyLevelAndZoneFunc) == "function"
+            and zoneIndex > 0
+        then
             -- Use POI-based tracking (more accurate)
             local poiSuccess, numPOIs = pcall(GetNumPOIsForDifficultyLevelAndZoneFunc, 1, zoneIndex) -- Difficulty 1 = normal
             if poiSuccess and numPOIs and numPOIs > 0 then
@@ -462,23 +496,23 @@ local function CollectZoneCompletionData()
                 end
             end
         end
-        
+
         -- Fallback: Manual calculation from multiple sources (existing logic)
         if zoneCompletion.completionPercentage == 0 then
             local completionComponents = {
                 wayshrines = 0,
                 skyshards = 0,
                 delves = 0,
-                publicDungeons = 0
+                publicDungeons = 0,
             }
-            
+
             local totalComponents = {
                 wayshrines = 0,
                 skyshards = 0,
                 delves = 0,
-                publicDungeons = 0
+                publicDungeons = 0,
             }
-            
+
             -- Wayshrines
             local success1, numWayshrines = pcall(GetNumFastTravelNodes)
             if success1 and numWayshrines then
@@ -490,7 +524,7 @@ local function CollectZoneCompletionData()
                     end
                 end
             end
-            
+
             -- Skyshards
             local success3, numSkyshards = pcall(GetNumSkyshardsInZone)
             if success3 and numSkyshards then
@@ -502,7 +536,7 @@ local function CollectZoneCompletionData()
                     end
                 end
             end
-            
+
             -- Delves
             local success5, numDelves = pcall(GetNumDelvesInZone)
             if success5 and numDelves then
@@ -514,7 +548,7 @@ local function CollectZoneCompletionData()
                     end
                 end
             end
-            
+
             -- Public Dungeons
             local success7, numPublicDungeons = pcall(GetNumPublicDungeonsInZone)
             if success7 and numPublicDungeons then
@@ -526,61 +560,68 @@ local function CollectZoneCompletionData()
                     end
                 end
             end
-            
+
             -- Calculate weighted completion percentage
             -- Wayshrines: 25%, Skyshards: 25%, Delves: 25%, Public Dungeons: 25%
             local totalWeight = 0
             local completedWeight = 0
-            
+
             -- Wayshrines (25%)
             if totalComponents.wayshrines > 0 then
                 local weight = 25
                 totalWeight = totalWeight + weight
-                completedWeight = completedWeight + (weight * (completionComponents.wayshrines / totalComponents.wayshrines))
+                completedWeight = completedWeight
+                    + (weight * (completionComponents.wayshrines / totalComponents.wayshrines))
             end
-            
+
             -- Skyshards (25%)
             if totalComponents.skyshards > 0 then
                 local weight = 25
                 totalWeight = totalWeight + weight
-                completedWeight = completedWeight + (weight * (completionComponents.skyshards / totalComponents.skyshards))
+                completedWeight = completedWeight
+                    + (weight * (completionComponents.skyshards / totalComponents.skyshards))
             end
-            
+
             -- Delves (25%)
             if totalComponents.delves > 0 then
                 local weight = 25
                 totalWeight = totalWeight + weight
                 completedWeight = completedWeight + (weight * (completionComponents.delves / totalComponents.delves))
             end
-            
+
             -- Public Dungeons (25%)
             if totalComponents.publicDungeons > 0 then
                 local weight = 25
                 totalWeight = totalWeight + weight
-                completedWeight = completedWeight + (weight * (completionComponents.publicDungeons / totalComponents.publicDungeons))
+                completedWeight = completedWeight
+                    + (weight * (completionComponents.publicDungeons / totalComponents.publicDungeons))
             end
-            
+
             -- Calculate final percentage
             if totalWeight > 0 then
                 zoneCompletion.completionPercentage = math.floor((completedWeight / totalWeight) * 100)
             end
-            
+
             -- If still 0, and we have at least some components, ensure minimum 1% if any progress made
             if zoneCompletion.completionPercentage == 0 and totalWeight > 0 then
                 -- Check if any components were found
-                if completionComponents.wayshrines > 0 or completionComponents.skyshards > 0 or 
-                   completionComponents.delves > 0 or completionComponents.publicDungeons > 0 then
-                    zoneCompletion.completionPercentage = 1  -- At least show some progress
+                if
+                    completionComponents.wayshrines > 0
+                    or completionComponents.skyshards > 0
+                    or completionComponents.delves > 0
+                    or completionComponents.publicDungeons > 0
+                then
+                    zoneCompletion.completionPercentage = 1 -- At least show some progress
                 end
             end
         end
-        
+
         -- Store current zone data
         zoneCompletion.zones[currentZone] = {
-            completionPercentage = zoneCompletion.completionPercentage
+            completionPercentage = zoneCompletion.completionPercentage,
         }
     end
-    
+
     return zoneCompletion
 end
 
@@ -590,58 +631,85 @@ local function CollectDungeonProgressData()
         delves = {
             total = 0,
             completed = 0,
-            list = {}
+            list = {},
         },
         publicDungeons = {
             total = 0,
             completed = 0,
-            list = {}
-        }
+            list = {},
+        },
     }
-    
-    -- Dungeons are tracked via achievements - scan all achievements
-    local numAchievements = GetNumAchievements() or 0
-    
-    for i = 1, numAchievements do
-        local success, name = pcall(GetAchievementInfo, i)
-        if success and name then
-            -- Look for Cave Delver achievements (e.g., "Bangkorai Cave Delver", "Pact Cave Delver")
-            if name:find("Cave Delver") then
-                local numCriteria = GetAchievementNumCriteria(i) or 0
-                for j = 1, numCriteria do
-                    local criterionSuccess, criterionDesc, numCompleted, numRequired = pcall(GetAchievementCriterion, i, j)
-                    if criterionSuccess and numRequired and numRequired > 0 then
-                        dungeons.delves.total = dungeons.delves.total + numRequired
-                        dungeons.delves.completed = dungeons.delves.completed + (numCompleted or 0)
-                    end
-                end
-            end
-            
-            -- Look for Public Dungeon achievements
-            if name:find("Group Event") or name:find("Vanquisher") then
-                local numCriteria = GetAchievementNumCriteria(i) or 0
-                for j = 1, numCriteria do
-                    local criterionSuccess, criterionDesc, numCompleted, numRequired = pcall(GetAchievementCriterion, i, j)
-                    if criterionSuccess and numRequired and numRequired > 0 then
-                        dungeons.publicDungeons.total = dungeons.publicDungeons.total + numRequired
-                        dungeons.publicDungeons.completed = dungeons.publicDungeons.completed + (numCompleted or 0)
+
+    -- CORRECT API: Loop through categories/subcategories
+    local numCategories = CM.SafeCall(GetNumAchievementCategories) or 0
+
+    for catIndex = 1, numCategories do
+        local numSubCategories = CM.SafeCall(GetNumAchievementSubCategories, catIndex) or 0
+
+        for subCatIndex = 1, numSubCategories do
+            local numAchievements = CM.SafeCall(GetNumAchievements, catIndex, subCatIndex) or 0
+
+            for achIndex = 1, numAchievements do
+                local achievementId = CM.SafeCall(GetAchievementId, catIndex, subCatIndex, achIndex)
+
+                if achievementId then
+                    local success, name = pcall(GetAchievementInfo, achievementId)
+                    if success and name then
+                        -- Look for Cave Delver achievements
+                        if name:find("Cave Delver") then
+                            local numCriteria = CM.SafeCall(GetAchievementNumCriteria, achievementId) or 0
+                            for j = 1, numCriteria do
+                                local success2, criterionDesc, numCompleted, numRequired =
+                                    pcall(GetAchievementCriterion, achievementId, j)
+                                if success2 and numRequired and numRequired > 0 then
+                                    dungeons.delves.total = dungeons.delves.total + numRequired
+                                    dungeons.delves.completed = dungeons.delves.completed + (numCompleted or 0)
+                                end
+                            end
+                        end
+
+                        -- Look for Public Dungeon achievements
+                        if name:find("Group Event") or name:find("Vanquisher") then
+                            local numCriteria = CM.SafeCall(GetAchievementNumCriteria, achievementId) or 0
+                            for j = 1, numCriteria do
+                                local success2, criterionDesc, numCompleted, numRequired =
+                                    pcall(GetAchievementCriterion, achievementId, j)
+                                if success2 and numRequired and numRequired > 0 then
+                                    dungeons.publicDungeons.total = dungeons.publicDungeons.total + numRequired
+                                    dungeons.publicDungeons.completed = dungeons.publicDungeons.completed
+                                        + (numCompleted or 0)
+                                end
+                            end
+                        end
                     end
                 end
             end
         end
     end
-    
+
+    CM.Info(
+        string.format(
+            "Dungeons: delves %d/%d, public %d/%d",
+            dungeons.delves.completed,
+            dungeons.delves.total,
+            dungeons.publicDungeons.completed,
+            dungeons.publicDungeons.total
+        )
+    )
+
     return dungeons
 end
 
 -- ===== MAIN WORLD PROGRESS COLLECTOR =====
 local function CollectWorldProgressData()
-    return {
+    local data = {
         skyshards = CollectSkyshardsData(),
         lorebooks = CollectLorebooksData(),
         zoneCompletion = CollectZoneCompletionData(),
-        dungeons = CollectDungeonProgressData()
+        dungeons = CollectDungeonProgressData(),
     }
+
+    return data
 end
 
 CM.collectors.CollectWorldProgressData = CollectWorldProgressData

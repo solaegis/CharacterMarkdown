@@ -21,20 +21,20 @@ end
 
 local function GenerateUndauntedPledges(pledgesData, format)
     InitializeUtilities()
-    
+
     local markdown = ""
-    
+
     if not pledgesData or not pledgesData.pledges then
-        return ""  -- No Undaunted data available
+        return "" -- No Undaunted data available
     end
-    
+
     local pledges = pledgesData.pledges or {}
     local dungeonProgress = pledgesData.dungeonProgress or {}
     local keys = pledgesData.keys or {}
-    
+
     if format == "discord" then
         markdown = markdown .. "**Undaunted Pledges:**\n"
-        
+
         -- Daily pledges
         if pledges.daily then
             local dailyNormal = #pledges.daily.normal or 0
@@ -47,7 +47,7 @@ local function GenerateUndauntedPledges(pledgesData, format)
                 markdown = markdown .. "\n"
             end
         end
-        
+
         -- Weekly pledges
         if pledges.weekly then
             local weeklyNormal = #pledges.weekly.normal or 0
@@ -60,19 +60,26 @@ local function GenerateUndauntedPledges(pledgesData, format)
                 markdown = markdown .. "\n"
             end
         end
-        
+
         -- Progress
         if pledges.progress and pledges.progress.totalAvailable > 0 then
             local percent = math.floor((pledges.progress.totalCompleted / pledges.progress.totalAvailable) * 100)
-            markdown = markdown .. "• Progress: " .. pledges.progress.totalCompleted .. "/" .. pledges.progress.totalAvailable .. " (" .. percent .. "%)\n"
+            markdown = markdown
+                .. "• Progress: "
+                .. pledges.progress.totalCompleted
+                .. "/"
+                .. pledges.progress.totalAvailable
+                .. " ("
+                .. percent
+                .. "%)\n"
         end
-        
+
         markdown = markdown .. "\n"
     else
         local anchorId = GenerateAnchor and GenerateAnchor("🏰 Undaunted Pledges") or "undaunted-pledges"
         markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## 🏰 Undaunted Pledges\n\n"  -- Changed from 🏛️ for better compatibility
-        
+        markdown = markdown .. "## 🏰 Undaunted Pledges\n\n" -- Changed from 🏛️ for better compatibility
+
         -- Show active pledges from quest journal
         local hasActivePledges = pledges.active and #pledges.active > 0
         if hasActivePledges then
@@ -82,20 +89,22 @@ local function GenerateUndauntedPledges(pledgesData, format)
                 -- Parse pledge name: "Pledge: Darkshade II - Deshaan" -> extract dungeon and zone
                 local pledgeText = pledge.name or ""
                 local locationText = pledge.location or ""
-                
+
                 -- Extract dungeon name (part after "Pledge: " and before " - ")
                 local dungeonName = pledgeText
                 if pledgeText:find("Pledge: ") and pledgeText:find(" - ") then
                     -- Format: "Pledge: DUNGEON - ZONE"
-                    dungeonName = pledgeText:match("Pledge: (.+) %-") or pledgeText:gsub("^Pledge: ", ""):match("(.+) %-") or pledgeText:gsub("^Pledge: ", "")
+                    dungeonName = pledgeText:match("Pledge: (.+) %-")
+                        or pledgeText:gsub("^Pledge: ", ""):match("(.+) %-")
+                        or pledgeText:gsub("^Pledge: ", "")
                 elseif pledgeText:find("Pledge: ") then
                     -- Format: "Pledge: DUNGEON" (no location separator)
                     dungeonName = pledgeText:gsub("^Pledge: ", "")
                 end
-                
+
                 -- Clean up dungeon name
                 dungeonName = dungeonName:gsub("^%s+", ""):gsub("%s+$", "")
-                
+
                 -- Create links for dungeon and location
                 local dungeonLink = (CreateZoneLink and CreateZoneLink(dungeonName, format)) or dungeonName
                 local locationLink = ""
@@ -109,7 +118,7 @@ local function GenerateUndauntedPledges(pledgesData, format)
                         locationLink = (CreateZoneLink and CreateZoneLink(zoneName, format)) or zoneName
                     end
                 end
-                
+
                 markdown = markdown .. "- Pledge: " .. dungeonLink
                 if locationLink ~= "" and locationLink ~= dungeonLink then
                     markdown = markdown .. " - " .. locationLink
@@ -118,68 +127,107 @@ local function GenerateUndauntedPledges(pledgesData, format)
             end
             markdown = markdown .. "\n"
         end
-        
+
         -- Pledges summary (daily/weekly)
         local hasDaily = pledges.daily and ((#pledges.daily.normal or 0) + (#pledges.daily.veteran or 0)) > 0
         local hasWeekly = pledges.weekly and ((#pledges.weekly.normal or 0) + (#pledges.weekly.veteran or 0)) > 0
-        
+
         if hasDaily or hasWeekly then
             markdown = markdown .. "| Type | Available | Keys |\n"
             markdown = markdown .. "|:-----|:----------|:-----|\n"
-            
+
             if hasDaily then
                 local dailyTotal = (#pledges.daily.normal or 0) + (#pledges.daily.veteran or 0)
                 markdown = markdown .. "| **Daily** | " .. dailyTotal .. " | " .. (pledges.daily.keys or 0) .. " |\n"
             end
-            
+
             if hasWeekly then
                 local weeklyTotal = (#pledges.weekly.normal or 0) + (#pledges.weekly.veteran or 0)
                 markdown = markdown .. "| **Weekly** | " .. weeklyTotal .. " | " .. (pledges.weekly.keys or 0) .. " |\n"
             end
-            
+
             markdown = markdown .. "\n"
         end
-        
+
         -- Only show "No pledges available" if there are no active pledges AND no daily/weekly pledges
         if not hasActivePledges and not hasDaily and not hasWeekly then
             markdown = markdown .. "*No pledges available*\n\n"
         end
-        
+
         -- Progress section
         if pledges.progress and pledges.progress.totalAvailable > 0 then
             local percent = math.floor((pledges.progress.totalCompleted / pledges.progress.totalAvailable) * 100)
             local progressBar = GenerateProgressBar(percent, 20)
             markdown = markdown .. "### 📊 Progress\n\n"
-            markdown = markdown .. "| Completed | " .. progressBar .. " " .. percent .. "% (" .. pledges.progress.totalCompleted .. "/" .. pledges.progress.totalAvailable .. ") |\n\n"
+            markdown = markdown
+                .. "| Completed | "
+                .. progressBar
+                .. " "
+                .. percent
+                .. "% ("
+                .. pledges.progress.totalCompleted
+                .. "/"
+                .. pledges.progress.totalAvailable
+                .. ") |\n\n"
         end
-        
+
         -- Dungeon progress section
         if dungeonProgress and (dungeonProgress.normal.total > 0 or dungeonProgress.veteran.total > 0) then
             markdown = markdown .. "### 🏰 Dungeon Progress\n\n"
             markdown = markdown .. "| Difficulty | Completed | Total | Progress |\n"
             markdown = markdown .. "|:-----------|:----------|:------|:--------|\n"
-            
+
             if dungeonProgress.normal.total > 0 then
-                local normalPercent = math.floor((dungeonProgress.normal.completed / dungeonProgress.normal.total) * 100)
+                local normalPercent =
+                    math.floor((dungeonProgress.normal.completed / dungeonProgress.normal.total) * 100)
                 local normalProgressBar = GenerateProgressBar(normalPercent, 20)
-                markdown = markdown .. "| **Normal** | " .. dungeonProgress.normal.completed .. " | " .. dungeonProgress.normal.total .. " | " .. normalProgressBar .. " " .. normalPercent .. "% |\n"
+                markdown = markdown
+                    .. "| **Normal** | "
+                    .. dungeonProgress.normal.completed
+                    .. " | "
+                    .. dungeonProgress.normal.total
+                    .. " | "
+                    .. normalProgressBar
+                    .. " "
+                    .. normalPercent
+                    .. "% |\n"
             end
-            
+
             if dungeonProgress.veteran.total > 0 then
-                local veteranPercent = math.floor((dungeonProgress.veteran.completed / dungeonProgress.veteran.total) * 100)
+                local veteranPercent =
+                    math.floor((dungeonProgress.veteran.completed / dungeonProgress.veteran.total) * 100)
                 local veteranProgressBar = GenerateProgressBar(veteranPercent, 20)
-                markdown = markdown .. "| **Veteran** | " .. dungeonProgress.veteran.completed .. " | " .. dungeonProgress.veteran.total .. " | " .. veteranProgressBar .. " " .. veteranPercent .. "% |\n"
+                markdown = markdown
+                    .. "| **Veteran** | "
+                    .. dungeonProgress.veteran.completed
+                    .. " | "
+                    .. dungeonProgress.veteran.total
+                    .. " | "
+                    .. veteranProgressBar
+                    .. " "
+                    .. veteranPercent
+                    .. "% |\n"
             end
-            
+
             if dungeonProgress.hardmode and dungeonProgress.hardmode.total > 0 then
-                local hardmodePercent = math.floor((dungeonProgress.hardmode.completed / dungeonProgress.hardmode.total) * 100)
+                local hardmodePercent =
+                    math.floor((dungeonProgress.hardmode.completed / dungeonProgress.hardmode.total) * 100)
                 local hardmodeProgressBar = GenerateProgressBar(hardmodePercent, 20)
-                markdown = markdown .. "| **Hardmode** | " .. dungeonProgress.hardmode.completed .. " | " .. dungeonProgress.hardmode.total .. " | " .. hardmodeProgressBar .. " " .. hardmodePercent .. "% |\n"
+                markdown = markdown
+                    .. "| **Hardmode** | "
+                    .. dungeonProgress.hardmode.completed
+                    .. " | "
+                    .. dungeonProgress.hardmode.total
+                    .. " | "
+                    .. hardmodeProgressBar
+                    .. " "
+                    .. hardmodePercent
+                    .. "% |\n"
             end
-            
+
             markdown = markdown .. "\n"
         end
-        
+
         -- Keys section
         if keys and keys.total > 0 then
             markdown = markdown .. "### 🔑 Undaunted Keys\n\n"
@@ -199,10 +247,16 @@ local function GenerateUndauntedPledges(pledgesData, format)
                 end
             end
         end
-        
-        markdown = markdown .. "---\n\n"
+
+        -- Use CreateSeparator for consistent separator styling
+        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+        if CreateSeparator then
+            markdown = markdown .. CreateSeparator("hr")
+        else
+            markdown = markdown .. "---\n\n"
+        end
     end
-    
+
     return markdown
 end
 
@@ -216,4 +270,3 @@ CM.generators.sections.GenerateUndauntedPledges = GenerateUndauntedPledges
 return {
     GenerateUndauntedPledges = GenerateUndauntedPledges,
 }
-

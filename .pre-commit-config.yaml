@@ -3,6 +3,18 @@
 
 repos:
   # ===========================================================================
+  # Lua Formatting with StyLua
+  # ===========================================================================
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v2.3.1
+    hooks:
+      - id: stylua
+        name: StyLua (Lua code formatter)
+        args:
+          - --config-path=.stylua.toml
+        files: \.lua$
+
+  # ===========================================================================
   # Lua Linting with Luacheck
   # ===========================================================================
   - repo: https://github.com/luarocks/luacheck

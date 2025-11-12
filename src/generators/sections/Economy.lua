@@ -24,9 +24,11 @@ end
 
 local function GenerateCurrency(currencyData, format)
     InitializeUtilities()
-    
-    if not currencyData or (CM.settings and CM.settings.includeCurrency == false) then return "" end
-    
+
+    if not currencyData then
+        return ""
+    end
+
     -- Enhanced visuals are now always enabled (baseline)
     -- Build currency items for grid (enhanced visuals are baseline)
     -- Use CreateCurrencyLink for labels if available
@@ -36,62 +38,88 @@ local function GenerateCurrency(currencyData, format)
     local crystalsLabel = (CreateCurrencyLink and CreateCurrencyLink("Crystals", format)) or "Crystals"
     local writsLabel = (CreateCurrencyLink and CreateCurrencyLink("Writs", format)) or "Writs"
     local ticketsLabel = (CreateCurrencyLink and CreateCurrencyLink("Tickets", format)) or "Tickets"
-    
+
     local items = {
-        {emoji = "💰", label = goldLabel, value = FormatNumber(currencyData.gold or 0)},
-        {emoji = "⚔️", label = apLabel, value = FormatNumber(currencyData.alliancePoints or 0)},
-        {emoji = "🔮", label = telVarLabel, value = FormatNumber(currencyData.telVar or 0)},
-        {emoji = "💎", label = crystalsLabel, value = FormatNumber(currencyData.transmuteCrystals or 0)},
-        {emoji = "📜", label = writsLabel, value = FormatNumber(currencyData.writs or 0)},
-        {emoji = "🎫", label = ticketsLabel, value = FormatNumber(currencyData.eventTickets or 0)},
+        { emoji = "💰", label = goldLabel, value = FormatNumber(currencyData.gold or 0) },
+        { emoji = "⚔️", label = apLabel, value = FormatNumber(currencyData.alliancePoints or 0) },
+        { emoji = "🔮", label = telVarLabel, value = FormatNumber(currencyData.telVar or 0) },
+        { emoji = "💎", label = crystalsLabel, value = FormatNumber(currencyData.transmuteCrystals or 0) },
+        { emoji = "📜", label = writsLabel, value = FormatNumber(currencyData.writs or 0) },
+        { emoji = "🎫", label = ticketsLabel, value = FormatNumber(currencyData.eventTickets or 0) },
     }
-    
+
     -- Classic format: show detailed table with bank gold, total, crowns, etc.
     if not markdown then
         local result = "## 💰 Currency & Resources\n\n"
-        result = result .. "| Currency | Amount |\n"
-        result = result .. "|:---------|-------:|\n"
-        
+
+        -- Add attention warning for event tickets at maximum
+        local eventTickets = currencyData.eventTickets or 0
+        if eventTickets >= 12 then
+            result = result
+                .. string_format(
+                    "🎫 **Event tickets at maximum** (%d/12) - Use tickets to avoid wasting future rewards\n\n",
+                    eventTickets
+                )
+        end
+
+        -- Build table rows
+        local headers = { "Currency", "Amount" }
+        local rows = {}
+
         -- Gold (On Hand)
-        local goldOnHandLink = CreateCurrencyLink and CreateCurrencyLink("Gold (On Hand)", format) or "💰 Gold (On Hand)"
-        result = result .. string_format("| **%s** | %s |\n", goldOnHandLink, FormatNumber(currencyData.gold or 0))
-        
+        local goldOnHandLink = CreateCurrencyLink and CreateCurrencyLink("Gold (On Hand)", format)
+            or "💰 Gold (On Hand)"
+        table.insert(rows, { goldOnHandLink, FormatNumber(currencyData.gold or 0) })
+
         if currencyData.goldBank and currencyData.goldBank > 0 then
             local goldBankLink = CreateCurrencyLink and CreateCurrencyLink("Gold (Bank)", format) or "💰 Gold (Bank)"
-            result = result .. string_format("| **%s** | %s |\n", goldBankLink, FormatNumber(currencyData.goldBank))
+            table.insert(rows, { goldBankLink, FormatNumber(currencyData.goldBank) })
         end
         if currencyData.goldTotal and currencyData.goldTotal > 0 then
-            local goldTotalLink = CreateCurrencyLink and CreateCurrencyLink("Gold (Total)", format) or "💰 Gold (Total)"
-            result = result .. string_format("| **%s** | %s |\n", goldTotalLink, FormatNumber(currencyData.goldTotal))
+            local goldTotalLink = CreateCurrencyLink and CreateCurrencyLink("Gold (Total)", format)
+                or "💰 Gold (Total)"
+            table.insert(rows, { goldTotalLink, FormatNumber(currencyData.goldTotal) })
         end
         if currencyData.telVar and currencyData.telVar > 0 then
-            local telVarLink = CreateCurrencyLink and CreateCurrencyLink("Tel Var Stones", format) or "🔷 Tel Var Stones"
-            result = result .. string_format("| **%s** | %s |\n", telVarLink, FormatNumber(currencyData.telVar))
+            local telVarLink = CreateCurrencyLink and CreateCurrencyLink("Tel Var Stones", format)
+                or "🔷 Tel Var Stones"
+            table.insert(rows, { telVarLink, FormatNumber(currencyData.telVar) })
         end
         if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
-            local crystalsLink = CreateCurrencyLink and CreateCurrencyLink("Transmute Crystals", format) or "💎 Transmute Crystals"
-            result = result .. string_format("| **%s** | %s |\n", crystalsLink, FormatNumber(currencyData.transmuteCrystals))
+            local crystalsLink = CreateCurrencyLink and CreateCurrencyLink("Transmute Crystals", format)
+                or "💎 Transmute Crystals"
+            table.insert(rows, { crystalsLink, FormatNumber(currencyData.transmuteCrystals) })
         end
         if currencyData.eventTickets and currencyData.eventTickets > 0 then
-            local ticketsLink = CreateCurrencyLink and CreateCurrencyLink("Event Tickets", format) or "🎫 Event Tickets"
-            result = result .. string_format("| **%s** | %s |\n", ticketsLink, FormatNumber(currencyData.eventTickets))
+            local ticketsLink = CreateCurrencyLink and CreateCurrencyLink("Event Tickets", format)
+                or "🎫 Event Tickets"
+            table.insert(rows, { ticketsLink, FormatNumber(currencyData.eventTickets) })
         end
         if currencyData.crowns and currencyData.crowns > 0 then
             local crownsLink = CreateCurrencyLink and CreateCurrencyLink("Crowns", format) or "👑 Crowns"
-            result = result .. string_format("| **%s** | %s |\n", crownsLink, FormatNumber(currencyData.crowns))
+            table.insert(rows, { crownsLink, FormatNumber(currencyData.crowns) })
         end
         if currencyData.crownGems and currencyData.crownGems > 0 then
             local crownGemsLink = CreateCurrencyLink and CreateCurrencyLink("Crown Gems", format) or "💠 Crown Gems"
-            result = result .. string_format("| **%s** | %s |\n", crownGemsLink, FormatNumber(currencyData.crownGems))
+            table.insert(rows, { crownGemsLink, FormatNumber(currencyData.crownGems) })
         end
         if currencyData.sealsOfEndeavor and currencyData.sealsOfEndeavor > 0 then
-            local sealsLink = CreateCurrencyLink and CreateCurrencyLink("Seals of Endeavor", format) or "🏅 Seals of Endeavor"
-            result = result .. string_format("| **%s** | %s |\n", sealsLink, FormatNumber(currencyData.sealsOfEndeavor))
+            local sealsLink = CreateCurrencyLink and CreateCurrencyLink("Seals of Endeavor", format)
+                or "🏅 Seals of Endeavor"
+            table.insert(rows, { sealsLink, FormatNumber(currencyData.sealsOfEndeavor) })
         end
-        
+
+        local CreateStyledTable = markdown and markdown.CreateStyledTable or CM.utils.markdown.CreateStyledTable
+        local options = {
+            alignment = { "left", "right" },
+            format = format,
+            coloredHeaders = true,
+        }
+        result = result .. CreateStyledTable(headers, rows, options)
+
         return result .. "\n"
     end
-    
+
     if format == "discord" then
         -- Discord: Simple list format
         local result = "**Currency:**\n"
@@ -100,8 +128,25 @@ local function GenerateCurrency(currencyData, format)
         end
         return result .. "\n"
     end
-    
+
     -- ENHANCED: Compact grid layout (left-aligned for consistency with other sections)
+    local header = ""
+    if markdown and markdown.CreateHeader then
+        header = markdown.CreateHeader("Currency & Resources", "💰", nil, 2) or "## 💰 Currency & Resources\n\n"
+    else
+        header = "## 💰 Currency & Resources\n\n"
+    end
+
+    -- Add attention warning for event tickets at maximum
+    local warningStr = ""
+    local eventTickets = currencyData.eventTickets or 0
+    if eventTickets >= 12 then
+        warningStr = string_format(
+            "🎫 **Event tickets at maximum** (%d/12) - Use tickets to avoid wasting future rewards\n\n",
+            eventTickets
+        )
+    end
+
     local content = ""
     if markdown and markdown.CreateCompactGrid then
         content = markdown.CreateCompactGrid(items, 3, format, "left") or ""
@@ -114,15 +159,8 @@ local function GenerateCurrency(currencyData, format)
         end
         content = table.concat(lines, "  \n") .. "\n\n"
     end
-    
-    local header = ""
-    if markdown and markdown.CreateHeader then
-        header = markdown.CreateHeader("Currency & Resources", "💰", nil, 2) or "## 💰 Currency & Resources\n\n"
-    else
-        header = "## 💰 Currency & Resources\n\n"
-    end
-    
-    return header .. content
+
+    return header .. warningStr .. content
 end
 
 CM.generators.sections.GenerateCurrency = GenerateCurrency
@@ -133,15 +171,17 @@ CM.generators.sections.GenerateCurrency = GenerateCurrency
 
 local function GenerateRidingSkills(ridingData, format)
     InitializeUtilities()
-    
-    if not ridingData or (CM.settings and CM.settings.includeRidingSkills == false) then return "" end
-    
+
+    if not ridingData then
+        return ""
+    end
+
     -- Enhanced visuals are now always enabled (baseline)
     local speed = ridingData.speed or 0
     local stamina = ridingData.stamina or 0
     local capacity = ridingData.capacity or 0
     local maxRiding = 60
-    
+
     if format == "discord" then
         -- Discord: Simple format
         local result = "**Riding Skills:**\n"
@@ -150,30 +190,39 @@ local function GenerateRidingSkills(ridingData, format)
         result = result .. "• Capacity: " .. capacity .. "/60\n"
         return result .. "\n"
     end
-    
+
     if not markdown then
         -- Classic table format (matches old output)
         local result = "## 🐎 Riding Skills\n\n"
-        result = result .. "| Skill | Progress | Status |\n"
-        result = result .. "|:------|:---------|:-------|\n"
-        
+
         local speedStatus = (speed >= 60) and "✅ Maxed" or string_format("%d/60", speed)
         local staminaStatus = (stamina >= 60) and "✅ Maxed" or string_format("%d/60", stamina)
         local capacityStatus = (capacity >= 60) and "✅ Maxed" or string_format("%d/60", capacity)
-        
-        result = result .. string_format("| **Speed** | %d / 60 | %s |\n", speed, speedStatus)
-        result = result .. string_format("| **Stamina** | %d / 60 | %s |\n", stamina, staminaStatus)
-        result = result .. string_format("| **Capacity** | %d / 60 | %s |\n", capacity, capacityStatus)
-        
+
+        local headers = { "Skill", "Progress", "Status" }
+        local rows = {
+            { "Speed", string_format("%d / 60", speed), speedStatus },
+            { "Stamina", string_format("%d / 60", stamina), staminaStatus },
+            { "Capacity", string_format("%d / 60", capacity), capacityStatus },
+        }
+
+        local CreateStyledTable = markdown and markdown.CreateStyledTable or CM.utils.markdown.CreateStyledTable
+        local options = {
+            alignment = { "left", "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        result = result .. CreateStyledTable(headers, rows, options)
+
         if speed >= 60 and stamina >= 60 and capacity >= 60 then
             result = result .. "\n✅ **All riding skills maxed!**\n\n"
         else
             result = result .. "\n"
         end
-        
+
         return result
     end
-    
+
     -- ENHANCED: Progress bars (with nil checks)
     local progressBars = {}
     if markdown and markdown.CreateProgressBar then
@@ -181,22 +230,40 @@ local function GenerateRidingSkills(ridingData, format)
         local speedPercent = math.floor((speed / maxRiding) * 100)
         local staminaPercent = math.floor((stamina / maxRiding) * 100)
         local capacityPercent = math.floor((capacity / maxRiding) * 100)
-        
+
         local speedFilled = math.floor((speedPercent / 100) * 20)
         local staminaFilled = math.floor((staminaPercent / 100) * 20)
         local capacityFilled = math.floor((capacityPercent / 100) * 20)
-        
+
         -- Align colons: "Speed:" (5) + 3 spaces = 8, "Stamina:" (7) + 1 space = 8, "Capacity:" (8) = 8
-        local speedBar = string_format("%8s %s%s %d%% (%d/%d)", 
-            "Speed:", string_rep("█", speedFilled), string_rep("░", 20 - speedFilled),
-            speedPercent, speed, maxRiding)
-        local staminaBar = string_format("%8s %s%s %d%% (%d/%d)", 
-            "Stamina:", string_rep("█", staminaFilled), string_rep("░", 20 - staminaFilled),
-            staminaPercent, stamina, maxRiding)
-        local capacityBar = string_format("%8s %s%s %d%% (%d/%d)", 
-            "Capacity:", string_rep("█", capacityFilled), string_rep("░", 20 - capacityFilled),
-            capacityPercent, capacity, maxRiding)
-        
+        local speedBar = string_format(
+            "%8s %s%s %d%% (%d/%d)",
+            "Speed:",
+            string_rep("█", speedFilled),
+            string_rep("░", 20 - speedFilled),
+            speedPercent,
+            speed,
+            maxRiding
+        )
+        local staminaBar = string_format(
+            "%8s %s%s %d%% (%d/%d)",
+            "Stamina:",
+            string_rep("█", staminaFilled),
+            string_rep("░", 20 - staminaFilled),
+            staminaPercent,
+            stamina,
+            maxRiding
+        )
+        local capacityBar = string_format(
+            "%8s %s%s %d%% (%d/%d)",
+            "Capacity:",
+            string_rep("█", capacityFilled),
+            string_rep("░", 20 - capacityFilled),
+            capacityPercent,
+            capacity,
+            maxRiding
+        )
+
         table.insert(progressBars, speedBar)
         table.insert(progressBars, staminaBar)
         table.insert(progressBars, capacityBar)
@@ -205,29 +272,47 @@ local function GenerateRidingSkills(ridingData, format)
         local speedPercent = math.floor((speed / maxRiding) * 100)
         local staminaPercent = math.floor((stamina / maxRiding) * 100)
         local capacityPercent = math.floor((capacity / maxRiding) * 100)
-        
+
         local speedFilled = math.floor((speedPercent / 100) * 20)
         local staminaFilled = math.floor((staminaPercent / 100) * 20)
         local capacityFilled = math.floor((capacityPercent / 100) * 20)
-        
+
         -- Align colons: "Speed:" (6) + 2 spaces = 8, "Stamina:" (7) + 1 space = 8, "Capacity:" (8) = 8
         -- Use left-alignment (%-8s) to pad labels on the right, aligning colons
-        local speedBar = string_format("%-8s %s%s %d%% (%d/%d)", 
-            "Speed:", string_rep("█", speedFilled), string_rep("░", 20 - speedFilled),
-            speedPercent, speed, maxRiding)
-        local staminaBar = string_format("%-8s %s%s %d%% (%d/%d)", 
-            "Stamina:", string_rep("█", staminaFilled), string_rep("░", 20 - staminaFilled),
-            staminaPercent, stamina, maxRiding)
-        local capacityBar = string_format("%-8s %s%s %d%% (%d/%d)", 
-            "Capacity:", string_rep("█", capacityFilled), string_rep("░", 20 - capacityFilled),
-            capacityPercent, capacity, maxRiding)
+        local speedBar = string_format(
+            "%-8s %s%s %d%% (%d/%d)",
+            "Speed:",
+            string_rep("█", speedFilled),
+            string_rep("░", 20 - speedFilled),
+            speedPercent,
+            speed,
+            maxRiding
+        )
+        local staminaBar = string_format(
+            "%-8s %s%s %d%% (%d/%d)",
+            "Stamina:",
+            string_rep("█", staminaFilled),
+            string_rep("░", 20 - staminaFilled),
+            staminaPercent,
+            stamina,
+            maxRiding
+        )
+        local capacityBar = string_format(
+            "%-8s %s%s %d%% (%d/%d)",
+            "Capacity:",
+            string_rep("█", capacityFilled),
+            string_rep("░", 20 - capacityFilled),
+            capacityPercent,
+            capacity,
+            maxRiding
+        )
         table.insert(progressBars, speedBar)
         table.insert(progressBars, staminaBar)
         table.insert(progressBars, capacityBar)
     end
-    
+
     local content = table.concat(progressBars, "  \n")
-    
+
     if markdown.CreateCollapsible then
         local collapsible = markdown.CreateCollapsible("Riding Skills", content, "🐴", false)
         return collapsible or (string.format("## 🐴 Riding Skills\n\n%s\n\n", content))
@@ -242,37 +327,233 @@ CM.generators.sections.GenerateRidingSkills = GenerateRidingSkills
 -- INVENTORY
 -- =====================================================
 
+-- Helper: Get quality emoji/symbol
+local function GetQualitySymbol(quality)
+    local qualityMap = {
+        [0] = "⚪", -- Trash/Normal
+        [1] = "⚪", -- Normal/Fine
+        [2] = "🟢", -- Superior (Green)
+        [3] = "🔵", -- Artifact (Blue)
+        [4] = "🟣", -- Epic (Purple)
+        [5] = "🟡", -- Legendary (Gold)
+    }
+    return qualityMap[quality] or "⚪"
+end
+
+-- Helper: Generate item list for a specific container
+local function GenerateItemList(items, containerName, format)
+    if not items or #items == 0 then
+        return ""
+    end
+
+    local result = ""
+
+    if format == "discord" then
+        result = result .. "**" .. containerName .. " Items:**\n"
+        for _, item in ipairs(items) do
+            local qualitySymbol = GetQualitySymbol(item.quality)
+            local stackText = item.stack > 1 and (" x" .. item.stack) or ""
+            result = result .. qualitySymbol .. " " .. item.name .. stackText .. "\n"
+        end
+        result = result .. "\n"
+    else
+        -- Group items by category (itemTypeName)
+        local categories = {}
+        
+        for _, item in ipairs(items) do
+            local category = item.itemTypeName or "Other"
+            if category == "" then
+                category = "Other"
+            end
+            if not categories[category] then
+                categories[category] = {}
+            end
+            table.insert(categories[category], item)
+        end
+
+        -- Sort categories alphabetically
+        local sortedCategories = {}
+        for category, categoryItems in pairs(categories) do
+            table.insert(sortedCategories, { name = category, items = categoryItems })
+        end
+        table.sort(sortedCategories, function(a, b)
+            return a.name:lower() < b.name:lower()
+        end)
+
+        result = result .. "<details>\n"
+        result = result
+            .. "<summary><strong>"
+            .. containerName
+            .. " Items</strong> ("
+            .. #items
+            .. " unique items)</summary>\n\n"
+
+        -- Generate a table for each category
+        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+        local headers = { "Item", "Stack", "Quality" }
+        local options = {
+            alignment = { "left", "right", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+
+        for _, categoryData in ipairs(sortedCategories) do
+            local categoryName = categoryData.name
+            local categoryItems = categoryData.items
+            
+            -- Sort items within category by name
+            table.sort(categoryItems, function(a, b)
+                return a.name:lower() < b.name:lower()
+            end)
+
+            -- Add category header
+            result = result .. "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
+
+            -- Build table for this category
+            local rows = {}
+            for _, item in ipairs(categoryItems) do
+                local qualitySymbol = GetQualitySymbol(item.quality)
+                local stackText = item.stack > 1 and tostring(item.stack) or "1"
+                table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
+            end
+
+            result = result .. CreateStyledTable(headers, rows, options)
+            result = result .. "\n\n"
+        end
+
+        result = result .. "</details>\n\n"
+    end
+
+    return result
+end
+
 local function GenerateInventory(inventoryData, format)
     InitializeUtilities()
-    
-    if not inventoryData or CM.settings.includeInventory == false then return "" end
-    
+
+    if not inventoryData then
+        return ""
+    end
+
     local result = ""
-    
+
     if format == "discord" then
         result = result .. "**Inventory:**\n"
-        result = result .. "• Backpack: " .. inventoryData.backpackUsed .. "/" .. inventoryData.backpackMax .. 
-                              " (" .. inventoryData.backpackPercent .. "%)\n"
-        result = result .. "• Bank: " .. inventoryData.bankUsed .. "/" .. inventoryData.bankMax .. 
-                              " (" .. inventoryData.bankPercent .. "%)\n"
+        result = result
+            .. "• Backpack: "
+            .. inventoryData.backpackUsed
+            .. "/"
+            .. inventoryData.backpackMax
+            .. " ("
+            .. inventoryData.backpackPercent
+            .. "%)\n"
+        result = result
+            .. "• Bank: "
+            .. inventoryData.bankUsed
+            .. "/"
+            .. inventoryData.bankMax
+            .. " ("
+            .. inventoryData.bankPercent
+            .. "%)\n"
         if inventoryData.hasCraftingBag then
             result = result .. "• ✅ Crafting Bag (ESO Plus)\n"
         end
         result = result .. "\n"
+
+        -- Add detailed bag contents if available
+        if inventoryData.bagItems then
+            result = result .. GenerateItemList(inventoryData.bagItems, "Backpack", format)
+        end
+
+        -- Add detailed bank contents if available
+        if inventoryData.bankItems then
+            result = result .. GenerateItemList(inventoryData.bankItems, "Bank", format)
+        end
+
+        -- Add detailed crafting bag contents if available
+        if inventoryData.craftingBagItems then
+            result = result .. GenerateItemList(inventoryData.craftingBagItems, "Crafting Bag", format)
+        end
     else
         result = result .. "## 🎒 Inventory\n\n"
-        result = result .. "| Storage | Used | Max | Capacity |\n"
-        result = result .. "|:--------|-----:|----:|---------:|\n"
-        result = result .. "| **Backpack** | " .. inventoryData.backpackUsed .. " | " .. 
-                              inventoryData.backpackMax .. " | " .. inventoryData.backpackPercent .. "% |\n"
-        result = result .. "| **Bank** | " .. inventoryData.bankUsed .. " | " .. 
-                              inventoryData.bankMax .. " | " .. inventoryData.bankPercent .. "% |\n"
-        if inventoryData.hasCraftingBag then
-            result = result .. "| **Crafting Bag** | ∞ | ∞ | ESO Plus |\n"
+
+        -- Add attention warnings for nearly full storage
+        local warnings = {}
+        if inventoryData.backpackPercent and inventoryData.backpackPercent >= 90 then
+            table.insert(
+                warnings,
+                string_format("🎒 **Backpack nearly full** (%d%%) - Clear out items", inventoryData.backpackPercent)
+            )
         end
-        result = result .. "\n"
+        if inventoryData.bankPercent and inventoryData.bankPercent >= 90 then
+            table.insert(
+                warnings,
+                string_format("🏦 **Bank nearly full** (%d%%) - Clear out items", inventoryData.bankPercent)
+            )
+        end
+
+        if #warnings > 0 then
+            result = result .. table.concat(warnings, "  \n") .. "\n\n"
+        end
+
+        local headers = { "Storage", "Used", "Max", "Capacity" }
+        
+        -- Helper function to create capacity progress bar
+        local function FormatCapacity(percent)
+            if not percent then
+                return "-"
+            end
+            local CreateProgressBar = CM.utils.CreateProgressBar
+            if CreateProgressBar then
+                return CreateProgressBar(percent, 10)
+            else
+                -- Fallback to percentage if progress bar not available
+                return tostring(percent) .. "%"
+            end
+        end
+        
+        local rows = {
+            {
+                "Backpack",
+                tostring(inventoryData.backpackUsed),
+                tostring(inventoryData.backpackMax),
+                FormatCapacity(inventoryData.backpackPercent),
+            },
+            {
+                "Bank",
+                tostring(inventoryData.bankUsed),
+                tostring(inventoryData.bankMax),
+                FormatCapacity(inventoryData.bankPercent),
+            },
+        }
+
+        if inventoryData.hasCraftingBag then
+            table.insert(rows, { "Crafting Bag", "∞", "∞", "ESO Plus" })
+        end
+
+        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+        local options = {
+            alignment = { "left", "right", "right", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        result = result .. CreateStyledTable(headers, rows, options)
+
+        -- Add detailed bag contents if available
+        if inventoryData.bagItems then
+            result = result .. GenerateItemList(inventoryData.bagItems, "Backpack", format)
+        end
+
+        -- Add detailed bank contents if available
+        if inventoryData.bankItems then
+            result = result .. GenerateItemList(inventoryData.bankItems, "Bank", format)
+        end
+
+        -- Add detailed crafting bag contents if available
+        if inventoryData.craftingBagItems then
+            result = result .. GenerateItemList(inventoryData.craftingBagItems, "Crafting Bag", format)
+        end
     end
-    
+
     return result
 end
 
@@ -284,11 +565,13 @@ CM.generators.sections.GenerateInventory = GenerateInventory
 
 local function GeneratePvP(pvpData, format)
     InitializeUtilities()
-    
-    if not pvpData or CM.settings.includePvP == false then return "" end
-    
+
+    if not pvpData then
+        return ""
+    end
+
     local result = ""
-    
+
     if format == "discord" then
         result = result .. "**PvP:**\n"
         result = result .. "• Alliance War Rank: " .. pvpData.rankName .. " (Rank " .. pvpData.rank .. ")\n"
@@ -299,16 +582,26 @@ local function GeneratePvP(pvpData, format)
         result = result .. "\n"
     else
         result = result .. "## ⚔️ PvP Information\n\n"
-        result = result .. "| Category | Value |\n"
-        result = result .. "|:---------|:------|\n"
-        result = result .. "| **Alliance War Rank** | " .. pvpData.rankName .. " (Rank " .. pvpData.rank .. ") |\n"
+
+        local headers = { "Category", "Value" }
+        local rows = {
+            { "Alliance War Rank", pvpData.rankName .. " (Rank " .. pvpData.rank .. ")" },
+        }
+
         if pvpData.campaignName and pvpData.campaignName ~= "None" then
             local campaignText = CreateCampaignLink(pvpData.campaignName, format)
-            result = result .. "| **Current Campaign** | " .. campaignText .. " |\n"
+            table.insert(rows, { "Current Campaign", campaignText })
         end
-        result = result .. "\n"
+
+        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+        local options = {
+            alignment = { "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        result = result .. CreateStyledTable(headers, rows, options)
     end
-    
+
     return result
 end
 
@@ -320,17 +613,17 @@ CM.generators.sections.GeneratePvP = GeneratePvP
 
 local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inventoryData, format, cpData)
     InitializeUtilities()
-    
-    -- Check if any of the components should be included
-    local includeCurrency = currencyData and (CM.settings == nil or CM.settings.includeCurrency ~= false)
-    local includeInventory = inventoryData and (CM.settings == nil or CM.settings.includeInventory ~= false)
-    
+
+    -- Check if any of the components have data
+    local includeCurrency = currencyData ~= nil
+    local includeInventory = inventoryData ~= nil
+
     if not includeCurrency and not includeInventory then
         return ""
     end
-    
+
     local result = ""
-    
+
     if format == "discord" then
         -- Discord: Simple format, combine all
         if includeCurrency then
@@ -343,11 +636,11 @@ local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inve
         end
         return result
     end
-    
+
     -- Non-Discord: Create merged section without headers (headers removed for Overview section)
     -- Add Currency title
     result = result .. '<a id="currency"></a>\n\n### Currency\n\n'
-    
+
     -- Currency & Resources subsection
     if includeCurrency then
         -- Get currency content without header
@@ -356,7 +649,7 @@ local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inve
         currencyContent = currencyContent:gsub("^##%s+💰%s+Currency%s+&%s+Resources%s*\n%s*\n", "")
         result = result .. currencyContent
     end
-    
+
     -- Inventory subsection
     if includeInventory then
         local inventoryContent = GenerateInventory(inventoryData, format)
@@ -364,7 +657,7 @@ local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inve
         inventoryContent = inventoryContent:gsub("^##%s+🎒%s+Inventory%s*\n%s*\n", "")
         result = result .. inventoryContent
     end
-    
+
     return result
 end
 

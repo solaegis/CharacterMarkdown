@@ -13,7 +13,7 @@ local string_format = string.format
 
 local function CollectCurrencyData()
     local currencies = {}
-    
+
     currencies.gold = CM.SafeCall(GetCurrentMoney) or 0
     currencies.goldBank = CM.SafeCall(GetBankedMoney) or 0
     currencies.goldTotal = currencies.gold + currencies.goldBank
@@ -26,7 +26,7 @@ local function CollectCurrencyData()
     currencies.crowns = CM.SafeCall(GetCurrencyAmount, CURT_CROWNS, CURRENCY_LOCATION_ACCOUNT) or 0
     currencies.crownGems = CM.SafeCall(GetCurrencyAmount, CURT_CROWN_GEMS, CURRENCY_LOCATION_ACCOUNT) or 0
     currencies.sealsOfEndeavor = CM.SafeCall(GetCurrencyAmount, CURT_ENDEAVOR_SEALS, CURRENCY_LOCATION_ACCOUNT) or 0
-    
+
     return currencies
 end
 
@@ -36,20 +36,94 @@ CM.collectors.CollectCurrencyData = CollectCurrencyData
 -- INVENTORY
 -- =====================================================
 
+-- Helper function to collect items from a specific bag
+local function CollectBagItems(bagId)
+    local items = {}
+    local numSlots = CM.SafeCall(GetBagSize, bagId) or 0
+    
+    -- For virtual bags (like craft bag), GetBagSize might return 0 or fail
+    -- In that case, iterate through slots until we find no more items
+    local isVirtualBag = (bagId == BAG_VIRTUAL)
+    local maxSlotsToCheck = isVirtualBag and 10000 or numSlots
+    local emptySlotCount = 0
+    local maxEmptySlots = 100  -- Stop after 100 consecutive empty slots
+
+    for slotIndex = 0, maxSlotsToCheck - 1 do
+        local itemLink = CM.SafeCall(GetItemLink, bagId, slotIndex)
+        if itemLink and itemLink ~= "" then
+            emptySlotCount = 0  -- Reset empty slot counter when we find an item
+            -- Get item details
+            local itemName = CM.SafeCall(GetItemName, bagId, slotIndex) or "Unknown"
+            -- GetItemInfo returns multiple values, so use pcall directly
+            local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
+                pcall(GetItemInfo, bagId, slotIndex)
+            if not success then
+                CM.DebugPrint("INVENTORY", "GetItemInfo failed for slot " .. slotIndex .. ": " .. tostring(icon))
+                icon = nil
+                stack = 1
+                quality = 0
+            end
+
+            local itemType = CM.SafeCall(GetItemType, bagId, slotIndex)
+            -- Get item type name for categorization
+            local itemTypeName = ""
+            if itemType then
+                local success2, typeName = pcall(GetString, "SI_ITEMTYPE", itemType)
+                if success2 and typeName and typeName ~= "" then
+                    itemTypeName = typeName
+                end
+            end
+
+            table.insert(items, {
+                name = itemName,
+                link = itemLink,
+                stack = stack or 1,
+                quality = quality or 0,
+                icon = icon,
+                itemType = itemType,
+                itemTypeName = itemTypeName,
+                slot = slotIndex,
+            })
+        else
+            -- For virtual bags, stop iterating after many consecutive empty slots
+            if isVirtualBag then
+                emptySlotCount = emptySlotCount + 1
+                if emptySlotCount >= maxEmptySlots then
+                    break  -- Stop iterating after too many empty slots
+                end
+            end
+        end
+    end
+
+    -- Sort by name (case-insensitive)
+    table.sort(items, function(a, b)
+        return a.name:lower() < b.name:lower()
+    end)
+
+    return items
+end
+
 local function CollectInventoryData()
     local inventory = {}
-    
+
     inventory.backpackUsed = CM.SafeCall(GetNumBagUsedSlots, BAG_BACKPACK) or 0
     inventory.backpackMax = CM.SafeCall(GetBagSize, BAG_BACKPACK) or 0
-    inventory.backpackPercent = inventory.backpackMax > 0 and 
-        math.floor((inventory.backpackUsed / inventory.backpackMax) * 100) or 0
-    
+    inventory.backpackPercent = inventory.backpackMax > 0
+            and math.floor((inventory.backpackUsed / inventory.backpackMax) * 100)
+        or 0
+
+    -- Collect bag items if requested
+    local settings = CM.GetSettings()
+    if settings and settings.showBagContents then
+        inventory.bagItems = CollectBagItems(BAG_BACKPACK)
+    end
+
     -- Collect bank data with better error handling
     -- Note: Bank API may not be available if player hasn't accessed bank yet
     -- Use pcall to distinguish between API errors and actual 0 values
     local bankUsedSuccess, bankUsedResult = pcall(GetNumBagUsedSlots, BAG_BANK)
     local bankMaxSuccess, bankMaxResult = pcall(GetBagSize, BAG_BANK)
-    
+
     if bankUsedSuccess and bankMaxSuccess then
         -- API calls succeeded - use results (could be 0 if bank is empty)
         inventory.bankUsed = bankUsedResult or 0
@@ -59,44 +133,82 @@ local function CollectInventoryData()
         -- API calls failed - bank may not be accessible
         inventory.bankUsed = 0
         inventory.bankMax = 0
-        CM.DebugPrint("INVENTORY", string_format("Warning: Bank API unavailable (used: %s, max: %s)", 
-            bankUsedSuccess and "OK" or "FAILED", bankMaxSuccess and "OK" or "FAILED"))
+        CM.DebugPrint(
+            "INVENTORY",
+            string_format(
+                "Warning: Bank API unavailable (used: %s, max: %s)",
+                bankUsedSuccess and "OK" or "FAILED",
+                bankMaxSuccess and "OK" or "FAILED"
+            )
+        )
     end
-    
+
     -- ESO Plus doubles bank capacity
     -- The API may return the base size (240) instead of the doubled size (480) when ESO Plus is active
     -- If bankUsed exceeds the returned bankMax, and ESO Plus is active, double the bankMax
     local hasESOPlus = CM.SafeCall(IsESOPlusSubscriber) or false
-    
+
     if inventory.bankMax < inventory.bankUsed then
         -- Bank used exceeds returned max - this can happen if API returns base size instead of doubled
         if hasESOPlus and inventory.bankMax > 0 then
             -- ESO Plus doubles bank capacity - try doubling the returned value
             local originalMax = inventory.bankMax
             inventory.bankMax = inventory.bankMax * 2
-            CM.DebugPrint("INVENTORY", string_format("Bank: API returned %d, doubled to %d for ESO Plus (used: %d)", 
-                originalMax, inventory.bankMax, inventory.bankUsed))
+            CM.DebugPrint(
+                "INVENTORY",
+                string_format(
+                    "Bank: API returned %d, doubled to %d for ESO Plus (used: %d)",
+                    originalMax,
+                    inventory.bankMax,
+                    inventory.bankUsed
+                )
+            )
         else
             -- No ESO Plus or can't determine - use bankUsed as max to prevent invalid percentages
             -- This shouldn't happen normally, but prevents division by zero
             inventory.bankMax = inventory.bankUsed
-            CM.DebugPrint("INVENTORY", string_format("Bank: Used (%d) exceeds max (%d), setting max to used", 
-                inventory.bankUsed, inventory.bankMax))
+            CM.DebugPrint(
+                "INVENTORY",
+                string_format(
+                    "Bank: Used (%d) exceeds max (%d), setting max to used",
+                    inventory.bankUsed,
+                    inventory.bankMax
+                )
+            )
         end
     elseif hasESOPlus and inventory.bankMax == 240 and inventory.bankUsed > 0 then
         -- ESO Plus is active and API returned 240 (common base size)
         -- Double it to get the actual max (480)
         local originalMax = inventory.bankMax
         inventory.bankMax = inventory.bankMax * 2
-        CM.DebugPrint("INVENTORY", string_format("Bank: ESO Plus active, doubled base size from %d to %d", 
-            originalMax, inventory.bankMax))
+        CM.DebugPrint(
+            "INVENTORY",
+            string_format("Bank: ESO Plus active, doubled base size from %d to %d", originalMax, inventory.bankMax)
+        )
     end
-    
-    inventory.bankPercent = inventory.bankMax > 0 and 
-        math.floor((inventory.bankUsed / inventory.bankMax) * 100) or 0
-    
+
+    inventory.bankPercent = inventory.bankMax > 0 and math.floor((inventory.bankUsed / inventory.bankMax) * 100) or 0
+
+    -- Collect bank items if requested
+    if settings and settings.showBankContents and bankMaxSuccess then
+        inventory.bankItems = CollectBagItems(BAG_BANK)
+    end
+
     inventory.hasCraftingBag = HasCraftBagAccess()
-    
+
+    -- Collect crafting bag items if requested and player has ESO Plus
+    if settings and settings.showCraftingBagContents and inventory.hasCraftingBag then
+        -- Crafting bag uses BAG_VIRTUAL
+        -- Note: Craft bag is unlimited, so we try to collect items regardless of size
+        -- GetBagSize may fail for virtual bags, but CollectBagItems handles this properly
+        inventory.craftingBagItems = CollectBagItems(BAG_VIRTUAL)
+        if #inventory.craftingBagItems > 0 then
+            CM.DebugPrint("INVENTORY", string_format("Crafting bag: collected %d items", #inventory.craftingBagItems))
+        else
+            CM.DebugPrint("INVENTORY", "Crafting bag: no items found")
+        end
+    end
+
     return inventory
 end
 
@@ -108,7 +220,7 @@ CM.collectors.CollectInventoryData = CollectInventoryData
 
 local function CollectRidingSkillsData()
     local riding = {}
-    
+
     -- GetRidingStats() returns values in order: staminaBonus, speedBonus, carryBonus
     -- But the variable names in the original code were misleading - need to swap assignments
     -- SafeCall can't handle multiple returns directly, so we use pcall and handle errors
@@ -118,21 +230,21 @@ local function CollectRidingSkillsData()
     end
     -- Based on user report: API returns (stamina, speed, capacity)
     -- So: first=stamina, second=speed, third=capacity
-    riding.speed = second or 0  -- Second return is speed
-    riding.stamina = first or 0  -- First return is stamina
-    riding.capacity = third or 0  -- Third return is capacity
-    
+    riding.speed = second or 0 -- Second return is speed
+    riding.stamina = first or 0 -- First return is stamina
+    riding.capacity = third or 0 -- Third return is capacity
+
     riding.speedMax = 60
     riding.staminaMax = 60
     riding.capacityMax = 60
-    
+
     local speedReady = (CM.SafeCall(GetTimeUntilCanBeTrained, RIDING_TRAIN_SPEED) or 1) == 0
     local staminaReady = (CM.SafeCall(GetTimeUntilCanBeTrained, RIDING_TRAIN_STAMINA) or 1) == 0
     local capacityReady = (CM.SafeCall(GetTimeUntilCanBeTrained, RIDING_TRAIN_CARRYING_CAPACITY) or 1) == 0
-    
+
     riding.trainingAvailable = speedReady or staminaReady or capacityReady
     riding.allMaxed = (riding.speed >= 60 and riding.stamina >= 60 and riding.capacity >= 60)
-    
+
     return riding
 end
 

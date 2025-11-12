@@ -151,7 +151,6 @@ Tip: Run '/markdown' to see the actual generated output
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
 | `/markdown test` | Comprehensive diagnostic + validation | Troubleshooting, debugging |
-| `/markdown unittest` | Unit tests for collectors | Development, testing specific collectors |
 | `/markdown` | Generate actual markdown output | Normal usage, getting markdown to copy |
 | `/markdown diag` | *(Legacy - redirects to test)* | Use `/markdown test` instead |
 

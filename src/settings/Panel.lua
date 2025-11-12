@@ -10,6 +10,19 @@ CharacterMarkdown.Settings.Panel = {}
 local CM = CharacterMarkdown
 
 -- =====================================================
+-- HELPER: INVALIDATE CACHE ON SETTING CHANGE
+-- =====================================================
+
+-- Helper function to create a setFunc that invalidates cache
+local function CreateSetFunc(settingName)
+    return function(value)
+        CharacterMarkdownSettings[settingName] = value
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+    end
+end
+
+-- =====================================================
 -- PLAY STYLES LIST
 -- =====================================================
 
@@ -241,9 +254,7 @@ function CM.Settings.Panel:AddLayoutSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeHeader
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeHeader = value
-        end,
+        setFunc = CreateSetFunc("includeHeader"),
         width = "half",
         default = true,
     })
@@ -256,8 +267,49 @@ function CM.Settings.Panel:AddLayoutSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeFooter
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeFooter = value
+        setFunc = CreateSetFunc("includeFooter"),
+        width = "half",
+        default = true,
+    })
+
+    -- Quick Stats
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Quick Stats",
+        tooltip = "Show Overview section with General, Currency, and Character Stats (GitHub/VSCode only).",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeQuickStats
+        end,
+        setFunc = CreateSetFunc("includeQuickStats"),
+        width = "half",
+        default = true,
+    })
+
+    table.insert(options, {
+        type = "checkbox",
+        name = "    Include General",
+        tooltip = "Show General subsection with character identity, attributes, skill points, vampire/werewolf status, enlightenment, and ESO Plus status.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeGeneral
+        end,
+        setFunc = CreateSetFunc("includeGeneral"),
+        disabled = function()
+            return not CharacterMarkdownSettings.includeQuickStats
+        end,
+        width = "half",
+        default = true,
+    })
+
+    table.insert(options, {
+        type = "checkbox",
+        name = "    Include Character Stats",
+        tooltip = "Show Character Stats subsection with combat statistics (health, resources, weapon/spell power, resistances).",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeCharacterStats
+        end,
+        setFunc = CreateSetFunc("includeCharacterStats"),
+        disabled = function()
+            return not CharacterMarkdownSettings.includeQuickStats
         end,
         width = "half",
         default = true,
@@ -289,9 +341,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeChampionPoints
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeChampionPoints = value
-        end,
+        setFunc = CreateSetFunc("includeChampionPoints"),
         width = "half",
         default = true,
     })
@@ -303,9 +353,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeChampionDiagram
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeChampionDiagram = value
-        end,
+        setFunc = CreateSetFunc("includeChampionDiagram"),
         disabled = function()
             return not CharacterMarkdownSettings.includeChampionPoints
         end,
@@ -321,9 +369,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeSkillBars
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeSkillBars = value
-        end,
+        setFunc = CreateSetFunc("includeSkillBars"),
         width = "half",
         default = true,
     })
@@ -336,9 +382,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeSkills
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeSkills = value
-        end,
+        setFunc = CreateSetFunc("includeSkills"),
         width = "half",
         default = true,
     })
@@ -350,9 +394,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeSkillMorphs
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeSkillMorphs = value
-        end,
+        setFunc = CreateSetFunc("includeSkillMorphs"),
         disabled = function()
             return not CharacterMarkdownSettings.includeSkills
         end,
@@ -368,9 +410,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeEquipment
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeEquipment = value
-        end,
+        setFunc = CreateSetFunc("includeEquipment"),
         width = "half",
         default = true,
     })
@@ -386,9 +426,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeCombatStats
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeCombatStats = value
-        end,
+        setFunc = CreateSetFunc("includeCombatStats"),
         width = "half",
         default = true,
     })
@@ -401,9 +439,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeBuffs
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeBuffs = value
-        end,
+        setFunc = CreateSetFunc("includeBuffs"),
         width = "half",
         default = true,
     })
@@ -416,9 +452,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeAttributes
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeAttributes = value
-        end,
+        setFunc = CreateSetFunc("includeAttributes"),
         width = "half",
         default = true,
     })
@@ -431,9 +465,7 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeArmoryBuilds
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeArmoryBuilds = value
-        end,
+        setFunc = CreateSetFunc("includeArmoryBuilds"),
         width = "half",
         default = false,
     })
@@ -464,9 +496,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeRole
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeRole = value
-        end,
+        setFunc = CreateSetFunc("includeRole"),
         width = "half",
         default = true,
     })
@@ -479,9 +509,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeLocation
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeLocation = value
-        end,
+        setFunc = CreateSetFunc("includeLocation"),
         width = "half",
         default = true,
     })
@@ -497,9 +525,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeAchievements
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeAchievements = value
-        end,
+        setFunc = CreateSetFunc("includeAchievements"),
         width = "half",
         default = false,
     })
@@ -511,9 +537,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showAllAchievements ~= false
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showAllAchievements = value
-        end,
+        setFunc = CreateSetFunc("showAllAchievements"),
         disabled = function()
             return not CharacterMarkdownSettings.includeAchievements
         end,
@@ -529,9 +553,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeWorldProgress
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeWorldProgress = value
-        end,
+        setFunc = CreateSetFunc("includeWorldProgress"),
         width = "half",
         default = false,
     })
@@ -544,9 +566,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeTitlesHousing
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeTitlesHousing = value
-        end,
+        setFunc = CreateSetFunc("includeTitlesHousing"),
         width = "half",
         default = false,
     })
@@ -559,9 +579,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeDLCAccess
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeDLCAccess = value
-        end,
+        setFunc = CreateSetFunc("includeDLCAccess"),
         width = "half",
         default = true,
     })
@@ -592,9 +610,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeCurrency
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeCurrency = value
-        end,
+        setFunc = CreateSetFunc("includeCurrency"),
         width = "half",
         default = true,
     })
@@ -607,9 +623,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeInventory
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeInventory = value
-        end,
+        setFunc = CreateSetFunc("includeInventory"),
         width = "half",
         default = true,
     })
@@ -622,9 +636,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showBagContents
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showBagContents = value
-        end,
+        setFunc = CreateSetFunc("showBagContents"),
         width = "half",
         default = false,
         disabled = function()
@@ -640,9 +652,23 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showBankContents
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showBankContents = value
+        setFunc = CreateSetFunc("showBankContents"),
+        width = "half",
+        default = false,
+        disabled = function()
+            return not CharacterMarkdownSettings.includeInventory
         end,
+    })
+
+    -- Crafting Bag Contents (detailed item list)
+    table.insert(options, {
+        type = "checkbox",
+        name = "    Show Crafting Bag Item List",
+        tooltip = "Show detailed list of all items in your crafting bag (ESO Plus only)\nWarning: Can generate LARGE output with many items!",
+        getFunc = function()
+            return CharacterMarkdownSettings.showCraftingBagContents
+        end,
+        setFunc = CreateSetFunc("showCraftingBagContents"),
         width = "half",
         default = false,
         disabled = function()
@@ -658,9 +684,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeCrafting
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeCrafting = value
-        end,
+        setFunc = CreateSetFunc("includeCrafting"),
         width = "half",
         default = false,
     })
@@ -673,9 +697,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeCollectibles
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeCollectibles = value
-        end,
+        setFunc = CreateSetFunc("includeCollectibles"),
         width = "half",
         default = true,
     })
@@ -687,9 +709,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeCollectiblesDetailed
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeCollectiblesDetailed = value
-        end,
+        setFunc = CreateSetFunc("includeCollectiblesDetailed"),
         disabled = function()
             return not CharacterMarkdownSettings.includeCollectibles
         end,
@@ -705,9 +725,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeRidingSkills
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeRidingSkills = value
-        end,
+        setFunc = CreateSetFunc("includeRidingSkills"),
         width = "half",
         default = false,
     })
@@ -738,9 +756,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeAntiquities
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeAntiquities = value
-        end,
+        setFunc = CreateSetFunc("includeAntiquities"),
         width = "half",
         default = true,
     })
@@ -752,9 +768,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeAntiquitiesDetailed
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeAntiquitiesDetailed = value
-        end,
+        setFunc = CreateSetFunc("includeAntiquitiesDetailed"),
         disabled = function()
             return not CharacterMarkdownSettings.includeAntiquities
         end,
@@ -770,9 +784,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeUndauntedPledges
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeUndauntedPledges = value
-        end,
+        setFunc = CreateSetFunc("includeUndauntedPledges"),
         width = "half",
         default = false,
     })
@@ -785,9 +797,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeCompanion
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeCompanion = value
-        end,
+        setFunc = CreateSetFunc("includeCompanion"),
         width = "half",
         default = true,
     })
@@ -798,7 +808,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
         name = "Include Quest Tracking",
         tooltip = "Show active quests, progress tracking, and quest categorization.",
         getFunc = function() return CharacterMarkdownSettings.includeQuests end,
-        setFunc = function(value) CharacterMarkdownSettings.includeQuests = value end,
+        setFunc = CreateSetFunc("includeQuests"),
         width = "half",
         default = false,
     })
@@ -808,7 +818,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
         name = "    Detailed Quest Categories",
         tooltip = "Show quest breakdown by categories (Main Story, Guild Quests, DLC Quests, etc.) with zone tracking.",
         getFunc = function() return CharacterMarkdownSettings.includeQuestsDetailed end,
-        setFunc = function(value) CharacterMarkdownSettings.includeQuestsDetailed = value end,
+        setFunc = CreateSetFunc("includeQuestsDetailed"),
         disabled = function() return not CharacterMarkdownSettings.includeQuests end,
         width = "half",
         default = false,
@@ -819,7 +829,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
         name = "    Show All Quests",
         tooltip = "Show all quests. When disabled, shows only currently active quests. Useful for current objective tracking when disabled.",
         getFunc = function() return CharacterMarkdownSettings.showAllQuests ~= false end,
-        setFunc = function(value) CharacterMarkdownSettings.showAllQuests = value end,
+        setFunc = CreateSetFunc("showAllQuests"),
         disabled = function() return not CharacterMarkdownSettings.includeQuests end,
         width = "half",
         default = false,
@@ -852,9 +862,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includePvP
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includePvP = value
-        end,
+        setFunc = CreateSetFunc("includePvP"),
         width = "half",
         default = false,
     })
@@ -867,9 +875,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includePvPStats
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includePvPStats = value
-        end,
+        setFunc = CreateSetFunc("includePvPStats"),
         width = "half",
         default = false,
     })
@@ -882,9 +888,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showPvPProgression
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showPvPProgression = value
-        end,
+        setFunc = CreateSetFunc("showPvPProgression"),
         width = "half",
         disabled = function()
             return not CharacterMarkdownSettings.includePvPStats
@@ -899,9 +903,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showCampaignRewards
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showCampaignRewards = value
-        end,
+        setFunc = CreateSetFunc("showCampaignRewards"),
         width = "half",
         disabled = function()
             return not CharacterMarkdownSettings.includePvPStats
@@ -916,9 +918,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showLeaderboards
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showLeaderboards = value
-        end,
+        setFunc = CreateSetFunc("showLeaderboards"),
         width = "half",
         disabled = function()
             return not CharacterMarkdownSettings.includePvPStats
@@ -933,9 +933,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showBattlegrounds
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showBattlegrounds = value
-        end,
+        setFunc = CreateSetFunc("showBattlegrounds"),
         width = "half",
         disabled = function()
             return not CharacterMarkdownSettings.includePvPStats
@@ -950,9 +948,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.detailedPvP
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.detailedPvP = value
-        end,
+        setFunc = CreateSetFunc("detailedPvP"),
         width = "half",
         disabled = function()
             return not CharacterMarkdownSettings.includePvPStats
@@ -968,9 +964,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.showAllianceWarSkills
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.showAllianceWarSkills = value
-        end,
+        setFunc = CreateSetFunc("showAllianceWarSkills"),
         width = "half",
         default = false,
     })
@@ -983,9 +977,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeGuilds
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeGuilds = value
-        end,
+        setFunc = CreateSetFunc("includeGuilds"),
         width = "half",
         default = false,
     })
@@ -1018,6 +1010,8 @@ function CM.Settings.Panel:AddLinkSettings(options)
         setFunc = function(value)
             CharacterMarkdownSettings.enableAbilityLinks = value
             CharacterMarkdownSettings.enableSetLinks = value
+            CharacterMarkdownSettings._lastModified = GetTimeStamp()
+            CM.InvalidateSettingsCache()
         end,
         width = "full",
         default = false,
@@ -1042,9 +1036,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         getFunc = function()
             return CharacterMarkdownSettings.includeBuildNotes
         end,
-        setFunc = function(value)
-            CharacterMarkdownSettings.includeBuildNotes = value
-        end,
+        setFunc = CreateSetFunc("includeBuildNotes"),
         width = "half",
         default = true,
     })
@@ -1080,15 +1072,10 @@ function CM.Settings.Panel:AddCustomNotes(options)
             local currentValue = CM.charData.customTitle or ""
 
             -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
+            -- NOTE: CM.charData is a subtable within CharacterMarkdownData, returned by ZO_SavedVars:NewCharacterId
+            -- Modifying CM.charData automatically updates the parent CharacterMarkdownData structure
             CM.charData.customTitle = newValue
             CM.charData._lastModified = GetTimeStamp()
-
-            -- Defensive: Update CharacterMarkdownData if it's unexpectedly different
-            if CharacterMarkdownData and CharacterMarkdownData ~= CM.charData then
-                CM.Warn("CharacterMarkdownData and CM.charData are different references - this shouldn't happen")
-                CharacterMarkdownData.customTitle = newValue
-                CharacterMarkdownData._lastModified = GetTimeStamp()
-            end
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1136,15 +1123,10 @@ function CM.Settings.Panel:AddCustomNotes(options)
             local currentValue = CM.charData.playStyle or ""
 
             -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
+            -- NOTE: CM.charData is a subtable within CharacterMarkdownData, returned by ZO_SavedVars:NewCharacterId
+            -- Modifying CM.charData automatically updates the parent CharacterMarkdownData structure
             CM.charData.playStyle = newValue
             CM.charData._lastModified = GetTimeStamp()
-
-            -- Defensive: Update CharacterMarkdownData if it's unexpectedly different
-            if CharacterMarkdownData and CharacterMarkdownData ~= CM.charData then
-                CM.Warn("CharacterMarkdownData and CM.charData are different references - this shouldn't happen")
-                CharacterMarkdownData.playStyle = newValue
-                CharacterMarkdownData._lastModified = GetTimeStamp()
-            end
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1188,15 +1170,10 @@ function CM.Settings.Panel:AddCustomNotes(options)
             local currentValue = CM.charData.customNotes or ""
 
             -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
+            -- NOTE: CM.charData is a subtable within CharacterMarkdownData, returned by ZO_SavedVars:NewCharacterId
+            -- Modifying CM.charData automatically updates the parent CharacterMarkdownData structure
             CM.charData.customNotes = newValue
             CM.charData._lastModified = GetTimeStamp()
-
-            -- Defensive: Update CharacterMarkdownData if it's unexpectedly different
-            if CharacterMarkdownData and CharacterMarkdownData ~= CM.charData then
-                CM.Warn("CharacterMarkdownData and CM.charData are different references - this shouldn't happen")
-                CharacterMarkdownData.customNotes = newValue
-                CharacterMarkdownData._lastModified = GetTimeStamp()
-            end
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1258,6 +1235,8 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.includeFooter = value
         CharacterMarkdownSettings.includeTableOfContents = value
         CharacterMarkdownSettings.includeQuickStats = value
+        CharacterMarkdownSettings.includeGeneral = value
+        CharacterMarkdownSettings.includeCharacterStats = value
         CharacterMarkdownSettings.includeAttentionNeeded = value
 
         -- COMBAT & BUILD
@@ -1286,6 +1265,9 @@ function CM.Settings.Panel:AddActions(options)
         -- ECONOMY & RESOURCES
         CharacterMarkdownSettings.includeCurrency = value
         CharacterMarkdownSettings.includeInventory = value
+        CharacterMarkdownSettings.showBagContents = value
+        CharacterMarkdownSettings.showBankContents = value
+        CharacterMarkdownSettings.showCraftingBagContents = value
         CharacterMarkdownSettings.includeCrafting = value
         CharacterMarkdownSettings.includeCollectibles = value
         CharacterMarkdownSettings.includeCollectiblesDetailed = value
@@ -1315,10 +1297,11 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.enableAbilityLinks = value
         CharacterMarkdownSettings.enableSetLinks = value
 
-        -- Note: includeBuildNotes is intentionally excluded - custom title and build notes
-        -- should remain visible and editable even when sections are toggled off
+        -- NOTES/DISPLAY
+        CharacterMarkdownSettings.includeBuildNotes = value
 
         CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
         CM.Info(value and "All sections enabled!" or "All sections disabled!")
     end
 

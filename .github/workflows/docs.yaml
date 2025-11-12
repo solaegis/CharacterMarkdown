@@ -1,0 +1,101 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'book.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and Deploy Documentation
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # ========================================================================
+      # 1. Checkout Repository
+      # ========================================================================
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ========================================================================
+      # 2. Setup Rust (required for mdbook-mermaid)
+      # ========================================================================
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      # ========================================================================
+      # 3. Install mdBook and Mermaid Preprocessor
+      # ========================================================================
+      - name: Install mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+
+      - name: Install mdbook-mermaid preprocessor
+        run: |
+          echo "📦 Installing mdbook-mermaid preprocessor..."
+          cargo install mdbook-mermaid --locked
+          echo "✅ mdbook-mermaid installed"
+
+      # ========================================================================
+      # 4. Build Documentation
+      # ========================================================================
+      - name: Build documentation
+        run: |
+          echo "📚 Building documentation with mdBook..."
+          mdbook build
+          echo "✅ Documentation built successfully"
+
+      # ========================================================================
+      # 5. Setup Pages
+      # ========================================================================
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # ========================================================================
+      # 6. Upload Artifact
+      # ========================================================================
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './book'
+
+      # ========================================================================
+      # 7. Deploy to GitHub Pages
+      # ========================================================================
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # ========================================================================
+      # 8. Success Notification
+      # ========================================================================
+      - name: Deployment summary
+        if: success()
+        run: |
+          echo "🎉 Documentation deployed successfully!"
+          echo ""
+          echo "📚 Documentation URL: ${{ steps.deployment.outputs.page_url }}"
+          echo ""
+          echo "✅ Next steps:"
+          echo "   - Documentation is live at the URL above"
+          echo "   - Updates will be deployed automatically on push to main"
+

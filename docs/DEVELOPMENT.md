@@ -11,7 +11,7 @@ brew install go-task/tap/go-task
 task install:deps
 ```
 
-This installs: LuaJIT, LuaRocks, Luacheck, pre-commit
+This installs: LuaJIT, LuaRocks, Luacheck, StyLua, pre-commit
 
 ### Initialize Project
 ```bash
@@ -42,14 +42,14 @@ Edit files in `src/` directory
 
 ### 3. Validate
 ```bash
-task lint    # Run Luacheck
+task lint    # Run Luacheck (static analysis)
+task format  # Run StyLua (code formatting)
 task test    # Full validation
 ```
 
 **In-Game Testing:**
 ```
 /markdown test        # Run validation tests
-/markdown unittest    # Run collector unit tests
 ```
 
 See [Testing Guide](../TESTING_GUIDE.md) for detailed testing procedures.
@@ -58,7 +58,7 @@ See [Testing Guide](../TESTING_GUIDE.md) for detailed testing procedures.
 ```bash
 git add .
 git commit -m "feat: description of changes"
-# Pre-commit hooks run automatically
+# Pre-commit hooks run automatically (StyLua formatting + Luacheck linting)
 ```
 
 ---
@@ -204,7 +204,6 @@ task install:live    # Copy to ESO
 ### Validation Commands
 ```
 /markdown test        # Run markdown validation tests
-/markdown unittest    # Run collector unit tests
 ```
 
 ### Automated Testing

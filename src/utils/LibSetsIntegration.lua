@@ -53,9 +53,9 @@ local function GetSetInfo(setName)
     if not IsLibSetsAvailable() or not setName then
         return nil
     end
-    
+
     local setInfo = nil
-    
+
     -- Try to get set info by name first
     local success, result = pcall(function()
         -- LibSets.GetSetInfo might accept setName or setId
@@ -65,7 +65,7 @@ local function GetSetInfo(setName)
         end
         return nil
     end)
-    
+
     if success and result then
         setInfo = result
     else
@@ -77,16 +77,16 @@ local function GetSetInfo(setName)
             end
             return nil
         end)
-        
+
         if success and result then
             setInfo = result
         end
     end
-    
+
     if not setInfo then
         return nil
     end
-    
+
     -- Extract relevant information
     local info = {
         setId = setInfo.setId,
@@ -99,7 +99,7 @@ local function GetSetInfo(setName)
         chapterId = setInfo.chapterId,
         zoneIds = setInfo.zoneIds,
     }
-    
+
     -- Extract drop locations (zone names)
     if setInfo.zoneIds and type(setInfo.zoneIds) == "table" then
         for _, zoneId in ipairs(setInfo.zoneIds) do
@@ -108,13 +108,13 @@ local function GetSetInfo(setName)
                 if zoneName and zoneName ~= "" then
                     table.insert(info.dropLocations, {
                         zoneId = zoneId,
-                        zoneName = zoneName
+                        zoneName = zoneName,
                     })
                 end
             end
         end
     end
-    
+
     -- Extract drop mechanics
     if setInfo.dropMechanicIds and type(setInfo.dropMechanicIds) == "table" then
         for _, mechanicId in ipairs(setInfo.dropMechanicIds) do
@@ -123,12 +123,12 @@ local function GetSetInfo(setName)
             end
         end
     end
-    
+
     -- Also check for dropMechanicNames if available
     if setInfo.dropMechanicNames and type(setInfo.dropMechanicNames) == "table" then
         info.dropMechanicNames = setInfo.dropMechanicNames
     end
-    
+
     return info
 end
 
@@ -140,18 +140,18 @@ local function FormatDropLocations(dropLocations)
     if not dropLocations or #dropLocations == 0 then
         return nil
     end
-    
+
     local locations = {}
     for _, location in ipairs(dropLocations) do
         if location.zoneName then
             table.insert(locations, location.zoneName)
         end
     end
-    
+
     if #locations == 0 then
         return nil
     end
-    
+
     return table.concat(locations, ", ")
 end
 
@@ -163,9 +163,9 @@ local function FormatDropMechanics(dropMechanics, dropMechanicNames)
     if not dropMechanics and not dropMechanicNames then
         return nil
     end
-    
+
     local mechanics = {}
-    
+
     -- Use dropMechanicNames if available (more descriptive)
     if dropMechanicNames and type(dropMechanicNames) == "table" then
         for _, mechanicName in ipairs(dropMechanicNames) do
@@ -183,11 +183,11 @@ local function FormatDropMechanics(dropMechanics, dropMechanicNames)
             end
         end
     end
-    
+
     if #mechanics == 0 then
         return nil
     end
-    
+
     return table.concat(mechanics, ", ")
 end
 
@@ -199,24 +199,24 @@ local function FormatDLCInfo(dlcId, chapterId)
     if not dlcId and not chapterId then
         return nil
     end
-    
+
     local parts = {}
-    
+
     if dlcId and type(dlcId) == "number" then
         -- Try to get DLC name if possible
         local dlcName = string.format("DLC %d", dlcId)
         table.insert(parts, dlcName)
     end
-    
+
     if chapterId and type(chapterId) == "number" then
         local chapterName = string.format("Chapter %d", chapterId)
         table.insert(parts, chapterName)
     end
-    
+
     if #parts == 0 then
         return nil
     end
-    
+
     return table.concat(parts, ", ")
 end
 
@@ -242,4 +242,3 @@ return {
     FormatDropMechanics = FormatDropMechanics,
     FormatDLCInfo = FormatDLCInfo,
 }
-

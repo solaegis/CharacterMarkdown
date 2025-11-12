@@ -12,11 +12,11 @@ local function GenerateSetURL(setName)
     if not setName or setName == "-" or setName == "" then
         return nil
     end
-    
+
     -- UESP format: https://en.uesp.net/wiki/Online:Set_Name_Set
     local urlName = setName:gsub(" ", "_")
     urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
-    
+
     return "https://en.uesp.net/wiki/Online:" .. urlName .. "_Set"
 end
 
@@ -27,7 +27,7 @@ local function CreateSetLink(setName, format)
     if not setName or setName == "-" or setName == "" then
         return setName or "-"
     end
-    
+
     -- Check settings: if external links are disabled, return plain text
     -- Check both enableSetLinks and enableAbilityLinks (they're toggled together in UI)
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
@@ -38,9 +38,9 @@ local function CreateSetLink(setName, format)
             return setName
         end
     end
-    
+
     local url = GenerateSetURL(setName)
-    
+
     if url and (format == "github" or format == "discord") then
         -- Only add " Set" suffix if it's not already there
         local displayName = setName

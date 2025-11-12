@@ -1,0 +1,50 @@
+[book]
+title = "CharacterMarkdown Documentation"
+description = "Complete documentation for the CharacterMarkdown ESO addon"
+authors = ["CharacterMarkdown Contributors"]
+language = "en"
+multilingual = false
+
+# Source directory - mdBook will read markdown from here
+# SUMMARY.md must be in this directory
+src = "docs"
+
+# Build output directory
+build-dir = "book"
+
+# GitHub Pages configuration
+[output.html]
+default-theme = "navy"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/yourusername/CharacterMarkdown"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/yourusername/CharacterMarkdown/edit/main/{path}"
+
+# Search configuration
+[output.html.search]
+enable = true
+limit-results = 30
+teaser-word-count = 30
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 1
+boost-paragraph = 1
+expand = true
+heading-split-level = 3
+
+# Additional HTML output options
+[output.html.playground]
+editable = false
+copyable = true
+copyable-hidden = false
+line-numbers = false
+runnable = false
+
+# Mermaid diagram support
+# Note: Requires mdbook-mermaid preprocessor to be installed
+# Install with: cargo install mdbook-mermaid
+# Or: brew install mdbook-mermaid (if available)
+# For GitHub Actions, the preprocessor will be installed in the workflow
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+

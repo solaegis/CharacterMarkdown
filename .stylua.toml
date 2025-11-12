@@ -1,0 +1,9 @@
+# StyLua Configuration for CharacterMarkdown
+# ESO uses Lua 5.1 - ensure compatibility
+
+# Basic formatting options
+column_width = 120
+line_endings = "Unix"
+indent_type = "Spaces"
+indent_width = 4
+quote_style = "AutoPreferDouble"

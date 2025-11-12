@@ -13,7 +13,9 @@ local function SafeGetPlayerStat(statType, defaultValue)
     if not statType then
         return defaultValue
     end
-    local success, value = pcall(function() return GetPlayerStat(statType) end)
+    local success, value = pcall(function()
+        return GetPlayerStat(statType)
+    end)
     if success and value then
         return value
     end
@@ -39,11 +41,11 @@ local function GetPlayerTitle()
             CM.charData.customTitle = customTitle
         end
     end
-    
+
     if customTitle and customTitle ~= "" then
         return customTitle
     end
-    
+
     -- Use GetUnitTitle("player") to get the active title directly
     -- Note: GetUnitTitle may be a newer API function
     local GetUnitTitleFunc = rawget(_G, "GetUnitTitle")
@@ -53,7 +55,7 @@ local function GetPlayerTitle()
             return titleName
         end
     end
-    
+
     -- Fallback to empty string if API call fails
     return ""
 end

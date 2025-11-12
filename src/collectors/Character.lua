@@ -18,37 +18,39 @@ local GetDateStringFromTimestamp = GetDateStringFromTimestamp
 local CanJumpToPlayerInZone = CanJumpToPlayerInZone
 local GetWorldName = GetWorldName -- luacheck: ignore
 local GetDisplayName = GetDisplayName
+local GetSecondsPlayed = GetSecondsPlayed
+local ZO_FormatTime = ZO_FormatTime
 
 local function CollectCharacterData()
     CM.DebugPrint("COLLECTOR", "Collecting character data...")
-    
+
     local data = {}
-    
+
     data.name = CM.SafeCall(GetUnitName, "player") or "Unknown"
     data.race = CM.SafeCall(GetUnitRace, "player") or "Unknown"
     data.class = CM.SafeCall(GetUnitClass, "player") or "Unknown"
-    
+
     local alliance = CM.SafeCall(GetUnitAlliance, "player")
     data.alliance = alliance and CM.SafeCall(GetAllianceName, alliance) or "Unknown"
-    
+
     data.level = CM.SafeCall(GetUnitLevel, "player") or 0
     data.cp = CM.SafeCall(GetPlayerChampionPointsEarned) or 0
-    
+
     -- Get title using shared utility function
     data.title = CM.utils.GetPlayerTitle() or ""
-    
+
     data.esoPlus = CM.SafeCall(IsESOPlusSubscriber) or false
-    
+
     -- Get server name and account name
     data.server = CM.SafeCall(GetWorldName) or "Unknown"
     data.account = CM.SafeCall(GetDisplayName) or "Unknown"
-    
+
     data.attributes = {
         magicka = CM.SafeCall(GetAttributeSpentPoints, ATTRIBUTE_MAGICKA) or 0,
         health = CM.SafeCall(GetAttributeSpentPoints, ATTRIBUTE_HEALTH) or 0,
         stamina = CM.SafeCall(GetAttributeSpentPoints, ATTRIBUTE_STAMINA) or 0,
     }
-    
+
     local timeStamp = CM.SafeCall(GetTimeStamp)
     if timeStamp then
         local dateStr = CM.SafeCall(GetDateStringFromTimestamp, timeStamp)
@@ -56,7 +58,16 @@ local function CollectCharacterData()
             data.timestamp = dateStr
         end
     end
-    
+
+    -- Get character play time (Age)
+    local secondsPlayed = CM.SafeCall(GetSecondsPlayed) or 0
+    if secondsPlayed > 0 then
+        local playedTime = ZO_FormatTime(secondsPlayed, TIME_FORMAT_STYLE_DESCRIPTIVE, TIME_FORMAT_PRECISION_SECONDS)
+        data.age = playedTime
+    else
+        data.age = nil
+    end
+
     CM.DebugPrint("COLLECTOR", "Character data collected:", data.name)
     return data
 end
@@ -65,41 +76,41 @@ CM.collectors.CollectCharacterData = CollectCharacterData
 
 local function CollectDLCAccess()
     CM.DebugPrint("COLLECTOR", "Collecting DLC access data...")
-    
+
     local dlcAccess = {
         hasESOPlus = CM.SafeCall(IsESOPlusSubscriber) or false,
         accessible = {},
         locked = {},
-        purchased = {}  -- DLCs that are owned/purchased (not just via ESO Plus)
+        purchased = {}, -- DLCs that are owned/purchased (not just via ESO Plus)
     }
-    
+
     local dlcZones = {
-        {name = "Morrowind (Vvardenfell)", zoneId = 849},
-        {name = "Summerset", zoneId = 1011},
-        {name = "Elsweyr (Northern)", zoneId = 1086},
-        {name = "Greymoor (Western Skyrim)", zoneId = 1160},
-        {name = "Blackwood", zoneId = 1261},
-        {name = "High Isle", zoneId = 1318},
-        {name = "Necrom (Telvanni Peninsula)", zoneId = 1413},
-        {name = "Gold Road (West Weald)", zoneId = 1443},
-        {name = "Gold Coast", zoneId = 823},
-        {name = "Hew's Bane", zoneId = 816},
-        {name = "Wrothgar", zoneId = 684},
-        {name = "Clockwork City", zoneId = 980},
-        {name = "Murkmire", zoneId = 726},
+        { name = "Morrowind (Vvardenfell)", zoneId = 849 },
+        { name = "Summerset", zoneId = 1011 },
+        { name = "Elsweyr (Northern)", zoneId = 1086 },
+        { name = "Greymoor (Western Skyrim)", zoneId = 1160 },
+        { name = "Blackwood", zoneId = 1261 },
+        { name = "High Isle", zoneId = 1318 },
+        { name = "Necrom (Telvanni Peninsula)", zoneId = 1413 },
+        { name = "Gold Road (West Weald)", zoneId = 1443 },
+        { name = "Gold Coast", zoneId = 823 },
+        { name = "Hew's Bane", zoneId = 816 },
+        { name = "Wrothgar", zoneId = 684 },
+        { name = "Clockwork City", zoneId = 980 },
+        { name = "Murkmire", zoneId = 726 },
     }
-    
+
     -- Always check ownership status, even with ESO Plus
     -- This allows us to show purchased DLCs separately
     for _, dlc in ipairs(dlcZones) do
         local success, canJump, result = pcall(CanJumpToPlayerInZone, dlc.zoneId)
-        
+
         if success and result then
             if result == JUMP_TO_PLAYER_RESULT_ZONE_COLLECTIBLE_LOCKED then
                 table.insert(dlcAccess.locked, dlc.name)
             else
                 table.insert(dlcAccess.accessible, dlc.name)
-                
+
                 -- Check if this DLC is actually owned (not just accessible via ESO Plus)
                 -- If ESO Plus is active, we need to check ownership separately
                 -- For now, we'll mark all accessible DLCs as potentially purchased
@@ -118,7 +129,7 @@ local function CollectDLCAccess()
             table.insert(dlcAccess.locked, dlc.name)
         end
     end
-    
+
     -- If ESO Plus is active, all accessible DLCs are accessible (either purchased or via ESO Plus)
     -- We'll show them all in the generator
     if dlcAccess.hasESOPlus then
@@ -126,7 +137,7 @@ local function CollectDLCAccess()
     else
         CM.DebugPrint("COLLECTOR", "DLC access collected:", #dlcAccess.accessible, "accessible (purchased)")
     end
-    
+
     return dlcAccess
 end
 

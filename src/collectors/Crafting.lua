@@ -4,35 +4,9 @@
 local CM = CharacterMarkdown
 
 -- =====================================================
--- CACHED GLOBALS (PERFORMANCE)
+-- USING CORRECT ESO API FUNCTIONS (verified working)
+-- Based on actual ESO Lua API testing
 -- =====================================================
-
-local GetNumSmithingStylePages = GetNumSmithingStylePages
-local GetSmithingStylePageInfo = GetSmithingStylePageInfo
-local IsSmithingStyleKnown = IsSmithingStyleKnown
-local GetNumSmithingResearchLines = GetNumSmithingResearchLines
-local GetSmithingResearchLineInfo = GetSmithingResearchLineInfo
-local GetSmithingResearchLineTraitTimes = GetSmithingResearchLineTraitTimes
-local GetNumRecipeLists = GetNumRecipeLists
-local GetRecipeListInfo = GetRecipeListInfo
-local GetNumRecipesInRecipeList = GetNumRecipesInRecipeList
-local GetRecipeInfo = GetRecipeInfo
-local GetRecipeResultItemInfo = GetRecipeResultItemInfo
-local DoesRecipeResultMatchSearch = DoesRecipeResultMatchSearch
-local GetNumAlchemyRecipes = GetNumAlchemyRecipes
-local GetAlchemyRecipeInfo = GetAlchemyRecipeInfo
-local GetNumEnchantingRecipes = GetNumEnchantingRecipes
-local GetEnchantingRecipeInfo = GetEnchantingRecipeInfo
-local GetNumProvisioningRecipes = GetNumProvisioningRecipes
-local GetProvisioningRecipeInfo = GetProvisioningRecipeInfo
-local GetNumWoodworkingRecipes = GetNumWoodworkingRecipes
-local GetWoodworkingRecipeInfo = GetWoodworkingRecipeInfo
-local GetNumClothingRecipes = GetNumClothingRecipes
-local GetClothingRecipeInfo = GetClothingRecipeInfo
-local GetNumBlacksmithingRecipes = GetNumBlacksmithingRecipes
-local GetBlacksmithingRecipeInfo = GetBlacksmithingRecipeInfo
-local GetNumJewelryCraftingRecipes = GetNumJewelryCraftingRecipes
-local GetJewelryCraftingRecipeInfo = GetJewelryCraftingRecipeInfo
 
 -- =====================================================
 -- CRAFTING KNOWLEDGE COLLECTION
@@ -43,202 +17,196 @@ local function CollectCraftingData()
         motifs = {},
         recipes = {},
         research = {},
-        timers = {}
+        timers = {},
     }
-    
+
     -- ===== MOTIFS =====
     local function CollectMotifs()
         local motifs = {}
-        
-        -- Get all style pages
-        local numPages = GetNumSmithingStylePages()
-        for pageIndex = 1, numPages do
-            local pageName, pageCategory, pageSubcategory = GetSmithingStylePageInfo(pageIndex)
-            if pageName and pageName ~= "" then
-                local isKnown = IsSmithingStyleKnown(pageIndex)
-                table.insert(motifs, {
-                    name = pageName,
-                    category = pageCategory,
-                    subcategory = pageSubcategory,
-                    known = isKnown,
-                    pageIndex = pageIndex
-                })
+
+        -- CORRECT API: GetHighestItemStyleId() + IsItemStyleKnown(styleId) + GetItemStyleName(styleId)
+        local maxStyleId = CM.SafeCall(GetHighestItemStyleId) or 200
+
+        local knownCount = 0
+        for styleId = 1, maxStyleId do
+            -- Check if this style is known
+            local isKnown = CM.SafeCall(IsItemStyleKnown, styleId)
+            if isKnown then
+                -- Get style name
+                local styleName = CM.SafeCall(GetItemStyleName, styleId)
+                if styleName and styleName ~= "" then
+                    knownCount = knownCount + 1
+                    table.insert(motifs, {
+                        name = styleName,
+                        styleId = styleId,
+                        known = true,
+                        category = nil,
+                        subcategory = nil,
+                    })
+                end
             end
         end
-        
+
+        CM.Info(string.format("Motifs: %d known", knownCount))
+
+        -- Sort by name
+        if #motifs > 0 then
+            table.sort(motifs, function(a, b)
+                return (a.name or ""):lower() < (b.name or ""):lower()
+            end)
+        end
+
         return motifs
     end
-    
+
     -- ===== RECIPES =====
     local function CollectRecipes()
         local recipes = {
-            provisioning = {},
-            alchemy = {},
-            enchanting = {},
-            blacksmithing = {},
-            clothing = {},
-            woodworking = {},
-            jewelry = {}
+            all = {},
+            byList = {},
         }
-        
-        -- Provisioning recipes
-        local numProvisioning = GetNumProvisioningRecipes()
-        for i = 1, numProvisioning do
-            local recipeName, recipeType, provisionerType, quality = GetProvisioningRecipeInfo(i)
-            if recipeName and recipeName ~= "" then
-                table.insert(recipes.provisioning, {
-                    name = recipeName,
-                    type = recipeType,
-                    provisionerType = provisionerType,
-                    quality = quality,
-                    index = i
-                })
+
+        -- CORRECT API: GetNumRecipeLists() + GetRecipeInfo(listIndex, recipeIndex)
+        local numLists = CM.SafeCall(GetNumRecipeLists) or 0
+        local totalRecipes = 0
+
+        -- Loop through all recipe lists
+        for listIndex = 1, numLists do
+            local listRecipes = {}
+            local listCount = 0
+
+            -- Loop through recipes in this list until we get nil
+            for recipeIndex = 1, 1000 do -- arbitrary high limit
+                local success, known, recipeName, numIngredients, provisionerType, qualityReq, specialType =
+                    pcall(GetRecipeInfo, listIndex, recipeIndex)
+
+                if not success or not recipeName then
+                    -- No more recipes in this list
+                    break
+                end
+
+                if known then
+                    listCount = listCount + 1
+                    totalRecipes = totalRecipes + 1
+
+                    local recipeData = {
+                        name = recipeName,
+                        listIndex = listIndex,
+                        recipeIndex = recipeIndex,
+                        numIngredients = numIngredients,
+                        provisionerType = provisionerType,
+                        quality = qualityReq,
+                        specialType = specialType,
+                        known = true,
+                    }
+
+                    table.insert(listRecipes, recipeData)
+                    table.insert(recipes.all, recipeData)
+                end
+            end
+
+            if listCount > 0 then
+                recipes.byList[listIndex] = listRecipes
             end
         end
-        
-        -- Alchemy recipes
-        local numAlchemy = GetNumAlchemyRecipes()
-        for i = 1, numAlchemy do
-            local recipeName, recipeType, quality = GetAlchemyRecipeInfo(i)
-            if recipeName and recipeName ~= "" then
-                table.insert(recipes.alchemy, {
-                    name = recipeName,
-                    type = recipeType,
-                    quality = quality,
-                    index = i
-                })
-            end
-        end
-        
-        -- Enchanting recipes
-        local numEnchanting = GetNumEnchantingRecipes()
-        for i = 1, numEnchanting do
-            local recipeName, recipeType, quality = GetEnchantingRecipeInfo(i)
-            if recipeName and recipeName ~= "" then
-                table.insert(recipes.enchanting, {
-                    name = recipeName,
-                    type = recipeType,
-                    quality = quality,
-                    index = i
-                })
-            end
-        end
-        
-        -- Blacksmithing recipes
-        local numBlacksmithing = GetNumBlacksmithingRecipes()
-        for i = 1, numBlacksmithing do
-            local recipeName, recipeType, quality = GetBlacksmithingRecipeInfo(i)
-            if recipeName and recipeName ~= "" then
-                table.insert(recipes.blacksmithing, {
-                    name = recipeName,
-                    type = recipeType,
-                    quality = quality,
-                    index = i
-                })
-            end
-        end
-        
-        -- Clothing recipes
-        local numClothing = GetNumClothingRecipes()
-        for i = 1, numClothing do
-            local recipeName, recipeType, quality = GetClothingRecipeInfo(i)
-            if recipeName and recipeName ~= "" then
-                table.insert(recipes.clothing, {
-                    name = recipeName,
-                    type = recipeType,
-                    quality = quality,
-                    index = i
-                })
-            end
-        end
-        
-        -- Woodworking recipes
-        local numWoodworking = GetNumWoodworkingRecipes()
-        for i = 1, numWoodworking do
-            local recipeName, recipeType, quality = GetWoodworkingRecipeInfo(i)
-            if recipeName and recipeName ~= "" then
-                table.insert(recipes.woodworking, {
-                    name = recipeName,
-                    type = recipeType,
-                    quality = quality,
-                    index = i
-                })
-            end
-        end
-        
-        -- Jewelry crafting recipes
-        local numJewelry = GetNumJewelryCraftingRecipes()
-        for i = 1, numJewelry do
-            local recipeName, recipeType, quality = GetJewelryCraftingRecipeInfo(i)
-            if recipeName and recipeName ~= "" then
-                table.insert(recipes.jewelry, {
-                    name = recipeName,
-                    type = recipeType,
-                    quality = quality,
-                    index = i
-                })
-            end
-        end
-        
+
+        CM.Info(string.format("Recipes: %d total", totalRecipes))
+
         return recipes
     end
-    
+
     -- ===== RESEARCH =====
     local function CollectResearch()
         local research = {
             blacksmithing = {},
             clothing = {},
             woodworking = {},
-            jewelry = {}
+            jewelry = {},
         }
-        
+
         -- Get research lines for each craft
-        local craftTypes = {
-            {name = "blacksmithing", func = GetNumSmithingResearchLines},
-            {name = "clothing", func = GetNumSmithingResearchLines},
-            {name = "woodworking", func = GetNumSmithingResearchLines},
-            {name = "jewelry", func = GetNumSmithingResearchLines}
+        local craftingTypes = {
+            { type = CRAFTING_TYPE_BLACKSMITHING, name = "blacksmithing", list = research.blacksmithing },
+            { type = CRAFTING_TYPE_CLOTHIER, name = "clothing", list = research.clothing },
+            { type = CRAFTING_TYPE_WOODWORKING, name = "woodworking", list = research.woodworking },
+            { type = CRAFTING_TYPE_JEWELRYCRAFTING, name = "jewelry", list = research.jewelry },
         }
-        
-        for _, craftType in ipairs(craftTypes) do
-            local numLines = craftType.func()
-            for lineIndex = 1, numLines do
-                local lineName, numTraits, timeRequired = GetSmithingResearchLineInfo(lineIndex)
-                if lineName and lineName ~= "" then
-                    local traitTimes = GetSmithingResearchLineTraitTimes(lineIndex)
-                    table.insert(research[craftType.name], {
-                        name = lineName,
-                        numTraits = numTraits,
-                        timeRequired = timeRequired,
-                        traitTimes = traitTimes,
-                        lineIndex = lineIndex
-                    })
+
+        for _, craftInfo in ipairs(craftingTypes) do
+            if craftInfo.type then
+                local numLines = CM.SafeCall(GetNumSmithingResearchLines, craftInfo.type) or 0
+
+                for lineIndex = 1, numLines do
+                    local success, lineName, icon, numTraits, timeRequired =
+                        pcall(GetSmithingResearchLineInfo, craftInfo.type, lineIndex)
+                    if success and lineName and lineName ~= "" then
+                        local lineData = {
+                            name = lineName,
+                            numTraits = numTraits or 0,
+                            traits = {},
+                        }
+
+                        -- Get trait info for this line
+                        local numTraitsForLine = CM.SafeCall(
+                            GetNumSmithingResearchLineTraits,
+                            craftInfo.type,
+                            lineIndex
+                        ) or 0
+                        for traitIndex = 1, numTraitsForLine do
+                            local success2, traitType, traitDesc, known =
+                                pcall(GetSmithingResearchLineTraitInfo, craftInfo.type, lineIndex, traitIndex)
+                            if success2 and traitType then
+                                table.insert(lineData.traits, {
+                                    type = traitType,
+                                    description = traitDesc,
+                                    known = known or false,
+                                })
+                            end
+                        end
+
+                        table.insert(craftInfo.list, lineData)
+                    end
                 end
             end
         end
-        
+
         return research
     end
-    
+
     -- ===== RESEARCH TIMERS =====
     local function CollectResearchTimers()
         local timers = {
             active = {},
             completed = {},
-            total = 0
+            total = 0,
         }
-        
-        -- This would need to be implemented based on available API
-        -- For now, return empty structure
+
+        -- Get active research timers
+        local numTimers = CM.SafeCall(GetNumCurrentResearchTimers) or 0
+
+        for i = 1, numTimers do
+            local success, craftingType, lineIndex, traitIndex, timeRemaining = pcall(GetCurrentResearchTimerInfo, i)
+            if success and craftingType then
+                table.insert(timers.active, {
+                    craftingType = craftingType,
+                    lineIndex = lineIndex,
+                    traitIndex = traitIndex,
+                    timeRemaining = timeRemaining or 0,
+                })
+            end
+        end
+
+        timers.total = numTimers
+
         return timers
     end
-    
+
     -- Collect all crafting data
     crafting.motifs = CollectMotifs()
     crafting.recipes = CollectRecipes()
     crafting.research = CollectResearch()
     crafting.timers = CollectResearchTimers()
-    
+
     return crafting
 end
 

@@ -144,6 +144,7 @@ Add personal build notes that appear in your markdown:
 - **[Development Guide](docs/DEVELOPMENT.md)** - Setup, contribution, and code style
 - **[Architecture](docs/ARCHITECTURE.md)** - Code structure, patterns, and data flow
 - **[API Reference](docs/API_REFERENCE.md)** - ESO Lua API usage patterns
+- **[Memory Management](docs/MEMORY_MANAGEMENT.md)** - Efficient memory practices and best patterns
 - **[Publishing Guide](docs/PUBLISHING.md)** - Release and distribution process
 - **[Testing Guide](TESTING_GUIDE.md)** - Validation and testing procedures
 - **[Changelog](CHANGELOG.md)** - Complete version history

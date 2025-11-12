@@ -20,8 +20,137 @@ local function GenerateLegend(format)
     if format == "discord" or format == "quick" then
         return ""
     end
+
+    InitializeUtilities()
     
-    return string_format([[
+    local CreateStyledTable = markdown and markdown.CreateStyledTable or (CM.utils.markdown and CM.utils.markdown.CreateStyledTable)
+    
+    -- Section Icons table
+    local sectionIconsTable = ""
+    if CreateStyledTable then
+        local sectionHeaders = { "Icon", "Meaning" }
+        local sectionRows = {
+            { "📋", "Overview & Summary" },
+            { "💰", "Currency, Resources & Inventory" },
+            { "⚔️", "PvP & Combat" },
+            { "🎨", "Collectibles" },
+            { "🏆", "Achievements & Titles" },
+            { "⚡", "Equipment Enhancement" },
+            { "🌍", "World Progress" },
+            { "🏰", "Guilds, Armory & Undaunted" },
+            { "🗺️", "DLC & Chapter Access" },
+            { "🎯", "Champion Points" },
+            { "🎯", "Attributes & Analysis" },
+            { "🍖", "Active Buffs" },
+            { "📈", "Progression & Statistics" },
+            { "🌿", "Skill Morphs" },
+            { "📜", "Character Progress" },
+            { "👥", "Companion" },
+            { "⚒️", "Craft Discipline" },
+            { "💪", "Fitness Discipline" },
+            { "⚔️", "Warfare Discipline" },
+        }
+        local sectionOptions = {
+            alignment = { "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        sectionIconsTable = CreateStyledTable(sectionHeaders, sectionRows, sectionOptions)
+    else
+        -- Fallback
+        sectionIconsTable = "| Icon | Meaning |\n|:-----|:--------|\n| 📋 | Overview & Summary |\n| 💰 | Currency, Resources & Inventory |\n| ⚔️ | PvP & Combat |\n| 🎨 | Collectibles |\n| 🏆 | Achievements & Titles |\n| ⚡ | Equipment Enhancement |\n| 🌍 | World Progress |\n| 🏰 | Guilds, Armory & Undaunted |\n| 🗺️ | DLC & Chapter Access |\n| 🎯 | Champion Points |\n| 🎯 | Attributes & Analysis |\n| 🍖 | Active Buffs |\n| 📈 | Progression & Statistics |\n| 🌿 | Skill Morphs |\n| 📜 | Character Progress |\n| 👥 | Companion |\n| ⚒️ | Craft Discipline |\n| 💪 | Fitness Discipline |\n| ⚔️ | Warfare Discipline |\n"
+    end
+    
+    -- Status Indicators table
+    local statusTable = ""
+    if CreateStyledTable then
+        local statusHeaders = { "Icon", "Meaning" }
+        local statusRows = {
+            { "✅", "Complete, Maxed, Good Status" },
+            { "⚠️", "Warning, Needs Attention" },
+            { "🔴", "Critical, High Priority" },
+            { "🟡", "Medium Priority, Gold Quality" },
+            { "🟢", "Low Priority, Green Quality" },
+            { "🟣", "Purple Quality" },
+            { "🟠", "Orange Quality" },
+            { "⚪", "White Quality, Not Started" },
+            { "🔄", "In Progress, Active" },
+        }
+        local statusOptions = {
+            alignment = { "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        statusTable = CreateStyledTable(statusHeaders, statusRows, statusOptions)
+    else
+        -- Fallback
+        statusTable = "| Icon | Meaning |\n|:-----|:--------|\n| ✅ | Complete, Maxed, Good Status |\n| ⚠️ | Warning, Needs Attention |\n| 🔴 | Critical, High Priority |\n| 🟡 | Medium Priority, Gold Quality |\n| 🟢 | Low Priority, Green Quality |\n| 🟣 | Purple Quality |\n| 🟠 | Orange Quality |\n| ⚪ | White Quality, Not Started |\n| 🔄 | In Progress, Active |\n"
+    end
+    
+    -- Champion Points table
+    local cpTable = ""
+    if CreateStyledTable then
+        local cpHeaders = { "Icon", "Meaning" }
+        local cpRows = {
+            { "⭐", "Slotted Slottable Star (Active)" },
+            { "☆", "Unslotted Slottable Star (Has Points, Not Active)" },
+            { "🔒", "Passive Skill (No Slotting Required)" },
+        }
+        local cpOptions = {
+            alignment = { "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        cpTable = CreateStyledTable(cpHeaders, cpRows, cpOptions)
+    else
+        -- Fallback
+        cpTable = "| Icon | Meaning |\n|:-----|:--------|\n| ⭐ | Slotted Slottable Star (Active) |\n| ☆ | Unslotted Slottable Star (Has Points, Not Active) |\n| 🔒 | Passive Skill (No Slotting Required) |\n"
+    end
+    
+    -- Attributes table
+    local attrTable = ""
+    if CreateStyledTable then
+        local attrHeaders = { "Icon", "Meaning" }
+        local attrRows = {
+            { "🔵", "Magicka" },
+            { "❤️", "Health" },
+            { "⚡", "Stamina" },
+        }
+        local attrOptions = {
+            alignment = { "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        attrTable = CreateStyledTable(attrHeaders, attrRows, attrOptions)
+    else
+        -- Fallback
+        attrTable = "| Icon | Meaning |\n|:-----|:--------|\n| 🔵 | Magicka |\n| ❤️ | Health |\n| ⚡ | Stamina |\n"
+    end
+    
+    -- Investment Levels table
+    local investTable = ""
+    if CreateStyledTable then
+        local investHeaders = { "Icon", "Meaning" }
+        local investRows = {
+            { "🔥", "Very High (1500+ CP)" },
+            { "⭐", "High (1200+ CP)" },
+            { "💪", "Medium-High (800+ CP)" },
+            { "📈", "Medium (400+ CP)" },
+            { "🌱", "Low (<400 CP)" },
+        }
+        local investOptions = {
+            alignment = { "left", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        investTable = CreateStyledTable(investHeaders, investRows, investOptions)
+    else
+        -- Fallback
+        investTable = "| Icon | Meaning |\n|:-----|:--------|\n| 🔥 | Very High (1500+ CP) |\n| ⭐ | High (1200+ CP) |\n| 💪 | Medium-High (800+ CP) |\n| 📈 | Medium (400+ CP) |\n| 🌱 | Low (<400 CP) |\n"
+    end
+
+    return string_format(
+        [[
 ---
 
 ## 📖 Icon Legend
@@ -31,73 +160,35 @@ local function GenerateLegend(format)
 <td style="vertical-align: top; padding: 0 15px; width: 50%%;">
 
 ### Section Icons
-| Icon | Meaning |
-|:-----|:--------|
-| 📋 | Overview & Summary |
-| 💰 | Currency, Resources & Inventory |
-| ⚔️ | PvP & Combat |
-| 🎨 | Collectibles |
-| 🏆 | Achievements & Titles |
-| ⚡ | Equipment Enhancement |
-| 🌍 | World Progress |
-| 🏰 | Guilds, Armory & Undaunted |
-| 🗺️ | DLC & Chapter Access |
-| 🎯 | Champion Points |
-| 🎯 | Attributes & Analysis |
-| 🍖 | Active Buffs |
-| 📈 | Progression & Statistics |
-| 🌿 | Skill Morphs |
-| 📜 | Character Progress |
-| 👥 | Companion |
-| ⚒️ | Craft Discipline |
-| 💪 | Fitness Discipline |
-| ⚔️ | Warfare Discipline |
+%s
 
 </td>
 <td style="vertical-align: top; padding: 0 15px; width: 50%%;">
 
 ### Status Indicators
-| Icon | Meaning |
-|:-----|:--------|
-| ✅ | Complete, Maxed, Good Status |
-| ⚠️ | Warning, Needs Attention |
-| 🔴 | Critical, High Priority |
-| 🟡 | Medium Priority, Gold Quality |
-| 🟢 | Low Priority, Green Quality |
-| 🟣 | Purple Quality |
-| 🟠 | Orange Quality |
-| ⚪ | White Quality, Not Started |
-| 🔄 | In Progress, Active |
+%s
 
 ### Champion Points
-| Icon | Meaning |
-|:-----|:--------|
-| ⭐ | Slotted Slottable Star (Active) |
-| ☆ | Unslotted Slottable Star (Has Points, Not Active) |
-| 🔒 | Passive Skill (No Slotting Required) |
+%s
 
 ### Attributes
-| Icon | Meaning |
-|:-----|:--------|
-| 🔵 | Magicka |
-| ❤️ | Health |
-| ⚡ | Stamina |
+%s
 
 ### Investment Levels
-| Icon | Meaning |
-|:-----|:--------|
-| 🔥 | Very High (1500+ CP) |
-| ⭐ | High (1200+ CP) |
-| 💪 | Medium-High (800+ CP) |
-| 📈 | Medium (400+ CP) |
-| 🌱 | Low (<400 CP) |
+%s
 
 </td>
 </tr>
 </table>
 
 ---
-]], "")
+]],
+        sectionIconsTable,
+        statusTable,
+        cpTable,
+        attrTable,
+        investTable
+    )
 end
 
 -- =====================================================
@@ -106,11 +197,13 @@ end
 
 local function GenerateFooter(format, contentLength)
     InitializeUtilities()
-    
+
     -- Enhanced visuals are now always enabled (baseline)
-    
-    if format == "quick" then return "" end
-    
+
+    if format == "quick" then
+        return ""
+    end
+
     -- Use ESO API for timestamp (os.date() is disabled in ESO Lua)
     local timestamp = ""
     local timeSuccess, timeStamp = pcall(GetTimeStamp)
@@ -124,7 +217,7 @@ local function GenerateFooter(format, contentLength)
     else
         timestamp = "unknown time"
     end
-    
+
     local formatNumber = CM.utils and CM.utils.FormatNumber
     local safeFormatNumber = function(val)
         if formatNumber then
@@ -133,49 +226,63 @@ local function GenerateFooter(format, contentLength)
             return tostring(val)
         end
     end
-    
+
     if format == "discord" then
         -- Classic format
-        return string.format([[
+        return string.format(
+            [[
 
 ---
 
 *Generated by CharacterMarkdown (%s) on %s*  
 *Total size: ~%d characters*
-]], format:upper(), timestamp, contentLength or 0)
+]],
+            format:upper(),
+            timestamp,
+            contentLength or 0
+        )
     end
-    
+
     -- ENHANCED: Use separator and attractive footer (only if markdown utilities are available)
     if not markdown then
         -- Fallback to classic if markdown utilities not loaded
-        return string.format([[
+        return string.format(
+            [[
 ---
 
 *Generated by CharacterMarkdown (%s) on %s*  
 *Total size: ~%s characters*
-]], format:upper(), timestamp, safeFormatNumber(contentLength or 0))
+]],
+            format:upper(),
+            timestamp,
+            safeFormatNumber(contentLength or 0)
+        )
     end
-    
+
     -- Create attractive footer with badges and centered layout
     local formatBadge = markdown.CreateBadge("Format", format:upper(), "blue", "flat")
     local sizeBadge = markdown.CreateBadge("Size", safeFormatNumber(contentLength or 0) .. " chars", "purple", "flat")
-    
+
     local badgeRow = string_format("%s %s", formatBadge, sizeBadge)
-    
-    local footerContent = string_format([[
+
+    local footerContent = string_format(
+        [[
 ---
 
 <div align="center">
 
 %s
 
-**⚔️ CharacterMarkdown**
+**⚔️ CharacterMarkdown by @solaegis**
 
 <sub>Generated on %s</sub>
 
 </div>
-]], badgeRow, timestamp)
-    
+]],
+        badgeRow,
+        timestamp
+    )
+
     return footerContent
 end
 

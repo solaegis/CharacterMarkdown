@@ -191,7 +191,9 @@ task version:api -- 101048
 
 ## Testing Before Release
 
-### Checklist
+**📋 For a comprehensive pre-release checklist, see [RELEASE_CHECKLIST.md](../RELEASE_CHECKLIST.md)**
+
+### Quick Checklist
 - [ ] All formats generate correctly
 - [ ] Settings persist after /reloadui
 - [ ] Settings persist after game restart
@@ -202,6 +204,16 @@ task version:api -- 101048
 - [ ] Tested with 2+ different characters
 - [ ] Version numbers updated
 - [ ] CHANGELOG.md updated
+
+### Automated Pre-Release Validation
+```bash
+# Run comprehensive validation
+./scripts/pre-release-check.sh
+
+# Or use Taskfile
+task test    # Lint + validate
+task build   # Build and validate ZIP
+```
 
 ---
 

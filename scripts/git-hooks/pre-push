@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# CharacterMarkdown - Git Pre-Push Hook
+# Validates code before pushing tags to prevent broken releases
+# Install: cp scripts/git-hooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# Get the remote and branch being pushed
+while read local_ref local_sha remote_ref remote_sha; do
+    # Check if this is a tag push
+    if [[ "$remote_ref" =~ ^refs/tags/ ]]; then
+        TAG_NAME="${remote_ref#refs/tags/}"
+        
+        echo ""
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo " Pre-Push Validation: Tag $TAG_NAME"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        
+        # Check if tag matches version pattern (v*)
+        if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo -e "${YELLOW}⚠️  Warning: Tag '$TAG_NAME' doesn't match version pattern (vX.Y.Z)${NC}"
+            echo -e "${YELLOW}   Continuing anyway...${NC}"
+        fi
+        
+        # Run pre-release validation
+        SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+        PRE_RELEASE_SCRIPT="$SCRIPT_DIR/scripts/pre-release-check.sh"
+        
+        if [ -f "$PRE_RELEASE_SCRIPT" ]; then
+            echo "Running pre-release validation..."
+            echo ""
+            
+            if "$PRE_RELEASE_SCRIPT"; then
+                echo ""
+                echo -e "${GREEN}✅ Pre-release validation passed. Pushing tag...${NC}"
+                echo ""
+            else
+                echo ""
+                echo -e "${RED}❌ Pre-release validation failed!${NC}"
+                echo ""
+                echo "To skip validation (not recommended):"
+                echo "  git push --no-verify origin <tag>"
+                echo ""
+                exit 1
+            fi
+        else
+            echo -e "${YELLOW}⚠️  Pre-release script not found: $PRE_RELEASE_SCRIPT${NC}"
+            echo -e "${YELLOW}   Skipping validation...${NC}"
+            echo ""
+        fi
+    fi
+done
+
+exit 0
+

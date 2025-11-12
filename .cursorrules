@@ -60,6 +60,11 @@
   ```
 - Use `table.concat()` for string building instead of concatenation
 - Throttle event handlers when appropriate
+- Follow memory management best practices in `docs/MEMORY_MANAGEMENT.md`:
+  - Clear large temporary data with `variable = nil` before returning
+  - Unregister one-time event handlers immediately
+  - Use `collectgarbage("step", 1000)` after large operations
+  - Never cache collector data at module scope
 
 ### Module Organization
 - **Collectors** (`src/collectors/`): Data gathering only, no formatting
@@ -92,10 +97,68 @@
 - Export/Import: Use `CM.utils.TableToYAML()` and `CM.utils.YAMLToTable()`
 - Settings validation: Check against defaults, validate types
 
+### SavedVariables Management
+
+**Account-Wide Settings**: Use `ZO_SavedVars:NewAccountWide()` for all account-wide settings
+- Stored in `CharacterMarkdownSettings`
+- Initialized in `EVENT_ADD_ON_LOADED` handler
+- Verify reference: `CM.settings` should equal `CharacterMarkdownSettings`
+
+**Per-Character Data**: Store INSIDE account-wide settings (reliable approach)
+- **Pattern**: Store per-character data in `CharacterMarkdownSettings.perCharacterData[characterId]`
+- **Why**: Account-wide SavedVariables are more reliable than per-character SavedVariables
+- **Implementation**:
+  ```lua
+  -- In InitializeCharacterData()
+  local characterId = tostring(GetCurrentCharacterId())
+  
+  if not CM.settings.perCharacterData then
+      CM.settings.perCharacterData = {}
+  end
+  
+  if not CM.settings.perCharacterData[characterId] then
+      CM.settings.perCharacterData[characterId] = {
+          customNotes = "",
+          customTitle = "",
+          playStyle = "",
+          _initialized = true,
+          _lastModified = GetTimeStamp(),
+      }
+  end
+  
+  -- Point CM.charData to this character's data
+  CM.charData = CM.settings.perCharacterData[characterId]
+  ```
+
+- **When adding new per-character fields**:
+  1. Add to the initialization structure in `InitializeCharacterData()`
+  2. Add to `src/settings/Defaults.lua` if it needs a default value
+  3. No migration needed - changes are automatic when accessing `CM.charData`
+
+- **Example of adding a field**:
+  ```lua
+  -- In InitializeCharacterData() initialization block
+  if not CM.settings.perCharacterData[characterId] then
+      CM.settings.perCharacterData[characterId] = {
+          customNotes = "",
+          customTitle = "",
+          playStyle = "",
+          newField = "",  -- Add here
+          _initialized = true,
+          _lastModified = GetTimeStamp(),
+      }
+  end
+  ```
+
 ### File Structure
 - Follow the load order in `CharacterMarkdown.addon` manifest
 - Core → Utils → Links → Collectors → Generators → Commands → Events → Settings → UI → Init
 - New modules must be added to manifest in correct order
+
+### File Naming Conventions
+- **YAML files**: Always use `.yaml` suffix (not `.yml`)
+  - Example: `config.yaml`, `book.toml` (TOML files use `.toml`)
+  - This applies to all YAML configuration files, GitHub Actions workflows, etc.
 
 ### Testing
 - Unit tests: `/markdown unittest` (collector tests)
@@ -123,3 +186,10 @@
 - Use ZO_SavedVars for settings persistence
 - Use LibAddonMenu-2.0 for settings UI
 - Use LibDebugLogger for debug output (optional dependency)
+
+### Release Process
+- **Before every release**: Run comprehensive pre-release validation using `RELEASE_CHECKLIST.md`
+- **Automated checks**: Run `./scripts/pre-release-check.sh` or use `task test` and `task build`
+- **Git hooks**: Optional pre-push hook available at `scripts/git-hooks/pre-push` to validate before pushing tags
+- **Documentation**: See `docs/PUBLISHING.md` for detailed release process
+- **Cursor AI**: Can automatically run validation checks from the release checklist

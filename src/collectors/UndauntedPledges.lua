@@ -12,26 +12,26 @@ local function CollectUndauntedPledgesData()
         daily = {
             normal = {},
             veteran = {},
-            keys = 0
+            keys = 0,
         },
         weekly = {
             normal = {},
             veteran = {},
-            keys = 0
+            keys = 0,
         },
-        active = {},  -- Active pledges from quest journal
+        active = {}, -- Active pledges from quest journal
         progress = {
             totalCompleted = 0,
-            totalAvailable = 0
-        }
+            totalAvailable = 0,
+        },
     }
-    
+
     -- Check quest journal for active pledges
     -- Cached globals - standard ESO APIs
     local GetNumJournalQuests = GetNumJournalQuests
     local GetJournalQuestName = GetJournalQuestName
     local GetJournalQuestLocationInfo = GetJournalQuestLocationInfo
-    
+
     local numQuests = CM.SafeCall(GetNumJournalQuests)
     if numQuests and numQuests > 0 then
         for i = 1, numQuests do
@@ -43,13 +43,13 @@ local function CollectUndauntedPledgesData()
                     table.insert(pledges.active, {
                         name = questName,
                         location = locationInfo,
-                        index = i
+                        index = i,
                     })
                 end
             end
         end
     end
-    
+
     -- Get daily pledges
     local numDailyPledges = CM.SafeCall(GetNumDailyPledges)
     if numDailyPledges then
@@ -61,15 +61,15 @@ local function CollectUndauntedPledgesData()
                     name = pledgeName,
                     completed = isCompleted or false,
                     difficulty = difficulty or "normal",
-                    index = i
+                    index = i,
                 }
-                
+
                 if difficulty == "veteran" then
                     table.insert(pledges.daily.veteran, pledgeData)
                 else
                     table.insert(pledges.daily.normal, pledgeData)
                 end
-                
+
                 if isCompleted then
                     pledges.progress.totalCompleted = pledges.progress.totalCompleted + 1
                 end
@@ -77,7 +77,7 @@ local function CollectUndauntedPledgesData()
             end
         end
     end
-    
+
     -- Get weekly pledges
     local numWeeklyPledges = CM.SafeCall(GetNumWeeklyPledges)
     if numWeeklyPledges then
@@ -89,15 +89,15 @@ local function CollectUndauntedPledgesData()
                     name = pledgeName,
                     completed = isCompleted or false,
                     difficulty = difficulty or "normal",
-                    index = i
+                    index = i,
                 }
-                
+
                 if difficulty == "veteran" then
                     table.insert(pledges.weekly.veteran, pledgeData)
                 else
                     table.insert(pledges.weekly.normal, pledgeData)
                 end
-                
+
                 if isCompleted then
                     pledges.progress.totalCompleted = pledges.progress.totalCompleted + 1
                 end
@@ -105,18 +105,18 @@ local function CollectUndauntedPledgesData()
             end
         end
     end
-    
+
     -- Get pledge keys
     local dailyKeys = CM.SafeCall(GetDailyPledgeKeys)
     if dailyKeys then
         pledges.daily.keys = dailyKeys
     end
-    
+
     local weeklyKeys = CM.SafeCall(GetWeeklyPledgeKeys)
     if weeklyKeys then
         pledges.weekly.keys = weeklyKeys
     end
-    
+
     return pledges
 end
 
@@ -129,25 +129,25 @@ local function CollectDungeonProgressData()
         normal = {
             total = 0,
             completed = 0,
-            dungeons = {}
+            dungeons = {},
         },
         veteran = {
             total = 0,
             completed = 0,
-            dungeons = {}
+            dungeons = {},
         },
         hardmode = {
             total = 0,
             completed = 0,
-            dungeons = {}
-        }
+            dungeons = {},
+        },
     }
-    
+
     -- Get normal dungeon progress
     local numNormalDungeons = CM.SafeCall(GetNumNormalDungeons)
     if numNormalDungeons then
         dungeonProgress.normal.total = numNormalDungeons
-        
+
         for i = 1, numNormalDungeons do
             -- GetNormalDungeonInfo returns multiple values, need to use pcall
             local success, dungeonName, isCompleted = pcall(GetNormalDungeonInfo, i)
@@ -155,21 +155,21 @@ local function CollectDungeonProgressData()
                 if isCompleted then
                     dungeonProgress.normal.completed = dungeonProgress.normal.completed + 1
                 end
-                
+
                 table.insert(dungeonProgress.normal.dungeons, {
                     name = dungeonName,
                     completed = isCompleted or false,
-                    index = i
+                    index = i,
                 })
             end
         end
     end
-    
+
     -- Get veteran dungeon progress
     local numVeteranDungeons = CM.SafeCall(GetNumVeteranDungeons)
     if numVeteranDungeons then
         dungeonProgress.veteran.total = numVeteranDungeons
-        
+
         for i = 1, numVeteranDungeons do
             -- GetVeteranDungeonInfo returns multiple values, need to use pcall
             local success, dungeonName, isCompleted = pcall(GetVeteranDungeonInfo, i)
@@ -177,21 +177,21 @@ local function CollectDungeonProgressData()
                 if isCompleted then
                     dungeonProgress.veteran.completed = dungeonProgress.veteran.completed + 1
                 end
-                
+
                 table.insert(dungeonProgress.veteran.dungeons, {
                     name = dungeonName,
                     completed = isCompleted or false,
-                    index = i
+                    index = i,
                 })
             end
         end
     end
-    
+
     -- Get hardmode dungeon progress
     local numHardmodeDungeons = CM.SafeCall(GetNumHardmodeDungeons)
     if numHardmodeDungeons then
         dungeonProgress.hardmode.total = numHardmodeDungeons
-        
+
         for i = 1, numHardmodeDungeons do
             -- GetHardmodeDungeonInfo returns multiple values, need to use pcall
             local success, dungeonName, isCompleted = pcall(GetHardmodeDungeonInfo, i)
@@ -199,16 +199,16 @@ local function CollectDungeonProgressData()
                 if isCompleted then
                     dungeonProgress.hardmode.completed = dungeonProgress.hardmode.completed + 1
                 end
-                
+
                 table.insert(dungeonProgress.hardmode.dungeons, {
                     name = dungeonName,
                     completed = isCompleted or false,
-                    index = i
+                    index = i,
                 })
             end
         end
     end
-    
+
     return dungeonProgress
 end
 
@@ -219,9 +219,9 @@ end
 local function CollectUndauntedKeysData()
     local keys = {
         total = 0,
-        categories = {}
+        categories = {},
     }
-    
+
     -- Get key categories
     local numKeyCategories = CM.SafeCall(GetNumUndauntedKeyCategories)
     if numKeyCategories then
@@ -232,9 +232,9 @@ local function CollectUndauntedKeysData()
                 local categoryData = {
                     name = categoryName,
                     total = numKeys,
-                    keys = {}
+                    keys = {},
                 }
-                
+
                 -- Get keys in this category
                 for keyIndex = 1, numKeys do
                     -- GetUndauntedKeyInfo returns multiple values, need to use pcall
@@ -244,17 +244,17 @@ local function CollectUndauntedKeysData()
                             name = keyName,
                             count = keyCount or 0,
                             categoryIndex = categoryIndex,
-                            keyIndex = keyIndex
+                            keyIndex = keyIndex,
                         })
                     end
                 end
-                
+
                 keys.categories[categoryName] = categoryData
                 keys.total = keys.total + numKeys
             end
         end
     end
-    
+
     return keys
 end
 
@@ -266,7 +266,7 @@ local function CollectUndauntedPledgesDataMain()
     return {
         pledges = CollectUndauntedPledgesData(),
         dungeonProgress = CollectDungeonProgressData(),
-        keys = CollectUndauntedKeysData()
+        keys = CollectUndauntedKeysData(),
     }
 end
 

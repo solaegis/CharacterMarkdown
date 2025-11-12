@@ -21,14 +21,14 @@ local function CreateRaceLink(raceName, format)
     if not raceName or raceName == "" or raceName == "Unknown" then
         return raceName or "Unknown"
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return raceName
     end
-    
+
     local url = GenerateRaceURL(raceName)
     if url and (format == "github" or format == "discord") then
         return "[" .. raceName .. "](" .. url .. ")"
@@ -57,14 +57,14 @@ local function CreateClassLink(className, format)
     if not className or className == "" or className == "Unknown" then
         return className or "Unknown"
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return className
     end
-    
+
     local url = GenerateClassURL(className)
     if url and (format == "github" or format == "discord") then
         return "[" .. className .. "](" .. url .. ")"
@@ -93,14 +93,14 @@ local function CreateAllianceLink(allianceName, format)
     if not allianceName or allianceName == "" or allianceName == "Unknown" then
         return allianceName or "Unknown"
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return allianceName
     end
-    
+
     local url = GenerateAllianceURL(allianceName)
     if url and (format == "github" or format == "discord") then
         return "[" .. allianceName .. "](" .. url .. ")"
@@ -131,14 +131,14 @@ local function CreateZoneLink(zoneName, format)
     if not zoneName or zoneName == "" or zoneName == "Unknown" then
         return zoneName or "Unknown"
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return zoneName
     end
-    
+
     local url = GenerateZoneURL(zoneName)
     if url and (format == "github" or format == "discord") then
         return "[" .. zoneName .. "](" .. url .. ")"
@@ -170,14 +170,14 @@ local function CreateTitleLink(titleName, format)
     if not titleName or titleName == "" or titleName == "Unknown" then
         return titleName or "Unknown"
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return titleName
     end
-    
+
     local url = GenerateTitleURL(titleName)
     if url and (format == "github" or format == "discord") then
         return "[" .. titleName .. "](" .. url .. ")"
@@ -208,14 +208,14 @@ local function CreateHouseLink(houseName, format)
     if not houseName or houseName == "" or houseName == "Unknown" then
         return houseName or "Unknown"
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return houseName
     end
-    
+
     local url = GenerateHouseURL(houseName)
     if url and (format == "github" or format == "discord") then
         return "[" .. houseName .. "](" .. url .. ")"
@@ -234,19 +234,19 @@ local function GenerateSkillLineURL(skillLineName)
     if not skillLineName or skillLineName == "" then
         return nil
     end
-    
+
     -- Special handling for certain skill line names
     local urlName = skillLineName
-    
+
     -- Handle "Skills" suffix (e.g., "Imperial Skills" -> "Imperial")
     urlName = urlName:gsub(" Skills$", "")
-    
+
     -- Replace spaces with underscores
     urlName = urlName:gsub(" ", "_")
-    
+
     -- Handle special characters (keep apostrophes as-is, UESP accepts them)
     urlName = urlName:gsub("&", "and")
-    
+
     return "https://en.uesp.net/wiki/Online:" .. urlName
 end
 
@@ -256,14 +256,14 @@ local function CreateSkillLineLink(skillLineName, format)
     if not skillLineName or skillLineName == "" then
         return skillLineName or ""
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return skillLineName
     end
-    
+
     local url = GenerateSkillLineURL(skillLineName)
     if url and (format == "github" or format == "discord") then
         return "[" .. skillLineName .. "](" .. url .. ")"
@@ -292,14 +292,14 @@ local function CreateServerLink(serverName, format)
     if not serverName or serverName == "" or serverName == "Unknown" then
         return serverName or "Unknown"
     end
-    
+
     -- Check settings: if enableAbilityLinks is explicitly false, return plain text
     -- Use CM.GetSettings() which merges with defaults to ensure no nil values
     local settings = CM.GetSettings and CM.GetSettings() or {}
     if settings and settings.enableAbilityLinks == false then
         return serverName
     end
-    
+
     local url = GenerateServerURL(serverName)
     if url and (format == "github" or format == "discord") then
         return "[" .. serverName .. "](" .. url .. ")"

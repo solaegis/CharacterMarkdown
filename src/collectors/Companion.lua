@@ -8,20 +8,49 @@ local CM = CharacterMarkdown
 -- =====================================================
 
 local function CollectCompanionData()
-    local companion = { active = false }
-    
+    local companion = { active = false, acquired = {} }
+
+    -- Collect all acquired companions
+    local success, companionIndices = pcall(GetCompanionIndices)
+    if success and companionIndices then
+        for _, companionId in ipairs(companionIndices) do
+            local companionName = CM.SafeCall(GetCompanionName, companionId)
+            if companionName and companionName ~= "" then
+                table.insert(companion.acquired, {
+                    id = companionId,
+                    name = companionName,
+                })
+            end
+        end
+    end
+
     if not HasActiveCompanion() then
         return companion
     end
-    
+
     companion.active = true
     companion.name = CM.SafeCall(GetUnitName, "companion") or "Unknown Companion"
     companion.level = CM.SafeCall(GetUnitLevel, "companion") or 0
-    
+
+    -- Ensure active companion is in acquired list (in case GetCompanionIndices didn't include it)
+    local activeInAcquired = false
+    for _, comp in ipairs(companion.acquired) do
+        if comp.name == companion.name then
+            activeInAcquired = true
+            break
+        end
+    end
+    if not activeInAcquired and companion.name and companion.name ~= "Unknown Companion" then
+        table.insert(companion.acquired, {
+            id = nil, -- We don't have the ID for the active companion if it wasn't in indices
+            name = companion.name,
+        })
+    end
+
     -- Skills
     local success, companionSkills = pcall(function()
         local skills = { ultimate = nil, ultimateId = nil, abilities = {} }
-        
+
         -- Companions have 5 regular ability slots (API slots 3-7) and 1 ultimate slot (API slot 8)
         -- Slots unlock as companion levels: 2 slots at start, +1 at level 2, +1 at level 7, +1 at level 12, ultimate at level 20
         -- Slot 3 is the first ability slot (where Provoke goes), then slots 4-7 are the remaining 4 abilities
@@ -32,7 +61,7 @@ local function CollectCompanionData()
         else
             skills.ultimate = "[Empty]"
         end
-        
+
         -- Collect regular ability slots 3-7 (slot 3 is Provoke/first, then 4-7 for remaining 4)
         -- This makes API slot 3 (Provoke) display as slot 1, API slot 4 as slot 2, etc.
         for slotIndex = 3, 7 do
@@ -41,56 +70,56 @@ local function CollectCompanionData()
                 local abilityName = CM.SafeCall(GetAbilityName, slotId)
                 table.insert(skills.abilities, {
                     name = (abilityName and abilityName ~= "") and abilityName or "[Empty]",
-                    id = slotId
+                    id = slotId,
                 })
             else
                 table.insert(skills.abilities, {
                     name = "[Empty]",
-                    id = nil
+                    id = nil,
                 })
             end
         end
-        
+
         return skills
     end)
-    
+
     if success and companionSkills then
         companion.skills = companionSkills
     end
-    
+
     -- Equipment
     local equipment = {}
     local equipSlots = {
-        {slot = EQUIP_SLOT_MAIN_HAND, name = "Main Hand"}, 
-        {slot = EQUIP_SLOT_OFF_HAND, name = "Off Hand"},
-        {slot = EQUIP_SLOT_HEAD, name = "Head"}, 
-        {slot = EQUIP_SLOT_CHEST, name = "Chest"},
-        {slot = EQUIP_SLOT_SHOULDERS, name = "Shoulders"}, 
-        {slot = EQUIP_SLOT_HAND, name = "Hands"},
-        {slot = EQUIP_SLOT_WAIST, name = "Waist"}, 
-        {slot = EQUIP_SLOT_LEGS, name = "Legs"},
-        {slot = EQUIP_SLOT_FEET, name = "Feet"},
+        { slot = EQUIP_SLOT_MAIN_HAND, name = "Main Hand" },
+        { slot = EQUIP_SLOT_OFF_HAND, name = "Off Hand" },
+        { slot = EQUIP_SLOT_HEAD, name = "Head" },
+        { slot = EQUIP_SLOT_CHEST, name = "Chest" },
+        { slot = EQUIP_SLOT_SHOULDERS, name = "Shoulders" },
+        { slot = EQUIP_SLOT_HAND, name = "Hands" },
+        { slot = EQUIP_SLOT_WAIST, name = "Waist" },
+        { slot = EQUIP_SLOT_LEGS, name = "Legs" },
+        { slot = EQUIP_SLOT_FEET, name = "Feet" },
     }
-    
+
     for _, slotInfo in ipairs(equipSlots) do
-        local success2, itemName = pcall(function() 
-            return CM.SafeCall(GetItemName, BAG_COMPANION_WORN, slotInfo.slot) 
+        local success2, itemName = pcall(function()
+            return CM.SafeCall(GetItemName, BAG_COMPANION_WORN, slotInfo.slot)
         end)
-        
+
         if success2 and itemName and itemName ~= "" then
             local itemLink = CM.SafeCall(GetItemLink, BAG_COMPANION_WORN, slotInfo.slot, LINK_STYLE_DEFAULT)
             if not itemLink then
                 -- Fallback to basic info if itemLink fails
-                table.insert(equipment, { 
-                    slot = slotInfo.name, 
-                    name = itemName, 
+                table.insert(equipment, {
+                    slot = slotInfo.name,
+                    name = itemName,
                     quality = "Unknown",
-                    level = 0
+                    level = 0,
                 })
             else
                 local quality = CM.SafeCall(GetItemLinkQuality, itemLink)
                 local itemLevel = CM.SafeCall(GetItemLinkRequiredLevel, itemLink) or 0
-                
+
                 -- Set information
                 local hasSet, setName = false, nil
                 local success3, has, name = pcall(GetItemLinkSetInfo, itemLink)
@@ -98,7 +127,7 @@ local function CollectCompanionData()
                     hasSet = has
                     setName = name
                 end
-                
+
                 -- Trait information
                 local traitType, traitName = nil, nil
                 local success4, trait = pcall(GetItemLinkTraitInfo, itemLink)
@@ -106,7 +135,7 @@ local function CollectCompanionData()
                     traitType = trait
                     traitName = CM.SafeCall(GetString, "SI_ITEMTRAITTYPE", trait) or "None"
                 end
-                
+
                 -- Enchantment information
                 local enchantName, enchantCharge, enchantMaxCharge = nil, nil, nil
                 local success5, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
@@ -121,10 +150,10 @@ local function CollectCompanionData()
                         enchantMaxCharge = maxCharge
                     end
                 end
-                
-                table.insert(equipment, { 
-                    slot = slotInfo.name, 
-                    name = itemName, 
+
+                table.insert(equipment, {
+                    slot = slotInfo.name,
+                    name = itemName,
                     quality = CM.utils.GetQualityColor(quality),
                     level = itemLevel,
                     hasSet = hasSet,
@@ -133,14 +162,14 @@ local function CollectCompanionData()
                     traitName = traitName,
                     enchantName = enchantName,
                     enchantCharge = enchantCharge,
-                    enchantMaxCharge = enchantMaxCharge
+                    enchantMaxCharge = enchantMaxCharge,
                 })
             end
         end
     end
-    
+
     companion.equipment = equipment
-    
+
     return companion
 end
 
