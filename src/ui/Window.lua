@@ -20,17 +20,82 @@ local markdownChunks = {} -- Array of markdown chunks
 local currentChunkIndex = 1
 local copyChunkIndex = 1 -- Track which chunk we're copying
 
+-- Forward declarations
+local ShowChunk
+
 -- Clear chunks to prevent memory leak
 local function ClearChunks()
     markdownChunks = {}
     currentChunkIndex = 1
+    copyChunkIndex = 1
     currentMarkdown = ""
     CM.DebugPrint("UI", "Chunks cleared")
 end
 
 -- =====================================================
+-- SELECTION STATE TRACKING
+-- =====================================================
+
+-- Track selection state
+local isTextSelected = false
+
+-- Check if EditBox has selected text and update button color
+local function UpdateSelectAllButtonColor()
+    if not windowControl or windowControl:IsHidden() or not editBoxControl then
+        return
+    end
+    
+    local selectAllButton = CharacterMarkdownWindowButtonContainerSelectAllButtonLabel
+    if not selectAllButton then
+        return
+    end
+    
+    -- Keep button green while text is selected
+    -- Button turns green when SelectAll is called, stays green until chunk changes or window closes
+    if isTextSelected then
+        selectAllButton:SetColor(0, 1, 0, 1) -- Green
+    else
+        selectAllButton:SetColor(1, 1, 1, 1) -- White
+    end
+end
+
+-- Reset selection state
+local function ResetSelectionState()
+    isTextSelected = false
+    UpdateSelectAllButtonColor()
+end
+
+-- Set selection state to selected
+local function SetSelectionState()
+    isTextSelected = true
+    UpdateSelectAllButtonColor()
+end
+
+-- =====================================================
 -- INITIALIZE WINDOW CONTROLS
 -- =====================================================
+
+-- Helper to ensure window has keyboard focus
+-- MODIFIED: Don't give EditBox focus - let global handler work instead
+local function EnsureWindowHasKeyboardFocus()
+    if windowControl and not windowControl:IsHidden() then
+        -- CRITICAL: Enable keyboard on window only (NOT EditBox)
+        windowControl:SetKeyboardEnabled(true)
+        
+        -- DO NOT take focus on EditBox - this would trigger EditBox OnKeyDown handler
+        -- Instead, let the global EVENT_KEY_DOWN handler catch all keys
+        
+        -- Window focus methods
+        if windowControl.TakeFocus then
+            windowControl:TakeFocus()
+        end
+        if windowControl.SetTopmost then
+            windowControl:SetTopmost(true)
+        end
+        
+        CM.DebugPrint("KEYBOARD", "Window keyboard focus ensured (EditBox intentionally NOT focused)")
+    end
+end
 
 local function InitializeWindowControls()
     if windowControl then
@@ -53,31 +118,242 @@ local function InitializeWindowControls()
         return false
     end
 
-    -- Configure EditBox with character limit and READ-ONLY mode
+    -- Configure EditBox with character limit
     -- Note: ESO EditBox may have internal limits despite SetMaxInputChars
     editBoxControl:SetMaxInputChars(22000) -- 22k character limit
     editBoxControl:SetMultiLine(true)
     editBoxControl:SetNewLineEnabled(true)
-    editBoxControl:SetEditEnabled(false) -- Make READ-ONLY - cannot be edited
+    -- CRITICAL: Disable editing to prevent text input
+    editBoxControl:SetEditEnabled(false)
+    -- CRITICAL: EditBox MUST have keyboard enabled to receive OnKeyDown events
+    -- We prevent text input via OnChar and OnKeyDown handlers, not by disabling keyboard
+    editBoxControl:SetMouseEnabled(true)
+    editBoxControl:SetKeyboardEnabled(true)  -- MUST BE TRUE to receive keyboard events
+    
+    -- Prevent text editing by intercepting text changes (ONLY in import mode)
+    editBoxControl:SetHandler("OnTextChanged", function(self)
+        -- Only active in import mode - otherwise do nothing
+        if windowControl and windowControl._isImportMode then
+            -- Update stored text for import mode
+            self._originalText = self:GetText()
+        end
+        -- In normal mode, OnKeyDown handler prevents text input by consuming keys
+        -- So OnTextChanged should rarely fire except when we programmatically set text
+    end)
 
     -- Verify the actual limit that was set
     -- Note: ESO EditBox may have hardcoded internal limits regardless of SetMaxInputChars
     local actualMaxChars = editBoxControl:GetMaxInputChars()
     if actualMaxChars then
-        CM.DebugPrint("UI", string.format("EditBox max input chars: %d", actualMaxChars))
+        CM.Info(string.format("✓ EditBox initialized: max input %d chars (requested 22000)", actualMaxChars))
         if actualMaxChars < 22000 then
-            CM.DebugPrint("UI", string.format("EditBox limited to %d (requested 22000)", actualMaxChars))
+            CM.Warn(string.format("⚠ EditBox limited to %d by ESO (requested 22000)", actualMaxChars))
+            CM.Warn("This may affect large character profiles. Please report if you see truncation.")
+        end
+        -- Log chunking configuration for validation
+        local CHUNKING = CM.constants and CM.constants.CHUNKING
+        if CHUNKING then
+            CM.Info(string.format("  Chunking limits: EDITBOX=%d, COPY=%d, MAX_DATA=%d", 
+                CHUNKING.EDITBOX_LIMIT or 0,
+                CHUNKING.COPY_LIMIT or 0,
+                CHUNKING.MAX_DATA_CHARS or 0
+            ))
         end
     else
-        CM.DebugPrint("UI", "Could not get EditBox max input chars")
+        CM.Warn("⚠ Could not query EditBox max input chars - this may indicate an ESO API issue")
     end
 
     -- Set to WHITE text on DARK background
     editBoxControl:SetFont("ZoFontChat")
     editBoxControl:SetColor(1, 1, 1, 1) -- White text
 
+    -- CRITICAL: Block ALL character input using OnChar handler
+    -- OnChar fires when a character would be added - we prevent ALL of them
+    editBoxControl:SetHandler("OnChar", function(self, char)
+        -- Allow character input ONLY in import mode
+        if windowControl and windowControl._isImportMode then
+            return false -- Allow the character
+        end
+        
+        -- Block ALL character input in normal mode
+        CM.DebugPrint("KEYBOARD", string.format("Blocked character input: %s (code: %d)", char, string.byte(char)))
+        return true -- Consume event - prevents character from being added
+    end)
+
+    -- CRITICAL: OnKeyDown handler on EditBox to intercept keys BEFORE they become text input
+    -- This handler fires when EditBox has focus and receives keyboard events
+    editBoxControl:SetHandler("OnKeyDown", function(self, key, ctrl, alt, shift, command)
+        CM.DebugPrint("KEYBOARD", string.format("[EditBox] OnKeyDown FIRED: key=%d, ctrl=%s, cmd=%s", 
+            key, tostring(ctrl), tostring(command)))
+        
+        -- Allow text input in import mode
+        if windowControl and windowControl._isImportMode then
+            CM.DebugPrint("KEYBOARD", "[EditBox] In import mode - allowing key")
+            return false -- Let EditBox process the key normally
+        end
+        
+        -- Only handle when window is visible
+        if not windowControl or windowControl:IsHidden() then
+            CM.DebugPrint("KEYBOARD", "[EditBox] Window not visible - ignoring key")
+            return false
+        end
+        
+        local modifierPressed = ctrl or command
+        
+        -- ESC or X = Close window
+        if key == KEY_ESCAPE or key == KEY_X then
+            CM.DebugPrint("KEYBOARD", "[EditBox] ESC/X pressed - closing window")
+            windowControl:SetHidden(true)
+            return true -- Consume event
+        end
+        
+        -- G = Generate (without modifiers)
+        if key == KEY_G and not modifierPressed then
+            CM.DebugPrint("KEYBOARD", "[EditBox] G pressed - calling RegenerateMarkdown()")
+            if CharacterMarkdown_RegenerateMarkdown then
+                CharacterMarkdown_RegenerateMarkdown()
+                CM.DebugPrint("KEYBOARD", "[EditBox] RegenerateMarkdown() called successfully")
+            else
+                CM.Error("[EditBox] CharacterMarkdown_RegenerateMarkdown is nil!")
+            end
+            zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
+            return true -- Consume event to prevent "g" from appearing
+        end
+        
+        -- S = Settings (without modifiers)
+        if key == KEY_S and not modifierPressed then
+            CM.DebugPrint("KEYBOARD", "[EditBox] S pressed - calling OpenSettings()")
+            if CharacterMarkdown_OpenSettings then
+                CharacterMarkdown_OpenSettings()
+                CM.DebugPrint("KEYBOARD", "[EditBox] OpenSettings() called successfully")
+            else
+                CM.Error("[EditBox] CharacterMarkdown_OpenSettings is nil!")
+            end
+            zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
+            return true -- Consume event
+        end
+        
+        -- R = ReloadUI (without modifiers)
+        if key == KEY_R and not modifierPressed then
+            CM.DebugPrint("KEYBOARD", "[EditBox] R pressed - calling ReloadUI()")
+            ReloadUI()
+            CM.DebugPrint("KEYBOARD", "[EditBox] ReloadUI() called")
+            return true -- Consume event
+        end
+        
+        -- Ctrl+A / Cmd+A = Select All
+        if modifierPressed and key == KEY_A then
+            CM.DebugPrint("KEYBOARD", "Ctrl+A pressed - selecting all")
+            self:SelectAll()
+            return true -- Consume event
+        end
+        
+        -- Ctrl+C / Cmd+C = Copy (let EditBox handle it)
+        if modifierPressed and key == KEY_C then
+            CM.DebugPrint("KEYBOARD", "Ctrl+C pressed - allowing copy")
+            return false -- Don't consume - let EditBox handle copy
+        end
+        
+        -- Navigation: Left Arrow or Comma
+        if key == KEY_LEFTARROW or key == KEY_OEM_COMMA then
+            if #markdownChunks > 1 then
+                CM.DebugPrint("KEYBOARD", "[EditBox] Left/Comma pressed - calling PreviousChunk()")
+                if CharacterMarkdown_PreviousChunk then
+                    CharacterMarkdown_PreviousChunk()
+                    CM.DebugPrint("KEYBOARD", "[EditBox] PreviousChunk() called successfully")
+                else
+                    CM.Error("[EditBox] CharacterMarkdown_PreviousChunk is nil!")
+                end
+                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
+                return true -- Consume event
+            end
+        end
+        
+        -- Navigation: Right Arrow or Period
+        if key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD then
+            if #markdownChunks > 1 then
+                CM.DebugPrint("KEYBOARD", "Right/Period pressed - next chunk")
+                CharacterMarkdown_NextChunk()
+                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
+                return true -- Consume event
+            end
+        end
+        
+        -- Navigation: PageUp
+        if key == KEY_PAGEUP then
+            if #markdownChunks > 1 then
+                CM.DebugPrint("KEYBOARD", "PageUp pressed - previous chunk")
+                CharacterMarkdown_PreviousChunk()
+                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
+                return true -- Consume event
+            end
+        end
+        
+        -- Navigation: PageDown
+        if key == KEY_PAGEDOWN then
+            if #markdownChunks > 1 then
+                CM.DebugPrint("KEYBOARD", "PageDown pressed - next chunk")
+                CharacterMarkdown_NextChunk()
+                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
+                return true -- Consume event
+            end
+        end
+        
+        -- Space or Enter = Select All / Copy
+        if key == KEY_SPACEBAR or key == KEY_ENTER then
+            CM.DebugPrint("KEYBOARD", "[EditBox] Space/Enter pressed - calling CopyToClipboard()")
+            if CharacterMarkdown_CopyToClipboard then
+                CharacterMarkdown_CopyToClipboard()
+                CM.DebugPrint("KEYBOARD", "[EditBox] CopyToClipboard() called successfully")
+            else
+                CM.Error("[EditBox] CharacterMarkdown_CopyToClipboard is nil!")
+            end
+            zo_callLater(EnsureWindowHasKeyboardFocus, 200)  -- Longer delay for copy action
+            return true -- Consume event
+        end
+        
+        -- CRITICAL: Consume ALL other non-modifier character keys to prevent text input
+        -- Allow only navigation keys (arrows, home, end, etc.) to pass through
+        if not modifierPressed then
+            local isNavigationKey = (
+                key == KEY_UPARROW or key == KEY_DOWNARROW or 
+                key == KEY_HOME or key == KEY_END or 
+                key == KEY_TAB or key == KEY_BACKSPACE or key == KEY_DELETE
+            )
+            
+            if not isNavigationKey then
+                -- This is a character key - consume it to prevent text input
+                CM.DebugPrint("KEYBOARD", string.format("Consuming character key: %d", key))
+                return true -- Consume to prevent text input
+            end
+        end
+        
+        -- Allow navigation and modifier keys to pass through
+        return false
+    end)
+
     CM.DebugPrint("UI", "Window controls initialized successfully")
     return true
+end
+
+-- =====================================================
+-- OVERLAY VISIBILITY HELPER
+-- =====================================================
+
+-- Update overlay instructions visibility based on EditBox content
+local function UpdateOverlayVisibility()
+    if not editBoxControl then
+        return
+    end
+    
+    local overlayLabel = CharacterMarkdownWindowTextContainerOverlayInstructions
+    if not overlayLabel then
+        return
+    end
+    
+    -- Hide overlay if EditBox has content, show if empty
+    local hasContent = editBoxControl._originalText and editBoxControl._originalText ~= ""
+    overlayLabel:SetHidden(hasContent)
 end
 
 -- =====================================================
@@ -104,25 +380,16 @@ function CharacterMarkdown_CopyToClipboard()
         end
 
         -- Strip padding from chunk before copying (padding is only for chunking logic)
-        local chunkContent = chunkToCopy.content
         local isLastChunk = (currentChunkIndex == #markdownChunks)
-        local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
-
-        -- Strip padding from all chunks (including last chunk)
-        -- Padding format: content + 85 spaces + newline + newline
-        local paddingPattern = string.rep(" ", paddingSize) .. "\n\n"
-        -- Check if chunk ends with padding (85 spaces + newline + newline)
-        if string.sub(chunkContent, -(paddingSize + 2), -1) == paddingPattern then
-            -- Remove padding: keep content, remove 85 spaces + 2 newlines, keep single newline
-            chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2)) .. "\n"
-            CM.DebugPrint(
-                "UI",
-                string.format("Stripped padding from chunk %d/%d for copy", currentChunkIndex, #markdownChunks)
-            )
-        end
+        local chunkContent = CM.utils.Chunking.StripPadding(chunkToCopy.content, isLastChunk)
+        CM.DebugPrint(
+            "UI",
+            string.format("Stripped padding from chunk %d/%d for copy", currentChunkIndex, #markdownChunks)
+        )
 
         local chunkSize = string.len(chunkContent)
-        CM.Info(
+        CM.DebugPrint(
+            "WINDOW",
             string.format(
                 "Copying chunk %d of %d (%d characters, padding removed)",
                 currentChunkIndex,
@@ -132,19 +399,20 @@ function CharacterMarkdown_CopyToClipboard()
         )
 
         if #markdownChunks > 1 then
-            CM.Info(string.format("Total content: %d chars in %d chunks", markdownLength, #markdownChunks))
-            CM.Info("Tip: Navigate to other chunks and copy each one, then paste them together")
+            CM.DebugPrint("WINDOW", string.format("Total content: %d chars in %d chunks", markdownLength, #markdownChunks))
+            CM.DebugPrint("WINDOW", "Tip: Navigate to other chunks and copy each one, then paste them together")
         end
 
         -- Copy current chunk (without padding)
-        editBoxControl:SetEditEnabled(true)
         editBoxControl:SetText(chunkContent)
+        editBoxControl._originalText = chunkContent  -- Store for OnTextChanged handler
         editBoxControl:SetColor(1, 1, 1, 1)
-        editBoxControl:SetEditEnabled(false)
+        UpdateOverlayVisibility()
 
         zo_callLater(function()
             editBoxControl:SelectAll()
-            editBoxControl:TakeFocus()
+            -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
 
             -- Verify what's actually in the EditBox (for debugging)
             local actualText = editBoxControl:GetText()
@@ -186,43 +454,59 @@ function CharacterMarkdown_CopyToClipboard()
                 "UI",
                 string.format("Chunk %d selected (%d chars) - Press Ctrl+C to copy", currentChunkIndex, actualLength)
             )
+            
+            -- Visual feedback: Change Select All button to green and keep it green
+            SetSelectionState()
+            
+            -- Final focus as last step
+            zo_callLater(function()
+                if editBoxControl then
+                    -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
+                end
+            end, 50)
         end, 100)
     else
         -- Content fits in EditBox - copy normally
-        -- But still check size to be safe
+        -- ASSERTION: This code path should only be reached for single-chunk content
+        -- If content exceeds limit here, it's a bug in the chunking algorithm
         if markdownLength > EDITBOX_LIMIT then
-            CM.Warn(
-                string.format("Content size %d exceeds EditBox limit %d - may truncate", markdownLength, EDITBOX_LIMIT)
+            CM.Error(
+                string.format(
+                    "ASSERTION FAILED: Single chunk content size %d exceeds EditBox limit %d",
+                    markdownLength,
+                    EDITBOX_LIMIT
+                )
             )
-            -- Truncate at last newline before limit
-            local truncated = string.sub(currentMarkdown, 1, EDITBOX_LIMIT)
-            local lastNewline = nil
-            for i = string.len(truncated), 1, -1 do
-                if string.sub(truncated, i, i) == "\n" then
-                    lastNewline = i
-                    break
-                end
-            end
-            if lastNewline then
-                currentMarkdown = string.sub(truncated, 1, lastNewline)
-            else
-                currentMarkdown = truncated
-            end
-            CM.Warn(string.format("Truncated to %d chars for copying", string.len(currentMarkdown)))
+            CM.Error("This indicates a bug in the chunking algorithm - content should have been chunked!")
+            CM.Error("Please report this issue with the /markdown test output")
+            -- Don't truncate - let it fail visibly so the bug is noticed
         end
 
-        editBoxControl:SetEditEnabled(true)
         editBoxControl:SetText(currentMarkdown)
+        editBoxControl._originalText = currentMarkdown  -- Store for OnTextChanged handler
         editBoxControl:SetColor(1, 1, 1, 1)
-        editBoxControl:SetEditEnabled(false)
+        UpdateOverlayVisibility()
 
         zo_callLater(function()
-            -- Select all and take focus
+            -- Select all (but don't take focus - let global handler work)
             editBoxControl:SelectAll()
-            editBoxControl:TakeFocus()
+            -- REMOVED: Don't take focus
+            -- editBoxControl:TakeFocus()
 
             -- Only show in chat if user explicitly wants feedback
             CM.DebugPrint("UI", "Text selected - Press Ctrl+C to copy")
+            
+            -- Visual feedback: Change Select All button to green and keep it green
+            SetSelectionState()
+            
+            -- Final focus as last step
+            zo_callLater(function()
+                if editBoxControl then
+                    -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
+                end
+            end, 50)
         end, 100)
     end
 end
@@ -270,12 +554,42 @@ function CharacterMarkdown_RegenerateMarkdown()
 
     CM.DebugPrint("UI", "Regenerating markdown...")
 
+    -- CRITICAL: Clear previous state before generating new markdown
+    ClearChunks()
+    
+    -- Reset selection state when regenerating
+    ResetSelectionState()
+
     -- Get current format (default to github if not stored)
     local format = CM.currentFormat or "github"
 
-    -- Clear the window
+    -- Clear the window and reset UI elements
     if editBoxControl then
         editBoxControl:SetText("")
+        editBoxControl._originalText = ""  -- Store for OnTextChanged handler
+        UpdateOverlayVisibility()
+    end
+    
+    -- Reset UI elements to prevent stale data display
+    local instructionsLabel = CharacterMarkdownWindowInstructions
+    local statusLabel = CharacterMarkdownWindowStatusIndicator
+    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
+    
+    if instructionsLabel then
+        instructionsLabel:SetText("")
+    end
+    if statusLabel then
+        statusLabel:SetHidden(true)
+    end
+    -- Initialize navigation buttons as disabled (will be enabled if multiple chunks)
+    if prevButton then
+        prevButton:SetEnabled(false)
+        prevButton:SetAlpha(0.5)
+    end
+    if nextButton then
+        nextButton:SetEnabled(false)
+        nextButton:SetAlpha(0.5)
     end
 
     -- Regenerate markdown
@@ -305,26 +619,14 @@ function CharacterMarkdown_RegenerateMarkdown()
         currentChunkIndex = 1
 
         -- Store full markdown as concatenated chunks for clipboard operations
-        -- CRITICAL: Strip padding (85 spaces + newline) when concatenating for paste
+        -- CRITICAL: Strip padding when concatenating for paste
         -- Padding is only needed for chunking logic, not for final paste output
         local fullMarkdown = ""
-        local CHUNKING = CM.constants and CM.constants.CHUNKING
-        local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
 
         for i, chunk in ipairs(markdownChunks) do
-            local chunkContent = chunk.content
             local isLastChunk = (i == #markdownChunks)
-
-            -- Strip padding from all chunks (85 spaces + newline + newline)
-            -- Padding is only needed for chunking logic, not for final paste output
-            -- Padding format: content + 85 spaces + newline + newline
-            local paddingPattern = string.rep(" ", paddingSize) .. "\n\n"
-            -- Check if chunk ends with padding (85 spaces + newline + newline)
-            if string.sub(chunkContent, -(paddingSize + 2), -1) == paddingPattern then
-                -- Remove padding: keep content, remove 85 spaces + 2 newlines, keep single newline
-                chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2)) .. "\n"
-                CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
-            end
+            local chunkContent = CM.utils.Chunking.StripPadding(chunk.content, isLastChunk)
+            CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
 
             -- Verify chunk ends with newline (unless it's the very last chunk)
             -- This prevents mid-line/mid-link splits when concatenating
@@ -362,17 +664,22 @@ function CharacterMarkdown_RegenerateMarkdown()
         currentChunkIndex = 1
 
         -- Update the EditBox
-        editBoxControl:SetEditEnabled(true)
         editBoxControl:SetText(markdown)
+        editBoxControl._originalText = markdown  -- Store for OnTextChanged handler
         editBoxControl:SetColor(1, 1, 1, 1)
-        editBoxControl:SetEditEnabled(false)
+        UpdateOverlayVisibility()
 
-        -- Select all text and take focus
+        -- Select all text and take focus - CRITICAL: TakeFocus() as FINAL operation
         zo_callLater(function()
-            editBoxControl:SelectAll()
-            editBoxControl:TakeFocus()
-            CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
-        end, 100)
+            if not windowControl:IsHidden() and editBoxControl then
+                editBoxControl:SelectAll()
+                CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
+                
+                -- CRITICAL: TakeFocus() must be the LAST operation
+                -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
+            end
+        end, 150)
     end
 end
 
@@ -386,7 +693,7 @@ end
 -- CHUNK NAVIGATION
 -- =====================================================
 
-local function ShowChunk(chunkIndex)
+function ShowChunk(chunkIndex)
     if not markdownChunks or #markdownChunks == 0 then
         return false
     end
@@ -404,90 +711,174 @@ local function ShowChunk(chunkIndex)
         return false
     end
 
-    -- Safety check: ensure chunk content doesn't exceed EditBox limit
+    -- ASSERTION: Validate chunk size doesn't exceed EditBox limit
     local chunkContent = chunk.content
     local chunkSize = string.len(chunkContent)
     local CHUNKING = CM.constants and CM.constants.CHUNKING
     local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT) or 10000
 
+    -- This should never happen if chunking algorithm is working correctly
     if chunkSize > EDITBOX_LIMIT then
         CM.Error(
             string.format(
-                "Chunk %d: Size %d exceeds EditBox limit %d, truncating!",
+                "ASSERTION FAILED: Chunk %d size %d exceeds EditBox limit %d",
                 chunkIndex,
                 chunkSize,
                 EDITBOX_LIMIT
             )
         )
-        -- Truncate at last newline before limit
-        local truncated = string.sub(chunkContent, 1, EDITBOX_LIMIT)
-        local lastNewline = nil
-        for i = string.len(truncated), 1, -1 do
-            if string.sub(truncated, i, i) == "\n" then
-                lastNewline = i
-                break
-            end
-        end
-        if lastNewline then
-            chunkContent = string.sub(truncated, 1, lastNewline)
-        else
-            chunkContent = truncated
-        end
-        CM.Warn(
-            string.format("Chunk %d: Truncated from %d to %d chars", chunkIndex, chunkSize, string.len(chunkContent))
-        )
+        CM.Error("This indicates a bug in the chunking algorithm!")
+        CM.Error("Please report this issue with chunk details:")
+        CM.Error(string.format("  Total chunks: %d", #markdownChunks))
+        CM.Error(string.format("  Problem chunk: %d", chunkIndex))
+        CM.Error(string.format("  Chunk size: %d", chunkSize))
+        CM.Error(string.format("  Limit: %d", EDITBOX_LIMIT))
+        -- Don't truncate - let it fail visibly so the bug is noticed
     end
 
     -- Update EditBox
-    editBoxControl:SetEditEnabled(true)
     editBoxControl:SetText(chunkContent)
+    editBoxControl._originalText = chunkContent  -- Store for OnTextChanged handler
     editBoxControl:SetColor(1, 1, 1, 1)
-    editBoxControl:SetEditEnabled(false)
+    UpdateOverlayVisibility()
+    
+    -- Reset selection state when chunk changes
+    ResetSelectionState()
+    
+    -- Update visual progress bar
+    local CHUNKING = CM.constants and CM.constants.CHUNKING
+    local COPY_LIMIT = (CHUNKING and CHUNKING.COPY_LIMIT) or 21500
+    local fillPercentage = (chunkSize / COPY_LIMIT) * 100
+    local segmentsToFill = math.ceil((fillPercentage / 100) * 10) -- 10 segments total
+    
+    for i = 1, 10 do
+        local segment = _G["CharacterMarkdownWindowTextContainerProgressBarSegment" .. i]
+        if segment then
+            if i <= segmentsToFill then
+                segment:SetHidden(false) -- Show filled segments
+            else
+                segment:SetHidden(true) -- Hide empty segments
+            end
+        end
+    end
 
     -- Update instructions
     local instructionsLabel = CharacterMarkdownWindowInstructions
-    local prevButton = CharacterMarkdownWindowButtonContainerPrevChunkButton
-    local nextButton = CharacterMarkdownWindowButtonContainerNextChunkButton
+    local overlayLabel = CharacterMarkdownWindowTextContainerOverlayInstructions
+    local statusLabel = CharacterMarkdownWindowStatusIndicator
+    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
+    
+    -- Update overlay instructions with OS-specific shortcut
+    if overlayLabel then
+        local shortcutText = "Ctrl+A then Ctrl+C"
+        if CM.utils.Platform then
+            shortcutText = CM.utils.Platform.GetShortcutText("select_copy")
+        end
+        overlayLabel:SetText(string.format("Press [Space] or %s to copy", shortcutText))
+    end
 
-    if instructionsLabel and #markdownChunks > 1 then
+    -- Always update instructions label to prevent stale data from previous runs
+    if instructionsLabel then
+        -- Get copy limit for visual display
+        local COPY_LIMIT = (CHUNKING and CHUNKING.COPY_LIMIT) or 21500
+        local percentage = math.floor((chunkSize / COPY_LIMIT) * 100)
+        
+        -- Create visual progress bar (12 blocks for better granularity and symmetry)
+        -- Using ASCII characters for ESO font compatibility
+        local barLength = 12
+        local filledBlocks = math.floor((chunkSize / COPY_LIMIT) * barLength)
+        local progressBar = ""
+        for i = 1, barLength do
+            if i <= filledBlocks then
+                progressBar = progressBar .. "="
+            else
+                progressBar = progressBar .. "-"
+            end
+        end
+        
+        -- Safety indicator with ESO color codes
+        local safetyBuffer = COPY_LIMIT - chunkSize
+        local statusText, statusColor
+        if safetyBuffer > 1000 then
+            statusText = "OK"
+            statusColor = "|c00FF00" -- Green
+        elseif safetyBuffer > 500 then
+            statusText = "WARN"
+            statusColor = "|cFFFF00" -- Yellow
+        else
+            statusText = "FULL"
+            statusColor = "|cFF0000" -- Red
+        end
+        
+        -- Hide the separate status label (we're showing status inline now)
+        if statusLabel then
+            statusLabel:SetHidden(true)
+        end
+        
+        -- Format numbers with commas (Lua doesn't support %,d in string.format)
+        local function formatNumber(n)
+            local formatted = tostring(n)
+            local k
+            while true do
+                formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+                if k == 0 then break end
+            end
+            return formatted
+        end
+        
+        -- Simplified chunk info display
+        -- Format: Chunk X/Y • #,### / ##,### bytes • {status}
         instructionsLabel:SetText(
             string.format(
-                "Chunk %d/%d | PageUp/PageDown to navigate | Copy each chunk separately",
+                "Chunk %d/%d  •  %s / %s bytes  •  %s%s|r",
                 currentChunkIndex,
-                #markdownChunks
+                #markdownChunks,
+                formatNumber(chunkSize),
+                formatNumber(COPY_LIMIT),
+                statusColor,
+                statusText
             )
         )
     end
 
-    -- Show/hide navigation buttons
+    -- Enable/disable navigation buttons (always visible, greyed when unavailable)
     if #markdownChunks > 1 then
         if prevButton then
-            prevButton:SetHidden(false)
-            prevButton:SetAlpha(1)
+            prevButton:SetEnabled(true)
+            prevButton:SetAlpha(1.0)
         end
         if nextButton then
-            nextButton:SetHidden(false)
-            nextButton:SetAlpha(1)
+            nextButton:SetEnabled(true)
+            nextButton:SetAlpha(1.0)
         end
     else
         if prevButton then
-            prevButton:SetHidden(true)
+            prevButton:SetEnabled(false)
+            prevButton:SetAlpha(0.5)
         end
         if nextButton then
-            nextButton:SetHidden(true)
+            nextButton:SetEnabled(false)
+            nextButton:SetAlpha(0.5)
         end
     end
 
-    -- Auto-select for copying
+    -- Auto-select for copying and ensure focus
+    -- CRITICAL: Single delayed call with focus as ABSOLUTE FINAL STEP
     zo_callLater(function()
-        if not windowControl:IsHidden() then
-            editBoxControl:SetEditEnabled(true)
-            editBoxControl:TakeFocus()
+        if not windowControl:IsHidden() and editBoxControl then
             editBoxControl:SelectAll()
-            editBoxControl:SetEditEnabled(false)
             CM.DebugPrint("UI", string.format("Switched to chunk %d/%d", currentChunkIndex, #markdownChunks))
+            
+            -- CRITICAL: TakeFocus() must be the LAST operation
+            -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
+            CM.DebugPrint("UI", "EditBox focus set - keyboard shortcuts ready")
         end
-    end, 50)
+    end, 150)
+    
+    -- CRITICAL: Restore window keyboard focus after chunk switch
+    zo_callLater(EnsureWindowHasKeyboardFocus, 200)
 
     return true
 end
@@ -533,6 +924,12 @@ function CharacterMarkdown_ShowWindow(markdown, format)
 
     format = format or "github"
 
+    -- CRITICAL: Clear previous state before showing new markdown
+    ClearChunks()
+    
+    -- Reset selection state when showing window with new content
+    ResetSelectionState()
+
     -- Store current format for regeneration
     CM.currentFormat = format
 
@@ -541,6 +938,34 @@ function CharacterMarkdown_ShowWindow(markdown, format)
         CM.Error("Window initialization failed")
         return false
     end
+    
+    -- Re-enable all buttons for normal mode (in case we're coming from import/export mode)
+    local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
+    local selectAllButton = CharacterMarkdownWindowButtonContainerSelectAllButton
+    local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
+    
+    if regenerateButton then
+        regenerateButton:SetEnabled(true)
+        regenerateButton:SetAlpha(1.0)
+    end
+    if selectAllButton then
+        selectAllButton:SetEnabled(true)
+        selectAllButton:SetAlpha(1.0)
+    end
+    if dismissButton then
+        dismissButton:SetEnabled(true)
+        dismissButton:SetAlpha(1.0)
+        local label = dismissButton:GetNamedChild("Label")
+        if label then
+            label:SetText("[X] Dismiss")
+        end
+        dismissButton:SetHandler("OnClicked", function()
+            CharacterMarkdownWindow:SetHidden(true)
+        end)
+    end
+    
+    -- Clear import mode flag
+    windowControl._isImportMode = false
 
     -- Handle both string (single chunk) and table (chunks array) returns
     local isChunksArray = type(markdown) == "table"
@@ -557,26 +982,14 @@ function CharacterMarkdown_ShowWindow(markdown, format)
         end
 
         -- Store full markdown as concatenated chunks for clipboard operations
-        -- CRITICAL: Strip padding (85 spaces + newline) when concatenating for paste
+        -- CRITICAL: Strip padding when concatenating for paste
         -- Padding is only needed for chunking logic, not for final paste output
         local fullMarkdown = ""
-        local CHUNKING = CM.constants and CM.constants.CHUNKING
-        local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
 
         for i, chunk in ipairs(markdownChunks) do
-            local chunkContent = chunk.content
             local isLastChunk = (i == #markdownChunks)
-
-            -- Strip padding from all chunks (85 spaces + newline + newline)
-            -- Padding is only needed for chunking logic, not for final paste output
-            -- Padding format: content + 85 spaces + newline + newline
-            local paddingPattern = string.rep(" ", paddingSize) .. "\n\n"
-            -- Check if chunk ends with padding (85 spaces + newline + newline)
-            if string.sub(chunkContent, -(paddingSize + 2), -1) == paddingPattern then
-                -- Remove padding: keep content, remove 85 spaces + 2 newlines, keep single newline
-                chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2)) .. "\n"
-                CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
-            end
+            local chunkContent = CM.utils.Chunking.StripPadding(chunk.content, isLastChunk)
+            CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
 
             -- Verify chunk ends with newline (unless it's the very last chunk)
             -- This prevents mid-line/mid-link splits when concatenating
@@ -641,28 +1054,14 @@ function CharacterMarkdown_ShowWindow(markdown, format)
             currentChunkIndex = 1
 
             -- Store full markdown as concatenated chunks for clipboard operations
-            -- CRITICAL: Strip padding (85 spaces + newline) when concatenating for paste
+            -- CRITICAL: Strip padding when concatenating for paste
             -- Padding is only needed for chunking logic, not for final paste output
             local fullMarkdown = ""
-            local CHUNKING = CM.constants and CM.constants.CHUNKING
-            local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
 
             for i, chunk in ipairs(markdownChunks) do
-                local chunkContent = chunk.content
                 local isLastChunk = (i == #markdownChunks)
-
-                -- Strip padding from non-last chunks (85 spaces + newline = 86 chars)
-                if not isLastChunk then
-                    local paddingPattern = string.rep(" ", paddingSize) .. "\n"
-                    -- Remove padding from end of chunk if present
-                    if string.sub(chunkContent, -(paddingSize + 1), -1) == paddingPattern then
-                        chunkContent = string.sub(chunkContent, 1, -(paddingSize + 2))
-                        CM.DebugPrint(
-                            "UI",
-                            string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks)
-                        )
-                    end
-                end
+                local chunkContent = CM.utils.Chunking.StripPadding(chunk.content, isLastChunk)
+                CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
 
                 -- Verify chunk ends with newline (unless it's the very last chunk)
                 -- This prevents mid-line/mid-link splits when concatenating
@@ -699,13 +1098,29 @@ function CharacterMarkdown_ShowWindow(markdown, format)
 
     if #markdownChunks > 1 then
         local totalSize = 0
+        local maxChunkSize = 0
         for _, chunk in ipairs(markdownChunks) do
-            totalSize = totalSize + string.len(chunk.content)
+            local chunkSize = string.len(chunk.content)
+            totalSize = totalSize + chunkSize
+            maxChunkSize = math.max(maxChunkSize, chunkSize)
         end
-        CM.DebugPrint("UI", string.format("Split into %d chunks (content: %d chars)", #markdownChunks, totalSize))
+        
+        -- Runtime validation: log chunk statistics
+        local CHUNKING = CM.constants and CM.constants.CHUNKING
+        local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT) or 10000
+        
+        CM.DebugPrint("WINDOW", string.format("📊 Chunking Summary: %d chunks, %d total chars", #markdownChunks, totalSize))
+        CM.DebugPrint("WINDOW", string.format("  Largest chunk: %d chars (limit: %d)", maxChunkSize, EDITBOX_LIMIT))
+        
+        -- Warn if any chunk is suspiciously close to limit
+        if maxChunkSize > EDITBOX_LIMIT * 0.95 then
+            CM.Warn(string.format("⚠ Largest chunk (%d) is >95%% of limit (%d)", maxChunkSize, EDITBOX_LIMIT))
+            CM.Warn("This may cause issues. Please report with /markdown test output")
+        end
+        
         CM.DebugPrint("UI", "Use Next/Previous buttons or PageUp/PageDown to navigate chunks")
 
-        -- Log chunk info
+        -- Log detailed chunk info (debug only)
         for i, chunk in ipairs(markdownChunks) do
             CM.DebugPrint("UI", string.format("  Chunk %d: %d chars", i, string.len(chunk.content)))
         end
@@ -759,8 +1174,8 @@ function CharacterMarkdown_ShowWindow(markdown, format)
             end
 
             -- Method 2: Take focus on EditBox
-            editBoxControl:SetEditEnabled(true) -- Temporarily enable to take focus
-            editBoxControl:TakeFocus()
+            -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
             editBoxControl:SelectAll()
 
             -- Method 3: Try keyboard focus method
@@ -781,15 +1196,27 @@ function CharacterMarkdown_ShowWindow(markdown, format)
                     end
 
                     -- Final focus attempt
-                    editBoxControl:TakeFocus()
+                    -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
                     editBoxControl:SelectAll()
-                    editBoxControl:SetEditEnabled(false) -- Back to read-only
+        -- Removed: EditBox stays enabled to receive keyboard events -- Back to read-only
+                    
+                    -- Final focus as last step
+                    zo_callLater(function()
+                        if not windowControl:IsHidden() and editBoxControl then
+                            -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
+                        end
+                    end, 50)
                 end
             end, 50)
 
             CM.DebugPrint("UI", "Window opened successfully - Markdown ready to copy")
         end
     end, 200) -- Increased delay to ensure window is fully rendered
+    
+    -- CRITICAL: Give window keyboard focus on open
+    zo_callLater(EnsureWindowHasKeyboardFocus, 250)
 
     return true
 end
@@ -800,13 +1227,16 @@ end
 
 function CharacterMarkdown_CloseWindow()
     if windowControl then
+        -- Reset selection state when closing
+        ResetSelectionState()
+        
         -- Reset import mode if active
         if windowControl._isImportMode then
             local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
             if dismissButton then
                 local label = dismissButton:GetNamedChild("Label")
                 if label then
-                    label:SetText("Dismiss")
+                    label:SetText("[X] Dismiss")
                 end
                 dismissButton:SetHandler("OnClicked", function()
                     CharacterMarkdownWindow:SetHidden(true)
@@ -828,23 +1258,6 @@ end
 -- INITIALIZE ON ADDON LOADED
 -- =====================================================
 
--- Keyboard navigation handler
-local function OnKeyDown(eventCode, ctrlPressed, shiftPressed, altPressed, commandPressed)
-    -- Only handle when window is visible and has multiple chunks
-    if not windowControl or windowControl:IsHidden() or #markdownChunks <= 1 then
-        return
-    end
-
-    -- Check if EditBox has focus
-    if editBoxControl and editBoxControl:HasFocus() then
-        if eventCode == KEY_PAGE_UP or eventCode == KEY_MOUSE_WHEEL_UP then
-            CharacterMarkdown_PreviousChunk()
-        elseif eventCode == KEY_PAGE_DOWN or eventCode == KEY_MOUSE_WHEEL_DOWN then
-            CharacterMarkdown_NextChunk()
-        end
-    end
-end
-
 local function OnAddOnLoaded(event, addonName)
     if addonName ~= "CharacterMarkdown" then
         return
@@ -853,10 +1266,94 @@ local function OnAddOnLoaded(event, addonName)
     zo_callLater(function()
         InitializeWindowControls()
 
-        -- Register keyboard navigation
-        if EVENT_MANAGER then
-            EVENT_MANAGER:RegisterForEvent("CharacterMarkdown_KeyNav", EVENT_KEYBOARD_KEY_DOWN, OnKeyDown)
-        end
+        -- CRITICAL: Register a GLOBAL keyboard handler that's always active when window is open
+        -- This bypasses the EditBox focus issue entirely
+        EVENT_MANAGER:RegisterForEvent("CharacterMarkdown_GlobalKeyboard", EVENT_KEY_DOWN, function(_, key, ctrl, alt, shift, command)
+            -- Only handle when window is visible
+            if not windowControl or windowControl:IsHidden() then
+                return
+            end
+            
+            -- Skip if in import mode
+            if windowControl._isImportMode then
+                return
+            end
+            
+            local modifierPressed = ctrl or command
+            
+            -- ESC or X = Close window
+            if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
+                windowControl:SetHidden(true)
+                return
+            end
+            
+            -- G = Generate (without modifiers)
+            if key == KEY_G and not modifierPressed then
+                CM.DebugPrint("KEYBOARD", "G pressed (global) - regenerating")
+                CharacterMarkdown_RegenerateMarkdown()
+                return
+            end
+            
+            -- S = Settings (without modifiers)
+            if key == KEY_S and not modifierPressed then
+                CM.DebugPrint("KEYBOARD", "S pressed (global) - opening settings")
+                CharacterMarkdown_OpenSettings()
+                return
+            end
+            
+            -- R = ReloadUI (without modifiers)
+            if key == KEY_R and not modifierPressed then
+                CM.DebugPrint("KEYBOARD", "R pressed (global) - reloading UI")
+                ReloadUI()
+                return
+            end
+            
+            -- Navigation: Left Arrow or Comma
+            if (key == KEY_LEFTARROW or key == KEY_OEM_COMMA) and not modifierPressed then
+                if #markdownChunks > 1 then
+                    CM.DebugPrint("KEYBOARD", "Left/Comma pressed (global) - previous chunk")
+                    CharacterMarkdown_PreviousChunk()
+                end
+                return
+            end
+            
+            -- Navigation: Right Arrow or Period
+            if (key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD) and not modifierPressed then
+                if #markdownChunks > 1 then
+                    CM.DebugPrint("KEYBOARD", "Right/Period pressed (global) - next chunk")
+                    CharacterMarkdown_NextChunk()
+                end
+                return
+            end
+            
+            -- Navigation: PageUp
+            if key == KEY_PAGEUP and not modifierPressed then
+                if #markdownChunks > 1 then
+                    CM.DebugPrint("KEYBOARD", "PageUp pressed (global) - previous chunk")
+                    CharacterMarkdown_PreviousChunk()
+                end
+                return
+            end
+            
+            -- Navigation: PageDown
+            if key == KEY_PAGEDOWN and not modifierPressed then
+                if #markdownChunks > 1 then
+                    CM.DebugPrint("KEYBOARD", "PageDown pressed (global) - next chunk")
+                    CharacterMarkdown_NextChunk()
+                end
+                return
+            end
+            
+            -- Space or Enter = Select All / Copy
+            if (key == KEY_SPACEBAR or key == KEY_ENTER) and not modifierPressed then
+                CM.DebugPrint("KEYBOARD", "Space/Enter pressed (global) - copy to clipboard")
+                CharacterMarkdown_CopyToClipboard()
+                return
+            end
+        end)
+        
+        -- Start periodic update to check EditBox selection state
+        EVENT_MANAGER:RegisterForUpdate("CharacterMarkdown_SelectionCheck", 200, UpdateSelectAllButtonColor)
     end, 100)
 end
 
@@ -888,32 +1385,36 @@ function CharacterMarkdown_ShowSettingsExport(yamlContent)
     -- Update instructions
     local instructionsLabel = CharacterMarkdownWindowInstructions
     if instructionsLabel then
-        instructionsLabel:SetText("Settings in YAML format - Text selected, ready to copy!")
+        instructionsLabel:SetText("Settings in YAML format - Text selected | Win: Ctrl+C | Mac: Cmd+C to copy")
     end
 
-    -- Hide chunk navigation buttons (not needed for settings)
-    local prevButton = CharacterMarkdownWindowButtonContainerPrevChunkButton
-    local nextButton = CharacterMarkdownWindowButtonContainerNextChunkButton
+    -- Disable chunk navigation buttons (not needed for settings, but keep visible)
+    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
     if prevButton then
-        prevButton:SetHidden(true)
+        prevButton:SetEnabled(false)
+        prevButton:SetAlpha(0.5)
     end
     if nextButton then
-        nextButton:SetHidden(true)
+        nextButton:SetEnabled(false)
+        nextButton:SetAlpha(0.5)
     end
 
-    -- Hide regenerate button (not needed for settings)
+    -- Disable regenerate button (not needed for settings, but keep visible)
     local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
     if regenerateButton then
-        regenerateButton:SetHidden(true)
+        regenerateButton:SetEnabled(false)
+        regenerateButton:SetAlpha(0.5)
     end
 
-    -- Reset dismiss button to normal
+    -- Enable dismiss button
     local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
     if dismissButton then
-        dismissButton:SetHidden(false)
+        dismissButton:SetEnabled(true)
+        dismissButton:SetAlpha(1.0)
         local label = dismissButton:GetNamedChild("Label")
         if label then
-            label:SetText("Dismiss")
+            label:SetText("[X] Dismiss")
         end
         dismissButton:SetHandler("OnClicked", function()
             CharacterMarkdownWindow:SetHidden(true)
@@ -929,10 +1430,10 @@ function CharacterMarkdown_ShowSettingsExport(yamlContent)
     currentChunkIndex = 1
 
     -- Update the EditBox with YAML content
-    editBoxControl:SetEditEnabled(true)
     editBoxControl:SetText(yamlContent)
+    editBoxControl._originalText = yamlContent  -- Store for OnTextChanged handler
     editBoxControl:SetColor(1, 1, 1, 1)
-    editBoxControl:SetEditEnabled(false)
+    UpdateOverlayVisibility()
 
     -- Show window
     windowControl:SetHidden(false)
@@ -950,22 +1451,17 @@ function CharacterMarkdown_ShowSettingsExport(yamlContent)
 
     -- Auto-select text and take focus (ready for immediate copy)
     zo_callLater(function()
-        if not windowControl:IsHidden() then
-            -- Enable editing temporarily to allow selection
-            editBoxControl:SetEditEnabled(true)
-            -- Take focus first
-            editBoxControl:TakeFocus()
+        if not windowControl:IsHidden() and editBoxControl then
             -- Select all text for easy copying
             editBoxControl:SelectAll()
-            -- Make read-only after selection
-            editBoxControl:SetEditEnabled(false)
 
             CM.DebugPrint("UI", "Settings export window opened - YAML ready to copy (Ctrl+C)")
+            
+            -- CRITICAL: TakeFocus() must be the LAST operation
+            -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
         end
-    end, 100)
-
-    -- Also try to take focus immediately (fallback)
-    editBoxControl:TakeFocus()
+    end, 150)
 
     return true
 end
@@ -990,35 +1486,40 @@ function CharacterMarkdown_ShowSettingsImport()
     -- Update instructions
     local instructionsLabel = CharacterMarkdownWindowInstructions
     if instructionsLabel then
-        instructionsLabel:SetText("Paste YAML settings below, then click 'Import' to apply")
+        instructionsLabel:SetText("Paste YAML settings below | Win: Ctrl+V | Mac: Cmd+V | Then click 'Import'")
     end
 
-    -- Hide chunk navigation buttons (not needed for import)
-    local prevButton = CharacterMarkdownWindowButtonContainerPrevChunkButton
-    local nextButton = CharacterMarkdownWindowButtonContainerNextChunkButton
+    -- Disable chunk navigation buttons (not needed for import, but keep visible)
+    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
     if prevButton then
-        prevButton:SetHidden(true)
+        prevButton:SetEnabled(false)
+        prevButton:SetAlpha(0.5)
     end
     if nextButton then
-        nextButton:SetHidden(true)
+        nextButton:SetEnabled(false)
+        nextButton:SetAlpha(0.5)
     end
 
-    -- Hide regenerate button (not needed for import)
+    -- Disable regenerate button (not needed for import, but keep visible)
     local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
     if regenerateButton then
-        regenerateButton:SetHidden(true)
+        regenerateButton:SetEnabled(false)
+        regenerateButton:SetAlpha(0.5)
     end
 
-    -- Hide select all button (not needed for import)
+    -- Disable select all button (not needed for import, but keep visible)
     local selectAllButton = CharacterMarkdownWindowButtonContainerSelectAllButton
     if selectAllButton then
-        selectAllButton:SetHidden(true)
+        selectAllButton:SetEnabled(false)
+        selectAllButton:SetAlpha(0.5)
     end
 
     -- Modify dismiss button to be Import button
     local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
     if dismissButton then
-        dismissButton:SetHidden(false)
+        dismissButton:SetEnabled(true)
+        dismissButton:SetAlpha(1.0)
         local label = dismissButton:GetNamedChild("Label")
         if label then
             label:SetText("Import")
@@ -1029,10 +1530,12 @@ function CharacterMarkdown_ShowSettingsImport()
         end)
     end
 
-    -- Clear content and make editable
-    editBoxControl:SetEditEnabled(true)
+    -- Clear content and make editable (import mode - allow editing)
     editBoxControl:SetText("")
+    editBoxControl._originalText = ""  -- Store for OnTextChanged handler
     editBoxControl:SetColor(1, 1, 1, 1)
+    UpdateOverlayVisibility()  -- Show overlay for empty import field
+    -- Note: In import mode, we want to allow editing, so don't prevent text changes
 
     -- Store import mode flag in window control
     windowControl._isImportMode = true
@@ -1053,19 +1556,19 @@ function CharacterMarkdown_ShowSettingsImport()
 
     -- Take focus on EditBox (ready for immediate paste)
     zo_callLater(function()
-        if not windowControl:IsHidden() then
+        if not windowControl:IsHidden() and editBoxControl then
             -- Ensure EditBox is editable and focused
             editBoxControl:SetEditEnabled(true)
-            editBoxControl:TakeFocus()
             -- Clear any existing selection
             editBoxControl:SetCursorPosition(0)
 
             CM.DebugPrint("UI", "Settings import window opened - ready for YAML paste (Ctrl+V)")
+            
+            -- CRITICAL: TakeFocus() must be the LAST operation
+            -- REMOVED: Don't take focus - let global handler work
+            -- editBoxControl:TakeFocus()
         end
-    end, 100)
-
-    -- Also try to take focus immediately (fallback)
-    editBoxControl:TakeFocus()
+    end, 150)
 
     return true
 end

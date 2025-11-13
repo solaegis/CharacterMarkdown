@@ -185,13 +185,29 @@ function CM.Settings.Panel:AddFormatSection(options)
         choices = { "GitHub", "VS Code", "Discord", "Quick Summary" },
         choicesValues = { "github", "vscode", "discord", "quick" },
         getFunc = function()
-            return CharacterMarkdownSettings.currentFormat
+            -- Use CM.settings if available (ZO_SavedVars proxy), otherwise fallback to CharacterMarkdownSettings
+            if CM.settings and CM.settings.currentFormat then
+                return CM.settings.currentFormat
+            elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormat then
+                return CharacterMarkdownSettings.currentFormat
+            else
+                return "github" -- Default fallback
+            end
         end,
         setFunc = function(value)
-            CharacterMarkdownSettings.currentFormat = value
-            CharacterMarkdownSettings._lastModified = GetTimeStamp()
+            -- CRITICAL: Save to both CM.settings (ZO_SavedVars proxy) and CharacterMarkdownSettings
+            -- This ensures persistence regardless of which reference is used
+            if CM.settings then
+                CM.settings.currentFormat = value
+                CM.settings._lastModified = GetTimeStamp()
+            end
+            if CharacterMarkdownSettings then
+                CharacterMarkdownSettings.currentFormat = value
+                CharacterMarkdownSettings._lastModified = GetTimeStamp()
+            end
             CM.currentFormat = value -- Sync to core
             CM.InvalidateSettingsCache() -- Invalidate cache on change
+            CM.DebugPrint("SETTINGS", "Format changed to: " .. tostring(value))
         end,
         width = "full",
         default = "github",
@@ -272,45 +288,27 @@ function CM.Settings.Panel:AddLayoutSection(options)
         default = true,
     })
 
-    -- Quick Stats
+    -- Overview Section (subsections)
     table.insert(options, {
         type = "checkbox",
-        name = "Include Quick Stats",
-        tooltip = "Show Overview section with General, Currency, and Character Stats (GitHub/VSCode only).",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeQuickStats
-        end,
-        setFunc = CreateSetFunc("includeQuickStats"),
-        width = "half",
-        default = true,
-    })
-
-    table.insert(options, {
-        type = "checkbox",
-        name = "    Include General",
-        tooltip = "Show General subsection with character identity, attributes, skill points, vampire/werewolf status, enlightenment, and ESO Plus status.",
+        name = "Include General",
+        tooltip = "Show General subsection with character identity, attributes, skill points, vampire/werewolf status, enlightenment, and ESO Plus status (GitHub/VSCode only).",
         getFunc = function()
             return CharacterMarkdownSettings.includeGeneral
         end,
         setFunc = CreateSetFunc("includeGeneral"),
-        disabled = function()
-            return not CharacterMarkdownSettings.includeQuickStats
-        end,
         width = "half",
         default = true,
     })
 
     table.insert(options, {
         type = "checkbox",
-        name = "    Include Character Stats",
-        tooltip = "Show Character Stats subsection with combat statistics (health, resources, weapon/spell power, resistances).",
+        name = "Include Character Stats",
+        tooltip = "Show Character Stats subsection with combat statistics (health, resources, weapon/spell power, resistances) (GitHub/VSCode only).",
         getFunc = function()
             return CharacterMarkdownSettings.includeCharacterStats
         end,
         setFunc = CreateSetFunc("includeCharacterStats"),
-        disabled = function()
-            return not CharacterMarkdownSettings.includeQuickStats
-        end,
         width = "half",
         default = true,
     })
@@ -1234,7 +1232,7 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.includeHeader = value
         CharacterMarkdownSettings.includeFooter = value
         CharacterMarkdownSettings.includeTableOfContents = value
-        CharacterMarkdownSettings.includeQuickStats = value
+        -- includeQuickStats removed - use includeGeneral/includeCurrency/includeCharacterStats instead
         CharacterMarkdownSettings.includeGeneral = value
         CharacterMarkdownSettings.includeCharacterStats = value
         CharacterMarkdownSettings.includeAttentionNeeded = value

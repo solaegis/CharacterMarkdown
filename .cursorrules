@@ -135,6 +135,14 @@
   2. Add to `src/settings/Defaults.lua` if it needs a default value
   3. No migration needed - changes are automatic when accessing `CM.charData`
 
+- **Current per-character fields** (as of v2.1.9+):
+  - `customNotes`: Custom build notes entered by user
+  - `customTitle`: Custom character title
+  - `playStyle`: Play style tag (magicka_dps, stamina_tank, etc.)
+  - `markdown_format`: Format of last generated markdown (github, vscode, discord, quick)
+  - `markdown`: Full cached markdown document for this character
+  - `_initialized`, `_lastModified`, `_characterName`, `_accountName`: Metadata fields
+
 - **Example of adding a field**:
   ```lua
   -- In InitializeCharacterData() initialization block
@@ -143,6 +151,8 @@
           customNotes = "",
           customTitle = "",
           playStyle = "",
+          markdown_format = "",
+          markdown = "",
           newField = "",  -- Add here
           _initialized = true,
           _lastModified = GetTimeStamp(),
@@ -171,6 +181,42 @@
 - Chunking handled in `src/utils/Chunking.lua`
 - Window display in `src/ui/Window.lua` handles chunk navigation
 
+### Multi-Column Table Layout
+- **Default pattern**: When a section contains a group of 2+ contiguous (adjacent) similar tables, use multi-column styled table layout as the default
+- **Use `CreateResponsiveColumns()`** to wrap multiple styled tables side-by-side:
+  ```lua
+  local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
+  local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+  
+  if CreateResponsiveColumns and CreateStyledTable and format ~= "discord" then
+      local tables = {}
+      for _, data in ipairs(dataList) do
+          table.insert(tables, CreateStyledTable(headers, rows, options))
+      end
+      
+      if #tables > 1 then
+          -- Use LayoutCalculator for optimal sizing
+          local LayoutCalculator = CM.utils.LayoutCalculator
+          local minWidth, gap
+          if LayoutCalculator then
+              minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(tables, "300px", "20px")
+          else
+              minWidth, gap = "300px", "20px"
+          end
+          markdown = markdown .. CreateResponsiveColumns(tables, minWidth, gap)
+      else
+          -- Single table: append directly
+          markdown = markdown .. tables[1]
+      end
+  end
+  ```
+- **When to use**: Groups of similar/related tables (e.g., Champion Point disciplines, Achievement categories, Crafting areas)
+- **When NOT to use**: 
+  - Single tables (append directly)
+  - Tables separated by other content (headers, text, etc.) - only group truly contiguous tables
+  - Discord format (not supported, use vertical fallback)
+- **Examples**: See `ChampionPoints.lua` (disciplines), `Achievements.lua` (categories), `Overview.lua` (General columns)
+
 ### Settings Panel (LibAddonMenu-2.0)
 - **NO emojis or Unicode icons in LAM settings**: LibAddonMenu-2.0 does not render emojis/icons properly
   - NEVER use emojis in checkbox names, section headers, or tooltips
@@ -186,6 +232,20 @@
 - Use ZO_SavedVars for settings persistence
 - Use LibAddonMenu-2.0 for settings UI
 - Use LibDebugLogger for debug output (optional dependency)
+
+### Development Workflow
+
+**CRITICAL: Auto-Install After Code Changes**
+
+- **MANDATORY**: After making ANY changes to addon code files (`.lua`, `.xml`, `CharacterMarkdown.addon`, or any file in `src/`):
+  - **IMMEDIATELY run `task install:live`** to install the updated code to ESO Live client
+  - This must be done automatically after every code change to enable in-game testing
+  - The command copies updated files to `~/Documents/Elder Scrolls Online/live/AddOns/CharacterMarkdown/`
+  - After installation, user can use `/reloadui` in-game to test changes
+  - **Do not skip this step** - code changes are not testable until installed
+
+- **Alternative development mode**: Use `task install:dev` to create a symlink (files update automatically, but requires symlink support)
+- **For production testing**: Use `task install:built` to install validated/release-ready files
 
 ### Release Process
 - **Before every release**: Run comprehensive pre-release validation using `RELEASE_CHECKLIST.md`

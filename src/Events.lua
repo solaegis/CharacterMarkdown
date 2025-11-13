@@ -21,15 +21,11 @@ local function OnAddOnLoaded(event, addonName)
     -- Initialize SavedVariables in ADD_ON_LOADED
     -- Per ESO best practices, SavedVariables MUST be initialized during ADD_ON_LOADED
     if CM.Settings and CM.Settings.Initializer then
-        -- Initialize account-wide settings
-        local success = CM.Settings.Initializer:TryZOSavedVars()
+        -- Use full Initialize() method which handles all initialization including format sync
+        local success = CM.Settings.Initializer:Initialize()
         if not success then
-            CM.Warn("ZO_SavedVars initialization failed - using fallback method")
-            CM.Settings.Initializer:InitializeFallback()
+            CM.Error("Settings initialization failed!")
         end
-        
-        -- Initialize per-character data
-        CM.Settings.Initializer:InitializeCharacterData()
     else
         CM.Error("Settings.Initializer not available!")
     end

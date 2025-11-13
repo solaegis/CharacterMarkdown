@@ -188,7 +188,7 @@ local function GenerateQuickStats(
     if IsSettingEnabled("includeGeneral", true) then
         local GenerateGeneral = CM.generators.sections.GenerateGeneral
         if GenerateGeneral then
-            generalSection = GenerateGeneral(charData, progressionData, locationData, buffsData, mundusData, format)
+            generalSection = GenerateGeneral(charData, progressionData, locationData, buffsData, mundusData, format, ridingData)
         end
     end
 
@@ -201,38 +201,165 @@ local function GenerateQuickStats(
     end
 
     local currencySection = ""
-    if currencyData then
-        local currencyRows = ""
-        if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
-            currencyRows = currencyRows
-                .. string_format("| **Alliance Points** | %s |\n", safeFormat(currencyData.alliancePoints))
-        end
-        if currencyData.telVar and currencyData.telVar > 0 then
-            currencyRows = currencyRows .. string_format("| **Tel Var** | %s |\n", safeFormat(currencyData.telVar))
-        end
-        if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
-            currencyRows = currencyRows
-                .. string_format("| **Transmute Crystals** | %s |\n", safeFormat(currencyData.transmuteCrystals))
-        end
-        if currencyData.writs and currencyData.writs > 0 then
-            currencyRows = currencyRows .. string_format("| **Writs** | %s |\n", safeFormat(currencyData.writs))
-        end
-        if currencyData.eventTickets and currencyData.eventTickets > 0 then
-            currencyRows = currencyRows
-                .. string_format("| **Event Tickets** | %s |\n", safeFormat(currencyData.eventTickets))
-        end
-        if currencyRows ~= "" then
-            currencySection = string_format("### Currency\n\n| Attribute | Value |\n|:----------|:------|\n%s\n", currencyRows)
+    if IsSettingEnabled("includeCurrency", true) and currencyData then
+        local markdown = CM.utils and CM.utils.markdown
+        local CreateStyledTable = markdown and markdown.CreateStyledTable
+        
+        if CreateStyledTable and format ~= "discord" then
+            -- Use styled table
+            local currencyRows = {}
+            if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
+                table_insert(currencyRows, { "**Alliance Points**", safeFormat(currencyData.alliancePoints) })
+            end
+            if currencyData.telVar and currencyData.telVar > 0 then
+                table_insert(currencyRows, { "**Tel Var**", safeFormat(currencyData.telVar) })
+            end
+            if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
+                table_insert(currencyRows, { "**Transmute Crystals**", safeFormat(currencyData.transmuteCrystals) })
+            end
+            if currencyData.writs and currencyData.writs > 0 then
+                table_insert(currencyRows, { "**Writs**", safeFormat(currencyData.writs) })
+            end
+            if currencyData.eventTickets and currencyData.eventTickets > 0 then
+                table_insert(currencyRows, { "**Event Tickets**", safeFormat(currencyData.eventTickets) })
+            end
+            
+            if #currencyRows > 0 then
+                local headers = { "Attribute", "Value" }
+                local options = {
+                    alignment = { "left", "left" },
+                    format = format,
+                    coloredHeaders = true,
+                }
+                local currencyTable = CreateStyledTable(headers, currencyRows, options)
+                currencySection = "### Currency\n\n" .. currencyTable
+            end
+        else
+            -- Fallback to simple table format
+            local currencyRows = ""
+            if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
+                currencyRows = currencyRows
+                    .. string_format("|| **Alliance Points** | %s |\n", safeFormat(currencyData.alliancePoints))
+            end
+            if currencyData.telVar and currencyData.telVar > 0 then
+                currencyRows = currencyRows .. string_format("|| **Tel Var** | %s |\n", safeFormat(currencyData.telVar))
+            end
+            if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
+                currencyRows = currencyRows
+                    .. string_format("|| **Transmute Crystals** | %s |\n", safeFormat(currencyData.transmuteCrystals))
+            end
+            if currencyData.writs and currencyData.writs > 0 then
+                currencyRows = currencyRows .. string_format("|| **Writs** | %s |\n", safeFormat(currencyData.writs))
+            end
+            if currencyData.eventTickets and currencyData.eventTickets > 0 then
+                currencyRows = currencyRows
+                    .. string_format("|| **Event Tickets** | %s |\n", safeFormat(currencyData.eventTickets))
+            end
+            if currencyRows ~= "" then
+                currencySection = string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
+            end
         end
     end
 
     local result = "## 📋 Overview\n\n"
-    if generalSection ~= "" then
-        result = result .. '<a id="general"></a>\n\n' .. generalSection
+    
+    -- Check if General section uses styled tables (has grid layout)
+    local generalHasGrid = generalSection ~= "" and string.find(generalSection, "<div style=\"display: grid;")
+    -- Currency uses styled tables if it doesn't start with the fallback format (|| pipes)
+    -- and doesn't have a grid wrapper (meaning it's a styled table ready to be added to grid)
+    local currencyHasStyledTable = currencySection ~= "" and 
+        not string.find(currencySection, "^### Currency\n\n||") and
+        not string.find(currencySection, "<div style=")
+    
+    if generalHasGrid and currencyHasStyledTable then
+        -- Both use styled tables - combine into single grid
+        -- Extract General's grid content (everything INSIDE the grid div, not the grid div itself)
+        local gridStartPos = string.find(generalSection, "<div style=\"display: grid;")
+        if gridStartPos then
+            -- Find the opening <div> tag end (after the style attribute)
+            local gridDivEnd = string.find(generalSection, ">", gridStartPos)
+            if gridDivEnd then
+                -- Find the matching closing </div> for the grid wrapper by tracking div depth
+                local divDepth = 1
+                local gridClosePos = nil
+                local searchStart = gridDivEnd + 1
+                
+                for i = searchStart, string.len(generalSection) do
+                    -- Check for opening div tag
+                    if string.sub(generalSection, i, i + 3) == "<div" then
+                        -- Verify it's a complete div tag (check for space, >, or newline after "div")
+                        local afterDiv = string.sub(generalSection, i + 4, i + 4)
+                        if afterDiv == " " or afterDiv == ">" or afterDiv == "\n" then
+                            divDepth = divDepth + 1
+                        end
+                    -- Check for closing div tag
+                    elseif string.sub(generalSection, i, i + 5) == "</div>" then
+                        divDepth = divDepth - 1
+                        if divDepth == 0 then
+                            gridClosePos = i  -- Position of </div>
+                            break
+                        end
+                    end
+                end
+                
+                if gridClosePos then
+                    -- Extract only the content INSIDE the grid (between > and </div>)
+                    local generalGridContent = string.sub(generalSection, gridDivEnd + 1, gridClosePos - 1)
+                    -- Trim any leading/trailing whitespace
+                    generalGridContent = string.gsub(generalGridContent, "^%s+", "")
+                    generalGridContent = string.gsub(generalGridContent, "%s+$", "")
+                    
+                    -- Extract Currency content (remove header)
+                    local currencyContent = string.gsub(currencySection, "^### Currency\n\n", "")
+                    
+                    -- Combine into single grid
+                    result = result .. '<a id="general"></a>\n\n'
+                    result = result .. '### General\n\n'
+                    result = result .. '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">\n'
+                    result = result .. generalGridContent
+                    result = result .. '<div>\n\n'
+                    result = result .. '<a id="currency"></a>\n\n'
+                    result = result .. '### Currency\n\n'
+                    result = result .. currencyContent
+                    result = result .. '</div>\n'
+                    result = result .. '</div>\n\n'
+                else
+                    -- Fallback: couldn't find grid closing tag
+                    if generalSection ~= "" then
+                        result = result .. '<a id="general"></a>\n\n' .. generalSection
+                    end
+                    if currencySection ~= "" then
+                        result = result .. '<a id="currency"></a>\n\n' .. currencySection
+                    end
+                end
+            else
+                -- Fallback: couldn't find grid div end
+                if generalSection ~= "" then
+                    result = result .. '<a id="general"></a>\n\n' .. generalSection
+                end
+                if currencySection ~= "" then
+                    result = result .. '<a id="currency"></a>\n\n' .. currencySection
+                end
+            end
+        else
+            -- Fallback: append normally
+            if generalSection ~= "" then
+                result = result .. '<a id="general"></a>\n\n' .. generalSection
+            end
+            if currencySection ~= "" then
+                result = result .. '<a id="currency"></a>\n\n' .. currencySection
+            end
+        end
+    else
+        -- Append sections normally
+        if generalSection ~= "" then
+            result = result .. '<a id="general"></a>\n\n' .. generalSection
+        end
+        if currencySection ~= "" then
+            result = result .. '<a id="currency"></a>\n\n' .. currencySection
+        end
     end
-    if currencySection ~= "" then
-        result = result .. '<a id="currency"></a>\n\n' .. currencySection
-    end
+    
     if characterStatsSection ~= "" then
         result = result .. characterStatsSection
     end

@@ -36,6 +36,107 @@ CM.collectors.CollectCurrencyData = CollectCurrencyData
 -- INVENTORY
 -- =====================================================
 
+-- Helper function to collect items from crafting bag using proper API
+local function CollectCraftBagItems()
+    local items = {}
+    
+    -- Craft bag uses BAG_VIRTUAL but requires special iteration
+    -- Try using ZO_IterateBagSlots if available (ZO library function)
+    if ZO_IterateBagSlots then
+        CM.DebugPrint("INVENTORY", "Using ZO_IterateBagSlots for craft bag iteration")
+        for slotIndex in ZO_IterateBagSlots(BAG_VIRTUAL) do
+            local itemLink = CM.SafeCall(GetItemLink, BAG_VIRTUAL, slotIndex)
+            if itemLink and itemLink ~= "" then
+                local itemName = CM.SafeCall(GetItemName, BAG_VIRTUAL, slotIndex) or "Unknown"
+                itemName = itemName:gsub("%^%w+$", "") -- Strip superscript markers
+                
+                local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
+                    pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
+                if not success then
+                    icon = nil
+                    stack = 1
+                    quality = 0
+                end
+                
+                local itemType = CM.SafeCall(GetItemType, BAG_VIRTUAL, slotIndex)
+                local itemTypeName = ""
+                if itemType then
+                    local success2, typeName = pcall(GetString, "SI_ITEMTYPE", itemType)
+                    if success2 and typeName and typeName ~= "" then
+                        itemTypeName = typeName
+                    end
+                end
+                
+                table.insert(items, {
+                    name = itemName,
+                    link = itemLink,
+                    stack = stack or 1,
+                    quality = quality or 0,
+                    icon = icon,
+                    itemType = itemType,
+                    itemTypeName = itemTypeName,
+                    slot = slotIndex,
+                })
+            end
+        end
+    else
+        -- Fallback: Try GetNumBagUsedSlots to get count, then iterate
+        CM.DebugPrint("INVENTORY", "ZO_IterateBagSlots not available, using fallback method")
+        local craftBagUsedSuccess, craftBagUsedResult = pcall(GetNumBagUsedSlots, BAG_VIRTUAL)
+        if craftBagUsedSuccess and craftBagUsedResult and craftBagUsedResult > 0 then
+            -- If we know how many items, try iterating through slots
+            -- Craft bag items might not be in sequential slots, so we need to check a wide range
+            for slotIndex = 0, 10000 do
+                local itemLink = CM.SafeCall(GetItemLink, BAG_VIRTUAL, slotIndex)
+                if itemLink and itemLink ~= "" then
+                    local itemName = CM.SafeCall(GetItemName, BAG_VIRTUAL, slotIndex) or "Unknown"
+                    itemName = itemName:gsub("%^%w+$", "")
+                    
+                    local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
+                        pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
+                    if not success then
+                        icon = nil
+                        stack = 1
+                        quality = 0
+                    end
+                    
+                    local itemType = CM.SafeCall(GetItemType, BAG_VIRTUAL, slotIndex)
+                    local itemTypeName = ""
+                    if itemType then
+                        local success2, typeName = pcall(GetString, "SI_ITEMTYPE", itemType)
+                        if success2 and typeName and typeName ~= "" then
+                            itemTypeName = typeName
+                        end
+                    end
+                    
+                    table.insert(items, {
+                        name = itemName,
+                        link = itemLink,
+                        stack = stack or 1,
+                        quality = quality or 0,
+                        icon = icon,
+                        itemType = itemType,
+                        itemTypeName = itemTypeName,
+                        slot = slotIndex,
+                    })
+                    
+                    -- Stop if we've found all items
+                    if #items >= craftBagUsedResult then
+                        break
+                    end
+                end
+            end
+        end
+    end
+    
+    -- Sort by name (case-insensitive)
+    table.sort(items, function(a, b)
+        return a.name:lower() < b.name:lower()
+    end)
+    
+    return items
+end
+
 -- Helper function to collect items from a specific bag
 local function CollectBagItems(bagId)
     local items = {}
@@ -48,12 +149,23 @@ local function CollectBagItems(bagId)
     local emptySlotCount = 0
     local maxEmptySlots = 100  -- Stop after 100 consecutive empty slots
 
+    -- Debug: Log bag type for craft bag
+    if isVirtualBag then
+        CM.DebugPrint("INVENTORY", string_format("CollectBagItems: Starting iteration for BAG_VIRTUAL (maxSlotsToCheck: %d)", maxSlotsToCheck))
+    end
+    
     for slotIndex = 0, maxSlotsToCheck - 1 do
         local itemLink = CM.SafeCall(GetItemLink, bagId, slotIndex)
         if itemLink and itemLink ~= "" then
             emptySlotCount = 0  -- Reset empty slot counter when we find an item
+            -- Debug: Log first few items found for craft bag
+            if isVirtualBag and #items < 3 then
+                CM.DebugPrint("INVENTORY", string_format("CollectBagItems: Found item at slot %d: %s", slotIndex, itemLink:match("|H(.-)|h") or "unknown"))
+            end
             -- Get item details
             local itemName = CM.SafeCall(GetItemName, bagId, slotIndex) or "Unknown"
+            -- Strip superscript markers from item names (^n, ^N, ^F, ^p, etc.)
+            itemName = itemName:gsub("%^%w+$", "")
             -- GetItemInfo returns multiple values, so use pcall directly
             local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
                 pcall(GetItemInfo, bagId, slotIndex)
@@ -194,18 +306,49 @@ local function CollectInventoryData()
         inventory.bankItems = CollectBagItems(BAG_BANK)
     end
 
-    inventory.hasCraftingBag = HasCraftBagAccess()
+    -- Check craft bag access - Craft Bag is ESO Plus exclusive feature
+    -- Use HasCraftBagAccess if available, otherwise fall back to ESO Plus status
+    local craftBagAccess = false
+    local craftBagCheckSuccess, craftBagCheckResult = pcall(HasCraftBagAccess)
+    if craftBagCheckSuccess then
+        craftBagAccess = craftBagCheckResult or false
+        CM.DebugPrint("INVENTORY", string_format("Craft bag access check: HasCraftBagAccess() = %s", tostring(craftBagAccess)))
+    else
+        -- HasCraftBagAccess might not exist or failed - use ESO Plus status as fallback
+        craftBagAccess = hasESOPlus
+        CM.DebugPrint("INVENTORY", string_format("HasCraftBagAccess() failed, using ESO Plus status: %s", tostring(craftBagAccess)))
+    end
+    inventory.hasCraftingBag = craftBagAccess
 
-    -- Collect crafting bag items if requested and player has ESO Plus
-    if settings and settings.showCraftingBagContents and inventory.hasCraftingBag then
-        -- Crafting bag uses BAG_VIRTUAL
-        -- Note: Craft bag is unlimited, so we try to collect items regardless of size
-        -- GetBagSize may fail for virtual bags, but CollectBagItems handles this properly
-        inventory.craftingBagItems = CollectBagItems(BAG_VIRTUAL)
-        if #inventory.craftingBagItems > 0 then
-            CM.DebugPrint("INVENTORY", string_format("Crafting bag: collected %d items", #inventory.craftingBagItems))
+    -- Collect crafting bag items if requested
+    -- Only attempt collection if player has ESO Plus (craft bag access)
+    if settings and settings.showCraftingBagContents then
+        if inventory.hasCraftingBag then
+            -- Player has ESO Plus - attempt to collect craft bag items
+            CM.DebugPrint("INVENTORY", "Attempting to collect crafting bag items (ESO Plus active)...")
+            
+            -- Use dedicated craft bag collection function
+            inventory.craftingBagItems = CollectCraftBagItems()
+            if #inventory.craftingBagItems > 0 then
+                CM.DebugPrint("INVENTORY", string_format("Crafting bag: collected %d items", #inventory.craftingBagItems))
+            else
+                CM.DebugPrint("INVENTORY", "Crafting bag: no items found (bag may be empty or items not accessible)")
+                -- Set to empty table so generation code knows we tried to collect
+                inventory.craftingBagItems = {}
+            end
         else
-            CM.DebugPrint("INVENTORY", "Crafting bag: no items found")
+            -- Setting is enabled but player doesn't have ESO Plus (no craft bag access)
+            CM.DebugPrint("INVENTORY", string_format("Crafting bag: setting enabled but player does not have ESO Plus (HasCraftBagAccess: %s, ESO Plus: %s). Craft Bag is ESO Plus exclusive.", 
+                tostring(craftBagCheckSuccess and craftBagCheckResult or "N/A"), tostring(hasESOPlus)))
+            -- Don't set craftingBagItems - generation code will skip it
+            -- hasCraftingBag is already false, so craft bag row won't appear in output
+        end
+    else
+        -- Setting is disabled - log for debugging
+        if not settings then
+            CM.DebugPrint("INVENTORY", "Crafting bag: settings not available")
+        elseif not settings.showCraftingBagContents then
+            CM.DebugPrint("INVENTORY", "Crafting bag: showCraftingBagContents setting is disabled")
         end
     end
 
@@ -222,17 +365,33 @@ local function CollectRidingSkillsData()
     local riding = {}
 
     -- GetRidingStats() returns values in order: staminaBonus, speedBonus, carryBonus
-    -- But the variable names in the original code were misleading - need to swap assignments
+    -- ESO API behavior: Returns skill levels, but may be multiplied by 10 in some cases
     -- SafeCall can't handle multiple returns directly, so we use pcall and handle errors
     local success, first, second, third = pcall(GetRidingStats)
     if not success then
         first, second, third = 0, 0, 0
     end
-    -- Based on user report: API returns (stamina, speed, capacity)
-    -- So: first=stamina, second=speed, third=capacity
-    riding.speed = second or 0 -- Second return is speed
-    riding.stamina = first or 0 -- First return is stamina
-    riding.capacity = third or 0 -- Third return is capacity
+    -- API returns: first=stamina, second=speed, third=capacity
+    local speedRaw = second or 0
+    local staminaRaw = first or 0
+    local capacityRaw = third or 0
+    
+    -- Convert to skill levels (0-60)
+    -- GetRidingStats() appears to return skill level * 10 (e.g., 60 = skill level 6)
+    -- So we divide by 10 to get the actual skill level
+    local function convertToSkillLevel(rawValue)
+        -- Divide by 10 to convert from API format (skill level * 10) to actual skill level (0-60)
+        return math.floor((rawValue / 10) + 0.5)
+    end
+    
+    riding.speed = convertToSkillLevel(speedRaw)
+    riding.stamina = convertToSkillLevel(staminaRaw)
+    riding.capacity = convertToSkillLevel(capacityRaw)
+    
+    -- Ensure values are within valid range (0-60)
+    riding.speed = math.max(0, math.min(60, riding.speed))
+    riding.stamina = math.max(0, math.min(60, riding.stamina))
+    riding.capacity = math.max(0, math.min(60, riding.capacity))
 
     riding.speedMax = 60
     riding.staminaMax = 60

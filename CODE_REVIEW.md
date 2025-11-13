@@ -491,3 +491,7 @@ If the addon is not running in-game, it's likely an installation issue (wrong fo
 
 **Confidence Level**: 95% that the addon will work correctly after fixing the SavedVariables syntax.
 
+
+
+
+

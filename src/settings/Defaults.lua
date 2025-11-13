@@ -14,6 +14,11 @@ function CM.Settings.Defaults:GetAll()
     return {
 
         -- ====================================
+        -- SYSTEM SETTINGS
+        -- ====================================
+        detectedOS = "unknown", -- Auto-detected OS: "windows", "mac", or "unknown"
+        
+        -- ====================================
         -- FORMAT SETTINGS
         -- ====================================
         currentFormat = "github", -- Default format: github, vscode, discord, quick
@@ -100,7 +105,21 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         -- PER-CHARACTER DATA STORAGE
         -- ====================================
-        perCharacterData = {}, -- Stores custom title, build notes, play style per character
+        perCharacterData = {}, -- Stores custom title, build notes, play style, and cached markdown per character
+        
+        -- NOTE: markdown_format and markdown are stored per-character, not account-wide
+        -- Each character in perCharacterData[characterId] has:
+        --   - customNotes: custom build notes
+        --   - customTitle: custom character title
+        --   - playStyle: play style tag (magicka_dps, stamina_tank, etc.)
+        --   - markdown_format: format of last generated markdown (github, vscode, discord, quick)
+        --   - markdown: full markdown document before chunking (cached per character)
+
+        -- ====================================
+        -- DEPRECATED ACCOUNT-WIDE FIELDS (kept for migration)
+        -- ====================================
+        markdown_format = "", -- DEPRECATED: Now stored per-character (kept for migration)
+        markdown = "", -- DEPRECATED: Now stored per-character (kept for migration)
     }
 end
 

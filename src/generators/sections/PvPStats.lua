@@ -565,20 +565,9 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format, skillProgressionD
     else
         markdown = markdown .. "## ⚔️ PvP\n\n"
 
-        -- Alliance War Skills section (if enabled)
-        if showAllianceWarSkills and skillProgressionData then
-            local allianceWarSkills = GenerateAllianceWarSkills(skillProgressionData, format)
-            if allianceWarSkills ~= "" then
-                markdown = markdown .. allianceWarSkills .. "\n"
-            end
-        end
-
-        -- PvP Stats section (if enabled)
+        -- PvP Stats section (if enabled) - Show first
         if showPvPStats then
-            -- Add subsection header if we also showed Alliance War
-            if showAllianceWarSkills then
-                markdown = markdown .. "### PvP Profile\n\n"
-            end
+            markdown = markdown .. "### PvP Profile\n\n"
 
             -- Use 2-3 column layout for PvP areas
             local CreateTwoColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateTwoColumnLayout
@@ -601,6 +590,14 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format, skillProgressionD
                 if column3 ~= "" then
                     markdown = markdown .. column3 .. "\n"
                 end
+            end
+        end
+
+        -- Alliance War Skills section (if enabled) - Show after PvP Profile
+        if showAllianceWarSkills and skillProgressionData then
+            local allianceWarSkills = GenerateAllianceWarSkills(skillProgressionData, format)
+            if allianceWarSkills ~= "" then
+                markdown = markdown .. allianceWarSkills .. "\n"
             end
         end
 

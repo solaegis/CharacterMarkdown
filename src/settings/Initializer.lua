@@ -31,9 +31,13 @@ function CM.Settings.Initializer:Initialize()
     -- Initialize profile system
     self:InitializeProfiles()
 
-    -- Sync format to core
-    if CM.currentFormat and CharacterMarkdownSettings then
-        CM.currentFormat = CharacterMarkdownSettings.currentFormat or "github"
+    -- Sync format to core from SavedVariables
+    if CM.settings and CM.settings.currentFormat then
+        CM.currentFormat = CM.settings.currentFormat
+    elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormat then
+        CM.currentFormat = CharacterMarkdownSettings.currentFormat
+    else
+        CM.currentFormat = "github" -- Fallback to default
     end
 
     CM.DebugPrint("SETTINGS", "Settings initialization complete")
@@ -176,6 +180,8 @@ function CM.Settings.Initializer:InitializeCharacterData()
             customNotes = "",
             customTitle = "",
             playStyle = "",
+            markdown_format = "",
+            markdown = "",
             _initialized = true,
             _lastModified = GetTimeStamp(),
             _characterName = GetUnitName("player"),
@@ -185,6 +191,18 @@ function CM.Settings.Initializer:InitializeCharacterData()
     
     -- Point CM.charData to this character's data
     CM.charData = CM.settings.perCharacterData[characterId]
+    
+    -- MIGRATION: Move account-wide markdown data to per-character (v2.1.9+)
+    -- If account-wide markdown exists and character doesn't have any, migrate it
+    if CM.settings.markdown and CM.settings.markdown ~= "" and 
+       (not CM.charData.markdown or CM.charData.markdown == "") then
+        CM.charData.markdown = CM.settings.markdown
+        CM.charData.markdown_format = CM.settings.markdown_format or ""
+        CM.DebugPrint("SETTINGS", "Migrated account-wide markdown to per-character data")
+        -- Clear account-wide versions
+        CM.settings.markdown = ""
+        CM.settings.markdown_format = ""
+    end
     
     -- Update metadata
     CM.charData._lastModified = GetTimeStamp()

@@ -168,6 +168,10 @@ MIT License - see [LICENSE](LICENSE)
 - **[Issue Tracker](https://github.com/yourusername/CharacterMarkdown/issues)**
 - **[UESP Wiki](https://en.uesp.net/wiki/Online:Main_Page)**
 
+## 🙏 Credits & Attributions
+
+- **Diamond Metal Texture** - Thank you to [A2_GAMES](https://opengameart.org/content/diamond-metal-anti-slip-surface-stencil-grt6png) for the beautiful diamond metal texture (CC0 License) used in the UI
+
 ---
 
 **Made with ❤️ for the ESO community**

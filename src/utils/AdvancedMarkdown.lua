@@ -392,14 +392,28 @@ local function CreateResponsiveColumns(columns, minColumnWidth, gap)
     table.insert(parts, string_format('<div style="%s">\n', gridStyle))
 
     for _, content in ipairs(columns) do
+        -- Ensure content is a valid string
+        local safeContent = content or ""
+        if type(safeContent) ~= "string" then
+            safeContent = tostring(safeContent)
+        end
+        
         table.insert(parts, "<div>\n\n")
-        table.insert(parts, content or "")
+        table.insert(parts, safeContent)
         table.insert(parts, "\n\n</div>\n")
     end
 
-    table.insert(parts, "</div>\n\n")
+    table.insert(parts, "\n</div>\n\n")
 
-    return table_concat(parts, "")
+    local result = table_concat(parts, "")
+    
+    -- Validate that result contains proper HTML structure
+    if result and result ~= "" then
+        return result
+    else
+        -- Fallback: return empty string if result is invalid
+        return ""
+    end
 end
 
 CM.utils.markdown.CreateResponsiveColumns = CreateResponsiveColumns
@@ -912,7 +926,7 @@ CM.utils.markdown.CreateHeader = CreateHeader
     @param warnings table - Array of warning message strings
     @param format string - Format type ("github", "vscode", "discord", "quick")
     @param headerTitle string - Optional header title (default: "Attention Needed")
-    @return string - Formatted warnings section (two-column table: label | value)
+    @return string - Formatted warnings section (GitHub callout for github format, table for others)
 ]]
 local function CreateAttentionNeeded(warnings, format, headerTitle)
     if not warnings or #warnings == 0 then
@@ -922,7 +936,17 @@ local function CreateAttentionNeeded(warnings, format, headerTitle)
     headerTitle = headerTitle or "Attention Needed"
     format = format or "github"
 
-    -- Parse warnings into two columns (split on first colon)
+    -- GitHub format: Use [!WARNING] callout syntax
+    if format == "github" then
+        local result = "> [!WARNING]\n"
+        for _, warning in ipairs(warnings) do
+            result = result .. "> " .. warning .. "\n"
+        end
+        result = result .. "\n"
+        return result
+    end
+
+    -- Parse warnings into two columns (split on first colon) for other formats
     local rows = {}
 
     for _, warning in ipairs(warnings) do
@@ -948,7 +972,7 @@ local function CreateAttentionNeeded(warnings, format, headerTitle)
         table.insert(rows, { leftCol, rightCol })
     end
 
-    -- Use styled table for all formats (two columns)
+    -- Use styled table for other formats (two columns)
     local CreateStyledTable = CM.utils.markdown.CreateStyledTable
     if CreateStyledTable then
         -- Add ⚠️ emoji to header title for VSCode format

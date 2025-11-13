@@ -287,7 +287,7 @@ local function ShowHelp()
     for object, _ in pairs(subcommandHandlers) do
         table.insert(objects, object)
     end
-    table.insert(objects, "help") -- Add help as an object
+    -- Note: "help" is already in subcommandHandlers, so no need to add it again
     local objectShortcuts = FindShortestUniquePrefixes(objects)
     
     -- Subcommands

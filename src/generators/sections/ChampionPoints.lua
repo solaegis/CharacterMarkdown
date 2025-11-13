@@ -378,7 +378,7 @@ local function GenerateDisciplineTable(discipline, unassignedCP, format)
         return GenerateSingleDiscipline(discipline, unassignedCP, format)
     end
 
-    local headers = { (discipline.emoji or "⚔️") .. " " .. discipline.name, "" }
+    local headers = { (discipline.emoji or "⚔️") .. " " .. discipline.name, " " }
     local rows = {}
 
     if disciplineTotal > 0 then

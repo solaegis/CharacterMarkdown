@@ -117,7 +117,7 @@ local function GenerateCurrency(currencyData, format)
         }
         result = result .. CreateStyledTable(headers, rows, options)
 
-        return result .. "\n"
+        return result
     end
 
     if format == "discord" then
@@ -390,6 +390,7 @@ local function GenerateItemList(items, containerName, format)
 
         -- Generate a table for each category
         local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+        local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
         local headers = { "Item", "Stack", "Quality" }
         local options = {
             alignment = { "left", "right", "left" },
@@ -397,28 +398,89 @@ local function GenerateItemList(items, containerName, format)
             coloredHeaders = true,
         }
 
-        for _, categoryData in ipairs(sortedCategories) do
-            local categoryName = categoryData.name
-            local categoryItems = categoryData.items
+        -- For craft bag, use multi-column layout for better space efficiency
+        -- Skip alphabetical sorting within categories for better performance
+        local useMultiColumn = (containerName == "Crafting Bag") and CreateResponsiveColumns and format ~= "discord"
+        
+        if useMultiColumn and #sortedCategories > 1 then
+            -- Multi-column layout: collect all category tables first
+            local categoryTables = {}
             
-            -- Sort items within category by name
-            table.sort(categoryItems, function(a, b)
-                return a.name:lower() < b.name:lower()
-            end)
-
-            -- Add category header
-            result = result .. "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
-
-            -- Build table for this category
-            local rows = {}
-            for _, item in ipairs(categoryItems) do
-                local qualitySymbol = GetQualitySymbol(item.quality)
-                local stackText = item.stack > 1 and tostring(item.stack) or "1"
-                table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
+            for _, categoryData in ipairs(sortedCategories) do
+                local categoryName = categoryData.name
+                local categoryItems = categoryData.items
+                
+                -- Build table for this category (no sorting for efficiency)
+                local rows = {}
+                for _, item in ipairs(categoryItems) do
+                    local qualitySymbol = GetQualitySymbol(item.quality)
+                    local stackText = item.stack > 1 and tostring(item.stack) or "1"
+                    table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
+                end
+                
+                -- Create table with category header embedded
+                local categoryTable = "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
+                categoryTable = categoryTable .. CreateStyledTable(headers, rows, options)
+                table.insert(categoryTables, categoryTable)
             end
+            
+            -- Use LayoutCalculator for optimal sizing
+            local LayoutCalculator = CM.utils.LayoutCalculator
+            local minWidth, gap
+            if LayoutCalculator then
+                minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(categoryTables, "250px", "20px")
+            else
+                minWidth, gap = "250px", "20px"
+            end
+            
+            -- Wrap all category tables in responsive columns
+            result = result .. CreateResponsiveColumns(categoryTables, minWidth, gap) .. "\n\n"
+        else
+            -- Single column layout (fallback or for non-craft-bag containers)
+            for _, categoryData in ipairs(sortedCategories) do
+                local categoryName = categoryData.name
+                local categoryItems = categoryData.items
+                
+                -- Sort items within category by name (only for single column)
+                table.sort(categoryItems, function(a, b)
+                    return a.name:lower() < b.name:lower()
+                end)
 
-            result = result .. CreateStyledTable(headers, rows, options)
-            result = result .. "\n\n"
+                -- Ensure we have proper spacing before adding the category header
+                if result ~= "" then
+                    local lastChars = string.sub(result, -2, -1)
+                    if lastChars ~= "\n\n" then
+                        if lastChars:sub(-1, -1) ~= "\n" then
+                            result = result .. "\n\n"
+                        else
+                            result = result .. "\n"
+                        end
+                    end
+                end
+
+                -- Add category header
+                result = result .. "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
+
+                -- Build table for this category
+                local rows = {}
+                for _, item in ipairs(categoryItems) do
+                    local qualitySymbol = GetQualitySymbol(item.quality)
+                    local stackText = item.stack > 1 and tostring(item.stack) or "1"
+                    table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
+                end
+
+                result = result .. CreateStyledTable(headers, rows, options)
+                
+                -- Ensure table ends with proper newlines before next section
+                local lastChars = string.sub(result, -2, -1)
+                if lastChars ~= "\n\n" then
+                    if lastChars:sub(-1, -1) ~= "\n" then
+                        result = result .. "\n\n"
+                    else
+                        result = result .. "\n"
+                    end
+                end
+            end
         end
 
         result = result .. "</details>\n\n"

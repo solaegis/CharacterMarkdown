@@ -72,6 +72,8 @@ local function CollectEquipmentData()
     for _, slotIndex in ipairs(equipSlots) do
         local itemName = GetItemName(BAG_WORN, slotIndex)
         if itemName and itemName ~= "" then
+            -- Strip superscript markers from item names (^n, ^N, ^F, ^p, etc.)
+            itemName = itemName:gsub("%^%w+$", "")
             local itemLink = GetItemLink(BAG_WORN, slotIndex)
             local hasSet, setName = GetItemLinkSetInfo(itemLink)
             local quality = GetItemLinkQuality(itemLink)

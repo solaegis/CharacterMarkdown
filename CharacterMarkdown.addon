@@ -19,10 +19,13 @@ src/utils/Formatters.lua
 src/utils/Quality.lua
 src/utils/Stats.lua
 src/utils/Constants.lua
+src/utils/Platform.lua
 src/utils/AdvancedMarkdown.lua
 src/utils/TableAnalyzer.lua
 src/utils/LayoutCalculator.lua
 src/utils/LayoutCalculatorTests.lua
+src/utils/MarkdownParser.lua
+src/utils/ChunkBuilder.lua
 src/utils/Chunking.lua
 src/utils/TestValidation.lua
 src/utils/SectionPresenceTests.lua

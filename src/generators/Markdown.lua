@@ -258,7 +258,16 @@ local function GetSectionRegistry(format, settings, gen, data)
                 title = "📋 Overview",
                 subsections = { "General", "Currency", "Character Stats" },
             },
-            condition = format ~= "discord" and IsSettingEnabled(settings, "includeQuickStats", true),
+            condition = function()
+                -- Show Overview if format is not discord AND any subsection is enabled
+                if format == "discord" then
+                    return false
+                end
+                -- Check if any subsection is enabled
+                return IsSettingEnabled(settings, "includeGeneral", true)
+                    or IsSettingEnabled(settings, "includeCurrency", true)
+                    or IsSettingEnabled(settings, "includeCharacterStats", true)
+            end,
             generator = function()
                 return gen.GenerateQuickStats(
                     data.character,
@@ -828,9 +837,9 @@ local function GenerateMarkdown(format)
                 local success, result = pcall(gen.GenerateDynamicTableOfContents, sections, format)
                 if success then
                     local resultLength = result and #result or 0
-                    CM.Info(string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength))
+                    CM.DebugPrint("GENERATOR", string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength))
                     if resultLength == 0 then
-                        CM.Warn("Dynamic TOC returned empty string!")
+                        CM.DebugPrint("GENERATOR", "Dynamic TOC returned empty string!")
                     end
                     markdown = markdown .. result
                 else
@@ -937,6 +946,18 @@ local function GenerateMarkdown(format)
     -- Store the complete markdown in a variable
     local completeMarkdown = markdown
     local markdownLength = string.len(completeMarkdown)
+
+    -- Save format to per-character SavedVariables (NOT the markdown itself - too large for 2k SavedVar limit)
+    if CM.charData then
+        CM.charData.markdown_format = format
+        CM.charData._lastModified = GetTimeStamp()
+        CM.DebugPrint("GENERATOR", string.format("Saved format to per-character data: %s", format))
+        
+        -- ESO automatically saves CharacterMarkdownSettings to disk when modified
+        -- No explicit save call needed - changes are persisted on next save cycle
+    else
+        CM.Warn("Character data not initialized - format not saved to SavedVariables")
+    end
 
     -- Get EditBox limit from constants
     local CHUNKING = CM.constants and CM.constants.CHUNKING

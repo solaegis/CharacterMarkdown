@@ -265,6 +265,11 @@ local function GenerateFooter(format, contentLength)
 
     local badgeRow = string_format("%s %s", formatBadge, sizeBadge)
 
+    -- Get padding size from constants (same as chunks use: 85 spaces + 2 newlines)
+    local CHUNKING = CM.constants and CM.constants.CHUNKING
+    local paddingSize = (CHUNKING and CHUNKING.SPACE_PADDING_SIZE) or 85
+    local spacePadding = string.rep(" ", paddingSize)
+
     local footerContent = string_format(
         [[
 ---
@@ -278,9 +283,12 @@ local function GenerateFooter(format, contentLength)
 <sub>Generated on %s</sub>
 
 </div>
+%s
+
 ]],
         badgeRow,
-        timestamp
+        timestamp,
+        spacePadding
     )
 
     return footerContent

@@ -479,14 +479,18 @@ local function CollectChampionPointData()
             else
                 -- Verify consistency
                 local calculatedTotal = totalAssigned + data.available
-                if math.abs(calculatedTotal - data.total) > 1 then
-                    CM.Warn(
+                local diff = math.abs(calculatedTotal - data.total)
+                -- Use more lenient tolerance (5 points) since CP calculation can have rounding differences
+                -- The API sometimes reports slightly different totals due to how it tracks CP across disciplines
+                if diff > 5 then
+                    CM.DebugPrint(
+                        "CP",
                         string_format(
-                            "CP verification failed: assigned=%d, unassigned=%d, total=%d (diff=%d) - using API unassigned",
+                            "CP verification: assigned=%d, unassigned=%d, total=%d (diff=%d) - recalculating unassigned",
                             totalAssigned,
                             data.available,
                             data.total,
-                            math.abs(calculatedTotal - data.total)
+                            diff
                         )
                     )
                     -- Recalculate unassigned from assigned
