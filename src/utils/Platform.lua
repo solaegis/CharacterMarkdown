@@ -9,46 +9,6 @@ CM.utils = CM.utils or {}
 local function DetectOperatingSystem(forceRedetect)
     local settings = CM.GetSettings()
     
-    -- Get the path first to verify cached OS if it exists
-    local svPath = GetAddOnSavedVariablesDirectory and GetAddOnSavedVariablesDirectory()
-    
-    -- Quick verification: if we have a cached OS and a path, verify they match
-    if not forceRedetect and settings and settings.detectedOS and settings.detectedOS ~= "unknown" and svPath then
-        local cachedOS = settings.detectedOS
-        -- Quick check: does the path match the cached OS?
-        local startsWithSlash = string.sub(svPath, 1, 1) == "/"
-        local hasMacUsersPath = string.find(svPath, "/Users/", 1, true) ~= nil
-        local hasMacDocumentsPath = string.find(svPath, "/Documents/", 1, true) ~= nil
-        local hasWindowsBackslashes = string.find(svPath, "\\Users\\", 1, true) ~= nil or string.find(svPath, "\\Documents\\", 1, true) ~= nil
-        local startsWithWindowsDrive = string.find(svPath, "^[A-Z]:\\", 1, false) ~= nil
-        
-        -- Check for forward slashes vs backslashes
-        local hasForwardSlashes = string.find(svPath, "/", 1, true) ~= nil
-        local hasBackslashes = string.find(svPath, "\\", 1, true) ~= nil
-        
-        local pathSuggestsMac = startsWithSlash or hasMacUsersPath or hasMacDocumentsPath or (hasForwardSlashes and not hasBackslashes)
-        local pathSuggestsWindows = startsWithWindowsDrive or hasWindowsBackslashes or (hasBackslashes and not hasForwardSlashes)
-        
-        -- CRITICAL: If path clearly suggests Mac (starts with /) but cached OS is Windows, force re-detection
-        -- This catches the common case where Mac was incorrectly detected as Windows
-        if startsWithSlash and cachedOS == "windows" then
-            CM.DebugPrint("PLATFORM", string.format("Path starts with / (Mac) but cached OS is Windows, forcing re-detection. Path: %s", svPath))
-            forceRedetect = true
-        -- If cached OS doesn't match path, force re-detection
-        elseif (cachedOS == "mac" and pathSuggestsWindows) or (cachedOS == "windows" and pathSuggestsMac) then
-            CM.DebugPrint("PLATFORM", string.format("Cached OS (%s) doesn't match path, forcing re-detection. Path: %s", cachedOS, svPath))
-            forceRedetect = true
-        elseif (cachedOS == "mac" and pathSuggestsMac) or (cachedOS == "windows" and pathSuggestsWindows) then
-            -- Cached OS matches path, return it
-            CM.DebugPrint("PLATFORM", string.format("Cached OS (%s) matches path, using cached value", cachedOS))
-            return cachedOS
-        else
-            -- Path is ambiguous, but we have a cached value - verify it's still valid
-            CM.DebugPrint("PLATFORM", string.format("Path is ambiguous, but using cached OS: %s", cachedOS))
-            return cachedOS
-        end
-    end
-    
     -- Check if already detected and saved (unless forcing re-detection)
     if not forceRedetect and settings and settings.detectedOS and settings.detectedOS ~= "unknown" then
         return settings.detectedOS
@@ -60,12 +20,7 @@ local function DetectOperatingSystem(forceRedetect)
     -- GetAddOnSavedVariablesDirectory() returns paths like:
     -- Mac:     /Users/username/Documents/Elder Scrolls Online/live/SavedVariables/
     -- Windows: C:\Users\username\Documents\Elder Scrolls Online\live\SavedVariables\
-    if not svPath then
-        svPath = GetAddOnSavedVariablesDirectory and GetAddOnSavedVariablesDirectory()
-    end
-    
-    CM.DebugPrint("PLATFORM", "GetAddOnSavedVariablesDirectory function exists: " .. tostring(GetAddOnSavedVariablesDirectory ~= nil))
-    CM.DebugPrint("PLATFORM", "SavedVariables path: " .. tostring(svPath))
+    local svPath = GetAddOnSavedVariablesDirectory and GetAddOnSavedVariablesDirectory()
     
     if svPath then
         -- Mac paths start with / and use forward slashes
@@ -81,10 +36,8 @@ local function DetectOperatingSystem(forceRedetect)
         -- Prioritize Mac detection - check Mac patterns first
         if startsWithSlash or hasMacUsersPath or hasMacDocumentsPath then
             detectedOS = "mac"
-            CM.DebugPrint("PLATFORM", "Auto-detected Mac from path: " .. svPath)
         elseif startsWithWindowsDrive or hasWindowsBackslashes then
             detectedOS = "windows"
-            CM.DebugPrint("PLATFORM", "Auto-detected Windows from path: " .. svPath)
         else
             -- If we can't determine, check if path contains forward slashes (more likely Mac)
             -- or backslashes (more likely Windows)
@@ -93,10 +46,8 @@ local function DetectOperatingSystem(forceRedetect)
             
             if hasForwardSlashes and not hasBackslashes then
                 detectedOS = "mac"
-                CM.DebugPrint("PLATFORM", "Auto-detected Mac from forward slashes in path: " .. svPath)
             elseif hasBackslashes and not hasForwardSlashes then
                 detectedOS = "windows"
-                CM.DebugPrint("PLATFORM", "Auto-detected Windows from backslashes in path: " .. svPath)
             else
                 -- Last resort: default to unknown instead of assuming Windows
                 detectedOS = "unknown"
@@ -104,20 +55,21 @@ local function DetectOperatingSystem(forceRedetect)
             end
         end
     else
-        -- Fallback if API not available - don't assume Windows
+        -- Fallback if API not available
         detectedOS = "unknown"
-        CM.DebugPrint("PLATFORM", "GetAddOnSavedVariablesDirectory not available, cannot detect OS")
+        CM.DebugPrint("PLATFORM", "GetAddOnSavedVariablesDirectory not available")
     end
     
-    -- Save the detected OS (and verify it matches cached value if it exists)
+    -- Save the detected OS
     if settings then
         local previousOS = settings.detectedOS
         settings.detectedOS = detectedOS
         
+        -- Only log if OS changed or detection failed
         if previousOS and previousOS ~= "unknown" and previousOS ~= detectedOS then
-            CM.Info(string.format("OS auto-detected: %s (was previously: %s)", detectedOS, previousOS))
-        else
-            CM.Info("OS auto-detected: " .. detectedOS)
+            CM.DebugPrint("PLATFORM", string.format("OS changed: %s -> %s", previousOS, detectedOS))
+        elseif detectedOS == "unknown" then
+            CM.DebugPrint("PLATFORM", "OS detection failed")
         end
     end
     
@@ -127,8 +79,6 @@ end
 -- Get keyboard shortcut text for current OS
 local function GetShortcutText(action)
     local os = DetectOperatingSystem()
-    
-    CM.DebugPrint("PLATFORM", string.format("GetShortcutText called: action=%s, os=%s", tostring(action), tostring(os)))
     
     if action == "select_all" then
         if os == "mac" then
