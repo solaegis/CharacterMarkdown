@@ -109,6 +109,33 @@ local function InitializeWindowControls()
         CM.Error("Window control not found! XML may not have loaded.")
         return false
     end
+    
+    -- Set background with solid color and nice border
+    local bgControl = CharacterMarkdownWindowBG
+    if bgControl then
+        CM.DebugPrint("UI", "=== BACKGROUND CONFIGURATION ===")
+        
+        -- Use ESO's standard tooltip border for a professional look
+        -- This is the same border used in many ESO UI elements
+        bgControl:SetEdgeTexture("/esoui/art/tooltips/ui-border.dds", 128, 16)
+        
+        -- Dark gray center with 85% opacity for airy feel
+        -- RGB: 0.16 = ~#2a2a2a (dark gray), Alpha: 0.85 = 85% opaque (15% transparent)
+        bgControl:SetCenterColor(0.16, 0.16, 0.16, 0.85)
+        
+        -- Elegant gold/bronze edge for prominence (ESO standard color)
+        -- RGB: 0.76, 0.69, 0.49 = ~#c2b07d (warm gold/bronze)
+        bgControl:SetEdgeColor(0.76, 0.69, 0.49, 1.0)
+        CM.DebugPrint("UI", "Background: dark gray (#2a2a2a) at 85% opacity with gold border")
+        
+        -- Set insets to control border spacing (standard ESO values)
+        bgControl:SetInsets(16, 16, -16, -16)
+        bgControl:SetDrawLayer(DL_BACKGROUND)
+        
+        CM.DebugPrint("UI", "=== END BACKGROUND CONFIGURATION ===")
+    else
+        CM.Warn("Background control not found - using default appearance")
+    end
 
     -- Get the EditBox control
     editBoxControl = CharacterMarkdownWindowTextContainerEditBox
@@ -937,6 +964,19 @@ function CharacterMarkdown_ShowWindow(markdown, format)
     if not InitializeWindowControls() then
         CM.Error("Window initialization failed")
         return false
+    end
+    
+    -- TEXTURE DEBUG: Check background state when window opens
+    local bgControl = CharacterMarkdownWindowBG
+    if bgControl then
+        CM.DebugPrint("WINDOW", "=== BACKGROUND CHECK ON WINDOW OPEN ===")
+        local width, height = bgControl:GetDimensions()
+        CM.DebugPrint("WINDOW", string.format("Background dimensions: %dx%d", width, height))
+        CM.DebugPrint("WINDOW", string.format("Background hidden: %s", tostring(bgControl:IsHidden())))
+        CM.DebugPrint("WINDOW", string.format("Background alpha: %.2f", bgControl:GetAlpha()))
+        CM.DebugPrint("WINDOW", "=== END BACKGROUND CHECK ===")
+    else
+        CM.Warn("WINDOW: Background control not found on window open")
     end
     
     -- Re-enable all buttons for normal mode (in case we're coming from import/export mode)

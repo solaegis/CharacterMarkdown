@@ -7,8 +7,8 @@
             
             <!-- Background -->
             <Controls>
-                <!-- Simple dark background with border -->
-                <Backdrop name="$(parent)BG" centerColor="1a1a1a" edgeColor="888888">
+                <!-- Solid background with border (texture added via Lua for scaling control) -->
+                <Backdrop name="$(parent)BG" edgeColor="888888">
                     <AnchorFill />
                     <Edge edgeSize="2" />
                 </Backdrop>
@@ -155,16 +155,16 @@
                     </Controls>
                 </Control>
                 
-                <!-- Primary Actions Row -->
+                <!-- Primary Actions Row - Symmetrical Layout -->
                 <Control name="$(parent)ButtonContainer">
                     <Dimensions x="960" y="36" />
                     <Anchor point="TOPLEFT" relativeTo="$(parent)TextContainer" relativePoint="BOTTOMLEFT" offsetX="20" offsetY="8" />
                     
                     <Controls>
-                        <!-- Generate Button (Left) -->
+                        <!-- Generate Button (Left) - All buttons same width, anchored independently -->
                         <Button name="$(parent)RegenerateButton" inherits="ZO_DefaultButton">
-                            <Dimensions x="150" y="32" />
-                            <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="0" />
+                            <Dimensions x="165" y="32" />
+                            <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="120" />
                             <OnClicked>
                                 CharacterMarkdown_RegenerateMarkdown()
                             </OnClicked>
@@ -175,9 +175,9 @@
                             </Controls>
                         </Button>
                         
-                        <!-- Select All Button (Center, PRIMARY - larger) -->
+                        <!-- Select All Button (Center) - Anchored to CENTER for perfect symmetry -->
                         <Button name="$(parent)SelectAllButton" inherits="ZO_DefaultButton">
-                            <Dimensions x="180" y="32" />
+                            <Dimensions x="165" y="32" />
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" />
                             <OnClicked>
                                 CharacterMarkdown_CopyToClipboard()
@@ -189,10 +189,10 @@
                             </Controls>
                         </Button>
                         
-                        <!-- Dismiss Button (Right) - also used as Import in import mode -->
+                        <!-- Dismiss Button (Right) - Mirrors Generate button spacing -->
                         <Button name="$(parent)Dismiss" inherits="ZO_DefaultButton">
-                            <Dimensions x="150" y="32" />
-                            <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="0" />
+                            <Dimensions x="165" y="32" />
+                            <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-120" />
                             <OnClicked>
                                 CharacterMarkdownWindow:SetHidden(true)
                             </OnClicked>
