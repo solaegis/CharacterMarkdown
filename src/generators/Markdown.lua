@@ -289,6 +289,20 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
+        -- 1a. Custom Notes (appears immediately after Overview, requires both setting enabled AND content present)
+        {
+            name = "CustomNotes",
+            tocEntry = {
+                title = "📝 Build Notes",
+            },
+            condition = IsSettingEnabled(settings, "includeBuildNotes", true)
+                and data.customNotes
+                and data.customNotes ~= "",
+            generator = function()
+                return gen.GenerateCustomNotes(data.customNotes, format)
+            end,
+        },
+
         -- 2. ⚔️ Combat Arsenal (Skill Bars Only - Front/Back Bar)
         {
             name = "SkillBars",
@@ -318,7 +332,7 @@ local function GetSectionRegistry(format, settings, gen, data)
         {
             name = "Equipment",
             tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
-            condition = IsSettingEnabled(settings, "includeSkillBars", true), -- Same condition as skill bars
+            condition = IsSettingEnabled(settings, "includeEquipment", true),
             generator = function()
                 local equipmentData = data.equipment or {}
                 local success, result = pcall(gen.GenerateEquipment, equipmentData, format, false)
@@ -335,7 +349,7 @@ local function GetSectionRegistry(format, settings, gen, data)
         {
             name = "CharacterProgress",
             tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
-            condition = IsSettingEnabled(settings, "includeSkillBars", true), -- Same condition as skill bars
+            condition = IsSettingEnabled(settings, "includeSkills", true),
             generator = function()
                 -- Generate Character Progress section with summary, morphs, and status-organized skills
                 local skillMorphsData = data.skillMorphs or {}
@@ -534,10 +548,12 @@ local function GetSectionRegistry(format, settings, gen, data)
         },
         --]]
 
-        -- Achievements (standalone section, not in TOC)
+        -- Achievements (standalone section)
         {
             name = "Achievements",
-            tocEntry = nil, -- Not shown in TOC
+            tocEntry = {
+                title = "🏆 Achievements",
+            },
             condition = IsSettingEnabled(settings, "includeAchievements", false),
             generator = function()
                 local markdown = ""
@@ -566,10 +582,12 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- Antiquities (standalone section, not in TOC)
+        -- Antiquities (standalone section)
         {
             name = "Antiquities",
-            tocEntry = nil, -- Not shown in TOC
+            tocEntry = {
+                title = "🏺 Antiquities",
+            },
             condition = IsSettingEnabled(settings, "includeAntiquities", false),
             generator = function()
                 local markdown = ""
@@ -585,10 +603,12 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- Quests (standalone section, not in TOC)
+        -- Quests (standalone section)
         {
             name = "Quests",
-            tocEntry = nil, -- Not shown in TOC
+            tocEntry = {
+                title = "📜 Quests",
+            },
             condition = IsSettingEnabled(settings, "includeQuests", false), -- Default to false (disabled by default)
             generator = function()
                 local markdown = ""
@@ -678,18 +698,6 @@ local function GetSectionRegistry(format, settings, gen, data)
             condition = IsSettingEnabled(settings, "includeBuffs", true),
             generator = function()
                 return gen.GenerateBuffs(data.buffs, format)
-            end,
-        },
-
-        -- Custom Notes (requires both setting enabled AND content present, not in TOC)
-        {
-            name = "CustomNotes",
-            tocEntry = nil, -- Not shown in TOC
-            condition = IsSettingEnabled(settings, "includeBuildNotes", true)
-                and data.customNotes
-                and data.customNotes ~= "",
-            generator = function()
-                return gen.GenerateCustomNotes(data.customNotes, format)
             end,
         },
 

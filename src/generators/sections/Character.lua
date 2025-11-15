@@ -578,11 +578,9 @@ local function GenerateCustomNotes(customNotes, format, equipmentData, skillBarD
     -- Auto-link sets and abilities in notes
     local processedNotes = AutoLinkSetsAndAbilities(customNotes, format, equipmentData, skillBarData)
 
-    -- Enhanced visuals are now always enabled (baseline)
-    -- Use collapsible section (with nil check)
-    if markdown and markdown.CreateCollapsible then
-        return markdown.CreateCollapsible("Build Notes", processedNotes, "📝", true)
-            or string_format("## 📝 Build Notes\n\n%s\n\n", processedNotes)
+    -- Use callout box for attractive styling
+    if markdown and markdown.CreateCallout then
+        return string_format("## 📝 Build Notes\n\n%s", markdown.CreateCallout("note", processedNotes, format))
     else
         return string_format("## 📝 Build Notes\n\n%s\n\n", processedNotes)
     end
