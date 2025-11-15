@@ -1,3 +1,4 @@
+<!-- Chunk 1 (20391 bytes before padding) -->
 
 
 <div align="center">
@@ -50,6 +51,7 @@
 | **Account** | @SOLAEGIS |
 
 
+
 </div>
 <div>
 
@@ -59,8 +61,9 @@
 | **Attributes** | 🔵 49 / ❤️ 15 / ⚡ 0 |
 | **Skill Points** | 🎯 9 available - Ready to spend |
 | **Title** | Daedric Lord Slayer |
-| **Age** | 17 days, 2 hours, 10 minutes, and 4 seconds |
+| **Age** | 17 days, 2 hours, 58 minutes, and 15 seconds |
 | **ESO Plus** | ✅ Active |
+
 
 
 </div>
@@ -70,8 +73,9 @@
 | --- | --- |
 | **🪨 Mundus Stone** | The Atronach |
 | **🍖 Active Buffs** | Other: Major Prophecy, Major Savagery |
-| **Location** | Summerset (Alinor) |
+| **Location** | Summerset (617) |
 | **🐴 Riding Skills** | 🐴 6 / 💪 6 / 🎒 6 |
+
 
 
 </div><div>
@@ -106,6 +110,7 @@
 |  | Spell Power | 2,213 |
 
 
+
 </div>
 <div>
 
@@ -115,6 +120,7 @@
 |  | Spell Crit | 5,699 (26%) |
 | ⚔️ **Penetration** | Physical | 700 |
 |  | Spell | 700 |
+
 
 
 </div>
@@ -127,6 +133,7 @@
 | ♻️ **Recovery** | Health | 866 |
 |  | Magicka | 1,041 |
 |  | Stamina | 715 |
+
 
 
 </div>
@@ -155,8 +162,8 @@
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟢 **Fortified Brass** | `5/5` ██████████ 100% |
 | 🟢 **Hide of Morihaus** | `5/5` ██████████ 100% |
+| 🟢 **Fortified Brass** | `5/5` ██████████ 100% |
 | 🟠 **Armor of the Seducer** | `3/5` ██████░░░░ 60% |
 
 ### 📋 Equipment Details
@@ -187,411 +194,56 @@
 | ---: | ---: | ---: | ---: | ---: |
 | 22 | 5 | 17 | 27 | 50% |
 
-<details>
-<summary>🌿 Skill Morphs (27 abilities with morph choices)</summary>
-
-### ⚔️ Class (13 abilities with morph choices)
-
-#### Ardent Flame (Rank 50)
-
-✅ **Standard of Might** (Rank 4)
-
-  ✅ **Morph 2**: Standard of Might
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Shifting Standard
-
-  </details>
-
-🔒 **Lava Whip** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Molten Whip
-  ⚪ **Morph 2**: Flame Lash
-
-  </details>
-
-🔒 **Fiery Breath** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Noxious Breath
-  ⚪ **Morph 2**: Engulfing Flames
-
-  </details>
-
-🔒 **Fiery Grip** (Rank 1)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Chains of Devastation
-  ⚪ **Morph 2**: Unrelenting Grip
-
-  </details>
-
-⚠️ **Inferno** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Flames of Oblivion
-  ⚪ **Morph 2**: Cauterize
-
-  </details>
-
-
-#### Draconic Power (Rank 50)
-
-🔒 **Dragon Leap** (Rank 1)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Take Flight
-  ⚪ **Morph 2**: Ferocious Leap
-
-  </details>
-
-✅ **Volatile Armor** (Rank 4)
-
-  ✅ **Morph 2**: Volatile Armor
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Hardened Armor
-
-  </details>
-
-✅ **Coagulating Blood** (Rank 4)
-
-  ✅ **Morph 2**: Coagulating Blood
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Green Dragon Blood
-
-  </details>
-
-⚠️ **Inhale** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Deep Breath
-  ⚪ **Morph 2**: Draw Essence
-
-  </details>
-
-
-#### Earthen Heart (Rank 50)
-
-✅ **Magma Shell** (Rank 4)
-
-  ✅ **Morph 1**: Magma Shell
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Corrosive Armor
-
-  </details>
-
-🔒 **Stonefist** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Obsidian Shard
-  ⚪ **Morph 2**: Stone Giant
-
-  </details>
-
-✅ **Molten Armaments** (Rank 4)
-
-  ✅ **Morph 2**: Molten Armaments
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Igneous Weapons
-
-  </details>
-
-⚠️ **Obsidian Shield** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Igneous Shield
-  ⚪ **Morph 2**: Fragmented Shield
-
-  </details>
-
-
-### ⚔️ Weapon (10 abilities with morph choices)
-
-#### One Hand and Shield (Rank 50)
-
-✅ **Pierce Armor** (Rank 4)
-
-  ✅ **Morph 2**: Pierce Armor
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Ransack
-
-  </details>
-
-🔒 **Shield Charge** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Shielded Assault
-  ⚪ **Morph 2**: Invasion
-
-  </details>
-
-
-#### Dual Wield (Rank 44)
-
-🔒 **Flurry** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Rapid Strikes
-  ⚪ **Morph 2**: Bloodthirst
-
-  </details>
-
-🔒 **Twin Slashes** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Rending Slashes
-  ⚪ **Morph 2**: Blood Craze
-
-  </details>
-
-🔒 **Whirlwind** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Whirling Blades
-  ⚪ **Morph 2**: Steel Tornado
-
-  </details>
-
-
-#### Bow (Rank 41)
-
-🔒 **Snipe** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Lethal Arrow
-  ⚪ **Morph 2**: Focused Aim
-
-  </details>
-
-🔒 **Volley** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Endless Hail
-  ⚪ **Morph 2**: Arrow Barrage
-
-  </details>
-
-🔒 **Arrow Spray** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Bombard
-  ⚪ **Morph 2**: Acid Spray
-
-  </details>
-
-
-#### Destruction Staff (Rank 50)
-
-✅ **Force Pulse** (Rank 4)
-
-  ✅ **Morph 2**: Force Pulse
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Crushing Shock
-
-  </details>
-
-✅ **Unstable Wall of Elements** (Rank 4)
-
-  ✅ **Morph 1**: Unstable Wall of Elements
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Elemental Blockade
-
-  </details>
-
-
-### 🌍 World (1 abilities with morph choices)
-
-#### Soul Magic (Rank 3)
-
-⚠️ **Soul Trap** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Soul Splitting Trap
-  ⚪ **Morph 2**: Consuming Trap
-
-  </details>
-
-
-### 🏰 Guild (3 abilities with morph choices)
-
-#### Fighters Guild (Rank 8)
-
-🔒 **Silver Bolts** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Silver Shards
-  ⚪ **Morph 2**: Silver Leash
-
-  </details>
-
-
-#### Mages Guild (Rank 8)
-
-⚠️ **Entropy** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Degeneration
-  ⚪ **Morph 2**: Structured Entropy
-
-  </details>
-
-
-#### Undaunted (Rank 2)
-
-🔒 **Blood Altar** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Sanguine Altar
-  ⚪ **Morph 2**: Overflowing Altar
-
-  </details>
-
-
-</details>
-
 ### ✅ Maxed Skills
 
 <details>
-<summary>⚔️ Weapon (2 skill lines maxed)</summary>
+<summary>⭐ Racial (10 skill lines maxed)</summary>
 
-**One Hand and Shield**, **Destruction Staff**
-
-<details>
-<summary>✨ Passives</summary>
-
-- 🔒 Fortress (5/5) *(from One Hand and Shield)*
-- ✅ Sword and Board (10/10) *(from One Hand and Shield)*
-- ✅ Deadly Bash (17/17) *(from One Hand and Shield)*
-- ✅ Deflect Bolts (30/30) *(from One Hand and Shield)*
-- ✅ Battlefield Mobility (41/41) *(from One Hand and Shield)*
-- ✅ Tri Focus (5/5) *(from Destruction Staff)*
-- ✅ Penetrating Magic (10/10) *(from Destruction Staff)*
-- ✅ Elemental Force (25/25) *(from Destruction Staff)*
-- ✅ Ancient Knowledge (28/28) *(from Destruction Staff)*
-- ✅ Destruction Expert (41/41) *(from Destruction Staff)*
-</details>
-
-</details>
-
-<details>
-<summary>⚒️ Craft (5 skill lines maxed)</summary>
-
-**Blacksmithing**, **Clothing**, **Jewelry Crafting**, **Provisioning**, **Woodworking**
+**Imperial Skills**, **Orc Skills**, **High Elf Skills**, **Wood Elf Skills**, **Khajiit Skills**, **Breton Skills**, **Redguard Skills**, **Argonian Skills**, **Dark Elf Skills**, **Nord Skills**
 
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ Metalworking *(from Blacksmithing)*
-- 🔒 Keen Eye: Ore (2/2) *(from Blacksmithing)*
-- 🔒 Miner Hireling (3/3) *(from Blacksmithing)*
-- ✅ Metal Extraction (4/4) *(from Blacksmithing)*
-- 🔒 Metallurgy (8/8) *(from Blacksmithing)*
-- ✅ Temper Expertise (10/10) *(from Blacksmithing)*
-- ✅ Tailoring *(from Clothing)*
-- 🔒 Keen Eye: Cloth (2/2) *(from Clothing)*
-- 🔒 Outfitter Hireling (3/3) *(from Clothing)*
-- ✅ Unraveling (4/4) *(from Clothing)*
-- 🔒 Stitching (8/8) *(from Clothing)*
-- ✅ Tannin Expertise (10/10) *(from Clothing)*
-- ✅ Engraver *(from Jewelry Crafting)*
-- 🔒 Keen Eye: Jewelry (2/2) *(from Jewelry Crafting)*
-- 🔒 Jewelry Extraction (4/4) *(from Jewelry Crafting)*
-- 🔒 Lapidary Research (8/8) *(from Jewelry Crafting)*
-- 🔒 Platings Expertise (10/10) *(from Jewelry Crafting)*
-- ✅ Recipe Improvement *(from Provisioning)*
-- ✅ Recipe Quality *(from Provisioning)*
-- 🔒 Gourmand (3/3) *(from Provisioning)*
-- 🔒 Connoisseur (5/5) *(from Provisioning)*
-- 🔒 Chef (7/7) *(from Provisioning)*
-- 🔒 Brewer (9/9) *(from Provisioning)*
-- 🔒 Forager Hireling (28/28) *(from Provisioning)*
-- ✅ Woodworking *(from Woodworking)*
-- 🔒 Keen Eye: Wood (2/2) *(from Woodworking)*
-- 🔒 Lumberjack Hireling (3/3) *(from Woodworking)*
-- ✅ Wood Extraction (4/4) *(from Woodworking)*
-- 🔒 Carpentry (8/8) *(from Woodworking)*
-- 🔒 Resin Expertise (10/10) *(from Woodworking)*
+- ✅ Diplomat *(from Imperial Skills)*
+- ✅ Tough (5/5) *(from Imperial Skills)*
+- ✅ Imperial Mettle (10/10) *(from Imperial Skills)*
+- ✅ Red Diamond (25/25) *(from Imperial Skills)*
+- 🔒 Craftsman *(from Orc Skills)*
+- 🔒 Brawny (5/5) *(from Orc Skills)*
+- 🔒 Unflinching Rage (10/10) *(from Orc Skills)*
+- 🔒 Swift Warrior (25/25) *(from Orc Skills)*
+- 🔒 Highborn *(from High Elf Skills)*
+- 🔒 Spell Recharge (5/5) *(from High Elf Skills)*
+- 🔒 Syrabane's Boon (10/10) *(from High Elf Skills)*
+- 🔒 Elemental Talent (25/25) *(from High Elf Skills)*
+- 🔒 Acrobat *(from Wood Elf Skills)*
+- 🔒 Hunter's Eye (5/5) *(from Wood Elf Skills)*
+- 🔒 Y'ffre's Endurance (10/10) *(from Wood Elf Skills)*
+- 🔒 Resist Affliction (25/25) *(from Wood Elf Skills)*
+- 🔒 Cutpurse *(from Khajiit Skills)*
+- 🔒 Robustness (5/5) *(from Khajiit Skills)*
+- 🔒 Lunar Blessings (10/10) *(from Khajiit Skills)*
+- 🔒 Feline Ambush (25/25) *(from Khajiit Skills)*
+- 🔒 Opportunist *(from Breton Skills)*
+- 🔒 Gift of Magnus (5/5) *(from Breton Skills)*
+- 🔒 Spell Attunement (10/10) *(from Breton Skills)*
+- 🔒 Magicka Mastery (25/25) *(from Breton Skills)*
+- 🔒 Wayfarer *(from Redguard Skills)*
+- 🔒 Martial Training (5/5) *(from Redguard Skills)*
+- 🔒 Conditioning (10/10) *(from Redguard Skills)*
+- 🔒 Adrenaline Rush (25/25) *(from Redguard Skills)*
+- 🔒 Amphibian *(from Argonian Skills)*
+- 🔒 Life Mender (5/5) *(from Argonian Skills)*
+- 🔒 Argonian Resistance (10/10) *(from Argonian Skills)*
+- 🔒 Resourceful (25/25) *(from Argonian Skills)*
+- 🔒 Ashlander *(from Dark Elf Skills)*
+- 🔒 Dynamic (5/5) *(from Dark Elf Skills)*
+- 🔒 Resist Flame (10/10) *(from Dark Elf Skills)*
+- 🔒 Ruination (25/25) *(from Dark Elf Skills)*
+- 🔒 Reveler *(from Nord Skills)*
+- 🔒 Resist Frost (5/5) *(from Nord Skills)*
+- 🔒 Stalwart (10/10) *(from Nord Skills)*
+- 🔒 Rugged (25/25) *(from Nord Skills)*
 </details>
 
 </details>
@@ -646,53 +298,65 @@
 </details>
 
 <details>
-<summary>⭐ Racial (10 skill lines maxed)</summary>
+<summary>⚒️ Craft (5 skill lines maxed)</summary>
 
-**Imperial Skills**, **Orc Skills**, **High Elf Skills**, **Wood Elf Skills**, **Khajiit Skills**, **Breton Skills**, **Redguard Skills**, **Argonian Skills**, **Dark Elf Skills**, **Nord Skills**
+**Blacksmithing**, **Clothing**, **Jewelry Crafting**, **Provisioning**, **Woodworking**
 
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ Diplomat *(from Imperial Skills)*
-- ✅ Tough (5/5) *(from Imperial Skills)*
-- ✅ Imperial Mettle (10/10) *(from Imperial Skills)*
-- ✅ Red Diamond (25/25) *(from Imperial Skills)*
-- 🔒 Craftsman *(from Orc Skills)*
-- 🔒 Brawny (5/5) *(from Orc Skills)*
-- 🔒 Unflinching Rage (10/10) *(from Orc Skills)*
-- 🔒 Swift Warrior (25/25) *(from Orc Skills)*
-- 🔒 Highborn *(from High Elf Skills)*
-- 🔒 Spell Recharge (5/5) *(from High Elf Skills)*
-- 🔒 Syrabane's Boon (10/10) *(from High Elf Skills)*
-- 🔒 Elemental Talent (25/25) *(from High Elf Skills)*
-- 🔒 Acrobat *(from Wood Elf Skills)*
-- 🔒 Hunter's Eye (5/5) *(from Wood Elf Skills)*
-- 🔒 Y'ffre's Endurance (10/10) *(from Wood Elf Skills)*
-- 🔒 Resist Affliction (25/25) *(from Wood Elf Skills)*
-- 🔒 Cutpurse *(from Khajiit Skills)*
-- 🔒 Robustness (5/5) *(from Khajiit Skills)*
-- 🔒 Lunar Blessings (10/10) *(from Khajiit Skills)*
-- 🔒 Feline Ambush (25/25) *(from Khajiit Skills)*
-- 🔒 Opportunist *(from Breton Skills)*
-- 🔒 Gift of Magnus (5/5) *(from Breton Skills)*
-- 🔒 Spell Attunement (10/10) *(from Breton Skills)*
-- 🔒 Magicka Mastery (25/25) *(from Breton Skills)*
-- 🔒 Wayfarer *(from Redguard Skills)*
-- 🔒 Martial Training (5/5) *(from Redguard Skills)*
-- 🔒 Conditioning (10/10) *(from Redguard Skills)*
-- 🔒 Adrenaline Rush (25/25) *(from Redguard Skills)*
-- 🔒 Amphibian *(from Argonian Skills)*
-- 🔒 Life Mender (5/5) *(from Argonian Skills)*
-- 🔒 Argonian Resistance (10/10) *(from Argonian Skills)*
-- 🔒 Resourceful (25/25) *(from Argonian Skills)*
-- 🔒 Ashlander *(from Dark Elf Skills)*
-- 🔒 Dynamic (5/5) *(from Dark Elf Skills)*
-- 🔒 Resist Flame (10/10) *(from Dark Elf Skills)*
-- 🔒 Ruination (25/25) *(from Dark Elf Skills)*
-- 🔒 Reveler *(from Nord Skills)*
-- 🔒 Resist Frost (5/5) *(from Nord Skills)*
-- 🔒 Stalwart (10/10) *(from Nord Skills)*
-- 🔒 Rugged (25/25) *(from Nord Skills)*
+- ✅ Metalworking *(from Blacksmithing)*
+- 🔒 Keen Eye: Ore (2/2) *(from Blacksmithing)*
+- 🔒 Miner Hireling (3/3) *(from Blacksmithing)*
+- ✅ Metal Extraction (4/4) *(from Blacksmithing)*
+- 🔒 Metallurgy (8/8) *(from Blacksmithing)*
+- ✅ Temper Expertise (10/10) *(from Blacksmithing)*
+- ✅ Tailoring *(from Clothing)*
+- 🔒 Keen Eye: Cloth (2/2) *(from Clothing)*
+- 🔒 Outfitter Hireling (3/3) *(from Clothing)*
+- ✅ Unraveling (4/4) *(from Clothing)*
+- 🔒 Stitching (8/8) *(from Clothing)*
+- ✅ Tannin Expertise (10/10) *(from Clothing)*
+- ✅ Engraver *(from Jewelry Crafting)*
+- 🔒 Keen Eye: Jewelry (2/2) *(from Jewelry Crafting)*
+- 🔒 Jewelry Extraction (4/4) *(from Jewelry Crafting)*
+- 🔒 Lapidary Research (8/8) *(from Jewelry Crafting)*
+- 🔒 Platings Expertise (10/10) *(from Jewelry Crafting)*
+- ✅ Recipe Improvement *(from Provisioning)*
+- ✅ Recipe Quality *(from Provisioning)*
+- 🔒 Gourmand (3/3) *(from Provisioning)*
+- 🔒 Connoisseur (5/5) *(from Provisioning)*
+- 🔒 Chef (7/7) *(from Provisioning)*
+- 🔒 Brewer (9/9) *(from Provisioning)*
+- 🔒 Forager Hireling (28/28) *(from Provisioning)*
+- ✅ Woodworking *(from Woodworking)*
+- 🔒 Keen Eye: Wood (2/2) *(from Woodworking)*
+- 🔒 Lumberjack Hireling (3/3) *(from Woodworking)*
+- ✅ Wood Extraction (4/4) *(from Woodworking)*
+- 🔒 Carpentry (8/8) *(from Woodworking)*
+- 🔒 Resin Expertise (10/10) *(from Woodworking)*
+</details>
+
+</details>
+
+<details>
+<summary>⚔️ Weapon (2 skill lines maxed)</summary>
+
+**One Hand and Shield**, **Destruction Staff**
+
+<details>
+<summary>✨ Passives</summary>
+
+- 🔒 Fortress (5/5) *(from One Hand and Shield)*
+- ✅ Sword and Board (10/10) *(from One Hand and Shield)*
+- ✅ Deadly Bash (17/17) *(from One Hand and Shield)*
+- ✅ Deflect Bolts (30/30) *(from One Hand and Shield)*
+- ✅ Battlefield Mobility (41/41) *(from One Hand and Shield)*
+- ✅ Tri Focus (5/5) *(from Destruction Staff)*
+- ✅ Penetrating Magic (10/10) *(from Destruction Staff)*
+- ✅ Elemental Force (25/25) *(from Destruction Staff)*
+- ✅ Ancient Knowledge (28/28) *(from Destruction Staff)*
+- ✅ Destruction Expert (41/41) *(from Destruction Staff)*
 </details>
 
 </details>
@@ -700,24 +364,18 @@
 ### 📈 In-Progress Skills
 
 <details>
-<summary>⚔️ Weapon (2 skill lines in progress)</summary>
+<summary>⚒️ Craft (1 skill line in progress)</summary>
 
-- **Dual Wield**: Rank 44 █████████░ 94%
-- **Bow**: Rank 41 █████████░ 97%
+- **Enchanting**: Rank 46 █████████░ 98%
 
 <details>
 <summary>✨ Passives</summary>
 
-- 🔒 Slaughter (5/5) *(from Dual Wield)*
-- 🔒 Dual Wield Expert (10/10) *(from Dual Wield)*
-- 🔒 Controlled Fury (25/25) *(from Dual Wield)*
-- 🔒 Ruffian (28/28) *(from Dual Wield)*
-- 🔒 Twin Blade and Blunt (41/41) *(from Dual Wield)*
-- 🔒 Vinedusk Training (5/5) *(from Bow)*
-- 🔒 Accuracy (10/10) *(from Bow)*
-- 🔒 Ranger (17/17) *(from Bow)*
-- 🔒 Hawk Eye (30/30) *(from Bow)*
-- 🔒 Hasty Retreat (41/41) *(from Bow)*
+- ✅ Potency Improvement *(from Enchanting)*
+- ✅ Aspect Improvement *(from Enchanting)*
+- 🔒 Keen Eye: Rune Stones (2/2) *(from Enchanting)*
+- 🔒 Enchanter Hireling (3/3) *(from Enchanting)*
+- 🔒 Runestone Extraction (4/4) *(from Enchanting)*
 </details>
 
 </details>
@@ -759,93 +417,29 @@
 </details>
 
 <details>
-<summary>⚒️ Craft (1 skill line in progress)</summary>
+<summary>⚔️ Weapon (2 skill lines in progress)</summary>
 
-- **Enchanting**: Rank 46 █████████░ 98%
+- **Dual Wield**: Rank 44 █████████░ 94%
+- **Bow**: Rank 41 █████████░ 97%
 
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ Potency Improvement *(from Enchanting)*
-- ✅ Aspect Improvement *(from Enchanting)*
-- 🔒 Keen Eye: Rune Stones (2/2) *(from Enchanting)*
-- 🔒 Enchanter Hireling (3/3) *(from Enchanting)*
-- 🔒 Runestone Extraction (4/4) *(from Enchanting)*
+- 🔒 Slaughter (5/5) *(from Dual Wield)*
+- 🔒 Dual Wield Expert (10/10) *(from Dual Wield)*
+- 🔒 Controlled Fury (25/25) *(from Dual Wield)*
+- 🔒 Ruffian (28/28) *(from Dual Wield)*
+- 🔒 Twin Blade and Blunt (41/41) *(from Dual Wield)*
+- 🔒 Vinedusk Training (5/5) *(from Bow)*
+- 🔒 Accuracy (10/10) *(from Bow)*
+- 🔒 Ranger (17/17) *(from Bow)*
+- 🔒 Hawk Eye (30/30) *(from Bow)*
+- 🔒 Hasty Retreat (41/41) *(from Bow)*
 </details>
 
 </details>
 
 ### ⚪ Early Progress Skills
-
-<details>
-<summary>⚔️ Weapon (2 skill lines)</summary>
-
-- **Two Handed**: Rank 6 █████░░░░░ 53%
-- **Restoration Staff**: Rank 1 ░░░░░░░░░░ 0%
-
-<details>
-<summary>✨ Passives</summary>
-
-- 🔒 Forceful (5/5) *(from Two Handed)*
-- 🔒 Heavy Weapons (10/10) *(from Two Handed)*
-- 🔒 Balanced Blade (17/17) *(from Two Handed)*
-- 🔒 Follow Up (30/30) *(from Two Handed)*
-- 🔒 Battle Rush (41/41) *(from Two Handed)*
-- 🔒 Essence Drain (5/5) *(from Restoration Staff)*
-- 🔒 Restoration Expert (10/10) *(from Restoration Staff)*
-- 🔒 Cycle of Life (25/25) *(from Restoration Staff)*
-- 🔒 Absorb (28/28) *(from Restoration Staff)*
-- 🔒 Restoration Master (41/41) *(from Restoration Staff)*
-</details>
-
-</details>
-
-<details>
-<summary>🌍 World (5 skill lines)</summary>
-
-- **Excavation**: Rank 1 ░░░░░░░░░░ 0%
-- **Scrying**: Rank 1 ░░░░░░░░░░ 0%
-- **Soul Magic**: Rank 3 ██████░░░░ 66%
-- **Vampire**: Rank 1 ░░░░░░░░░░ 0%
-- **Werewolf**: Rank 1 ░░░░░░░░░░ 0%
-
-<details>
-<summary>✨ Passives</summary>
-
-
-- 🔒 Hand Brush *(from Excavation)*
-- 🔒 Augur *(from Excavation)*
-- 🔒 Trowel (2/2) *(from Excavation)*
-- 🔒 Keen Eye: Dig Sites (2/2) *(from Excavation)*
-- 🔒 Excavator's Reserves (3/3) *(from Excavation)*
-- 🔒 Heavy Shovel (4/4) *(from Excavation)*
-- 🔒 Keen Eye: Treasure Chests (7/7) *(from Excavation)*
-- 🔒 Scry *(from Scrying)*
-- 🔒 Antiquarian Insight *(from Scrying)*
-- 🔒 Scrier's Patience (2/2) *(from Scrying)*
-- 🔒 Coalescence (2/2) *(from Scrying)*
-- 🔒 Future Focus (4/4) *(from Scrying)*
-- 🔒 Dilation (4/4) *(from Scrying)*
-- 🔒 Farsight (6/6) *(from Scrying)*
-- 🔒 Preemptive Power (9/9) *(from Scrying)*
-- 🔒 Soul Summons (2/2) *(from Soul Magic)*
-- 🔒 Soul Shatter (2/2) *(from Soul Magic)*
-- 🔒 Soul Lock (3/3) *(from Soul Magic)*
-- 🔒 Feed *(from Vampire)*
-- 🔒 Dark Stalker (3/3) *(from Vampire)*
-- 🔒 Strike from the Shadows (4/4) *(from Vampire)*
-- 🔒 Undeath (6/6) *(from Vampire)*
-- 🔒 Blood Ritual (6/6) *(from Vampire)*
-- 🔒 Unnatural Movement (7/7) *(from Vampire)*
-- 🔒 Devour *(from Werewolf)*
-- 🔒 Pursuit (3/3) *(from Werewolf)*
-- 🔒 Blood Rage (4/4) *(from Werewolf)*
-- 🔒 Savage Strength (6/6) *(from Werewolf)*
-- 🔒 Bloodmoon (6/6) *(from Werewolf)*
-- 🔒 Call of the Pack (7/7) *(from Werewolf)*
-</details>
-
-</details>
 
 <details>
 <summary>⚒️ Craft (1 skill line)</summary>
@@ -911,6 +505,75 @@
 
 </details>
 
+<details>
+<summary>🌍 World (5 skill lines)</summary>
+
+- **Excavation**: Rank 1 ░░░░░░░░░░ 0%
+- **Scrying**: Rank 1 ░░░░░░░░░░ 0%
+- **Soul Magic**: Rank 3 ██████░░░░ 66%
+- **Vampire**: Rank 1 ░░░░░░░░░░ 0%
+- **Werewolf**: Rank 1 ░░░░░░░░░░ 0%
+
+<details>
+<summary>✨ Passives</summary>
+
+- 🔒 Hand Brush *(from Excavation)*
+- 🔒 Augur *(from Excavation)*
+- 🔒 Trowel (2/2) *(from Excavation)*
+- 🔒 Keen Eye: Dig Sites (2/2) *(from Excavation)*
+- 🔒 Excavator's Reserves (3/3) *(from Excavation)*
+- 🔒 Heavy Shovel (4/4) *(from Excavation)*
+- 🔒 Keen Eye: Treasure Chests (7/7) *(from Excavation)*
+- 🔒 Scry *(from Scrying)*
+- 🔒 Antiquarian Insight *(from Scrying)*
+- 🔒 Scrier's Patience (2/2) *(from Scrying)*
+- 🔒 Coalescence (2/2) *(from Scrying)*
+- 🔒 Future Focus (4/4) *(from Scrying)*
+- 🔒 Dilation (4/4) *(from Scrying)*
+- 🔒 Farsight (6/6) *(from Scrying)*
+- 🔒 Preemptive Power (9/9) *(from Scrying)*
+- 🔒 Soul Summons (2/2) *(from Soul Magic)*
+- 🔒 Soul Shatter (2/2) *(from Soul Magic)*
+- 🔒 Soul Lock (3/3) *(from Soul Magic)*
+- 🔒 Feed *(from Vampire)*
+- 🔒 Dark Stalker (3/3) *(from Vampire)*
+- 🔒 Strike from the Shadows (4/4) *(from Vampire)*
+- 🔒 Undeath (6/6) *(from Vampire)*
+- 🔒 Blood Ritual (6/6) *(from Vampire)*
+- 🔒 Unnatural Movement (7/7) *(from Vampire)*
+- 🔒 Devour *(from Werewolf)*
+- 🔒 Pursuit (3/3) *(from Werewolf)*
+- 🔒 Blood Rage (4/4) *(from Werewolf)*
+- 🔒 Savage Strength (6/6) *(from Werewolf)*
+- 🔒 Bloodmoon (6/6) *(from Werewolf)*
+- 🔒 Call of the Pack (7/7) *(from Werewolf)*
+</details>
+
+</details>
+
+<details>
+<summary>⚔️ Weapon (2 skill lines)</summary>
+
+- **Two Handed**: Rank 6 █████░░░░░ 53%
+- **Restoration Staff**: Rank 1 ░░░░░░░░░░ 0%
+
+<details>
+<summary>✨ Passives</summary>
+
+- 🔒 Forceful (5/5) *(from Two Handed)*
+- 🔒 Heavy Weapons (10/10) *(from Two Handed)*
+- 🔒 Balanced Blade (17/17) *(from Two Handed)*
+- 🔒 Follow Up (30/30) *(from Two Handed)*
+- 🔒 Battle Rush (41/41) *(from Two Handed)*
+- 🔒 Essence Drain (5/5) *(from Restoration Staff)*
+- 🔒 Restoration Expert (10/10) *(from Restoration Staff)*
+- 🔒 Cycle of Life (25/25) *(from Restoration Staff)*
+- 🔒 Absorb (28/28) *(from Restoration Staff)*
+- 🔒 Restoration Master (41/41) *(from Restoration Staff)*
+</details>
+
+</details>
+
 ---
 
 ## ⭐ Champion Points
@@ -933,6 +596,7 @@
 | **Steed's Blessing** | 50 points |
 
 
+
 </div>
 <div>
 
@@ -951,6 +615,7 @@
 | **Eldritch Insight** | 10 points |
 
 
+
 </div>
 <div>
 
@@ -966,6 +631,352 @@
 | **Rejuvenation** | 50 points |
 | **Fortified** | 20 points |
 | **Boundless Vitality** | 50 points |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Chunk 2 (6260 bytes before padding) -->
 
 
 </div>
@@ -1034,214 +1045,11 @@
 
 </details>
 
-<details>
-<summary>🐴 Mounts (14 of 697)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 2% (14/697) |
-
-- Rahd-m'Athra
-- Psijic Escort Charger
-- Nightmare Senche
-- Flame Atronach Senche
-- Imperial Horse
-- Tessellated Guar
-- Midnight Steed
-- Skulltooth Coastal Durzog
-- Senche-Leopard
-- Sorrel Horse
-- Dwarven War Horse
-- Nix-Ox War-Steed
-- Noweyr Steed
-- Wormwrithe Bear-Lizard
-</details>
-
-<details>
-<summary>🐾 Pets (37 of 679)</summary>
-
-| Progress |
-| --- |
-| █░░░░░░░░░░░░░░░░░░░ 5% (37/679) |
-
-- Housecat
-- Dwarven Spider
-- Jackal
-- Vermilion Scuttler
-- Big-Eared Ginger Kitten
-- Psijic Mascot Bear Cub
-- Dusky Fennec Fox
-- Hot Pepper Bantam Guar
-- Verdigris Haj Mota
-- Abecean Ratter Cat
-- Coldharbour Dremnaken Runt
-- Sylvan Nixad
-- Blue Dragon Imp
-- Infernium Dwarven Spiderling
-- Scintillant Dovah-Fly
-- Psijic Mascot Pony
-- Psijic Mascot Guar Calf
-- Grisly Banekin Mummy
-- Viridescent Dragon Frog
-- Ambersheen Vale Fawn
-- Dwarven War Dog
-- Golden Eagle
-- Imgakin Monkey
-- Vvardvark
-- Crimson Torchbug
-- Noweyr Pony
-- Pocket Salamander
-- Pocket Mammoth
-- Green Dragon Imp
-- Steam-Driven Brassilisk
-- Alik'r Dune-Hound
-- Nibenay Mudcrab
-- Dozen-Banded Vvardvark
-- Echalette
-- Haunted House Cat
-- Long-Winged Bat
-- Spectral Mudcrab
-</details>
-
-<details>
-<summary>👗 Costumes (46 of 312)</summary>
-
-| Progress |
-| --- |
-| ██░░░░░░░░░░░░░░░░░░ 14% (46/312) |
-
-- Austere Warden Outfit
-- Black Hand Robe
-- Bloodthorn Robes
-- Colovian Uniform
-- Courier Uniform
-- Court of Bedlam
-- Covenant Scout
-- Crown Dishdasha
-- Cyrod Patrician Formal Gown
-- Dark Seducer
-- Dunmer Cultural Garb
-- Forebear Dishdasha
-- Fort Amol Guard Armor
-- Frostedge Bandit Armor
-- Golden Saint
-- Grim Harvester
-- Hollow Moon Garb
-- Imperial Chancellor
-- Keeper's Garb
-- Lion Guard Knight
-- Mages Guild Formal Robes
-- Mages Guild Leggings Uniform
-- Mages Guild Research Robes
-- Mannimarco
-- Merchant Lord's Formal Regalia
-- Midnight Union Garb
-- Noble Clan-Chief
-- Nordic Bather's Towel
-- Phaer Mercenary Armor
-- Quendelunn Veiled Heritance Garb
-- Red Rook Armor
-- Regalia of the Scarlet Judge
-- Satakalaaam Imperial Armor
-- Sea Drake Garb
-- Sea Viper Armor
-- Servant's Outfit
-- Servant's Robes
-- Seventh Legion Armor
-- Shrouded Armor
-- Skald's Damask Jerkin
-- Steel Shrike Uniform
-- Stormfist Uniform
-- Thieves Guild Leathers
-- Upriver Striped Sash-Kilt
-- Vanguard Uniform
-- Vulkhel Guard Marine Armor
-</details>
-
-<details>
-<summary>🎭 Emotes (7 of 225)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 3% (7/225) |
-
-- Belly Laugh
-- Go Quietly
-- Kiss This
-- Marshmallow Toasty Treat
-- Showtime
-- Teatime
-- Wickerman Mishap
-</details>
-
-<details>
-<summary>🎪 Mementos (30 of 201)</summary>
-
-| Progress |
-| --- |
-| ██░░░░░░░░░░░░░░░░░░ 14% (30/201) |
-
-- Almalexia's Enchanted Lantern
-- Battered Bear Trap
-- Blackfeather Court Whistle
-- Blade of the Blood Oath
-- Bonesnap Binding Stone
-- Breda's Bottomless Mead Mug
-- Cherry Blossom Branch
-- Clockwork Obscuros
-- Coin of Illusory Riches
-- Discourse Amaranthine
-- Dwarven Puzzle Orb
-- Finvir's Trinket
-- Fire-Breather's Torches
-- Jubilee Cake 2017
-- Jubilee Cake 2018
-- Jubilee Cake 2020
-- Lena's Wand of Finding
-- Mud Ball Pouch
-- Murkmire Grave-Stake
-- Nanwen's Sword
-- Questionable Meat Sack
-- Remnant of Meridia's Light
-- Scalecaller Rune of Levitation
-- Sea Sload Dorsal Fin
-- Sword-Swallower's Blade
-- The Pie of Misrule
-- Token of Root Sunder
-- Witch's Bonfire Dust
-- Witchmother's Whistle
-- Yokudan Totem
-</details>
-
-<details>
-<summary>🎨 Skins (0 of 106)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 0% (0/106) |
-
-*No skins owned*
-</details>
-
-<details>
-<summary>🦎 Polymorphs (1 of 43)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 2% (1/43) |
-
-- Skeleton
-</details>
-
-<details>
-<summary>🎭 Personalities (1 of 29)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 3% (1/29) |
-
-- Assassin
-</details>
+| Type | Count |
+|:-----|------:|
+| **🐴 Mounts** | 14 |
+| **🐾 Pets** | 37 |
+| **👗 Costumes** | 46 |
 
 <details>
 <summary>👑 Titles (26 of 26)</summary>
@@ -1306,15 +1114,568 @@
 | Bank | 222 | 480 | ████░░░░░░ 46% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
+<details open>
+<summary><strong>📝 Build Notes</strong></summary>
+
+## 📜 The Tale of Masisi: From Conqueror to Craftsman
+
+Born in the heart of Cyrodiil during the tumultuous Alliance War, Masisi earned the title "Daedric Lord Slayer" through blood and fire. As an Imperial Dragonknight, he stood against Molag Bal's forces in Coldharbour, earning the respect of warriors across all three alliances.
+
+But the endless cycle of violence weighed heavily on Masisi's soul. After witnessing the destruction of countless villages—each filled with master craftsmen whose life's work burned to ash—he made a radical choice: to preserve rather than destroy, to build rather than conquer.
+
+Masisi hung up his sword and shield, trading them for smith's hammer and gathering tools. He traveled Tamriel not as a conqueror, but as a student—learning Orcish tempering techniques in Wrothgar, Altmeri enchanting secrets in Summerset, and Nordic provisioning traditions in Western Skyrim. Within months, he had mastered blacksmithing, clothing, woodworking, and provisioning—skills that took most craftsmen a lifetime.
+
+Today, Masisi roams the wilds with scholarly precision, harvesting rare materials that others overlook. His Psijic training grants him uncanny awareness of resource nodes, while his Legerdemain expertise allows him to "liberate" materials from those who don't appreciate their value. Though he keeps the Dark Brotherhood and Thieves Guild at arm's length, their skills prove... occasionally useful.
+
+His companion Tanlorin often jokes that Masisi has "the soul of a merchant and the hands of a master." It's not far from the truth. With 697 mounts, 679 pets, and a Crafting Bag overflowing with materials, Masisi has built a small empire—not through warfare, but through patient, methodical accumulation of Tamriel's wealth.
+
+He still wears his title "Daedric Lord Slayer" as a reminder of who he was. But when asked about his greatest achievement, Masisi gestures to his workshops, his perfectly organized material stacks, and the steady stream of gold from daily writs.
+
+> *"Any fool can destroy. True power is creating something that lasts."*  
+> — Masisi, Master Crafter of Tamriel
+
+</details>
+
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-32,899%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-25,834%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
 <sub>Generated on 11/15/2025</sub>
 
 </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

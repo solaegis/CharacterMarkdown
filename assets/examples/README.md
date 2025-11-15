@@ -43,4 +43,3 @@ All examples use the **GitHub format**, which includes:
 - Badge-style headers with shields.io
 
 For other formats (Discord, VS Code, Quick), see the main README.
-
