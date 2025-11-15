@@ -19,6 +19,9 @@ dist
 
 # Documentation
 docs
+archive
+book
+book.toml
 *.md
 README.md
 CHANGELOG*
@@ -50,6 +53,8 @@ scripts
 test
 tests
 spec
+test_*.lua
+*_test.lua
 
 # Node Modules (if using Node-based tools)
 node_modules
