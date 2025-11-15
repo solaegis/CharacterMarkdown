@@ -422,26 +422,36 @@ end
 -- Settings handlers
 local function HandleSettings(args)
     -- Open settings panel
-    if LibAddonMenu2 then
-        SCENE_MANAGER:Show("gameMenuInGame")
-        PlaySound(SOUNDS.MENU_SHOW)
-        zo_callLater(function()
-            local mainMenu = SYSTEMS:GetObject("mainMenu")
-            if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
-                local success, err = pcall(function()
-                    mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
-                end)
-                if not success then
-                    CM.Warn("Could not open Add-Ons category: " .. tostring(err))
-                    CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
-                end
-            else
-                CM.Warn("Main menu not available or not ready")
-                CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
-            end
-        end, 100)
-    else
+    if not LibAddonMenu2 then
         CM.Error("Settings panel not available - LibAddonMenu-2.0 is required")
+        CM.Info("To install LibAddonMenu-2.0:")
+        CM.Info("  Download from: https://www.esoui.com/downloads/info7-LibAddonMenu.html")
+        return
+    end
+    
+    -- Use LibAddonMenu2's OpenToPanel to directly open our panel
+    local panelId = "CharacterMarkdownPanel"
+    if LibAddonMenu2.OpenToPanel then
+        LibAddonMenu2:OpenToPanel(panelId)
+        CM.DebugPrint("COMMANDS", "Opened settings panel via LAM:OpenToPanel")
+    else
+        -- Fallback: Use the /cmdsettings command that LAM registered
+        local lamHandler = SLASH_COMMANDS["/cmdsettings"]
+        if lamHandler and type(lamHandler) == "function" then
+            lamHandler("")
+            CM.DebugPrint("COMMANDS", "Opened settings via /cmdsettings LAM handler")
+        else
+            -- Last resort: Open Add-Ons category and show instructions
+            SCENE_MANAGER:Show("gameMenuInGame")
+            PlaySound(SOUNDS.MENU_SHOW)
+            zo_callLater(function()
+                local mainMenu = SYSTEMS:GetObject("mainMenu")
+                if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
+                    pcall(function() mainMenu:ShowCategory(MENU_CATEGORY_ADDONS) end)
+                end
+                CM.Info("Please select 'Character Markdown' from the Add-Ons list")
+            end, 100)
+        end
     end
 end
 
@@ -1065,23 +1075,22 @@ local function RegisterCmdSettingsCommand()
         if lamHandler and type(lamHandler) == "function" then
             lamHandler(args)
         elseif LibAddonMenu2 then
-            SCENE_MANAGER:Show("gameMenuInGame")
-            PlaySound(SOUNDS.MENU_SHOW)
-            zo_callLater(function()
-                local mainMenu = SYSTEMS:GetObject("mainMenu")
-                if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
-                    local success, err = pcall(function()
-                        mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
-                    end)
-                    if not success then
-                        CM.Warn("Could not open Add-Ons category: " .. tostring(err))
-                        CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
+            -- Use the same logic as HandleSettings
+            local panelId = "CharacterMarkdownPanel"
+            if LibAddonMenu2.OpenToPanel then
+                LibAddonMenu2:OpenToPanel(panelId)
+            else
+                -- Fallback to opening Add-Ons category
+                SCENE_MANAGER:Show("gameMenuInGame")
+                PlaySound(SOUNDS.MENU_SHOW)
+                zo_callLater(function()
+                    local mainMenu = SYSTEMS:GetObject("mainMenu")
+                    if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
+                        pcall(function() mainMenu:ShowCategory(MENU_CATEGORY_ADDONS) end)
                     end
-                else
-                    CM.Warn("Main menu not available or not ready")
-                    CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
-                end
-            end, 100)
+                    CM.Info("Please select 'Character Markdown' from the Add-Ons list")
+                end, 100)
+            end
         else
             CM.Info("Usage:")
             CM.Info("  /markdown settings - Open settings panel")
