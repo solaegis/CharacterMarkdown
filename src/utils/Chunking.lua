@@ -1057,20 +1057,34 @@ local function StripPadding(content, isLastChunk)
     
     local CHUNKING = CM.constants.CHUNKING
     
-    -- Early return if padding is disabled - nothing to strip
+    local stripped = content
+    
+    -- Strip chunk marker at the beginning (e.g., "<!-- Chunk 1 (20448 bytes before padding) -->\n\n")
+    -- Pattern matches: <!-- Chunk N (optional text) --> followed by optional whitespace/newlines
+    stripped = stripped:gsub("^%s*<!%-%-%s*Chunk%s+%d+%s*%([^%)]*%)%s*-%->%s*\n*\n*", "")
+    
+    -- Early return if padding is disabled - only chunk marker was stripped
     if CHUNKING.DISABLE_PADDING then
-        return content
+        CM.DebugPrint(
+            "CHUNKING",
+            string.format(
+                "StripPadding: removed chunk marker (original: %d bytes, stripped: %d bytes)",
+                string.len(content),
+                string.len(stripped)
+            )
+        )
+        return stripped
     end
     
     -- For newline padding: just normalize excessive trailing newlines to 1-2
     -- We can't reliably detect "padding newlines" vs "content newlines", so just normalize
     -- Markdown renderers ignore excessive newlines anyway, but this keeps output clean
-    local stripped = content:gsub("\n\n+$", "\n\n")  -- Collapse 3+ trailing newlines to 2
+    stripped = stripped:gsub("\n\n+$", "\n\n")  -- Collapse 3+ trailing newlines to 2
     
     CM.DebugPrint(
         "CHUNKING",
         string.format(
-            "StripPadding: normalized trailing newlines (original: %d bytes, stripped: %d bytes)",
+            "StripPadding: removed chunk marker and normalized trailing newlines (original: %d bytes, stripped: %d bytes)",
             string.len(content),
             string.len(stripped)
         )

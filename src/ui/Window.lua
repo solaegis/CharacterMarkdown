@@ -39,6 +39,42 @@ end
 -- Track selection state
 local isTextSelected = false
 
+-- =====================================================
+-- FOCUS STATE TRACKING
+-- =====================================================
+
+-- Track focus state
+local isEditBoxFocused = false
+
+-- Update focus indicator (border color)
+local function UpdateFocusIndicator()
+    if not windowControl or windowControl:IsHidden() then
+        return
+    end
+    
+    local bgControl = CharacterMarkdownWindowBG
+    if not bgControl then
+        return
+    end
+    
+    -- Change border color based on focus state
+    if isEditBoxFocused then
+        -- Bright cyan/blue when focused
+        bgControl:SetEdgeColor(0.0, 0.8, 1.0, 1.0)
+        CM.DebugPrint("UI", "EditBox focused - border changed to cyan")
+    else
+        -- Default gold/bronze when not focused
+        bgControl:SetEdgeColor(0.76, 0.69, 0.49, 1.0)
+        CM.DebugPrint("UI", "EditBox lost focus - border changed to gold")
+    end
+end
+
+-- Set focus state to focused
+local function SetFocusState(focused)
+    isEditBoxFocused = focused
+    UpdateFocusIndicator()
+end
+
 -- Check if EditBox has selected text and update button color
 local function UpdateSelectAllButtonColor()
     if not windowControl or windowControl:IsHidden() or not editBoxControl then
@@ -75,26 +111,44 @@ end
 -- INITIALIZE WINDOW CONTROLS
 -- =====================================================
 
--- Helper to ensure window has keyboard focus
--- MODIFIED: Don't give EditBox focus - let global handler work instead
-local function EnsureWindowHasKeyboardFocus()
-    if windowControl and not windowControl:IsHidden() then
-        -- CRITICAL: Enable keyboard on window only (NOT EditBox)
-        windowControl:SetKeyboardEnabled(true)
+-- Helper to ensure EditBox has keyboard focus for shortcuts
+local function EnsureEditBoxHasKeyboardFocus()
+    if windowControl and not windowControl:IsHidden() and editBoxControl then
+        -- CRITICAL: EditBox must have focus to receive keyboard events
+        -- All keyboard shortcuts are handled by EditBox OnKeyDown handler
+        editBoxControl:SetKeyboardEnabled(true)
+        editBoxControl:TakeFocus()
         
-        -- DO NOT take focus on EditBox - this would trigger EditBox OnKeyDown handler
-        -- Instead, let the global EVENT_KEY_DOWN handler catch all keys
-        
-        -- Window focus methods
-        if windowControl.TakeFocus then
-            windowControl:TakeFocus()
-        end
+        -- Also ensure window is on top
         if windowControl.SetTopmost then
             windowControl:SetTopmost(true)
         end
         
-        CM.DebugPrint("KEYBOARD", "Window keyboard focus ensured (EditBox intentionally NOT focused)")
+        CM.DebugPrint("KEYBOARD", "EditBox has keyboard focus for shortcuts")
     end
+end
+
+local function LoseFocus(delayMs)
+    delayMs = delayMs or 150  -- Default delay
+    zo_callLater(function()
+        if not windowControl:IsHidden() and editBoxControl then
+            editBoxControl:LoseFocus()
+        end
+    end, delayMs)
+end
+
+-- Helper to select all text, take focus, and update selection state
+-- Wraps the operation in zo_callLater with window/editBox checks
+local function SelectAll(delayMs)
+    delayMs = delayMs or 150  -- Default delay
+    zo_callLater(function()
+        if not windowControl:IsHidden() and editBoxControl then
+            editBoxControl:TakeFocus()
+            editBoxControl:SelectAll()
+            SetSelectionState()
+            -- LoseFocus(delayMs)
+        end
+    end, delayMs)
 end
 
 local function InitializeWindowControls()
@@ -150,8 +204,9 @@ local function InitializeWindowControls()
     editBoxControl:SetMaxInputChars(22000) -- 22k character limit
     editBoxControl:SetMultiLine(true)
     editBoxControl:SetNewLineEnabled(true)
-    -- CRITICAL: Disable editing to prevent text input
-    editBoxControl:SetEditEnabled(false)
+    -- CRITICAL: Keep EditEnabled TRUE to allow Ctrl+C copy to work
+    -- We prevent text input via OnChar and OnKeyDown handlers instead
+    editBoxControl:SetEditEnabled(true)
     -- CRITICAL: EditBox MUST have keyboard enabled to receive OnKeyDown events
     -- We prevent text input via OnChar and OnKeyDown handlers, not by disabling keyboard
     editBoxControl:SetMouseEnabled(true)
@@ -172,15 +227,15 @@ local function InitializeWindowControls()
     -- Note: ESO EditBox may have hardcoded internal limits regardless of SetMaxInputChars
     local actualMaxChars = editBoxControl:GetMaxInputChars()
     if actualMaxChars then
-        CM.Info(string.format("✓ EditBox initialized: max input %d chars (requested 22000)", actualMaxChars))
+        CM.DebugPrint("WINDOW", string.format("EditBox initialized: max input %d chars (requested 22000)", actualMaxChars))
         if actualMaxChars < 22000 then
             CM.Warn(string.format("⚠ EditBox limited to %d by ESO (requested 22000)", actualMaxChars))
             CM.Warn("This may affect large character profiles. Please report if you see truncation.")
         end
-        -- Log chunking configuration for validation
+        -- Log chunking configuration for validation (debug only)
         local CHUNKING = CM.constants and CM.constants.CHUNKING
         if CHUNKING then
-            CM.Info(string.format("  Chunking limits: EDITBOX=%d, COPY=%d, MAX_DATA=%d", 
+            CM.DebugPrint("CHUNKING", string.format("Chunking limits: EDITBOX=%d, COPY=%d, MAX_DATA=%d", 
                 CHUNKING.EDITBOX_LIMIT or 0,
                 CHUNKING.COPY_LIMIT or 0,
                 CHUNKING.MAX_DATA_CHARS or 0
@@ -207,156 +262,131 @@ local function InitializeWindowControls()
         return true -- Consume event - prevents character from being added
     end)
 
-    -- CRITICAL: OnKeyDown handler on EditBox to intercept keys BEFORE they become text input
-    -- This handler fires when EditBox has focus and receives keyboard events
+    -- FOCUS TRACKING: Update border color when EditBox gains/loses focus
+    editBoxControl:SetHandler("OnFocusGained", function(self)
+        SetFocusState(true)
+    end)
+    
+    editBoxControl:SetHandler("OnFocusLost", function(self)
+        SetFocusState(false)
+    end)
+
+    -- CRITICAL: Handle ALL keyboard shortcuts in EditBox OnKeyDown handler
+    -- EditBox must maintain focus for this handler to receive keyboard events
+    -- All shortcuts (G, S, R, X, ESC, arrows, etc.) are handled here
     editBoxControl:SetHandler("OnKeyDown", function(self, key, ctrl, alt, shift, command)
-        CM.DebugPrint("KEYBOARD", string.format("[EditBox] OnKeyDown FIRED: key=%d, ctrl=%s, cmd=%s", 
-            key, tostring(ctrl), tostring(command)))
-        
         -- Allow text input in import mode
         if windowControl and windowControl._isImportMode then
-            CM.DebugPrint("KEYBOARD", "[EditBox] In import mode - allowing key")
             return false -- Let EditBox process the key normally
         end
         
         -- Only handle when window is visible
         if not windowControl or windowControl:IsHidden() then
-            CM.DebugPrint("KEYBOARD", "[EditBox] Window not visible - ignoring key")
             return false
         end
         
         local modifierPressed = ctrl or command
         
-        -- ESC or X = Close window
-        if key == KEY_ESCAPE or key == KEY_X then
-            CM.DebugPrint("KEYBOARD", "[EditBox] ESC/X pressed - closing window")
+        -- ESC = Close window (X without modifiers also closes)
+        if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
+            CM.DebugPrint("KEYBOARD", "ESC/X pressed - closing window")
             windowControl:SetHidden(true)
-            return true -- Consume event
+            return true -- Consume
         end
         
-        -- G = Generate (without modifiers)
-        if key == KEY_G and not modifierPressed then
-            CM.DebugPrint("KEYBOARD", "[EditBox] G pressed - calling RegenerateMarkdown()")
-            if CharacterMarkdown_RegenerateMarkdown then
-                CharacterMarkdown_RegenerateMarkdown()
-                CM.DebugPrint("KEYBOARD", "[EditBox] RegenerateMarkdown() called successfully")
-            else
-                CM.Error("[EditBox] CharacterMarkdown_RegenerateMarkdown is nil!")
-            end
-            zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
-            return true -- Consume event to prevent "g" from appearing
+        -- G / Cmd+G = Regenerate (use modifier to avoid ESO Guild menu conflict)
+        if key == KEY_G then
+            CM.DebugPrint("KEYBOARD", "G pressed - regenerating")
+            CharacterMarkdown_RegenerateMarkdown()
+            return true -- Consume
         end
         
-        -- S = Settings (without modifiers)
-        if key == KEY_S and not modifierPressed then
-            CM.DebugPrint("KEYBOARD", "[EditBox] S pressed - calling OpenSettings()")
-            if CharacterMarkdown_OpenSettings then
-                CharacterMarkdown_OpenSettings()
-                CM.DebugPrint("KEYBOARD", "[EditBox] OpenSettings() called successfully")
-            else
-                CM.Error("[EditBox] CharacterMarkdown_OpenSettings is nil!")
-            end
-            zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
-            return true -- Consume event
+        -- G / Cmd+S = Settings (use modifier to avoid ESO conflicts)
+        if key == KEY_S then
+            CM.DebugPrint("KEYBOARD", "G pressed - opening settings")
+            CharacterMarkdown_OpenSettings()
+            return true -- Consume
         end
         
-        -- R = ReloadUI (without modifiers)
-        if key == KEY_R and not modifierPressed then
-            CM.DebugPrint("KEYBOARD", "[EditBox] R pressed - calling ReloadUI()")
+        -- G / Cmd+R = ReloadUI (use modifier to avoid ESO conflicts)
+        if  key == KEY_R then
+            CM.DebugPrint("KEYBOARD", "G pressed - reloading UI")
             ReloadUI()
-            CM.DebugPrint("KEYBOARD", "[EditBox] ReloadUI() called")
-            return true -- Consume event
-        end
-        
-        -- Ctrl+A / Cmd+A = Select All
-        if modifierPressed and key == KEY_A then
-            CM.DebugPrint("KEYBOARD", "Ctrl+A pressed - selecting all")
-            self:SelectAll()
-            return true -- Consume event
-        end
-        
-        -- Ctrl+C / Cmd+C = Copy (let EditBox handle it)
-        if modifierPressed and key == KEY_C then
-            CM.DebugPrint("KEYBOARD", "Ctrl+C pressed - allowing copy")
-            return false -- Don't consume - let EditBox handle copy
+            return true -- Consume
         end
         
         -- Navigation: Left Arrow or Comma
-        if key == KEY_LEFTARROW or key == KEY_OEM_COMMA then
+        if (key == KEY_LEFTARROW or key == KEY_OEM_COMMA) and not modifierPressed then
             if #markdownChunks > 1 then
-                CM.DebugPrint("KEYBOARD", "[EditBox] Left/Comma pressed - calling PreviousChunk()")
-                if CharacterMarkdown_PreviousChunk then
-                    CharacterMarkdown_PreviousChunk()
-                    CM.DebugPrint("KEYBOARD", "[EditBox] PreviousChunk() called successfully")
-                else
-                    CM.Error("[EditBox] CharacterMarkdown_PreviousChunk is nil!")
-                end
-                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
-                return true -- Consume event
+                CM.DebugPrint("KEYBOARD", "Left/Comma pressed - previous chunk")
+                CharacterMarkdown_PreviousChunk()
             end
+            return true -- Consume
         end
         
         -- Navigation: Right Arrow or Period
-        if key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD then
+        if (key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD) and not modifierPressed then
             if #markdownChunks > 1 then
                 CM.DebugPrint("KEYBOARD", "Right/Period pressed - next chunk")
                 CharacterMarkdown_NextChunk()
-                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
-                return true -- Consume event
             end
+            return true -- Consume
         end
         
         -- Navigation: PageUp
-        if key == KEY_PAGEUP then
+        if key == KEY_PAGEUP and not modifierPressed then
             if #markdownChunks > 1 then
                 CM.DebugPrint("KEYBOARD", "PageUp pressed - previous chunk")
                 CharacterMarkdown_PreviousChunk()
-                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
-                return true -- Consume event
             end
+            return true -- Consume
         end
         
         -- Navigation: PageDown
-        if key == KEY_PAGEDOWN then
+        if key == KEY_PAGEDOWN and not modifierPressed then
             if #markdownChunks > 1 then
                 CM.DebugPrint("KEYBOARD", "PageDown pressed - next chunk")
                 CharacterMarkdown_NextChunk()
-                zo_callLater(EnsureWindowHasKeyboardFocus, 100)  -- Restore focus after action
-                return true -- Consume event
             end
+            return true -- Consume
+        end
+        
+        -- Ctrl+A / Cmd+A = Select All (let EditBox handle it natively)
+        if modifierPressed and key == KEY_A then
+            CM.DebugPrint("KEYBOARD", "Ctrl+A pressed - selecting all")
+            SetSelectionState()
+            return false -- Don't consume - let EditBox handle SelectAll
+        end
+        
+        -- Ctrl+C / Cmd+C = Copy (let EditBox handle it natively)
+        if modifierPressed and key == KEY_C then
+            CM.DebugPrint("KEYBOARD", "Ctrl+C pressed - copying to clipboard")
+            -- Text is already selected, EditBox will handle the copy
+            return false -- Don't consume - let EditBox handle copy
         end
         
         -- Space or Enter = Select All / Copy
-        if key == KEY_SPACEBAR or key == KEY_ENTER then
-            CM.DebugPrint("KEYBOARD", "[EditBox] Space/Enter pressed - calling CopyToClipboard()")
-            if CharacterMarkdown_CopyToClipboard then
-                CharacterMarkdown_CopyToClipboard()
-                CM.DebugPrint("KEYBOARD", "[EditBox] CopyToClipboard() called successfully")
-            else
-                CM.Error("[EditBox] CharacterMarkdown_CopyToClipboard is nil!")
-            end
-            zo_callLater(EnsureWindowHasKeyboardFocus, 200)  -- Longer delay for copy action
-            return true -- Consume event
+        if (key == KEY_SPACEBAR or key == KEY_ENTER) and not modifierPressed then
+            CM.DebugPrint("KEYBOARD", "Space/Enter pressed - copy to clipboard")
+            CharacterMarkdown_CopyToClipboard()
+            return true -- Consume
         end
         
-        -- CRITICAL: Consume ALL other non-modifier character keys to prevent text input
-        -- Allow only navigation keys (arrows, home, end, etc.) to pass through
+        -- CRITICAL: Consume ALL other character keys to prevent text input
+        -- Only allow cursor movement keys in non-modifier mode
         if not modifierPressed then
-            local isNavigationKey = (
+            local isCursorKey = (
                 key == KEY_UPARROW or key == KEY_DOWNARROW or 
-                key == KEY_HOME or key == KEY_END or 
-                key == KEY_TAB or key == KEY_BACKSPACE or key == KEY_DELETE
+                key == KEY_HOME or key == KEY_END or key == KEY_TAB
             )
             
-            if not isNavigationKey then
-                -- This is a character key - consume it to prevent text input
-                CM.DebugPrint("KEYBOARD", string.format("Consuming character key: %d", key))
-                return true -- Consume to prevent text input
+            if isCursorKey then
+                return false -- Allow cursor movement
             end
         end
         
-        -- Allow navigation and modifier keys to pass through
-        return false
+        CM.DebugPrint("KEYBOARD", string.format("[EditBox] Consuming key %d to prevent text input", key))
+        return true -- Consume to prevent text input
     end)
 
     CM.DebugPrint("UI", "Window controls initialized successfully")
@@ -437,10 +467,6 @@ function CharacterMarkdown_CopyToClipboard()
         UpdateOverlayVisibility()
 
         zo_callLater(function()
-            editBoxControl:SelectAll()
-            -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-
             -- Verify what's actually in the EditBox (for debugging)
             local actualText = editBoxControl:GetText()
             local actualLength = string.len(actualText)
@@ -482,16 +508,10 @@ function CharacterMarkdown_CopyToClipboard()
                 string.format("Chunk %d selected (%d chars) - Press Ctrl+C to copy", currentChunkIndex, actualLength)
             )
             
-            -- Visual feedback: Change Select All button to green and keep it green
-            SetSelectionState()
-            
-            -- Final focus as last step
-            zo_callLater(function()
-                if editBoxControl then
-                    -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-                end
-            end, 50)
+            -- Select all text, take focus, and update selection state
+            if editBoxControl then
+                SelectAll()
+            end
         end, 100)
     else
         -- Content fits in EditBox - copy normally
@@ -515,26 +535,9 @@ function CharacterMarkdown_CopyToClipboard()
         editBoxControl:SetColor(1, 1, 1, 1)
         UpdateOverlayVisibility()
 
-        zo_callLater(function()
-            -- Select all (but don't take focus - let global handler work)
-            editBoxControl:SelectAll()
-            -- REMOVED: Don't take focus
-            -- editBoxControl:TakeFocus()
-
-            -- Only show in chat if user explicitly wants feedback
-            CM.DebugPrint("UI", "Text selected - Press Ctrl+C to copy")
-            
-            -- Visual feedback: Change Select All button to green and keep it green
-            SetSelectionState()
-            
-            -- Final focus as last step
-            zo_callLater(function()
-                if editBoxControl then
-                    -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-                end
-            end, 50)
-        end, 100)
+        -- Select all text
+        SelectAll(100)
+        CM.DebugPrint("UI", "Text selected - Press Ctrl+C to copy")
     end
 end
 
@@ -697,16 +700,8 @@ function CharacterMarkdown_RegenerateMarkdown()
         UpdateOverlayVisibility()
 
         -- Select all text and take focus - CRITICAL: TakeFocus() as FINAL operation
-        zo_callLater(function()
-            if not windowControl:IsHidden() and editBoxControl then
-                editBoxControl:SelectAll()
-                CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
-                
-                -- CRITICAL: TakeFocus() must be the LAST operation
-                -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-            end
-        end, 150)
+        CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
+        SelectAll(150)
     end
 end
 
@@ -798,7 +793,12 @@ function ShowChunk(chunkIndex)
     
     -- Update overlay instructions with OS-specific shortcut
     if overlayLabel then
-        local shortcutText = "Ctrl+A then Ctrl+C"
+        local shortcutText
+        if os.isMac then
+            shortcutText = "Cmd+A then Cmd+C"
+        else
+            shortcutText = "Ctrl+A then Ctrl+C"
+        end
         if CM.utils.Platform then
             shortcutText = CM.utils.Platform.GetShortcutText("select_copy")
         end
@@ -890,22 +890,9 @@ function ShowChunk(chunkIndex)
         end
     end
 
-    -- Auto-select for copying and ensure focus
-    -- CRITICAL: Single delayed call with focus as ABSOLUTE FINAL STEP
-    zo_callLater(function()
-        if not windowControl:IsHidden() and editBoxControl then
-            editBoxControl:SelectAll()
-            CM.DebugPrint("UI", string.format("Switched to chunk %d/%d", currentChunkIndex, #markdownChunks))
-            
-            -- CRITICAL: TakeFocus() must be the LAST operation
-            -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-            CM.DebugPrint("UI", "EditBox focus set - keyboard shortcuts ready")
-        end
-    end, 150)
-    
-    -- CRITICAL: Restore window keyboard focus after chunk switch
-    zo_callLater(EnsureWindowHasKeyboardFocus, 200)
+    -- Auto-select text and ensure EditBox has focus for keyboard handling
+    CM.DebugPrint("UI", string.format("Chunk %d/%d displayed - EditBox has focus and text selected", currentChunkIndex, #markdownChunks))
+    SelectAll(150)
 
     return true
 end
@@ -1200,63 +1187,20 @@ function CharacterMarkdown_ShowWindow(markdown, format)
         end
     end
 
-    -- Auto-select text and take focus after a delay (increased delay to ensure window is visible)
+    -- Auto-select text and give EditBox focus for keyboard handling
     zo_callLater(function()
         -- Ensure window is still visible
         if not windowControl:IsHidden() then
-            -- Try multiple methods to get focus
-            -- Method 1: Set topmost and take focus on window
-            if windowControl.SetTopmost then
-                windowControl:SetTopmost(true)
-            end
-            if windowControl.RequestMoveToForeground then
-                windowControl:RequestMoveToForeground()
-            end
-
-            -- Method 2: Take focus on EditBox
-            -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-            editBoxControl:SelectAll()
-
-            -- Method 3: Try keyboard focus method
-            if editBoxControl.SetKeyboardEnabled then
+            -- Enable keyboard on EditBox (needed for keyboard shortcuts)
+            if editBoxControl and editBoxControl.SetKeyboardEnabled then
                 editBoxControl:SetKeyboardEnabled(true)
             end
-
-            -- Try one more time after a short delay to ensure focus sticks
-            zo_callLater(function()
-                if not windowControl:IsHidden() then
-                    -- Refresh window state
-                    windowControl:SetHidden(false)
-                    if windowControl.SetTopmost then
-                        windowControl:SetTopmost(true)
-                    end
-                    if windowControl.RequestMoveToForeground then
-                        windowControl:RequestMoveToForeground()
-                    end
-
-                    -- Final focus attempt
-                    -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-                    editBoxControl:SelectAll()
-        -- Removed: EditBox stays enabled to receive keyboard events -- Back to read-only
-                    
-                    -- Final focus as last step
-                    zo_callLater(function()
-                        if not windowControl:IsHidden() and editBoxControl then
-                            -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-                        end
-                    end, 50)
-                end
-            end, 50)
-
-            CM.DebugPrint("UI", "Window opened successfully - Markdown ready to copy")
         end
-    end, 200) -- Increased delay to ensure window is fully rendered
+    end, 200) -- Delay to ensure window is fully rendered
     
-    -- CRITICAL: Give window keyboard focus on open
-    zo_callLater(EnsureWindowHasKeyboardFocus, 250)
+    -- Give EditBox focus so it receives keyboard events
+    CM.DebugPrint("UI", "Window opened - EditBox has focus and text selected, ready for keyboard shortcuts")
+    SelectAll(200)
 
     return true
 end
@@ -1269,6 +1213,9 @@ function CharacterMarkdown_CloseWindow()
     if windowControl then
         -- Reset selection state when closing
         ResetSelectionState()
+        
+        -- Reset focus state when closing
+        SetFocusState(false)
         
         -- Reset import mode if active
         if windowControl._isImportMode then
@@ -1306,8 +1253,8 @@ local function OnAddOnLoaded(event, addonName)
     zo_callLater(function()
         InitializeWindowControls()
 
-        -- CRITICAL: Register a GLOBAL keyboard handler that's always active when window is open
-        -- This bypasses the EditBox focus issue entirely
+        -- CRITICAL: Global keyboard handler is BACKUP ONLY
+        -- Primary handler is EditBox OnKeyDown - this only catches ESC if EditBox loses focus
         EVENT_MANAGER:RegisterForEvent("CharacterMarkdown_GlobalKeyboard", EVENT_KEY_DOWN, function(_, key, ctrl, alt, shift, command)
             -- Only handle when window is visible
             if not windowControl or windowControl:IsHidden() then
@@ -1319,77 +1266,20 @@ local function OnAddOnLoaded(event, addonName)
                 return
             end
             
-            local modifierPressed = ctrl or command
-            
-            -- ESC or X = Close window
-            if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
+            -- Only handle ESC as a backup (EditBox already handles it)
+            if key == KEY_ESCAPE then
+                CM.DebugPrint("KEYBOARD", "ESC pressed (global fallback) - closing window")
                 windowControl:SetHidden(true)
                 return
             end
             
-            -- G = Generate (without modifiers)
-            if key == KEY_G and not modifierPressed then
-                CM.DebugPrint("KEYBOARD", "G pressed (global) - regenerating")
-                CharacterMarkdown_RegenerateMarkdown()
-                return
-            end
-            
-            -- S = Settings (without modifiers)
-            if key == KEY_S and not modifierPressed then
-                CM.DebugPrint("KEYBOARD", "S pressed (global) - opening settings")
-                CharacterMarkdown_OpenSettings()
-                return
-            end
-            
-            -- R = ReloadUI (without modifiers)
-            if key == KEY_R and not modifierPressed then
-                CM.DebugPrint("KEYBOARD", "R pressed (global) - reloading UI")
-                ReloadUI()
-                return
-            end
-            
-            -- Navigation: Left Arrow or Comma
-            if (key == KEY_LEFTARROW or key == KEY_OEM_COMMA) and not modifierPressed then
-                if #markdownChunks > 1 then
-                    CM.DebugPrint("KEYBOARD", "Left/Comma pressed (global) - previous chunk")
-                    CharacterMarkdown_PreviousChunk()
-                end
-                return
-            end
-            
-            -- Navigation: Right Arrow or Period
-            if (key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD) and not modifierPressed then
-                if #markdownChunks > 1 then
-                    CM.DebugPrint("KEYBOARD", "Right/Period pressed (global) - next chunk")
-                    CharacterMarkdown_NextChunk()
-                end
-                return
-            end
-            
-            -- Navigation: PageUp
-            if key == KEY_PAGEUP and not modifierPressed then
-                if #markdownChunks > 1 then
-                    CM.DebugPrint("KEYBOARD", "PageUp pressed (global) - previous chunk")
-                    CharacterMarkdown_PreviousChunk()
-                end
-                return
-            end
-            
-            -- Navigation: PageDown
-            if key == KEY_PAGEDOWN and not modifierPressed then
-                if #markdownChunks > 1 then
-                    CM.DebugPrint("KEYBOARD", "PageDown pressed (global) - next chunk")
-                    CharacterMarkdown_NextChunk()
-                end
-                return
-            end
-            
-            -- Space or Enter = Select All / Copy
-            if (key == KEY_SPACEBAR or key == KEY_ENTER) and not modifierPressed then
-                CM.DebugPrint("KEYBOARD", "Space/Enter pressed (global) - copy to clipboard")
-                CharacterMarkdown_CopyToClipboard()
-                return
-            end
+            -- DISABLED: Auto-focus restoration
+            -- If we get here with the window open but EditBox not handling keys,
+            -- it means EditBox lost focus somehow - give it back
+            -- if editBoxControl and not editBoxControl:HasFocus() then
+            --     CM.DebugPrint("KEYBOARD", "Global handler detected EditBox lost focus - restoring")
+            --     editBoxControl:TakeFocus()
+            -- end
         end)
         
         -- Start periodic update to check EditBox selection state
@@ -1398,113 +1288,6 @@ local function OnAddOnLoaded(event, addonName)
 end
 
 EVENT_MANAGER:RegisterForEvent("CharacterMarkdown_UI", EVENT_ADD_ON_LOADED, OnAddOnLoaded)
-
--- =====================================================
--- SHOW SETTINGS EXPORT WINDOW
--- =====================================================
-
-function CharacterMarkdown_ShowSettingsExport(yamlContent)
-    -- Validate input
-    if not yamlContent or yamlContent == "" then
-        CM.Error("No YAML content provided")
-        return false
-    end
-
-    -- Initialize controls if needed
-    if not InitializeWindowControls() then
-        CM.Error("Window initialization failed")
-        return false
-    end
-
-    -- Update window title
-    local titleLabel = CharacterMarkdownWindowTitleLabel
-    if titleLabel then
-        titleLabel:SetText("Character Markdown - Settings Export")
-    end
-
-    -- Update instructions
-    local instructionsLabel = CharacterMarkdownWindowInstructions
-    if instructionsLabel then
-        instructionsLabel:SetText("Settings in YAML format - Text selected | Win: Ctrl+C | Mac: Cmd+C to copy")
-    end
-
-    -- Disable chunk navigation buttons (not needed for settings, but keep visible)
-    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
-    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
-    if prevButton then
-        prevButton:SetEnabled(false)
-        prevButton:SetAlpha(0.5)
-    end
-    if nextButton then
-        nextButton:SetEnabled(false)
-        nextButton:SetAlpha(0.5)
-    end
-
-    -- Disable regenerate button (not needed for settings, but keep visible)
-    local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
-    if regenerateButton then
-        regenerateButton:SetEnabled(false)
-        regenerateButton:SetAlpha(0.5)
-    end
-
-    -- Enable dismiss button
-    local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
-    if dismissButton then
-        dismissButton:SetEnabled(true)
-        dismissButton:SetAlpha(1.0)
-        local label = dismissButton:GetNamedChild("Label")
-        if label then
-            label:SetText("[X] Dismiss")
-        end
-        dismissButton:SetHandler("OnClicked", function()
-            CharacterMarkdownWindow:SetHidden(true)
-        end)
-    end
-
-    -- Clear import mode flag
-    windowControl._isImportMode = false
-
-    -- Store YAML content
-    currentMarkdown = yamlContent
-    markdownChunks = { { content = yamlContent } }
-    currentChunkIndex = 1
-
-    -- Update the EditBox with YAML content
-    editBoxControl:SetText(yamlContent)
-    editBoxControl._originalText = yamlContent  -- Store for OnTextChanged handler
-    editBoxControl:SetColor(1, 1, 1, 1)
-    UpdateOverlayVisibility()
-
-    -- Show window
-    windowControl:SetHidden(false)
-
-    -- Bring window to top
-    if windowControl.SetTopmost then
-        windowControl:SetTopmost(true)
-    end
-    if windowControl.Activate then
-        windowControl:Activate()
-    end
-    if windowControl.RequestMoveToForeground then
-        windowControl:RequestMoveToForeground()
-    end
-
-    -- Auto-select text and take focus (ready for immediate copy)
-    zo_callLater(function()
-        if not windowControl:IsHidden() and editBoxControl then
-            -- Select all text for easy copying
-            editBoxControl:SelectAll()
-
-            CM.DebugPrint("UI", "Settings export window opened - YAML ready to copy (Ctrl+C)")
-            
-            -- CRITICAL: TakeFocus() must be the LAST operation
-            -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
-        end
-    end, 150)
-
-    return true
-end
 
 -- =====================================================
 -- SHOW SETTINGS IMPORT WINDOW
@@ -1604,9 +1387,12 @@ function CharacterMarkdown_ShowSettingsImport()
 
             CM.DebugPrint("UI", "Settings import window opened - ready for YAML paste (Ctrl+V)")
             
-            -- CRITICAL: TakeFocus() must be the LAST operation
-            -- REMOVED: Don't take focus - let global handler work
-            -- editBoxControl:TakeFocus()
+            -- CRITICAL: TakeFocus() to ensure EditBox has focus for paste
+            zo_callLater(function()
+                if editBoxControl then
+                    -- editBoxControl:TakeFocus()
+                end
+            end, 50)
         end
     end, 150)
 

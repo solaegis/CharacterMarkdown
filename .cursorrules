@@ -18,6 +18,30 @@
 
 ---
 
+## Protected Files - Require Developer Approval
+
+**CRITICAL: The following files contain complex, working logic that must not be modified without explicit developer approval:**
+
+- **src/ui/Window.lua** - Chunking, keyboard handling, copy/paste, focus management
+  - Contains delicate timing with zo_callLater() that affects EditBox behavior
+  - EditBox configuration pattern is non-intuitive but necessary
+  - Keyboard event handling has specific event consumption patterns
+  - Memory management and state tracking must remain intact
+
+**Before modifying protected files:**
+1. Ask the developer: "Can I modify [filename]? I want to [describe change]"
+2. Wait for explicit approval before making ANY changes
+3. If approved, follow all documented patterns in the relevant section
+4. After changes, test thoroughly and have developer verify functionality
+
+**Why this rule exists:**
+- These files were difficult to implement correctly
+- They solve non-obvious problems with ESO's UI system
+- Small changes can break subtle functionality (timing, focus, events)
+- Regression would waste significant development time
+
+---
+
 ## Project Structure & Patterns
 
 ### Namespace Convention
@@ -177,9 +201,122 @@
 - Test files in `src/utils/*Tests.lua`
 
 ### Chunking & Display
-- Large markdown outputs are automatically chunked for EditBox limits (22k chars)
+
+**CRITICAL: Chunking Constants - DO NOT CHANGE WITHOUT TESTING**
+
+The chunking constants in `src/utils/Constants.lua` are based on extensive real-world testing. These values work and should NOT be changed without thorough testing:
+
+- **EDITBOX_LIMIT = 21500**: This is the trigger point - when markdown exceeds this, chunking is activated. MUST equal COPY_LIMIT.
+- **COPY_LIMIT = 21500**: Safe copy limit confirmed by testing. This is the maximum size a chunk can be for reliable copying.
+- **MAX_DATA_CHARS = 20350**: Maximum data characters per chunk (leaves room for ~60 byte HTML comment marker + 550 newlines + buffer)
+
+**Key Relationships:**
+- `EDITBOX_LIMIT` MUST equal `COPY_LIMIT` (both 21500) - they trigger chunking when content exceeds what can fit in one chunk
+- `MAX_DATA_CHARS` (20350) is less than `COPY_LIMIT` (21500) because chunks include overhead (marker + padding)
+- The actual EditBox can handle 22k chars (`SetMaxInputChars(22000)`), but COPY_LIMIT is set to 21500 for safety margin
+- Chunking triggers when `markdownLength > EDITBOX_LIMIT` in `src/generators/Markdown.lua:972`
+
+**Why 21,500 and not 20,350?**
+- `EDITBOX_LIMIT` is the trigger point for chunking, not the chunk size limit
+- Content up to 21,500 chars can fit in a single chunk (with overhead)
+- Only when content exceeds 21,500 should chunking activate
+- The chunking algorithm then splits into chunks of MAX_DATA_CHARS (20,350) each
+
+**Chunking Implementation:**
 - Chunking handled in `src/utils/Chunking.lua`
 - Window display in `src/ui/Window.lua` handles chunk navigation
+- **Chunk markers (HTML comments like `<!-- Chunk 1 (20603 bytes before padding) -->`) are INTENTIONAL and helpful for readability** - they identify which chunk the user is viewing
+- **Excessive trailing newlines (550+ newlines) are INTENTIONAL and NECESSARY** - they protect against truncation during copy/paste operations
+- `StripPadding()` function exists but should NOT remove chunk markers or padding from stored chunks - these are features, not bugs
+- Chunking limits should only be logged in debug mode (`CM.DebugPrint`, not `CM.Info`)
+
+**CRITICAL: Chunk Markers and Padding Are Features, Not Bugs**
+- Chunk markers (`<!-- Chunk N -->`) help users identify which chunk they're viewing/copying
+- Excessive trailing newlines (550+ newlines) are a safety mechanism to prevent paste truncation
+- These are consequences of the chunking process and MUST remain in the output
+- Do NOT attempt to "fix" or remove these - they are working as designed
+
+**Markdown Window:**
+- EditBox initialized with `SetMaxInputChars(22000)` in `src/ui/Window.lua`
+- Chunking limits logged via `CM.DebugPrint("CHUNKING", ...)` only (not visible in normal chat)
+- Window handles chunk navigation, copy/paste, and chunk indicator display
+
+### UI Window Patterns (src/ui/Window.lua)
+
+**CRITICAL: Window.lua is protected code - changes require explicit developer approval**
+- This code contains complex, working chunking and keyboard handling logic
+- Implementation was difficult to get right and must not be regressed
+- DO NOT modify Window.lua without explicit approval from the developer
+- Before proposing changes, ask the developer if modification is allowed
+- If changes are approved, follow all patterns documented below
+
+**a) EditBox Configuration Pattern**
+- Read-only display that allows Ctrl+C copy
+- `SetEditEnabled(true)` + `SetKeyboardEnabled(true)` required for Ctrl+C
+- Block text input via `OnChar` handler (returns true to consume)
+- Block keys via `OnKeyDown` handler (returns true to consume)
+- NEVER use `SetEditEnabled(false)` - breaks Ctrl+C
+
+**b) Keyboard Event Handling Architecture**
+- Primary handler: EditBox `OnKeyDown` (lines 277-390) handles ALL shortcuts
+- Backup handler: Global `EVENT_KEY_DOWN` (lines 1258-1283) for ESC only
+- EditBox must maintain focus for shortcuts to work
+- Supported shortcuts: G (regenerate), S (settings), R (reload), X/ESC (close), arrows/comma/period (navigate), PageUp/PageDown (navigate), Ctrl+A (select all), Ctrl+C (copy), Space/Enter (copy)
+
+**c) Focus and Selection State Management**
+- `isEditBoxFocused` - tracks focus, controls border color (gold/cyan)
+- `isTextSelected` - tracks selection, controls button color (white/green)
+- `UpdateFocusIndicator()` - changes border color based on focus
+- `UpdateSelectAllButtonColor()` - changes button color based on selection
+- `ResetSelectionState()` - call on chunk change, window close
+- `SetFocusState(focused)` - call on focus gain/loss
+
+**d) Chunk Display and Navigation**
+- Chunks arrive pre-chunked from `Markdown.lua` as array of `{content=...}` tables
+- `ShowChunk(index)` - displays single chunk, updates UI, resets selection
+- Navigation wraps around: NextChunk (1→N→1), PreviousChunk (N→1→N)
+- Progress bar: 10 segments showing chunk fullness vs COPY_LIMIT
+- Status display: "Chunk X/Y • #,### / ##,### bytes • {OK|WARN|FULL}"
+
+**e) Copy Operation Pattern**
+- `CharacterMarkdown_CopyToClipboard()` - main copy function
+- `StripPadding()` called ONLY for copy/paste, NOT for display
+- Stripping removes HTML chunk markers and normalizes trailing newlines
+- `SelectAll(delayMs)` helper - delayed select+focus with 150ms default
+- Auto-select triggered: after chunk navigation, window open, regenerate
+
+**f) Import Mode vs Normal Mode**
+- `windowControl._isImportMode` flag toggles behavior
+- Normal mode: Block text input, show markdown, enable all buttons
+- Import mode: Allow text input, accept YAML paste, disable nav/regenerate buttons
+- Different OnChar/OnKeyDown behavior based on mode
+
+**g) Memory Management Pattern**
+- `ClearChunks()` - clears chunk array, resets indices, prevents leaks
+- Call before: window close, regenerate, showing new content
+- Reset state: `ResetSelectionState()`, `SetFocusState(false)`
+- Clear stored text: `currentMarkdown = ""`, `editBoxControl._originalText = ""`
+
+**h) Helper Functions Pattern**
+- `SelectAll(delayMs)` - wraps select+focus in `zo_callLater()`, checks window visibility
+- `EnsureEditBoxHasKeyboardFocus()` - forces focus for shortcuts
+- Always check `windowControl:IsHidden()` before EditBox operations
+- Use `zo_callLater()` for timing-sensitive operations (focus, selection)
+
+**NEVER:**
+- Use `SetEditEnabled(false)` or `SetKeyboardEnabled(false)` in normal mode - breaks Ctrl+C
+- Strip padding from chunks before displaying - padding is part of display
+- Handle keyboard shortcuts in global handler - EditBox handler is primary
+- Change chunking constants without testing - empirically validated values
+- Modify Window.lua without developer approval
+
+**ALWAYS:**
+- Block text input via `OnChar` and `OnKeyDown` handlers, not by disabling EditBox
+- Call `ClearChunks()` before showing new content - prevents memory leaks
+- Use `zo_callLater()` for focus/selection operations - timing matters
+- Strip padding ONLY when copying to clipboard - not for display
+- Check window visibility in delayed operations - window might be closed
+- Ask developer before modifying Window.lua - protected file
 
 ### Multi-Column Table Layout
 - **Default pattern**: When a section contains a group of 2+ contiguous (adjacent) similar tables, use multi-column styled table layout as the default

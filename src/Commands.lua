@@ -427,8 +427,17 @@ local function HandleSettings(args)
         PlaySound(SOUNDS.MENU_SHOW)
         zo_callLater(function()
             local mainMenu = SYSTEMS:GetObject("mainMenu")
-            if mainMenu then
-                mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
+            if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
+                local success, err = pcall(function()
+                    mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
+                end)
+                if not success then
+                    CM.Warn("Could not open Add-Ons category: " .. tostring(err))
+                    CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
+                end
+            else
+                CM.Warn("Main menu not available or not ready")
+                CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
             end
         end, 100)
     else
@@ -1060,8 +1069,17 @@ local function RegisterCmdSettingsCommand()
             PlaySound(SOUNDS.MENU_SHOW)
             zo_callLater(function()
                 local mainMenu = SYSTEMS:GetObject("mainMenu")
-                if mainMenu then
-                    mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
+                if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
+                    local success, err = pcall(function()
+                        mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
+                    end)
+                    if not success then
+                        CM.Warn("Could not open Add-Ons category: " .. tostring(err))
+                        CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
+                    end
+                else
+                    CM.Warn("Main menu not available or not ready")
+                    CM.Info("Please manually navigate to: ESC → Settings → Add-Ons → CharacterMarkdown")
                 end
             end, 100)
         else

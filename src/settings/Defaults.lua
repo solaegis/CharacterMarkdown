@@ -42,7 +42,7 @@ function CM.Settings.Defaults:GetAll()
         includeCompanion = true,
         includeBuffs = true,
         includeAttributes = true,
-        includeDLCAccess = true,
+        includeDLCAccess = false, -- DLC/Chapter access (opt-in, not essential for build sharing)
         includeRole = true,
         includeLocation = true,
         includeBuildNotes = true, -- Include custom build notes
@@ -66,9 +66,9 @@ function CM.Settings.Defaults:GetAll()
         includeCollectibles = true,
         includeCollectiblesDetailed = false, -- Show full lists vs counts
         includeCrafting = false,
-        includeAchievements = true, -- Achievement tracking with category breakdown (Phase 5)
+        includeAchievements = false, -- Achievement tracking with category breakdown (opt-in for detail level)
         showAllAchievements = true, -- Show all achievements vs in-progress only
-        includeAntiquities = true, -- Antiquities tracking
+        includeAntiquities = false, -- Antiquities tracking (opt-in, not all players use this content)
         includeAntiquitiesDetailed = false, -- Detailed antiquity sets breakdown
         -- includeQuests = true,  -- Quest tracking (Phase 6) - DISABLED
         -- includeQuestsDetailed = true,  -- Detailed quest categories - DISABLED
@@ -84,7 +84,7 @@ function CM.Settings.Defaults:GetAll()
         includePvPStats = false, -- PvP statistics
         includeArmoryBuilds = false, -- Armory builds
         includeUndauntedPledges = false, -- Undaunted pledges
-        includeGuilds = false, -- Guild membership
+        includeGuilds = true, -- Guild membership (social context, minimal size ~200-400 chars)
 
         -- ====================================
         -- PVP DISPLAY SETTINGS
@@ -99,8 +99,8 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         -- LINK SETTINGS
         -- ====================================
-        enableAbilityLinks = false, -- Add UESP wiki links to abilities
-        enableSetLinks = false, -- Add UESP wiki links to armor sets
+        enableAbilityLinks = true, -- Add UESP wiki links to abilities (no size impact, major UX improvement)
+        enableSetLinks = true, -- Add UESP wiki links to armor sets (no size impact, major UX improvement)
         
         -- ====================================
         -- PER-CHARACTER DATA STORAGE

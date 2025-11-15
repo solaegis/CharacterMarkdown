@@ -485,9 +485,6 @@ end
 
 CM.generators.sections.GenerateAttentionNeeded = GenerateAttentionNeeded
 
-
-CM.generators.sections.GenerateProgression = GenerateProgression
-
 -- =====================================================
 -- CUSTOM NOTES SECTION
 -- =====================================================

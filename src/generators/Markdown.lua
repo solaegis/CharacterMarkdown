@@ -15,7 +15,7 @@ local function GetGenerators()
         GenerateQuickStats = CM.generators.sections.GenerateQuickStats,
         GenerateGeneral = CM.generators.sections.GenerateGeneral,
         GenerateCharacterStats = CM.generators.sections.GenerateCharacterStats,
-        GenerateProgression = CM.generators.sections.GenerateProgression,
+        -- GenerateProgression - not implemented (progression data used in other sections)
         GenerateCustomNotes = CM.generators.sections.GenerateCustomNotes,
         -- GenerateTableOfContents = CM.generators.sections.GenerateTableOfContents, -- DEPRECATED: Use dynamic TOC
         GenerateDynamicTableOfContents = CM.generators.sections.GenerateDynamicTableOfContents,
@@ -703,15 +703,8 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- Progression (standalone section, not in TOC)
-        {
-            name = "Progression",
-            tocEntry = nil, -- Not shown in TOC
-            condition = IsSettingEnabled(settings, "includeProgression", true),
-            generator = function()
-                return gen.GenerateProgression(data.progression, data.cp, format)
-            end,
-        },
+        -- Note: Progression data is used in other sections (QuickStats, General, etc.)
+        -- There is no standalone Progression section generator
     }
 end
 

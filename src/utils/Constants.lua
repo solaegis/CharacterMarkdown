@@ -34,7 +34,7 @@ local CM = CharacterMarkdown
 -- - MAX_DATA_CHARS: Reserve space for padding (87 chars) to prevent paste truncation
 --
 CM.constants.CHUNKING = {
-    EDITBOX_LIMIT = 50000, -- ESO EditBox display limit (much higher than copy limit)
+    EDITBOX_LIMIT = 21500, -- Trigger chunking when content exceeds COPY_LIMIT (matches actual chunk size limit)
     COPY_LIMIT = 21500, -- Safe copy limit confirmed by testing
     MAX_DATA_CHARS = 20350, -- Maximum data characters per chunk (leaves room for ~60 byte HTML comment marker + 550 newlines + buffer)
     DISABLE_PADDING = false, -- **PADDING ENABLED** - 500 byte buffer absorbs variable truncation

@@ -151,16 +151,16 @@ end
 function CM.Settings.Panel:BuildOptionsData()
     local options = {}
 
-    -- Add sections in order (workflow-based organization)
+    -- Add sections in order matching markdown output flow
     self:AddActions(options) -- FIRST: Quick actions and controls
     self:AddFormatSection(options)
-    self:AddCustomNotes(options)
-    self:AddLayoutSection(options) -- Layout options (Header/Footer)
-    self:AddCombatBuildSection(options) -- Combat & Build
-    self:AddCharacterIdentitySection(options) -- Character Identity & Progression
-    self:AddEconomyResourcesSection(options) -- Economy & Resources
-    self:AddContentActivitiesSection(options) -- Content & Activities
-    self:AddPvPSocialSection(options) -- PvP & Social
+    self:AddCustomNotes(options) -- Character-Specific Settings (appears after Overview in output)
+    self:AddLayoutSection(options) -- Layout options (Header/Footer/TOC)
+    self:AddCombatBuildSection(options) -- Combat Arsenal section
+    self:AddPvPSocialSection(options) -- PvP & Social (includes Guilds)
+    self:AddEconomyResourcesSection(options) -- Economy & Resources (includes Collectibles)
+    self:AddCharacterIdentitySection(options) -- Character Identity & Progression (Achievements, DLC, Titles)
+    self:AddContentActivitiesSection(options) -- Content & Activities (Antiquities, Undaunted, Companion)
     self:AddLinkSettings(options)
     self:AddSupportSection(options) -- LAST: Support section
 
@@ -321,13 +321,13 @@ end
 function CM.Settings.Panel:AddCombatBuildSection(options)
     table.insert(options, {
         type = "header",
-        name = "Combat & Build",
+        name = "Combat Arsenal",
         width = "full",
     })
 
     table.insert(options, {
         type = "description",
-        text = "Everything you need to share a build or understand combat readiness.",
+        text = "Core build information: skills, equipment, champion points, and combat stats. Essential for build sharing.",
         width = "full",
     })
 
@@ -476,13 +476,13 @@ end
 function CM.Settings.Panel:AddCharacterIdentitySection(options)
     table.insert(options, {
         type = "header",
-        name = "Character Identity & Progression",
+        name = "Progress & Achievements",
         width = "full",
     })
 
     table.insert(options, {
         type = "description",
-        text = "Character background, achievements, and long-term goals.",
+        text = "Achievement tracking, world progress, and character milestones (opt-in for detail level).",
         width = "full",
     })
 
@@ -596,7 +596,7 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
 
     table.insert(options, {
         type = "description",
-        text = "Character wealth, inventory, and crafting capabilities.",
+        text = "Currency, inventory, collectibles, and crafting resources.",
         width = "full",
     })
 
@@ -742,7 +742,7 @@ function CM.Settings.Panel:AddContentActivitiesSection(options)
 
     table.insert(options, {
         type = "description",
-        text = "Active content, quests, and repeatable activities.",
+        text = "Antiquities, Undaunted pledges, and active companion information.",
         width = "full",
     })
 
@@ -848,7 +848,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
 
     table.insert(options, {
         type = "description",
-        text = "All multiplayer and competitive aspects.",
+        text = "PvP statistics, guild membership, and multiplayer content.",
         width = "full",
     })
 
@@ -1030,7 +1030,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "checkbox",
         name = "Include Build Notes",
-        tooltip = "Include custom build notes in the markdown output\nNotes must be entered below to appear in output",
+        tooltip = "Include custom build notes section (appears after Overview to set context for your build)\nNotes must be entered below to appear in output",
         getFunc = function()
             return CharacterMarkdownSettings.includeBuildNotes
         end,
