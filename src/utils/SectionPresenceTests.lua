@@ -180,6 +180,14 @@ local SECTION_PATTERNS = {
         },
     },
     {
+        name = "Antiquities",
+        patterns = {
+            github = { "##.*🏺.*Antiquities", "Antiquities", "Antiquity" },
+            discord = { "**Antiquities:**", "🏺.*Antiquit" },
+            fallback = { "Antiquities" },
+        },
+    },
+    {
         name = "Quests",
         patterns = {
             github = { "##.*📜.*Quests", "Quests", "Quest.*Progress" },
