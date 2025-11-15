@@ -186,8 +186,39 @@ validate_changelog() {
     return 0
 }
 
+validate_readme() {
+    print_section "6. README.md Validation"
+    
+    README_FILE="README.md"
+    MANIFEST_FILE="CharacterMarkdown.addon"
+    
+    if [ ! -f "$README_FILE" ]; then
+        print_error "README.md not found"
+        return 1
+    fi
+    
+    # Get API version from manifest
+    if [ -f "$MANIFEST_FILE" ]; then
+        MANIFEST_API=$(grep "^## APIVersion:" "$MANIFEST_FILE" | awk '{print $3}')
+        
+        # Check if README has matching API badge
+        if grep -q "badge/ESO_API-${MANIFEST_API}-" "$README_FILE"; then
+            print_success "API version badge matches manifest ($MANIFEST_API)"
+        else
+            print_warning "API version badge may not match manifest (expected: $MANIFEST_API)"
+        fi
+    fi
+    
+    # Note about version badge
+    if grep -q "@project-version@" "$MANIFEST_FILE"; then
+        print_success "Version badge uses Git-based versioning"
+    fi
+    
+    return 0
+}
+
 validate_git_state() {
-    print_section "6. Git State Validation"
+    print_section "7. Git State Validation"
     
     if ! command_exists git; then
         print_warning "Git not found - skipping git validation"
@@ -220,7 +251,7 @@ validate_git_state() {
 }
 
 validate_build() {
-    print_section "7. Build Validation"
+    print_section "8. Build Validation"
     
     if ! check_task; then
         return 1
@@ -273,6 +304,7 @@ main() {
     validate_manifest || validation_failed=1
     validate_files || validation_failed=1
     validate_changelog || validation_failed=1
+    validate_readme || true  # Don't fail on README warnings
     validate_git_state || true  # Don't fail on git checks
     validate_build || validation_failed=1
     

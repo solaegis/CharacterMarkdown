@@ -1,4 +1,4 @@
--- CharacterMarkdown v2.1.7 - Core Namespace
+-- CharacterMarkdown v@project-version@ - Core Namespace
 -- Author: solaegis
 --
 -- Memory Management: This module implements efficient memory practices.
@@ -21,7 +21,7 @@ end
 -- Addon metadata
 CM.name = "CharacterMarkdown"
 -- Initialize version - will be updated after addon loads when GetAddOnMetadata is available
-CM.version = "2.1.7" -- Fallback version
+CM.version = "@project-version@" -- Fallback version (replaced during build)
 CM.author = "solaegis"
 CM.apiVersion = 101047
 
@@ -43,7 +43,7 @@ function CM.UpdateVersion()
             CM.DebugPrint("CORE", "Version placeholder @project-version@ detected - using fallback version")
             CM.DebugPrint(
                 "CORE",
-                string.format("Using fallback version: %s (run 'task build' to replace placeholder)", CM.version)
+                string.format("Using fallback version: %s (placeholder not replaced - run 'task build')", CM.version)
             )
         else
             -- Valid version found - update it

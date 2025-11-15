@@ -44,8 +44,3 @@ All examples use the **GitHub format**, which includes:
 
 For other formats (Discord, VS Code, Quick), see the main README.
 
-
-
-
-
-

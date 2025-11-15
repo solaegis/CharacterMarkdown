@@ -242,7 +242,7 @@ This validates:
 - Progress bar consistency
 - Section presence and formatting
 
-For detailed testing information, see the [Testing Guide](../TESTING_GUIDE.md).
+For detailed testing information, see the [Testing Guide](TESTING_COMMAND.md).
 
 ---
 
@@ -320,5 +320,5 @@ Include this information:
 
 **Need more help?** 
 - Check the [Development Guide](DEVELOPMENT.md) for technical details
-- Review the [Testing Guide](../TESTING_GUIDE.md) for validation procedures
+- Review the [Testing Guide](TESTING_COMMAND.md) for validation procedures
 - [Report an issue](https://github.com/yourusername/CharacterMarkdown/issues)

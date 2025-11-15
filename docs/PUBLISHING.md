@@ -283,7 +283,7 @@ Download: https://help.elderscrollsonline.com/app/answers/detail/a_id/69621
 
 - **[Development Guide](DEVELOPMENT.md)** - Setup and workflow
 - **[Architecture](ARCHITECTURE.md)** - Code structure
-- **[Testing Guide](../TESTING_GUIDE.md)** - Pre-release validation
+- **[Testing Guide](TESTING_COMMAND.md)** - Pre-release validation
 
 ## Resources
 

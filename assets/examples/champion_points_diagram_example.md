@@ -11,22 +11,22 @@ graph LR
 
   subgraph CRAFT ["⚒️ CRAFT CONSTELLATION<br/>282 / 564 pts invested"]
     direction TB
-    
+
     CRAFT_TITLE["<b>Slottable Stars</b>"]
     C_C5["⭐ Treasure Hunter<br/><b>50/50 pts</b> | MAXED"]
     C_R7["War Mount<br/><b>75/120 pts</b> | ●●○ 63%"]
     C_IND1["Steed's Blessing<br/><b>35/50 pts</b> | ●●○ 70%"]
-    
+
     CRAFT_PASS["<b>Passive Stars</b>"]
     C_C3["Master Gatherer<br/><b>15/75 pts</b> | ○○○ 20%"]
     C_R6["Wanderer<br/><b>10/100 pts</b> | ○○○ 10%"]
-    
+
     CRAFT_BASE["<b>Independent Stars</b>"]
     C_BASE2["Steadfast Enchantment<br/><b>10/50 pts</b> | ○○○ 20%"]
     C_IND2["Breakfall<br/><b>10/50 pts</b> | ○○○ 20%"]
-    
+
     CRAFT_AVAIL["💎 <b>77 points available</b>"]
-    
+
     CRAFT_TITLE -.-> C_C5 & C_R7 & C_IND1
     CRAFT_PASS -.-> C_C3 & C_R6
     CRAFT_BASE -.-> C_BASE2 & C_IND2
@@ -51,21 +51,21 @@ graph LR
 
   subgraph WARFARE ["⚔️ WARFARE CONSTELLATION<br/>205 / 564 pts invested"]
     direction TB
-    
+
     WAR_TITLE["<b>Slottable Stars</b>"]
     W_IND2["⭐ Master-at-Arms<br/><b>50/50 pts</b> | MAXED"]
     W_IND3["Thaumaturge<br/><b>46/50 pts</b> | ●●● 92%"]
     W_IND1["Deadly Aim<br/><b>45/50 pts</b> | ●●● 90%"]
-    
+
     WAR_PASS["<b>Passive Stars</b>"]
     W_C1["Fighting Finesse<br/><b>50/50 pts</b> | ⭐ MAXED"]
     W_R1["Precision<br/><b>10/50 pts</b> | ○○○ 20%"]
-    
+
     WAR_BASE["<b>Independent Stars</b>"]
     W_BASE1["Eldritch Insight<br/><b>4/50 pts</b> | ○○○ 8%"]
-    
+
     WAR_AVAIL["💎 <b>77 points available</b>"]
-    
+
     WAR_TITLE -.-> W_IND2 & W_IND3 & W_IND1
     WAR_PASS -.-> W_C1 & W_R1
     WAR_BASE -.-> W_BASE1
@@ -90,21 +90,21 @@ graph LR
 
   subgraph FITNESS ["💪 FITNESS CONSTELLATION<br/>225 / 564 pts invested"]
     direction TB
-    
+
     FIT_TITLE["<b>Slottable Stars</b>"]
     F_IND3["⭐ Sustained by Suffering<br/><b>50/50 pts</b> | MAXED"]
-    
+
     FIT_PASS["<b>Passive Stars</b>"]
     SD4["Fortified<br/><b>50/50 pts</b> | ⭐ MAXED"]
     F_L1["Tumbling<br/><b>15/50 pts</b> | ●○○ 30%"]
     F_C1["Mystic Tenacity<br/><b>10/50 pts</b> | ○○○ 20%"]
-    
+
     FIT_BASE["<b>Independent Stars</b>"]
     F_BASE1["Boundless Vitality<br/><b>50/50 pts</b> | ⭐ MAXED"]
     F_BASE3["Rejuvenation<br/><b>50/50 pts</b> | ⭐ MAXED"]
-    
+
     FIT_AVAIL["💎 <b>77 points available</b>"]
-    
+
     FIT_TITLE -.-> F_IND3
     FIT_PASS -.-> SD4 & F_L1 & F_C1
     FIT_BASE -.-> F_BASE1 & F_BASE3
@@ -129,19 +129,19 @@ graph LR
 
   subgraph LEGEND ["📖 LEGEND & VISUAL GUIDE"]
     direction TB
-    
+
     LEG_STARS["<b>Star Types</b>"]
     LEG_S1["⭐ Gold Border = Maxed Slottable"]
     LEG_S2["🔶 Orange Border = Independent Star"]
     LEG_S3["Standard Border = In Progress"]
-    
+
     LEG_FILL["<b>Progress Indicators</b>"]
     LEG_F1["⭐ = 100% Maxed"]
     LEG_F2["●●● = 75-99%"]
     LEG_F3["●●○ = 50-74%"]
     LEG_F4["●○○ = 25-49%"]
     LEG_F5["○○○ = 1-24%"]
-    
+
     LEG_STARS -.-> LEG_S1 & LEG_S2 & LEG_S3
     LEG_FILL -.-> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5
 

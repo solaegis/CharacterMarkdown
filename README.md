@@ -1,8 +1,8 @@
 # CharacterMarkdown
 
-[![API](https://img.shields.io/badge/ESO_API-101047-green.svg)](https://www.esoui.com/)
+[![API](https://img.shields.io/badge/ESO_API-101048-green.svg)](https://www.esoui.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.1.7-orange.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-2.2.0-orange.svg)](CHANGELOG.md)
 
 **Export comprehensive ESO character data in beautiful markdown format** with clickable UESP links for abilities, sets, races, classes, zones, and more.
 

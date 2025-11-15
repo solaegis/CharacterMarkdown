@@ -144,6 +144,62 @@ tasks:
       - echo "✅ All validations passed"
     silent: true
 
+  dev:validate:changelog:
+    desc: Validate CHANGELOG.md has version entries
+    cmds:
+      - echo "  Checking CHANGELOG.md..."
+      - |
+        if [ ! -f "CHANGELOG.md" ]; then
+          echo "  ✗ CHANGELOG.md not found"
+          exit 1
+        fi
+        if ! grep -q "^## \[.*\]" CHANGELOG.md; then
+          echo "  ✗ CHANGELOG.md has no version entries"
+          exit 1
+        fi
+        if grep -q "^## \[Unreleased\]" CHANGELOG.md; then
+          echo "    ⚠️  CHANGELOG.md has [Unreleased] section"
+        fi
+        echo "    ✓ CHANGELOG.md is valid"
+    silent: true
+
+  dev:validate:readme:
+    desc: Validate README.md version badges match manifest
+    cmds:
+      - echo "  Checking README.md badges..."
+      - |
+        if [ ! -f "README.md" ]; then
+          echo "  ✗ README.md not found"
+          exit 1
+        fi
+        
+        # Get API version from manifest
+        MANIFEST_API=$(grep "^## APIVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
+        
+        # Check if README has API badge
+        if grep -q "badge/ESO_API-${MANIFEST_API}-" README.md; then
+          echo "    ✓ API version badge matches manifest (${MANIFEST_API})"
+        else
+          echo "    ⚠️  API version badge may not match manifest"
+          echo "       Manifest API: ${MANIFEST_API}"
+          echo "       Check: https://img.shields.io/badge/ESO_API-${MANIFEST_API}-green.svg"
+        fi
+        
+        # Note about version badge (uses @project-version@ placeholder)
+        if grep -q "@project-version@" {{.MANIFEST_FILE}}; then
+          echo "    ℹ️  Version badge should be updated after tagging (Git-based versioning)"
+        fi
+        
+        echo "    ✓ README.md validation complete"
+    silent: true
+
+  dev:validate:all:
+    desc: Run all validation checks (files, manifest, syntax, changelog, readme)
+    deps: [dev:validate, dev:validate:changelog, dev:validate:readme]
+    cmds:
+      - echo "✅ All validations passed"
+    silent: true
+
   dev:validate:files:
     desc: Check that all required files exist
     cmds:
@@ -261,9 +317,8 @@ tasks:
           VERSION=$(git rev-parse --short HEAD)
         fi
         
-        # Replace @project-version@ placeholders in manifest (ESOUI format)
-        MANIFEST_PATH="{{.BUILD_DIR}}/{{.ADDON_NAME}}/{{.MANIFEST_FILE}}"
-        ./scripts/replace-version.sh "$MANIFEST_PATH" "$VERSION"
+        # Replace @project-version@ placeholders in all files (manifest, source, docs, etc.)
+        ./scripts/replace-version.sh "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "$VERSION"
         
         # Create ZIP with version
         cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
@@ -311,9 +366,8 @@ tasks:
           VERSION=$(git rev-parse --short HEAD)
         fi
         
-        # Replace @project-version@ placeholders in manifest
-        MANIFEST_PATH="{{.BUILD_DIR}}/{{.ADDON_NAME}}/{{.MANIFEST_FILE}}"
-        ./scripts/replace-version.sh "$MANIFEST_PATH" "$VERSION"
+        # Replace @project-version@ placeholders in all files
+        ./scripts/replace-version.sh "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "$VERSION"
         
         cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
         echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
@@ -460,8 +514,129 @@ tasks:
   # RELEASE WORKFLOW
   # =============================================================================
 
+  release:check:
+    desc: Run comprehensive pre-release validation (recommended before every release)
+    cmds:
+      - |
+        echo "🚀 Running comprehensive pre-release validation..."
+        echo "   (This runs all checks from RELEASE_CHECKLIST.md)"
+        echo ""
+        if [ -f "scripts/pre-release-check.sh" ]; then
+          chmod +x scripts/pre-release-check.sh
+          ./scripts/pre-release-check.sh
+        else
+          echo "❌ scripts/pre-release-check.sh not found"
+          exit 1
+        fi
+    silent: true
+
+  release:checklist:
+    desc: Display interactive release checklist
+    cmds:
+      - |
+        echo "📋 CharacterMarkdown - Release Checklist"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "Use this checklist before every release:"
+        echo ""
+        echo "1. CODE QUALITY & VALIDATION"
+        echo "   task release:check              - Run all automated checks"
+        echo "   task lint                       - Luacheck validation"
+        echo "   task validate:syntax            - Lua syntax check"
+        echo "   task validate:manifest          - Manifest validation"
+        echo "   task validate:files             - File structure check"
+        echo ""
+        echo "2. VERSION MANAGEMENT"
+        echo "   task version:bump -- patch      - Bump version (patch/minor/major)"
+        echo "   task version                    - Show current version"
+        echo "   task version:api -- <VERSION>   - Update ESO API version"
+        echo ""
+        echo "3. DOCUMENTATION"
+        echo "   - Update CHANGELOG.md with release notes"
+        echo "   - Review README.md for accuracy"
+        echo "   - Check docs/ for updates"
+        echo ""
+        echo "4. BUILD & PACKAGE"
+        echo "   task build                      - Build release ZIP"
+        echo "   task build:verify               - Verify package requirements"
+        echo ""
+        echo "5. GIT & RELEASE"
+        echo "   task release:workflow           - Interactive release workflow"
+        echo "   task release:tag                - Create and push tag"
+        echo ""
+        echo "6. POST-RELEASE"
+        echo "   - Monitor GitHub Actions for automated release"
+        echo "   - Verify ESOUI upload (if configured)"
+        echo "   - Test downloaded ZIP from GitHub"
+        echo ""
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "For full checklist: cat RELEASE_CHECKLIST.md"
+        echo "For automated validation: task release:check"
+    silent: true
+
+  release:workflow:
+    desc: Interactive release workflow (guides through all steps)
+    cmds:
+      - |
+        echo "🚀 CharacterMarkdown - Release Workflow"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        
+        # Show current version
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          CURRENT_VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          CURRENT_VERSION=$(git rev-parse --short HEAD)
+        fi
+        echo "Current version: ${CURRENT_VERSION}"
+        echo ""
+        
+        # Step 1: Version bump
+        echo "STEP 1: Version Bump"
+        echo "  What type of release is this?"
+        read -p "  Enter bump type (patch/minor/major) [patch]: " BUMP_TYPE
+        BUMP_TYPE=${BUMP_TYPE:-patch}
+        echo "  Running: task version:bump -- ${BUMP_TYPE}"
+        task version:bump -- ${BUMP_TYPE}
+        echo ""
+        
+        # Step 2: CHANGELOG update reminder
+        echo "STEP 2: Update CHANGELOG.md"
+        echo "  ⚠️  Please update CHANGELOG.md with release notes now"
+        read -p "  Press Enter when done..."
+        echo ""
+        
+        # Step 3: Run validation
+        echo "STEP 3: Run Pre-Release Validation"
+        read -p "  Run comprehensive validation? (Y/n): " RUN_VALIDATION
+        if [ "$RUN_VALIDATION" != "n" ] && [ "$RUN_VALIDATION" != "N" ]; then
+          task release:check
+        fi
+        echo ""
+        
+        # Step 4: Commit changes
+        echo "STEP 4: Commit Changes"
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          NEW_VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          # Get version from manifest
+          NEW_VERSION=$(grep "## Version:" CharacterMarkdown.addon | awk '{print $3}')
+        fi
+        read -p "  Commit message [Release v${NEW_VERSION}]: " COMMIT_MSG
+        COMMIT_MSG=${COMMIT_MSG:-"Release v${NEW_VERSION}"}
+        git add .
+        git commit -m "${COMMIT_MSG}"
+        echo "  ✅ Changes committed"
+        echo ""
+        
+        # Step 5: Create and push tag
+        echo "STEP 5: Create and Push Tag"
+        task release:tag
+    silent: true
+
   release:prepare:
-    desc: Prepare for release (validate and show checklist)
+    desc: Prepare for release (validate and show next steps)
     cmds:
       - echo "🚀 Preparing release..."
       - echo "⚠️  Ensure CHANGELOG.md is updated with release notes"
@@ -481,6 +656,8 @@ tasks:
         echo "  - Build release ZIP"
         echo "  - Create GitHub release"
         echo "  - Upload to ESOUI (if configured)"
+        echo ""
+        echo "Tip: Use 'task release:workflow' for guided release process"
     silent: true
 
   release:tag:
@@ -701,6 +878,56 @@ tasks:
   # GIT OPERATIONS
   # =============================================================================
 
+  git:hooks:install:
+    desc: Install git hooks (pre-push validation)
+    cmds:
+      - |
+        echo "🔧 Installing git hooks..."
+        
+        # Check if pre-push hook script exists
+        if [ ! -f "scripts/git-hooks/pre-push" ]; then
+          echo "❌ scripts/git-hooks/pre-push not found"
+          exit 1
+        fi
+        
+        # Create .git/hooks directory if it doesn't exist
+        mkdir -p .git/hooks
+        
+        # Copy pre-push hook
+        cp scripts/git-hooks/pre-push .git/hooks/pre-push
+        chmod +x .git/hooks/pre-push
+        
+        echo "✅ Pre-push hook installed"
+        echo "   This hook will run validation before pushing tags"
+        echo "   To bypass: git push --no-verify"
+    silent: true
+
+  git:hooks:uninstall:
+    desc: Remove git hooks
+    cmds:
+      - |
+        echo "🗑️  Removing git hooks..."
+        if [ -f ".git/hooks/pre-push" ]; then
+          rm .git/hooks/pre-push
+          echo "✅ Pre-push hook removed"
+        else
+          echo "ℹ️  No pre-push hook found"
+        fi
+    silent: true
+
+  git:hooks:test:
+    desc: Test pre-push hook (dry run)
+    cmds:
+      - |
+        echo "🧪 Testing pre-push hook..."
+        if [ -f ".git/hooks/pre-push" ]; then
+          .git/hooks/pre-push origin main
+        else
+          echo "❌ Pre-push hook not installed. Run: task git:hooks:install"
+          exit 1
+        fi
+    silent: true
+
   git:status:
     desc: Show git status and pending changes
     cmds:
@@ -811,17 +1038,34 @@ tasks:
     desc: Show release workflow help
     cmds:
       - echo "🚀 Release Workflow:"
-      - echo "  1. task version:bump -- patch   (or minor/major)"
-      - echo "  2. Edit CHANGELOG.md"
-      - echo "  3. task dev:test                (validate everything)"
+      - echo ""
+      - echo "GUIDED WORKFLOW (Recommended):"
+      - echo "  task release                    - Interactive guided release"
+      - echo "  task release:workflow           - Same as above"
+      - echo ""
+      - echo "AUTOMATED VALIDATION:"
+      - echo "  task release:check              - Comprehensive pre-release validation"
+      - echo "  task release:checklist          - Display checklist"
+      - echo ""
+      - echo "MANUAL WORKFLOW:"
+      - echo "  1. task version:bump -- patch   - Bump version (patch/minor/major)"
+      - echo "  2. Edit CHANGELOG.md            - Add release notes"
+      - echo "  3. task release:check           - Run all validations"
       - echo "  4. task git:commit -- 'Release vX.X.X'"
-      - echo "  5. task release:tag             (creates and pushes tag)"
+      - echo "  5. task release:tag             - Create and push tag"
       - echo "  6. GitHub Actions handles the rest!"
       - echo ""
-      - echo "Alternative (manual):"
-      - echo "  task release:prepare    - Show checklist"
-      - echo "  git tag vX.X.X"
-      - echo "  git push origin main --tags"
+      - echo "VALIDATION TASKS:"
+      - echo "  task test                       - Lint + validate"
+      - echo "  task validate                   - All validations"
+      - echo "  task lint                       - Luacheck only"
+      - echo "  task build                      - Build release ZIP"
+      - echo ""
+      - echo "GIT HOOKS (Optional):"
+      - echo "  task git:hooks:install          - Install pre-push validation hook"
+      - echo "  task git:hooks:test             - Test the hook"
+      - echo ""
+      - echo "For full checklist see RELEASE_CHECKLIST.md"
     silent: true
 
   help:dev:
@@ -838,8 +1082,447 @@ tasks:
     silent: true
 
   # =============================================================================
+  # EXAMPLES & MARKDOWN FORMATTING
+  # =============================================================================
+
+  examples:trim:
+    desc: Trim unnecessary newlines from example markdown files
+    cmds:
+      - |
+        echo "✂️  Trimming example markdown files..."
+        python3 scripts/trim-markdown.py assets/examples/*.md
+    silent: true
+
+  examples:trim:dry-run:
+    desc: Preview what would be trimmed without modifying files
+    cmds:
+      - |
+        echo "🔍 Dry run: checking example markdown files..."
+        python3 scripts/trim-markdown.py --dry-run assets/examples/*.md
+    silent: true
+
+  # =============================================================================
   # DOCUMENTATION (mdBook)
   # =============================================================================
+
+  docs:audit:
+    desc: Comprehensive documentation audit (duplication, staleness, orphans, broken links)
+    cmds:
+      - |
+        echo "📚 Documentation Audit"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        
+        # 1. Find all documentation files
+        echo "📄 Documentation Files:"
+        DOC_COUNT=$(find . -type f \( -name "*.md" -o -name "*.txt" \) \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          ! -path "*/dist/*" \
+          ! -path "*/build/*" | wc -l | tr -d ' ')
+        echo "   Total: $DOC_COUNT files"
+        echo ""
+        
+        # 2. Check for stale documentation (not modified in 6+ months)
+        echo "📅 Stale Documentation (6+ months old):"
+        STALE=$(find . -type f \( -name "*.md" -o -name "*.txt" \) \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          ! -path "*/assets/examples/*" \
+          -mtime +180 2>/dev/null)
+        if [ -n "$STALE" ]; then
+          echo "$STALE" | while read file; do
+            DAYS=$(( ( $(date +%s) - $(stat -f %m "$file" 2>/dev/null || stat -c %Y "$file") ) / 86400 ))
+            echo "   ⚠️  $file (${DAYS} days old)"
+          done
+        else
+          echo "   ✓ No stale files found"
+        fi
+        echo ""
+        
+        # 3. Find orphaned documentation (not linked from anywhere)
+        echo "🔗 Checking for Orphaned Files:"
+        ORPHANS=0
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          ! -name "README.md" \
+          ! -name "CHANGELOG.md" \
+          ! -name "LICENSE.md" | while read doc; do
+          BASENAME=$(basename "$doc")
+          # Check if file is referenced anywhere
+          if ! grep -r -q "$BASENAME" --include="*.md" --include="*.yaml" --include="book.toml" --exclude-dir=node_modules --exclude-dir=book --exclude-dir=.task . 2>/dev/null; then
+            echo "   ⚠️  $doc (not referenced)"
+            ORPHANS=$((ORPHANS + 1))
+          fi
+        done
+        if [ $ORPHANS -eq 0 ]; then
+          echo "   ✓ No orphaned files found"
+        fi
+        echo ""
+        
+        # 4. Find potential duplicates (files with similar names)
+        echo "📋 Potential Duplicate Topics:"
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          -exec basename {} \; | sort | uniq -c | awk '$1 > 1 {print "   ⚠️  " $2 " appears in " $1 " locations"}'
+        echo ""
+        
+        # 5. Check documentation size
+        echo "📊 Documentation Size:"
+        TOTAL_SIZE=$(find . -type f \( -name "*.md" -o -name "*.txt" \) \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          -exec wc -c {} + 2>/dev/null | tail -1 | awk '{print $1}')
+        if [ -n "$TOTAL_SIZE" ]; then
+          SIZE_MB=$(echo "scale=2; $TOTAL_SIZE / 1024 / 1024" | bc)
+          echo "   Total: ${SIZE_MB}MB"
+        fi
+        
+        TOTAL_LINES=$(find . -type f \( -name "*.md" -o -name "*.txt" \) \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}')
+        if [ -n "$TOTAL_LINES" ]; then
+          echo "   Total: ${TOTAL_LINES} lines"
+        fi
+        echo ""
+        
+        # 6. Summary
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "✅ Audit complete"
+        echo ""
+        echo "Next steps:"
+        echo "  task docs:stale       - List stale files with details"
+        echo "  task docs:orphans     - Find orphaned files"
+        echo "  task docs:duplicates  - Check for duplicate content"
+        echo "  task docs:links       - Check all links"
+    silent: true
+
+  docs:stale:
+    desc: List stale documentation files (not modified in 6+ months)
+    cmds:
+      - |
+        echo "📅 Stale Documentation Files"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        
+        STALE=$(find . -type f \( -name "*.md" -o -name "*.txt" \) \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          ! -path "*/assets/examples/*" \
+          -mtime +180 2>/dev/null)
+        
+        if [ -n "$STALE" ]; then
+          echo "Files not modified in 6+ months:"
+          echo ""
+          echo "$STALE" | while read file; do
+            DAYS=$(( ( $(date +%s) - $(stat -f %m "$file" 2>/dev/null || stat -c %Y "$file") ) / 86400 ))
+            LINES=$(wc -l < "$file" 2>/dev/null || echo "0")
+            echo "📄 $file"
+            echo "   Age: ${DAYS} days (~$((DAYS / 30)) months)"
+            echo "   Size: ${LINES} lines"
+            echo "   Last modified: $(stat -f %Sm -t "%Y-%m-%d" "$file" 2>/dev/null || stat -c %y "$file" | cut -d' ' -f1)"
+            echo ""
+          done
+          
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Review these files:"
+          echo "  - Are they still relevant?"
+          echo "  - Should they be updated?"
+          echo "  - Should they be archived/removed?"
+          echo "  - Should they be consolidated into other docs?"
+        else
+          echo "✅ No stale documentation found"
+          echo "   All documentation has been updated within the last 6 months"
+        fi
+    silent: true
+
+  docs:orphans:
+    desc: Find orphaned documentation files (not referenced anywhere)
+    cmds:
+      - |
+        echo "🔗 Orphaned Documentation Files"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "Files not referenced in any other documentation:"
+        echo ""
+        
+        FOUND=0
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          ! -path "*/assets/examples/*" \
+          ! -name "README.md" \
+          ! -name "CHANGELOG.md" \
+          ! -name "LICENSE.md" | while read doc; do
+          BASENAME=$(basename "$doc")
+          FILENAME="${BASENAME%.*}"
+          
+          # Check if file is referenced anywhere
+          REFS=$(grep -r -l "$BASENAME\|$FILENAME" \
+            --include="*.md" \
+            --include="*.yaml" \
+            --include="*.toml" \
+            --exclude-dir=node_modules \
+            --exclude-dir=book \
+            --exclude-dir=.task \
+            . 2>/dev/null | grep -v "$doc" | wc -l | tr -d ' ')
+          
+          if [ "$REFS" -eq 0 ]; then
+            echo "📄 $doc"
+            LINES=$(wc -l < "$doc" 2>/dev/null || echo "0")
+            echo "   Size: ${LINES} lines"
+            echo "   Not referenced in any other files"
+            echo ""
+            FOUND=$((FOUND + 1))
+          fi
+        done
+        
+        if [ $FOUND -eq 0 ]; then
+          echo "✅ No orphaned files found"
+          echo "   All documentation is referenced somewhere"
+        else
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Consider:"
+          echo "  - Adding references to these files in docs/SUMMARY.md or README.md"
+          echo "  - Consolidating content into other files"
+          echo "  - Removing if no longer needed"
+        fi
+    silent: true
+
+  docs:duplicates:
+    desc: Find potential duplicate content in documentation
+    cmds:
+      - |
+        echo "📋 Duplicate Content Detection"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        
+        # Check for files with similar names
+        echo "Files with similar names:"
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          ! -path "*/assets/examples/*" \
+          -exec basename {} \; | sort | while read file; do
+          COUNT=$(find . -type f -name "$file" \
+            ! -path "*/node_modules/*" \
+            ! -path "*/book/*" \
+            ! -path "*/.task/*" | wc -l | tr -d ' ')
+          if [ "$COUNT" -gt 1 ]; then
+            echo "  ⚠️  $file (found in $COUNT locations)"
+            find . -type f -name "$file" \
+              ! -path "*/node_modules/*" \
+              ! -path "*/book/*" \
+              ! -path "*/.task/*" | sed 's/^/     /'
+          fi
+        done
+        echo ""
+        
+        # Check for potential topic duplication by looking at headings
+        echo "Checking for duplicate topics (by heading analysis):"
+        echo "  (Looking for same H1 headings in different files)"
+        echo ""
+        
+        TEMP_FILE=$(mktemp)
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" \
+          ! -path "*/assets/examples/*" | while read file; do
+          grep "^# " "$file" 2>/dev/null | sed "s/^# //" | while read heading; do
+            echo "$heading|$file" >> "$TEMP_FILE"
+          done
+        done
+        
+        if [ -s "$TEMP_FILE" ]; then
+          cat "$TEMP_FILE" | awk -F'|' '{print $1}' | sort | uniq -c | while read count heading; do
+            if [ "$count" -gt 1 ]; then
+              echo "  ⚠️  \"$heading\" appears in $count files:"
+              grep "^$heading|" "$TEMP_FILE" | awk -F'|' '{print "     " $2}'
+            fi
+          done
+        fi
+        
+        rm -f "$TEMP_FILE"
+        echo ""
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "Review duplicates and consider:"
+        echo "  - Consolidating into a single authoritative document"
+        echo "  - Removing outdated versions"
+        echo "  - Cross-referencing if both are needed"
+    silent: true
+
+  docs:links:
+    desc: Check documentation for broken internal links and references
+    cmds:
+      - |
+        echo "🔗 Documentation Link Checker"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "Checking internal markdown links..."
+        echo ""
+        
+        BROKEN=0
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" | while read file; do
+          
+          # Extract markdown links [text](path)
+          grep -o '\[.*\]([^)]*\.md[^)]*)' "$file" 2>/dev/null | \
+          sed 's/.*(\([^)]*\)).*/\1/' | while read link; do
+            # Resolve relative paths
+            DIR=$(dirname "$file")
+            TARGET=$(cd "$DIR" && realpath -m "$link" 2>/dev/null || echo "$DIR/$link")
+            
+            if [ ! -f "$TARGET" ]; then
+              echo "  ❌ Broken link in $file"
+              echo "     Link: $link"
+              echo "     Target not found: $TARGET"
+              echo ""
+              BROKEN=$((BROKEN + 1))
+            fi
+          done
+        done
+        
+        if [ $BROKEN -eq 0 ]; then
+          echo "✅ All internal markdown links are valid"
+        fi
+        echo ""
+        
+        # Check for references to files that don't exist
+        echo "Checking file references in documentation..."
+        echo ""
+        
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" | while read file; do
+          
+          # Look for common file reference patterns
+          grep -oE '`[^`]+\.(lua|yaml|md|txt|sh)`' "$file" 2>/dev/null | \
+          sed 's/`//g' | while read ref; do
+            if [ ! -f "$ref" ] && ! find . -name "$ref" -type f 2>/dev/null | grep -q .; then
+              echo "  ⚠️  Referenced file may not exist: $ref"
+              echo "     Mentioned in: $file"
+              echo ""
+            fi
+          done
+        done
+        
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "Note: External URLs not checked (requires network connectivity)"
+        echo "Use: task docs:links:external to check external links"
+    silent: true
+
+  docs:links:external:
+    desc: Check external links (requires network connectivity)
+    cmds:
+      - |
+        echo "🌐 External Link Checker"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "⚠️  This check requires network connectivity and may be slow"
+        echo ""
+        
+        if ! command -v curl &> /dev/null; then
+          echo "❌ curl not found. Install with: brew install curl"
+          exit 1
+        fi
+        
+        echo "Checking external HTTP(S) links..."
+        echo ""
+        
+        find . -type f -name "*.md" \
+          ! -path "*/node_modules/*" \
+          ! -path "*/book/*" \
+          ! -path "*/.task/*" | while read file; do
+          
+          grep -oE 'https?://[^)]+' "$file" 2>/dev/null | sort -u | while read url; do
+            # Clean up URL (remove trailing punctuation)
+            url=$(echo "$url" | sed 's/[,;.]$//')
+            
+            HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}" -L --max-time 5 "$url" 2>/dev/null || echo "000")
+            
+            if [ "$HTTP_CODE" -ge 400 ] || [ "$HTTP_CODE" -eq "000" ]; then
+              echo "  ❌ Broken link (HTTP $HTTP_CODE): $url"
+              echo "     Found in: $file"
+              echo ""
+            fi
+          done
+        done
+        
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "✅ External link check complete"
+    silent: true
+
+  docs:consolidate:
+    desc: Interactive documentation consolidation workflow
+    cmds:
+      - |
+        echo "📚 Documentation Consolidation Workflow"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "This workflow will help you:"
+        echo "  1. Identify documentation issues"
+        echo "  2. Review and consolidate content"
+        echo "  3. Clean up obsolete files"
+        echo ""
+        
+        # Run audit
+        echo "Step 1: Running documentation audit..."
+        task docs:audit
+        echo ""
+        
+        # Prompt for stale file review
+        read -p "Review stale files? (y/N): " REVIEW_STALE
+        if [ "$REVIEW_STALE" = "y" ] || [ "$REVIEW_STALE" = "Y" ]; then
+          task docs:stale
+          echo ""
+        fi
+        
+        # Prompt for orphan review
+        read -p "Review orphaned files? (y/N): " REVIEW_ORPHANS
+        if [ "$REVIEW_ORPHANS" = "y" ] || [ "$REVIEW_ORPHANS" = "Y" ]; then
+          task docs:orphans
+          echo ""
+        fi
+        
+        # Prompt for duplicate review
+        read -p "Check for duplicates? (y/N): " REVIEW_DUPS
+        if [ "$REVIEW_DUPS" = "y" ] || [ "$REVIEW_DUPS" = "Y" ]; then
+          task docs:duplicates
+          echo ""
+        fi
+        
+        # Prompt for link checking
+        read -p "Check for broken links? (y/N): " REVIEW_LINKS
+        if [ "$REVIEW_LINKS" = "y" ] || [ "$REVIEW_LINKS" = "Y" ]; then
+          task docs:links
+          echo ""
+        fi
+        
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "✅ Documentation review complete"
+        echo ""
+        echo "Next steps:"
+        echo "  1. Review flagged issues above"
+        echo "  2. Consolidate or remove obsolete content"
+        echo "  3. Update references and links"
+        echo "  4. Run 'task docs:audit' again to verify improvements"
+    silent: true
 
   docs:install:
     desc: Verify mdbook is installed
@@ -914,6 +1597,42 @@ tasks:
       - task: dev:test
     silent: true
 
+  validate:
+    desc: Alias for dev:validate:all
+    cmds:
+      - task: dev:validate:all
+    silent: true
+
+  validate:syntax:
+    desc: Alias for dev:validate:syntax
+    cmds:
+      - task: dev:validate:syntax
+    silent: true
+
+  validate:manifest:
+    desc: Alias for dev:validate:manifest
+    cmds:
+      - task: dev:validate:manifest
+    silent: true
+
+  validate:files:
+    desc: Alias for dev:validate:files
+    cmds:
+      - task: dev:validate:files
+    silent: true
+
+  validate:changelog:
+    desc: Alias for dev:validate:changelog
+    cmds:
+      - task: dev:validate:changelog
+    silent: true
+
+  validate:readme:
+    desc: Alias for dev:validate:readme
+    cmds:
+      - task: dev:validate:readme
+    silent: true
+
   build:
     desc: Alias for build:release
     cmds:
@@ -933,7 +1652,7 @@ tasks:
     silent: true
 
   release:
-    desc: Alias for release:full
+    desc: Alias for release:workflow (guided release process)
     cmds:
-      - task: release:full
+      - task: release:workflow
     silent: true

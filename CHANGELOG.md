@@ -7,24 +7,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned
+- Export templates (user-defined markdown templates)
+- Build comparison (compare two characters side-by-side)
+- Historical tracking (save build snapshots)
+- Guild integration (share builds to guild roster)
+- Build import (parse markdown back to settings)
+
+---
+
+## [2.2.0] - 2025-11-15
+
 ### Added
-- **Settings Export/Import**: New commands for exporting and importing settings in YAML format
+- **Settings Export/Import**: New commands for managing addon settings
   - `/cmdsettings export` - Export all settings to human-readable YAML format
   - `/cmdsettings import` - Import settings from YAML (supports partial imports)
+  - `/cmdsettings test:import-export` - Validate export/import functionality
   - Grouped format with logical sections: core, links, visuals, content, extended, champion, equipment, skills, display
   - Partial import support - only import the settings you provide, leave others unchanged
   - Format enforcement - imports must use the grouped structure
-  - Type validation and error reporting
-  - Metadata header with version and export date
+  - Type validation with detailed error reporting
+  - Metadata header with version and export timestamp
+- **Documentation System**: Comprehensive documentation organization and tooling
+  - Added `docs/prompts/changelog_entry_prompt.md` - AI-assisted CHANGELOG generation
+  - Added `docs/prompts/documentation_consolidation_prompt.md` - Documentation cleanup automation
+  - Added `docs/DOCUMENTATION_AUDIT_GUIDE.md` - Documentation health check guide
+  - Added `docs/RELEASE_TASKS_REFERENCE.md` - Complete task command reference
+  - Added `docs/TASKFILE_ENHANCEMENTS.md` - Taskfile improvements documentation
+  - Added `docs/VERSION_PLACEHOLDER_SYSTEM.md` - Git-based versioning guide
+  - Created `archive/` directory for historical implementation docs
+- **Release Automation**: Enhanced release workflow and validation
+  - Comprehensive pre-release validation script (`scripts/pre-release-check.sh`)
+  - New task commands: `task release:check`, `task release:tag`, `task release:checklist`
+  - Documentation audit tasks: `task docs:audit`, `task docs:links`
+  - Example file cleanup: `task examples:trim` with dry-run support
+  - Git hook installation: `task git:hooks:install` for automated validation
+- **Scripts and Tools**: New utility scripts for maintenance
+  - `scripts/trim-markdown.py` - Clean up markdown files (remove chunk markers, excess padding)
+  - `scripts/README.md` - Documentation for all project scripts
 
 ### Changed
 - **Settings Export Format**: Improved readability with organized grouping
-  - Settings are now organized into logical sections instead of flat structure
+  - Settings organized into logical sections instead of flat structure
   - Removed deep ZO_SavedVars nesting for cleaner output
   - Added metadata header with version and export timestamp
-  - Excluded filter presets from export to keep it concise
+  - Excluded filter presets from export to keep output concise
+- **Documentation Structure**: Major reorganization for better maintainability
+  - Moved 17 implementation/review docs to `archive/` directory
+  - Updated all documentation with improved formatting and cross-references
+  - Enhanced `RELEASE_CHECKLIST.md` with AI automation instructions
+  - Improved `docs/PUBLISHING.md`, `docs/DEVELOPMENT.md`, `docs/ARCHITECTURE.md`
+  - Streamlined example files in `assets/examples/` and `assets/templates/`
+- **GitHub Actions**: Enhanced release workflow (`release.yaml`)
+  - Better validation and error handling
+  - Improved release artifact generation
+- **Taskfile**: Expanded task automation (`Taskfile.yaml`)
+  - New release management tasks
+  - Documentation validation tasks
+  - Example file cleanup tasks
+  - Git operations tasks
 
-### Planned
+### Fixed
+- **Example Files**: Cleaned up markdown examples
+  - Removed chunk markers from example files
+  - Reduced excessive trailing newlines
+  - Improved readability for distribution
 
 ## [2.1.11] - 2025-01-21
 

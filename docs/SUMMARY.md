@@ -7,6 +7,7 @@
 - [Development Guide](DEVELOPMENT.md)
 - [Architecture](ARCHITECTURE.md)
 - [API Reference](API_REFERENCE.md)
+- [Version Placeholder System](VERSION_PLACEHOLDER_SYSTEM.md)
 
 # Features
 
@@ -20,6 +21,8 @@
 - [Memory Management](MEMORY_MANAGEMENT.md)
 - [Testing](TESTING_COMMAND.md)
 - [Publishing](PUBLISHING.md)
+- [Release Tasks Reference](RELEASE_TASKS_REFERENCE.md)
+- [Documentation Audit Guide](DOCUMENTATION_AUDIT_GUIDE.md)
 
 # Reference
 

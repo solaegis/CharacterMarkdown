@@ -371,7 +371,7 @@ Automated via Taskfile:
 - **[User Guide](README.md)** - Usage instructions and troubleshooting
 - **[Development Guide](DEVELOPMENT.md)** - Setup, workflow, and contribution guidelines
 - **[API Reference](API_REFERENCE.md)** - ESO Lua API patterns and best practices
-- **[Testing Guide](../TESTING_GUIDE.md)** - Validation and testing procedures
+- **[Testing Guide](TESTING_COMMAND.md)** - Validation and testing procedures
 - **[Publishing Guide](PUBLISHING.md)** - Release and distribution process
 
 ## Resources

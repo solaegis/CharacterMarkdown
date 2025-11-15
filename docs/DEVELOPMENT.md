@@ -52,7 +52,7 @@ task test    # Full validation
 /markdown test        # Run validation tests
 ```
 
-See [Testing Guide](../TESTING_GUIDE.md) for detailed testing procedures.
+See [Testing Guide](TESTING_COMMAND.md) for detailed testing procedures.
 
 ### 4. Commit
 ```bash
@@ -213,7 +213,7 @@ task validate       # Manifest + structure
 task test           # All checks
 ```
 
-For comprehensive testing procedures, see the [Testing Guide](../TESTING_GUIDE.md).
+For comprehensive testing procedures, see the [Testing Guide](TESTING_COMMAND.md).
 
 ### Pre-Release Checklist
 - [ ] All formats generate correctly

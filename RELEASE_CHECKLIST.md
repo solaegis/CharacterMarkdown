@@ -11,20 +11,31 @@ This checklist covers all aspects of preparing CharacterMarkdown for release: co
 **For Cursor AI or manual execution:**
 
 ```bash
-# Run comprehensive pre-release validation
-./scripts/pre-release-check.sh
+# Run comprehensive pre-release validation (RECOMMENDED)
+task release:check
 
-# Or use Taskfile commands
+# Or use individual commands
 task test              # Lint + validate
 task build             # Build and validate ZIP
+task validate          # All validations (files, manifest, syntax, changelog)
+
+# View interactive checklist
+task release:checklist
+
+# Guided release workflow (interactive)
+task release           # or: task release:workflow
 ```
+
+**📖 See [docs/RELEASE_TASKS_REFERENCE.md](docs/RELEASE_TASKS_REFERENCE.md) for complete task command reference**
 
 **Cursor AI can automatically run these checks:**
 - ✅ Code linting (`task lint`)
+- ✅ All validations (`task validate`)
 - ✅ Syntax validation (`task validate:syntax`)
 - ✅ Manifest validation (`task validate:manifest`)
+- ✅ README.md badges (`task validate:readme`)
 - ✅ Build validation (`task build`)
-- ✅ ZIP structure validation (`scripts/validate-zip.sh`)
+- ✅ Comprehensive pre-release check (`task release:check`)
 
 ---
 
@@ -71,16 +82,9 @@ task build             # Build and validate ZIP
 #### Manual Checks
 
 - [ ] **Code Review**
-  - [ ] No `goto` statements (Lua 5.1 compatibility)
-  - [ ] All ESO API calls use `CM.SafeCall()` or `pcall`
-  - [ ] No direct `d()` calls (use `CM.Info()`, `CM.Warn()`, `CM.Error()`)
-  - [ ] Namespace conventions followed (`CM.moduleName.FunctionName()`)
-  - [ ] Error handling present for all ESO API calls
-
-- [ ] **Lua 5.1 Compatibility**
-  - [ ] No Lua 5.2+ features used
-  - [ ] No `goto` statements
-  - [ ] No bitwise operators (unless using bit library)
+  - [ ] All code follows patterns and conventions in `.cursorrules`
+  - [ ] Lua 5.1 compatibility (no `goto` statements, etc.)
+  - [ ] Error handling, namespace conventions, and logging patterns followed
   - [ ] Tested in ESO environment
 
 ---
@@ -88,6 +92,30 @@ task build             # Build and validate ZIP
 ### 2. Documentation Review
 
 #### Automated Checks
+
+- [ ] **Documentation Audit**
+  ```bash
+  task docs:audit       # Comprehensive documentation health check
+  task docs:links       # Check for broken links
+  ```
+  - ✅ No orphaned files (or acceptable orphans documented)
+  - ✅ No broken internal links
+  - ✅ No stale files (or reviewed and accepted)
+  - ✅ No duplicate content
+  - ✅ Documentation health score > 90
+  - See [docs/DOCUMENTATION_AUDIT_GUIDE.md](docs/DOCUMENTATION_AUDIT_GUIDE.md) for details
+  - **Cursor AI**: Use [`@docs/prompts/documentation_consolidation_prompt.md`](docs/prompts/documentation_consolidation_prompt.md) for automated cleanup
+
+- [ ] **Example Files Cleanup**
+  ```bash
+  task examples:trim:dry-run   # Preview changes
+  task examples:trim           # Trim unnecessary newlines
+  ```
+  - ✅ Remove chunk markers from example files
+  - ✅ Remove excessive padding (550+ trailing newlines)
+  - ✅ Reduce consecutive blank lines (3+ → 2)
+  - ✅ All markdown structure preserved
+  - ℹ️  Example files in `assets/examples/` should be clean for distribution
 
 - [ ] **CHANGELOG.md Updated**
   ```bash
@@ -98,12 +126,22 @@ task build             # Build and validate ZIP
   - ✅ Entry follows [Keep a Changelog](https://keepachangelog.com/) format
   - ✅ All changes documented (Added/Changed/Fixed/Removed)
   - ✅ Date is correct (YYYY-MM-DD format)
+  - **Cursor AI**: Use [`@docs/prompts/changelog_entry_prompt.md`](docs/prompts/changelog_entry_prompt.md) to generate properly formatted entries
+    ```
+    @docs/prompts/changelog_entry_prompt.md
+    Generate CHANGELOG entry for v2.2.0 from recent changes
+    ```
+
+- [ ] **README.md Badges**
+  ```bash
+  task validate:readme
+  ```
+  - ✅ API version badge matches manifest
+  - ℹ️  Version badge (updated after Git tag)
 
 #### Manual Checks
 
-- [ ] **README.md**
-  - [ ] Version badge updated (if applicable)
-  - [ ] API version badge updated
+- [ ] **README.md Content**
   - [ ] Features list accurate
   - [ ] Installation instructions correct
   - [ ] Usage examples work
@@ -152,10 +190,12 @@ task build             # Build and validate ZIP
 
 - [ ] **API Version**
   ```bash
-  # Get current ESO API version in-game:
-  # /script d(GetAPIVersion())
-  # Then update:
+  # Get current ESO API version in-game: /script d(GetAPIVersion())
+  # Then update manifest:
   task version:api -- <API_VERSION>
+  
+  # Example:
+  task version:api -- 101049
   ```
   - ✅ APIVersion in manifest matches current ESO version
   - ✅ Tested with current ESO API version
@@ -304,8 +344,12 @@ task build             # Build and validate ZIP
 
 - [ ] **Tag Creation**
   ```bash
-  # Create tag:
-  git tag -a v<version> -m "Release v<version>"
+  # Interactive (recommended - prompts before push):
+  task release:tag
+  
+  # Or manual:
+  task git:tag                    # Creates tag
+  git push origin main --tags     # Push tag
   
   # Verify tag:
   git tag -l "v*"
@@ -371,8 +415,12 @@ Once tag is pushed, GitHub Actions will:
 
 - [ ] **Create and Push Tag**
   ```bash
-  git tag -a v<version> -m "Release v<version>"
-  git push origin main --tags
+  # Recommended (interactive with confirmation):
+  task release:tag
+  
+  # Or step-by-step:
+  task git:tag                    # Creates tag locally
+  git push origin main --tags     # Push to GitHub (triggers Actions)
   ```
 
 - [ ] **Monitor GitHub Actions**
@@ -424,11 +472,18 @@ Once tag is pushed, GitHub Actions will:
 
 ## 🚀 Quick Release Workflow
 
-**For Cursor AI or manual execution:**
+**Option 1: Guided Interactive Workflow (Recommended)**
+
+```bash
+# Run guided release workflow - walks you through all steps
+task release
+```
+
+**Option 2: Manual Step-by-Step Workflow**
 
 ```bash
 # 1. Run automated validation
-./scripts/pre-release-check.sh
+task release:check
 
 # 2. Bump version (if needed)
 task version:bump -- patch   # or minor/major
@@ -442,12 +497,24 @@ task build
 
 # 5. Commit and tag
 git add .
-git commit -m "Release v<version>"
-git tag -a v<version> -m "Release v<version>"
-git push origin main --tags
+task git:commit -- "Release v<version>"
+task release:tag              # Interactive (prompts before push)
 
 # 6. Monitor GitHub Actions
 # Check Actions tab for automated release
+```
+
+**Option 3: Use Helper Commands**
+
+```bash
+# Display checklist
+task release:checklist
+
+# View release help
+task help:release
+
+# Install git hooks for automatic validation before pushing tags
+task git:hooks:install
 ```
 
 ---
@@ -456,13 +523,25 @@ git push origin main --tags
 
 ### Install Pre-Push Hook
 
+**Option 1: Using Task (Recommended)**
+
+```bash
+# Install pre-push hook
+task git:hooks:install
+
+# Test the hook
+task git:hooks:test
+
+# Uninstall if needed
+task git:hooks:uninstall
+```
+
+**Option 2: Manual Installation**
+
 ```bash
 # Copy hook template
 cp scripts/git-hooks/pre-push .git/hooks/pre-push
 chmod +x .git/hooks/pre-push
-
-# Or create symlink (if hooks directory exists)
-ln -s ../../scripts/git-hooks/pre-push .git/hooks/pre-push
 ```
 
 The pre-push hook will:
@@ -470,14 +549,22 @@ The pre-push hook will:
 - ✅ Prevent push if validation fails
 - ✅ Skip validation for non-tag pushes (optional)
 
+To bypass the hook if needed:
+```bash
+git push --no-verify
+```
+
 ### Manual Pre-Release Check
 
 ```bash
-# Run comprehensive pre-release validation
+# Run comprehensive pre-release validation (recommended)
+task release:check
+
+# Or run the script directly
 ./scripts/pre-release-check.sh
 ```
 
-This script runs all automated checks from the checklist.
+These run all automated checks from the checklist.
 
 ---
 
@@ -495,7 +582,7 @@ This script runs all automated checks from the checklist.
 
 - [Publishing Guide](docs/PUBLISHING.md) - Detailed release process
 - [Development Guide](docs/DEVELOPMENT.md) - Development workflow
-- [Testing Guide](TESTING_GUIDE.md) - In-game testing procedures
+- [Testing Guide](docs/TESTING_COMMAND.md) - In-game testing procedures
 - [Architecture](docs/ARCHITECTURE.md) - Code structure
 
 ---

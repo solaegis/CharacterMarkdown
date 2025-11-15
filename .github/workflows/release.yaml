@@ -145,20 +145,23 @@ jobs:
           lua scripts/validate-manifest.lua ${{ env.ADDON_NAME }}.addon
 
       # ========================================================================
-      # 5. Update Manifest Versions
+      # 5. Update Version Placeholders (General Approach)
       # ========================================================================
-      - name: Update manifest version
+      - name: Replace version placeholders
         run: |
           VERSION="${{ steps.version.outputs.VERSION }}"
           DATE_VERSION=$(date +'%Y%m%d')
           
-          echo "📝 Updating ${{ env.ADDON_NAME }}.addon"
-          sed -i "s/^## Version: .*/## Version: $VERSION/g" ${{ env.ADDON_NAME }}.addon
+          echo "📝 Replacing @project-version@ placeholders everywhere"
+          chmod +x scripts/replace-version.sh
+          ./scripts/replace-version.sh . "$VERSION"
+          
+          echo "📝 Updating AddOnVersion in manifest"
           sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/g" ${{ env.ADDON_NAME }}.addon
           
-          echo "✅ Manifest updated:"
-          echo "   Version: $VERSION"
-          echo "   AddOnVersion: $DATE_VERSION"
+          echo "✅ Version updates complete:"
+          echo "   @project-version@ → $VERSION (in all files)"
+          echo "   AddOnVersion → $DATE_VERSION (in manifest)"
 
       # ========================================================================
       # 6. Create Release ZIP

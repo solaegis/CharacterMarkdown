@@ -399,7 +399,7 @@ Check with: `IsUnitInCombat("player")`
 
 - **[Architecture](ARCHITECTURE.md)** - Code structure and design patterns
 - **[Development Guide](DEVELOPMENT.md)** - Setup and contribution guidelines
-- **[Testing Guide](../TESTING_GUIDE.md)** - Validation procedures
+- **[Testing Guide](TESTING_COMMAND.md)** - Validation procedures
 
 ## Resources
 

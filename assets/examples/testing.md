@@ -43,7 +43,6 @@
 | ⚪ Sardonyx | 809 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -56,7 +55,6 @@
 | 🟡 Kuta | 169 | 🟡 |
 | 🟣 Rekuta | 574 | 🟣 |
 | ⚪ Ta | 3023 | ⚪ |
-
 
 
 </div>
@@ -85,7 +83,6 @@
 | ⚪ Taderi | 226 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -101,7 +98,6 @@
 | ⚪ Mundane Rune | 1055 | ⚪ |
 | ⚪ Ochre | 248 | ⚪ |
 | ⚪ Regulus | 380 | ⚪ |
-
 
 
 </div>
@@ -163,7 +159,6 @@
 | ⚪ Yerba Mate | 685 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -172,7 +167,6 @@
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Luminous Ink | 19 | ⚪ |
-
 
 
 </div>
@@ -189,7 +183,6 @@
 | ⚪ zinc | 27 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -203,7 +196,6 @@
 | ⚪ insect parts, River Bait | 309 | ⚪ |
 | ⚪ shad, River Bait | 25 | ⚪ |
 | ⚪ worms, Saltwater Bait | 1126 | ⚪ |
-
 
 
 </div>
@@ -260,7 +252,6 @@
 | ⚪ voidstone ingot | 741 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -272,7 +263,6 @@
 | 🔵 Iridium Plating | 149 | 🔵 |
 | 🟢 Terne Plating | 275 | 🟢 |
 | 🟣 Zircon Plating | 17 | 🟣 |
-
 
 
 </div>
@@ -291,7 +281,6 @@
 | ⚪ Slime | 348 | ⚪ |
 | ⚪ Tarblack | 25 | ⚪ |
 | ⚪ Terebinthine | 1180 | ⚪ |
-
 
 
 </div>
@@ -334,7 +323,6 @@
 | ⚪ Tade | 46 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -351,7 +339,6 @@
 | ⚪ pristine water | 425 | ⚪ |
 | ⚪ purified water | 89 | ⚪ |
 | ⚪ Star Dew | 60 | ⚪ |
-
 
 
 </div>
@@ -409,7 +396,6 @@
 | ⚪ Viridian Dust | 2 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -422,7 +408,6 @@
 | ⚪ Pulverized Cobalt | 8 | ⚪ |
 | ⚪ Pulverized Titanium | 1 | ⚪ |
 | ⚪ Pulverized Zinc | 3 | ⚪ |
-
 
 
 </div>
@@ -464,7 +449,6 @@
 | 🟢 wormwood | 524 | 🟢 |
 
 
-
 </div>
 <div>
 
@@ -476,7 +460,6 @@
 | 🟢 pitch | 768 | 🟢 |
 | 🟡 rosin | 25 | 🟡 |
 | 🔵 turpen | 601 | 🔵 |
-
 
 
 </div>
@@ -551,7 +534,6 @@
 | ⚪ Wrought Ferrofungus | 1 | ⚪ |
 
 
-
 </div>
 <div>
 
@@ -565,7 +547,6 @@
 | 🟢 hemming | 1052 | 🟢 |
 
 
-
 </div>
 <div>
 
@@ -577,7 +558,6 @@
 | 🟣 grain solvent | 190 | 🟣 |
 | 🟢 honing stone | 958 | 🟢 |
 | 🟡 tempering alloy | 31 | 🟡 |
-
 
 
 </div>
@@ -598,11 +578,9 @@
 | ⚪ Turquoise | 365 | ⚪ |
 
 
-
 </div>
 
 </div>
-
 
 
 </details>
@@ -618,4 +596,3 @@
 <sub>Generated on 11/13/2025</sub>
 
 </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                             
