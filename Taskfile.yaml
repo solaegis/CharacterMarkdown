@@ -661,10 +661,23 @@ tasks:
     silent: true
 
   release:tag:
-    desc: Create and push release tag (interactive)
+    desc: "Create and push release tag (interactive) - Usage: task release:tag -- 2.2.0"
     cmds:
       - |
-        VERSION="{{.VERSION}}"
+        # Check if version provided as CLI argument
+        if [ -n "{{.CLI_ARGS}}" ]; then
+          VERSION="{{.CLI_ARGS}}"
+        else
+          VERSION="{{.VERSION}}"
+        fi
+        
+        # Validate semantic version format (X.Y.Z)
+        if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+          echo "❌ Error: Version must be in semantic format (e.g., 2.2.0)"
+          echo "   Provided: $VERSION"
+          exit 1
+        fi
+        
         echo "📋 Creating release tag v${VERSION}"
         read -p "Create tag v${VERSION}? (y/N): " CONFIRM
         if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
