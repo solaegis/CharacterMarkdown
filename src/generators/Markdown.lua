@@ -357,8 +357,8 @@ local function GetSectionRegistry(format, settings, gen, data)
                     end
                 end
 
-                -- Add Skill Morphs (collapsible section, can be integrated later)
-                if skillMorphsData and #skillMorphsData > 0 and format ~= "discord" then
+                -- Add Skill Morphs (collapsible section, respects includeSkillMorphs setting)
+                if IsSettingEnabled(settings, "includeSkillMorphs", false) and skillMorphsData and #skillMorphsData > 0 and format ~= "discord" then
                     local success, morphsContent = pcall(gen.GenerateSkillMorphs, skillMorphsData, format)
                     if success and morphsContent then
                         -- Strip header and separator from morphs
@@ -383,7 +383,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                         output = output .. morphsContent
                         output = output .. "</details>\n\n"
                     end
-                elseif skillMorphsData and #skillMorphsData > 0 and format == "discord" then
+                elseif IsSettingEnabled(settings, "includeSkillMorphs", false) and skillMorphsData and #skillMorphsData > 0 and format == "discord" then
                     -- Discord: keep existing format
                     local success, morphsContent = pcall(gen.GenerateSkillMorphs, skillMorphsData, format)
                     if success and morphsContent then

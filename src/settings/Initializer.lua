@@ -204,6 +204,23 @@ function CM.Settings.Initializer:InitializeCharacterData()
         CM.settings.markdown_format = ""
     end
     
+    -- Ensure all required fields exist (migration-safe for existing characters)
+    if not CM.charData.customNotes then
+        CM.charData.customNotes = ""
+    end
+    if not CM.charData.customTitle then
+        CM.charData.customTitle = ""
+    end
+    if not CM.charData.playStyle then
+        CM.charData.playStyle = ""
+    end
+    if not CM.charData.markdown_format then
+        CM.charData.markdown_format = ""
+    end
+    if not CM.charData.markdown then
+        CM.charData.markdown = ""
+    end
+    
     -- Update metadata
     CM.charData._lastModified = GetTimeStamp()
     CM.charData._characterName = GetUnitName("player")

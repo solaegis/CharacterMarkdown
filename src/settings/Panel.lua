@@ -579,7 +579,7 @@ function CM.Settings.Panel:AddCharacterIdentitySection(options)
         end,
         setFunc = CreateSetFunc("includeDLCAccess"),
         width = "half",
-        default = true,
+        default = false,
     })
 end
 

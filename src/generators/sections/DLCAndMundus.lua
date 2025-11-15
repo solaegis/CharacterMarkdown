@@ -236,27 +236,6 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
     local settings = CharacterMarkdownSettings or {}
     local includeDetailed = settings.includeCollectiblesDetailed or false
 
-    -- Auto-enable detailed mode if we have any owned collectibles to show
-    -- This allows users to see their collected items even if setting is disabled
-    if not includeDetailed and collectiblesData.categories then
-        for _, key in ipairs({
-            "mounts",
-            "pets",
-            "costumes",
-            "emotes",
-            "mementos",
-            "skins",
-            "polymorphs",
-            "personalities",
-        }) do
-            local category = collectiblesData.categories[key]
-            if category and #category.owned > 0 then
-                includeDetailed = true
-                break
-            end
-        end
-    end
-
     if format == "discord" then
         -- Discord: Always show summary counts only (no detailed lists)
         markdown = markdown .. "**Collectibles:**\n"
@@ -340,8 +319,13 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
         InitializeUtilities()
         markdown = markdown .. "## 🎨 Collectibles\n\n"
 
-        -- Add DLC as first collapsible item
-        if dlcData then
+        -- Add DLC as first collapsible item (respects includeDLCAccess setting)
+        local includeDLCAccess = settings.includeDLCAccess
+        if includeDLCAccess == nil then
+            includeDLCAccess = false -- Default to false per Defaults.lua
+        end
+        
+        if dlcData and includeDLCAccess then
             local dlcContent = GenerateDLCAsCollectible(dlcData, format)
             if dlcContent ~= "" then
                 markdown = markdown .. dlcContent
