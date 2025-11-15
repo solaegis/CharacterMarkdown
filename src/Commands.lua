@@ -610,18 +610,27 @@ local function HandleSettingsReset(args)
     local defaults = CM.Settings and CM.Settings.Defaults and CM.Settings.Defaults:GetAll() or {}
     local count = 0
     
-    -- Reset all settings to defaults (preserve internal metadata)
+    -- Preserve per-character data before reset
+    local preservedPerCharacterData = CharacterMarkdownSettings.perCharacterData
+    
+    -- Reset all settings to defaults (preserve internal metadata and per-character data)
     for key, defaultValue in pairs(defaults) do
-        if key:sub(1, 1) ~= "_" then
+        -- Skip internal metadata (starts with _) and per-character data
+        if key:sub(1, 1) ~= "_" and key ~= "perCharacterData" then
             CharacterMarkdownSettings[key] = defaultValue
             count = count + 1
         end
     end
     
+    -- Restore per-character data (preserves customNotes, customTitle, playStyle for all characters)
+    if preservedPerCharacterData then
+        CharacterMarkdownSettings.perCharacterData = preservedPerCharacterData
+    end
+    
     CharacterMarkdownSettings._lastModified = GetTimeStamp()
     CM.InvalidateSettingsCache()
     
-    CM.Success("Reset " .. count .. " settings to defaults")
+    CM.Success("Reset " .. count .. " settings to defaults (per-character data preserved)")
 end
 
 local function HandleSettingsEnableAll(args)
