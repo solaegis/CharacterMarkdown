@@ -429,17 +429,19 @@ local function HandleSettings(args)
         return
     end
     
-    -- Use LibAddonMenu2's OpenToPanel to directly open our panel
-    local panelId = "CharacterMarkdownPanel"
-    if LibAddonMenu2.OpenToPanel then
-        LibAddonMenu2:OpenToPanel(panelId)
-        CM.DebugPrint("COMMANDS", "Opened settings panel via LAM:OpenToPanel")
+    -- Use the /cmdsettings command that LAM registered for our panel
+    -- This is the most reliable way to open our specific panel
+    local lamHandler = SLASH_COMMANDS["/cmdsettings"]
+    if lamHandler and type(lamHandler) == "function" then
+        -- Call the LAM-registered handler directly
+        lamHandler("")
+        CM.DebugPrint("COMMANDS", "Opened settings via /cmdsettings LAM handler")
     else
-        -- Fallback: Use the /cmdsettings command that LAM registered
-        local lamHandler = SLASH_COMMANDS["/cmdsettings"]
-        if lamHandler and type(lamHandler) == "function" then
-            lamHandler("")
-            CM.DebugPrint("COMMANDS", "Opened settings via /cmdsettings LAM handler")
+        -- Fallback: Try LibAddonMenu2's OpenToPanel
+        local panelId = "CharacterMarkdownPanel"
+        if LibAddonMenu2.OpenToPanel then
+            LibAddonMenu2:OpenToPanel(panelId)
+            CM.DebugPrint("COMMANDS", "Opened settings panel via LAM:OpenToPanel")
         else
             -- Last resort: Open Add-Ons category and show instructions
             SCENE_MANAGER:Show("gameMenuInGame")
@@ -1061,6 +1063,13 @@ local function RegisterCmdSettingsCommand()
         -- No args - show deprecation and open panel
         if not args or args == "" then
             CM.Warn("Note: /cmdsettings is deprecated. Use /markdown settings instead.")
+            
+            -- Call the original LAM handler if it exists
+            if lamHandler and type(lamHandler) == "function" then
+                lamHandler(args)
+            else
+                CM.Info("Use: ESC → Settings → Add-Ons → CharacterMarkdown")
+            end
         else
             -- Unknown subcommand - show error
             CM.Error("Unknown /cmdsettings subcommand: " .. tostring(args))
@@ -1068,35 +1077,6 @@ local function RegisterCmdSettingsCommand()
             CM.Info("  /markdown settings - Open settings panel")
             CM.Info("  /markdown settings:export - Export settings")
             CM.Info("  /markdown settings:import - Import settings")
-            return
-        end
-        
-        -- Delegate to LibAddonMenu's handler if it exists
-        if lamHandler and type(lamHandler) == "function" then
-            lamHandler(args)
-        elseif LibAddonMenu2 then
-            -- Use the same logic as HandleSettings
-            local panelId = "CharacterMarkdownPanel"
-            if LibAddonMenu2.OpenToPanel then
-                LibAddonMenu2:OpenToPanel(panelId)
-            else
-                -- Fallback to opening Add-Ons category
-                SCENE_MANAGER:Show("gameMenuInGame")
-                PlaySound(SOUNDS.MENU_SHOW)
-                zo_callLater(function()
-                    local mainMenu = SYSTEMS:GetObject("mainMenu")
-                    if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
-                        pcall(function() mainMenu:ShowCategory(MENU_CATEGORY_ADDONS) end)
-                    end
-                    CM.Info("Please select 'Character Markdown' from the Add-Ons list")
-                end, 100)
-            end
-        else
-            CM.Info("Usage:")
-            CM.Info("  /markdown settings - Open settings panel")
-            CM.Info("  /markdown settings:export - Export settings to YAML")
-            CM.Info("  /markdown settings:import - Import settings from YAML")
-            CM.Info("Or use: ESC → Settings → Add-Ons → CharacterMarkdown")
         end
     end
 
