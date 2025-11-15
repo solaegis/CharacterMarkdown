@@ -19,15 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.0] - 2025-11-15
 
 ### Added
-- **Settings Export/Import**: New commands for managing addon settings
-  - `/cmdsettings export` - Export all settings to human-readable YAML format
-  - `/cmdsettings import` - Import settings from YAML (supports partial imports)
-  - `/cmdsettings test:import-export` - Validate export/import functionality
-  - Grouped format with logical sections: core, links, visuals, content, extended, champion, equipment, skills, display
-  - Partial import support - only import the settings you provide, leave others unchanged
-  - Format enforcement - imports must use the grouped structure
-  - Type validation with detailed error reporting
-  - Metadata header with version and export timestamp
 - **Documentation System**: Comprehensive documentation organization and tooling
   - Added `docs/prompts/changelog_entry_prompt.md` - AI-assisted CHANGELOG generation
   - Added `docs/prompts/documentation_consolidation_prompt.md` - Documentation cleanup automation
@@ -47,11 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `scripts/README.md` - Documentation for all project scripts
 
 ### Changed
-- **Settings Export Format**: Improved readability with organized grouping
-  - Settings organized into logical sections instead of flat structure
-  - Removed deep ZO_SavedVars nesting for cleaner output
-  - Added metadata header with version and export timestamp
-  - Excluded filter presets from export to keep output concise
 - **Documentation Structure**: Major reorganization for better maintainability
   - Moved 17 implementation/review docs to `archive/` directory
   - Updated all documentation with improved formatting and cross-references
