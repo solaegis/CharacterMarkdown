@@ -364,29 +364,16 @@ CM.collectors.CollectInventoryData = CollectInventoryData
 local function CollectRidingSkillsData()
     local riding = {}
 
-    -- GetRidingStats() returns values in order: staminaBonus, speedBonus, carryBonus
-    -- ESO API behavior: Returns skill levels, but may be multiplied by 10 in some cases
-    -- SafeCall can't handle multiple returns directly, so we use pcall and handle errors
-    local success, first, second, third = pcall(GetRidingStats)
+    -- GetRidingStats() returns: speed, stamina, carryCapacity (in that order)
+    -- Values are already in the 0-60 range
+    local success, speed, stamina, capacity = pcall(GetRidingStats)
     if not success then
-        first, second, third = 0, 0, 0
-    end
-    -- API returns: first=stamina, second=speed, third=capacity
-    local speedRaw = second or 0
-    local staminaRaw = first or 0
-    local capacityRaw = third or 0
-    
-    -- Convert to skill levels (0-60)
-    -- GetRidingStats() appears to return skill level * 10 (e.g., 60 = skill level 6)
-    -- So we divide by 10 to get the actual skill level
-    local function convertToSkillLevel(rawValue)
-        -- Divide by 10 to convert from API format (skill level * 10) to actual skill level (0-60)
-        return math.floor((rawValue / 10) + 0.5)
+        speed, stamina, capacity = 0, 0, 0
     end
     
-    riding.speed = convertToSkillLevel(speedRaw)
-    riding.stamina = convertToSkillLevel(staminaRaw)
-    riding.capacity = convertToSkillLevel(capacityRaw)
+    riding.speed = speed or 0
+    riding.stamina = stamina or 0
+    riding.capacity = capacity or 0
     
     -- Ensure values are within valid range (0-60)
     riding.speed = math.max(0, math.min(60, riding.speed))
