@@ -198,9 +198,23 @@ function CM.Settings.Initializer:InitializeCharacterData()
     -- Ensure the per-character storage exists in settings
     if not CM.settings.perCharacterData then
         CM.settings.perCharacterData = {}
+        CM.DebugPrint("SETTINGS", "Created perCharacterData table (was nil)")
     end
     
-    -- Ensure this character has an entry
+    -- Check if character entry exists and log what we found
+    local existingData = CM.settings.perCharacterData[characterId]
+    if existingData then
+        CM.DebugPrint("SETTINGS", string.format(
+            "Found existing data for character %s: customNotes=%d bytes, playStyle=%s",
+            characterId,
+            existingData.customNotes and #existingData.customNotes or 0,
+            tostring(existingData.playStyle or "nil")
+        ))
+    else
+        CM.DebugPrint("SETTINGS", "No existing data found for character " .. characterId .. ", creating new entry")
+    end
+    
+    -- Ensure this character has an entry (only create if truly doesn't exist)
     if not CM.settings.perCharacterData[characterId] then
         CM.settings.perCharacterData[characterId] = {
             customNotes = "",
