@@ -197,15 +197,19 @@ local function GenerateGeneral(
             table_insert(allRows, { "**Location**", locStr })
         end
         
-        -- Riding Skills (with emojis like attributes)
+        -- Riding Skills (with emojis like attributes) - max is 60 for each
         if ridingData then
             local speed = ridingData.speed or 0
             local stamina = ridingData.stamina or 0
             local capacity = ridingData.capacity or 0
             if speed > 0 or stamina > 0 or capacity > 0 then
+                local allMaxed = (speed == 60 and stamina == 60 and capacity == 60)
+                local value = allMaxed 
+                    and "🐴 60 / 💪 60 / 🎒 60 ✅" 
+                    or string_format("🐴 %d/60 / 💪 %d/60 / 🎒 %d/60", speed, stamina, capacity)
                 table_insert(allRows, {
                     "**🐴 Riding Skills**",
-                    string_format("🐴 %d / 💪 %d / 🎒 %d", speed, stamina, capacity)
+                    value
                 })
             end
         end
@@ -359,19 +363,17 @@ local function GenerateGeneral(
             end
         end
         
-        -- Add riding skills summary if available
+        -- Add riding skills summary if available (max is 60 for each)
         if ridingData then
             local speed = ridingData.speed or 0
             local stamina = ridingData.stamina or 0
             local capacity = ridingData.capacity or 0
             if speed > 0 or stamina > 0 or capacity > 0 then
-                result = result
-                    .. string_format(
-                        "|| **🐴 Riding Skills** | 🐴 %d / 💪 %d / 🎒 %d |\n",
-                        speed,
-                        stamina,
-                        capacity
-                    )
+                local allMaxed = (speed == 60 and stamina == 60 and capacity == 60)
+                local skillsText = allMaxed
+                    and "🐴 60 / 💪 60 / 🎒 60 ✅"
+                    or string_format("🐴 %d/60 / 💪 %d/60 / 🎒 %d/60", speed, stamina, capacity)
+                result = result .. string_format("|| **🐴 Riding Skills** | %s |\n", skillsText)
             end
         end
 
@@ -513,15 +515,19 @@ local function GenerateGeneral(
             end
         end
         
-        -- Add riding skills summary if available
+        -- Add riding skills summary if available (max is 60 for each)
         if ridingData then
             local speed = ridingData.speed or 0
             local stamina = ridingData.stamina or 0
             local capacity = ridingData.capacity or 0
             if speed > 0 or stamina > 0 or capacity > 0 then
+                local allMaxed = (speed == 60 and stamina == 60 and capacity == 60)
+                local skillsText = allMaxed
+                    and "🐴 60 / 💪 60 / 🎒 60 ✅"
+                    or string_format("🐴 %d/60 / 💪 %d/60 / 🎒 %d/60", speed, stamina, capacity)
                 table.insert(
                     lines,
-                    string_format("**🐴 Riding Skills:** 🐴 %d / 💪 %d / 🎒 %d", speed, stamina, capacity)
+                    string_format("**🐴 Riding Skills:** %s", skillsText)
                 )
             end
         end

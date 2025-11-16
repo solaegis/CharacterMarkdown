@@ -948,16 +948,9 @@ local function GenerateMarkdown(format)
     local completeMarkdown = markdown
     local markdownLength = string.len(completeMarkdown)
 
-    -- Save format to per-character SavedVariables (NOT the markdown itself - exceeds 2k char ESO string limit)
+    -- Update character data timestamp (markdown/format no longer stored - exceeds ESO 2k char limit and unused)
     if CM.charData then
-        CM.charData.markdown_format = format
         CM.charData._lastModified = GetTimeStamp()
-        CM.DebugPrint("GENERATOR", string.format("Saved format to per-character data: %s", format))
-        
-        -- ESO automatically saves CharacterMarkdownSettings to disk when modified
-        -- No explicit save call needed - changes are persisted on next save cycle
-    else
-        CM.Warn("Character data not initialized - format not saved to SavedVariables")
     end
 
     -- Get EditBox limit from constants

@@ -112,14 +112,7 @@ function CM.Settings.Defaults:GetAll()
         --   - customNotes: custom build notes
         --   - customTitle: custom character title
         --   - playStyle: play style tag (magicka_dps, stamina_tank, etc.)
-        --   - markdown_format: format of last generated markdown (github, vscode, discord, quick)
-        --   - markdown: full markdown document before chunking (cached per character)
-
-        -- ====================================
-        -- DEPRECATED ACCOUNT-WIDE FIELDS (kept for migration)
-        -- ====================================
-        markdown_format = "", -- DEPRECATED: Now stored per-character (kept for migration)
-        markdown = "", -- DEPRECATED: Now stored per-character (kept for migration)
+        -- Note: markdown/markdown_format fields removed (exceeded ESO 2k char limit, never used)
     }
 end
 

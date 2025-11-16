@@ -220,8 +220,6 @@ function CM.Settings.Initializer:InitializeCharacterData()
             customNotes = "",
             customTitle = "",
             playStyle = "",
-            markdown_format = "",
-            markdown = "",
             _initialized = true,
             _lastModified = GetTimeStamp(),
             _characterName = GetUnitName("player"),
@@ -231,18 +229,6 @@ function CM.Settings.Initializer:InitializeCharacterData()
     
     -- Point CM.charData to this character's data
     CM.charData = CM.settings.perCharacterData[characterId]
-    
-    -- MIGRATION: Move account-wide markdown data to per-character (v2.1.9+)
-    -- If account-wide markdown exists and character doesn't have any, migrate it
-    if CM.settings.markdown and CM.settings.markdown ~= "" and 
-       (not CM.charData.markdown or CM.charData.markdown == "") then
-        CM.charData.markdown = CM.settings.markdown
-        CM.charData.markdown_format = CM.settings.markdown_format or ""
-        CM.DebugPrint("SETTINGS", "Migrated account-wide markdown to per-character data")
-        -- Clear account-wide versions
-        CM.settings.markdown = ""
-        CM.settings.markdown_format = ""
-    end
     
     -- Ensure all required fields exist (migration-safe for existing characters)
     CM.DebugPrint("SETTINGS", string.format(
@@ -266,12 +252,6 @@ function CM.Settings.Initializer:InitializeCharacterData()
     if not CM.charData.playStyle then
         CM.DebugPrint("SETTINGS", "playStyle was nil/false, initializing to empty string")
         CM.charData.playStyle = ""
-    end
-    if not CM.charData.markdown_format then
-        CM.charData.markdown_format = ""
-    end
-    if not CM.charData.markdown then
-        CM.charData.markdown = ""
     end
     
     -- Update metadata
