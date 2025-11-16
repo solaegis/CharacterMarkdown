@@ -659,26 +659,26 @@ local function PrintTestReport()
     local results = GetTestResults()
 
     -- Always print to chat (not just debug)
-    d("|cFFFF00=== TEST VALIDATION REPORT ===|r")
+    CM.Info("|cFFFF00=== TEST VALIDATION REPORT ===|r")
 
     if #results.passed > 0 then
-        d(string_format("|c00FF00✅ PASSED (%d):|r", #results.passed))
+        CM.Info(string_format("|c00FF00✅ PASSED (%d):|r", #results.passed))
         for _, test in ipairs(results.passed) do
-            d(string_format("  |c00FF00✅|r |cFFFFFF%s:|r %s", test.test, test.message))
+            CM.Info(string_format("  |c00FF00✅|r |cFFFFFF%s:|r %s", test.test, test.message))
         end
     end
 
     if #results.failed > 0 then
-        d(string_format("|cFF0000❌ FAILED (%d):|r", #results.failed))
+        CM.Info(string_format("|cFF0000❌ FAILED (%d):|r", #results.failed))
         for _, test in ipairs(results.failed) do
-            d(string_format("  |cFF0000❌|r |cFFFFFF%s:|r %s", test.test, test.message))
+            CM.Info(string_format("  |cFF0000❌|r |cFFFFFF%s:|r %s", test.test, test.message))
         end
     end
 
     if #results.warnings > 0 then
-        d(string_format("|cFFAA00⚠️ WARNINGS (%d):|r", #results.warnings))
+        CM.Info(string_format("|cFFAA00⚠️ WARNINGS (%d):|r", #results.warnings))
         for _, test in ipairs(results.warnings) do
-            d(string_format("  |cFFAA00⚠️|r |cFFFFFF%s:|r %s", test.test, test.message))
+            CM.Info(string_format("  |cFFAA00⚠️|r |cFFFFFF%s:|r %s", test.test, test.message))
         end
     end
 
@@ -686,7 +686,7 @@ local function PrintTestReport()
     local nonWarningTotal = #results.passed + #results.failed
     local passRate = nonWarningTotal > 0 and (math.floor((#results.passed / nonWarningTotal) * 100)) or 100
     local passColor = (#results.failed == 0) and "|c00FF00" or "|cFFAA00"
-    d(
+    CM.Info(
         string_format(
             "%sPass Rate: %d%% (%d/%d passed, %d warnings)|r",
             passColor,
@@ -699,9 +699,9 @@ local function PrintTestReport()
 
     -- Final summary message
     if #results.failed == 0 then
-        d(string_format("|c00FF00All tests passed! (%d passed, %d warnings)|r", #results.passed, #results.warnings))
+        CM.Info(string_format("|c00FF00All tests passed! (%d passed, %d warnings)|r", #results.passed, #results.warnings))
     else
-        d(
+        CM.Info(
             string_format(
                 "|cFFAA00Some tests failed: %d passed, %d failed, %d warnings|r",
                 #results.passed,

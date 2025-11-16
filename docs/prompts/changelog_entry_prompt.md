@@ -51,7 +51,7 @@ Follow Keep a Changelog 1.0.0 format:
    - Bad: "Refactored TableToYAML() function"
 
 2. **Be Specific**: Include concrete details
-   - Good: "Added `/cmdsettings export` command for YAML export"
+   - Good: "Added `/markdown settings:export` command for YAML export"
    - Bad: "Added export functionality"
 
 3. **Explain Impact**: Tell users why they should care
@@ -119,8 +119,8 @@ Example:
 
 ### Added
 - **Settings Export/Import**: New commands for managing settings
-  - `/cmdsettings export` - Export all settings to human-readable YAML format
-  - `/cmdsettings import` - Import settings from YAML (supports partial imports)
+  - `/markdown settings:export` - Export all settings to human-readable YAML format
+  - `/markdown settings:import` - Import settings from YAML (supports partial imports)
   - Grouped format with logical sections: core, links, visuals, content, etc.
   - Type validation and error reporting
   - Metadata header with version and export date
@@ -149,7 +149,7 @@ Example:
 - **Addon Type**: ESO (Elder Scrolls Online) addon written in Lua
 - **Purpose**: Export character builds in markdown format
 - **Target Users**: ESO players sharing builds on Discord/GitHub/forums
-- **Key Commands**: `/markdown`, `/cmdsettings`, `/markdown test`
+- **Key Commands**: `/markdown`, `/markdown settings`, `/markdown test`
 - **Output Formats**: GitHub, Discord, VS Code, Quick
 
 ## Common Components to Watch For

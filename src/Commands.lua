@@ -263,9 +263,9 @@ end
 
 local function ShowHelp()
     CM.Info("=== CharacterMarkdown Commands ===")
-    d(" ")
-    d("  /markdown - Generate profile")
-    d(" ")
+    CM.Info(" ")
+    CM.Info("  /markdown - Generate profile")
+    CM.Info(" ")
     
     -- Collect all commands with descriptions
     local allCommands = {}
@@ -335,7 +335,7 @@ local function ShowHelp()
     end)
     
     -- Group by category and display
-    d("Subcommands (alphabetically grouped):")
+    CM.Info("Subcommands (alphabetically grouped):")
     local lastCategory = nil
     for _, cmdData in ipairs(allCommands) do
         if cmdData.category ~= lastCategory then
@@ -345,14 +345,11 @@ local function ShowHelp()
         if cmdData.shortcut ~= cmdData.command then
             displayCmd = displayCmd .. " (or " .. cmdData.shortcut .. ")"
         end
-        d("  " .. displayCmd .. " - " .. cmdData.description)
+        CM.Info("  " .. displayCmd .. " - " .. cmdData.description)
     end
     
-    d(" ")
-    d("Deprecated:")
-    d("  /cmdsettings - Open settings panel (use /markdown settings)")
-    d(" ")
-    d("Settings: ESC → Settings → Add-Ons → CharacterMarkdown")
+    CM.Info(" ")
+    CM.Info("Settings: ESC → Settings → Add-Ons → CharacterMarkdown")
 end
 
 -- =====================================================
@@ -360,41 +357,41 @@ end
 -- =====================================================
 
 local function DebugSavedVarsState()
-    d("|c00FFFF[CM] ===== SAVEDVARIABLES DEBUG INFO =====|r")
-    d("|c00FFFF[CM] CharacterMarkdownSettings exists: " .. tostring(_G.CharacterMarkdownSettings ~= nil) .. "|r")
-    d("|c00FFFF[CM] CharacterMarkdownData exists: " .. tostring(_G.CharacterMarkdownData ~= nil) .. "|r")
-    d("|c00FFFF[CM] CM.settings exists: " .. tostring(CM.settings ~= nil) .. "|r")
-    d("|c00FFFF[CM] CM.charData exists: " .. tostring(CM.charData ~= nil) .. "|r")
+    CM.Info("|c00FFFF[CM] ===== SAVEDVARIABLES DEBUG INFO =====|r")
+    CM.Info("|c00FFFF[CM] CharacterMarkdownSettings exists: " .. tostring(_G.CharacterMarkdownSettings ~= nil) .. "|r")
+    CM.Info("|c00FFFF[CM] CharacterMarkdownData exists: " .. tostring(_G.CharacterMarkdownData ~= nil) .. "|r")
+    CM.Info("|c00FFFF[CM] CM.settings exists: " .. tostring(CM.settings ~= nil) .. "|r")
+    CM.Info("|c00FFFF[CM] CM.charData exists: " .. tostring(CM.charData ~= nil) .. "|r")
     
     if CM.settings then
-        d("|c00FF00[CM] CM.settings type: " .. type(CM.settings) .. "|r")
+        CM.Info("|c00FF00[CM] CM.settings type: " .. type(CM.settings) .. "|r")
     end
     
     if CM.charData then
-        d("|c00FF00[CM] CM.charData type: " .. type(CM.charData) .. "|r")
-        d("|c00FFFF[CM] CM.charData contents:|r")
+        CM.Info("|c00FF00[CM] CM.charData type: " .. type(CM.charData) .. "|r")
+        CM.Info("|c00FFFF[CM] CM.charData contents:|r")
         for k, v in pairs(CM.charData) do
-            d(string.format("|c00FFFF[CM]   %s = %s (%s)|r", tostring(k), tostring(v), type(v)))
+            CM.Info(string.format("|c00FFFF[CM]   %s = %s (%s)|r", tostring(k), tostring(v), type(v)))
         end
     else
-        d("|cFF0000[CM] ERROR: CM.charData is NIL!|r")
+        CM.Error("|cFF0000[CM] ERROR: CM.charData is NIL!|r")
     end
     
     if _G.CharacterMarkdownData then
-        d("|c00FF00[CM] CharacterMarkdownData structure:|r")
+        CM.Info("|c00FF00[CM] CharacterMarkdownData structure:|r")
         local keyCount = 0
         for k, v in pairs(_G.CharacterMarkdownData) do
             keyCount = keyCount + 1
-            d(string.format("|c00FF00[CM]   [%s] = %s|r", tostring(k), type(v)))
+            CM.Info(string.format("|c00FF00[CM]   [%s] = %s|r", tostring(k), type(v)))
         end
-        d("|c00FF00[CM] Total keys: " .. keyCount .. "|r")
+        CM.Info("|c00FF00[CM] Total keys: " .. keyCount .. "|r")
     else
-        d("|cFF0000[CM] ERROR: CharacterMarkdownData is NIL!|r")
+        CM.Error("|cFF0000[CM] ERROR: CharacterMarkdownData is NIL!|r")
     end
     
-    d("|c00FFFF[CM] Character ID: " .. tostring(GetCurrentCharacterId()) .. "|r")
-    d("|c00FFFF[CM] Account: " .. tostring(GetDisplayName()) .. "|r")
-    d("|c00FFFF[CM] =====================================|r")
+    CM.Info("|c00FFFF[CM] Character ID: " .. tostring(GetCurrentCharacterId()) .. "|r")
+    CM.Info("|c00FFFF[CM] Account: " .. tostring(GetDisplayName()) .. "|r")
+    CM.Info("|c00FFFF[CM] =====================================|r")
 end
 
 -- Debug handlers
@@ -402,7 +399,7 @@ local function HandleDebug(args)
     CM.debug = not CM.debug
     if CM.debug then
         CM.Success("Debug mode ENABLED - debug output will show in chat")
-        d("Run /markdown again to see debug output for quest collection")
+        CM.Info("Run /markdown again to see debug output for quest collection")
     else
         CM.Success("Debug mode DISABLED")
     end
@@ -420,6 +417,8 @@ end
 
 -- Settings handlers
 local function HandleSettings(args)
+    CM.DebugPrint("COMMANDS", "HandleSettings called")
+    
     -- Open settings panel
     if not LibAddonMenu2 then
         CM.Error("Settings panel not available - LibAddonMenu-2.0 is required")
@@ -428,16 +427,16 @@ local function HandleSettings(args)
         return
     end
     
-    -- Use the /cmdsettings command that LAM registered for our panel
+    -- Use the /markdownsettings command that LAM registered for our panel
     -- This is the most reliable way to open our specific panel
-    local lamHandler = SLASH_COMMANDS["/cmdsettings"]
+    local lamHandler = SLASH_COMMANDS["/markdownsettings"]
     if lamHandler and type(lamHandler) == "function" then
         -- Call the LAM-registered handler directly
         lamHandler("")
-        CM.DebugPrint("COMMANDS", "Opened settings via /cmdsettings LAM handler")
+        CM.DebugPrint("COMMANDS", "Opened settings via /markdownsettings LAM handler")
     else
         -- Fallback: Try LibAddonMenu2's OpenToPanel
-        local panelId = "CharacterMarkdownPanel"
+        local panelId = CM.Settings and CM.Settings.Panel and CM.Settings.Panel.panelId or "CharacterMarkdownPanel"
         if LibAddonMenu2.OpenToPanel then
             LibAddonMenu2:OpenToPanel(panelId)
             CM.DebugPrint("COMMANDS", "Opened settings panel via LAM:OpenToPanel")
@@ -456,61 +455,6 @@ local function HandleSettings(args)
     end
 end
 
-local function HandleSettingsExport(args)
-    if not CM.isInitialized then
-        CM.Error("Addon not fully initialized. Try again in a moment or /reloadui")
-        return
-    end
-
-    local settings = CM.GetSettings()
-    if not settings then
-        CM.Error("Settings not available")
-        return
-    end
-
-    if not CM.utils or not CM.utils.FormatSettingsForExport then
-        CM.Error("Settings formatter not available")
-        return
-    end
-
-    local formattedSettings = CM.utils.FormatSettingsForExport(settings)
-    if not formattedSettings then
-        CM.Error("Failed to format settings")
-        return
-    end
-
-    if not CM.utils.TableToYAML then
-        CM.Error("YAML serializer not available")
-        return
-    end
-
-    local yamlContent = CM.utils.TableToYAML(formattedSettings)
-    if not yamlContent or yamlContent == "" then
-        CM.Error("Failed to generate YAML")
-        return
-    end
-
-    CM.Info("Opening settings export window...")
-    if CharacterMarkdown_ShowSettingsExport then
-        CharacterMarkdown_ShowSettingsExport(yamlContent)
-    else
-        CM.Error("Settings export window not available")
-    end
-end
-
-local function HandleSettingsImport(args)
-    if not CM.isInitialized then
-        CM.Error("Addon not fully initialized. Try again in a moment or /reloadui")
-        return
-    end
-
-    CM.Info("Opening settings import window...")
-    if CharacterMarkdown_ShowSettingsImport then
-        CharacterMarkdown_ShowSettingsImport()
-    else
-        CM.Error("Settings import window not available")
-    end
-end
 
 local function HandleSettingsShow(args)
     DebugSavedVarsState()
@@ -542,10 +486,10 @@ local function HandleSettingsGet(args)
     local mergedValue = CM.GetSettings()[key]
     
     CM.Info("Setting: " .. key)
-    d("  Type: " .. type(defaults[key]))
-    d("  Default: " .. tostring(defaults[key]))
-    d("  Raw (SavedVariables): " .. tostring(rawValue))
-    d("  Merged (Current): " .. tostring(mergedValue))
+    CM.Info("  Type: " .. type(defaults[key]))
+    CM.Info("  Default: " .. tostring(defaults[key]))
+    CM.Info("  Raw (SavedVariables): " .. tostring(rawValue))
+    CM.Info("  Merged (Current): " .. tostring(mergedValue))
 end
 
 local function HandleSettingsSet(args)
@@ -609,27 +553,47 @@ local function HandleSettingsReset(args)
     local defaults = CM.Settings and CM.Settings.Defaults and CM.Settings.Defaults:GetAll() or {}
     local count = 0
     
-    -- Preserve per-character data before reset
-    local preservedPerCharacterData = CharacterMarkdownSettings.perCharacterData
+    -- CRITICAL: Preserve only text fields (customNotes, customTitle, playStyle) for current character
+    -- These are user-entered data that must NEVER be reset
+    local characterId = tostring(GetCurrentCharacterId())
+    local preservedTextFields = nil
+    if CharacterMarkdownSettings.perCharacterData and CharacterMarkdownSettings.perCharacterData[characterId] then
+        preservedTextFields = {
+            customNotes = CharacterMarkdownSettings.perCharacterData[characterId].customNotes,
+            customTitle = CharacterMarkdownSettings.perCharacterData[characterId].customTitle,
+            playStyle = CharacterMarkdownSettings.perCharacterData[characterId].playStyle,
+        }
+    end
     
     -- Reset all settings to defaults (preserve internal metadata and per-character data)
     for key, defaultValue in pairs(defaults) do
         -- Skip internal metadata (starts with _) and per-character data
+        -- perCharacterData is NOT a setting with a default - it's a data structure that accumulates
         if key:sub(1, 1) ~= "_" and key ~= "perCharacterData" then
             CharacterMarkdownSettings[key] = defaultValue
             count = count + 1
         end
     end
     
-    -- Restore per-character data (preserves customNotes, customTitle, playStyle for all characters)
-    if preservedPerCharacterData then
-        CharacterMarkdownSettings.perCharacterData = preservedPerCharacterData
+    -- Restore only the text fields for current character (preserve customNotes, customTitle, playStyle)
+    if preservedTextFields then
+        -- Ensure perCharacterData structure exists
+        if not CharacterMarkdownSettings.perCharacterData then
+            CharacterMarkdownSettings.perCharacterData = {}
+        end
+        if not CharacterMarkdownSettings.perCharacterData[characterId] then
+            CharacterMarkdownSettings.perCharacterData[characterId] = {}
+        end
+        -- Restore only the text fields
+        CharacterMarkdownSettings.perCharacterData[characterId].customNotes = preservedTextFields.customNotes
+        CharacterMarkdownSettings.perCharacterData[characterId].customTitle = preservedTextFields.customTitle
+        CharacterMarkdownSettings.perCharacterData[characterId].playStyle = preservedTextFields.playStyle
     end
     
     CharacterMarkdownSettings._lastModified = GetTimeStamp()
     CM.InvalidateSettingsCache()
     
-    CM.Success("Reset " .. count .. " settings to defaults (per-character data preserved)")
+    CM.Success("Reset " .. count .. " settings to defaults (text fields preserved)")
 end
 
 local function HandleSettingsEnableAll(args)
@@ -658,18 +622,18 @@ end
 -- Test handlers
 local function HandleTest(args)
     CM.Info("=== CharacterMarkdown Diagnostic & Validation ===")
-    d(" ")
+    CM.Info(" ")
 
     -- ================================================
     -- PHASE 1: SETTINGS DIAGNOSTIC
     -- ================================================
     CM.Info("|cFFD700[1/4] Settings Diagnostic|r")
-    d(" ")
+    CM.Info(" ")
 
     if not CharacterMarkdownSettings then
         CM.Error("CharacterMarkdownSettings is NIL!")
-        d("  This means your settings aren't being saved")
-        d("  Try: /reloadui")
+        CM.Info("  This means your settings aren't being saved")
+        CM.Info("  Try: /reloadui")
         return
     end
     CM.Success("✓ CharacterMarkdownSettings exists")
@@ -694,8 +658,8 @@ local function HandleTest(args)
         "includeTableOfContents",
     }
 
-    d(" ")
-    d("Critical Setting Values:")
+    CM.Info(" ")
+    CM.Info("Critical Setting Values:")
     local merged = CM.GetSettings()
     local hasMismatch = false
 
@@ -704,7 +668,7 @@ local function HandleTest(args)
         local merged_val = merged[setting]
 
         if raw ~= merged_val then
-            d(
+            CM.Info(
                 string.format(
                     "  |cFFFF00⚠ %s = %s (raw) vs %s (merged)|r",
                     setting,
@@ -715,30 +679,30 @@ local function HandleTest(args)
             hasMismatch = true
         else
             local color = raw == true and "|c00FF00" or "|cFF0000"
-            d(string.format("  %s%s = %s|r", color, setting, tostring(raw)))
+            CM.Info(string.format("  %s%s = %s|r", color, setting, tostring(raw)))
         end
     end
 
     if hasMismatch then
-        d(" ")
+        CM.Info(" ")
         CM.DebugPrint("TEST", "⚠ Settings merge has mismatches - this may cause issues")
-        d("|cFFAA00⚠ Settings merge has mismatches - this may cause issues|r")
+        CM.Warn("|cFFAA00⚠ Settings merge has mismatches - this may cause issues|r")
     else
-        d(" ")
+        CM.Info(" ")
         CM.Success("✓ Settings merge working correctly")
     end
 
     -- ================================================
     -- PHASE 2: DATA COLLECTION TEST
     -- ================================================
-    d(" ")
+    CM.Info(" ")
     CM.Info("|cFFD700[2/4] Data Collection Test|r")
 
     if CM.collectors and CM.collectors.CollectChampionPointData then
         local success, cpData = pcall(CM.collectors.CollectChampionPointData)
         if success and cpData then
             CM.Success("✓ Champion Points data collected")
-            d(
+            CM.Info(
                 string.format(
                     "  Total: %d | Spent: %d | Available: %d",
                     cpData.total or 0,
@@ -748,7 +712,7 @@ local function HandleTest(args)
             )
 
             if cpData.disciplines and #cpData.disciplines > 0 then
-                d(string.format("  Disciplines: %d", #cpData.disciplines))
+                CM.Info(string.format("  Disciplines: %d", #cpData.disciplines))
                 for _, disc in ipairs(cpData.disciplines) do
                     local skillCount = 0
                     if disc.allStars then
@@ -756,7 +720,7 @@ local function HandleTest(args)
                     elseif disc.slottableSkills and disc.passiveSkills then
                         skillCount = #disc.slottableSkills + #disc.passiveSkills
                     end
-                    d(
+                    CM.Info(
                         string.format(
                             "    %s: %d CP, %d skills",
                             disc.name or "Unknown",
@@ -778,7 +742,7 @@ local function HandleTest(args)
     -- ================================================
     -- PHASE 3: MARKDOWN GENERATION TEST
     -- ================================================
-    d(" ")
+    CM.Info(" ")
     CM.Info("|cFFD700[3/4] Markdown Generation Test|r")
 
     if not CM.tests or not CM.tests.validation then
@@ -787,7 +751,7 @@ local function HandleTest(args)
     end
 
     local testFormat = CM.currentFormat or "github"
-    d(string.format("Generating %s format with current settings...", testFormat))
+    CM.Info(string.format("Generating %s format with current settings...", testFormat))
 
     local success, markdown = pcall(function()
         return CM.generators.GenerateMarkdown(testFormat)
@@ -801,7 +765,7 @@ local function HandleTest(args)
     local isChunksArray = type(markdown) == "table"
     local markdownString = markdown
     if isChunksArray then
-        d(string.format("  Generated %d chunks", #markdown))
+        CM.Info(string.format("  Generated %d chunks", #markdown))
         local fullMarkdown = ""
         for _, chunk in ipairs(markdown) do
             fullMarkdown = fullMarkdown .. chunk.content
@@ -809,7 +773,7 @@ local function HandleTest(args)
         markdownString = fullMarkdown
     end
 
-    d(string.format("  Total size: %d chars", #markdownString))
+    CM.Info(string.format("  Total size: %d chars", #markdownString))
 
     local testSettings = {}
     if CharacterMarkdownSettings then
@@ -823,7 +787,7 @@ local function HandleTest(args)
     -- ================================================
     -- PHASE 4: VALIDATION TESTS
     -- ================================================
-    d(" ")
+    CM.Info(" ")
     CM.Info("|cFFD700[4/4] Validation Tests|r")
 
     local validationResults = CM.tests.validation.ValidateMarkdown(markdownString, testFormat)
@@ -839,7 +803,7 @@ local function HandleTest(args)
         CM.tests.sectionPresence.PrintSectionTestReport()
     end
 
-    d(" ")
+    CM.Info(" ")
     CM.Info("=== Test Summary ===")
 
     local totalFailed = #validationResults.failed
@@ -868,12 +832,12 @@ local function HandleTest(args)
             )
         )
     end
-    d("Tip: Run '/markdown' to see the actual generated output")
+    CM.Info("Tip: Run '/markdown' to see the actual generated output")
 end
 
 local function HandleTestLayout(args)
     CM.Info("=== Layout Calculator Test Suite ===")
-    d(" ")
+    CM.Info(" ")
     
     local LayoutCalculatorTests = CM.utils and CM.utils.LayoutCalculatorTests
     if LayoutCalculatorTests and LayoutCalculatorTests.RunAllTests then
@@ -882,11 +846,11 @@ local function HandleTestLayout(args)
             CM.Success("All layout calculator tests passed!")
         else
             CM.DebugPrint("TEST", "Some layout calculator tests failed - see output above")
-            d("|cFFAA00⚠ Some layout calculator tests failed - see output above|r")
+            CM.Warn("|cFFAA00⚠ Some layout calculator tests failed - see output above|r")
         end
     else
         CM.Error("LayoutCalculatorTests not loaded!")
-        d("  Make sure the addon is fully initialized")
+        CM.Info("  Make sure the addon is fully initialized")
     end
 end
 
@@ -901,8 +865,6 @@ RegisterSubcommand("debug", "off", HandleDebugOff, "Disable debug mode")
 RegisterSubcommand("help", nil, ShowHelp, "Show this help")
 
 RegisterSubcommand("settings", nil, HandleSettings, "Open settings panel")
-RegisterSubcommand("settings", "export", HandleSettingsExport, "Export settings to YAML")
-RegisterSubcommand("settings", "import", HandleSettingsImport, "Import settings from YAML")
 RegisterSubcommand("settings", "show", HandleSettingsShow, "Show SavedVariables debug info")
 RegisterSubcommand("settings", "get", HandleSettingsGet, "Get current value of a setting (advanced)")
 RegisterSubcommand("settings", "set", HandleSettingsSet, "Set value of a setting (advanced)")
@@ -930,10 +892,15 @@ local function CommandHandler(args)
 
     -- Parse subcommand
     local object, action, remaining = ParseSubcommand(args)
+    CM.DebugPrint("COMMANDS", string.format("Parsed: object='%s' action='%s' remaining='%s'", 
+        tostring(object), tostring(action), tostring(remaining)))
     
     -- Try to route as subcommand first
     if object and RouteSubcommand(object, action, remaining) then
+        CM.DebugPrint("COMMANDS", "Subcommand routed successfully")
         return
+    else
+        CM.DebugPrint("COMMANDS", "Subcommand routing failed or no object")
     end
     
     -- Try format command
@@ -1043,56 +1010,6 @@ CM.commands.ParseSubcommand = ParseSubcommand
 CM.commands.RouteSubcommand = RouteSubcommand
 
 SLASH_COMMANDS["/markdown"] = CommandHandler
-
--- =====================================================
--- SETTINGS EXPORT/IMPORT COMMANDS (for /cmdsettings)
--- =====================================================
-
-local function SettingsExportCommandHandler(args)
-    HandleSettingsExport("")
-end
-
-local function SettingsImportCommandHandler(args)
-    HandleSettingsImport("")
-end
-
--- =====================================================
--- /CMDSETTINGS COMMAND HANDLER (Deprecated)
--- =====================================================
-
-local isRegistered = false
-local function RegisterCmdSettingsCommand()
-    if isRegistered then
-        CM.DebugPrint("COMMANDS", "/cmdsettings command already registered, skipping")
-        return
-    end
-
-    local lamHandler = SLASH_COMMANDS["/cmdsettings"]
-
-    SLASH_COMMANDS["/cmdsettings"] = function(args)
-        -- No args - open panel (deprecated command, but still works)
-        if not args or args == "" then
-            -- Call the original LAM handler if it exists
-            if lamHandler and type(lamHandler) == "function" then
-                lamHandler(args)
-            else
-                CM.Info("Use: ESC → Settings → Add-Ons → CharacterMarkdown")
-            end
-        else
-            -- Unknown subcommand - show error
-            CM.Error("Unknown /cmdsettings subcommand: " .. tostring(args))
-            CM.Info("Use /markdown settings instead")
-            CM.Info("  /markdown settings - Open settings panel")
-            CM.Info("  /markdown settings:export - Export settings")
-            CM.Info("  /markdown settings:import - Import settings")
-        end
-    end
-
-    isRegistered = true
-    CM.DebugPrint("COMMANDS", "/cmdsettings command registered (wrapped LibAddonMenu handler)")
-end
-
-CM.commands.RegisterCmdSettingsCommand = RegisterCmdSettingsCommand
 
 CM.DebugPrint("COMMANDS", "Command module loaded")
 CM.DebugPrint("COMMANDS", "/markdown command registered")

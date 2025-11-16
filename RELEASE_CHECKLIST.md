@@ -267,7 +267,7 @@ task release           # or: task release:workflow
   /markdown discord     # Test Discord format
   /markdown vscode      # Test VS Code format
   /markdown quick       # Test Quick format
-  /cmdsettings          # Open settings panel
+  /markdown settings    # Open settings panel
   ```
   - ✅ Addon loads without errors
   - ✅ No errors in chat on load

@@ -146,76 +146,9 @@ Add personal build notes that appear in your markdown:
 /markdown notes ""  # Clear notes
 ```
 
-### Settings Import/Export
+### Settings Panel
 
-Export and import your settings in a human-readable YAML format. Perfect for sharing configurations, backing up settings, or applying partial changes.
-
-#### Export Settings
-
-**Command**: `/cmdsettings export`
-
-1. Run `/cmdsettings export` in chat
-2. A window opens with your settings in YAML format
-3. Text is automatically selected - just copy (Ctrl+C)
-4. Save to a file or share with others
-
-**Export Format**:
-- Organized into logical groups: `core`, `links`, `visuals`, `content`, `extended`, `champion`, `equipment`, `skills`, `display`
-- Includes metadata: version, export date
-- Human-readable YAML format
-- Easy to edit in any text editor
-
-#### Import Settings
-
-**Command**: `/cmdsettings import`
-
-1. Run `/cmdsettings import` in chat
-2. Paste your YAML settings into the window
-3. Click "Import" button
-4. Settings are validated and applied
-
-**Import Features**:
-- **Partial Import**: Only import the settings you provide - other settings remain unchanged
-- **Grouped Format Required**: Settings must use the grouped structure (core, links, content, etc.)
-- **Type Validation**: Automatically validates and converts types
-- **Error Reporting**: Shows which settings were imported and any errors
-
-**Example Partial Import**:
-```yaml
-# Only import link settings
-links:
-  enableAbilityLinks: false
-  enableSetLinks: true
-
-# Only import core format
-core:
-  currentFormat: "discord"
-  customTitle: "My Build"
-```
-
-**Full Import Example**:
-```yaml
-# CharacterMarkdown Settings Export
-# Version: 2.1.7
-# Exported: 2025-01-15 14:30:00
-
-core:
-  currentFormat: "github"
-  activeFilter: "All"
-  activeProfile: "Custom"
-  customTitle: "Battle Cleric"
-
-links:
-  enableAbilityLinks: true
-  enableSetLinks: true
-
-content:
-  includeEquipment: true
-  includeSkills: true
-  includeChampionPoints: true
-```
-
-**Note**: The import function enforces the grouped format. Use `/cmdsettings export` to see the correct format structure.
+Use the settings panel in-game (ESC → Settings → Add-Ons → CharacterMarkdown) to configure which sections appear in your markdown output.
 
 ### Debug Mode
 Enable debug mode for troubleshooting:

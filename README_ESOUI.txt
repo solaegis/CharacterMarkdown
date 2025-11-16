@@ -70,7 +70,7 @@ Available Commands:
 /markdown vscode    - Generate VS Code format markdown
 /markdown quick     - Generate one-line summary
 /markdown notes "text" - Set custom build notes
-/cmdsettings        - Open settings (if LibAddonMenu is installed)
+/markdown settings  - Open settings (if LibAddonMenu is installed)
 
 Format Details:
 * GitHub (Default) - Full markdown tables with collapsible sections, rich formatting, comprehensive UESP wiki links. Best for AI analysis with maximum context and detail.
@@ -84,7 +84,7 @@ SETTINGS AND CUSTOMIZATION
 Access Settings:
 * In-game: Type /markdown then click "Settings" button
 * Addon Menu: CharacterMarkdown settings panel
-* Command: /cmdsettings (if LibAddonMenu is installed)
+* Command: /markdown settings (if LibAddonMenu is installed)
 
 Key Settings Options:
 * Sections - Enable/disable specific data sections
@@ -101,7 +101,7 @@ Built-in Profiles:
 
 Advanced Features:
 * Custom Notes - Add personal build notes with /markdown notes "text"
-* Profile Management - Save/import/export settings between characters
+* Profile Management - Per-character notes, titles, and play styles
 * Error Handling - Comprehensive error reporting with debug mode
 
 USE CASES

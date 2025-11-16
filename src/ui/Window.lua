@@ -204,7 +204,7 @@ local function InitializeWindowControls()
     editBoxControl:SetMaxInputChars(22000) -- 22k character limit
     editBoxControl:SetMultiLine(true)
     editBoxControl:SetNewLineEnabled(true)
-    -- CRITICAL: Keep EditEnabled TRUE to allow Ctrl+C copy to work
+    -- CRITICAL: Keep EditEnabled TRUE to allow copy (Ctrl+C/Cmd+C) to work
     -- We prevent text input via OnChar and OnKeyDown handlers instead
     editBoxControl:SetEditEnabled(true)
     -- CRITICAL: EditBox MUST have keyboard enabled to receive OnKeyDown events
@@ -294,23 +294,23 @@ local function InitializeWindowControls()
             return true -- Consume
         end
         
-        -- G / Cmd+G = Regenerate (use modifier to avoid ESO Guild menu conflict)
+        -- G = Regenerate
         if key == KEY_G then
             CM.DebugPrint("KEYBOARD", "G pressed - regenerating")
             CharacterMarkdown_RegenerateMarkdown()
             return true -- Consume
         end
         
-        -- G / Cmd+S = Settings (use modifier to avoid ESO conflicts)
+        -- S = Settings
         if key == KEY_S then
-            CM.DebugPrint("KEYBOARD", "G pressed - opening settings")
+            CM.DebugPrint("KEYBOARD", "S pressed - opening settings")
             CharacterMarkdown_OpenSettings()
             return true -- Consume
         end
         
-        -- G / Cmd+R = ReloadUI (use modifier to avoid ESO conflicts)
+        -- R = ReloadUI
         if  key == KEY_R then
-            CM.DebugPrint("KEYBOARD", "G pressed - reloading UI")
+            CM.DebugPrint("KEYBOARD", "R pressed - reloading UI")
             ReloadUI()
             return true -- Consume
         end
@@ -352,15 +352,16 @@ local function InitializeWindowControls()
         end
         
         -- Ctrl+A / Cmd+A = Select All (let EditBox handle it natively)
+        -- Note: Only copy (Ctrl+C/Cmd+C) uses a modifier; all other shortcuts are single keys
         if modifierPressed and key == KEY_A then
-            CM.DebugPrint("KEYBOARD", "Ctrl+A pressed - selecting all")
+            CM.DebugPrint("KEYBOARD", "Ctrl+A/Cmd+A pressed - selecting all")
             SetSelectionState()
             return false -- Don't consume - let EditBox handle SelectAll
         end
         
-        -- Ctrl+C / Cmd+C = Copy (let EditBox handle it natively)
+        -- Ctrl+C / Cmd+C = Copy (only shortcut that uses modifier)
         if modifierPressed and key == KEY_C then
-            CM.DebugPrint("KEYBOARD", "Ctrl+C pressed - copying to clipboard")
+            CM.DebugPrint("KEYBOARD", "Ctrl+C/Cmd+C pressed - copying to clipboard")
             -- Text is already selected, EditBox will handle the copy
             return false -- Don't consume - let EditBox handle copy
         end
@@ -503,9 +504,17 @@ function CharacterMarkdown_CopyToClipboard()
                 )
             end
 
+            -- Get OS-specific copy shortcut text
+            local copyShortcut = "Ctrl+C"
+            if CM.utils.Platform then
+                copyShortcut = CM.utils.Platform.GetShortcutText("copy")
+            elseif os.isMac then
+                copyShortcut = "Cmd+C"
+            end
+            
             CM.DebugPrint(
                 "UI",
-                string.format("Chunk %d selected (%d chars) - Press Ctrl+C to copy", currentChunkIndex, actualLength)
+                string.format("Chunk %d selected (%d chars) - Press %s to copy", currentChunkIndex, actualLength, copyShortcut)
             )
             
             -- Select all text, take focus, and update selection state
@@ -537,7 +546,16 @@ function CharacterMarkdown_CopyToClipboard()
 
         -- Select all text
         SelectAll(100)
-        CM.DebugPrint("UI", "Text selected - Press Ctrl+C to copy")
+        
+        -- Get OS-specific copy shortcut text
+        local copyShortcut = "Ctrl+C"
+        if CM.utils.Platform then
+            copyShortcut = CM.utils.Platform.GetShortcutText("copy")
+        elseif os.isMac then
+            copyShortcut = "Cmd+C"
+        end
+        
+        CM.DebugPrint("UI", "Text selected - Press " .. copyShortcut .. " to copy")
     end
 end
 
@@ -552,23 +570,31 @@ function CharacterMarkdown_OpenSettings()
         return
     end
 
-    -- Use a simpler approach: execute the slash command that LibAddonMenu registered
-    -- This is the same as typing /cmdsettings in chat
-    if SLASH_COMMANDS and SLASH_COMMANDS["/cmdsettings"] then
-        SLASH_COMMANDS["/cmdsettings"]("")
-        CM.DebugPrint("UI", "Opened settings via /cmdsettings command")
+    -- Use the /markdownsettings command that LAM registered for our panel
+    -- This is the most reliable way to open our specific panel
+    local lamHandler = SLASH_COMMANDS["/markdownsettings"]
+    if lamHandler and type(lamHandler) == "function" then
+        -- Call the LAM-registered handler directly
+        lamHandler("")
+        CM.DebugPrint("UI", "Opened settings via /markdownsettings LAM handler")
     else
-        -- Fallback: open game menu to Add-Ons section
-        SCENE_MANAGER:Show("gameMenuInGame")
-        PlaySound(SOUNDS.MENU_SHOW)
-
-        zo_callLater(function()
-            local mainMenu = SYSTEMS:GetObject("mainMenu")
-            if mainMenu then
-                mainMenu:ShowCategory(MENU_CATEGORY_ADDONS)
-                CM.Info("Please select 'Character Markdown' from the Add-Ons list.")
-            end
-        end, 100)
+        -- Fallback: Try LibAddonMenu2's OpenToPanel
+        local panelId = CM.Settings and CM.Settings.Panel and CM.Settings.Panel.panelId or "CharacterMarkdownPanel"
+        if LibAddonMenu2.OpenToPanel then
+            LibAddonMenu2:OpenToPanel(panelId)
+            CM.DebugPrint("UI", "Opened settings panel via LAM:OpenToPanel")
+        else
+            -- Last resort: Open Add-Ons category and show instructions
+            SCENE_MANAGER:Show("gameMenuInGame")
+            PlaySound(SOUNDS.MENU_SHOW)
+            zo_callLater(function()
+                local mainMenu = SYSTEMS:GetObject("mainMenu")
+                if mainMenu and mainMenu.ShowCategory and MENU_CATEGORY_ADDONS then
+                    pcall(function() mainMenu:ShowCategory(MENU_CATEGORY_ADDONS) end)
+                end
+                CM.Info("Please select 'Character Markdown' from the Add-Ons list")
+            end, 100)
+        end
     end
 end
 
@@ -792,14 +818,13 @@ function ShowChunk(chunkIndex)
     
     -- Update overlay instructions with OS-specific shortcut
     if overlayLabel then
-        local shortcutText
-        if os.isMac then
-            shortcutText = "Cmd+A then Cmd+C"
-        else
-            shortcutText = "Ctrl+A then Ctrl+C"
-        end
+        local shortcutText = "Ctrl+A then Ctrl+C" -- Default fallback
         if CM.utils.Platform then
             shortcutText = CM.utils.Platform.GetShortcutText("select_copy")
+        elseif os.isMac then
+            shortcutText = "Cmd+A then Cmd+C"
+        elseif os.isWin then
+            shortcutText = "Ctrl+A then Ctrl+C"
         end
         overlayLabel:SetText(string.format("Press [Space] or %s to copy", shortcutText))
     end
@@ -1288,355 +1313,5 @@ end
 
 EVENT_MANAGER:RegisterForEvent("CharacterMarkdown_UI", EVENT_ADD_ON_LOADED, OnAddOnLoaded)
 
--- =====================================================
--- SHOW SETTINGS IMPORT WINDOW
--- =====================================================
-
-function CharacterMarkdown_ShowSettingsImport()
-    -- Initialize controls if needed
-    if not InitializeWindowControls() then
-        CM.Error("Window initialization failed")
-        return false
-    end
-
-    -- Update window title
-    local titleLabel = CharacterMarkdownWindowTitleLabel
-    if titleLabel then
-        titleLabel:SetText("Character Markdown - Settings Import")
-    end
-
-    -- Update instructions
-    local instructionsLabel = CharacterMarkdownWindowInstructions
-    if instructionsLabel then
-        instructionsLabel:SetText("Paste YAML settings below | Win: Ctrl+V | Mac: Cmd+V | Then click 'Import'")
-    end
-
-    -- Disable chunk navigation buttons (not needed for import, but keep visible)
-    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
-    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
-    if prevButton then
-        prevButton:SetEnabled(false)
-        prevButton:SetAlpha(0.5)
-    end
-    if nextButton then
-        nextButton:SetEnabled(false)
-        nextButton:SetAlpha(0.5)
-    end
-
-    -- Disable regenerate button (not needed for import, but keep visible)
-    local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
-    if regenerateButton then
-        regenerateButton:SetEnabled(false)
-        regenerateButton:SetAlpha(0.5)
-    end
-
-    -- Disable select all button (not needed for import, but keep visible)
-    local selectAllButton = CharacterMarkdownWindowButtonContainerSelectAllButton
-    if selectAllButton then
-        selectAllButton:SetEnabled(false)
-        selectAllButton:SetAlpha(0.5)
-    end
-
-    -- Modify dismiss button to be Import button
-    local dismissButton = CharacterMarkdownWindowButtonContainerDismiss
-    if dismissButton then
-        dismissButton:SetEnabled(true)
-        dismissButton:SetAlpha(1.0)
-        local label = dismissButton:GetNamedChild("Label")
-        if label then
-            label:SetText("Import")
-        end
-        -- Store original handler and replace with import handler
-        dismissButton:SetHandler("OnClicked", function()
-            CharacterMarkdown_ImportSettings()
-        end)
-    end
-
-    -- Clear content and make editable (import mode - allow editing)
-    editBoxControl:SetText("")
-    editBoxControl._originalText = ""  -- Store for OnTextChanged handler
-    editBoxControl:SetColor(1, 1, 1, 1)
-    UpdateOverlayVisibility()  -- Show overlay for empty import field
-    -- Note: In import mode, we want to allow editing, so don't prevent text changes
-
-    -- Store import mode flag in window control
-    windowControl._isImportMode = true
-
-    -- Show window
-    windowControl:SetHidden(false)
-
-    -- Bring window to top
-    if windowControl.SetTopmost then
-        windowControl:SetTopmost(true)
-    end
-    if windowControl.Activate then
-        windowControl:Activate()
-    end
-    if windowControl.RequestMoveToForeground then
-        windowControl:RequestMoveToForeground()
-    end
-
-    -- Take focus on EditBox (ready for immediate paste)
-    zo_callLater(function()
-        if not windowControl:IsHidden() and editBoxControl then
-            -- Ensure EditBox is editable and focused
-            editBoxControl:SetEditEnabled(true)
-            -- Clear any existing selection
-            editBoxControl:SetCursorPosition(0)
-
-            CM.DebugPrint("UI", "Settings import window opened - ready for YAML paste (Ctrl+V)")
-            
-            -- CRITICAL: TakeFocus() to ensure EditBox has focus for paste
-            zo_callLater(function()
-                if editBoxControl then
-                    -- editBoxControl:TakeFocus()
-                end
-            end, 50)
-        end
-    end, 150)
-
-    return true
-end
-
--- =====================================================
--- IMPORT SETTINGS FROM YAML
--- =====================================================
-
-function CharacterMarkdown_ImportSettings()
-    if not editBoxControl then
-        CM.Error("EditBox not available")
-        return false
-    end
-
-    local yamlContent = editBoxControl:GetText()
-    if not yamlContent or yamlContent == "" then
-        CM.Error("No YAML content provided")
-        return false
-    end
-
-    -- Parse YAML
-    if not CM.utils or not CM.utils.YAMLToTable then
-        CM.Error("YAML parser not available")
-        return false
-    end
-
-    local parsed, errorMsg = CM.utils.YAMLToTable(yamlContent)
-    if not parsed then
-        CM.Error("Failed to parse YAML: " .. (errorMsg or "Unknown error"))
-        return false
-    end
-
-    -- Validate and enforce grouped format
-    local validGroups = {
-        core = true,
-        links = true,
-        visuals = true,
-        content = true,
-        extended = true,
-        champion = true,
-        equipment = true,
-        skills = true,
-        display = true,
-        _metadata = true, -- Allow metadata but skip it
-    }
-
-    -- Check if this is the grouped format
-    local isGroupedFormat = false
-    local hasTopLevelSettings = false
-
-    for key, value in pairs(parsed) do
-        if validGroups[key] then
-            isGroupedFormat = true
-        elseif key ~= "_metadata" and type(value) ~= "table" then
-            -- This looks like a flat format setting (direct key-value, not in a group)
-            hasTopLevelSettings = true
-        end
-    end
-
-    -- Enforce grouped format - reject flat format
-    if hasTopLevelSettings and not isGroupedFormat then
-        CM.Error("Invalid format: Settings must use grouped structure (core, links, content, etc.)")
-        CM.Info("Expected format:")
-        CM.Info("  core:")
-        CM.Info('    currentFormat: "github"')
-        CM.Info("  links:")
-        CM.Info("    enableAbilityLinks: true")
-        CM.Info("  ...")
-        CM.Info("Use /cmdsettings export to see the correct format")
-        return false
-    end
-
-    -- Flatten grouped format for processing
-    local settingsToImport = {}
-    if isGroupedFormat then
-        if CM.utils and CM.utils.FlattenSettingsForImport then
-            settingsToImport = CM.utils.FlattenSettingsForImport(parsed)
-            if not settingsToImport then
-                CM.Error("Failed to flatten grouped settings")
-                return false
-            end
-        else
-            CM.Error("Grouped format detected but flatten function not available")
-            return false
-        end
-    else
-        -- No valid format detected
-        CM.Error("Invalid format: No recognized settings groups found")
-        CM.Info(
-            "Expected format with groups: core, links, content, extended, champion, equipment, skills, display, visuals"
-        )
-        return false
-    end
-
-    -- Validate against defaults
-    local defaults = CM.Settings.Defaults:GetAll()
-    if not defaults then
-        CM.Error("Defaults not available")
-        return false
-    end
-
-    -- Get current settings
-    local settings = CM.GetSettings()
-    if not settings then
-        CM.Error("Settings not available")
-        return false
-    end
-
-    -- Validate and apply settings (partial import - only apply provided values)
-    local appliedCount = 0
-    local skippedCount = 0
-    local errors = {}
-
-    -- Track which groups were provided for better feedback
-    local providedGroups = {}
-    for groupName, _ in pairs(parsed) do
-        if validGroups[groupName] and groupName ~= "_metadata" then
-            providedGroups[groupName] = true
-        end
-    end
-
-    if #providedGroups > 0 then
-        local groupList = {}
-        for group, _ in pairs(providedGroups) do
-            table.insert(groupList, group)
-        end
-        CM.Info(string.format("Importing settings from groups: %s", table.concat(groupList, ", ")))
-    end
-
-    -- Handle per-character fields separately (not in defaults)
-    local perCharFields = { "customTitle", "customNotes", "playStyle" }
-    for _, field in ipairs(perCharFields) do
-        if settingsToImport[field] ~= nil then
-            if CM.charData then
-                CM.charData[field] = settingsToImport[field]
-                CM.Info(string.format("Imported per-character field: %s", field))
-            else
-                CM.Warn(string.format("Cannot import %s - character data not available", field))
-            end
-            -- Remove from settingsToImport so it doesn't get processed as unknown
-            settingsToImport[field] = nil
-        end
-    end
-
-    for key, value in pairs(settingsToImport) do
-        -- Skip internal keys
-        if type(key) == "string" and key:sub(1, 1) == "_" then
-            skippedCount = skippedCount + 1
-        -- Check if key exists in defaults (partial import - only validate provided keys)
-        elseif defaults[key] == nil then
-            table.insert(errors, string.format("Unknown setting: %s (will be skipped)", key))
-            skippedCount = skippedCount + 1
-        else
-            -- Validate type
-            local defaultValue = defaults[key]
-            if type(value) ~= type(defaultValue) then
-                -- Try to convert if possible
-                if type(defaultValue) == "boolean" and type(value) == "string" then
-                    if value:lower() == "true" then
-                        value = true
-                    elseif value:lower() == "false" then
-                        value = false
-                    else
-                        table.insert(
-                            errors,
-                            string.format("Invalid type for %s: expected boolean, got %s", key, type(value))
-                        )
-                        skippedCount = skippedCount + 1
-                    end
-                elseif type(defaultValue) == "number" and type(value) == "string" then
-                    local num = tonumber(value)
-                    if num then
-                        value = num
-                    else
-                        table.insert(
-                            errors,
-                            string.format("Invalid type for %s: expected number, got %s", key, type(value))
-                        )
-                        skippedCount = skippedCount + 1
-                    end
-                else
-                    table.insert(
-                        errors,
-                        string.format("Invalid type for %s: expected %s, got %s", key, type(defaultValue), type(value))
-                    )
-                    skippedCount = skippedCount + 1
-                end
-            end
-
-            -- Apply setting (only if we didn't skip due to type conversion failure)
-            if type(value) == type(defaultValue) then
-                settings[key] = value
-                appliedCount = appliedCount + 1
-            end
-        end
-    end
-
-    -- Report results
-    if appliedCount > 0 then
-        CM.Success(string.format("Imported %d setting(s) successfully (partial import)", appliedCount))
-        if skippedCount > 0 then
-            CM.Info(string.format("Skipped %d setting(s) (unknown keys or errors)", skippedCount))
-        end
-    else
-        CM.Warn("No settings were imported")
-    end
-
-    -- Save settings if any were applied
-    if appliedCount > 0 then
-        if CharacterMarkdownSettings and CharacterMarkdownSettings.SetValue then
-            CharacterMarkdownSettings:SetValue("_lastModified", GetTimeStamp())
-        elseif CharacterMarkdownSettings then
-            CharacterMarkdownSettings._lastModified = GetTimeStamp()
-        end
-
-        -- Also update character data timestamp if we imported per-character fields
-        if CM.charData then
-            CM.charData._lastModified = GetTimeStamp()
-        end
-
-        -- Invalidate cache to ensure fresh settings
-        CM.InvalidateSettingsCache()
-
-        -- Refresh settings panel if open
-        if LibAddonMenu2 then
-            -- Trigger refresh
-            zo_callLater(function()
-                CM.Info("Settings updated! You may need to refresh the settings panel to see changes.")
-            end, 100)
-        end
-    end
-
-    if #errors > 0 then
-        CM.Warn("Validation errors:")
-        for _, error in ipairs(errors) do
-            CM.Warn("  " .. error)
-        end
-    end
-
-    -- Close window
-    windowControl:SetHidden(true)
-
-    return true
-end
 
 CM.DebugPrint("UI", "Window module loaded successfully")

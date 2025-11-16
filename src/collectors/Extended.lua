@@ -238,15 +238,28 @@ local function CollectResearchData()
     research.totalActive = 0
 
     for craftingType, craftingName in pairs(craftingTypes) do
-        local numLines = GetNumSmithingResearchLines(craftingType) or 0
+        local numLines = CM.SafeCall(GetNumSmithingResearchLines, craftingType) or 0
 
         for lineIndex = 1, numLines do
-            local name, icon = GetSmithingResearchLineInfo(craftingType, lineIndex)
-            local numTraits = GetNumSmithingResearchLineTraits(craftingType, lineIndex) or 0
+            -- Use pcall because GetSmithingResearchLineInfo returns multiple values (name, icon)
+            local success, name, icon = pcall(GetSmithingResearchLineInfo, craftingType, lineIndex)
+            if not success or not name then
+                break -- Skip this line if API call failed
+            end
+            local numTraits = CM.SafeCall(GetNumSmithingResearchLineTraits, craftingType, lineIndex) or 0
 
             for traitIndex = 1, numTraits do
-                local traitType, _, known = GetSmithingResearchLineTraitInfo(craftingType, lineIndex, traitIndex)
-                local duration, timeRemaining = GetSmithingResearchLineTraitTimes(craftingType, lineIndex, traitIndex)
+                -- Use pcall because GetSmithingResearchLineTraitInfo returns multiple values
+                local traitSuccess, traitType, _, known = pcall(GetSmithingResearchLineTraitInfo, craftingType, lineIndex, traitIndex)
+                if not traitSuccess then
+                    break -- Skip this trait if API call failed
+                end
+                -- Use pcall because GetSmithingResearchLineTraitTimes returns multiple values
+                local timeSuccess, duration, timeRemaining = pcall(GetSmithingResearchLineTraitTimes, craftingType, lineIndex, traitIndex)
+                if not timeSuccess then
+                    duration = nil
+                    timeRemaining = nil
+                end
 
                 if not known and duration and duration > 0 and timeRemaining and timeRemaining > 0 then
                     table.insert(research.active, {

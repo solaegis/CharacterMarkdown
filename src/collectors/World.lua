@@ -26,12 +26,19 @@ CM.collectors.CollectLocationData = CollectLocationData
 local function CollectPvPData()
     local pvp = {}
 
-    pvp.rank = GetUnitAvARank("player") or 0
-    pvp.rankName = GetAvARankName(GetUnitGender("player"), pvp.rank) or "Recruit"
+    pvp.rank = CM.SafeCall(GetUnitAvARank, "player") or 0
+    -- Use pcall because GetAvARankName needs gender and rank, and returns a string
+    local gender = CM.SafeCall(GetUnitGender, "player")
+    if gender and pvp.rank and pvp.rank > 0 then
+        local success, rankName = pcall(GetAvARankName, gender, pvp.rank)
+        pvp.rankName = (success and rankName) or "Recruit"
+    else
+        pvp.rankName = "Recruit"
+    end
 
-    local campaignId = GetAssignedCampaignId()
+    local campaignId = CM.SafeCall(GetAssignedCampaignId)
     if campaignId and campaignId > 0 then
-        pvp.campaignName = GetCampaignName(campaignId) or "None"
+        pvp.campaignName = CM.SafeCall(GetCampaignName, campaignId) or "None"
         pvp.campaignId = campaignId
     else
         pvp.campaignName = "None"

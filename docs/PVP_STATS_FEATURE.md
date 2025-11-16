@@ -272,7 +272,7 @@ For maximum detail:
 ### In Addon Settings UI
 
 1. Open Character Markdown settings:
-   - Type `/cmdsettings` in chat, or
+   - Type `/markdown settings` in chat, or
    - Navigate to Settings → Addons → Character Markdown
 
 2. Scroll to the "Extended Content Sections" section
@@ -302,7 +302,7 @@ detailedPvP: false  # Set true for maximum detail
 
 Then import with:
 ```
-/cmdsettings import <paste_yaml>
+/markdown settings:import
 ```
 
 ## Technical Details

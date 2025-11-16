@@ -3,7 +3,7 @@
 ## Quick Start
 
 ### Enable PvP Stats
-1. Type `/cmdsettings` in chat
+1. Type `/markdown settings` in chat
 2. Find "Include PvP Statistics" and check it
 3. Type `/markdown` to generate
 
@@ -72,40 +72,34 @@
 | **Show Battlegrounds** | Weekly BG rankings for all modes | Deathmatch: #127 (1,250 pts) |
 | **Detailed PvP Mode** | Campaign timing, underpop bonus, emperor, current match | Emperor: John Doe • Reign: 2h 35m |
 
-## YAML Quick Config
-
-Copy/paste these into `/cmdsettings import`:
+## Quick Settings Presets
 
 ### Casual
-```yaml
-includePvPStats: true
-```
+Enable in Settings Panel:
+- Include PvP Statistics
 
-### Regular
-```yaml
-includePvPStats: true
-showPvPProgression: true
-showCampaignRewards: true
-```
+### Regular  
+Enable in Settings Panel:
+- Include PvP Statistics
+- Show PvP Progression
+- Show Campaign Rewards
 
 ### Competitive
-```yaml
-includePvPStats: true
-showPvPProgression: true
-showCampaignRewards: true
-showLeaderboards: true
-showBattlegrounds: true
-```
+Enable in Settings Panel:
+- Include PvP Statistics
+- Show PvP Progression
+- Show Campaign Rewards
+- Show Leaderboards
+- Show Battlegrounds
 
-### PvP Main
-```yaml
-includePvPStats: true
-showPvPProgression: true
-showCampaignRewards: true
-showLeaderboards: true
-showBattlegrounds: true
-detailedPvP: true
-```
+### PvP Main (Full Detail)
+Enable in Settings Panel:
+- Include PvP Statistics
+- Show PvP Progression
+- Show Campaign Rewards
+- Show Leaderboards
+- Show Battlegrounds
+- Detailed PvP Mode
 
 ## Troubleshooting
 
@@ -182,9 +176,7 @@ Reign Duration: 2h 35m
 
 ```bash
 /markdown                    # Generate markdown
-/cmdsettings                 # Open settings UI
-/cmdsettings export          # Export settings to clipboard
-/cmdsettings import <yaml>   # Import settings from YAML
+/markdown settings           # Open settings UI
 ```
 
 ## Support

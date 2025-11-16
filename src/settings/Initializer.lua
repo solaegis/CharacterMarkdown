@@ -651,16 +651,40 @@ function CM.Settings.Initializer:ResetToDefaults()
 
     local defaults = CM.Settings.Defaults:GetAll()
     
-    -- Preserve per-character data before reset (don't wipe other characters' data)
-    local preservedPerCharData = CM.settings.perCharacterData
+    -- CRITICAL: Preserve only text fields (customNotes, customTitle, playStyle) for current character
+    -- These are user-entered data that must NEVER be reset
+    local characterId = tostring(GetCurrentCharacterId())
+    local preservedTextFields = nil
+    if CM.settings.perCharacterData and CM.settings.perCharacterData[characterId] then
+        preservedTextFields = {
+            customNotes = CM.settings.perCharacterData[characterId].customNotes,
+            customTitle = CM.settings.perCharacterData[characterId].customTitle,
+            playStyle = CM.settings.perCharacterData[characterId].playStyle,
+        }
+    end
 
-    -- Apply defaults
+    -- Apply defaults, but EXCLUDE perCharacterData (it's not a setting with a default)
     for key, value in pairs(defaults) do
-        CM.settings[key] = value
+        -- Skip perCharacterData - it's a data structure, not a setting with a default
+        if key ~= "perCharacterData" then
+            CM.settings[key] = value
+        end
     end
     
-    -- Restore per-character data (preserve all characters' custom titles/notes)
-    CM.settings.perCharacterData = preservedPerCharData or {}
+    -- Restore only the text fields for current character (preserve customNotes, customTitle, playStyle)
+    if preservedTextFields then
+        -- Ensure perCharacterData structure exists
+        if not CM.settings.perCharacterData then
+            CM.settings.perCharacterData = {}
+        end
+        if not CM.settings.perCharacterData[characterId] then
+            CM.settings.perCharacterData[characterId] = {}
+        end
+        -- Restore only the text fields
+        CM.settings.perCharacterData[characterId].customNotes = preservedTextFields.customNotes
+        CM.settings.perCharacterData[characterId].customTitle = preservedTextFields.customTitle
+        CM.settings.perCharacterData[characterId].playStyle = preservedTextFields.playStyle
+    end
 
     -- Reset version
     CM.settings.settingsVersion = 1
@@ -674,5 +698,5 @@ function CM.Settings.Initializer:ResetToDefaults()
 
     CM.settings._lastModified = GetTimeStamp()
 
-    CM.Success("All settings reset to defaults (per-character data preserved)")
+    CM.Success("All settings reset to defaults (text fields preserved)")
 end

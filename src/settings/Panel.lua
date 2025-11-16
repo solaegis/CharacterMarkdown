@@ -90,19 +90,93 @@ function CM.Settings.Panel:Initialize()
 
     local LAM = LibAddonMenu2
 
-    -- Get defaults for LAM
-    local defaults = CM.Settings.Defaults:GetAll()
-
     -- Create settings panel
+    -- NOTE: We do NOT pass defaults to LAM - we handle reset entirely in defaultsFunc
+    -- This prevents LibAddonMenu from directly resetting SavedVariables and clearing perCharacterData
     local panelData = {
         type = "panel",
         name = "Character Markdown",
         displayName = "Character Markdown",
         author = "solaegis",
         version = CM.version,
-        slashCommand = "/cmdsettings",
+        slashCommand = "/markdownsettings",
         registerForRefresh = true,
         registerForDefaults = true,
+        -- CRITICAL: Custom defaults handler to preserve text fields (customNotes, customTitle, playStyle)
+        -- LibAddonMenu will call this function when user clicks "Defaults" button
+        -- We handle ALL reset logic here to ensure text fields are preserved
+        defaultsFunc = function()
+            CM.DebugPrint("SETTINGS", "Defaults button clicked - preserving text fields")
+            
+            -- CRITICAL: Preserve text fields BEFORE any reset happens
+            -- Get current character ID
+            local characterId = tostring(GetCurrentCharacterId())
+            local preservedTextFields = nil
+            
+            -- Preserve text fields from current character
+            if CharacterMarkdownSettings and CharacterMarkdownSettings.perCharacterData and CharacterMarkdownSettings.perCharacterData[characterId] then
+                preservedTextFields = {
+                    customNotes = CharacterMarkdownSettings.perCharacterData[characterId].customNotes or "",
+                    customTitle = CharacterMarkdownSettings.perCharacterData[characterId].customTitle or "",
+                    playStyle = CharacterMarkdownSettings.perCharacterData[characterId].playStyle or "",
+                }
+                CM.DebugPrint("SETTINGS", string.format("Preserved text fields for character %s: notes=%d chars, title='%s', playStyle='%s'", 
+                    characterId, 
+                    string.len(preservedTextFields.customNotes or ""),
+                    preservedTextFields.customTitle or "",
+                    preservedTextFields.playStyle or ""))
+            else
+                CM.DebugPrint("SETTINGS", "No text fields to preserve for character " .. characterId)
+            end
+            
+            -- Apply defaults manually to ensure text fields are preserved correctly
+            -- We don't call ResetToDefaults() here because we've already preserved the text fields
+            -- and want to ensure they're restored after the reset
+            local defaults = CM.Settings and CM.Settings.Defaults and CM.Settings.Defaults:GetAll() or {}
+            
+            -- Apply defaults, excluding perCharacterData
+            for key, value in pairs(defaults) do
+                if key ~= "perCharacterData" and key:sub(1, 1) ~= "_" then
+                    CharacterMarkdownSettings[key] = value
+                end
+            end
+            
+            -- Restore only the text fields for current character
+            if preservedTextFields then
+                if not CharacterMarkdownSettings.perCharacterData then
+                    CharacterMarkdownSettings.perCharacterData = {}
+                end
+                if not CharacterMarkdownSettings.perCharacterData[characterId] then
+                    CharacterMarkdownSettings.perCharacterData[characterId] = {}
+                end
+                CharacterMarkdownSettings.perCharacterData[characterId].customNotes = preservedTextFields.customNotes
+                CharacterMarkdownSettings.perCharacterData[characterId].customTitle = preservedTextFields.customTitle
+                CharacterMarkdownSettings.perCharacterData[characterId].playStyle = preservedTextFields.playStyle
+                CM.DebugPrint("SETTINGS", "Restored text fields after reset")
+            end
+            
+            -- Update other reset-related fields
+            CharacterMarkdownSettings.settingsVersion = 1
+            CharacterMarkdownSettings.activeProfile = "Custom"
+            CharacterMarkdownSettings._lastModified = GetTimeStamp()
+            
+            -- Sync format to core
+            if CharacterMarkdownSettings.currentFormat then
+                CM.currentFormat = CharacterMarkdownSettings.currentFormat
+            end
+            
+            CM.InvalidateSettingsCache()
+            CM.Info("Settings reset to defaults (text fields preserved)")
+            
+            -- CRITICAL: Force refresh the panel to update the UI with preserved values
+            -- This ensures the text fields show the preserved values after reset
+            zo_callLater(function()
+                if LAM and self.panelId then
+                    LAM:RefreshPanel(self.panelId)
+                    CM.DebugPrint("SETTINGS", "Panel refreshed after defaults reset")
+                end
+            end, 100)
+        end,
         website = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html",
         feedback = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html#comments",
         donation = "https://www.buymeacoffee.com/lewisvavasw",
@@ -116,30 +190,6 @@ function CM.Settings.Panel:Initialize()
     LAM:RegisterOptionControls(self.panelId, optionsData)
 
     CM.DebugPrint("SETTINGS", "Settings panel registered with LAM")
-
-    -- Register /cmdsettings command handler AFTER LibAddonMenu has registered
-    -- This ensures our handler wraps LibAddonMenu's handler
-    -- LibAddonMenu registers the slash command when RegisterAddonPanel is called,
-    -- but we use a small delay to ensure it's registered
-    if CM.commands and CM.commands.RegisterCmdSettingsCommand then
-        zo_callLater(function()
-            -- Retry logic in case LibAddonMenu hasn't registered yet
-            local attempts = 0
-            local maxAttempts = 5
-            local function TryRegister()
-                attempts = attempts + 1
-                local existingHandler = SLASH_COMMANDS["/cmdsettings"]
-                -- If handler exists and it's not our wrapper, LibAddonMenu has registered
-                if existingHandler or attempts >= maxAttempts then
-                    CM.commands.RegisterCmdSettingsCommand()
-                else
-                    -- Wait a bit longer and try again
-                    zo_callLater(TryRegister, 50)
-                end
-            end
-            TryRegister()
-        end, 50)
-    end
 
     return true
 end
@@ -1085,7 +1135,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         width = "full",
         textType = TEXT_TYPE_ALL,
         maxChars = 100,
-        default = "",
+        -- NOTE: No default value - this is user-entered data that must never be reset
     })
 
     table.insert(options, {
@@ -1134,7 +1184,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
             end
         end,
         width = "full",
-        default = "",
+        -- NOTE: No default value - this is user-entered data that must never be reset
     })
 
     table.insert(options, {
@@ -1192,7 +1242,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         isMultiline = true,
         isExtraWide = true,
         maxChars = 1900, -- ESO SavedVariables has a ~2000 character limit per string value
-        default = "",
+        -- NOTE: No default value - this is user-entered data that must never be reset
         reference = "CharacterMarkdown_BuildNotesEditBox",
     })
     

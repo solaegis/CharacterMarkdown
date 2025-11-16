@@ -169,8 +169,9 @@ local function CollectHousingData()
 
                 -- Get all houses
                 for i = 1, numHouses do
-                    local houseId, houseName, isOwned = CM.SafeCall(GetHouseInfoFunc, i)
-                    if houseId and houseName then
+                    -- Use pcall because GetHouseInfoFunc returns multiple values (houseId, houseName, isOwned)
+                    local success, houseId, houseName, isOwned = pcall(GetHouseInfoFunc, i)
+                    if success and houseId and houseName then
                         if isOwned then
                             housing.owned = housing.owned + 1
 

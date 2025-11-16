@@ -105,9 +105,8 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         -- PER-CHARACTER DATA STORAGE
         -- ====================================
-        perCharacterData = {}, -- Stores custom title, build notes, play style, and cached markdown per character
-        
-        -- NOTE: markdown_format and markdown are stored per-character, not account-wide
+        -- NOTE: perCharacterData is NOT a default setting - it's a data structure that accumulates
+        -- perCharacterData is initialized in Initializer.lua and should NEVER be reset to defaults
         -- Each character in perCharacterData[characterId] has:
         --   - customNotes: custom build notes
         --   - customTitle: custom character title

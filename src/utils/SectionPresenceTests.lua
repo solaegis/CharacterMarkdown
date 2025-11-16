@@ -545,35 +545,35 @@ local function PrintSectionTestReport()
     local results = GetSectionTestResults()
 
     -- Always print to chat (not just debug)
-    d("|cFFFF00=== SECTION PRESENCE TEST ===|r")
+    CM.Info("|cFFFF00=== SECTION PRESENCE TEST ===|r")
 
     if #results.passed > 0 then
-        d(string_format("|c00FF00✅ PASSED (%d):|r", #results.passed))
+        CM.Info(string_format("|c00FF00✅ PASSED (%d):|r", #results.passed))
         local sectionNames = {}
         for _, test in ipairs(results.passed) do
             table.insert(sectionNames, test.section)
         end
-        d(string_format("  %s", table.concat(sectionNames, ", ")))
+        CM.Info(string_format("  %s", table.concat(sectionNames, ", ")))
     end
 
     if #results.failed > 0 then
-        d(string_format("|cFF0000❌ MISSING (%d):|r", #results.failed))
+        CM.Info(string_format("|cFF0000❌ MISSING (%d):|r", #results.failed))
         for _, test in ipairs(results.failed) do
-            d(string_format("  |cFF0000❌|r |cFFFFFF%s:|r %s", test.section, test.message))
+            CM.Info(string_format("  |cFF0000❌|r |cFFFFFF%s:|r %s", test.section, test.message))
         end
     end
 
     if #results.optional > 0 then
-        d(string_format("|cFFAA00⚠️ OPTIONAL (%d):|r", #results.optional))
+        CM.Info(string_format("|cFFAA00⚠️ OPTIONAL (%d):|r", #results.optional))
         for _, test in ipairs(results.optional) do
             local status = test.message:find("found") and "|c00FF00✅|r" or "|cFFAA00⚠️|r"
-            d(string_format("  %s |cFFFFFF%s:|r %s", status, test.section, test.message))
+            CM.Info(string_format("  %s |cFFFFFF%s:|r %s", status, test.section, test.message))
         end
     end
 
     local passRate = results.total > 0 and (math.floor((#results.passed / results.total) * 100)) or 0
     local passColor = (#results.failed == 0) and "|c00FF00" or "|cFFAA00"
-    d(string_format("%sPass Rate: %d%% (%d/%d sections found)|r", passColor, passRate, #results.passed, results.total))
+    CM.Info(string_format("%sPass Rate: %d%% (%d/%d sections found)|r", passColor, passRate, #results.passed, results.total))
 end
 
 -- =====================================================

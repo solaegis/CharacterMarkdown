@@ -56,15 +56,20 @@
   -- CM.SafeCall automatically handles errors and returns nil on failure
   local result = CM.SafeCall(ESO_API_Function, args) or defaultValue
   ```
-- **Use `pcall` only when you need multiple return values**:
+- **EXCEPTION: Use `pcall` directly when you need multiple return values**:
   ```lua
-  -- For functions that return multiple values, use pcall directly
+  -- CM.SafeCall only returns the first return value
+  -- When a function returns multiple values, use pcall directly
   local success, value1, value2, value3 = pcall(GetMultipleValuesFunction, args)
   if not success then
       CM.DebugPrint("ERROR", "Function failed: " .. tostring(value1))
       return defaultValue1, defaultValue2, defaultValue3
   end
+  -- Use the values: value1, value2, value3
   ```
+- **When to use `pcall` vs `CM.SafeCall`**:
+  - **Use `CM.SafeCall()`**: Single return value, ESO API calls, simple error handling
+  - **Use `pcall()` directly**: Multiple return values needed, custom error handling required, non-ESO API functions that return multiple values
 - **Note**: `CM.SafeCall` only returns the first return value. For multiple returns, use `pcall` directly.
 
 ### Debug & Logging
@@ -156,8 +161,21 @@
 
 - **When adding new per-character fields**:
   1. Add to the initialization structure in `InitializeCharacterData()`
-  2. Add to `src/settings/Defaults.lua` if it needs a default value
+  2. **DO NOT add per-character fields to `src/settings/Defaults.lua`** - per-character data is NOT a setting with a default
   3. No migration needed - changes are automatic when accessing `CM.charData`
+
+- **CRITICAL: Per-Character Text Fields Must NEVER Be Reset**:
+  - Only the text fields (customNotes, customTitle, playStyle) must be preserved - NOT all of perCharacterData
+  - These are user-entered data that must NEVER be reset to defaults
+  - When implementing "reset to defaults" functionality:
+    - **ALWAYS preserve only text fields** (customNotes, customTitle, playStyle) for the current character before applying defaults
+    - **Get current character ID**: `local characterId = tostring(GetCurrentCharacterId())`
+    - **Preserve only**: `customNotes`, `customTitle`, `playStyle` from `CM.settings.perCharacterData[characterId]`
+    - **ALWAYS exclude `perCharacterData` from the defaults loop** (check `if key ~= "perCharacterData"`)
+    - **ALWAYS restore only the text fields** for the current character after applying defaults
+    - **NEVER include `perCharacterData` in `src/settings/Defaults.lua`** - it has no default value
+  - **LibAddonMenu Defaults Button**: When `registerForDefaults = true` in panel registration, provide a custom `defaultsFunc` handler that calls `CM.Settings.Initializer:ResetToDefaults()` to ensure only text fields are preserved
+  - This prevents regression where resetting settings clears user-entered character data (customNotes, customTitle, playStyle fields in settings UI)
 
 - **Current per-character fields** (as of v2.1.9+):
   - `customNotes`: Custom build notes entered by user

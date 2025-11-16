@@ -59,10 +59,8 @@ if allValid then
 
     -- Check for optional dependencies and inform user
     if not LibDebugLogger then
-        d(
-            "|cFFFF00[CharacterMarkdown] INFO:|r LibDebugLogger not installed - diagnostic logging will show in chat instead"
-        )
-        d("|cFFFF00[CharacterMarkdown] INFO:|r For cleaner chat, install LibDebugLogger from ESOUI.com")
+        CM.Info("|cFFFF00[CharacterMarkdown] INFO:|r LibDebugLogger not installed - diagnostic logging will show in chat instead")
+        CM.Info("|cFFFF00[CharacterMarkdown] INFO:|r For cleaner chat, install LibDebugLogger from ESOUI.com")
     end
 else
     CM.Error("Initialization completed with errors")
