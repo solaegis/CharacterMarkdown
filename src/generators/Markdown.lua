@@ -948,7 +948,7 @@ local function GenerateMarkdown(format)
     local completeMarkdown = markdown
     local markdownLength = string.len(completeMarkdown)
 
-    -- Save format to per-character SavedVariables (NOT the markdown itself - too large for 2k SavedVar limit)
+    -- Save format to per-character SavedVariables (NOT the markdown itself - exceeds 2k char ESO string limit)
     if CM.charData then
         CM.charData.markdown_format = format
         CM.charData._lastModified = GetTimeStamp()

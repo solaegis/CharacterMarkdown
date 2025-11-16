@@ -56,8 +56,9 @@ CM.constants.CHUNKING = {
 -- =====================================================
 
 CM.constants.LIMITS = {
-    MAX_CUSTOM_NOTES_SIZE = 10240, -- Maximum custom notes size (10KB)
+    MAX_CUSTOM_NOTES_SIZE = 1900, -- Maximum custom notes size (~2000 char ESO SavedVariables limit per string)
     MAX_STRING_TRUNCATE = 1000, -- Maximum string length before truncation warning
+    ESO_SAVEDVAR_STRING_LIMIT = 2000, -- ESO's hard limit for individual string values in SavedVariables
 }
 
 -- =====================================================

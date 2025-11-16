@@ -1140,7 +1140,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "editbox",
         name = "Build Notes",
-        tooltip = "Add custom notes (rotation, parse data, build description, etc.)\nNotes are saved per-character and persist between sessions.",
+        tooltip = "Add custom notes (rotation, parse data, build description, etc.)\nNotes are saved per-character and persist between sessions.\n\nLimit: 1,900 characters (ESO SavedVariables restriction)",
         getFunc = function()
             -- Ensure character data is initialized
             if not CM.charData and CharacterMarkdownData then
@@ -1179,13 +1179,35 @@ function CM.Settings.Panel:AddCustomNotes(options)
             else
                 CM.DebugPrint("SETTINGS", "Build notes refreshed (" .. string.len(newValue) .. " bytes)")
             end
+            
+            -- Update character counter if it exists
+            if CM._buildNotesCounterLabel then
+                local charCount = string.len(newValue)
+                local color = charCount > 1900 and "|cFF6B6B" or (charCount > 1700 and "|cFFD93D" or "|c6BCF7E")
+                CM._buildNotesCounterLabel:SetText(color .. "Characters: " .. charCount .. " / 1,900|r")
+            end
         end,
         width = "full",
         height = 300, -- Increased height - scrollbar should appear automatically when content exceeds this
         isMultiline = true,
         isExtraWide = true,
-        maxChars = 10000,
+        maxChars = 1900, -- ESO SavedVariables has a ~2000 character limit per string value
         default = "",
+        reference = "CharacterMarkdown_BuildNotesEditBox",
+    })
+    
+    -- Character counter label
+    table.insert(options, {
+        type = "description",
+        text = function()
+            local charCount = 0
+            if CM.charData and CM.charData.customNotes then
+                charCount = string.len(CM.charData.customNotes)
+            end
+            local color = charCount > 1900 and "|cFF6B6B" or (charCount > 1700 and "|cFFD93D" or "|c6BCF7E")
+            return color .. "Characters: " .. charCount .. " / 1,900|r"
+        end,
+        reference = "CharacterMarkdown_BuildNotesCounter",
     })
 end
 

@@ -245,13 +245,26 @@ function CM.Settings.Initializer:InitializeCharacterData()
     end
     
     -- Ensure all required fields exist (migration-safe for existing characters)
+    CM.DebugPrint("SETTINGS", string.format(
+        "Before field checks - customNotes: %s (type: %s), customTitle: %s (type: %s), playStyle: %s (type: %s)",
+        tostring(CM.charData.customNotes),
+        type(CM.charData.customNotes),
+        tostring(CM.charData.customTitle),
+        type(CM.charData.customTitle),
+        tostring(CM.charData.playStyle),
+        type(CM.charData.playStyle)
+    ))
+    
     if not CM.charData.customNotes then
+        CM.DebugPrint("SETTINGS", "customNotes was nil/false, initializing to empty string")
         CM.charData.customNotes = ""
     end
     if not CM.charData.customTitle then
+        CM.DebugPrint("SETTINGS", "customTitle was nil/false, initializing to empty string")
         CM.charData.customTitle = ""
     end
     if not CM.charData.playStyle then
+        CM.DebugPrint("SETTINGS", "playStyle was nil/false, initializing to empty string")
         CM.charData.playStyle = ""
     end
     if not CM.charData.markdown_format then
