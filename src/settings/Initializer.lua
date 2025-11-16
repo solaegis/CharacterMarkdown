@@ -633,12 +633,8 @@ function CM.Settings.Initializer:ResetToDefaults()
     CM.settings.settingsVersion = 1
     CM.settings.activeProfile = "Custom"
 
-    -- Optionally clear CURRENT character's custom data
-    if CM.charData then
-        CM.charData.customNotes = ""
-        CM.charData.customTitle = ""
-        CM.charData.playStyle = ""
-    end
+    -- DO NOT clear character-specific data (customNotes, customTitle, playStyle)
+    -- These are user-entered data and should never be reset automatically
 
     -- Sync format to core
     CM.currentFormat = CM.settings.currentFormat

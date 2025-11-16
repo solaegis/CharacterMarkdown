@@ -940,8 +940,8 @@ local function CreateAttentionNeeded(warnings, format, headerTitle)
     if format == "github" then
         local result = "> [!WARNING]\n"
         for _, warning in ipairs(warnings) do
-            -- Add two spaces before \n to force line break in markdown
-            result = result .. "> " .. warning .. "  \n"
+            -- Each line in a callout is separate (no need for two-space line breaks)
+            result = result .. "> " .. warning .. "\n"
         end
         result = result .. "\n"
         return result

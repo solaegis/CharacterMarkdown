@@ -26,6 +26,8 @@
   - [Companions](#companions)
 - [🎨 Collectibles](#collectibles)
 - [🎒 Inventory](#inventory)
+- [🏺 Antiquities](#antiquities)
+- [📜 Quests](#quests)
 
 ---
 
@@ -59,7 +61,7 @@
 | **Attributes** | 🔵 49 / ❤️ 15 / ⚡ 0 |
 | **Skill Points** | 🎯 9 available - Ready to spend |
 | **Title** | Daedric Lord Slayer |
-| **Age** | 17 days, 2 hours, 58 minutes, and 15 seconds |
+| **Age** | 17 days, 3 hours, 39 minutes, and 41 seconds |
 | **ESO Plus** | ✅ Active |
 
 
@@ -82,6 +84,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
+| **Gold** | 311,873 |
 | **Tel Var** | 2,500 |
 | **Transmute Crystals** | 60 |
 | **Event Tickets** | 2 |
@@ -155,8 +158,8 @@
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟢 **Hide of Morihaus** | `5/5` ██████████ 100% |
 | 🟢 **Fortified Brass** | `5/5` ██████████ 100% |
+| 🟢 **Hide of Morihaus** | `5/5` ██████████ 100% |
 | 🟠 **Armor of the Seducer** | `3/5` ██████░░░░ 60% |
 
 ### 📋 Equipment Details
@@ -188,83 +191,6 @@
 | 22 | 5 | 17 | 27 | 50% |
 
 ### ✅ Maxed Skills
-
-<details>
-<summary>⭐ Racial (10 skill lines maxed)</summary>
-
-**Imperial Skills**, **Orc Skills**, **High Elf Skills**, **Wood Elf Skills**, **Khajiit Skills**, **Breton Skills**, **Redguard Skills**, **Argonian Skills**, **Dark Elf Skills**, **Nord Skills**
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Diplomat *(from Imperial Skills)*
-- ✅ Tough (5/5) *(from Imperial Skills)*
-- ✅ Imperial Mettle (10/10) *(from Imperial Skills)*
-- ✅ Red Diamond (25/25) *(from Imperial Skills)*
-- 🔒 Craftsman *(from Orc Skills)*
-- 🔒 Brawny (5/5) *(from Orc Skills)*
-- 🔒 Unflinching Rage (10/10) *(from Orc Skills)*
-- 🔒 Swift Warrior (25/25) *(from Orc Skills)*
-- 🔒 Highborn *(from High Elf Skills)*
-- 🔒 Spell Recharge (5/5) *(from High Elf Skills)*
-- 🔒 Syrabane's Boon (10/10) *(from High Elf Skills)*
-- 🔒 Elemental Talent (25/25) *(from High Elf Skills)*
-- 🔒 Acrobat *(from Wood Elf Skills)*
-- 🔒 Hunter's Eye (5/5) *(from Wood Elf Skills)*
-- 🔒 Y'ffre's Endurance (10/10) *(from Wood Elf Skills)*
-- 🔒 Resist Affliction (25/25) *(from Wood Elf Skills)*
-- 🔒 Cutpurse *(from Khajiit Skills)*
-- 🔒 Robustness (5/5) *(from Khajiit Skills)*
-- 🔒 Lunar Blessings (10/10) *(from Khajiit Skills)*
-- 🔒 Feline Ambush (25/25) *(from Khajiit Skills)*
-- 🔒 Opportunist *(from Breton Skills)*
-- 🔒 Gift of Magnus (5/5) *(from Breton Skills)*
-- 🔒 Spell Attunement (10/10) *(from Breton Skills)*
-- 🔒 Magicka Mastery (25/25) *(from Breton Skills)*
-- 🔒 Wayfarer *(from Redguard Skills)*
-- 🔒 Martial Training (5/5) *(from Redguard Skills)*
-- 🔒 Conditioning (10/10) *(from Redguard Skills)*
-- 🔒 Adrenaline Rush (25/25) *(from Redguard Skills)*
-- 🔒 Amphibian *(from Argonian Skills)*
-- 🔒 Life Mender (5/5) *(from Argonian Skills)*
-- 🔒 Argonian Resistance (10/10) *(from Argonian Skills)*
-- 🔒 Resourceful (25/25) *(from Argonian Skills)*
-- 🔒 Ashlander *(from Dark Elf Skills)*
-- 🔒 Dynamic (5/5) *(from Dark Elf Skills)*
-- 🔒 Resist Flame (10/10) *(from Dark Elf Skills)*
-- 🔒 Ruination (25/25) *(from Dark Elf Skills)*
-- 🔒 Reveler *(from Nord Skills)*
-- 🔒 Resist Frost (5/5) *(from Nord Skills)*
-- 🔒 Stalwart (10/10) *(from Nord Skills)*
-- 🔒 Rugged (25/25) *(from Nord Skills)*
-</details>
-
-</details>
-
-<details>
-<summary>🛡️ Armor (2 skill lines maxed)</summary>
-
-**Medium Armor**, **Heavy Armor**
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Medium Armor Bonuses *(from Medium Armor)*
-- 🔒 Dexterity (2/2) *(from Medium Armor)*
-- 🔒 Wind Walker (6/6) *(from Medium Armor)*
-- 🔒 Improved Sneak (14/14) *(from Medium Armor)*
-- 🔒 Agility (38/38) *(from Medium Armor)*
-- 🔒 Athletics (42/42) *(from Medium Armor)*
-- ✅ Heavy Armor Bonuses *(from Heavy Armor)*
-- ✅ Heavy Armor Penalties *(from Heavy Armor)*
-- ✅ Resolve (2/2) *(from Heavy Armor)*
-- ✅ Constitution (6/6) *(from Heavy Armor)*
-- ✅ Juggernaut (14/14) *(from Heavy Armor)*
-- ✅ Revitalize (38/38) *(from Heavy Armor)*
-- ✅ Rapid Mending (42/42) *(from Heavy Armor)*
-</details>
-
-</details>
 
 <details>
 <summary>🔥 Class (3 skill lines maxed)</summary>
@@ -354,24 +280,84 @@
 
 </details>
 
-### 📈 In-Progress Skills
-
 <details>
-<summary>⚒️ Craft (1 skill line in progress)</summary>
+<summary>🛡️ Armor (2 skill lines maxed)</summary>
 
-- **Enchanting**: Rank 46 █████████░ 98%
+**Medium Armor**, **Heavy Armor**
 
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ Potency Improvement *(from Enchanting)*
-- ✅ Aspect Improvement *(from Enchanting)*
-- 🔒 Keen Eye: Rune Stones (2/2) *(from Enchanting)*
-- 🔒 Enchanter Hireling (3/3) *(from Enchanting)*
-- 🔒 Runestone Extraction (4/4) *(from Enchanting)*
+- ✅ Medium Armor Bonuses *(from Medium Armor)*
+- 🔒 Dexterity (2/2) *(from Medium Armor)*
+- 🔒 Wind Walker (6/6) *(from Medium Armor)*
+- 🔒 Improved Sneak (14/14) *(from Medium Armor)*
+- 🔒 Agility (38/38) *(from Medium Armor)*
+- 🔒 Athletics (42/42) *(from Medium Armor)*
+- ✅ Heavy Armor Bonuses *(from Heavy Armor)*
+- ✅ Heavy Armor Penalties *(from Heavy Armor)*
+- ✅ Resolve (2/2) *(from Heavy Armor)*
+- ✅ Constitution (6/6) *(from Heavy Armor)*
+- ✅ Juggernaut (14/14) *(from Heavy Armor)*
+- ✅ Revitalize (38/38) *(from Heavy Armor)*
+- ✅ Rapid Mending (42/42) *(from Heavy Armor)*
 </details>
 
 </details>
+
+<details>
+<summary>⭐ Racial (10 skill lines maxed)</summary>
+
+**Imperial Skills**, **Orc Skills**, **High Elf Skills**, **Wood Elf Skills**, **Khajiit Skills**, **Breton Skills**, **Redguard Skills**, **Argonian Skills**, **Dark Elf Skills**, **Nord Skills**
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Diplomat *(from Imperial Skills)*
+- ✅ Tough (5/5) *(from Imperial Skills)*
+- ✅ Imperial Mettle (10/10) *(from Imperial Skills)*
+- ✅ Red Diamond (25/25) *(from Imperial Skills)*
+- 🔒 Craftsman *(from Orc Skills)*
+- 🔒 Brawny (5/5) *(from Orc Skills)*
+- 🔒 Unflinching Rage (10/10) *(from Orc Skills)*
+- 🔒 Swift Warrior (25/25) *(from Orc Skills)*
+- 🔒 Highborn *(from High Elf Skills)*
+- 🔒 Spell Recharge (5/5) *(from High Elf Skills)*
+- 🔒 Syrabane's Boon (10/10) *(from High Elf Skills)*
+- 🔒 Elemental Talent (25/25) *(from High Elf Skills)*
+- 🔒 Acrobat *(from Wood Elf Skills)*
+- 🔒 Hunter's Eye (5/5) *(from Wood Elf Skills)*
+- 🔒 Y'ffre's Endurance (10/10) *(from Wood Elf Skills)*
+- 🔒 Resist Affliction (25/25) *(from Wood Elf Skills)*
+- 🔒 Cutpurse *(from Khajiit Skills)*
+- 🔒 Robustness (5/5) *(from Khajiit Skills)*
+- 🔒 Lunar Blessings (10/10) *(from Khajiit Skills)*
+- 🔒 Feline Ambush (25/25) *(from Khajiit Skills)*
+- 🔒 Opportunist *(from Breton Skills)*
+- 🔒 Gift of Magnus (5/5) *(from Breton Skills)*
+- 🔒 Spell Attunement (10/10) *(from Breton Skills)*
+- 🔒 Magicka Mastery (25/25) *(from Breton Skills)*
+- 🔒 Wayfarer *(from Redguard Skills)*
+- 🔒 Martial Training (5/5) *(from Redguard Skills)*
+- 🔒 Conditioning (10/10) *(from Redguard Skills)*
+- 🔒 Adrenaline Rush (25/25) *(from Redguard Skills)*
+- 🔒 Amphibian *(from Argonian Skills)*
+- 🔒 Life Mender (5/5) *(from Argonian Skills)*
+- 🔒 Argonian Resistance (10/10) *(from Argonian Skills)*
+- 🔒 Resourceful (25/25) *(from Argonian Skills)*
+- 🔒 Ashlander *(from Dark Elf Skills)*
+- 🔒 Dynamic (5/5) *(from Dark Elf Skills)*
+- 🔒 Resist Flame (10/10) *(from Dark Elf Skills)*
+- 🔒 Ruination (25/25) *(from Dark Elf Skills)*
+- 🔒 Reveler *(from Nord Skills)*
+- 🔒 Resist Frost (5/5) *(from Nord Skills)*
+- 🔒 Stalwart (10/10) *(from Nord Skills)*
+- 🔒 Rugged (25/25) *(from Nord Skills)*
+</details>
+
+</details>
+
+### 📈 In-Progress Skills
 
 <details>
 <summary>🌍 World (1 skill line in progress)</summary>
@@ -386,25 +372,6 @@
 - 🔒 Trafficker (3/3) *(from Legerdemain)*
 - 🔒 Locksmith (5/5) *(from Legerdemain)*
 - 🔒 Kickback (6/6) *(from Legerdemain)*
-</details>
-
-</details>
-
-<details>
-<summary>🛡️ Armor (1 skill line in progress)</summary>
-
-- **Light Armor**: Rank 42 █████████░ 94%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Light Armor Bonuses *(from Light Armor)*
-- ✅ Light Armor Penalties *(from Light Armor)*
-- 🔒 Grace (2/2) *(from Light Armor)*
-- 🔒 Evocation (6/6) *(from Light Armor)*
-- 🔒 Spell Warding (14/14) *(from Light Armor)*
-- 🔒 Prodigy (38/38) *(from Light Armor)*
-- 🔒 Concentration (42/42) *(from Light Armor)*
 </details>
 
 </details>
@@ -432,71 +399,43 @@
 
 </details>
 
+<details>
+<summary>🛡️ Armor (1 skill line in progress)</summary>
+
+- **Light Armor**: Rank 42 █████████░ 94%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Light Armor Bonuses *(from Light Armor)*
+- ✅ Light Armor Penalties *(from Light Armor)*
+- 🔒 Grace (2/2) *(from Light Armor)*
+- 🔒 Evocation (6/6) *(from Light Armor)*
+- 🔒 Spell Warding (14/14) *(from Light Armor)*
+- 🔒 Prodigy (38/38) *(from Light Armor)*
+- 🔒 Concentration (42/42) *(from Light Armor)*
+</details>
+
+</details>
+
+<details>
+<summary>⚒️ Craft (1 skill line in progress)</summary>
+
+- **Enchanting**: Rank 46 █████████░ 98%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Potency Improvement *(from Enchanting)*
+- ✅ Aspect Improvement *(from Enchanting)*
+- 🔒 Keen Eye: Rune Stones (2/2) *(from Enchanting)*
+- 🔒 Enchanter Hireling (3/3) *(from Enchanting)*
+- 🔒 Runestone Extraction (4/4) *(from Enchanting)*
+</details>
+
+</details>
+
 ### ⚪ Early Progress Skills
-
-<details>
-<summary>⚒️ Craft (1 skill line)</summary>
-
-- **Alchemy**: Rank 18 █████████░ 96%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Solvent Proficiency *(from Alchemy)*
-- 🔒 Keen Eye: Reagents (2/2) *(from Alchemy)*
-- 🔒 Medicinal Use (8/8) *(from Alchemy)*
-- 🔒 Chemistry (12/12) *(from Alchemy)*
-- 🔒 Laboratory Use (15/15) *(from Alchemy)*
-- 🔒 Snakeblood (23/23) *(from Alchemy)*
-</details>
-
-</details>
-
-<details>
-<summary>🏰 Guild (6 skill lines)</summary>
-
-- **Dark Brotherhood**: Rank 2 ████████░░ 80%
-- **Fighters Guild**: Rank 8 ████████░░ 82%
-- **Mages Guild**: Rank 8 ████████░░ 88%
-- **Psijic Order**: Rank 1 ░░░░░░░░░░ 0%
-- **Thieves Guild**: Rank 2 ██░░░░░░░░ 28%
-- **Undaunted**: Rank 2 ███████░░░ 76%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Blade of Woe *(from Dark Brotherhood)*
-- 🔒 Scales of Pitiless Justice (2/2) *(from Dark Brotherhood)*
-- 🔒 Padomaic Sprint (3/3) *(from Dark Brotherhood)*
-- 🔒 Shadowy Supplier (4/4) *(from Dark Brotherhood)*
-- 🔒 Shadow Rider (7/7) *(from Dark Brotherhood)*
-- 🔒 Spectral Assassin (10/10) *(from Dark Brotherhood)*
-- 🔒 Intimidating Presence *(from Fighters Guild)*
-- ✅ Slayer (3/3) *(from Fighters Guild)*
-- ✅ Banish the Wicked (5/5) *(from Fighters Guild)*
-- 🔒 Skilled Tracker (7/7) *(from Fighters Guild)*
-- 🔒 Bounty Hunter (9/9) *(from Fighters Guild)*
-- 🔒 Persuasive Will *(from Mages Guild)*
-- ✅ Mage Adept (3/3) *(from Mages Guild)*
-- ✅ Everlasting Magic (5/5) *(from Mages Guild)*
-- ✅ Magicka Controller (7/7) *(from Mages Guild)*
-- 🔒 Might of the Guild (9/9) *(from Mages Guild)*
-- 🔒 See the Unseen *(from Psijic Order)*
-- 🔒 Clairvoyance (3/3) *(from Psijic Order)*
-- 🔒 Spell Orb (4/4) *(from Psijic Order)*
-- 🔒 Concentrated Barrier (6/6) *(from Psijic Order)*
-- 🔒 Deliberation (9/9) *(from Psijic Order)*
-- ✅ Finders Keepers *(from Thieves Guild)*
-- 🔒 Swiftly Forgotten (2/2) *(from Thieves Guild)*
-- 🔒 Haggling (3/3) *(from Thieves Guild)*
-- 🔒 Clemency (4/4) *(from Thieves Guild)*
-- 🔒 Timely Escape (7/7) *(from Thieves Guild)*
-- 🔒 Veil of Shadows (10/10) *(from Thieves Guild)*
-- 🔒 Undaunted Command (6/6) *(from Undaunted)*
-- 🔒 Undaunted Mettle (7/7) *(from Undaunted)*
-</details>
-
-</details>
 
 <details>
 <summary>🌍 World (5 skill lines)</summary>
@@ -563,6 +502,70 @@
 - 🔒 Cycle of Life (25/25) *(from Restoration Staff)*
 - 🔒 Absorb (28/28) *(from Restoration Staff)*
 - 🔒 Restoration Master (41/41) *(from Restoration Staff)*
+</details>
+
+</details>
+
+<details>
+<summary>⚒️ Craft (1 skill line)</summary>
+
+- **Alchemy**: Rank 18 █████████░ 96%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Solvent Proficiency *(from Alchemy)*
+- 🔒 Keen Eye: Reagents (2/2) *(from Alchemy)*
+- 🔒 Medicinal Use (8/8) *(from Alchemy)*
+- 🔒 Chemistry (12/12) *(from Alchemy)*
+- 🔒 Laboratory Use (15/15) *(from Alchemy)*
+- 🔒 Snakeblood (23/23) *(from Alchemy)*
+</details>
+
+</details>
+
+<details>
+<summary>🏰 Guild (6 skill lines)</summary>
+
+- **Dark Brotherhood**: Rank 2 ████████░░ 80%
+- **Fighters Guild**: Rank 8 ████████░░ 82%
+- **Mages Guild**: Rank 8 ████████░░ 88%
+- **Psijic Order**: Rank 1 ░░░░░░░░░░ 0%
+- **Thieves Guild**: Rank 2 ██░░░░░░░░ 28%
+- **Undaunted**: Rank 2 ███████░░░ 76%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Blade of Woe *(from Dark Brotherhood)*
+- 🔒 Scales of Pitiless Justice (2/2) *(from Dark Brotherhood)*
+- 🔒 Padomaic Sprint (3/3) *(from Dark Brotherhood)*
+- 🔒 Shadowy Supplier (4/4) *(from Dark Brotherhood)*
+- 🔒 Shadow Rider (7/7) *(from Dark Brotherhood)*
+- 🔒 Spectral Assassin (10/10) *(from Dark Brotherhood)*
+- 🔒 Intimidating Presence *(from Fighters Guild)*
+- ✅ Slayer (3/3) *(from Fighters Guild)*
+- ✅ Banish the Wicked (5/5) *(from Fighters Guild)*
+- 🔒 Skilled Tracker (7/7) *(from Fighters Guild)*
+- 🔒 Bounty Hunter (9/9) *(from Fighters Guild)*
+- 🔒 Persuasive Will *(from Mages Guild)*
+- ✅ Mage Adept (3/3) *(from Mages Guild)*
+- ✅ Everlasting Magic (5/5) *(from Mages Guild)*
+- ✅ Magicka Controller (7/7) *(from Mages Guild)*
+- 🔒 Might of the Guild (9/9) *(from Mages Guild)*
+- 🔒 See the Unseen *(from Psijic Order)*
+- 🔒 Clairvoyance (3/3) *(from Psijic Order)*
+- 🔒 Spell Orb (4/4) *(from Psijic Order)*
+- 🔒 Concentrated Barrier (6/6) *(from Psijic Order)*
+- 🔒 Deliberation (9/9) *(from Psijic Order)*
+- ✅ Finders Keepers *(from Thieves Guild)*
+- 🔒 Swiftly Forgotten (2/2) *(from Thieves Guild)*
+- 🔒 Haggling (3/3) *(from Thieves Guild)*
+- 🔒 Clemency (4/4) *(from Thieves Guild)*
+- 🔒 Timely Escape (7/7) *(from Thieves Guild)*
+- 🔒 Veil of Shadows (10/10) *(from Thieves Guild)*
+- 🔒 Undaunted Command (6/6) *(from Undaunted)*
+- 🔒 Undaunted Mettle (7/7) *(from Undaunted)*
 </details>
 
 </details>
@@ -759,33 +762,11 @@
 | Bank | 222 | 480 | ████░░░░░░ 46% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
-<details open>
-<summary><strong>📝 Build Notes</strong></summary>
-
-## 📜 The Tale of Masisi: From Conqueror to Craftsman
-
-Born in the heart of Cyrodiil during the tumultuous Alliance War, Masisi earned the title "Daedric Lord Slayer" through blood and fire. As an Imperial Dragonknight, he stood against Molag Bal's forces in Coldharbour, earning the respect of warriors across all three alliances.
-
-But the endless cycle of violence weighed heavily on Masisi's soul. After witnessing the destruction of countless villages—each filled with master craftsmen whose life's work burned to ash—he made a radical choice: to preserve rather than destroy, to build rather than conquer.
-
-Masisi hung up his sword and shield, trading them for smith's hammer and gathering tools. He traveled Tamriel not as a conqueror, but as a student—learning Orcish tempering techniques in Wrothgar, Altmeri enchanting secrets in Summerset, and Nordic provisioning traditions in Western Skyrim. Within months, he had mastered blacksmithing, clothing, woodworking, and provisioning—skills that took most craftsmen a lifetime.
-
-Today, Masisi roams the wilds with scholarly precision, harvesting rare materials that others overlook. His Psijic training grants him uncanny awareness of resource nodes, while his Legerdemain expertise allows him to "liberate" materials from those who don't appreciate their value. Though he keeps the Dark Brotherhood and Thieves Guild at arm's length, their skills prove... occasionally useful.
-
-His companion Tanlorin often jokes that Masisi has "the soul of a merchant and the hands of a master." It's not far from the truth. With 697 mounts, 679 pets, and a Crafting Bag overflowing with materials, Masisi has built a small empire—not through warfare, but through patient, methodical accumulation of Tamriel's wealth.
-
-He still wears his title "Daedric Lord Slayer" as a reminder of who he was. But when asked about his greatest achievement, Masisi gestures to his workshops, his perfectly organized material stacks, and the steady stream of gold from daily writs.
-
-> *"Any fool can destroy. True power is creating something that lasts."*
-> — Masisi, Master Crafter of Tamriel
-
-</details>
-
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-25,834%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-23,706%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 

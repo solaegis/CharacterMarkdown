@@ -208,6 +208,9 @@ local function GenerateQuickStats(
         if CreateStyledTable and format ~= "discord" then
             -- Use styled table
             local currencyRows = {}
+            -- Always include Gold so Currency section is never empty
+            table_insert(currencyRows, { "**Gold**", safeFormat(currencyData.gold or 0) })
+            
             if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
                 table_insert(currencyRows, { "**Alliance Points**", safeFormat(currencyData.alliancePoints) })
             end
@@ -224,19 +227,20 @@ local function GenerateQuickStats(
                 table_insert(currencyRows, { "**Event Tickets**", safeFormat(currencyData.eventTickets) })
             end
             
-            if #currencyRows > 0 then
-                local headers = { "Attribute", "Value" }
-                local options = {
-                    alignment = { "left", "left" },
-                    format = format,
-                    coloredHeaders = true,
-                }
-                local currencyTable = CreateStyledTable(headers, currencyRows, options)
-                currencySection = "### Currency\n\n" .. currencyTable
-            end
+            -- Currency section is always created since Gold is always included
+            local headers = { "Attribute", "Value" }
+            local options = {
+                alignment = { "left", "left" },
+                format = format,
+                coloredHeaders = true,
+            }
+            local currencyTable = CreateStyledTable(headers, currencyRows, options)
+            currencySection = "### Currency\n\n" .. currencyTable
         else
             -- Fallback to simple table format
-            local currencyRows = ""
+            -- Always include Gold so Currency section is never empty
+            local currencyRows = string_format("|| **Gold** | %s |\n", safeFormat(currencyData.gold or 0))
+            
             if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
                 currencyRows = currencyRows
                     .. string_format("|| **Alliance Points** | %s |\n", safeFormat(currencyData.alliancePoints))
@@ -255,9 +259,8 @@ local function GenerateQuickStats(
                 currencyRows = currencyRows
                     .. string_format("|| **Event Tickets** | %s |\n", safeFormat(currencyData.eventTickets))
             end
-            if currencyRows ~= "" then
-                currencySection = string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
-            end
+            -- Currency section is always created since Gold is always included
+            currencySection = string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
         end
     end
 
