@@ -380,17 +380,6 @@ local function CollectRidingSkillsData()
     riding.stamina = math.max(0, math.min(60, riding.stamina))
     riding.capacity = math.max(0, math.min(60, riding.capacity))
 
-    riding.speedMax = 60
-    riding.staminaMax = 60
-    riding.capacityMax = 60
-
-    local speedReady = (CM.SafeCall(GetTimeUntilCanBeTrained, RIDING_TRAIN_SPEED) or 1) == 0
-    local staminaReady = (CM.SafeCall(GetTimeUntilCanBeTrained, RIDING_TRAIN_STAMINA) or 1) == 0
-    local capacityReady = (CM.SafeCall(GetTimeUntilCanBeTrained, RIDING_TRAIN_CARRYING_CAPACITY) or 1) == 0
-
-    riding.trainingAvailable = speedReady or staminaReady or capacityReady
-    riding.allMaxed = (riding.speed >= 60 and riding.stamina >= 60 and riding.capacity >= 60)
-
     return riding
 end
 
