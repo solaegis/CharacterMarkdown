@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# Masisi (Daedric Lord Slayer)
+# Masisi (Gilded Harvester)
 
 ![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-742-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
@@ -19,6 +19,7 @@
   - [General](#general)
   - [Currency](#currency)
   - [Character Stats](#character-stats)
+- [📝 Build Notes](#build-notes)
 - [⚔️ Combat Arsenal](#combat-arsenal)
   - [Equipment & Active Sets](#equipment-active-sets)
   - [Champion Points](#champion-points)
@@ -60,8 +61,8 @@
 | **Champion Points** | 742 |
 | **Attributes** | 🔵 49 / ❤️ 15 / ⚡ 0 |
 | **Skill Points** | 🎯 9 available - Ready to spend |
-| **Title** | Daedric Lord Slayer |
-| **Age** | 17 days, 3 hours, 39 minutes, and 41 seconds |
+| **Title** | Gilded Harvester |
+| **Age** | 17 days, 4 hours, 14 minutes, and 34 seconds |
 | **ESO Plus** | ✅ Active |
 
 
@@ -136,6 +137,46 @@
 
 </div>
 
+<a id="build-notes"></a>
+
+## 📝 Build Notes
+
+> [!NOTE]
+> ## Masisi, *the Gilded Harvester*
+>
+> **"Fortune favors the prepared... and the swift."**
+>
+> Born in the Nibenay Basin to a family of Imperial merchants, Masisi learned
+> early that wealth flows not from combat prowess, but from knowing *what* to
+> take and *when* to move. While his kin haggled in marketplaces, young Masisi
+> studied the flow of resources—tracking caravans, mapping harvest seasons, and
+> memorizing the price of every commodity from Daggerfall to Mournhold.
+>
+> When Molag Bal's Planemeld threatened Tamriel, Masisi didn't rush to the
+> frontlines. Instead, he **capitalized**. While heroes fought Daedra, he
+> harvested the untended fields they left behind. While armies sieged keeps,
+> he looted the supply routes they abandoned. By war's end, Masisi had amassed
+> a fortune—not through bloodshed, but through **opportunity**.
+>
+> Now, the *Gilded Harvester* roams Summerset's pristine shores, moving like
+> shadow through Alinor's gardens and workshop districts. His hands bear the
+> calluses of a thousand harvests; his pouches jingle with the spoils of
+> unguarded nodes and "misplaced" treasures. The Thalmor post guards, but
+> Masisi is always three steps ahead—literally.
+>
+> **Dragonknight by birth, entrepreneur by choice**, Masisi wields his magicka
+> not for destruction, but for *distraction*. A well-placed wall of flame here,
+> a molten shield there—just enough chaos to slip away with his prize. He's
+> no hero. He's no villain. He's simply the most efficient farmer in Tamriel.
+>
+> Some call him a thief. Others, a scavenger. Masisi prefers **"resource
+> optimization specialist."**
+>
+> After all, *someone* has to supply the heroes with their gear.
+>
+> **Specialties**: Speed farming, survey exploitation, crafting writ automation
+> **Philosophy**: "Why fight dragons when you can sell dragonscale?"
+
 <a id="combat-arsenal"></a>
 
 ## ⚔️ Combat Arsenal
@@ -158,9 +199,9 @@
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟢 **Fortified Brass** | `5/5` ██████████ 100% |
 | 🟢 **Hide of Morihaus** | `5/5` ██████████ 100% |
 | 🟠 **Armor of the Seducer** | `3/5` ██████░░░░ 60% |
+| 🟢 **Fortified Brass** | `5/5` ██████████ 100% |
 
 ### 📋 Equipment Details
 
@@ -191,119 +232,6 @@
 | 22 | 5 | 17 | 27 | 50% |
 
 ### ✅ Maxed Skills
-
-<details>
-<summary>🔥 Class (3 skill lines maxed)</summary>
-
-**Ardent Flame**, **Draconic Power**, **Earthen Heart**
-
-<details>
-<summary>✨ Passives</summary>
-
-- 🔒 Combustion (8/8) *(from Ardent Flame)*
-- ✅ Warmth (14/14) *(from Ardent Flame)*
-- ✅ Searing Heat (22/22) *(from Ardent Flame)*
-- ✅ World in Ruin (39/39) *(from Ardent Flame)*
-- ✅ Iron Skin (8/8) *(from Draconic Power)*
-- ✅ Burning Heart (14/14) *(from Draconic Power)*
-- ✅ Elder Dragon (22/22) *(from Draconic Power)*
-- ✅ Scaled Armor (39/39) *(from Draconic Power)*
-- ✅ Eternal Mountain (8/8) *(from Earthen Heart)*
-- ✅ Battle Roar (14/14) *(from Earthen Heart)*
-- ✅ Mountain's Blessing (22/22) *(from Earthen Heart)*
-- ✅ Helping Hands (39/39) *(from Earthen Heart)*
-</details>
-
-</details>
-
-<details>
-<summary>⚒️ Craft (5 skill lines maxed)</summary>
-
-**Blacksmithing**, **Clothing**, **Jewelry Crafting**, **Provisioning**, **Woodworking**
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Metalworking *(from Blacksmithing)*
-- 🔒 Keen Eye: Ore (2/2) *(from Blacksmithing)*
-- 🔒 Miner Hireling (3/3) *(from Blacksmithing)*
-- ✅ Metal Extraction (4/4) *(from Blacksmithing)*
-- 🔒 Metallurgy (8/8) *(from Blacksmithing)*
-- ✅ Temper Expertise (10/10) *(from Blacksmithing)*
-- ✅ Tailoring *(from Clothing)*
-- 🔒 Keen Eye: Cloth (2/2) *(from Clothing)*
-- 🔒 Outfitter Hireling (3/3) *(from Clothing)*
-- ✅ Unraveling (4/4) *(from Clothing)*
-- 🔒 Stitching (8/8) *(from Clothing)*
-- ✅ Tannin Expertise (10/10) *(from Clothing)*
-- ✅ Engraver *(from Jewelry Crafting)*
-- 🔒 Keen Eye: Jewelry (2/2) *(from Jewelry Crafting)*
-- 🔒 Jewelry Extraction (4/4) *(from Jewelry Crafting)*
-- 🔒 Lapidary Research (8/8) *(from Jewelry Crafting)*
-- 🔒 Platings Expertise (10/10) *(from Jewelry Crafting)*
-- ✅ Recipe Improvement *(from Provisioning)*
-- ✅ Recipe Quality *(from Provisioning)*
-- 🔒 Gourmand (3/3) *(from Provisioning)*
-- 🔒 Connoisseur (5/5) *(from Provisioning)*
-- 🔒 Chef (7/7) *(from Provisioning)*
-- 🔒 Brewer (9/9) *(from Provisioning)*
-- 🔒 Forager Hireling (28/28) *(from Provisioning)*
-- ✅ Woodworking *(from Woodworking)*
-- 🔒 Keen Eye: Wood (2/2) *(from Woodworking)*
-- 🔒 Lumberjack Hireling (3/3) *(from Woodworking)*
-- ✅ Wood Extraction (4/4) *(from Woodworking)*
-- 🔒 Carpentry (8/8) *(from Woodworking)*
-- 🔒 Resin Expertise (10/10) *(from Woodworking)*
-</details>
-
-</details>
-
-<details>
-<summary>⚔️ Weapon (2 skill lines maxed)</summary>
-
-**One Hand and Shield**, **Destruction Staff**
-
-<details>
-<summary>✨ Passives</summary>
-
-- 🔒 Fortress (5/5) *(from One Hand and Shield)*
-- ✅ Sword and Board (10/10) *(from One Hand and Shield)*
-- ✅ Deadly Bash (17/17) *(from One Hand and Shield)*
-- ✅ Deflect Bolts (30/30) *(from One Hand and Shield)*
-- ✅ Battlefield Mobility (41/41) *(from One Hand and Shield)*
-- ✅ Tri Focus (5/5) *(from Destruction Staff)*
-- ✅ Penetrating Magic (10/10) *(from Destruction Staff)*
-- ✅ Elemental Force (25/25) *(from Destruction Staff)*
-- ✅ Ancient Knowledge (28/28) *(from Destruction Staff)*
-- ✅ Destruction Expert (41/41) *(from Destruction Staff)*
-</details>
-
-</details>
-
-<details>
-<summary>🛡️ Armor (2 skill lines maxed)</summary>
-
-**Medium Armor**, **Heavy Armor**
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Medium Armor Bonuses *(from Medium Armor)*
-- 🔒 Dexterity (2/2) *(from Medium Armor)*
-- 🔒 Wind Walker (6/6) *(from Medium Armor)*
-- 🔒 Improved Sneak (14/14) *(from Medium Armor)*
-- 🔒 Agility (38/38) *(from Medium Armor)*
-- 🔒 Athletics (42/42) *(from Medium Armor)*
-- ✅ Heavy Armor Bonuses *(from Heavy Armor)*
-- ✅ Heavy Armor Penalties *(from Heavy Armor)*
-- ✅ Resolve (2/2) *(from Heavy Armor)*
-- ✅ Constitution (6/6) *(from Heavy Armor)*
-- ✅ Juggernaut (14/14) *(from Heavy Armor)*
-- ✅ Revitalize (38/38) *(from Heavy Armor)*
-- ✅ Rapid Mending (42/42) *(from Heavy Armor)*
-</details>
-
-</details>
 
 <details>
 <summary>⭐ Racial (10 skill lines maxed)</summary>
@@ -353,6 +281,119 @@
 - 🔒 Resist Frost (5/5) *(from Nord Skills)*
 - 🔒 Stalwart (10/10) *(from Nord Skills)*
 - 🔒 Rugged (25/25) *(from Nord Skills)*
+</details>
+
+</details>
+
+<details>
+<summary>⚒️ Craft (5 skill lines maxed)</summary>
+
+**Blacksmithing**, **Clothing**, **Jewelry Crafting**, **Provisioning**, **Woodworking**
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Metalworking *(from Blacksmithing)*
+- 🔒 Keen Eye: Ore (2/2) *(from Blacksmithing)*
+- 🔒 Miner Hireling (3/3) *(from Blacksmithing)*
+- ✅ Metal Extraction (4/4) *(from Blacksmithing)*
+- 🔒 Metallurgy (8/8) *(from Blacksmithing)*
+- ✅ Temper Expertise (10/10) *(from Blacksmithing)*
+- ✅ Tailoring *(from Clothing)*
+- 🔒 Keen Eye: Cloth (2/2) *(from Clothing)*
+- 🔒 Outfitter Hireling (3/3) *(from Clothing)*
+- ✅ Unraveling (4/4) *(from Clothing)*
+- 🔒 Stitching (8/8) *(from Clothing)*
+- ✅ Tannin Expertise (10/10) *(from Clothing)*
+- ✅ Engraver *(from Jewelry Crafting)*
+- 🔒 Keen Eye: Jewelry (2/2) *(from Jewelry Crafting)*
+- 🔒 Jewelry Extraction (4/4) *(from Jewelry Crafting)*
+- 🔒 Lapidary Research (8/8) *(from Jewelry Crafting)*
+- 🔒 Platings Expertise (10/10) *(from Jewelry Crafting)*
+- ✅ Recipe Improvement *(from Provisioning)*
+- ✅ Recipe Quality *(from Provisioning)*
+- 🔒 Gourmand (3/3) *(from Provisioning)*
+- 🔒 Connoisseur (5/5) *(from Provisioning)*
+- 🔒 Chef (7/7) *(from Provisioning)*
+- 🔒 Brewer (9/9) *(from Provisioning)*
+- 🔒 Forager Hireling (28/28) *(from Provisioning)*
+- ✅ Woodworking *(from Woodworking)*
+- 🔒 Keen Eye: Wood (2/2) *(from Woodworking)*
+- 🔒 Lumberjack Hireling (3/3) *(from Woodworking)*
+- ✅ Wood Extraction (4/4) *(from Woodworking)*
+- 🔒 Carpentry (8/8) *(from Woodworking)*
+- 🔒 Resin Expertise (10/10) *(from Woodworking)*
+</details>
+
+</details>
+
+<details>
+<summary>🔥 Class (3 skill lines maxed)</summary>
+
+**Ardent Flame**, **Draconic Power**, **Earthen Heart**
+
+<details>
+<summary>✨ Passives</summary>
+
+- 🔒 Combustion (8/8) *(from Ardent Flame)*
+- ✅ Warmth (14/14) *(from Ardent Flame)*
+- ✅ Searing Heat (22/22) *(from Ardent Flame)*
+- ✅ World in Ruin (39/39) *(from Ardent Flame)*
+- ✅ Iron Skin (8/8) *(from Draconic Power)*
+- ✅ Burning Heart (14/14) *(from Draconic Power)*
+- ✅ Elder Dragon (22/22) *(from Draconic Power)*
+- ✅ Scaled Armor (39/39) *(from Draconic Power)*
+- ✅ Eternal Mountain (8/8) *(from Earthen Heart)*
+- ✅ Battle Roar (14/14) *(from Earthen Heart)*
+- ✅ Mountain's Blessing (22/22) *(from Earthen Heart)*
+- ✅ Helping Hands (39/39) *(from Earthen Heart)*
+</details>
+
+</details>
+
+<details>
+<summary>⚔️ Weapon (2 skill lines maxed)</summary>
+
+**One Hand and Shield**, **Destruction Staff**
+
+<details>
+<summary>✨ Passives</summary>
+
+- 🔒 Fortress (5/5) *(from One Hand and Shield)*
+- ✅ Sword and Board (10/10) *(from One Hand and Shield)*
+- ✅ Deadly Bash (17/17) *(from One Hand and Shield)*
+- ✅ Deflect Bolts (30/30) *(from One Hand and Shield)*
+- ✅ Battlefield Mobility (41/41) *(from One Hand and Shield)*
+- ✅ Tri Focus (5/5) *(from Destruction Staff)*
+- ✅ Penetrating Magic (10/10) *(from Destruction Staff)*
+- ✅ Elemental Force (25/25) *(from Destruction Staff)*
+- ✅ Ancient Knowledge (28/28) *(from Destruction Staff)*
+- ✅ Destruction Expert (41/41) *(from Destruction Staff)*
+</details>
+
+</details>
+
+<details>
+<summary>🛡️ Armor (2 skill lines maxed)</summary>
+
+**Medium Armor**, **Heavy Armor**
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Medium Armor Bonuses *(from Medium Armor)*
+- 🔒 Dexterity (2/2) *(from Medium Armor)*
+- 🔒 Wind Walker (6/6) *(from Medium Armor)*
+- 🔒 Improved Sneak (14/14) *(from Medium Armor)*
+- 🔒 Agility (38/38) *(from Medium Armor)*
+- 🔒 Athletics (42/42) *(from Medium Armor)*
+- ✅ Heavy Armor Bonuses *(from Heavy Armor)*
+- ✅ Heavy Armor Penalties *(from Heavy Armor)*
+- ✅ Resolve (2/2) *(from Heavy Armor)*
+- ✅ Constitution (6/6) *(from Heavy Armor)*
+- ✅ Juggernaut (14/14) *(from Heavy Armor)*
+- ✅ Revitalize (38/38) *(from Heavy Armor)*
+- ✅ Rapid Mending (42/42) *(from Heavy Armor)*
 </details>
 
 </details>
@@ -554,6 +595,8 @@
 - ✅ Magicka Controller (7/7) *(from Mages Guild)*
 - 🔒 Might of the Guild (9/9) *(from Mages Guild)*
 - 🔒 See the Unseen *(from Psijic Order)*
+
+
 - 🔒 Clairvoyance (3/3) *(from Psijic Order)*
 - 🔒 Spell Orb (4/4) *(from Psijic Order)*
 - 🔒 Concentrated Barrier (6/6) *(from Psijic Order)*
@@ -766,7 +809,7 @@
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-23,706%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-25,663%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 

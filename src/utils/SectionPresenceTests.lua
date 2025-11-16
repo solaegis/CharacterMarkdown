@@ -123,14 +123,15 @@ local SECTION_PATTERNS = {
             fallback = { "Attention Needed", "> %[!WARNING%]" },
         },
     },
-    {
-        name = "Currency",
-        patterns = {
-            github = { "##.*💰.*Currency", "Currency & Resources", "Gold.*Amount" },
-            discord = { "**Currency:**", "💰.*Gold" },
-            fallback = { "Currency", "Gold" },
-        },
-    },
+    -- Currency is a subsection of QuickStats (Overview), not a standalone section
+    -- {
+    --     name = "Currency",
+    --     patterns = {
+    --         github = { "##.*💰.*Currency", "Currency & Resources", "Gold.*Amount" },
+    --         discord = { "**Currency:**", "💰.*Gold" },
+    --         fallback = { "Currency", "Gold" },
+    --     },
+    -- },
     {
         name = "RidingSkills",
         patterns = {
@@ -197,6 +198,7 @@ local SECTION_PATTERNS = {
     },
     {
         name = "Equipment Enhancement",
+        disabledByDefault = true, -- Setting defaults to false (deprecated feature)
         patterns = {
             github = { "##.*⚙️.*Equipment", "Equipment Enhancement", "Enhancement.*Quality" },
             discord = { "**Equipment Enhancement:**", "⚙️.*Enhancement" },
@@ -261,11 +263,11 @@ local SECTION_PATTERNS = {
     },
     {
         name = "CustomNotes",
-        optional = true, -- Only if customNotes content exists
+        conditional = true, -- Only appears if customNotes has content
         patterns = {
-            github = { "##.*📝.*Notes", "Custom Notes", "Build Notes" },
-            discord = { "**Custom Notes:**", "📝.*Notes" },
-            fallback = { "Custom Notes", "Build Notes" },
+            github = { "##.*📝.*Build Notes", "<a id=\"build%-notes\"></a>", "Build Notes" },
+            discord = { "**Build Notes:**", "📝.*Notes" },
+            fallback = { "Build Notes", "Custom Notes" },
         },
     },
     {
@@ -293,14 +295,15 @@ local SECTION_PATTERNS = {
             fallback = { "Champion Points", "CP.*Total" },
         },
     },
-    {
-        name = "Progression",
-        patterns = {
-            github = { "##.*📈.*Progression", "Progression", "Unspent.*Skill.*Points" },
-            discord = { "**Progression:**", "📈.*Progression" },
-            fallback = { "Progression", "Unspent" },
-        },
-    },
+    -- Progression is not a standalone section - progression data is used in other sections
+    -- {
+    --     name = "Progression",
+    --     patterns = {
+    --         github = { "##.*📈.*Progression", "Progression", "Unspent.*Skill.*Points" },
+    --         discord = { "**Progression:**", "📈.*Progression" },
+    --         fallback = { "Progression", "Unspent" },
+    --     },
+    -- },
     {
         name = "SkillBars",
         patterns = {
@@ -455,7 +458,12 @@ local function ValidateSectionPresence(markdown, format, settings)
                 isEnabled = IsSettingEnabled(settings, "includeCompanion", defaultValue)
             elseif not sectionConfig.always then
                 -- Check setting for this section with proper default handling
-                local defaultValue = GetDefaultSetting(settingName)
+                local defaultValue
+                if sectionConfig.disabledByDefault then
+                    defaultValue = false -- Explicitly disabled by default
+                else
+                    defaultValue = GetDefaultSetting(settingName)
+                end
                 isEnabled = IsSettingEnabled(settings, settingName, defaultValue)
             end
 
