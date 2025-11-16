@@ -11,7 +11,7 @@
 CharacterMarkdown = CharacterMarkdown or {}
 local CM = CharacterMarkdown
 
--- CRITICAL DEBUG: Confirm Core.lua is loading (safe method)
+-- Debug: Confirm Core.lua is loading (safe method)
 if _G.d then
     _G.d("|cFFFFFF[CharacterMarkdown] ========================================|r")
     _G.d("|cFFFFFF[CharacterMarkdown] Core.lua LOADING...|r")

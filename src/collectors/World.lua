@@ -75,7 +75,7 @@ CM.collectors.CollectRoleData = CollectRoleData
 -- =====================================================
 
 -- Category definitions
--- Note: Houses are excluded from collectibles since they have their own dedicated section
+-- Houses are excluded from collectibles since they have their own dedicated section
 local COLLECTIBLE_CATEGORIES = {
     { type = COLLECTIBLE_CATEGORY_TYPE_MOUNT, key = "mounts", emoji = "🐴", name = "Mounts" },
     { type = COLLECTIBLE_CATEGORY_TYPE_VANITY_PET, key = "pets", emoji = "🐾", name = "Pets" },

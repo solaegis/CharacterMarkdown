@@ -235,9 +235,6 @@ CM.utils.markdown.CreateCenteredBlock = CreateCenteredBlock
 -- =====================================================
 -- CSS GRID MULTI-COLUMN LAYOUTS
 -- =====================================================
--- Note: CreateTwoColumns and CreateMultiColumns (HTML table-based) have been removed
--- in favor of CSS Grid versions (CreateTwoColumnLayout, CreateThreeColumnLayout, CreateResponsiveColumns)
--- which provide better responsiveness and Discord fallback support.
 
 --[[
     Create a 2-column layout using CSS Grid
@@ -421,9 +418,6 @@ CM.utils.markdown.CreateResponsiveColumns = CreateResponsiveColumns
 -- =====================================================
 -- FANCY BOXES & CARDS
 -- =====================================================
-
--- Note: CreateInfoBox (HTML table-based) has been removed.
--- Use CreateCallout() for highlighted information boxes with better styling and format support.
 
 -- =====================================================
 -- VISUAL STAT BARS

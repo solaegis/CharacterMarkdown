@@ -287,7 +287,6 @@ local function ShowHelp()
     for object, _ in pairs(subcommandHandlers) do
         table.insert(objects, object)
     end
-    -- Note: "help" is already in subcommandHandlers, so no need to add it again
     local objectShortcuts = FindShortestUniquePrefixes(objects)
     
     -- Subcommands
@@ -722,7 +721,8 @@ local function HandleTest(args)
 
     if hasMismatch then
         d(" ")
-        CM.Warn("⚠ Settings merge has mismatches - this may cause issues")
+        CM.DebugPrint("TEST", "⚠ Settings merge has mismatches - this may cause issues")
+        d("|cFFAA00⚠ Settings merge has mismatches - this may cause issues|r")
     else
         d(" ")
         CM.Success("✓ Settings merge working correctly")
@@ -861,7 +861,7 @@ local function HandleTest(args)
     else
         CM.Error(
             string.format(
-                "✗ TESTS FAILED: %d validation passed, %d failed, %d warnings",
+                "✗ TESTS FAILED: %d passed, %d failed, %d warnings",
                 #validationResults.passed,
                 totalFailed,
                 totalWarnings
@@ -881,7 +881,8 @@ local function HandleTestLayout(args)
         if success then
             CM.Success("All layout calculator tests passed!")
         else
-            CM.Warn("Some layout calculator tests failed - see output above")
+            CM.DebugPrint("TEST", "Some layout calculator tests failed - see output above")
+            d("|cFFAA00⚠ Some layout calculator tests failed - see output above|r")
         end
     else
         CM.Error("LayoutCalculatorTests not loaded!")
@@ -1069,10 +1070,8 @@ local function RegisterCmdSettingsCommand()
     local lamHandler = SLASH_COMMANDS["/cmdsettings"]
 
     SLASH_COMMANDS["/cmdsettings"] = function(args)
-        -- No args - show deprecation and open panel
+        -- No args - open panel (deprecated command, but still works)
         if not args or args == "" then
-            CM.Warn("Note: /cmdsettings is deprecated. Use /markdown settings instead.")
-            
             -- Call the original LAM handler if it exists
             if lamHandler and type(lamHandler) == "function" then
                 lamHandler(args)

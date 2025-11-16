@@ -496,14 +496,16 @@ local function ValidateInventoryValues(markdown)
         return true
     end
 
-    -- Pattern to match Backpack line: | **Backpack** | Used | Max | Capacity% |
-    -- Format: | **Backpack** | 21 | 180 | 11% |
-    local backpackPattern = "%*%*Backpack%*%*%s*|%s*(%d+)%s*|%s*(%d+)%s*|"
+    -- Pattern to match Backpack line: | Backpack | Used | Max | Capacity% |
+    -- Format: | Backpack | 40 | 150 | ██░░░░░░░░ 26% |
+    -- Note: Backpack may or may not be bold (**Backpack** or Backpack)
+    local backpackPattern = "%*?%*?Backpack%*?%*?%s*|%s*(%d+)%s*|%s*(%d+)%s*|"
     local backpackUsed, backpackMax = string_match(markdown, backpackPattern)
 
-    -- Pattern to match Bank line: | **Bank** | Used | Max | Capacity% |
-    -- Format: | **Bank** | 393 | 480 | 82% |
-    local bankPattern = "%*%*Bank%*%*%s*|%s*(%d+)%s*|%s*(%d+)%s*|"
+    -- Pattern to match Bank line: | Bank | Used | Max | Capacity% |
+    -- Format: | Bank | 238 | 480 | ████░░░░░░ 49% |
+    -- Note: Bank may or may not be bold (**Bank** or Bank)
+    local bankPattern = "%*?%*?Bank%*?%*?%s*|%s*(%d+)%s*|%s*(%d+)%s*|"
     local bankUsed, bankMax = string_match(markdown, bankPattern)
 
     if not backpackUsed or not backpackMax then

@@ -4,7 +4,6 @@
 local CM = CharacterMarkdown
 
 -- Import section generators (these modules register themselves to CM.generators.sections)
--- Note: The modules are loaded via CharacterMarkdown.xml
 
 -- Get references to imported section generators for convenience
 local function GetGenerators()
@@ -15,9 +14,7 @@ local function GetGenerators()
         GenerateQuickStats = CM.generators.sections.GenerateQuickStats,
         GenerateGeneral = CM.generators.sections.GenerateGeneral,
         GenerateCharacterStats = CM.generators.sections.GenerateCharacterStats,
-        -- GenerateProgression - not implemented (progression data used in other sections)
         GenerateCustomNotes = CM.generators.sections.GenerateCustomNotes,
-        -- GenerateTableOfContents = CM.generators.sections.GenerateTableOfContents, -- DEPRECATED: Use dynamic TOC
         GenerateDynamicTableOfContents = CM.generators.sections.GenerateDynamicTableOfContents,
 
         -- Economy sections
@@ -36,7 +33,6 @@ local function GetGenerators()
 
         -- Combat sections
         GenerateCombatStats = CM.generators.sections.GenerateCombatStats,
-        -- GenerateAttributes removed (no longer relevant)
         GenerateBuffs = CM.generators.sections.GenerateBuffs,
 
         -- Content sections
@@ -122,7 +118,7 @@ end
 -- Returns true only if setting is explicitly true, false otherwise
 local function IsSettingEnabled(settings, settingName, defaultValue)
     if not settings then
-        CM.Warn(
+        CM.DebugPrint("SETTINGS",
             string.format(
                 "IsSettingEnabled: settings table is nil for '%s', using default: %s",
                 settingName,
@@ -134,7 +130,7 @@ local function IsSettingEnabled(settings, settingName, defaultValue)
     local value = settings[settingName]
     -- Settings should never be nil (CM.GetSettings() ensures this), but handle it defensively
     if value == nil then
-        CM.Warn(
+        CM.DebugPrint("SETTINGS",
             string.format(
                 "IsSettingEnabled: '%s' is nil (should never happen!), using default: %s",
                 settingName,
@@ -153,7 +149,7 @@ end
 
 -- Generate GitHub markdown anchor from section title text
 -- GitHub anchors: lowercase, spaces to hyphens, remove emojis and special chars
--- NOTE: This must match the logic in GenerateDynamicTableOfContents
+-- Must match the logic in GenerateDynamicTableOfContents
 local function GenerateAnchor(text)
     if not text then
         return ""
@@ -198,7 +194,7 @@ local function CreateSection(name, tocEntry, condition, generator, options)
 end
 
 -- Section configuration: defines all sections with their conditions
--- NOTE: settings parameter must be the FLATTENED settings table
+-- Settings parameter must be the flattened settings table
 --
 -- STRUCTURE:
 --   Each section has:
@@ -207,9 +203,6 @@ end
 --     - condition: Boolean or function returning boolean
 --     - generator: Function that returns markdown string
 --     - dynamicTOC: Optional flag for special TOC handling
---
--- TODO: Consider extracting section definitions to separate module
---       and moving condition logic to individual section modules
 local function GetSectionRegistry(format, settings, gen, data)
     -- Debug: Log settings at registry creation time (lazy evaluation)
     CM.DebugPrint("REGISTRY", function()
@@ -710,9 +703,6 @@ local function GetSectionRegistry(format, settings, gen, data)
                 return gen.GenerateMundus(data.mundus, format)
             end,
         },
-
-        -- Note: Progression data is used in other sections (QuickStats, General, etc.)
-        -- There is no standalone Progression section generator
     }
 end
 
@@ -722,8 +712,6 @@ end
 
 local function GenerateMarkdown(format)
     format = format or "github"
-
-    -- Removed verbose logging
 
     -- Reset error tracking
     ResetCollectionErrors()
@@ -848,7 +836,7 @@ local function GenerateMarkdown(format)
                 end
             -- Normal section generation
             elseif not section.generator or type(section.generator) ~= "function" then
-                CM.Warn(string.format("Section '%s' has no valid generator function", section.name))
+                CM.DebugPrint("GENERATOR", string.format("Section '%s' has no valid generator function", section.name))
             else
                 local success, result = pcall(section.generator)
                 if success then
@@ -934,7 +922,7 @@ local function GenerateMarkdown(format)
             markdown = markdown .. footerResult
             CM.DebugPrint("GENERATOR", string.format("Footer added (%d chars)", #footerResult))
         else
-            CM.Warn(string.format("Failed to generate footer: %s", tostring(footerResult)))
+            CM.DebugPrint("GENERATOR", string.format("Failed to generate footer: %s", tostring(footerResult)))
         end
     end
 

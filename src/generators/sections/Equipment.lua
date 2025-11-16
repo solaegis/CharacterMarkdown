@@ -81,7 +81,7 @@ local function GenerateSkillBarsOnly(skillBarData, format)
     -- Safe initialization
     local success, err = pcall(InitializeUtilities)
     if not success then
-        CM.Warn("GenerateSkillBarsOnly: InitializeUtilities failed: " .. tostring(err))
+        CM.DebugPrint("GENERATOR", "GenerateSkillBarsOnly: InitializeUtilities failed: " .. tostring(err))
     end
 
     -- Validate input data - handle nil, non-table, or empty table
@@ -298,7 +298,7 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
     -- Safe initialization
     local success, err = pcall(InitializeUtilities)
     if not success then
-        CM.Warn("GenerateSkillBars: InitializeUtilities failed: " .. tostring(err))
+        CM.DebugPrint("GENERATOR", "GenerateSkillBars: InitializeUtilities failed: " .. tostring(err))
     end
 
     -- Validate input data - handle nil, non-table, or empty table
@@ -514,7 +514,7 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
                     end
                 end
             else
-                CM.Warn("GenerateSkillBars: bar at index " .. tostring(barIdx) .. " is nil or not a table, skipping")
+                CM.DebugPrint("GENERATOR", "GenerateSkillBars: bar at index " .. tostring(barIdx) .. " is nil or not a table, skipping")
             end
         end
 
@@ -561,7 +561,7 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
                     .. '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n'
             end
         else
-            CM.Warn(
+            CM.DebugPrint("GENERATOR",
                 string.format(
                     "GenerateSkillBars: Skipping Equipment - equipmentData=%s, format=%s",
                     tostring(equipmentData ~= nil),
@@ -784,7 +784,7 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
     -- Also check for whitespace-only content
     local outputTrimmed = output and output:gsub("%s+", "") or ""
     if not output or output == "" or outputTrimmed == "" then
-        CM.Warn("GenerateSkillBars: output is empty/nil/whitespace-only, returning placeholder")
+        CM.DebugPrint("GENERATOR", "GenerateSkillBars: output is empty/nil/whitespace-only, returning placeholder")
         if format == "discord" then
             return "\n**Skill Bars:**\n*No skill bars configured*\n"
         else
@@ -799,7 +799,7 @@ local function GenerateSkillBars(skillBarData, format, skillMorphsData, skillPro
 
     -- Final validation: ensure output starts with the section header
     if format ~= "discord" and not output:match("^##%s+⚔️%s+Combat%s+Arsenal") then
-        CM.Warn("GenerateSkillBars: output doesn't start with expected header, prepending it")
+        CM.DebugPrint("GENERATOR", "GenerateSkillBars: output doesn't start with expected header, prepending it")
         output = "## ⚔️ Combat Arsenal\n\n" .. output
     end
 
@@ -839,7 +839,7 @@ GenerateEquipment = function(equipmentData, format, noWrapper)
         -- Safe initialization with error handling
         local success, err = pcall(InitializeUtilities)
         if not success then
-            CM.Warn("GenerateEquipment: InitializeUtilities failed: " .. tostring(err))
+            CM.DebugPrint("GENERATOR", "GenerateEquipment: InitializeUtilities failed: " .. tostring(err))
             -- Return placeholder if initialization fails
             if format == "discord" then
                 return "**Equipment & Active Sets:**\n*Error initializing equipment generator*\n\n"
@@ -1500,7 +1500,7 @@ GenerateEquipment = function(equipmentData, format, noWrapper)
     if success then
         -- Defensive: Ensure we never return empty string
         if not result or result == "" then
-            CM.Warn("GenerateEquipment: Internal function returned empty result")
+            CM.DebugPrint("GENERATOR", "GenerateEquipment: Internal function returned empty result")
             if format == "discord" then
                 return "**Equipment & Active Sets:**\n*No equipment data available*\n\n"
             else
@@ -1512,10 +1512,10 @@ GenerateEquipment = function(equipmentData, format, noWrapper)
         -- Log the actual error for debugging
         local errorMsg = tostring(result) or "unknown error"
         CM.Error("GenerateEquipment: Internal function failed with error: " .. errorMsg)
-        CM.Warn("GenerateEquipment: equipmentData type: " .. type(equipmentData))
+        CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData type: " .. type(equipmentData))
         if equipmentData and type(equipmentData) == "table" then
-            CM.Warn("GenerateEquipment: equipmentData.sets exists: " .. tostring(equipmentData.sets ~= nil))
-            CM.Warn("GenerateEquipment: equipmentData.items exists: " .. tostring(equipmentData.items ~= nil))
+            CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData.sets exists: " .. tostring(equipmentData.sets ~= nil))
+            CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData.items exists: " .. tostring(equipmentData.items ~= nil))
         end
         if format == "discord" then
             return "**Equipment & Active Sets:**\n*Error generating equipment data*\n\n"
@@ -1979,8 +1979,6 @@ local function GenerateSkills(skillData, format, skillMorphsData)
                 output = output .. "</details>\n\n"
             end
         end
-
-        -- Removed separator - separators are handled by section registry in Markdown.lua
     end
 
     return output
@@ -2172,8 +2170,6 @@ GenerateSkillMorphs = function(skillMorphsData, format)
 
             output = output .. "\n"
         end
-
-        -- Removed hardcoded divider - dividers are handled by section registry
     end
 
     return output

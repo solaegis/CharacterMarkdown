@@ -21,7 +21,7 @@ function CM.Settings.Initializer:Initialize()
 
     if not success then
         -- Fallback to direct assignment
-        CM.Warn("ZO_SavedVars initialization failed - using fallback method")
+        CM.DebugPrint("SETTINGS", "ZO_SavedVars initialization failed - using fallback method")
         self:InitializeFallback()
     end
 
@@ -82,7 +82,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
     -- CRITICAL: Verify that CM.settings and CharacterMarkdownSettings are the same table
     -- ZO_SavedVars:NewAccountWide should return a reference to CharacterMarkdownSettings
     if CM.settings ~= CharacterMarkdownSettings then
-        CM.Warn("CM.settings and CharacterMarkdownSettings are different tables - forcing sync")
+        CM.DebugPrint("SETTINGS", "CM.settings and CharacterMarkdownSettings are different tables - forcing sync")
         -- This shouldn't happen, but if it does, ensure they point to the same table
         CM.settings = CharacterMarkdownSettings
     end

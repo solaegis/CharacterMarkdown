@@ -348,9 +348,9 @@ local SECTION_PATTERNS = {
         name = "Companion",
         optional = true, -- Only if companion is active
         patterns = {
-            github = { "##.*👤.*Companion", "Companion", "Companion.*Rapport" },
-            discord = { "**Companion:**", "👤.*Companion" },
-            fallback = { "Companion", "Rapport" },
+            github = { "##.*👥.*Companion", "##.*👤.*Companion", "Companions?", "Companion.*Rapport" },
+            discord = { "**Companion:**", "👥.*Companion", "👤.*Companion" },
+            fallback = { "Companions?", "Rapport" },
         },
     },
     {

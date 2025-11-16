@@ -4,7 +4,7 @@
 
 # Pelatiah (Emissary)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-741-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Templar-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-742-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Templar-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Imperial Templar • Ebonheart Pact Alliance**
 
@@ -26,6 +26,8 @@
   - [Companions](#companions)
 - [🎨 Collectibles](#collectibles)
 - [🎒 Inventory](#inventory)
+- [🏺 Antiquities](#antiquities)
+- [📜 Quests](#quests)
 
 ---
 
@@ -55,11 +57,11 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Champion Points** | 741 |
+| **Champion Points** | 742 |
 | **Attributes** | 🔵 64 / ❤️ 0 / ⚡ 0 |
 | **Skill Points** | 🎯 76 available - Ready to spend |
 | **Title** | Emissary |
-| **Age** | 13 days, 13 hours, 43 minutes, and 54 seconds |
+| **Age** | 13 days, 16 hours, 33 minutes, and 20 seconds |
 | **ESO Plus** | ✅ Active |
 
 
@@ -70,8 +72,8 @@
 | --- | --- |
 | **🪨 Mundus Stone** | The Shadow |
 | **🍖 Active Buffs** | Other: Gallop |
-| **Location** | Gold Coast (Tribune's Folly) |
-| **🐴 Riding Skills** | 🐴 6 / 💪 6 / 🎒 6 |
+| **Location** | Summerset (617) |
+| **🐴 Riding Skills** | 🐴 60 / 💪 60 / 🎒 60 ✅ |
 
 
 </div><div>
@@ -82,6 +84,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
+| **Gold** | 152,389 |
 | **Tel Var** | 7,027 |
 | **Transmute Crystals** | 60 |
 | **Event Tickets** | 2 |
@@ -155,9 +158,9 @@
 
 | **Set** | **Progress** |
 | --- | --- |
+| 🟢 **Armor of the Trainee** | `5/5` ██████████ 100% *(+5 extra)* |
 | ⚪ **Law of Julianos** | `1/5` ██░░░░░░░░ 20% |
 | ⚪ **Grace of Gloom** | `1/5` ██░░░░░░░░ 20% |
-| 🟢 **Armor of the Trainee** | `5/5` ██████████ 100% *(+5 extra)* |
 
 ### 📋 Equipment Details
 
@@ -186,324 +189,31 @@
 | ---: | ---: | ---: | ---: | ---: |
 | 17 | 5 | 22 | 25 | 38% |
 
+### ✅ Maxed Skills
+
 <details>
-<summary>🌿 Skill Morphs (25 abilities with morph choices)</summary>
-
-### ⚔️ Class (13 abilities with morph choices)
-
-#### Aedric Spear (Rank 50)
-
-✅ **Crescent Sweep** (Rank 4)
-
-  ✅ **Morph 2**: Crescent Sweep
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Everlasting Sweep
-
-  </details>
-
-✅ **Puncturing Sweep** (Rank 4)
-
-  ✅ **Morph 2**: Puncturing Sweep
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Biting Jabs
-
-  </details>
-
-🔒 **Piercing Javelin** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Aurora Javelin
-  ⚪ **Morph 2**: Binding Javelin
-
-  </details>
-
-🔒 **Focused Charge** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Explosive Charge
-  ⚪ **Morph 2**: Toppling Charge
-
-  </details>
-
-✅ **Blazing Spear** (Rank 4)
-
-  ✅ **Morph 2**: Blazing Spear
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Luminous Shards
-
-  </details>
-
-
-#### Dawn's Wrath (Rank 50)
-
-✅ **Vampire's Bane** (Rank 4)
-
-  ✅ **Morph 1**: Vampire's Bane
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Reflective Light
-
-  </details>
-
-🔒 **Solar Flare** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Dark Flare
-  ⚪ **Morph 2**: Solar Barrage
-
-  </details>
-
-✅ **Radiant Glory** (Rank 4)
-
-  ✅ **Morph 1**: Radiant Glory
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Radiant Oppression
-
-  </details>
-
-
-#### Restoring Light (Rank 50)
-
-🔒 **Rite of Passage** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Remembrance
-  ⚪ **Morph 2**: Practiced Incantation
-
-  </details>
-
-🔒 **Rushed Ceremony** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Honor the Dead
-  ⚪ **Morph 2**: Breath of Life
-
-  </details>
-
-🔒 **Healing Ritual** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Ritual of Rebirth
-  ⚪ **Morph 2**: Hasty Prayer
-
-  </details>
-
-🔒 **Restoring Aura** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Radiant Aura
-  ⚪ **Morph 2**: Repentance
-
-  </details>
-
-✅ **Channeled Focus** (Rank 4)
-
-  ✅ **Morph 1**: Channeled Focus
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Restoring Focus
-
-  </details>
-
-
-### ⚔️ Weapon (6 abilities with morph choices)
-
-#### Destruction Staff (Rank 50)
-
-✅ **Elemental Rage** (Rank 4)
-
-  ✅ **Morph 1**: Elemental Rage
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Eye of the Storm
-
-  </details>
-
-✅ **Unstable Wall of Elements** (Rank 4)
-
-  ✅ **Morph 1**: Unstable Wall of Elements
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Elemental Blockade
-
-  </details>
-
-🔒 **Destructive Touch** (Rank 2)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Destructive Clench
-  ⚪ **Morph 2**: Destructive Reach
-
-  </details>
-
-✅ **Elemental Susceptibility** (Rank 4)
-
-  ✅ **Morph 1**: Elemental Susceptibility
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Elemental Drain
-
-  </details>
-
-
-#### Restoration Staff (Rank 50)
-
-🔒 **Regeneration** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Rapid Regeneration
-  ⚪ **Morph 2**: Radiating Regeneration
-
-  </details>
-
-🔒 **Steadfast Ward** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Ward Ally
-  ⚪ **Morph 2**: Healing Ward
-
-  </details>
-
-
-### 🛡️ Armor (1 abilities with morph choices)
-
-#### Light Armor (Rank 50)
-
-✅ **Dampen Magic** (Rank 4)
-
-  ✅ **Morph 1**: Dampen Magic
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Harness Magicka
-
-  </details>
-
-
-### 🌍 World (1 abilities with morph choices)
-
-#### Soul Magic (Rank 3)
-
-✅ **Consuming Trap** (Rank 4)
-
-  ✅ **Morph 2**: Consuming Trap
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Soul Splitting Trap
-
-  </details>
-
-
-### 🏰 Guild (4 abilities with morph choices)
-
-#### Mages Guild (Rank 9)
-
-✅ **Inner Light** (Rank 4)
-
-  ✅ **Morph 1**: Inner Light
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Radiant Magelight
-
-  </details>
-
-✅ **Degeneration** (Rank 4)
-
-  ✅ **Morph 1**: Degeneration
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: Structured Entropy
-
-  </details>
-
-
-#### Psijic Order (Rank 10)
-
-⚠️ **Imbue Weapon** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Elemental Weapon
-  ⚪ **Morph 2**: Crushing Weapon
-
-  </details>
-
-⚠️ **Accelerate** (Rank 4)
-
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: Channeled Acceleration
-  ⚪ **Morph 2**: Race Against Time
-
-  </details>
-
-
+<summary>🔥 Class (3 skill lines maxed)</summary>
+
+**Aedric Spear**, **Dawn's Wrath**, **Restoring Light**
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Piercing Spear (8/8) *(from Aedric Spear)*
+- ✅ Spear Wall (14/14) *(from Aedric Spear)*
+- ✅ Burning Light (22/22) *(from Aedric Spear)*
+- ✅ Balanced Warrior (39/39) *(from Aedric Spear)*
+- ✅ Enduring Rays (8/8) *(from Dawn's Wrath)*
+- ✅ Prism (14/14) *(from Dawn's Wrath)*
+- ✅ Illuminate (22/22) *(from Dawn's Wrath)*
+- ✅ Restoring Spirit (39/39) *(from Dawn's Wrath)*
+- ✅ Mending (8/8) *(from Restoring Light)*
+- ✅ Sacred Ground (14/14) *(from Restoring Light)*
+- ✅ Light Weaver (22/22) *(from Restoring Light)*
+- ✅ Master Ritualist (39/39) *(from Restoring Light)*
 </details>
 
-### ✅ Maxed Skills
+</details>
 
 <details>
 <summary>⭐ Racial (10 skill lines maxed)</summary>
@@ -558,25 +268,23 @@
 </details>
 
 <details>
-<summary>🔥 Class (3 skill lines maxed)</summary>
+<summary>⚔️ Weapon (2 skill lines maxed)</summary>
 
-**Aedric Spear**, **Dawn's Wrath**, **Restoring Light**
+**Destruction Staff**, **Restoration Staff**
 
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ Piercing Spear (8/8) *(from Aedric Spear)*
-- ✅ Spear Wall (14/14) *(from Aedric Spear)*
-- ✅ Burning Light (22/22) *(from Aedric Spear)*
-- ✅ Balanced Warrior (39/39) *(from Aedric Spear)*
-- ✅ Enduring Rays (8/8) *(from Dawn's Wrath)*
-- ✅ Prism (14/14) *(from Dawn's Wrath)*
-- ✅ Illuminate (22/22) *(from Dawn's Wrath)*
-- ✅ Restoring Spirit (39/39) *(from Dawn's Wrath)*
-- ✅ Mending (8/8) *(from Restoring Light)*
-- ✅ Sacred Ground (14/14) *(from Restoring Light)*
-- ✅ Light Weaver (22/22) *(from Restoring Light)*
-- ✅ Master Ritualist (39/39) *(from Restoring Light)*
+- ✅ Tri Focus (5/5) *(from Destruction Staff)*
+- ✅ Penetrating Magic (10/10) *(from Destruction Staff)*
+- ✅ Elemental Force (25/25) *(from Destruction Staff)*
+- ✅ Ancient Knowledge (28/28) *(from Destruction Staff)*
+- ✅ Destruction Expert (41/41) *(from Destruction Staff)*
+- 🔒 Essence Drain (5/5) *(from Restoration Staff)*
+- 🔒 Restoration Expert (10/10) *(from Restoration Staff)*
+- 🔒 Cycle of Life (25/25) *(from Restoration Staff)*
+- 🔒 Absorb (28/28) *(from Restoration Staff)*
+- 🔒 Restoration Master (41/41) *(from Restoration Staff)*
 </details>
 
 </details>
@@ -607,28 +315,6 @@
 
 </details>
 
-<details>
-<summary>⚔️ Weapon (2 skill lines maxed)</summary>
-
-**Destruction Staff**, **Restoration Staff**
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Tri Focus (5/5) *(from Destruction Staff)*
-- ✅ Penetrating Magic (10/10) *(from Destruction Staff)*
-- ✅ Elemental Force (25/25) *(from Destruction Staff)*
-- ✅ Ancient Knowledge (28/28) *(from Destruction Staff)*
-- ✅ Destruction Expert (41/41) *(from Destruction Staff)*
-- 🔒 Essence Drain (5/5) *(from Restoration Staff)*
-- 🔒 Restoration Expert (10/10) *(from Restoration Staff)*
-- 🔒 Cycle of Life (25/25) *(from Restoration Staff)*
-- 🔒 Absorb (28/28) *(from Restoration Staff)*
-- 🔒 Restoration Master (41/41) *(from Restoration Staff)*
-</details>
-
-</details>
-
 ### 📈 In-Progress Skills
 
 <details>
@@ -644,24 +330,6 @@
 - 🔒 Trafficker (3/3) *(from Legerdemain)*
 - 🔒 Locksmith (5/5) *(from Legerdemain)*
 - 🔒 Kickback (6/6) *(from Legerdemain)*
-</details>
-
-</details>
-
-<details>
-<summary>🛡️ Armor (1 skill line in progress)</summary>
-
-- **Medium Armor**: Rank 20 █████████░ 96%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Medium Armor Bonuses *(from Medium Armor)*
-- 🔒 Dexterity (2/2) *(from Medium Armor)*
-- 🔒 Wind Walker (6/6) *(from Medium Armor)*
-- 🔒 Improved Sneak (14/14) *(from Medium Armor)*
-- 🔒 Agility (38/38) *(from Medium Armor)*
-- 🔒 Athletics (42/42) *(from Medium Armor)*
 </details>
 
 </details>
@@ -698,7 +366,71 @@
 
 </details>
 
+<details>
+<summary>🛡️ Armor (1 skill line in progress)</summary>
+
+- **Medium Armor**: Rank 20 █████████░ 96%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Medium Armor Bonuses *(from Medium Armor)*
+- 🔒 Dexterity (2/2) *(from Medium Armor)*
+- 🔒 Wind Walker (6/6) *(from Medium Armor)*
+- 🔒 Improved Sneak (14/14) *(from Medium Armor)*
+- 🔒 Agility (38/38) *(from Medium Armor)*
+- 🔒 Athletics (42/42) *(from Medium Armor)*
+</details>
+
+</details>
+
 ### ⚪ Early Progress Skills
+
+<details>
+<summary>🏰 Guild (6 skill lines)</summary>
+
+- **Dark Brotherhood**: Rank 9 ████████░░ 88%
+- **Fighters Guild**: Rank 10 ██████████ 100%
+- **Mages Guild**: Rank 9 ████████░░ 86%
+- **Psijic Order**: Rank 10 ██████████ 100%
+- **Thieves Guild**: Rank 4 █████████░ 94%
+- **Undaunted**: Rank 3 ██████░░░░ 61%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ Blade of Woe *(from Dark Brotherhood)*
+- 🔒 Scales of Pitiless Justice (2/2) *(from Dark Brotherhood)*
+- 🔒 Padomaic Sprint (3/3) *(from Dark Brotherhood)*
+- 🔒 Shadowy Supplier (4/4) *(from Dark Brotherhood)*
+- 🔒 Shadow Rider (7/7) *(from Dark Brotherhood)*
+- 🔒 Spectral Assassin (10/10) *(from Dark Brotherhood)*
+- ✅ Intimidating Presence *(from Fighters Guild)*
+- ✅ Slayer (3/3) *(from Fighters Guild)*
+- ✅ Banish the Wicked (5/5) *(from Fighters Guild)*
+- ✅ Skilled Tracker (7/7) *(from Fighters Guild)*
+- ✅ Bounty Hunter (9/9) *(from Fighters Guild)*
+- ✅ Persuasive Will *(from Mages Guild)*
+- ✅ Mage Adept (3/3) *(from Mages Guild)*
+- ✅ Everlasting Magic (5/5) *(from Mages Guild)*
+- ✅ Magicka Controller (7/7) *(from Mages Guild)*
+- 🔒 Might of the Guild (9/9) *(from Mages Guild)*
+- ✅ See the Unseen *(from Psijic Order)*
+- 🔒 Clairvoyance (3/3) *(from Psijic Order)*
+- 🔒 Spell Orb (4/4) *(from Psijic Order)*
+- 🔒 Concentrated Barrier (6/6) *(from Psijic Order)*
+- 🔒 Deliberation (9/9) *(from Psijic Order)*
+- ✅ Finders Keepers *(from Thieves Guild)*
+- 🔒 Swiftly Forgotten (2/2) *(from Thieves Guild)*
+- 🔒 Haggling (3/3) *(from Thieves Guild)*
+- 🔒 Clemency (4/4) *(from Thieves Guild)*
+- 🔒 Timely Escape (7/7) *(from Thieves Guild)*
+- 🔒 Veil of Shadows (10/10) *(from Thieves Guild)*
+- 🔒 Undaunted Command (6/6) *(from Undaunted)*
+- 🔒 Undaunted Mettle (7/7) *(from Undaunted)*
+</details>
+
+</details>
 
 <details>
 <summary>🌍 World (5 skill lines)</summary>
@@ -792,7 +524,6 @@
 <details>
 <summary>✨ Passives</summary>
 
-
 - ✅ Solvent Proficiency *(from Alchemy)*
 - 🔒 Keen Eye: Reagents (2/2) *(from Alchemy)*
 - 🔒 Medicinal Use (8/8) *(from Alchemy)*
@@ -820,66 +551,20 @@
 
 </details>
 
-<details>
-<summary>🏰 Guild (6 skill lines)</summary>
-
-- **Dark Brotherhood**: Rank 9 ████████░░ 88%
-- **Fighters Guild**: Rank 10 ██████████ 100%
-- **Mages Guild**: Rank 9 ████████░░ 86%
-- **Psijic Order**: Rank 10 ██████████ 100%
-- **Thieves Guild**: Rank 4 █████████░ 94%
-- **Undaunted**: Rank 3 ██████░░░░ 61%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ Blade of Woe *(from Dark Brotherhood)*
-- 🔒 Scales of Pitiless Justice (2/2) *(from Dark Brotherhood)*
-- 🔒 Padomaic Sprint (3/3) *(from Dark Brotherhood)*
-- 🔒 Shadowy Supplier (4/4) *(from Dark Brotherhood)*
-- 🔒 Shadow Rider (7/7) *(from Dark Brotherhood)*
-- 🔒 Spectral Assassin (10/10) *(from Dark Brotherhood)*
-- ✅ Intimidating Presence *(from Fighters Guild)*
-- ✅ Slayer (3/3) *(from Fighters Guild)*
-- ✅ Banish the Wicked (5/5) *(from Fighters Guild)*
-- ✅ Skilled Tracker (7/7) *(from Fighters Guild)*
-- ✅ Bounty Hunter (9/9) *(from Fighters Guild)*
-- ✅ Persuasive Will *(from Mages Guild)*
-- ✅ Mage Adept (3/3) *(from Mages Guild)*
-- ✅ Everlasting Magic (5/5) *(from Mages Guild)*
-- ✅ Magicka Controller (7/7) *(from Mages Guild)*
-- 🔒 Might of the Guild (9/9) *(from Mages Guild)*
-- ✅ See the Unseen *(from Psijic Order)*
-- 🔒 Clairvoyance (3/3) *(from Psijic Order)*
-- 🔒 Spell Orb (4/4) *(from Psijic Order)*
-- 🔒 Concentrated Barrier (6/6) *(from Psijic Order)*
-- 🔒 Deliberation (9/9) *(from Psijic Order)*
-- ✅ Finders Keepers *(from Thieves Guild)*
-- 🔒 Swiftly Forgotten (2/2) *(from Thieves Guild)*
-- 🔒 Haggling (3/3) *(from Thieves Guild)*
-- 🔒 Clemency (4/4) *(from Thieves Guild)*
-- 🔒 Timely Escape (7/7) *(from Thieves Guild)*
-- 🔒 Veil of Shadows (10/10) *(from Thieves Guild)*
-- 🔒 Undaunted Command (6/6) *(from Undaunted)*
-- 🔒 Undaunted Mettle (7/7) *(from Undaunted)*
-</details>
-
-</details>
-
 ---
 
 ## ⭐ Champion Points
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 741 | 655 | 86 ⚠️ |
+| 742 | 655 | 87 ⚠️ |
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
 | **⚒️ Craft** | ** ** |
 | --- | ---: |
-| ████████░░░░ 69% | 215/311 points |
+| ████████░░░░ 68% | 215/312 points |
 | **Master Gatherer** | 15 points |
 | **Treasure Hunter** | 50 points |
 | **Steadfast Enchantment** | 10 points |
@@ -895,7 +580,7 @@
 
 | **⚔️ Warfare** | ** ** |
 | --- | ---: |
-| ████████░░░░ 71% | 215/301 points |
+| ████████░░░░ 71% | 215/302 points |
 | **Precision** | 10 points |
 | **Fighting Finesse** | 50 points |
 | **Piercing** | 10 points |
@@ -910,7 +595,7 @@
 
 | **💪 Fitness** | ** ** |
 | --- | ---: |
-| ████████░░░░ 74% | 225/301 points |
+| ████████░░░░ 74% | 225/302 points |
 | **Mystic Tenacity** | 10 points |
 | **Sustained by Suffering** | 50 points |
 | **Tumbling** | 15 points |
@@ -940,6 +625,7 @@
 | **1** | **2** | **3** | **4** | **5** | **⚡** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | Fiery Flail | Destructive Blast | Scorching Strike | Drake's Blood | Crushing Claws | [Empty] |
+
 
 | **Slot** | **Item** | **Quality** | **Trait** |
 | --- | --- | --- | --- |
@@ -985,214 +671,11 @@
 
 </details>
 
-<details>
-<summary>🐴 Mounts (14 of 697)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 2% (14/697) |
-
-- Rahd-m'Athra
-- Psijic Escort Charger
-- Nightmare Senche
-- Flame Atronach Senche
-- Imperial Horse
-- Tessellated Guar
-- Midnight Steed
-- Skulltooth Coastal Durzog
-- Senche-Leopard
-- Sorrel Horse
-- Dwarven War Horse
-- Nix-Ox War-Steed
-- Noweyr Steed
-- Wormwrithe Bear-Lizard
-</details>
-
-<details>
-<summary>🐾 Pets (37 of 679)</summary>
-
-| Progress |
-| --- |
-| █░░░░░░░░░░░░░░░░░░░ 5% (37/679) |
-
-- Housecat
-- Dwarven Spider
-- Jackal
-- Vermilion Scuttler
-- Big-Eared Ginger Kitten
-- Psijic Mascot Bear Cub
-- Dusky Fennec Fox
-- Hot Pepper Bantam Guar
-- Verdigris Haj Mota
-- Abecean Ratter Cat
-- Coldharbour Dremnaken Runt
-- Sylvan Nixad
-- Blue Dragon Imp
-- Infernium Dwarven Spiderling
-- Scintillant Dovah-Fly
-- Psijic Mascot Pony
-- Psijic Mascot Guar Calf
-- Grisly Banekin Mummy
-- Viridescent Dragon Frog
-- Ambersheen Vale Fawn
-- Dwarven War Dog
-- Golden Eagle
-- Imgakin Monkey
-- Vvardvark
-- Crimson Torchbug
-- Noweyr Pony
-- Pocket Salamander
-- Pocket Mammoth
-- Green Dragon Imp
-- Steam-Driven Brassilisk
-- Alik'r Dune-Hound
-- Nibenay Mudcrab
-- Dozen-Banded Vvardvark
-- Echalette
-- Haunted House Cat
-- Long-Winged Bat
-- Spectral Mudcrab
-</details>
-
-<details>
-<summary>👗 Costumes (46 of 312)</summary>
-
-| Progress |
-| --- |
-| ██░░░░░░░░░░░░░░░░░░ 14% (46/312) |
-
-- Austere Warden Outfit
-- Black Hand Robe
-- Bloodthorn Robes
-- Colovian Uniform
-- Courier Uniform
-- Court of Bedlam
-- Covenant Scout
-- Crown Dishdasha
-- Cyrod Patrician Formal Gown
-- Dark Seducer
-- Dunmer Cultural Garb
-- Forebear Dishdasha
-- Fort Amol Guard Armor
-- Frostedge Bandit Armor
-- Golden Saint
-- Grim Harvester
-- Hollow Moon Garb
-- Imperial Chancellor
-- Keeper's Garb
-- Lion Guard Knight
-- Mages Guild Formal Robes
-- Mages Guild Leggings Uniform
-- Mages Guild Research Robes
-- Mannimarco
-- Merchant Lord's Formal Regalia
-- Midnight Union Garb
-- Noble Clan-Chief
-- Nordic Bather's Towel
-- Phaer Mercenary Armor
-- Quendelunn Veiled Heritance Garb
-- Red Rook Armor
-- Regalia of the Scarlet Judge
-- Satakalaaam Imperial Armor
-- Sea Drake Garb
-- Sea Viper Armor
-- Servant's Outfit
-- Servant's Robes
-- Seventh Legion Armor
-- Shrouded Armor
-- Skald's Damask Jerkin
-- Steel Shrike Uniform
-- Stormfist Uniform
-- Thieves Guild Leathers
-- Upriver Striped Sash-Kilt
-- Vanguard Uniform
-- Vulkhel Guard Marine Armor
-</details>
-
-<details>
-<summary>🎭 Emotes (7 of 225)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 3% (7/225) |
-
-- Belly Laugh
-- Go Quietly
-- Kiss This
-- Marshmallow Toasty Treat
-- Showtime
-- Teatime
-- Wickerman Mishap
-</details>
-
-<details>
-<summary>🎪 Mementos (30 of 201)</summary>
-
-| Progress |
-| --- |
-| ██░░░░░░░░░░░░░░░░░░ 14% (30/201) |
-
-- Almalexia's Enchanted Lantern
-- Battered Bear Trap
-- Blackfeather Court Whistle
-- Blade of the Blood Oath
-- Bonesnap Binding Stone
-- Breda's Bottomless Mead Mug
-- Cherry Blossom Branch
-- Clockwork Obscuros
-- Coin of Illusory Riches
-- Discourse Amaranthine
-- Dwarven Puzzle Orb
-- Finvir's Trinket
-- Fire-Breather's Torches
-- Jubilee Cake 2017
-- Jubilee Cake 2018
-- Jubilee Cake 2020
-- Lena's Wand of Finding
-- Mud Ball Pouch
-- Murkmire Grave-Stake
-- Nanwen's Sword
-- Questionable Meat Sack
-- Remnant of Meridia's Light
-- Scalecaller Rune of Levitation
-- Sea Sload Dorsal Fin
-- Sword-Swallower's Blade
-- The Pie of Misrule
-- Token of Root Sunder
-- Witch's Bonfire Dust
-- Witchmother's Whistle
-- Yokudan Totem
-</details>
-
-<details>
-<summary>🎨 Skins (0 of 106)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 0% (0/106) |
-
-*No skins owned*
-</details>
-
-<details>
-<summary>🦎 Polymorphs (1 of 43)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 2% (1/43) |
-
-- Skeleton
-</details>
-
-<details>
-<summary>🎭 Personalities (1 of 29)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 3% (1/29) |
-
-- Assassin
-</details>
+| Type | Count |
+|:-----|------:|
+| **🐴 Mounts** | 14 |
+| **🐾 Pets** | 37 |
+| **👗 Costumes** | 46 |
 
 <details>
 <summary>👑 Titles (26 of 26)</summary>
@@ -1253,18 +736,18 @@
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 99 | 180 | █████░░░░░ 55% |
-| Bank | 230 | 480 | ████░░░░░░ 47% |
+| Backpack | 108 | 180 | ██████░░░░ 60% |
+| Bank | 222 | 480 | ████░░░░░░ 46% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-32,323%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-GITHUB-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-23,310%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 11/13/2025</sub>
+<sub>Generated on 11/15/2025</sub>
 
 </div>

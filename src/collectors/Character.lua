@@ -10,7 +10,7 @@ local GetAllianceName = GetAllianceName
 local GetUnitAlliance = GetUnitAlliance
 local GetUnitLevel = GetUnitLevel
 local GetPlayerChampionPointsEarned = GetPlayerChampionPointsEarned
--- Note: Title functions are handled via rawget in the function body for safety
+-- Title functions are handled via rawget in the function body for safety
 local IsESOPlusSubscriber = IsESOPlusSubscriber
 local GetAttributeSpentPoints = GetAttributeSpentPoints
 local GetTimeStamp = GetTimeStamp

@@ -10,7 +10,7 @@ local GetTitles = GetTitles
 local GetCollectibleName = GetCollectibleName
 local GetCollectibleCategoryType = GetCollectibleCategoryType
 local IsCollectibleUnlocked = IsCollectibleUnlocked
--- Note: GetUnitTitle and GetPrimaryHouse may be newer APIs, handled via rawget for safety
+-- GetUnitTitle and GetPrimaryHouse may be newer APIs, handled via rawget for safety
 
 -- =====================================================
 -- TITLES

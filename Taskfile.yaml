@@ -19,7 +19,7 @@ vars:
   SRC_DIR: src
   
   # Required files
-  REQUIRED_FILES: "{{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE"
+  REQUIRED_FILES: "{{.MANIFEST_FILE}} README.md LICENSE"
 
 tasks:
   # =============================================================================
@@ -81,7 +81,7 @@ tasks:
           exit 1
         fi
         echo "👀 Watching for changes..."
-        fswatch -o {{.ADDON_NAME}}.xml {{.SRC_DIR}}/ | while read; do
+        fswatch -o {{.SRC_DIR}}/ | while read; do
           echo "[$(date +%H:%M:%S)] Files changed - use /reloadui in ESO"
         done
     silent: true
@@ -205,7 +205,7 @@ tasks:
     cmds:
       - echo "  Checking required files..."
       - |
-        for file in {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE; do
+        for file in {{.MANIFEST_FILE}} README.md LICENSE; do
           if [ ! -f "$file" ]; then
             echo "  ✗ Missing required file: $file"
             exit 1
@@ -263,7 +263,7 @@ tasks:
       - |
         BACKUP_NAME="backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz"
         echo "💾 Creating backup: $BACKUP_NAME"
-        tar czf "$BACKUP_NAME" {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE {{.SRC_DIR}}/
+        tar czf "$BACKUP_NAME" {{.MANIFEST_FILE}} README.md LICENSE {{.SRC_DIR}}/
         echo "✅ Backup created: $BACKUP_NAME"
     silent: true
 
@@ -740,9 +740,6 @@ tasks:
         # Copy manifest (.addon format)
         cp {{.MANIFEST_FILE}} "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
         
-        # Copy other core files
-        cp {{.ADDON_NAME}}.xml "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
-        
         # Copy assets directory if exists
         if [ -d "assets" ]; then
           cp -r assets/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/assets/"
@@ -776,9 +773,6 @@ tasks:
         
         # Copy manifest
         cp {{.MANIFEST_FILE}} "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
-        
-        # Copy other core files
-        cp {{.ADDON_NAME}}.xml "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
         
         # Copy assets directory if exists
         if [ -d "assets" ]; then
@@ -986,7 +980,7 @@ tasks:
         echo "ESO PTS:     {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
         echo ""
         echo "Core Files:"
-        ls -lh {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE
+        ls -lh {{.MANIFEST_FILE}} README.md LICENSE
         echo ""
         echo "Source Files:"
         find {{.SRC_DIR}} -name "*.lua" -type f | wc -l | xargs echo "  Lua files:"
@@ -997,7 +991,7 @@ tasks:
     cmds:
       - |
         echo "📊 File Sizes:"
-        du -h {{.MANIFEST_FILE}} {{.ADDON_NAME}}.xml README.md LICENSE
+        du -h {{.MANIFEST_FILE}} README.md LICENSE
         echo ""
         echo "Source Directory:"
         du -sh {{.SRC_DIR}}/

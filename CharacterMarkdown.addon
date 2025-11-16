@@ -100,7 +100,7 @@ src/settings/Initializer.lua
 src/settings/Panel.lua
 
 ## UI components
-CharacterMarkdown.xml
+src/ui/CharacterMarkdown.xml
 src/ui/Window.lua
 
 ## Final initialization

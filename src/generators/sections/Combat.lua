@@ -307,10 +307,6 @@ local function GenerateCombatStats(statsData, format, inline)
 end
 
 -- =====================================================
--- ATTRIBUTES - REMOVED (no longer relevant, info shown in Quick Stats)
--- =====================================================
-
--- =====================================================
 -- BUFFS
 -- =====================================================
 
@@ -333,7 +329,6 @@ local function GenerateBuffs(buffsData, format)
             local potionLink = CreateBuffLink(buffsData.potion, format)
             markdown = markdown .. "• " .. potionLink .. "\n"
         end
-        -- Other buffs removed (no longer relevant)
         markdown = markdown .. "\n"
     else
         markdown = markdown .. "### 🍖 Active Buffs\n\n"
@@ -345,7 +340,6 @@ local function GenerateBuffs(buffsData, format)
             local potionLink = CreateBuffLink(buffsData.potion, format)
             markdown = markdown .. "**Potion:** " .. potionLink .. "  \n"
         end
-        -- Other buffs removed (no longer relevant)
         markdown = markdown .. "\n"
     end
 
@@ -358,5 +352,4 @@ end
 
 CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateCombatStats = GenerateCombatStats
--- GenerateAttributes removed (no longer relevant)
 CM.generators.sections.GenerateBuffs = GenerateBuffs

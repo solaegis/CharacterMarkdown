@@ -78,12 +78,12 @@ validate_zip_structure() {
     fi
     print_success "Manifest file present: ${ADDON_NAME}.addon"
     
-    # Check for XML file
-    if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/${ADDON_NAME}.xml"; then
-        print_error "Missing XML file: ${ADDON_NAME}.xml"
+    # Check for XML file (now in src/ui/)
+    if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/src/ui/${ADDON_NAME}.xml"; then
+        print_error "Missing XML file: src/ui/${ADDON_NAME}.xml"
         return 1
     fi
-    print_success "XML file present: ${ADDON_NAME}.xml"
+    print_success "XML file present: src/ui/${ADDON_NAME}.xml"
     
     # Check for source directory
     if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/src/"; then

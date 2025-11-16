@@ -99,7 +99,7 @@ local function GetInvestmentLevelDescription(level)
 end
 
 -- Calculate available CP breakdown by discipline (⚒️ Craft - ⚔️ Warfare - 💪 Fitness)
--- Note: Unassigned CP is a shared pool, but we show it per discipline to indicate
+-- Unassigned CP is a shared pool, but we show it per discipline to indicate
 -- "available capacity" (max - assigned) for each discipline
 local function GetAvailableCPBreakdown(cpData)
     if not cpData or not cpData.disciplines then
@@ -236,7 +236,7 @@ end
 -- =====================================================
 -- OPTIMIZATION SUGGESTIONS (Currently Unused)
 -- =====================================================
--- NOTE: This function is implemented but not currently used in any generator.
+-- This function is implemented but not currently used in any generator.
 -- It was part of the detailed Champion Points analysis feature that has been disabled.
 -- Kept for potential future use.
 

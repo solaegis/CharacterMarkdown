@@ -16,6 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.2.1] - 2025-11-16
+
+### Fixed
+- **Test Validation**: Improved test validation clarity and accuracy
+  - Fixed confusing test summary message ("validation passed" now just "passed")
+  - Fixed Backpack inventory pattern to handle both bold and non-bold formatting
+  - Fixed Companion section detection to match both singular and plural forms ("Companion" and "Companions")
+  - Test results now clearly indicate pass/fail status without ambiguity
+
+---
+
 ## [2.2.0] - 2025-11-15
 
 ### Added

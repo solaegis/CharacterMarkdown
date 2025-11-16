@@ -123,7 +123,7 @@ local function BuildChunks(sections, maxSize, options)
                         ))
                     end
                 else
-                    CM.Warn("MarkdownParser.SplitSection not available - section may be oversized")
+                    CM.DebugPrint("CHUNKING", "MarkdownParser.SplitSection not available - section may be oversized")
                     chunkNum = chunkNum + 1
                     table_insert(chunks, {
                         content = sectionContent,
@@ -159,7 +159,7 @@ local function BuildChunks(sections, maxSize, options)
         ))
     end
     
-    -- NOTE: HTML comment markers removed - they were causing mid-line insertions
+    -- HTML comment markers removed - they were causing mid-line insertions
     -- Chunk sizes are logged to debug output instead
     
     CM.DebugPrint("CHUNKING", string.format(

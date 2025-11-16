@@ -188,7 +188,7 @@ local function InitializeWindowControls()
         
         CM.DebugPrint("UI", "=== END BACKGROUND CONFIGURATION ===")
     else
-        CM.Warn("Background control not found - using default appearance")
+        CM.DebugPrint("UI", "Background control not found - using default appearance")
     end
 
     -- Get the EditBox control
@@ -229,8 +229,8 @@ local function InitializeWindowControls()
     if actualMaxChars then
         CM.DebugPrint("WINDOW", string.format("EditBox initialized: max input %d chars (requested 22000)", actualMaxChars))
         if actualMaxChars < 22000 then
-            CM.Warn(string.format("⚠ EditBox limited to %d by ESO (requested 22000)", actualMaxChars))
-            CM.Warn("This may affect large character profiles. Please report if you see truncation.")
+            CM.DebugPrint("WINDOW", string.format("⚠ EditBox limited to %d by ESO (requested 22000)", actualMaxChars))
+            CM.DebugPrint("WINDOW", "This may affect large character profiles. Please report if you see truncation.")
         end
         -- Log chunking configuration for validation (debug only)
         local CHUNKING = CM.constants and CM.constants.CHUNKING
@@ -242,7 +242,7 @@ local function InitializeWindowControls()
             ))
         end
     else
-        CM.Warn("⚠ Could not query EditBox max input chars - this may indicate an ESO API issue")
+        CM.DebugPrint("WINDOW", "⚠ Could not query EditBox max input chars - this may indicate an ESO API issue")
     end
 
     -- Set to WHITE text on DARK background
@@ -708,7 +708,6 @@ end
 -- =====================================================
 -- MARKDOWN CHUNKING
 -- =====================================================
--- Note: Chunking is now handled in Markdown.lua after full generation
 -- This module only handles displaying chunks received from the generator
 
 -- =====================================================
@@ -963,7 +962,7 @@ function CharacterMarkdown_ShowWindow(markdown, format)
         CM.DebugPrint("WINDOW", string.format("Background alpha: %.2f", bgControl:GetAlpha()))
         CM.DebugPrint("WINDOW", "=== END BACKGROUND CHECK ===")
     else
-        CM.Warn("WINDOW: Background control not found on window open")
+        CM.DebugPrint("WINDOW", "Background control not found on window open")
     end
     
     -- Re-enable all buttons for normal mode (in case we're coming from import/export mode)
@@ -1141,8 +1140,8 @@ function CharacterMarkdown_ShowWindow(markdown, format)
         
         -- Warn if any chunk is suspiciously close to limit
         if maxChunkSize > EDITBOX_LIMIT * 0.95 then
-            CM.Warn(string.format("⚠ Largest chunk (%d) is >95%% of limit (%d)", maxChunkSize, EDITBOX_LIMIT))
-            CM.Warn("This may cause issues. Please report with /markdown test output")
+            CM.DebugPrint("CHUNKING", string.format("⚠ Largest chunk (%d) is >95%% of limit (%d)", maxChunkSize, EDITBOX_LIMIT))
+            CM.DebugPrint("CHUNKING", "This may cause issues. Please report with /markdown test output")
         end
         
         CM.DebugPrint("UI", "Use Next/Previous buttons or PageUp/PageDown to navigate chunks")

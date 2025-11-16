@@ -514,7 +514,7 @@ local function CollectChampionPointData()
                 -- Validate: available + spent should equal total (within 1 point tolerance)
                 local calculatedTotal = data.available + data.spent
                 if math.abs(calculatedTotal - data.total) > 1 then
-                    CM.Warn(
+                    CM.DebugPrint("COLLECTOR",
                         string_format(
                             "CP mismatch detected: unassigned=%d, spent=%d, total=%d (diff=%d) - recalculating",
                             data.available,

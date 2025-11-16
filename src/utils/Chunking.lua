@@ -659,7 +659,7 @@ end
 
 -- Helper function to check if a position is inside a table
 -- Returns the position of the newline after the table end if inside a table, nil otherwise
--- Note: This function considers a position "inside" a table if:
+-- This function considers a position "inside" a table if:
 -- 1. It's on a table line, OR
 -- 2. It's at a newline between table rows (after one table line and before another)
 local function IsInsideTable(markdown, pos)

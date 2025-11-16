@@ -235,7 +235,7 @@ local function CollectQuestData()
             -- Wrap in pcall to prevent any errors from crashing the collector
             local zoneSuccess, zoneName = pcall(GetQuestZone, i)
             if not zoneSuccess then
-                CM.Warn("GetQuestZone failed for quest " .. i .. ": " .. tostring(zoneName))
+                CM.DebugPrint("COLLECTOR", "GetQuestZone failed for quest " .. i .. ": " .. tostring(zoneName))
                 zoneName = "Unknown Zone"
             end
 
@@ -286,7 +286,7 @@ local function CollectQuestData()
             data.zones[questInfo.zone].active = data.zones[questInfo.zone].active + 1
             table.insert(data.zones[questInfo.zone].quests, questInfo)
         else
-            CM.Warn(
+            CM.DebugPrint("COLLECTOR",
                 string.format(
                     "Quest %d: Failed to process - success=%s, name=%s",
                     i,
@@ -297,7 +297,7 @@ local function CollectQuestData()
         end
     end
 
-    -- Note: Completed quests are not easily accessible via the ESO API.
+    -- Completed quests are not easily accessible via the ESO API.
     -- ESO only provides journal access to active quests. Completed quest history
     -- would require external tracking or addon-specific saved variables.
     data.summary.totalQuests = numActiveQuests
