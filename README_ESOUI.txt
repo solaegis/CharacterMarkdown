@@ -1,19 +1,23 @@
-CharacterMarkdown v2.1.8
-========================
+CharacterMarkdown
+=================
 
-Export your Elder Scrolls Online character data in beautiful, shareable markdown format. 
-Generate comprehensive character profiles with clickable UESP wiki links for abilities, sets, 
+Transform your ESO character into AI-ready markdown for deep build analysis and optimization. 
+Export comprehensive character profiles with complete stats, skills, equipment, and progression data, 
+then paste into ChatGPT, Claude, or other AI assistants for expert build interrogation, improvement 
+guidance, and dynamic playstyle exploration. Includes clickable UESP wiki links for abilities, sets, 
 races, classes, zones, and more.
 
 FEATURES
 --------
 
-* Complete Character Profile - Export level, CP, attributes, skills, equipment, and combat stats
-* Multiple Output Formats - GitHub (default), Discord, VS Code, and Quick summary formats
-* Smart Wiki Links - Automatic UESP links for abilities, sets, races, classes, zones
-* Customizable Settings - Extensive configuration options and built-in profiles
-* Rich Output - Tables, progress bars, and collapsible sections for GitHub
-* Easy Sharing - One-click copy to clipboard for Discord, forums, or documentation
+* AI-Powered Build Analysis - Export your complete character profile and paste into ChatGPT, Claude, or other AI assistants for deep build interrogation, optimization suggestions, and personalized guidance
+* Build Improvement Guidance - Get AI-driven recommendations on skill rotations, gear optimization, attribute allocation, and CP distribution based on your playstyle goals
+* Dynamic Build Goals - Easily share your build with AI to explore different playstyles - switch from PvE to PvP, DPS to Tank, or experiment with hybrid builds with expert AI guidance
+* Complete Character Profile - Comprehensive export of level, CP, attributes, skills, equipment, combat stats, and progression data
+* Multiple Output Formats - GitHub (default), Discord, VS Code, and Quick summary formats optimized for different AI platforms and sharing needs
+* Smart Wiki Links - Automatic UESP links for abilities, sets, races, classes, zones - perfect for AI context and verification
+* Rich Output - Tables, progress bars, and collapsible sections for GitHub format that AI tools can easily parse and analyze
+* Easy Sharing - Copy to clipboard for seamless pasting into AI chat interfaces, Discord, forums, or documentation
 
 QUICK START
 -----------
@@ -22,13 +26,20 @@ Installation:
 1. Via Minion: Search "CharacterMarkdown" and install
 2. Manual: Extract the ZIP to your ESO AddOns folder
 
-Export Process:
+AI-Powered Build Analysis Workflow:
 1. Type /markdown in-game (opens export window)
 2. Click "Select All" then copy (Ctrl+C)
-3. Paste anywhere - Discord, GitHub, forums, etc.
+3. Paste into ChatGPT, Claude, or your preferred AI assistant
+4. Ask questions like "How can I improve this build?" or "What should I change for PvP?"
+5. Get expert recommendations on gear, skills, attributes, and CP distribution
+
+Traditional Sharing:
+* Paste into Discord, GitHub, forums, or any markdown-compatible platform
 
 WHAT'S INCLUDED
 ---------------
+
+All data needed for comprehensive AI build analysis:
 
 Core Character Data:
 * Name, race, class, alliance, level, CP
@@ -47,6 +58,8 @@ Extended Information:
 * Companion - Active companion stats and equipment
 * Crafting - Research progress and crafting knowledge
 
+This comprehensive data export provides AI assistants with everything needed to analyze your build, identify optimization opportunities, and provide actionable improvement recommendations.
+
 OUTPUT FORMATS & COMMANDS
 -------------------------
 
@@ -60,10 +73,10 @@ Available Commands:
 /cmdsettings        - Open settings (if LibAddonMenu is installed)
 
 Format Details:
-* GitHub (Default) - Full markdown tables with collapsible sections, rich formatting, comprehensive UESP wiki links
-* Discord - Compact tables optimized for Discord, essential information only
-* VS Code - Clean, readable format optimized for code editors
-* Quick - One-line character summary for status updates
+* GitHub (Default) - Full markdown tables with collapsible sections, rich formatting, comprehensive UESP wiki links. Best for AI analysis with maximum context and detail.
+* Discord - Compact tables optimized for Discord, essential information only. Works well with AI for quick build reviews.
+* VS Code - Clean, readable format optimized for code editors and AI assistants that prefer structured text.
+* Quick - One-line character summary for status updates and brief AI queries.
 
 SETTINGS AND CUSTOMIZATION
 ---------------------------
@@ -94,12 +107,15 @@ Advanced Features:
 USE CASES
 ---------
 
-* Share Builds - Export complete character builds for forums or Discord
-* Document Progress - Track your character's progression over time
-* Build Guides - Create comprehensive build documentation
-* AI Integration - Use with ChatGPT or Claude for build analysis
-* Guild Roster - Document your character for guild applications
-* Personal Reference - Quick access to your character details
+* AI-Powered Build Analysis - Paste your character profile into ChatGPT, Claude, or other AI assistants for deep build interrogation, optimization suggestions, and personalized improvement guidance
+* Dynamic Build Optimization - Get AI recommendations on skill rotations, gear choices, attribute allocation, and CP distribution tailored to your playstyle goals
+* Playstyle Exploration - Use AI to explore different build directions - switch from PvE to PvP, DPS to Tank, or experiment with hybrid builds with expert guidance
+* Build Improvement Guidance - Receive AI-driven feedback on what to change, why to change it, and how to implement improvements
+* Share Builds - Export complete character builds for forums, Discord, or community discussions
+* Document Progress - Track your character's progression over time and compare builds with AI analysis
+* Build Guides - Create comprehensive build documentation with AI assistance
+* Guild Roster - Document your character for guild applications with AI-verified optimization
+* Personal Reference - Quick access to your character details for AI-assisted planning
 
 REQUIREMENTS
 ------------
