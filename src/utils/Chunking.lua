@@ -1104,8 +1104,8 @@ end
 -- 3. Extensive safety checks
 -- 4. Always ends on complete lines
 local function SplitMarkdownIntoChunks_Legacy(markdown)
-    -- VISIBLE MESSAGE TO USER
-    CM.Warn("⚠️ Using LEGACY chunking algorithm (section-based disabled or failed)")
+    -- Legacy chunking is the current stable implementation (section-based is experimental/buggy)
+    CM.DebugPrint("CHUNKING", "Using legacy chunking algorithm (section-based disabled)")
     
     local chunks = {}
     local markdownLength = string.len(markdown)
@@ -4594,7 +4594,7 @@ local function SplitMarkdownIntoChunks_SectionBased(markdown)
     -- Parse markdown structure
     local MarkdownParser = CM.utils.MarkdownParser
     if not MarkdownParser or not MarkdownParser.ParseSections then
-        CM.Warn("MarkdownParser not available - falling back to legacy chunking")
+        CM.DebugPrint("CHUNKING", "MarkdownParser not available - falling back to legacy chunking")
         return SplitMarkdownIntoChunks_Legacy(markdown)
     end
     
@@ -4604,7 +4604,7 @@ local function SplitMarkdownIntoChunks_SectionBased(markdown)
     -- Build chunks from sections
     local ChunkBuilder = CM.utils.ChunkBuilder
     if not ChunkBuilder or not ChunkBuilder.BuildChunks then
-        CM.Warn("ChunkBuilder not available - falling back to legacy chunking")
+        CM.DebugPrint("CHUNKING", "ChunkBuilder not available - falling back to legacy chunking")
         return SplitMarkdownIntoChunks_Legacy(markdown)
     end
     
