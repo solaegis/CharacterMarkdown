@@ -88,11 +88,24 @@ function CM.Settings.Initializer:TryZOSavedVars()
     end
 
     -- CRITICAL: Ensure all defaults are applied to the actual SavedVariables table
+    -- EXCEPTION: Never overwrite perCharacterData if it exists and has content
     for key, defaultValue in pairs(defaults) do
         if CM.settings[key] == nil then
-            CM.settings[key] = defaultValue
-            CM.DebugPrint("SETTINGS", "Applied missing default: " .. key .. " = " .. tostring(defaultValue))
+            -- Special handling for perCharacterData: preserve existing data
+            if key == "perCharacterData" and CharacterMarkdownSettings.perCharacterData then
+                CM.DebugPrint("SETTINGS", "Preserving existing perCharacterData (not applying default)")
+                -- Don't overwrite - keep the existing perCharacterData
+            else
+                CM.settings[key] = defaultValue
+                CM.DebugPrint("SETTINGS", "Applied missing default: " .. key .. " = " .. tostring(defaultValue))
+            end
         end
+    end
+    
+    -- Ensure perCharacterData exists even if it was never created
+    if not CM.settings.perCharacterData then
+        CM.settings.perCharacterData = {}
+        CM.DebugPrint("SETTINGS", "Initialized perCharacterData as empty table")
     end
 
     -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
@@ -138,10 +151,23 @@ function CM.Settings.Initializer:InitializeFallback()
     end
 
     -- Apply defaults for any missing settings
+    -- EXCEPTION: Never overwrite perCharacterData if it exists and has content
     for key, defaultValue in pairs(defaults) do
         if CM.settings[key] == nil then
-            CM.settings[key] = defaultValue
+            -- Special handling for perCharacterData: preserve existing data
+            if key == "perCharacterData" and CharacterMarkdownSettings.perCharacterData then
+                CM.DebugPrint("SETTINGS", "Preserving existing perCharacterData (not applying default)")
+                -- Don't overwrite - keep the existing perCharacterData
+            else
+                CM.settings[key] = defaultValue
+            end
         end
+    end
+    
+    -- Ensure perCharacterData exists even if it was never created
+    if not CM.settings.perCharacterData then
+        CM.settings.perCharacterData = {}
+        CM.DebugPrint("SETTINGS", "Initialized perCharacterData as empty table")
     end
 
     -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
