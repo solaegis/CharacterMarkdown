@@ -581,12 +581,8 @@ local function GenerateCustomNotes(customNotes, format, equipmentData, skillBarD
     -- Auto-link sets and abilities in notes
     local processedNotes = AutoLinkSetsAndAbilities(customNotes, format, equipmentData, skillBarData)
 
-    -- Use callout box for attractive styling
-    if markdown and markdown.CreateCallout then
-        return string_format("## 📝 Build Notes\n\n%s", markdown.CreateCallout("note", processedNotes, format))
-    else
-        return string_format("## 📝 Build Notes\n\n%s\n\n", processedNotes)
-    end
+    -- Output as plain markdown to preserve full markdown formatting capabilities
+    return string_format("## 📝 Build Notes\n\n%s\n\n", processedNotes)
 end
 
 CM.generators.sections.GenerateCustomNotes = GenerateCustomNotes
