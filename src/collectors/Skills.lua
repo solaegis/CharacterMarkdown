@@ -1,5 +1,5 @@
 -- CharacterMarkdown - Skills Data Collector
--- Skill progression and skill bars
+-- Composition logic moved from API layer
 
 local CM = CharacterMarkdown
 
@@ -8,46 +8,67 @@ local CM = CharacterMarkdown
 -- =====================================================
 
 local function CollectSkillBarData()
+    -- Use API layer granular functions (composition at collector level)
+    local skillPoints = CM.api.skills.GetSkillPoints()
+    local primaryBar = CM.api.skills.GetActionBar(HOTBAR_CATEGORY_PRIMARY)
+    local backupBar = CM.api.skills.GetActionBar(HOTBAR_CATEGORY_BACKUP)
+    
     local bars = {}
-
+    
     local barConfigs = {
-        { id = 0, name = "⚔️ Front Bar (Main Hand)", hotbarCategory = HOTBAR_CATEGORY_PRIMARY }, -- Changed from 🗡️ for better compatibility
-        { id = 1, name = "🔮 Back Bar (Backup)", hotbarCategory = HOTBAR_CATEGORY_BACKUP },
+        { id = 0, name = "⚔️ Front Bar (Main Hand)", hotbarCategory = HOTBAR_CATEGORY_PRIMARY, apiKey = "primary" },
+        { id = 1, name = "🔮 Back Bar (Backup)", hotbarCategory = HOTBAR_CATEGORY_BACKUP, apiKey = "backup" },
     }
-
+    
     for _, config in ipairs(barConfigs) do
-        local bar = { name = config.name, ultimate = nil, ultimateId = nil, abilities = {} }
-
-        -- Ultimate
-        local ultimateSlotId = GetSlotBoundId(8, config.hotbarCategory)
-        if ultimateSlotId and ultimateSlotId > 0 then
-            bar.ultimate = GetAbilityName(ultimateSlotId) or "[Empty]"
-            bar.ultimateId = ultimateSlotId
-        else
-            bar.ultimate = "[Empty]"
-        end
-
-        -- Regular abilities (slots 3-7)
-        for slotIndex = 3, 7 do
-            local slotId = GetSlotBoundId(slotIndex, config.hotbarCategory)
-            if slotId and slotId > 0 then
-                local abilityName = GetAbilityName(slotId)
-                table.insert(bar.abilities, {
-                    name = (abilityName and abilityName ~= "") and abilityName or "[Empty Slot]",
-                    id = slotId,
-                })
-            else
-                table.insert(bar.abilities, {
-                    name = "[Empty Slot]",
-                    id = nil,
-                })
+        local apiBar = (config.apiKey == "primary") and primaryBar or backupBar
+        local bar = {
+            id = config.id,
+            name = config.name,
+            abilities = {}
+        }
+        
+        if apiBar then
+            for _, ability in ipairs(apiBar) do
+                if ability and ability.id and ability.id > 0 then
+                    table.insert(bar.abilities, {
+                        name = ability.name or "Empty",
+                        id = ability.id,
+                        isUltimate = ability.isUltimate or false
+                    })
+                end
             end
         end
-
+        
         table.insert(bars, bar)
     end
-
-    return bars
+    
+    local data = {
+        bars = bars,
+        points = skillPoints
+    }
+    
+    -- Add computed fields
+    local totalAbilities = 0
+    local ultimateCount = 0
+    for _, bar in ipairs(bars) do
+        if bar.abilities then
+            for _, ability in ipairs(bar.abilities) do
+                totalAbilities = totalAbilities + 1
+                if ability.isUltimate then
+                    ultimateCount = ultimateCount + 1
+                end
+            end
+        end
+    end
+    
+    data.summary = {
+        totalAbilities = totalAbilities,
+        ultimateCount = ultimateCount,
+        regularAbilities = totalAbilities - ultimateCount
+    }
+    
+    return data
 end
 
 CM.collectors.CollectSkillBarData = CollectSkillBarData
@@ -57,306 +78,196 @@ CM.collectors.CollectSkillBarData = CollectSkillBarData
 -- =====================================================
 
 local function CollectSkillProgressionData()
-    local skillData = {}
-
-    local numSkillTypes = GetNumSkillTypes() or 0
-    local playerClass = GetUnitClass("player") or "Unknown"
-
-    -- Map of class skill lines
-    local classSkillLines = {
-        ["Dragonknight"] = {
-            ["Ardent Flame"] = true,
-            ["Draconic Power"] = true,
-            ["Earthen Heart"] = true,
-        },
-        ["Nightblade"] = {
-            ["Assassination"] = true,
-            ["Shadow"] = true,
-            ["Siphoning"] = true,
-        },
-        ["Sorcerer"] = {
-            ["Daedric Summoning"] = true,
-            ["Dark Magic"] = true,
-            ["Storm Calling"] = true,
-        },
-        ["Templar"] = {
-            ["Aedric Spear"] = true,
-            ["Dawn's Wrath"] = true,
-            ["Restoring Light"] = true,
-        },
-        ["Warden"] = {
-            ["Animal Companions"] = true,
-            ["Green Balance"] = true,
-            ["Winter's Embrace"] = true,
-        },
-        ["Necromancer"] = {
-            ["Grave Lord"] = true,
-            ["Bone Tyrant"] = true,
-            ["Living Death"] = true,
-        },
-        ["Arcanist"] = {
-            ["Herald of the Tome"] = true,
-            ["Apocryphal Soldier"] = true,
-            ["Curative Runeforms"] = true,
-        },
+    -- Use API layer granular functions (composition at collector level)
+    local skillLines = CM.api.skills.GetSkillLines()
+    
+    local data = {
+        lines = skillLines,
+        maxedLines = {},
+        inProgressLines = {},
+        earlyProgressLines = {},
+        summary = {
+            totalLines = 0,
+            totalSkills = 0,
+            totalMorphs = 0,
+            totalPassives = 0,
+            maxedCount = 0,
+            inProgressCount = 0,
+            earlyProgressCount = 0,
+            completionPercent = 0
+        }
     }
-
-    -- Invalid skill types/lines to filter out
-    local invalidSkillTypes = {
-        ["Vengeance"] = true,
-        -- Note: Racial is now included to show racial passives
-    }
-    local invalidSkillLines = {
-        ["Vengeance"] = true,
-        ["Crown Store"] = true,
-        [""] = true,
-    }
-
-    for skillType = 1, numSkillTypes do
-        local skillTypeName = GetString("SI_SKILLTYPE", skillType) or "Unknown"
-
-        -- Debug all skill types to see what we're getting
-        if CM.DebugPrint and (skillTypeName:find("Racial") or skillTypeName == "Racial") then
-            CM.DebugPrint("SKILLS", string.format("Found skill type: '%s' (type index: %d)", skillTypeName, skillType))
-        end
-
-        if not invalidSkillTypes[skillTypeName] then
-            local numSkillLines = GetNumSkillLines(skillType) or 0
-            local skills = {}
-            local isClassSkillType = skillTypeName:find("Class")
-
-            -- Emoji mapping
-            -- Using widely-supported Unicode emojis for maximum compatibility
-            local emoji = "⚔️"
-            if skillTypeName:find("Class") then
-                emoji = "🔥"
-            elseif skillTypeName:find("Weapon") then
-                emoji = "⚔️"
-            elseif skillTypeName:find("Armor") then
-                emoji = "🛡️"
-            elseif skillTypeName:find("World") then
-                emoji = "🌍"
-            elseif skillTypeName:find("Guild") then
-                emoji = "🏰"
-            elseif skillTypeName:find("Alliance") then
-                emoji = "🏰" -- Changed from 🏛️ to 🏰 (more widely supported)
-            elseif skillTypeName:find("Craft") then
-                emoji = "⚒️"
-            elseif skillTypeName:find("Racial") then
-                emoji = "⭐" -- Changed from 🧬 (DNA, newer emoji) to ⭐ (widely supported)
-            end
-
-            for skillLineIndex = 1, numSkillLines do
-                local success, skillLineName, skillLineRank = pcall(GetSkillLineInfo, skillType, skillLineIndex)
-
-                if not success then
-                    if CM.DebugPrint then
-                        CM.DebugPrint(
-                            "SKILLS",
-                            string.format(
-                                "Failed to get skill line info for type %d, index %d",
-                                skillType,
-                                skillLineIndex
-                            )
-                        )
-                    end
-                    -- Skip this iteration
-                else
-                    local hasVengeance = skillLineName
-                        and (
-                            skillLineName:find("Vengeance")
-                            or skillLineName:find("^Vengeance")
-                            or skillLineName:match("Vengeance")
-                        )
-
-                    local isWrongClass = false
-                    if isClassSkillType and skillLineName then
-                        local playerClassLines = classSkillLines[playerClass]
-                        if playerClassLines and not playerClassLines[skillLineName] then
-                            isWrongClass = true
-                        end
-                    end
-
-                    -- Special handling for Racial skills - they don't have ranks/progress
-                    -- Check if skill type is racial (could be "Racial" or contain "Racial")
-                    local isRacial = skillTypeName == "Racial" or skillTypeName:find("Racial") ~= nil
-
-                    -- For racial, use race name if skill line name is missing (BEFORE validation)
-                    if isRacial and (not skillLineName or skillLineName == "") then
-                        local playerRace = GetUnitRace("player")
-                        if playerRace then
-                            skillLineName = GetString("SI_RACE", playerRace) or "Imperial"
-                        else
-                            skillLineName = "Imperial" -- Default fallback
-                        end
-                        if CM.DebugPrint then
-                            CM.DebugPrint("RACIAL", string.format("Using race name for skill line: %s", skillLineName))
-                        end
-                    end
-
-                    -- For racial skills, we want to show them even without rank/progress
-                    -- Racial skills might have a skill line name like the race name (e.g., "Breton", "Dark Elf", "Imperial")
-                    local isValid = (isRacial or skillLineName)
-                        and (not skillLineName or not invalidSkillLines[skillLineName])
-                        and not hasVengeance
-                        and not isWrongClass
-                        and (isRacial or (skillLineRank and skillLineRank > 0))
-
-                    if isRacial and CM.DebugPrint then
-                        CM.DebugPrint(
-                            "RACIAL",
-                            string.format(
-                                "Checking validity - isRacial: %s, skillLineName: %s, isValid: %s, skillLineRank: %s",
-                                tostring(isRacial),
-                                tostring(skillLineName),
-                                tostring(isValid),
-                                tostring(skillLineRank)
-                            )
-                        )
-                    end
-
-                    if isValid then
-                        local lastXP, nextXP, currentXP = GetSkillLineXPInfo(skillType, skillLineIndex)
-
-                        local xpProgress = nil
-                        local isMaxed = false
-                        local skillLineRankDisplay = skillLineRank or 0
-
-                        -- Racial skills typically don't have ranks, so handle them specially
-                        if isRacial then
-                            isMaxed = true -- Consider racial passives as "maxed" for display purposes
-                            skillLineRankDisplay = 0
-                        elseif skillLineRank >= 50 then
-                            isMaxed = true
-                        elseif nextXP and nextXP > 0 and currentXP then
-                            xpProgress = math.floor((currentXP / nextXP) * 100)
-                        else
-                            isMaxed = true
-                        end
-
-                        -- Always include all skill lines (no filters)
-                        -- Collect passives for this skill line
-                        local passives = {}
-                        local numAbilities = GetNumSkillAbilities(skillType, skillLineIndex) or 0
-
-                        -- Debug for racial skills
-                        if isRacial and CM.DebugPrint then
-                            CM.DebugPrint(
-                                "RACIAL",
-                                string.format(
-                                    "Processing racial skill line: %s, numAbilities: %d",
-                                    tostring(skillLineName),
-                                    numAbilities
-                                )
-                            )
-                        end
-
-                        for abilityIndex = 1, numAbilities do
-                            local success, abilityName, icon, earnedRank, isPassive, isUltimate, purchased, progressionIndex, rankIndex =
-                                pcall(GetSkillAbilityInfo, skillType, skillLineIndex, abilityIndex)
-
-                            if success and abilityName then
-                                -- For racial skills, all abilities are passives (they're not activatables)
-                                -- For other skills, check the isPassive flag
-                                local shouldInclude = false
-                                if isRacial then
-                                    -- Racial skills: include all abilities (they're all passive)
-                                    shouldInclude = true
-                                    if CM.DebugPrint then
-                                        CM.DebugPrint(
-                                            "RACIAL",
-                                            string.format(
-                                                "  Found racial ability: %s (isPassive: %s, purchased: %s)",
-                                                tostring(abilityName),
-                                                tostring(isPassive),
-                                                tostring(purchased)
-                                            )
-                                        )
-                                    end
-                                elseif isPassive then
-                                    -- Regular skills: only include if marked as passive
-                                    shouldInclude = true
-                                end
-
-                                if shouldInclude then
-                                    -- Get max rank for this ability
-                                    -- earnedRank from GetSkillAbilityInfo typically represents current rank for passives
-                                    -- For passives, most are single rank (max 1), but some have multiple ranks
-                                    local currentRank = earnedRank or 0
-                                    local maxRank = 1
-
-                                    -- Try to determine max rank from progression info
-                                    if progressionIndex then
-                                        local progSuccess, progName, currentMorph, progRank =
-                                            pcall(GetAbilityProgressionInfo, progressionIndex)
-                                        if progSuccess and progRank then
-                                            -- If we have progression info, max is typically the earnedRank if it's > 0
-                                            -- Otherwise, most passives max at 1
-                                            if earnedRank and earnedRank > 0 then
-                                                maxRank = earnedRank -- Current rank is the max for this character
-                                            else
-                                                maxRank = 1
-                                            end
-                                        elseif earnedRank and earnedRank > 0 then
-                                            maxRank = earnedRank
-                                        end
-                                    elseif earnedRank and earnedRank > 0 then
-                                        maxRank = earnedRank
-                                    end
-
-                                    table.insert(passives, {
-                                        name = abilityName,
-                                        earnedRank = earnedRank or 0,
-                                        currentRank = currentRank,
-                                        maxRank = maxRank,
-                                        purchased = purchased or false,
-                                        abilityId = progressionIndex or nil,
-                                    })
-                                end
-                            elseif not success and isRacial and CM.DebugPrint then
-                                CM.DebugPrint(
-                                    "RACIAL",
-                                    string.format("  Failed to get ability %d: %s", abilityIndex, tostring(abilityName))
-                                )
-                            end
-                        end
-
-                        -- Always add the skill line (for racial, even if no passives found, as the skill line itself is valid)
-                        -- For regular skills, passives are optional, but the skill line progression should still show
-                        table.insert(skills, {
-                            name = skillLineName,
-                            rank = skillLineRankDisplay,
-                            progress = xpProgress,
-                            maxed = isMaxed,
-                            passives = passives,
-                            isRacial = isRacial, -- Flag to help with display formatting
-                        })
-
-                        if isRacial and CM.DebugPrint then
-                            CM.DebugPrint(
-                                "RACIAL",
-                                string.format(
-                                    "Added racial skill line: %s with %d passives",
-                                    tostring(skillLineName),
-                                    #passives
-                                )
-                            )
-                        end
-                    end -- end if isValid
-                end -- end else for success check
-            end -- end for skillLineIndex
-
-            if #skills > 0 then
-                table.insert(skillData, {
-                    name = skillTypeName,
-                    emoji = emoji,
-                    skills = skills,
-                })
-            end
-        end
+    
+    -- Helper to check if a line is maxed
+    -- Logic: If nextXP is 0, it usually means max rank. 
+    -- Also check common max ranks (50 for most, 10 for guilds/world, etc)
+    local function IsMaxed(line)
+        if line.xp and line.xp.max == 0 then return true end
+        -- Fallback for when XP info might be weird but rank is clearly high
+        if line.rank == 50 then return true end
+        -- Guilds/World often max at 10
+        if (line.rank == 10) and (line.xp.max == 0 or line.xp.current >= line.xp.max) then return true end
+        return false
     end
 
-    return skillData
+    -- Calculate summary statistics and categorize
+    if skillLines then
+        -- CM.Warn("CollectSkillProgressionData found " .. #skillLines .. " total lines")
+        -- CM.Warn("First line type: " .. type(skillLines[1]))
+        -- if skillLines[1] then CM.Warn("First line name: " .. tostring(skillLines[1].name)) end
+        
+        data.summary.totalLines = #skillLines
+        
+        local loopCount = 0
+        for i, line in ipairs(skillLines) do
+            loopCount = loopCount + 1
+            -- Calculate progress percent for the line
+            local current = line.xp.current or 0
+            local min = line.xp.min or 0
+            local max = line.xp.max or 0
+            local progress = 0
+            
+            if max > 0 and max > min then
+                progress = math.floor(((current - min) / (max - min)) * 100)
+            elseif IsMaxed(line) then
+                progress = 100
+            end
+            line.progress = progress
+
+            -- Categorize
+            if IsMaxed(line) then
+                -- Fetch passives for maxed lines
+                line.passives = CM.api.skills.GetSkillPassives(line.type, line.index)
+                table.insert(data.maxedLines, line)
+                data.summary.maxedCount = data.summary.maxedCount + 1
+                -- CM.Warn("Line MAXED: " .. line.name)
+            elseif line.rank > 1 or progress > 0 then
+                -- Fetch passives for in-progress lines too
+                line.passives = CM.api.skills.GetSkillPassives(line.type, line.index)
+                table.insert(data.inProgressLines, line)
+                data.summary.inProgressCount = data.summary.inProgressCount + 1
+                -- CM.Warn("Line IN PROGRESS: " .. line.name .. " (Rank " .. line.rank .. ", " .. progress .. "%)")
+            else
+                table.insert(data.earlyProgressLines, line)
+                data.summary.earlyProgressCount = data.summary.earlyProgressCount + 1
+                -- CM.Warn("Line EARLY: " .. line.name)
+            end
+
+            -- Count skills/morphs/passives (using existing logic if available, or just counting)
+            -- ...
+
+
+            -- Count skills/morphs/passives (using existing logic if available, or just counting)
+            -- The original logic iterated line.skills, but GetSkillLines doesn't return .skills by default?
+            -- Wait, GetSkillLines in API returns list of lines. It does NOT populate .skills.
+            -- The original code assumed line.skills existed. 
+            -- Let's check src/api/Skills.lua again. GetSkillLines calls GetSkillLinesByType.
+            -- GetSkillLinesByType returns { index, name, rank, id }.
+            -- GetSkillLines adds { type, index, name, rank, xp }.
+            -- It does NOT add .skills.
+            -- So the original code: `if line.skills then ... end` was likely doing nothing or I missed something.
+            -- Ah, looking at the original file content I read in Step 21:
+            -- `local skillLines = CM.api.skills.GetSkillLines()`
+            -- `for _, line in ipairs(skillLines) do if line.skills then ... end end`
+            -- It seems the original code expected `line.skills` but the API `GetSkillLines` I read in Step 22 does NOT provide it.
+            -- This implies the original code might have been incomplete or I missed where `line.skills` comes from.
+            -- OR `GetSkillLines` was modified recently?
+            -- Regardless, I need to populate summary stats.
+            -- I can use GetSkillAbilitiesWithMorphs to count skills/morphs if I want accurate counts.
+            -- But that might be expensive to do for ALL lines.
+            -- For now, I'll skip detailed skill counting for the summary if it's too expensive, 
+            -- or just do it for the lines we care about.
+            -- The example output has "Overall Completion 34%", "Abilities with Morphs 35".
+            -- So I DO need these counts.
+            
+            -- Let's fetch abilities for counting
+            local abilities = CM.api.skills.GetSkillAbilitiesWithMorphs(line.type, line.index)
+            for _, skill in ipairs(abilities) do
+                data.summary.totalSkills = data.summary.totalSkills + 1
+                if #skill.morphs > 0 then
+                    data.summary.totalMorphs = data.summary.totalMorphs + 1
+                end
+            end
+            
+            -- Count passives
+            local passives = CM.api.skills.GetSkillPassives(line.type, line.index)
+            data.summary.totalPassives = data.summary.totalPassives + #passives
+        end
+        -- CM.Warn("Loop finished. Iterated " .. loopCount .. " times.")
+        -- CM.Warn("Summary: Maxed=" .. data.summary.maxedCount .. ", InProgress=" .. data.summary.inProgressCount .. ", Early=" .. data.summary.earlyProgressCount)
+        
+        -- CRITICAL: Verify arrays are populated
+        -- CM.Warn("COLLECTOR RETURN: maxedLines count = " .. #data.maxedLines)
+        -- CM.Warn("COLLECTOR RETURN: inProgressLines count = " .. #data.inProgressLines)
+        -- CM.Warn("COLLECTOR RETURN: earlyProgressLines count = " .. #data.earlyProgressLines)
+        
+        -- Calculate overall completion
+        if data.summary.totalLines > 0 then
+            data.summary.completionPercent = math.floor((data.summary.maxedCount / data.summary.totalLines) * 100)
+        end
+    end
+    
+    return data
 end
 
 CM.collectors.CollectSkillProgressionData = CollectSkillProgressionData
+
+-- =====================================================
+-- SKILL MORPHS
+-- =====================================================
+
+local function CollectSkillMorphsData()
+    -- Use API layer for skill morphs data
+    -- Get player class from Character API to pass to Skills API
+    local characterInfo = CM.api.character.GetClass()
+    local playerClass = characterInfo and characterInfo.name or "Unknown"
+    
+    -- Use internal API function for morphs (composition at collector level)
+    local morphsData = CM.api.skills._GetMorphsData(playerClass) or {}
+    
+    -- Add computed fields for morph analysis
+    local totalMorphs = 0
+    local chosenMorphs = 0
+    local availableMorphs = 0
+    
+    for _, skillType in ipairs(morphsData) do
+        if skillType.skillLines then
+            for _, line in ipairs(skillType.skillLines) do
+                if line.abilities then
+                    for _, ability in ipairs(line.abilities) do
+                        totalMorphs = totalMorphs + 1
+                        -- Check if a morph is chosen (currentMorph > 0)
+                        if ability.currentMorph and ability.currentMorph > 0 then
+                            chosenMorphs = chosenMorphs + 1
+                        else
+                            availableMorphs = availableMorphs + 1
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
+    local data = {
+        class = playerClass,
+        skillTypes = morphsData,
+        summary = {
+            totalMorphs = totalMorphs,
+            chosenMorphs = chosenMorphs,
+            availableMorphs = availableMorphs,
+            completionPercent = totalMorphs > 0 and math.floor((chosenMorphs / totalMorphs) * 100) or 0
+        }
+    }
+    
+    -- Debug output
+    if CM.DebugPrint then
+        CM.DebugPrint("SKILL_MORPHS", string.format("Collected %d skill types with morphs", #morphsData))
+    end
+    
+    return data
+end
+
+CM.collectors.CollectSkillMorphsData = CollectSkillMorphsData
+
+CM.DebugPrint("COLLECTOR", "Skills collector module loaded")
+

@@ -1,0 +1,3091 @@
+
+_metadata:
+  addonVersion: @project-version@
+  formatter: tonl
+  generatedAt: 1764262086
+
+achievements:
+  categories:
+    [
+      earned name numAchievements percent subcategories total
+      2680 Character 23 50 [
+  earned name percent total
+  280 Guilds 53 520
+  235 Champion 100 235
+  340 Justice 80 420
+  165 Skyshards 34 475
+  10 Trophies 12 80
+  75 Vampire 68 110
+  0 Werewolf 0 105
+  40 Companions 18 220
+  1075 Class 74 1435
+  0 Scribing 0 505
+  0 Anniversary 0 520
+  0 Skill Styling 0 105
+] 5325
+      110 Player VS Player 21 5 [
+  earned name percent total
+  90 Alliance War 9 915
+  0 Battlegrounds 0 580
+] 1945
+      2285 Crafting 45 67 [
+  earned name percent total
+  355 Alchemy 72 490
+  215 Blacksmithing 93 230
+  245 Clothier 94 260
+  185 Enchanting 74 250
+  100 Jewelry Crafting 60 165
+  180 Provisioning 70 255
+  215 Woodworking 93 230
+  15 Outfitting 15 95
+] 3400
+      485 Dungeons 14 12 [
+  earned name percent total
+  10 Trials 1 890
+  240 Public Dungeons 12 1910
+  20 Group Dungeons 5 390
+] 3740
+      0 Veteran Dungeons 27 0 [
+  earned name percent total
+  0 Death Challenges 0 1250
+  0 Slayer Challenges 0 480
+  0 Speed Challenges 0 1250
+  0 Survivor Challenges 0 1200
+] 4535
+      2410 Exploration 7 51 [
+  earned name percent total
+  570 Aldmeri Dominion 54 1040
+  670 Daggerfall Covenant 63 1055
+  645 Ebonheart Pact 61 1050
+  5 Coldharbour 2 175
+  165 Craglorn 42 385
+  50 Cyrodiil 21 230
+  300 Dark Anchors 73 410
+  0 Fishing 0 190
+] 4700
+      1230 Quests 6 57 [
+  earned name percent total
+  100 Main Quest 62 160
+  270 Aldmeri Dominion 65 410
+  365 Daggerfall Covenant 89 410
+  365 Ebonheart Pact 84 430
+  20 Coldharbour 21 95
+  0 Craglorn 0 285
+  0 Cyrodiil 0 50
+] 2150
+      0 Infinite Archive 0 0 [
+  earned name percent total
+  0 General 0 650
+  0 Tales of Tribute 0 45
+  0 Exploration 0 940
+] 1635
+      0 Housing 5 0 [
+  earned name percent total
+  0 Property 0 325
+  0 Decorating 0 150
+] 525
+      340 Holiday Events 0 30 [
+  earned name percent total
+  0 Whitestrake's Mayhem 0 165
+  0 Anniversary Jubilee 0 140
+  10 Jester's Festival 3 270
+  0 Hearts Week 0 45
+  165 New Life Festival 86 190
+  165 Witches Festival 51 320
+] 1130
+      10 Prologues 2 4 [
+  earned name percent total
+  0 Gold Road 0 10
+  0 Necrom 0 10
+  0 Galen 0 10
+  0 High Isle 0 10
+  0 Deadlands 0 10
+  0 Blackwood 0 10
+  0 Markarth 0 10
+  0 Greymoor 0 10
+  0 Dragonhold 0 10
+  0 Elsweyr 0 85
+  10 Murkmire 22 45
+] 240
+      35 Seasons of the Worm Cult 16 1 [
+  earned name percent total
+  0 Antiquities 0 125
+  0 Exploration 0 455
+  30 Quests 11 265
+  5 Siege Camps 7 70
+  0 Ossein Cage 0 430
+] 1790
+      0 Gold Road 0 0 [
+  earned name percent total
+  0 General 0 325
+  0 Tales of Tribute 0 45
+  0 Antiquities 0 110
+  0 Exploration 0 465
+  0 Quests 0 290
+  0 Mirrormoor Mosaics 0 65
+  0 Lucent Citadel 0 400
+] 1700
+      0 Necrom 8 0 [
+  earned name percent total
+  0 Tales of Tribute 0 65
+  0 Companions 0 120
+  0 Antiquities 0 170
+  0 Exploration 0 410
+  0 Quests 0 330
+  0 Bastion Nymic 0 125
+  0 Sanity's Edge 0 380
+] 1880
+      30 High Isle 9 1 [
+  earned name percent total
+  0 Tales of Tribute 0 685
+  0 Companions 0 120
+  5 Exploration 1 390
+  0 Antiquities 0 140
+  20 Quests 8 230
+  5 Volcanic Vents 5 90
+  0 Dreadsail Reef 0 370
+] 2320
+      300 Blackwood 9 18 [
+  earned name percent total
+  20 Companions 16 120
+  100 Exploration 22 445
+  0 Antiquities 0 125
+  180 Quests 78 230
+  0 Rockgrove 0 420
+] 1600
+      30 Greymoor 11 1 [
+  earned name percent total
+  30 Antiquities 6 485
+  0 Exploration 0 370
+  0 Quests 0 255
+  0 Harrowstorms 0 155
+  0 Kyne's Aegis 0 430
+] 2085
+      80 Elsweyr 9 5 [
+  earned name percent total
+  60 Exploration 15 400
+  15 Quests 5 270
+  0 Sunspire 0 400
+] 1340
+      740 Summerset 14 38 [
+  earned name percent total
+  210 Exploration 54 385
+  325 Quests 95 340
+  135 Abyssal Geysers 90 150
+  0 Cloudrest 0 695
+] 1935
+      125 Morrowind 17 7 [
+  earned name percent total
+  65 Exploration 17 380
+  60 Quests 23 255
+  0 Halls of Fabrication 0 525
+] 1640
+      0 Feast of Shadows 13 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 1140
+] 1390
+      0 Fallen Banners 0 0 [
+  earned name percent total
+  0 General 0 280
+  0 Veteran 0 1040
+] 1320
+      0 Scions of Ithelia 0 0 [
+  earned name percent total
+  0 General 0 240
+  0 Veteran 0 1100
+] 1340
+      0 Scribes of Fate 13 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 1110
+] 1360
+      10 Firesong 10 1 [
+  earned name percent total
+  10 Exploration 10 100
+  0 Quests 0 205
+  0 Antiquities 0 135
+  0 Tales of Tribute 0 40
+] 700
+      0 Lost Depths 12 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 1090
+] 1325
+      5 Ascending Tide 10 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 1010
+] 1225
+      5 Deadlands 12 0 [
+  earned name percent total
+  5 Exploration 3 160
+  0 Quests 0 225
+  0 Antiquities 0 105
+] 810
+      0 Waking Flame 14 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 890
+] 1145
+      0 Flames of Ambition 8 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 790
+] 945
+      5 Markarth 11 0 [
+  earned name percent total
+  5 Exploration 4 115
+  0 Quests 0 295
+  0 Antiquities 0 130
+  0 Vateshran Hollows 0 485
+] 1335
+      0 Stonethorn 0 0 [
+  earned name percent total
+  0 General 0 175
+  0 Veteran 0 880
+] 1055
+      5 Harrowstorm 0 0 [
+  earned name percent total
+  5 General 2 245
+  0 Veteran 0 700
+] 945
+      5 Dragonhold 10 0 [
+  earned name percent total
+  5 Exploration 3 130
+  0 Quests 0 225
+] 675
+      5 Scalebreaker 0 0 [
+  earned name percent total
+  5 General 2 175
+  0 Veteran 0 670
+] 845
+      5 Wrathstone 0 0 [
+  earned name percent total
+  5 General 2 185
+  0 Veteran 0 685
+] 870
+      15 Murkmire 9 1 [
+  earned name percent total
+  10 Exploration 8 120
+  0 Quests 0 240
+  0 Blackrose Prison 0 445
+] 1050
+      5 Wolfhunter 0 0 [
+  earned name percent total
+  5 General 3 155
+  0 Veteran 0 685
+] 840
+      0 Dragon Bones 8 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 730
+] 875
+      70 Clockwork City 8 7 [
+  earned name percent total
+  55 Exploration 64 85
+  0 Quests 0 215
+  0 Asylum Sanctorium 0 425
+] 960
+      0 Horns of the Reach 9 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 615
+] 760
+      0 Shadows of the Hist 8 0 [
+    earned: 0
+  name: Veteran
+  percent: 0
+  total: 630
+] 785
+      615 Dark Brotherhood 10 72 [
+  earned name percent total
+  230 Exploration 77 295
+  180 Quests 100 180
+] 850
+      575 Thieves Guild 9 44 [
+  earned name percent total
+  125 Exploration 33 370
+  235 Quests 85 275
+  0 Maw of Lorkhaj 0 340
+] 1305
+      255 Orsinium 9 25 [
+  earned name percent total
+  125 Exploration 29 425
+  75 Quests 44 170
+  0 Maelstrom Arena 0 115
+] 1010
+      105 Imperial City 18 8 [
+  earned name percent total
+  0 Imperial City Prison 0 300
+  0 White Gold Tower 0 275
+] 1205
+    ]
+  points: 12575
+
+  recent:
+    [
+            date: "11/26/2025"
+      id: 736
+      name: Capstone Cave Explorer
+      time: "05:57:17"
+    ]
+
+  summary:
+    categoryCount: 46
+    completedAchievements: 69
+    completionPercent: 17
+    earnedPoints: 12575
+    recentCount: 1
+    totalAchievements: 444
+    totalPoints: 72540
+  total: 72540
+
+antiquities:
+  activeLeads: {}
+  sets: {}
+
+  summary:
+    activeLeads: 0
+    completedAntiquities: 0
+    completedSets: 0
+    completionPercent: 0
+    discoveredAntiquities: 0
+    discoveryPercent: 0
+    setCompletionPercent: 0
+    totalAntiquities: 0
+    totalSets: 0
+
+armoryBuilds:
+  builds: {}
+
+  summary:
+    maxBuilds: 10
+    totalBuilds: 2
+    utilizationPercent: 20
+  unlocked: 2
+
+buffs:
+  other:
+    [
+      Increase Max Magicka
+      Major Prophecy
+      Major Savagery
+    ]
+
+character:
+  account: @SOLAEGIS
+  age: "18d 11h 33m"
+
+  ageMetrics:
+    days: 18
+    formatted: "18d 11h 33m"
+    hours: 443
+    seconds: 1596806
+  alliance: Ebonheart Pact
+
+  attributes:
+    health: 0
+    magicka: 0
+    stamina: 64
+  class: Dragonknight
+  cp: 775
+  cpEfficiency: 43
+  esoPlus: true
+  gender: Male
+  level: 50
+  name: Masisi
+  race: Imperial
+  server: NA Megaserver
+  timestamp: "11/27/2025"
+  title: Daedric Lord Slayer
+
+collectibles:
+  collections:
+    assistants:
+      count: 3
+
+      list:
+        [
+          id name nickname
+          301 Nuzhimeh the Merchant ""
+          300 Pirharri the Smuggler ""
+          267 Tythis Andromo, the Banker ""
+        ]
+      total: 26
+
+    bodyMarkings:
+      count: 8
+
+      list:
+        [
+          id name nickname
+          6423 Ancient Dragon Body Marks ""
+          5029 Body Imprint of the Psijic Order ""
+          1425 Clockwork Apostle Body Imprints ""
+          1442 Fire Cyclone Body Markings ""
+          13608 Hagmatron's Body Markings ""
+          1302 Morag Tong Body Tattoo ""
+          5023 Regal Eagle Wing Body Tattoos ""
+          4696 Serpent Scale Body Marking ""
+        ]
+      total: 321
+
+    costumes:
+      count: 46
+
+      list:
+        [
+          id name nickname
+          1231 Austere Warden Outfit ""
+          252 Black Hand Robe ""
+          13528 Bloodthorn Robes ""
+          13482 Colovian Uniform ""
+          13530 Courier Uniform ""
+          5010 Court of Bedlam ""
+          66 Covenant Scout ""
+          13485 Crown Dishdasha ""
+          329 Cyrod Patrician Formal Gown ""
+          48 Dark Seducer ""
+          13477 Dunmer Cultural Garb ""
+          13484 Forebear Dishdasha ""
+          13529 Fort Amol Guard Armor ""
+          13489 Frostedge Bandit Armor ""
+          49 Golden Saint ""
+          5711 Grim Harvester ""
+          13522 Hollow Moon Garb ""
+          44 Imperial Chancellor ""
+          13481 Keeper's Garb ""
+          53 Lion Guard Knight ""
+          129 Mages Guild Formal Robes ""
+          128 Mages Guild Leggings Uniform ""
+          127 Mages Guild Research Robes ""
+          50 Mannimarco ""
+          359 Merchant Lord's Formal Regalia ""
+          13488 Midnight Union Garb ""
+          5704 Noble Clan-Chief ""
+          753 Nordic Bather's Towel ""
+          13525 Phaer Mercenary Armor ""
+          13526 Quendelunn Veiled Heritance Garb ""
+          13479 Red Rook Armor ""
+          1166 Regalia of the Scarlet Judge ""
+          13487 Satakalaaam Imperial Armor ""
+          13478 Sea Drake Garb ""
+          13486 Sea Viper Armor ""
+          13532 Servant's Outfit ""
+          13483 Servant's Robes ""
+          13524 Seventh Legion Armor ""
+          289 Shrouded Armor ""
+          4767 Skald's Damask Jerkin ""
+          13463 Steel Shrike Uniform ""
+          13476 Stormfist Uniform ""
+          358 Thieves Guild Leathers ""
+          1102 Upriver Striped Sash-Kilt ""
+          13531 Vanguard Uniform ""
+          13527 Vulkhel Guard Marine Armor ""
+        ]
+      total: 312
+
+    emotes:
+      count: 7
+
+      list:
+        [
+          id name nickname
+          1263 Belly Laugh ""
+          1264 Go Quietly ""
+          1262 Kiss This ""
+          8654 Marshmallow Toasty Treat ""
+          5046 Showtime ""
+          1255 Teatime ""
+          7391 Wickerman Mishap ""
+        ]
+      total: 225
+
+    facialAccessories:
+      count: 3
+
+      list:
+        [
+          id name nickname
+          9447 Dremora Deceiver's Diadem ""
+          4705 Eternal Hunger Coronal ""
+          9084 Malign Ambitions Crown ""
+        ]
+      total: 135
+
+    hair:
+      count: 0
+      list: {}
+      total: 153
+
+    hats:
+      count: 20
+
+      list:
+        [
+          id name nickname
+          8662 Arkthzand Anfractuosity Shroud ""
+          5911 Ayleid Royal Crown ""
+          1467 Brass Fortress Rebreather ""
+          754 Colovian Filigreed Hood ""
+          755 Colovian Fur Hood ""
+          1107 Crown of Misrule ""
+          10866 Firesong Obsidian Mask ""
+          1468 Flamebrow Fire Veil ""
+          9237 Helm of the Black Fin ""
+          5002 Hide Your Helm ""
+          1470 Inferno Facade ""
+          6398 Madgod's Turban ""
+          4691 Malefic Standing Collar Hood ""
+          9411 Oblivion Explorer's Headwrap ""
+          380 Plumed Wide-Brim Acorn-Warder ""
+          5016 Psijic Skullcap ""
+          439 Pumpkin Spectre Mask ""
+          440 Scarecrow Spectre Mask ""
+          5017 Sideburn Skullcap ""
+          5235 Werewolf Hunter Hat ""
+        ]
+      total: 164
+
+    headMarkings:
+      count: 11
+
+      list:
+        [
+          id name nickname
+          9425 Abyssal Embrace Face Markings ""
+          6422 Ancient Dragon Face Marks ""
+          1426 Clockwork Apostle Face Imprints ""
+          5020 Eagle Plume Face Tattoo ""
+          5028 Face Imprint of the Psijic Order ""
+          13607 Hagmatron's Face Markings ""
+          1455 Inferno Ink Face Markings^n ""
+          1233 Morag Tong Face Tattoo ""
+          5025 Mystic Magicka Flow Face Tattoos ""
+          5024 Scrying Eye Psijic Face Tattoo ""
+          10307 Stonelore's Legend Face Paint ""
+        ]
+      total: 372
+
+    mementos:
+      count: 33
+
+      list:
+        [
+          id name nickname
+          341 Almalexia's Enchanted Lantern ""
+          343 Battered Bear Trap ""
+          335 Blackfeather Court Whistle ""
+          390 Blade of the Blood Oath ""
+          348 Bonesnap Binding Stone ""
+          1168 Breda's Bottomless Mead Mug ""
+          1108 Cherry Blossom Branch ""
+          1382 Clockwork Obscuros ""
+          361 Coin of Illusory Riches ""
+          345 Discourse Amaranthine ""
+          1181 Dwarven Puzzle Orb ""
+          347 Fetish of Anger ""
+          336 Finvir's Trinket ""
+          600 Fire-Breather's Torches ""
+          1109 Jubilee Cake 2017 ""
+          4786 Jubilee Cake 2018 ""
+          7619 Jubilee Cake 2020 ""
+          340 Lena's Wand of Finding ""
+          601 Mud Ball Pouch ""
+          5234 Murkmire Grave-Stake ""
+          352 Nanwen's Sword ""
+          342 Questionable Meat Sack ""
+          13620 Red Revelry Bottle ""
+          13092 Remnant of Meridia's Light ""
+          4706 Scalecaller Rune of Levitation ""
+          5036 Sea Sload Dorsal Fin ""
+          597 Sword-Swallower's Blade ""
+          1167 The Pie of Misrule ""
+          349 Token of Root Sunder ""
+          9530 Witch's Bonfire Dust ""
+          479 Witchmother's Whistle ""
+          4789 Wyrd Elemental Plume ""
+          350 Yokudan Totem ""
+        ]
+      total: 201
+
+    mounts:
+      count: 14
+
+      list:
+        [
+          id name nickname
+          1145 Dwarven War Horse Takim
+          1410 Flame Atronach Senche^n Inferno Cat
+          6 Imperial Horse Isis
+          5 Midnight Steed Rambler
+          1303 Nightmare Senche Flame Leaper
+          1361 Nix-Ox War-Steed^n Thoraxo
+          5076 Noweyr Steed Violet
+          5640 Psijic Escort Charger Blue Streak
+          5552 Rahd-m'Athra Bent Horse
+          22 Senche-Leopard Spangle
+          12743 Skulltooth Coastal Durzog Sandsinker
+          2 Sorrel Horse Sweetroll
+          21 Tessellated Guar Kelik
+          13505 Wormwrithe Bear-Lizard Wall Warden
+        ]
+      total: 697
+
+    personalities:
+      count: 1
+
+      list:
+        [
+                    id: 374
+          name: Assassin
+          nickname: ""
+        ]
+      total: 29
+
+    pets:
+      count: 37
+
+      list:
+        [
+          id name nickname
+          133 Abecean Ratter Cat Caramel
+          62 Alik'r Dune-Hound Sandy
+          7740 Ambersheen Vale Fawn Honeywine
+          4996 Big-Eared Ginger Kitten^n Batkitty
+          6059 Blue Dragon Imp Dwiindovah
+          12663 Coldharbour Dremnaken Runt Chompy
+          6720 Crimson Torchbug Massermoon
+          592 Dozen-Banded Vvardvark^n Serjo Licky
+          741 Dusky Fennec Fox^n Black-Ears
+          1155 Dwarven Spider Arachnimunculus
+          484 Dwarven War Dog Isis
+          160 Echalette Skitters
+          12659 Golden Eagle Keen Eyes
+          5721 Green Dragon Imp Pookdovah
+          6452 Grisly Banekin Mummy^N Grinmaw
+          1345 Haunted House Cat^n Spectre Kitty
+          5846 Hot Pepper Bantam Guar Blisters
+          33 Housecat Alden
+          11 Imgakin Monkey Kikik
+          5699 Infernium Dwarven Spiderling Emberlegs
+          360 Jackal Bandit
+          6439 Long-Winged Bat^F Squeaks
+          7 Nibenay Mudcrab Scissors
+          5101 Noweyr Pony^n Neigh-Neigh
+          156 Pocket Mammoth Nosy
+          5099 Pocket Salamander^n Newton
+          5097 Psijic Mascot Bear Cub^n Bearmaster
+          5096 Psijic Mascot Guar Calf^n Glowy the Guar
+          5094 Psijic Mascot Pony^n Glony
+          4659 Scintillant Dovah-Fly^n Eritrea
+          9238 Spectral Mudcrab Tidepool
+          1487 Steam-Driven Brassilisk^n Pressure Valve
+          268 Sylvan Nixad Crimson Dancer
+          5713 Verdigris Haj Mota Burrower
+          28 Vermilion Scuttler Bandit
+          8222 Viridescent Dragon Frog Happyhopper
+          1241 Vvardvark^n Lickspittle
+        ]
+      total: 679
+
+    polymorphs:
+      count: 1
+
+      list:
+        [
+                    id: 34
+          name: Skeleton
+          nickname: ""
+        ]
+      total: 43
+
+    skins:
+      count: 0
+      list: {}
+      total: 106
+  esoPlus: true
+
+  housing:
+    owned:
+      count: 5
+
+      list:
+        [
+          id name nickname
+          1060 Mara's Kiss Public House Vulkhel Guard Inn
+          1061 The Rosy Lion Daggerfall Inn
+          1062 The Ebony Flask Inn Room Boom Boom Room
+          5462 Grand Psijic Villa Artaeum Manor
+          6380 Sugar Bowl Suite Rimmen Inn
+        ]
+      total: 116
+    primary: {}
+
+  summary:
+    completionPercent: 5
+    total: 3463
+    unlocked: 184
+
+companion:
+  active:
+    level: 15
+    name: Tanlorin
+  companions: {}
+
+  equipment:
+    [
+      enchantCharge hasSet level name quality qualityEmoji qualityNumeric setName slot traitName traitType
+      "" false 1 Companion's Lightning Staff Epic ⭐ 4 "" Main Hand Aggressive 38
+      "" false 1 Companion's Helmet Superior 🔮 3 "" Head Aggressive 47
+      "" false 1 Companion's Jack Superior 🔮 3 "" Chest Aggressive 47
+      "" false 1 Companion's Epaulets Superior 🔮 3 "" Shoulders Augmented 49
+      "" false 1 Companion's Bracers Superior 🔮 3 "" Hands Augmented 49
+      "" false 1 Companion's Belt Superior 🔮 3 "" Waist Aggressive 47
+      "" false 1 Companion's Guards Superior 🔮 3 "" Legs Aggressive 47
+      "" false 1 Companion's Boots Superior 🔮 3 "" Feet Soothing 48
+    ]
+  hasActive: true
+
+  skills:
+    abilities:
+      [
+        id name
+        214865 Internal Conflict
+        214703 Volcanic Arms
+        215001 Shattered Spirit
+        215048 Igneous Armor
+        154925 Kindle
+      ]
+    ultimate: [Empty]
+
+  summary:
+    activeLevel: 15
+    equipmentCount: 8
+    hasActive: true
+    skillCount: 0
+    totalCompanions: 0
+
+cp:
+  analysis:
+    balanceVariance: 51
+    disciplineBalance: balanced
+    investmentLevel: medium
+    maxSlottablePerDiscipline: 3
+    passiveSkills: 16
+    recommendations: {}
+    slottableSkills: 10
+  available: 0
+
+  disciplines:
+    [
+      allStars assigned emoji id name passive passiveSkills skills slottable slottableSkills total
+      [
+  maxPoints name points skillId
+  75 Master Gatherer 30 78
+  50 Plentiful Harvest 10 81
+  50 Meticulous Disassembly 50 83
+  45 Inspiration Boost 45 72
+  50 Fortune's Favor 20 71
+  50 Gilded Fingers 50 74
+  50 Steed's Blessing 50 66
+] 235 ⚒️ 3 Craft 175 [
+  name points skillId
+  Plentiful Harvest 10 81
+  Meticulous Disassembly 50 83
+  Inspiration Boost 45 72
+  Fortune's Favor 20 71
+  Gilded Fingers 50 74
+] [
+  isSlottable name points skillId type
+  true Master Gatherer 30 78 slottable
+  false Plentiful Harvest 10 81 passive
+  false Meticulous Disassembly 50 83 passive
+  false Inspiration Boost 45 72 passive
+  false Fortune's Favor 20 71 passive
+  false Gilded Fingers 50 74 passive
+  true Steed's Blessing 50 66 slottable
+] 80 [
+  name points skillId
+  Master Gatherer 30 78
+  Steed's Blessing 50 66
+] 255
+      [
+  maxPoints name points skillId
+  20 Precision 20 11
+  20 Piercing 20 10
+  50 Deadly Aim 50 25
+  50 Wrathful Strikes 50 8
+  20 Quick Recovery 10 20
+  50 Ironclad 1 265
+  20 Preparation 10 14
+  20 Elemental Aegis 13 15
+  20 Hardy 20 16
+  20 Eldritch Insight 10 99
+] 204 ⚔️ 1 Warfare 103 [
+  name points skillId
+  Precision 20 11
+  Piercing 20 10
+  Quick Recovery 10 20
+  Preparation 10 14
+  Elemental Aegis 13 15
+  Hardy 20 16
+  Eldritch Insight 10 99
+] [
+  isSlottable name points skillId type
+  false Precision 20 11 passive
+  false Piercing 20 10 passive
+
+
+  true Deadly Aim 50 25 slottable
+  true Wrathful Strikes 50 8 slottable
+  false Quick Recovery 10 20 passive
+  true Ironclad 1 265 slottable
+  false Preparation 10 14 passive
+  false Elemental Aegis 13 15 passive
+  false Hardy 20 16 passive
+  false Eldritch Insight 10 99 passive
+] 101 [
+  name points skillId
+  Deadly Aim 50 25
+  Wrathful Strikes 50 8
+  Ironclad 1 265
+] 204
+      [
+  maxPoints name points skillId
+  20 Hero's Vigor 20 113
+  50 Shield Master 10 63
+  50 Bastion 40 46
+  50 Mystic Tenacity 10 53
+  20 Tireless Guardian 20 39
+  30 Tumbling 15 37
+  50 Rejuvenation 50 35
+  50 Fortified 20 34
+  50 Boundless Vitality 50 2
+] 204 💪 2 Fitness 65 [
+  name points skillId
+  Hero's Vigor 20 113
+  Mystic Tenacity 10 53
+  Tireless Guardian 20 39
+  Tumbling 15 37
+] [
+  isSlottable name points skillId type
+  false Hero's Vigor 20 113 passive
+  true Shield Master 10 63 slottable
+  true Bastion 40 46 slottable
+  false Mystic Tenacity 10 53 passive
+  false Tireless Guardian 20 39 passive
+  false Tumbling 15 37 passive
+  true Rejuvenation 50 35 slottable
+  true Fortified 20 34 slottable
+  true Boundless Vitality 50 2 slottable
+] 170 [
+  name points skillId
+  Shield Master 10 63
+  Bastion 40 46
+  Rejuvenation 50 35
+  Fortified 20 34
+  Boundless Vitality 50 2
+] 235
+    ]
+  spent: 694
+  total: 775
+
+currency:
+  ap: 1500
+  archivalFortunes: 0
+  crowns: 700
+  eventTickets: 1
+  eventTicketsMax: 0
+  gems: 140
+  gold: 572206
+  imperialFragments: 146
+  outfitTokens: 3
+  seals: 4750
+
+  summary:
+    currencyTypes: 11
+    hasOtherCurrencies: true
+    totalGold: 572206
+  telvar: 2500
+  transmute: 95
+  transmuteMax: 0
+  undauntedKeys: 9
+  vouchers: 0
+
+customNotes:
+## Masisi, *the Gilded Harvester*
+
+**"Fortune favors the prepared... and the swift."**
+
+Born in the Nibenay Basin to a family of Imperial merchants, Masisi learned
+early that wealth flows not from combat prowess, but from knowing *what* to
+take and *when* to move. While his kin haggled in marketplaces, young Masisi
+studied the flow of resources—tracking caravans, mapping harvest seasons, and
+memorizing the price of every commodity from Daggerfall to Mournhold.
+
+When Molag Bal's Planemeld threatened Tamriel, Masisi didn't rush to the
+frontlines. Instead, he **capitalized**. While heroes fought Daedra, he
+harvested the untended fields they left behind. While armies sieged keeps,
+he looted the supply routes they abandoned. By war's end, Masisi had amassed
+a fortune—not through bloodshed, but through **opportunity**.
+
+Now, the *Gilded Harvester* roams Summerset's pristine shores, moving like
+shadow through Alinor's gardens and workshop districts. His hands bear the
+calluses of a thousand harvests; his pouches jingle with the spoils of
+unguarded nodes and "misplaced" treasures. The Thalmor post guards, but
+Masisi is always three steps ahead—literally.
+
+**Dragonknight by birth, entrepreneur by choice**, Masisi wields his magicka
+not for destruction, but for *distraction*. A well-placed wall of flame here,
+a molten shield there—just enough chaos to slip away with his prize. He's
+no hero. He's no villain. He's simply the most efficient farmer in Tamriel.
+
+Some call him a thief. Others, a scavenger. Masisi prefers **"resource
+optimization specialist."**
+
+After all, *someone* has to supply the heroes with their gear.
+
+**Specialties**: Speed farming, survey exploitation, crafting writ automation
+**Philosophy**: "Why fight dragons when you can sell dragonscale?"
+customTitle: ""
+
+dlc:
+  accessible:
+    [
+      Cyrodiil
+      Reaper's March
+      Grahtwood
+      Stros M'Kai
+      Clockwork City
+      Northern Elsweyr
+      The Reach
+      The Shambles
+      Galen
+      Elenglynn
+      Gristmung Hold
+      High Isle
+      Galen
+      Necrom
+      Apocrypha
+    ]
+  hasESOPlus: true
+  locked: {}
+
+equipment:
+  gearScore: 257
+
+  items:
+    [
+      armorType bindType emoji enchantCharge enchantIcon enchantMaxCharge enchantment flavorText isCrafted isEmpty isStolen name originalItemLink quality qualityEmoji qualityNumeric requiredCP requiredLevel setName slotIndex slotName style trait value weaponType
+      2 2 ⛑️ 0 "" 0 "" "" true false false Helmet of Night's Silence "" Epic ⭐ 4 160 50 Night's Silence 0 Head 19 Well-fitted 51 0
+      0 2 💎 0 "" 0 "" "" true false false Necklace of the Seducer "" Epic ⭐ 4 160 50 Armor of the Seducer 1 Neck 0 Infused 51 0
+      2 2 🛡️ 0 "" 0 "" "" true false false Jack of Night's Silence "" Epic ⭐ 4 160 50 Night's Silence 2 Chest 19 Well-fitted 61 0
+      2 2 👑 0 "" 0 "" "" true false false Arm Cops of Night's Silence "" Epic ⭐ 4 160 50 Night's Silence 3 Shoulders 19 Well-fitted 51 0
+      0 2 ⚔️ 0 "" 0 "" "" true false false Dagger of Night's Silence "" Legendary 👑 5 160 50 Night's Silence 4 Main Hand 19 Precise 52 11
+      0 2 🛡️ 0 "" 0 "" "" true false false Dagger of Night's Silence "" Legendary 👑 5 160 50 Night's Silence 5 Off Hand 19 Sharpened 52 11
+      2 2 ⚡ 0 "" 0 "" "" true false false Belt of the Seducer "" Epic ⭐ 4 160 50 Armor of the Seducer 6 Waist 19 Well-fitted 30 0
+      2 2 👖 0 "" 0 "" "" true false false Guards of Night's Silence "" Epic ⭐ 4 160 50 Night's Silence 8 Legs 19 Well-fitted 61 0
+      2 2 👟 0 "" 0 "" "" true false false Boots of Night's Silence "" Epic ⭐ 4 160 50 Night's Silence 9 Feet 19 Well-fitted 30 0
+      0 2 💍 0 "" 0 "" "" true false false Ring of the Seducer "" Epic ⭐ 4 160 50 Armor of the Seducer 11 Ring 1 0 Infused 51 0
+      0 2 💍 0 "" 0 "" "" true false false Ring of the Seducer "" Epic ⭐ 4 160 50 Armor of the Seducer 12 Ring 2 0 Infused 51 0
+      2 2 ✋ 0 "" 0 "" "" true false false Bracers of the Seducer "" Epic ⭐ 4 160 50 Armor of the Seducer 16 Hands 19 Well-fitted 30 0
+      0 2 🔮 0 "" 0 "" "" true false false Bow of the Seducer "" Epic ⭐ 4 160 50 Armor of the Seducer 20 Backup Main Hand 19 Infused 82 8
+    ]
+
+  setBonuses:
+    [
+      has2Piece has3Piece has4Piece has5Piece name pieces
+      true true true true Night's Silence 7
+      true true true true Armor of the Seducer 6
+    ]
+
+  sets:
+    [
+      count name
+      7 Night's Silence
+      6 Armor of the Seducer
+    ]
+
+  traitDistribution:
+    Infused: 4
+    Precise: 1
+    Sharpened: 1
+    "Well-fitted": 7
+
+guilds:
+  count: 5
+
+  list:
+    [
+      alliance id memberCount memberIndex name
+      id: 1
+name: Aldmeri Dominion 328455 58 13 Swiftrunners
+      id: 2
+name: Ebonheart Pact 163775 491 44 Paradox Raiding
+      id: 3
+name: Daggerfall Covenant 761817 424 39 Alphabet Mafia
+      id: 1
+name: Aldmeri Dominion 681859 317 31 Sew and Tell
+      id: 1
+name: Aldmeri Dominion 226123 480 70 Pacrooti's Hirelings
+    ]
+
+  summary:
+    allianceDistribution:
+      "Aldmeri Dominion": 3
+      "Daggerfall Covenant": 1
+      "Ebonheart Pact": 1
+    totalGuilds: 5
+
+inventory:
+  backpackMax: 200
+  backpackPercent: 97
+  backpackUsed: 194
+
+  bagItems:
+    [
+      icon link name quality slot stack
+      /esoui/art/icons/gear_dunmer_light_legs_d.dds |H0:item:45211:359:50:26588:359:50:0:0:0:0:0:0:0:0:0:4:0:0:0:10000:0|h|h ancestor silk breeches of Stamina 2 35 1
+      /esoui/art/icons/gear_redguard_light_shoulders_d.dds |H0:item:45283:359:50:26588:359:50:0:0:0:0:0:0:0:0:0:2:0:0:0:10000:0|h|h ancestor silk epaulets of Stamina 2 45 1
+      /esoui/art/icons/gear_altmer_light_robe_d.dds |H0:item:45207:359:50:26588:359:50:0:0:0:0:0:0:0:0:0:7:0:0:0:10000:0|h|h ancestor silk robe of Stamina 2 131 1
+      /esoui/art/icons/gear_bosmer_light_waist_d.dds |H0:item:45214:359:50:26588:359:50:0:0:0:0:0:0:0:0:0:8:0:0:0:10000:0|h|h ancestor silk sash of Stamina 2 51 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:166038:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blackreach: Greymoor Caverns Treasure Map I 3 66 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:166039:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blackreach: Greymoor Caverns Treasure Map II 3 79 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43746:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Clockwork City Treasure Map I 3 65 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43747:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Clockwork City Treasure Map II 3 69 1
+      /esoui/art/icons/crafting_poison_001_green_005.dds |H0:item:81196:307:50:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Cloudy Hindering Poison IX 1 185 4
+      /esoui/art/icons/crafting_style_item_thieves_guild_r1.dds |H0:item:75371:30:1:0:0:0:0:0:0:0:0:0:0:0:16:0:0:0:1:0:0|h|h Coarse Chalk 1 70 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43689:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Coldharbour Treasure Map V 3 91 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43690:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Coldharbour Treasure Map VI 3 92 1
+      /esoui/art/icons/quest_factotumchest_001.dds |H0:item:129905:1:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Construct's Chestplate 0 71 1
+      /esoui/art/icons/housing_gen_inc_soulgemlesser001.dds |H0:item:129911:1:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Construct's Integral of Introspection 0 47 1
+      /esoui/art/icons/quest_factotumarm_001.dds |H0:item:129900:1:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Construct's Left Arm 0 123 1
+      /esoui/art/icons/quest_factotumleg_001.dds |H0:item:129903:1:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Construct's Right Leg 0 112 1
+      /esoui/art/icons/store_crownfood_01.dds |H0:item:64711:123:1:0:0:0:0:0:0:0:0:0:0:0:65:0:0:1:0:0:0|h|h Crown Fortifying Meal 4 29 144
+      /esoui/art/icons/store_soulgem_001.dds |H0:item:61080:32:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Soul Gem 3 16 10
+      /esoui/art/icons/crownpotion_trires.dds |H0:item:64710:123:1:0:0:0:0:0:0:0:0:0:0:0:129:36:0:1:0:0:0|h|h Crown Tri-Restoration Potion 4 30 4
+      /esoui/art/icons/crafting_leather_phlegm.dds |H0:item:137953:30:1:0:0:0:0:0:0:0:0:0:0:0:16:72:0:0:1:0:0|h|h Culanda Lacquer 1 109 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43704:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map II 3 37 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43709:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map VII 3 108 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43713:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map XI 3 110 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43719:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map XVII 3 120 1
+      /esoui/art/icons/housing_sum_inc_scrimshawbox001.dds |H0:item:182599:123:1:0:0:0:2025:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Daedric War Spoils 4 158 1
+      /esoui/art/icons/housing_sum_inc_scrimshawbox001.dds |H0:item:182599:123:1:0:0:0:2025:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Daedric War Spoils 4 14 1
+      /esoui/art/icons/quest_crate_001.dds |H0:item:44879:121:50:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Equipment Repair Kit 2 33 2
+      /esoui/art/icons/housing_uni_inc_handfan001.dds |H0:item:133616:1:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Fan of False-Face 0 43 1
+      /esoui/art/icons/quest_monster_pelt_001.dds |H0:item:54381:177:50:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Foul Hide 0 48 3
+      /esoui/art/icons/item_u44_crystal_blackwhite.dds |H0:item:211169:5:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Fragment of Rulanyil 4 124 1
+      /esoui/art/icons/housing_ayl_duc_monstercrystalvelvet001.dds |H0:item:211170:5:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Fragment of the Crazed 4 122 1
+      /esoui/art/icons/crafting_spirits_003.dds |H0:item:71251:308:50:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Fredas Night Infusion 1 74 4
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:192370:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Galen Treasure Map I 3 89 1
+      /esoui/art/icons/gear_nocturnal_heavy_waist_a.dds |H0:item:135203:359:50:0:0:0:0:0:0:0:0:0:0:0:0:66:0:0:0:10000:0|h|h Gloom-Graced Girdle 2 152 1
+      /esoui/art/icons/monster_skeleton_arm_bone_001.dds |H0:item:57659:177:50:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Gnawed Bone 0 26 1
+      /esoui/art/icons/crownpotion_spellcaster.dds |H0:item:112427:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Gold Coast Spellcaster Elixir 4 139 100
+      /esoui/art/icons/crownpoison_trapping.dds |H0:item:79691:6:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Gold Coast Trapping Poison 5 4 100
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43638:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Greenshade Treasure Map II 3 98 1
+      /esoui/art/icons/gear_ancient_elf_staff_c.dds |H0:item:135374:362:50:0:0:0:0:0:0:0:0:0:0:0:0:15:0:0:0:300:0|h|h Gryphon's Inferno Staff 3 63 1
+      /esoui/art/icons/crafting_humanoid_daedra_heart.dds |H0:item:133606:1:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Heart of the Indrik 0 39 1
+      /esoui/art/icons/quest_whistle_002.dds |H0:item:64579:1:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Horn of Beasts 0 164 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43698:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Khenarthi's Roost Treasure Map IV 3 106 1
+      /esoui/art/icons/crafting_stoneware_bottle_002.dds |H0:item:71249:308:50:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Kragenmoor Zinger Mazte 1 57 1
+      /esoui/art/icons/quest_book_001.dds |H0:item:77577:9:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Litany of Blood 2 126 1
+      /esoui/art/icons/lockpick.dds |H0:item:30357:175:1:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Lockpick 1 2 200
+      /esoui/art/icons/lockpick.dds |H0:item:30357:175:1:0:0:0:0:0:0:0:0:0:0:0:16:36:0:0:1:0:0|h|h Lockpick 1 38 10
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:119680:5:1:0:0:0:50:188:4:697:15:51:0:0:0:0:0:0:0:0:72000|h|h Master Blacksmithing Writ 4 93 1
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:121529:6:1:0:0:0:46:188:5:242:11:33:0:0:0:0:0:0:0:0:1185600|h|h Master Blacksmithing Writ 5 99 1
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:119680:5:1:0:0:0:47:188:4:640:18:31:0:0:0:0:0:0:0:0:72000|h|h Master Blacksmithing Writ 4 97 1
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:119563:5:1:0:0:0:59:188:4:225:4:30:0:0:0:0:0:0:0:0:59125|h|h Master Blacksmithing Writ 4 49 1
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:119680:5:1:0:0:0:48:188:4:43:15:73:0:0:0:0:0:0:0:0:73125|h|h Master Blacksmithing Writ 4 165 1
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:119680:5:1:0:0:0:50:188:4:176:18:47:0:0:0:0:0:0:0:0:56375|h|h Master Blacksmithing Writ 4 46 1
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:121529:6:1:0:0:0:52:188:5:79:14:48:0:0:0:0:0:0:0:0:957600|h|h Master Blacksmithing Writ 5 90 1
+      /esoui/art/icons/master_writ_blacksmithing.dds |H0:item:119680:5:1:0:0:0:46:188:4:468:11:34:0:0:0:0:0:0:0:0:69000|h|h Master Blacksmithing Writ 4 96 1
+      /esoui/art/icons/master_writ_clothier.dds |H0:item:119695:5:1:0:0:0:38:190:4:610:13:14:0:0:0:0:0:0:0:0:66000|h|h Master Clothier Writ 4 19 1
+      /esoui/art/icons/master_writ_clothier.dds |H0:item:119694:5:1:0:0:0:26:194:4:54:16:83:0:0:0:0:0:0:0:0:57000|h|h Master Clothier Writ 4 53 1
+      /esoui/art/icons/master_writ_clothier.dds |H0:item:119695:5:1:0:0:0:43:190:4:219:13:77:0:0:0:0:0:0:0:0:78000|h|h Master Clothier Writ 4 18 1
+      /esoui/art/icons/master_writ_clothier.dds |H0:item:119694:5:1:0:0:0:29:194:4:51:16:69:0:0:0:0:0:0:0:0:63000|h|h Master Clothier Writ 4 87 1
+      /esoui/art/icons/master_writ_enchanting.dds |H0:item:119564:5:1:0:0:0:43573:207:4:0:0:0:0:0:0:0:0:0:0:0:20000|h|h Master Enchanting Writ 4 59 1
+      /esoui/art/icons/master_writ_enchanting.dds |H0:item:121528:6:1:0:0:0:45884:207:5:0:0:0:0:0:0:0:0:0:0:0:60000|h|h Master Enchanting Writ 5 60 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:18:255:4:82:22:0:0:0:0:0:0:0:0:0:328000|h|h Master Jewelry Crafter Writ 4 134 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:18:255:4:80:21:0:0:0:0:0:0:0:0:0:336000|h|h Master Jewelry Crafter Writ 4 104 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:24:255:4:207:23:0:0:0:0:0:0:0:0:0:315000|h|h Master Jewelry Crafter Writ 4 73 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:24:255:4:84:31:0:0:0:0:0:0:0:0:0:690000|h|h Master Jewelry Crafter Writ 4 76 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:153737:5:1:0:0:0:24:255:4:506:22:0:0:0:0:0:0:0:0:0:1925000|h|h Master Jewelry Crafter Writ 4 83 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:153739:4:1:0:0:0:24:255:3:409:23:0:0:0:0:0:0:0:0:0:275000|h|h Master Jewelry Crafter Writ 3 80 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:153739:4:1:0:0:0:24:255:3:325:32:0:0:0:0:0:0:0:0:0:288750|h|h Master Jewelry Crafter Writ 3 81 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:153739:4:1:0:0:0:24:255:3:87:32:0:0:0:0:0:0:0:0:0:288750|h|h Master Jewelry Crafter Writ 3 78 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:153739:4:1:0:0:0:18:255:3:242:31:0:0:0:0:0:0:0:0:0:288750|h|h Master Jewelry Crafter Writ 3 86 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:153739:4:1:0:0:0:18:255:3:177:23:0:0:0:0:0:0:0:0:0:262500|h|h Master Jewelry Crafter Writ 3 116 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:24:255:4:225:23:0:0:0:0:0:0:0:0:0:322500|h|h Master Jewelry Crafter Writ 4 62 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:18:255:4:79:30:0:0:0:0:0:0:0:0:0:672000|h|h Master Jewelry Crafter Writ 4 68 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:24:255:4:44:23:0:0:0:0:0:0:0:0:0:307500|h|h Master Jewelry Crafter Writ 4 125 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:24:255:4:81:23:0:0:0:0:0:0:0:0:0:307500|h|h Master Jewelry Crafter Writ 4 94 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:18:255:4:240:23:0:0:0:0:0:0:0:0:0:328000|h|h Master Jewelry Crafter Writ 4 67 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:153739:4:1:0:0:0:24:255:3:38:30:0:0:0:0:0:0:0:0:0:262500|h|h Master Jewelry Crafter Writ 3 100 1
+      /esoui/art/icons/master_writ_jewelry.dds |H0:item:138798:5:1:0:0:0:24:255:4:37:31:0:0:0:0:0:0:0:0:0:570000|h|h Master Jewelry Crafter Writ 4 132 1
+      /esoui/art/icons/master_writ_woodworking.dds |H0:item:119681:5:1:0:0:0:70:192:4:677:7:95:0:0:0:0:0:0:0:0:78000|h|h Master Woodworking Writ 4 84 1
+      /esoui/art/icons/master_writ_woodworking.dds |H0:item:119681:5:1:0:0:0:74:192:4:539:4:60:0:0:0:0:0:0:0:0:90000|h|h Master Woodworking Writ 4 85 1
+      /esoui/art/icons/master_writ_woodworking.dds |H0:item:119682:5:1:0:0:0:65:192:4:41:17:138:0:0:0:0:0:0:0:0:52500|h|h Master Woodworking Writ 4 82 1
+      /esoui/art/icons/master_writ_woodworking.dds |H0:item:119682:5:1:0:0:0:65:192:4:208:16:61:0:0:0:0:0:0:0:0:58500|h|h Master Woodworking Writ 4 72 1
+      /esoui/art/icons/master_writ_woodworking.dds |H0:item:119681:5:1:0:0:0:74:192:4:79:1:29:0:0:0:0:0:0:0:0:57750|h|h Master Woodworking Writ 4 136 1
+      /esoui/art/icons/master_writ_woodworking.dds |H0:item:119681:5:1:0:0:0:72:192:4:207:1:21:0:0:0:0:0:0:0:0:57750|h|h Master Woodworking Writ 4 135 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:145512:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Murkmire Treasure Map II 3 111 1
+      /esoui/art/icons/gear_breton_neck_a.dds |H0:item:54512:359:50:45870:359:50:0:0:0:0:0:0:0:0:0:5:0:0:0:0:0|h|h platinum necklace of Reduce Spell Cost 2 177 1
+      /esoui/art/icons/gear_breton_ring_a.dds |H0:item:138796:365:50:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h platinum ring 1 5 1
+      /esoui/art/icons/gear_breton_ring_a.dds |H0:item:54509:359:50:45870:359:50:0:0:0:0:0:0:0:0:0:6:0:0:0:0:0|h|h platinum ring of Reduce Spell Cost 2 179 1
+      /esoui/art/icons/gear_breton_ring_a.dds |H0:item:54509:362:50:45870:362:50:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0|h|h platinum ring of Reduce Spell Cost 3 21 1
+      /esoui/art/icons/gear_breton_ring_a.dds |H0:item:54509:362:50:45870:362:50:0:0:0:0:0:0:0:0:0:3:0:0:0:0:0|h|h platinum ring of Reduce Spell Cost 3 156 1
+      /esoui/art/icons/justice_stolen_urn_001.dds |H0:item:62906:2:1:0:0:0:0:0:0:0:0:0:0:0:17:0:0:1:1:0:0|h|h Portable Chamber Pot 1 44 10
+
+
+      /esoui/art/icons/consumable_potion_003_type_003.dds |H0:item:54341:30:30:0:0:0:0:0:0:0:0:0:0:0:0:36:1:0:0:0:327680|h|h potion of stamina 1 0 1
+      /esoui/art/icons/quest_book_001.dds |H0:item:133946:358:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Psijic Codex Transcription 2 3 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:68212:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Colovian Ginger Beer 2 24 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:68195:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Hearty Garlic Corn Chowder 2 13 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43608:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rivenspire Treasure Map II 3 114 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43610:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rivenspire Treasure Map IV 3 115 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43612:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rivenspire Treasure Map VI 3 117 1
+      /esoui/art/icons/consumable_potion_010_type_003.dds |H0:item:74729:307:50:0:0:0:0:0:0:0:0:0:0:0:16:0:0:0:1:0:0|h|h Roguish Escape Draught 1 64 5
+      /esoui/art/icons/gear_nord_1haxe_d.dds |H0:item:45228:362:50:5365:362:50:0:0:0:0:0:0:0:0:0:5:0:0:0:300:0|h|h rubedite axe of Frost 3 54 1
+      /esoui/art/icons/gear_khajiit_heavy_hands_d.dds |H0:item:45307:365:50:0:0:0:0:0:0:0:0:0:0:0:0:9:0:0:0:10000:0|h|h rubedite gauntlets 1 34 1
+      /esoui/art/icons/gear_khajiit_heavy_waist_d.dds |H0:item:45101:359:50:26582:359:50:0:0:0:0:0:0:0:0:0:9:0:0:0:10000:0|h|h rubedite girdle of Magicka 2 153 1
+      /esoui/art/icons/gear_khajiit_heavy_head_d.dds |H0:item:45098:362:50:26582:362:50:0:0:0:0:0:0:0:0:0:9:0:0:0:10000:0|h|h rubedite helm of Magicka 3 133 1
+      /esoui/art/icons/gear_breton_heavy_shoulders_d.dds |H0:item:45100:359:50:26588:359:50:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h rubedite pauldron of Stamina 2 52 1
+      /esoui/art/icons/gear_khajiit_medium_waist_d.dds |H0:item:45152:362:50:26580:362:50:0:0:0:0:0:0:0:0:0:9:0:0:0:10000:0|h|h rubedo leather belt of Health 3 58 1
+      /esoui/art/icons/gear_argonian_medium_waist_d.dds |H0:item:45257:359:50:26582:359:50:0:0:0:0:0:0:0:0:0:6:0:0:0:10000:0|h|h rubedo leather belt of Magicka 2 11 1
+      /esoui/art/icons/gear_orc_medium_chest_d.dds |H0:item:45321:308:50:0:0:0:0:0:0:0:0:0:0:0:0:3:0:0:0:10000:0|h|h rubedo leather jack 1 8 1
+      /esoui/art/icons/gear_argonian_staff_d.dds |H0:item:45365:308:50:0:0:0:0:0:0:0:0:0:0:0:0:6:0:0:0:0:0|h|h ruby ash ice staff 1 10 1
+      /esoui/art/icons/gear_bosmer_staff_d.dds |H0:item:43558:359:50:26844:359:50:0:0:0:0:0:0:0:0:0:8:0:0:0:250:0|h|h ruby ash ice staff of Shock 2 56 1
+      /esoui/art/icons/gear_dunmer_staff_d.dds |H0:item:45049:359:50:5365:359:50:0:0:0:0:0:0:0:0:0:4:0:0:0:250:0|h|h ruby ash inferno staff of Frost 2 171 1
+      /esoui/art/icons/gear_redguard_staff_d.dds |H0:item:45189:362:50:26844:362:50:0:0:0:0:0:0:0:0:0:2:0:0:0:300:0|h|h ruby ash inferno staff of Shock 3 176 1
+      /esoui/art/icons/gear_dunmer_staff_d.dds |H0:item:45332:308:50:0:0:0:0:0:0:0:0:0:0:0:0:4:0:0:0:0:0|h|h ruby ash restoration staff 1 7 1
+      /esoui/art/icons/gear_redguard_staff_d.dds |H0:item:45052:359:50:5365:359:50:0:0:0:0:0:0:0:0:0:2:0:0:0:250:0|h|h ruby ash restoration staff of Frost 2 77 1
+      /esoui/art/icons/gear_argonian_staff_d.dds |H0:item:45052:359:50:26844:359:50:0:0:0:0:0:0:0:0:0:6:0:0:0:250:0|h|h ruby ash restoration staff of Shock 2 174 1
+      /esoui/art/icons/gear_breton_shield_d.dds |H0:item:45258:359:50:26582:359:50:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h ruby ash shield of Magicka 2 186 1
+      /esoui/art/icons/container_sealed_polymorph_001.dds |H0:item:96953:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Colovian Filigreed Hood 5 32 1
+      /esoui/art/icons/container_sealed_polymorph_001.dds |H0:item:96953:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Colovian Filigreed Hood 5 41 1
+      /esoui/art/icons/container_sealed_polymorph_001.dds |H0:item:96952:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Colovian Fur Hood 5 107 1
+      /esoui/art/icons/container_sealed_polymorph_001.dds |H0:item:96952:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Colovian Fur Hood 5 88 1
+      /esoui/art/icons/container_sealed_polymorph_001.dds |H0:item:96395:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Fire-Breather's Torches 5 27 1
+      /esoui/art/icons/item_collectible_runebound_tome.dds |H0:item:219748:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Hagmatron's Body Marking 5 172 1
+      /esoui/art/icons/container_sealed_polymorph_001.dds |H0:item:83516:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Pumpkin Spectre Mask 5 95 1
+      /esoui/art/icons/container_sealed_polymorph_001.dds |H0:item:83517:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Runebox: Scarecrow Spectre Mask 5 12 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43667:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Shadowfen Treasure Map I 3 118 1
+      /esoui/art/icons/soulgem_006_filled.dds |H0:item:33271:31:50:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Soul Gem 2 9 147
+      /esoui/art/icons/soulgem_006_empty.dds |H0:item:33265:30:50:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Soul Gem (Empty) 1 113 2
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:156715:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Southern Elsweyr Treasure Map II 3 28 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43656:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Stonefalls Treasure Map II 3 119 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43601:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Stormhaven Treasure Map I 3 121 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43602:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Stormhaven Treasure Map II 3 128 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43603:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Stormhaven Treasure Map III 3 129 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43605:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Stormhaven Treasure Map V 3 147 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43691:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Stros M'Kai Treasure Map I 3 6 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43692:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Stros M'Kai Treasure Map II 3 42 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:139009:4:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Summerset Pre-Purchase Treasure Map III 3 155 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43752:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Summerset Treasure Map V 3 159 1
+      /esoui/art/icons/enchantment_jewelry_reducefeatcosts.dds |H0:item:45871:309:50:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Superb Glyph of Reduce Feat Cost 2 1 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:198098:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Telvanni Peninsula Treasure Map II 3 161 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:171474:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h The Reach Treasure Map 3 163 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43679:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h The Rift Treasure Map I 3 166 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43680:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h The Rift Treasure Map II 3 167 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43681:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h The Rift Treasure Map III 3 168 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43682:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h The Rift Treasure Map IV 3 169 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43683:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h The Rift Treasure Map V 3 170 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43684:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h The Rift Treasure Map VI 3 173 1
+      /esoui/art/icons/crafting_cooking_jam_pot.dds |H0:item:57631:308:50:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Tomato Garlic Chutney 1 103 10
+      /esoui/art/icons/enchantment_weapon_fireessence.dds |H0:item:26848:365:50:0:0:0:0:0:0:0:0:0:0:0:0:2:0:0:0:0:0|h|h Truly Superb Glyph of Flame 1 175 1
+      /esoui/art/icons/enchantment_armor_magickaboost.dds |H0:item:26582:365:50:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0|h|h Truly Superb Glyph of Magicka 1 50 1
+      /esoui/art/icons/enchantment_jewelry_reducefeatcosts.dds |H0:item:45871:365:50:0:0:0:0:0:0:0:0:0:0:0:0:6:0:0:0:0:0|h|h Truly Superb Glyph of Reduce Feat Cost 1 154 1
+      /esoui/art/icons/enchantment_jewelry_reducespellcosts.dds |H0:item:45870:365:50:0:0:0:0:0:0:0:0:0:0:0:0:8:0:0:0:0:0|h|h Truly Superb Glyph of Reduce Spell Cost 1 189 1
+      /esoui/art/icons/enchantment_weapon_shockessence.dds |H0:item:26844:365:50:0:0:0:0:0:0:0:0:0:0:0:0:7:0:0:0:0:0|h|h Truly Superb Glyph of Shock 1 178 1
+      /esoui/art/icons/enchantment_weapon_shockessence.dds |H0:item:26844:365:50:0:0:0:0:0:0:0:0:0:0:0:0:6:0:0:0:0:0|h|h Truly Superb Glyph of Shock 1 15 1
+      /esoui/art/icons/item_u47_envelope_string_brown.dds |H0:item:219853:122:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unidentified Alchemist Survey Report 3 20 2
+      /esoui/art/icons/item_u47_envelope_string_brown.dds |H0:item:219849:122:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unidentified Blacksmith Survey Report 3 102 1
+      /esoui/art/icons/item_u47_envelope_string_brown.dds |H0:item:219850:122:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unidentified Clothier Survey Report 3 17 1
+      /esoui/art/icons/item_u47_envelope_string_brown.dds |H0:item:219852:122:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unidentified Enchanter Survey Report 3 127 3
+      /esoui/art/icons/item_u47_envelope_string_brown.dds |H0:item:219854:122:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unidentified Jewelry Crafter Survey Report 3 40 1
+      /esoui/art/icons/item_u47_envelope_string_brown.dds |H0:item:219851:122:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unidentified Woodworker Survey Report 3 22 1
+      /esoui/art/icons/item_u47_latched_box_tan.dds |H0:item:217917:123:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unknown Blacksmithing Writ 4 75 1
+      /esoui/art/icons/item_u47_latched_box_tan.dds |H0:item:217918:123:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unknown Clothier Writ 4 160 3
+      /esoui/art/icons/item_u47_latched_box_tan.dds |H0:item:217920:123:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unknown Enchanting Writ 4 25 2
+      /esoui/art/icons/item_u47_latched_box_tan.dds |H0:item:217923:123:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unknown Jewelry Crafter Writ 4 157 1
+      /esoui/art/icons/item_u47_latched_box_tan.dds |H0:item:217921:123:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unknown Provisioning Writ 4 61 3
+      /esoui/art/icons/item_u47_latched_box_tan.dds |H0:item:217919:123:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unknown Woodworking Writ 4 130 1
+      /esoui/art/icons/gear_psijicorder_2hmace_a.dds |H0:item:135616:359:50:0:0:0:0:0:0:0:0:0:0:0:0:71:0:0:0:250:0|h|h Vanus's Maul 2 23 1
+      /esoui/art/icons/gear_psijicorder_light_robe_a.dds |H0:item:135562:362:50:0:0:0:0:0:0:0:0:0:0:0:0:71:0:0:0:10000:0|h|h Vanus's Robe 3 55 1
+      /esoui/art/icons/gear_psijicorder_light_waist_a.dds |H0:item:135569:359:50:0:0:0:0:0:0:0:0:0:0:0:0:71:0:0:0:10000:0|h|h Vanus's Sash 2 36 1
+      /esoui/art/icons/crafting_leather_nitre.dds |H0:item:137951:30:1:0:0:0:0:0:0:0:0:0:0:0:16:71:0:0:1:0:0|h|h Vitrified Malondo 1 105 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43739:4:1:0:0:0:0:0:0:0:0:0:0:0:16:0:0:0:1:0:0|h|h Vvardenfell Treasure Map III 3 101 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:207965:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h West Weald Treasure Map II 3 180 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:207967:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h West Weald Treasure Map IV 3 181 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:166041:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Western Skyrim Treasure Map II 3 182 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:166042:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Western Skyrim Treasure Map III 3 183 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:166043:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Western Skyrim Treasure Map IV 3 184 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87697:0:0:0:0:0:0:0:0:0:0:0:0:0:20000|h|h Witches Festival Writ 3 142 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87687:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 140 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87685:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 31 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87687:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 144 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87695:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 137 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87690:0:0:0:0:0:0:0:0:0:0:0:0:0:20000|h|h Witches Festival Writ 3 138 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87687:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 143 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87691:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 141 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87695:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 151 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87690:0:0:0:0:0:0:0:0:0:0:0:0:0:20000|h|h Witches Festival Writ 3 149 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87690:0:0:0:0:0:0:0:0:0:0:0:0:0:20000|h|h Witches Festival Writ 3 150 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87687:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 145 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87695:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 146 1
+      /esoui/art/icons/master_writ_witchesfestival.dds |H0:item:153482:4:1:0:0:0:87695:0:0:0:0:0:0:0:0:0:0:0:0:0:10000|h|h Witches Festival Writ 3 148 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:57828:4:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Woodworker Survey: Coldharbour I 3 187 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:57829:4:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Woodworker Survey: Coldharbour II 3 188 1
+      /esoui/art/icons/u41_undaunted_reward_container.dds |H0:item:219780:122:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Writhing Rewards Coffer 3 162 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43727:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Wrothgar Treasure Map I 3 192 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43729:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Wrothgar Treasure Map III 3 195 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43730:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Wrothgar Treasure Map IV 3 194 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43731:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Wrothgar Treasure Map V 3 193 1
+    ]
+
+  bankItems:
+    [
+      icon link name quality slot stack
+      /esoui/art/icons/housing_bre_inc_paperstack001.dds |H0:item:121279:6:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Anthology of Abodes Available for Acquisition 5 111 1
+      /esoui/art/icons/store_attributerespec_001.dds |H0:item:64523:124:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Attribute Respecification Scroll 5 195 2
+      /esoui/art/icons/housing_gen_crf_portableblacksmith001.dds |H0:item:153871:124:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Attunable Blacksmithing Station, Bound 5 196 1
+      /esoui/art/icons/housing_gen_crf_portabletableleatherworking001.dds |H0:item:153874:124:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Attunable Clothing Station, Bound 5 198 1
+      /esoui/art/icons/housing_gen_crf_portabletablewoodworking001.dds |H0:item:153872:124:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Attunable Woodworking Station, Bound 5 199 1
+      /esoui/art/icons/gear_khajiit_1haxe_d.dds |H0:item:69359:363:50:0:0:0:0:0:0:0:0:0:0:0:1:9:0:1:0:303:0|h|h Axe of Agility 4 151 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43623:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Bangkorai Treasure Map V 3 203 1
+      /esoui/art/icons/gear_khajiit_medium_waist_b.dds |H0:item:96362:4:18:0:0:0:0:0:0:0:0:0:0:0:1:9:0:1:0:9800:0|h|h Belt of the Trainee 3 220 1
+      /esoui/art/icons/quest_rivenspire_002.dds |H0:item:139451:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Big-Eared Ginger Kitten's Tag 4 231 1
+      /esoui/art/icons/crafting_planfurniture_woodworking_2.dds |H0:item:115923:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blueprint: Breton Shelf, Long 2 138 1
+      /esoui/art/icons/crafting_planfurniture_woodworking_2.dds |H0:item:119372:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blueprint: Common Wheelbarrow, Sided 2 144 1
+      /esoui/art/icons/crafting_planfurniture_woodworking_2.dds |H0:item:116028:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blueprint: Dark Elf Streetpost, Banners 2 174 1
+      /esoui/art/icons/crafting_planfurniture_woodworking_2.dds |H0:item:116017:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blueprint: Dark Elf Table, Formal 2 207 1
+      /esoui/art/icons/crafting_planfurniture_woodworking_2.dds |H0:item:118997:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blueprint: High Elf Shelf, Long 2 150 1
+      /esoui/art/icons/crafting_planfurniture_woodworking_2.dds |H0:item:118994:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blueprint: High Elf Table, Sturdy Kitchen 2 200 1
+      /esoui/art/icons/crafting_planfurniture_woodworking_2.dds |H0:item:118995:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Blueprint: High Elf Trestle, Sturdy 2 235 1
+      /esoui/art/icons/quest_cwc_lsb_lightcapsulenoglow001.dds |H0:item:178697:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Bonedust Pigment 4 146 2
+      /esoui/art/icons/gear_minotaur_bow_a.dds |H0:item:77003:363:50:0:0:0:0:0:0:0:0:0:0:0:0:39:0:0:0:400:0|h|h Bow of Morihaus 4 212 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43689:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Coldharbour Treasure Map V 3 175 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43690:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Coldharbour Treasure Map VI 3 176 1
+      /esoui/art/icons/companions_u30_equipment_axe.dds |H0:item:177001:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Axe 2 14 1
+      /esoui/art/icons/companions_u30_equipment_axe.dds |H0:item:175832:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Axe 2 15 1
+      /esoui/art/icons/companions_u30_equipment_axe.dds |H0:item:176137:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Axe 2 119 1
+      /esoui/art/icons/companions_u30_equipment_battleaxe.dds |H0:item:176422:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Battle Axe 2 120 1
+      /esoui/art/icons/companions_u30_equipment_battleaxe.dds |H0:item:176746:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Battle Axe 3 108 1
+      /esoui/art/icons/companions_u30_equipment_battleaxe.dds |H0:item:176854:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Battle Axe 2 134 1
+      /esoui/art/icons/companions_u30_equipment_boots_medium.dds |H0:item:176735:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Boots 3 18 1
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:176139:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bow 2 13 1
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:176283:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bow 2 16 1
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:176139:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bow 2 210 1
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:176571:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bow 2 121 1
+
+
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:177003:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bow 2 17 1
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:176607:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Bow 3 19 1
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:177003:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bow 2 2 1
+      /esoui/art/icons/companions_u30_equipment_bow.dds |H0:item:176895:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bow 3 20 1
+      /esoui/art/icons/companions_u30_equipment_gloves_medium.dds |H0:item:176268:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Bracers 2 22 1
+      /esoui/art/icons/companions_u30_equipment_gloves_medium.dds |H0:item:176448:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bracers 3 52 1
+      /esoui/art/icons/companions_u30_equipment_gloves_medium.dds |H0:item:176124:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Bracers 2 21 1
+      /esoui/art/icons/companions_u30_equipment_pants_light.dds |H0:item:176691:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Breeches 2 133 1
+      /esoui/art/icons/companions_u30_equipment_pants_light.dds |H0:item:176439:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Breeches 3 128 1
+      /esoui/art/icons/companions_u30_equipment_chest_heavy.dds |H0:item:176846:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Cuirass 2 41 1
+      /esoui/art/icons/companions_u30_equipment_dagger.dds |H0:item:176896:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Dagger 3 23 1
+      /esoui/art/icons/companions_u30_equipment_dagger.dds |H0:item:176608:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Dagger 3 24 1
+      /esoui/art/icons/companions_u30_equipment_dagger.dds |H0:item:175835:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Dagger 2 118 1
+      /esoui/art/icons/companions_u30_equipment_dagger.dds |H0:item:176752:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Dagger 3 135 1
+      /esoui/art/icons/companions_u30_equipment_dagger.dds |H0:item:176716:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Dagger 2 25 1
+      /esoui/art/icons/companions_u30_equipment_shoulders_light.dds |H0:item:176113:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Epaulets 2 26 1
+      /esoui/art/icons/companions_u30_equipment_gloves_heavy.dds |H0:item:178424:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Gauntlets 3 127 1
+      /esoui/art/icons/companions_u30_equipment_belt_heavy.dds |H0:item:176596:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Girdle 3 129 1
+      /esoui/art/icons/companions_u30_equipment_gloves_light.dds |H0:item:176981:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Gloves 2 27 1
+      /esoui/art/icons/companions_u30_equipment_greatsword.dds |H0:item:176133:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Greatsword 2 30 1
+      /esoui/art/icons/companions_u30_equipment_greatsword.dds |H0:item:175828:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Greatsword 2 29 1
+      /esoui/art/icons/companions_u30_equipment_greatsword.dds |H0:item:176133:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Greatsword 2 31 1
+      /esoui/art/icons/companions_u30_equipment_greatsword.dds |H0:item:176421:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Greatsword 2 201 1
+      /esoui/art/icons/companions_u30_equipment_greatsword.dds |H0:item:176745:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Greatsword 3 28 1
+      /esoui/art/icons/companions_u30_equipment_pants_heavy.dds |H0:item:176561:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Greaves 2 132 1
+      /esoui/art/icons/companions_u30_equipment_helm_light.dds |H0:item:176434:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Hat 3 32 1
+      /esoui/art/icons/companions_u30_equipment_helm_light.dds |H0:item:176722:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Hat 3 35 1
+      /esoui/art/icons/companions_u30_equipment_helm_light.dds |H0:item:175841:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Hat 3 34 1
+      /esoui/art/icons/companions_u30_equipment_helm_light.dds |H0:item:176830:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Hat 2 33 1
+      /esoui/art/icons/companions_u30_equipment_helm_heavy.dds |H0:item:177133:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Helm 2 169 1
+      /esoui/art/icons/companions_u30_equipment_helm_heavy.dds |H0:item:177169:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Helm 3 139 1
+      /esoui/art/icons/companions_u30_equipment_helm_medium.dds |H0:item:176838:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Helmet 2 197 1
+      /esoui/art/icons/companions_u30_equipment_helm_medium.dds |H0:item:176262:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Helmet 2 36 1
+      /esoui/art/icons/companions_u30_equipment_froststaff.dds |H0:item:175838:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Ice Staff 2 39 1
+      /esoui/art/icons/companions_u30_equipment_froststaff.dds |H0:item:176575:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Ice Staff 2 38 1
+      /esoui/art/icons/companions_u30_equipment_froststaff.dds |H0:item:176179:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Ice Staff 3 37 1
+      /esoui/art/icons/companions_u30_equipment_froststaff.dds |H0:item:176431:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Ice Staff 2 40 1
+      /esoui/art/icons/companions_u30_equipment_chest_medium.dds |H0:item:176839:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jack 2 185 1
+      /esoui/art/icons/companions_u30_equipment_chest_medium.dds |H0:item:176695:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jack 2 43 1
+      /esoui/art/icons/companions_u30_equipment_chest_medium.dds |H0:item:176119:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Jack 2 42 1
+      /esoui/art/icons/companions_u30_equipment_chest_light.dds |H0:item:176543:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jerkin 2 48 1
+      /esoui/art/icons/companions_u30_equipment_chest_light.dds |H0:item:177011:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jerkin 3 131 1
+      /esoui/art/icons/companions_u30_equipment_chest_light.dds |H0:item:176687:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jerkin 2 44 1
+      /esoui/art/icons/companions_u30_equipment_chest_light.dds |H0:item:176255:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jerkin 2 45 1
+      /esoui/art/icons/companions_u30_equipment_chest_light.dds |H0:item:176435:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Jerkin 3 49 1
+      /esoui/art/icons/companions_u30_equipment_chest_light.dds |H0:item:176903:431:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jerkin 4 46 1
+      /esoui/art/icons/companions_u30_equipment_chest_light.dds |H0:item:176543:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Jerkin 2 47 1
+      /esoui/art/icons/companions_u30_equipment_lightningstaff.dds |H0:item:176324:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Lightning Staff 3 51 1
+      /esoui/art/icons/companions_u30_equipment_lightningstaff.dds |H0:item:176144:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Lightning Staff 2 50 1
+      /esoui/art/icons/companions_u30_equipment_mace.dds |H0:item:176426:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Mace 2 54 1
+      /esoui/art/icons/companions_u30_equipment_mace.dds |H0:item:177182:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Mace 3 53 1
+      /esoui/art/icons/companions_u30_equipment_mace.dds |H0:item:176282:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Mace 2 202 1
+      /esoui/art/icons/companions_u30_equipment_maul.dds |H0:item:176207:431:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Maul 4 115 1
+      /esoui/art/icons/companions_u30_equipment_maul.dds |H0:item:176459:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Maul 3 58 1
+      /esoui/art/icons/companions_u30_equipment_maul.dds |H0:item:176135:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Maul 2 60 1
+      /esoui/art/icons/companions_u30_equipment_maul.dds |H0:item:176711:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Maul 2 59 1
+      /esoui/art/icons/companions_u30_equipment_maul.dds |H0:item:176567:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Maul 2 57 1
+      /esoui/art/icons/companions_u30_equipment_maul.dds |H0:item:175830:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Maul 2 55 1
+      /esoui/art/icons/companions_u30_equipment_maul.dds |H0:item:176459:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Maul 3 56 1
+      /esoui/art/icons/companions_u30_equipment_necklace.dds |H0:item:176744:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Necklace 3 204 1
+      /esoui/art/icons/companions_u30_equipment_necklace.dds |H0:item:177140:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Necklace 2 63 1
+      /esoui/art/icons/companions_u30_equipment_necklace.dds |H0:item:176708:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Necklace 2 62 1
+      /esoui/art/icons/companions_u30_equipment_necklace.dds |H0:item:176276:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Necklace 2 61 1
+      /esoui/art/icons/companions_u30_equipment_shoulders_heavy.dds |H0:item:176883:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Pauldrons 3 140 1
+      /esoui/art/icons/companions_u30_equipment_shoulders_heavy.dds |H0:item:177135:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Pauldrons 2 186 1
+      /esoui/art/icons/companions_u30_equipment_shoulders_heavy.dds |H0:item:175822:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Pauldrons 2 130 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176433:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 136 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:177045:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 166 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176613:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 122 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176433:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 116 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176145:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 123 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176721:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 187 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176865:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 82 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:175840:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 89 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:175876:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 81 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176937:431:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Restoration Staff 4 90 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176757:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 86 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176757:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 83 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:177153:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 85 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176145:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 88 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:175876:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 87 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176757:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 84 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:175876:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 67 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176145:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 70 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176649:431:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 4 73 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:175912:431:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 4 65 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176433:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 71 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176901:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 74 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:175876:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Restoration Staff 3 75 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176181:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 3 64 1
+      /esoui/art/icons/companions_u30_equipment_restostaff.dds |H0:item:176145:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Restoration Staff 2 66 1
+      /esoui/art/icons/companions_u30_equipment_ring.dds |H0:item:176743:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Ring 3 91 1
+      /esoui/art/icons/companions_u30_equipment_ring.dds |H0:item:176743:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Ring 3 97 1
+      /esoui/art/icons/companions_u30_equipment_ring.dds |H0:item:176131:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Ring 2 96 1
+      /esoui/art/icons/companions_u30_equipment_chest_robe.dds |H0:item:176724:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Robe 3 100 1
+      /esoui/art/icons/companions_u30_equipment_chest_robe.dds |H0:item:176544:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Robe 2 103 1
+      /esoui/art/icons/companions_u30_equipment_chest_robe.dds |H0:item:176832:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Robe 2 99 1
+      /esoui/art/icons/companions_u30_equipment_chest_robe.dds |H0:item:176400:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Robe 2 102 1
+      /esoui/art/icons/companions_u30_equipment_chest_robe.dds |H0:item:176688:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Robe 2 98 1
+      /esoui/art/icons/companions_u30_equipment_boots_heavy.dds |H0:item:176274:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Sabatons 2 183 1
+      /esoui/art/icons/companions_u30_equipment_boots_heavy.dds |H0:item:176418:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Sabatons 2 141 1
+      /esoui/art/icons/companions_u30_equipment_belt_light.dds |H0:item:176690:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Sash 2 105 1
+      /esoui/art/icons/companions_u30_equipment_belt_light.dds |H0:item:176690:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Sash 2 104 1
+      /esoui/art/icons/companions_u30_equipment_shield.dds |H0:item:177005:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Shield 2 68 1
+      /esoui/art/icons/companions_u30_equipment_shield.dds |H0:item:175872:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Shield 3 106 1
+      /esoui/art/icons/companions_u30_equipment_shield.dds |H0:item:175908:431:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Shield 4 142 1
+      /esoui/art/icons/companions_u30_equipment_shield.dds |H0:item:176861:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Shield 2 117 1
+      /esoui/art/icons/companions_u30_equipment_shield.dds |H0:item:177185:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Shield 3 69 1
+      /esoui/art/icons/companions_u30_equipment_shield.dds |H0:item:175836:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Shield 2 107 1
+      /esoui/art/icons/companions_u30_equipment_shield.dds |H0:item:177041:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Shield 3 184 1
+      /esoui/art/icons/companions_u30_equipment_boots_light.dds |H0:item:177160:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Shoes 3 124 1
+      /esoui/art/icons/companions_u30_equipment_boots_light.dds |H0:item:176980:429:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Shoes 2 72 1
+      /esoui/art/icons/companions_u30_equipment_sword.dds |H0:item:176460:430:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Sword 3 143 1
+      /esoui/art/icons/companions_u30_equipment_sword.dds |H0:item:176280:429:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Companion's Sword 2 1 1
+      /esoui/art/icons/companions_u30_equipment_sword.dds |H0:item:176748:430:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Companion's Sword 3 0 1
+      /esoui/art/icons/quest_gen_inc_emotewhistle001.dds |H0:item:188271:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Coral Haj Mota Decoy 4 152 1
+      /esoui/art/icons/store_bounty_expunger_low.dds |H0:item:71779:4:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Counterfeit Pardon Edict 3 188 6
+      /esoui/art/icons/gear_daggerfall_medium_waist_a.dds |H0:item:219482:5:22:0:0:0:0:0:0:0:0:0:0:0:0:23:0:0:0:10000:0|h|h Coup De Grâce Belt 4 232 1
+      /esoui/art/icons/quest_book_001.dds |H0:item:27244:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Crafting Motif 4: Nord Style 3 206 1
+      /esoui/art/icons/store_experiencescroll_001.dds |H0:item:64537:124:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Experience Scroll 5 6 83
+      /esoui/art/icons/store_crownfood_01.dds |H0:item:64711:123:1:0:0:0:0:0:0:0:0:0:0:0:65:0:0:1:0:0:0|h|h Crown Fortifying Meal 4 153 10
+      /esoui/art/icons/crownpoison_lethal.dds |H0:item:79690:6:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Lethal Poison 5 7 1000
+      /esoui/art/icons/crownpoison_lethal.dds |H0:item:79690:6:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Lethal Poison 5 8 919
+      /esoui/art/icons/crafing_universal_item.dds |H0:item:71668:6:1:0:0:0:0:0:0:0:0:0:0:0:129:36:0:1:0:0:0|h|h Crown Mimic Stone 5 145 6
+      /esoui/art/icons/crownpotion_trires.dds |H0:item:64710:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Tri-Restoration Potion 4 11 200
+      /esoui/art/icons/crownpotion_trires.dds |H0:item:64710:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Tri-Restoration Potion 4 9 200
+      /esoui/art/icons/crownpotion_trires.dds |H0:item:64710:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Tri-Restoration Potion 4 125 75
+      /esoui/art/icons/crownpotion_trires.dds |H0:item:64710:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Tri-Restoration Potion 4 5 200
+      /esoui/art/icons/crownpotion_trires.dds |H0:item:64710:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Crown Tri-Restoration Potion 4 10 200
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43704:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map II 3 177 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43706:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map IV 3 189 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43711:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map IX 3 190 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43707:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map V 3 191 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43708:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map VI 3 192 1
+
+
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43709:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map VII 3 178 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43710:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map VIII 3 193 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43713:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map XI 3 179 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43714:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map XII 3 194 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:43719:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cyrodiil Treasure Map XVII 3 180 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:183006:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Deadlands Treasure Map II 3 181 1
+      /esoui/art/icons/crafting_planfurniture_provisioning2.dds |H0:item:119373:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Design: Apple, Display 2 172 1
+      /esoui/art/icons/crafting_planfurniture_provisioning2.dds |H0:item:119026:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Design: Orcish Cask, Rugged 2 173 1
+      /esoui/art/icons/crafting_planfurniture_provisioning2.dds |H0:item:119152:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Design: Redguard Urn, Lacquered 2 218 1
+      /esoui/art/icons/crafting_planfurniture_blacksmithing2.dds |H0:item:139582:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Diagram: Alinor Pot, Patterned 2 208 1
+      /esoui/art/icons/crafting_planfurniture_blacksmithing2.dds |H0:item:139529:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Diagram: Alinor Sconce, Candles 2 182 1
+      /esoui/art/icons/crafting_planfurniture_blacksmithing2.dds |H0:item:211408:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Diagram: Minecart Track, Sloped Down 2 230 1
+      /esoui/art/icons/crafting_planfurniture_blacksmithing2.dds |H0:item:116161:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Diagram: Nord Pot, Covered 2 205 1
+      /esoui/art/icons/gear_argonian_light_shoulders_d.dds |H0:item:97259:363:50:0:0:0:0:0:0:0:0:0:0:0:1:6:0:1:0:4595:0|h|h Epaulets of a Mother's Sorrow 4 164 1
+      /esoui/art/icons/quest_crate_001.dds |H0:item:44879:121:50:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Equipment Repair Kit 2 154 7
+      /esoui/art/icons/gear_breton_neck_a.dds |H0:item:139660:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Exemplary Infused Necklace 4 112 1
+      /esoui/art/icons/gear_breton_neck_a.dds |H0:item:139660:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Exemplary Infused Necklace 4 114 1
+      /esoui/art/icons/gear_breton_ring_a.dds |H0:item:139654:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Exemplary Infused Ring 4 109 1
+      /esoui/art/icons/crafting_planfurniture_alchemy2.dds |H0:item:126845:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Formula: Indoril Lightpost, Stone 2 170 1
+      /esoui/art/icons/notes_004.dds |H0:item:69432:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Glass Style Motif Fragment 4 155 5
+      /esoui/art/icons/gear_nocturnal_heavy_head_a.dds |H0:item:135300:4:19:0:0:0:0:0:0:0:0:0:0:0:0:66:0:0:0:10000:0|h|h Gloom-Graced Helm 3 221 1
+      /esoui/art/icons/crownpoison_draining.dds |H0:item:79693:6:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Gold Coast Draining Poison 5 76 100
+      /esoui/art/icons/crowncrate_experiencescroll_001.dds |H0:item:94439:124:1:0:0:0:0:0:0:0:0:0:0:0:129:36:0:1:0:0:0|h|h Gold Coast Experience Scroll 5 4 15
+      /esoui/art/icons/crownpotion_spellcaster.dds |H0:item:112427:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Gold Coast Spellcaster Elixir 4 92 100
+      /esoui/art/icons/crownpotion_speed.dds |H0:item:124674:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Gold Coast Swift Survivor Elixir 4 93 200
+      /esoui/art/icons/crownpoison_trapping.dds |H0:item:79691:6:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Gold Coast Trapping Poison 5 163 100
+      /esoui/art/icons/crownpotion_warrior.dds |H0:item:112428:123:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Gold Coast Warrior Elixir 4 94 100
+      /esoui/art/icons/gear_khajiit_heavy_legs_b.dds |H0:item:95987:4:18:0:0:0:0:0:0:0:0:0:0:0:1:9:0:1:0:8550:0|h|h Greaves of the Trainee 3 233 1
+      /esoui/art/icons/gear_ancient_elf_medium_feet_a.dds |H0:item:135360:4:19:0:0:0:0:0:0:0:0:0:0:0:0:15:0:0:0:10000:0|h|h Gryphon's Boots 3 222 1
+      /esoui/art/icons/item_u44_crystal_maroonblack.dds |H0:item:214309:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Harvested Soul Fragment 4 157 1
+      /esoui/art/icons/item_u44_crystal_maroonblack.dds |H0:item:214309:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Harvested Soul Fragment 4 156 1
+      /esoui/art/icons/crafting_researchscrolls_allprofessions.dds |H0:item:125470:124:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Instant All Research 5 167 5
+      /esoui/art/icons/crafting_researchscrolls_blacksmith.dds |H0:item:125450:124:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Instant Blacksmithing Research 5 110 4
+      /esoui/art/icons/crafting_researchscrolls_clothier.dds |H0:item:125464:124:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Instant Clothing Research 5 12 5
+      /esoui/art/icons/crafting_forester_weapon_component_005.dds |H0:item:27962:175:1:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Keep Door Woodwork Repair Kit 1 77 10
+      /esoui/art/icons/crafting_heavy_armor_sp_names_001.dds |H0:item:27138:175:1:0:0:0:0:0:0:0:0:0:0:0:0:36:0:0:0:0:0|h|h Keep Wall Masonry Repair Kit 1 78 10
+      /esoui/art/icons/store_bounty_expunger_medium.dds |H0:item:73754:5:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Leniency Edict 4 158 6
+      /esoui/art/icons/gear_bosmer_light_robe_b.dds |H0:item:45347:2:23:0:0:0:0:0:0:0:0:0:0:0:0:8:0:0:0:10000:0|h|h linen robe 1 237 1
+      /esoui/art/icons/gear_khajiit_light_feet_b.dds |H0:item:45033:4:23:26582:4:23:0:0:0:0:0:0:0:0:0:9:0:0:0:9350:0|h|h linen shoes of Magicka 3 238 1
+      /esoui/art/icons/crowncrate_experiencescroll_002.dds |H0:item:94440:124:1:0:0:0:0:0:0:0:0:0:0:0:65:36:0:1:0:0:0|h|h Major Gold Coast Experience Scroll 5 79 6
+      /esoui/art/icons/crowncrate_experiencescroll_002.dds |H0:item:94440:124:1:0:0:0:0:0:0:0:0:0:0:0:129:36:0:1:0:0:0|h|h Major Gold Coast Experience Scroll 5 3 4
+      /esoui/art/icons/gear_argonian_bow_b.dds |H0:item:45075:4:23:5365:4:23:0:0:0:0:0:0:0:0:0:6:0:0:0:300:0|h|h oak bow of Frost 3 234 1
+      /esoui/art/icons/gear_nord_shield_b.dds |H0:item:45363:2:19:0:0:0:0:0:0:0:0:0:0:0:0:5:0:0:0:10000:0|h|h oak shield 1 223 1
+      /esoui/art/icons/crafting_planfurniture_clothier_2.dds |H0:item:119155:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pattern: Redguard Curtain, Desert Rose 2 209 1
+      /esoui/art/icons/crafting_plaque_drenched_fabric.dds |H0:item:147930:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Plague-Drenched Fabric 4 159 1
+      /esoui/art/icons/scroll_002.dds |H0:item:44903:124:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Pledge of Mara 5 101 1
+      /esoui/art/icons/crafting_planfurniture_enchanting2.dds |H0:item:139605:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Praxis: Alinor Pot, Limestone 2 171 1
+      /esoui/art/icons/quest_glenumbra_006.dds |H0:item:139462:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Psijic Glowglobe's Meteoric Glass 4 160 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:45912:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Baked Potato 2 217 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:68196:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Bravil's Best Beet Risotto 2 211 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:45935:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Chicken Breast 2 213 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:45972:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Clarified Syrah Wine 2 214 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:68202:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Garlic Cod with Potato Crust 3 215 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:68220:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Port Hunding Pinot Noir 3 95 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:45921:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Rabbit Millet Pilaf 2 219 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:68194:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Tomato Garlic Chutney 2 236 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:46024:3:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Recipe: Tonsil Tingle Tonic 2 113 1
+      /esoui/art/icons/gear_breton_ring_a.dds |H0:item:69165:363:50:0:0:0:0:0:0:0:0:0:0:0:257:19:0:1:0:0:0|h|h Ring of Endurance 4 149 1
+      /esoui/art/icons/gear_breton_ring_a.dds |H0:item:95828:11:18:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Ring of the Trainee 3 229 1
+      /esoui/art/icons/quest_bonesharddarkblue.dds |H0:item:219782:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Shard of Writhing Bone 4 147 6
+      /esoui/art/icons/gear_darkbrotherhoodv2_shield_a.dds |H0:item:77349:362:50:0:0:0:0:0:0:0:0:0:0:0:0:12:0:0:0:10000:0|h|h Sithis' Shield 3 216 1
+      /esoui/art/icons/crafting_gems_cyclops_bone.dds |H0:item:153535:4:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Skeletal Marionette Parts 3 161 1
+      /esoui/art/icons/gear_primative_heavy_chest_a.dds |H0:item:45340:2:23:0:0:0:0:0:0:0:0:0:0:0:0:19:0:0:0:10000:0|h|h steel cuirass 1 239 1
+      /esoui/art/icons/gear_bosmer_heavy_hands_b.dds |H0:item:45027:4:20:26580:4:20:0:0:0:0:0:0:0:0:0:8:0:0:0:10000:0|h|h steel gauntlets of Health 3 224 1
+      /esoui/art/icons/gear_khajiit_heavy_waist_b.dds |H0:item:45101:4:19:26588:4:19:0:0:0:0:0:0:0:0:0:9:0:0:0:10000:0|h|h steel girdle of Stamina 3 225 1
+      /esoui/art/icons/gear_nord_heavy_legs_b.dds |H0:item:45099:4:20:26582:4:20:0:0:0:0:0:0:0:0:0:5:0:0:0:10000:0|h|h steel greaves of Magicka 3 226 1
+      /esoui/art/icons/gear_altmer_heavy_feet_b.dds |H0:item:45096:4:18:26580:4:18:0:0:0:0:0:0:0:0:0:7:0:0:0:10000:0|h|h steel sabatons of Health 3 227 1
+      /esoui/art/icons/quest_summerset_completed_report.dds |H0:item:203857:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Style Page: Eltheric Revenant Sash 5 168 1
+      /esoui/art/icons/quest_summerset_completed_report.dds |H0:item:153778:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Style Page: Glenmoril Wyrd Breeches 5 148 1
+      /esoui/art/icons/quest_summerset_completed_report.dds |H0:item:159477:124:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Style Page: Jephrine Paladin Girdle 5 126 1
+      /esoui/art/icons/item_u47_envelope_string_brown.dds |H0:item:219853:122:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Unidentified Alchemist Survey Report 3 165 1
+      /esoui/art/icons/gear_telvanni_light_feet_a.dds |H0:item:122892:4:20:0:0:0:0:0:0:0:0:0:0:0:0:51:0:0:0:10000:0|h|h War Maiden's Shoes 3 228 1
+      /esoui/art/icons/quest_scroll_001.dds |H0:item:214354:124:1:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h Wayshrine Navigation Chart 5 80 1
+      /esoui/art/icons/housing_tre_fan_wrgbriarheartheartblue.dds |H0:item:219783:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Writhing Haj Mota Scale 4 162 9
+      /esoui/art/icons/housing_tre_fan_wrgbriarheartheartblue.dds |H0:item:219783:5:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Writhing Haj Mota Scale 4 137 25
+    ]
+  bankMax: 480
+  bankPercent: 50
+  bankUsed: 240
+
+  craftingBagItems:
+    [
+      icon itemType itemTypeName link name quality slot stack
+      /esoui/art/icons/crafting_acai_berry.dds 10 Ingredient |H0:item:34349:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Acai Berry 1 34349 952
+      /esoui/art/icons/grafting_gems_adamantine.dds 44 Style Material |H0:item:33252:0:0:0:0:0:0:0:0:0:0:0:0:0:0:7:0:0:0:0:0|h|h Adamantite 1 33252 867
+      /esoui/art/icons/crafting_furniture_base_alchemical_resin.dds 62 Furnishing Material |H0:item:114893:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Alchemical Resin 1 114893 1210
+      /esoui/art/icons/crafting_potion_base_oil_4_r3.dds 58 Poison Solvent |H0:item:75365:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Alkahest 1 75365 1859
+      /esoui/art/icons/crafting_accessory_sp_names_002.dds 45 Armor Trait |H0:item:23221:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Almandine 1 23221 800
+      /esoui/art/icons/crafting_style_item_hollowjack_r2.dds 44 Style Material |H0:item:82000:0:0:0:0:0:0:0:0:0:0:0:0:0:0:59:0:0:0:0:0|h|h Amber Marble 1 82000 663
+      /esoui/art/icons/crafting_jewelry_base_amethyst_r3.dds 46 Weapon Trait |H0:item:23204:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Amethyst 1 23204 674
+      /esoui/art/icons/crafting_cloth_base_harvestersilk.dds 40 Material |H0:item:64504:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ancestor Silk 1 64504 3291
+      /esoui/art/icons/crafting_style_item_ragada_r2.dds 44 Style Material |H0:item:71736:0:0:0:0:0:0:0:0:0:0:0:0:0:0:44:0:0:0:0:0|h|h Ancient Sandstone 1 71736 17
+      /esoui/art/icons/jewelrycrafting_trait_refined_antimony.dds 66 Jewelry Trait |H0:item:135156:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h antimony 1 135156 43
+      /esoui/art/icons/provisioner_apple.dds 10 Ingredient |H0:item:34311:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Apples 1 34311 1394
+      /esoui/art/icons/crafting_metals_argentum.dds 44 Style Material |H0:item:46150:0:0:0:0:0:0:0:0:0:0:0:0:0:0:19:0:0:0:0:0|h|h Argentum 1 46150 1011
+      /esoui/art/icons/crafting_style_item_ashlander_r2.dds 44 Style Material |H0:item:125476:0:0:0:0:0:0:0:0:0:0:0:0:0:0:54:0:0:0:0:0|h|h Ash Canvas 1 125476 17
+      /esoui/art/icons/crafting_smith_potion_002.dds 17 Raw Material |H0:item:59923:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ashes of Remorse 1 59923 2
+      /esoui/art/icons/crafting_enchantment_base_jade_r1.dds 66 Jewelry Trait |H0:item:139411:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Aurbic Amber 1 139411 8
+      /esoui/art/icons/crafting_style_item_trinimac.dds 44 Style Material |H0:item:71582:0:0:0:0:0:0:0:0:0:0:0:0:0:0:21:0:0:0:0:0|h|h Auric Tusk 1 71582 10
+      /esoui/art/icons/crafting_runecrafter_plug_component_005.dds 44 Style Material |H0:item:71766:0:0:0:0:0:0:0:0:0:0:0:0:0:0:30:0:0:0:0:0|h|h Azure Plasm 1 71766 128
+      /esoui/art/icons/crafting_bananas.dds 10 Ingredient |H0:item:33755:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Bananas 1 33755 412
+      /esoui/art/icons/crafting_components_bread_006.dds 10 Ingredient |H0:item:34329:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Barley 1 34329 985
+      /esoui/art/icons/crafting_furniture_base_bast_fiber.dds 62 Furnishing Material |H0:item:114890:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Bast 1 114890 475
+      /esoui/art/icons/crafting_poisonmaking_reagent_scuttle.dds 31 Reagent |H0:item:77583:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Beetle Scuttle 2 77583 242
+      /esoui/art/icons/crafting_beets.dds 10 Ingredient |H0:item:34309:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Beets 1 34309 272
+      /esoui/art/icons/crafting_components_malt_003.dds 10 Ingredient |H0:item:27059:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Bervez Juice 4 27059 41
+      /esoui/art/icons/crafting_components_veg_003.dds 10 Ingredient |H0:item:34334:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Bittergreen 1 34334 389
+      /esoui/art/icons/crafting_style_item_dark_brotherhood_r2.dds 44 Style Material |H0:item:79304:0:0:0:0:0:0:0:0:0:0:0:0:0:0:12:0:0:0:0:0|h|h Black Beeswax 1 79304 228
+      /esoui/art/icons/crafting_cloth_serrated_leaves.dds 31 Reagent |H0:item:30157:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h blessed thistle 2 30157 534
+      /esoui/art/icons/crafting_enchantment_baxe_bloodstone_r2.dds 45 Armor Trait |H0:item:30219:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Bloodstone 1 30219 915
+      /esoui/art/icons/crafting_mushroom_blue_entoloma_cap_r1.dds 31 Reagent |H0:item:30148:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h blue entoloma 2 30148 473
+      /esoui/art/icons/crafting_style_item_morag_tong_r2.dds 44 Style Material |H0:item:79305:0:0:0:0:0:0:0:0:0:0:0:0:0:0:43:0:0:0:0:0|h|h Boiled Carapace 1 79305 1
+      /esoui/art/icons/crafting_gems_daedra_skull.dds 44 Style Material |H0:item:33194:0:0:0:0:0:0:0:0:0:0:0:0:0:0:8:0:0:0:0:0|h|h Bone 1 33194 865
+      /esoui/art/icons/crafting_smith_potion_standard_f_001.dds 44 Style Material |H0:item:46149:0:0:0:0:0:0:0:0:0:0:0:0:0:0:17:0:0:0:0:0|h|h Bronze 1 46149 582
+      /esoui/art/icons/styleitemicon_u46_fellowshipofstirk.dds 44 Style Material |H0:item:212100:0:0:0:0:0:0:0:0:0:0:0:0:0:0:155:0:0:0:0:0|h|h Brooch of Fellowship 1 212100 39
+      /esoui/art/icons/crafting_flower_vipers_bugloss_r1.dds 31 Reagent |H0:item:30160:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h bugloss 2 30160 721
+      /esoui/art/icons/crafting_poisonmaking_reagent_butterfly_wing.dds 31 Reagent |H0:item:77585:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Butterfly Wing 2 77585 69
+      /esoui/art/icons/crafting_ingot_calcinium.dds 36 Material |H0:item:46127:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Calcinium ingot 1 46127 240
+      /esoui/art/icons/crafting_ore_calcinium.dds 35 Raw Material |H0:item:4482:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Calcinium ore 1 4482 3
+      /esoui/art/icons/crafting_runecrafter_armor_component_004.dds 46 Weapon Trait |H0:item:23165:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Carnelian 1 23165 191
+      /esoui/art/icons/crafting_carrots.dds 10 Ingredient |H0:item:34324:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Carrots 1 34324 236
+      /esoui/art/icons/crafting_smith_plug_standard_f_001.dds 44 Style Material |H0:item:69555:0:0:0:0:0:0:0:0:0:0:0:0:0:0:22:0:0:0:0:0|h|h Cassiterite 1 69555 9
+      /esoui/art/icons/crafting_ghost_inert_glow_dust.dds 17 Raw Material |H0:item:69556:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cassiterite Sand 1 69556 3
+      /esoui/art/icons/quest_trollfat_001.dds 10 Ingredient |H0:item:27057:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Cheese 1 27057 107
+      /esoui/art/icons/jewelrycrafting_booster_refined_chromium.dds 65 Plating |H0:item:203634:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Chromium Plating 5 203634 46
+      /esoui/art/icons/crafting_runecrafter_potion_008.dds 46 Weapon Trait |H0:item:23203:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Chysolite 1 23203 422
+      /esoui/art/icons/crafting_smith_potion__sp_names_003.dds 46 Weapon Trait |H0:item:16291:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Citrine 1 16291 582
+      /esoui/art/icons/crafting_cloth_sap.dds 31 Reagent |H0:item:139020:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Clam Gall 2 139020 8
+      /esoui/art/icons/crafting_furniture_base_clean_pelt.dds 62 Furnishing Material |H0:item:114891:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Clean Pelt 1 114891 569
+      /esoui/art/icons/crafting_potion_base_water_3_r1.dds 33 Potion Solvent |H0:item:23265:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h cleansed water 1 23265 930
+      /esoui/art/icons/crafting_potion_base_water_2_r2.dds 33 Potion Solvent |H0:item:1187:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h clear water 1 1187 928
+      /esoui/art/icons/crafting_potion_base_water_4_r1.dds 33 Potion Solvent |H0:item:23268:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h cloud mist 1 23268 40
+      /esoui/art/icons/crafting_style_item_thieves_guild_r1.dds 17 Raw Material |H0:item:75371:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Coarse Chalk 1 75371 6
+      /esoui/art/icons/jewelrycrafting_trait_refined_cobalt.dds 66 Jewelry Trait |H0:item:135155:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h cobalt 1 135155 31
+      /esoui/art/icons/crafting_coffee_beans.dds 10 Ingredient |H0:item:33772:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Coffee 1 33772 860
+      /esoui/art/icons/crafting_flower_columbine_r1.dds 31 Reagent |H0:item:30164:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h columbine 2 30164 520
+      /esoui/art/icons/crafting_comberries.dds 10 Ingredient |H0:item:33768:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Comberry 1 33768 372
+      /esoui/art/icons/crafting_copper_dust.dds 63 Raw Material |H0:item:135139:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h copper dust 1 135139 29
+      /esoui/art/icons/crafting_copper_refined.dds 64 Material |H0:item:135140:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h copper ounce 1 135140 1666
+      /esoui/art/icons/crafting_corn.dds 10 Ingredient |H0:item:34323:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Corn 1 34323 225
+
+
+      /esoui/art/icons/crafting_flower_corn_flower_r1.dds 31 Reagent |H0:item:30161:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h corn flower 2 30161 621
+      /esoui/art/icons/crafting_metals_corundum.dds 44 Style Material |H0:item:33256:0:0:0:0:0:0:0:0:0:0:0:0:0:0:5:0:0:0:0:0|h|h Corundum 1 33256 865
+      /esoui/art/icons/crafting_cloth_base_cotton_r2.dds 40 Material |H0:item:23125:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h cotton 1 23125 1564
+      /esoui/art/icons/crafting_fishing_centipede.dds 16 Lure |H0:item:42871:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h crawlers, Foul Bait 1 42871 1282
+      /esoui/art/icons/crafting_style_item_deadwater_r1.dds 44 Style Material |H0:item:145532:0:0:0:0:0:0:0:0:0:0:0:0:0:0:79:0:0:0:0:0|h|h Crocodile Leather 1 145532 1
+      /esoui/art/icons/crafing_universal_item.dds 44 Style Material |H0:item:71668:0:0:0:0:0:0:0:0:0:0:0:0:0:1:36:0:1:0:0:0|h|h Crown Mimic Stone 5 71668 70
+      /esoui/art/icons/crafting_leather_phlegm.dds 44 Style Material |H0:item:137953:0:0:0:0:0:0:0:0:0:0:0:0:0:0:72:0:0:0:0:0|h|h Culanda Lacquer 1 137953 47
+      /esoui/art/icons/crafting_walking_dead_mort_heart.dds 44 Style Material |H0:item:46151:0:0:0:0:0:0:0:0:0:0:0:0:0:0:20:0:0:0:0:0|h|h Daedra Heart 1 46151 523
+      /esoui/art/icons/crafting_furniture_base_decorative_wax.dds 62 Furnishing Material |H0:item:114894:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Decorative Wax 1 114894 708
+      /esoui/art/icons/crafting_components_runestones_017.dds 53 Essence Runestone |H0:item:45839:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Dekeipa 1 45839 299
+      /esoui/art/icons/crafting_components_runestones_044.dds 51 Potency Runestone |H0:item:45812:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Denara 1 45812 15
+      /esoui/art/icons/crafting_components_runestones_004.dds 52 Aspect Runestone |H0:item:45852:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Denata 3 45852 1009
+      /esoui/art/icons/crafting_components_runestones_016.dds 53 Essence Runestone |H0:item:45833:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Deni 1 45833 1007
+      /esoui/art/icons/crafting_components_runestones_015.dds 53 Essence Runestone |H0:item:45836:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Denima 1 45836 304
+      /esoui/art/icons/quest_monster_ash_001.dds 44 Style Material |H0:item:134798:0:0:0:0:0:0:0:0:0:0:0:0:0:0:55:0:0:0:0:0|h|h Desecrated Grave Soil 1 134798 19
+      /esoui/art/icons/crafting_components_runestones_014.dds 53 Essence Runestone |H0:item:45842:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Deteri 1 45842 192
+      /esoui/art/icons/crafting_jewelry_base_diamond_r3.dds 45 Armor Trait |H0:item:23219:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Diamond 1 23219 491
+      /esoui/art/icons/crafting_style_item_ebonheart_pact.dds 44 Style Material |H0:item:71740:0:0:0:0:0:0:0:0:0:0:0:0:0:0:24:0:0:0:0:0|h|h Dragon Scute 1 71740 12
+      /esoui/art/icons/crafting_dragons_bile.dds 31 Reagent |H0:item:150789:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Dragon's Bile 2 150789 11
+      /esoui/art/icons/crafting_dragons_blood.dds 31 Reagent |H0:item:150731:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Dragon's Blood 2 150731 6
+      /esoui/art/icons/crafting_forester_potion_sp_names_002.dds 31 Reagent |H0:item:30162:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h dragonthorn 2 30162 650
+      /esoui/art/icons/crafting_dragonthread.dds 44 Style Material |H0:item:151622:0:0:0:0:0:0:0:0:0:0:0:0:0:0:85:0:0:0:0:0|h|h Dragonthread 1 151622 42
+      /esoui/art/icons/crafting_outfitter_potion_014.dds 43 Tannin |H0:item:54177:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h dreugh wax 5 54177 53
+      /esoui/art/icons/crafting_style_item_assassins_league_r1.dds 17 Raw Material |H0:item:76911:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Dried Blood 1 76911 4
+      /esoui/art/icons/crafting_smith_plug_standard_r_001.dds 36 Material |H0:item:6000:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h dwarven ingot 1 6000 2208
+      /esoui/art/icons/crafting_forester_weapon_vendor_component_002.dds 41 Temper |H0:item:54171:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h dwarven oil 3 54171 905
+      /esoui/art/icons/crafting_runecrafter_potion_sp_names_001.dds 35 Raw Material |H0:item:23104:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h dwarven ore 1 23104 1
+      /esoui/art/icons/crafting_dwemer_shiny_tube.dds 44 Style Material |H0:item:57587:0:0:0:0:0:0:0:0:0:0:0:0:0:0:14:0:0:0:0:0|h|h Dwemer Frame 1 57587 14
+      /esoui/art/icons/crafting_metals_dwarven_scrap.dds 17 Raw Material |H0:item:57665:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Dwemer Scrap 1 57665 8
+      /esoui/art/icons/crafting_style_item_aldmeri_dominion.dds 44 Style Material |H0:item:71738:0:0:0:0:0:0:0:0:0:0:0:0:0:0:25:0:0:0:0:0|h|h Eagle Feather 1 71738 7
+      /esoui/art/icons/crafting_cloth_base_ebonthread_r2.dds 40 Material |H0:item:23127:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h ebonthread 1 23127 725
+      /esoui/art/icons/crafting_ore_base_ebony_r3.dds 36 Material |H0:item:6001:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h ebony ingot 1 6001 1319
+      /esoui/art/icons/crafting_ore_base_ebony_r2.dds 35 Raw Material |H0:item:23105:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h ebony ore 1 23105 5
+      /esoui/art/icons/crafting_components_runestones_026.dds 51 Potency Runestone |H0:item:45822:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Edode 1 45822 45
+      /esoui/art/icons/crafting_components_runestones_043.dds 51 Potency Runestone |H0:item:45809:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Edora 1 45809 108
+      /esoui/art/icons/crafting_electrum_dust.dds 63 Raw Material |H0:item:135143:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h electrum dust 1 135143 1
+      /esoui/art/icons/crafting_electrum_refined.dds 64 Material |H0:item:135144:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h electrum ounce 1 135144 142
+      /esoui/art/icons/crafting_runecrafter_potion_sp_name_001.dds 43 Tannin |H0:item:54176:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h elegant lining 4 54176 257
+      /esoui/art/icons/crafting_light_armor_vendor_component_002.dds 43 Tannin |H0:item:54175:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h embroidery 3 54175 1118
+      /esoui/art/icons/crafting_jewelry_base_emerald_r2.dds 45 Armor Trait |H0:item:4442:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Emerald 1 4442 435
+      /esoui/art/icons/crafting_mushroom_emetic_russula_r1.dds 31 Reagent |H0:item:30151:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h emetic russula 2 30151 458
+      /esoui/art/icons/crafting_style_item_ancestral_breton.dds 44 Style Material |H0:item:167206:0:0:0:0:0:0:0:0:0:0:0:0:0:0:109:0:0:0:0:0|h|h Etched Molybdenum 1 167206 1
+      /esoui/art/icons/style_item_ancientimperial.dds 44 Style Material |H0:item:170147:0:0:0:0:0:0:0:0:0:0:0:0:0:0:114:0:0:0:0:0|h|h Etched Nickel 1 170147 1
+      /esoui/art/icons/crafting_leather_base_topgrain_r2.dds 40 Material |H0:item:23101:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h fell hide 1 23101 606
+      /esoui/art/icons/crafting_leather_base_topgrain_r1.dds 39 Raw Material |H0:item:23097:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h fell hide scraps 1 23097 9
+      /esoui/art/icons/crafting_humanoid_daedra_void_salts.dds 44 Style Material |H0:item:64685:0:0:0:0:0:0:0:0:0:0:0:0:0:0:35:0:0:0:0:0|h|h Ferrous Salts 1 64685 17
+      /esoui/art/icons/crafting_potion_base_water_3_r2.dds 33 Potion Solvent |H0:item:23266:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h filtered water 1 23266 545
+      /esoui/art/icons/crafting_style_item_thieves_guild_r2.dds 44 Style Material |H0:item:75370:0:0:0:0:0:0:0:0:0:0:0:0:0:0:11:0:0:0:0:0|h|h Fine Chalk 1 75370 75
+      /esoui/art/icons/crafting_enchantment_base_fire_opal_r3.dds 46 Weapon Trait |H0:item:23149:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Fire Opal 1 23149 370
+      /esoui/art/icons/u37_crafting_style_item_firesongskarn.dds 44 Style Material |H0:item:188323:0:0:0:0:0:0:0:0:0:0:0:0:0:0:138:0:0:0:0:0|h|h Firesong Skarn 1 188323 2
+      /esoui/art/icons/crafting_cooking_fish_fillet.dds 10 Ingredient |H0:item:33753:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Fish 1 33753 394
+      /esoui/art/icons/crafting_fishing_fish_roe.dds 16 Lure |H0:item:42873:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h fish roe, Foul Bait 1 42873 2
+      /esoui/art/icons/crafting_cloth_base_flax_r3.dds 40 Material |H0:item:4463:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h flax 1 4463 1116
+      /esoui/art/icons/crafting_poisonmaking_reagent_fleshfly_larva.dds 31 Reagent |H0:item:77587:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Fleshfly Larva||Fleshfly Larvae 2 77587 450
+      /esoui/art/icons/crafting_smith_potion_standard_f_002.dds 44 Style Material |H0:item:33150:0:0:0:0:0:0:0:0:0:0:0:0:0:0:6:0:0:0:0:0|h|h flint 1 33150 866
+      /esoui/art/icons/quest_dust_001.dds 10 Ingredient |H0:item:27100:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Flour 1 27100 308
+      /esoui/art/icons/crafting_potent_nirncrux_stone.dds 45 Armor Trait |H0:item:56862:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Fortified Nirncrux 1 56862 4
+      /esoui/art/icons/crafting_plant_creature_vines.dds 10 Ingredient |H0:item:26802:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Frost Mirriam 4 26802 26
+      /esoui/art/icons/crafting_ingot_galatite.dds 36 Material |H0:item:46128:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Galatite ingot 1 46128 195
+      /esoui/art/icons/crafting_ore_galatite.dds 35 Raw Material |H0:item:23133:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Galatite ore 1 23133 5
+      /esoui/art/icons/crafting_potion_base_oil_3_r1.dds 58 Poison Solvent |H0:item:75360:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Gall 1 75360 868
+      /esoui/art/icons/crafting_vendor_fuel_meat_001.dds 10 Ingredient |H0:item:28609:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Game 1 28609 170
+      /esoui/art/icons/crafting_components_spice_003.dds 10 Ingredient |H0:item:26954:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Garlic 1 26954 157
+      /esoui/art/icons/crafting_jewelry_base_garnet_r3.dds 45 Armor Trait |H0:item:23171:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Garnet 1 23171 506
+      /esoui/art/icons/crafting_components_gin_002.dds 10 Ingredient |H0:item:27052:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ginger 1 27052 675
+      /esoui/art/icons/crafting_components_gin_005.dds 10 Ingredient |H0:item:34346:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ginkgo 1 34346 825
+      /esoui/art/icons/crafting_ginseng.dds 10 Ingredient |H0:item:34347:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ginseng 1 34347 904
+      /esoui/art/icons/crafting_medium_armor_vendor_003.dds 44 Style Material |H0:item:64687:0:0:0:0:0:0:0:0:0:0:0:0:0:0:33:0:0:0:0:0|h|h Goldscale 1 64687 4
+      /esoui/art/icons/crafting_style_item_orderoth_r1.dds 17 Raw Material |H0:item:81997:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Grain of Pearl Sand 1 81997 4
+      /esoui/art/icons/crafting_forester_potion_vendor_001.dds 41 Temper |H0:item:54172:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h grain solvent 4 54172 191
+      /esoui/art/icons/crafting_potion_base_water_1_r1.dds 58 Poison Solvent |H0:item:75357:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Grease 1 75357 2131
+      /esoui/art/icons/crafting_cabbage.dds 10 Ingredient |H0:item:28604:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Greens 1 28604 384
+      /esoui/art/icons/crafting_style_item_welkynar_r2.dds 44 Style Material |H0:item:141740:0:0:0:0:0:0:0:0:0:0:0:0:0:0:73:0:0:0:0:0|h|h Gryphon Plume 1 141740 1
+      /esoui/art/icons/crafting_components_berry_002.dds 10 Ingredient |H0:item:34333:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Guarana 1 34333 884
+      /esoui/art/icons/crafting_critter_vertebrate_guts.dds 16 Lure |H0:item:42870:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h guts, Lake Bait 1 42870 877
+      /esoui/art/icons/crafting_style_item_elderargonian_r2.dds 44 Style Material |H0:item:145533:0:0:0:0:0:0:0:0:0:0:0:0:0:0:81:0:0:0:0:0|h|h Hackwing Plumage 1 145533 4
+      /esoui/art/icons/crafting_components_runestones_037.dds 51 Potency Runestone |H0:item:45825:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Hade 1 45825 107
+      /esoui/art/icons/crafting_components_runestones_013.dds 53 Essence Runestone |H0:item:45841:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Haoko 1 45841 221
+      /esoui/art/icons/crafting_style_item_wayward_guardian.dds 44 Style Material |H0:item:167993:0:0:0:0:0:0:0:0:0:0:0:0:0:0:113:0:0:0:0:0|h|h Hawk Skull 1 167993 1
+      /esoui/art/icons/crafting_furniture_base_heartwood.dds 62 Furnishing Material |H0:item:114895:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Heartwood 1 114895 655
+      /esoui/art/icons/crafting_light_armor_vendor_001.dds 43 Tannin |H0:item:54174:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h hemming 2 54174 1185
+      /esoui/art/icons/crafting_leather_base_boiled_leather_r3.dds 40 Material |H0:item:4447:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h hide 1 4447 762
+      /esoui/art/icons/crafting_leather_base_fur_r2.dds 39 Raw Material |H0:item:4448:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h hide scraps 1 4448 78
+      /esoui/art/icons/crafting_heavy_armor_component_004.dds 35 Raw Material |H0:item:5820:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h high iron ore 1 5820 4
+      /esoui/art/icons/u34_crafting_style_item_sytres_guard.dds 44 Style Material |H0:item:182570:0:0:0:0:0:0:0:0:0:0:0:0:0:0:132:0:0:0:0:0|h|h High Isle Filigree 1 182570 5
+      /esoui/art/icons/quest_honeycomb_001.dds 10 Ingredient |H0:item:27043:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Honey 1 27043 739
+      /esoui/art/icons/crafting_ores_lazurite.dds 41 Temper |H0:item:54170:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h honing stone 2 54170 1090
+      /esoui/art/icons/crafting_potion_base_oil_2_r2.dds 58 Poison Solvent |H0:item:75358:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ichor 1 75358 2203
+      /esoui/art/icons/crafting_components_runestones_025.dds 51 Potency Runestone |H0:item:45826:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Idode 1 45826 40
+      /esoui/art/icons/crafting_mushroom_imp_stool_r2.dds 31 Reagent |H0:item:30156:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h imp stool 2 30156 389
+      /esoui/art/icons/crafting_fishing_torchbug.dds 16 Lure |H0:item:42872:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h insect parts, River Bait 1 42872 341
+      /esoui/art/icons/jewelrycrafting_booster_refined_iridium.dds 65 Plating |H0:item:203632:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Iridium Plating 3 203632 227
+      /esoui/art/icons/crafting_hide_iron.dds 40 Material |H0:item:46136:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Iron Hide 1 46136 46
+      /esoui/art/icons/crafting_scraps_iron_hide.dds 39 Raw Material |H0:item:23143:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h iron hide scraps 1 23143 7
+      /esoui/art/icons/crafting_ore_base_iron_r2.dds 36 Material |H0:item:5413:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Iron ingot 1 5413 865
+      /esoui/art/icons/crafting_ore_base_iron_r1.dds 35 Raw Material |H0:item:808:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h iron ore 1 808 49
+      /esoui/art/icons/crafting_cloth_ironthread.dds 40 Material |H0:item:46132:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h ironthread 1 46132 54
+      /esoui/art/icons/crafting_wood_gum.dds 10 Ingredient |H0:item:27035:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Isinglass 1 27035 612
+      /esoui/art/icons/crafting_components_runestones_056.dds 51 Potency Runestone |H0:item:68340:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Itade 1 68340 287
+      /esoui/art/icons/crafting_style_item_ivory_brigade.dds 44 Style Material |H0:item:171911:0:0:0:0:0:0:0:0:0:0:0:0:0:0:121:0:0:0:0:0|h|h Ivory Brigade Clasp 1 171911 6
+      /esoui/art/icons/crafting_enchantment_base_jade_r3.dds 46 Weapon Trait |H0:item:810:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jade 1 810 333
+      /esoui/art/icons/crafting_components_runestones_042.dds 51 Potency Runestone |H0:item:45810:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jaera 1 45810 125
+      /esoui/art/icons/crafting_smith_potion_vendor_003.dds 10 Ingredient |H0:item:33771:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jasmine 1 33771 320
+      /esoui/art/icons/crafting_components_runestones_036.dds 51 Potency Runestone |H0:item:45821:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jayde 1 45821 49
+      /esoui/art/icons/crafting_grapes.dds 10 Ingredient |H0:item:28610:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jazbay Grapes 1 28610 355
+      /esoui/art/icons/crafting_components_runestones_055.dds 51 Potency Runestone |H0:item:64508:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jehade 1 64508 224
+      /esoui/art/icons/crafting_components_runestones_041.dds 51 Potency Runestone |H0:item:45806:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jejora 1 45806 82
+      /esoui/art/icons/crafting_components_runestones_005.dds 52 Aspect Runestone |H0:item:45851:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jejota 2 45851 2063
+      /esoui/art/icons/crafting_components_runestones_040.dds 51 Potency Runestone |H0:item:45857:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jera 1 45857 135
+      /esoui/art/icons/crafting_components_runestones_035.dds 51 Potency Runestone |H0:item:45817:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jode 1 45817 164
+      /esoui/art/icons/crafting_components_runestones_050.dds 51 Potency Runestone |H0:item:45855:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Jora 1 45855 299
+      /esoui/art/icons/crafting_light_armor_standard_r_001.dds 40 Material |H0:item:811:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h jute 1 811 798
+      /esoui/art/icons/crafting_components_runestones_011.dds 53 Essence Runestone |H0:item:45849:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Kaderi 1 45849 194
+      /esoui/art/icons/crafting_cloth_famin.dds 40 Material |H0:item:46131:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Kresh Fiber 1 46131 102
+      /esoui/art/icons/crafting_components_runestones_039.dds 51 Potency Runestone |H0:item:45830:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Kude 1 45830 65
+      /esoui/art/icons/crafting_components_runestones_024.dds 53 Essence Runestone |H0:item:45837:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Kuoko 1 45837 238
+      /esoui/art/icons/crafting_components_runestones_034.dds 51 Potency Runestone |H0:item:45816:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Kura 1 45816 47
+      /esoui/art/icons/crafting_components_runestones_001.dds 52 Aspect Runestone |H0:item:45854:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Kuta 5 45854 184
+      /esoui/art/icons/crafting_forester_potion_sp_names_001.dds 31 Reagent |H0:item:30158:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h lady's smock 2 30158 621
+      /esoui/art/icons/crafting_laurel.dds 44 Style Material |H0:item:64713:0:0:0:0:0:0:0:0:0:0:0:0:0:0:26:0:0:0:0:0|h|h Laurel 1 64713 84
+      /esoui/art/icons/crafting_leather_base_boiled_leather_r3.dds 40 Material |H0:item:23099:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h leather 1 23099 1223
+      /esoui/art/icons/crafting_leather_base_fur_r2.dds 39 Raw Material |H0:item:23095:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h leather scraps 1 23095 8
+      /esoui/art/icons/crafting_lemons.dds 10 Ingredient |H0:item:27049:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Lemon 1 27049 733
+      /esoui/art/icons/crafting_style_item_daggerfall_covenant.dds 44 Style Material |H0:item:71742:0:0:0:0:0:0:0:0:0:0:0:0:0:0:23:0:0:0:0:0|h|h Lion Fang 1 71742 5
+      /esoui/art/icons/crafting_lorkhanstears.dds 33 Potion Solvent |H0:item:64501:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Lorkhan's Tears 1 64501 757
+      /esoui/art/icons/quest_flower_001.dds 10 Ingredient |H0:item:34330:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Lotus 1 34330 410
+      /esoui/art/icons/item_grimoire_ink.dds 74 Ink |H0:item:204881:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Luminous Ink 1 204881 20
+      /esoui/art/icons/crafting_mushroom_luminous_russula_r1.dds 31 Reagent |H0:item:30155:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h luminous russula 2 30155 316
+      /esoui/art/icons/crafting_components_runestones_009.dds 53 Essence Runestone |H0:item:45848:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Makderi 1 45848 200
+      /esoui/art/icons/crafting_components_runestones_023.dds 53 Essence Runestone |H0:item:45832:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Makko 1 45832 1034
+
+
+      /esoui/art/icons/crafting_components_runestones_022.dds 53 Essence Runestone |H0:item:45835:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Makkoma 1 45835 354
+      /esoui/art/icons/crafting_ore_base_malachite_r2.dds 44 Style Material |H0:item:64689:0:0:0:0:0:0:0:0:0:0:0:0:0:0:28:0:0:0:0:0|h|h Malachite 1 64689 77
+      /esoui/art/icons/crafting_ore_base_malachite_r1.dds 17 Raw Material |H0:item:64690:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Malachite Shard 1 64690 17
+      /esoui/art/icons/crafting_metals_manganese.dds 44 Style Material |H0:item:33257:0:0:0:0:0:0:0:0:0:0:0:0:0:0:3:0:0:0:0:0|h|h Manganese 1 33257 866
+      /esoui/art/icons/style_item_blackfin.dds 44 Style Material |H0:item:171894:0:0:0:0:0:0:0:0:0:0:0:0:0:0:120:0:0:0:0:0|h|h Marsh Nettle Sprig 1 171894 5
+      /esoui/art/icons/crafting_wood_mastic.dds 42 Resin |H0:item:54180:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h mastic 4 54180 133
+      /esoui/art/icons/crafting_components_runestones_021.dds 53 Essence Runestone |H0:item:45840:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Meip 1 45840 391
+      /esoui/art/icons/crafting_melo.dds 10 Ingredient |H0:item:34308:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Melon 1 34308 538
+      /esoui/art/icons/crafting_components_malt_004.dds 10 Ingredient |H0:item:27048:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Metheglin 1 27048 733
+      /esoui/art/icons/crafting_components_bread_004.dds 10 Ingredient |H0:item:27064:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Millet 1 27064 344
+      /esoui/art/icons/crafting_style_item_dreadhorn_r2.dds 44 Style Material |H0:item:132619:0:0:0:0:0:0:0:0:0:0:0:0:0:0:62:0:0:0:0:0|h|h Minotaur Bezoar 1 132619 5
+      /esoui/art/icons/crafting_components_spice_004.dds 10 Ingredient |H0:item:33773:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Mint 1 33773 352
+      /esoui/art/icons/crafting_metals_molybdenum.dds 44 Style Material |H0:item:33251:0:0:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:0:0|h|h Molybdenum 1 33251 772
+      /esoui/art/icons/crafting_smith_plug_sp_names_001.dds 44 Style Material |H0:item:33255:0:0:0:0:0:0:0:0:0:0:0:0:0:0:9:0:0:0:0:0|h|h Moonstone 1 33255 866
+      /esoui/art/icons/crafting_flower_mountain_flower_r1.dds 31 Reagent |H0:item:30163:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h mountain flower 2 30163 479
+      /esoui/art/icons/crafting_poisonmaking_reagent_mudcrab_chitin.dds 31 Reagent |H0:item:77591:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Mudcrab Chitin 2 77591 42
+      /esoui/art/icons/crafting_furniture_base_mundante_rune.dds 62 Furnishing Material |H0:item:114892:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Mundane Rune 1 114892 1267
+      /esoui/art/icons/crafting_mushroom_namiras_rot_r1.dds 31 Reagent |H0:item:30153:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h namira's rot 2 30153 351
+      /esoui/art/icons/crafting_forester_potion_vendor_001.dds 33 Potion Solvent |H0:item:883:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h natural water 1 883 1009
+      /esoui/art/icons/crafting_heavy_armor_sp_names_001.dds 44 Style Material |H0:item:33254:0:0:0:0:0:0:0:0:0:0:0:0:0:0:34:0:0:0:0:0|h|h Nickel 1 33254 827
+      /esoui/art/icons/crafting_potion_base_oil_4_r2.dds 58 Poison Solvent |H0:item:75364:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Night-Oil 1 75364 8
+      /esoui/art/icons/crafting_nightshade_01.dds 31 Reagent |H0:item:77590:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Nightshade 2 77590 404
+      /esoui/art/icons/crafting_water_plant_nirnroot_r1.dds 31 Reagent |H0:item:30165:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h nirnroot 2 30165 426
+      /esoui/art/icons/crafting_components_runestones_027.dds 51 Potency Runestone |H0:item:45818:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Notade 1 45818 181
+      /esoui/art/icons/crafting_metals_graphite.dds 44 Style Material |H0:item:33253:0:0:0:0:0:0:0:0:0:0:0:0:0:0:4:0:0:0:0:0|h|h Obsidian 1 33253 866
+      /esoui/art/icons/jewelrycrafting_material_refined_orpiment.dds 62 Furnishing Material |H0:item:135161:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ochre 1 135161 290
+      /esoui/art/icons/crafting_components_runestones_033.dds 51 Potency Runestone |H0:item:45819:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ode 1 45819 57
+      /esoui/art/icons/crafting_components_runestones_049.dds 51 Potency Runestone |H0:item:45807:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Odra 1 45807 106
+      /esoui/art/icons/crafting_components_runestones_020.dds 53 Essence Runestone |H0:item:45831:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Oko 1 45831 1046
+      /esoui/art/icons/crafting_components_runestones_019.dds 53 Essence Runestone |H0:item:45834:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Okoma 1 45834 277
+      /esoui/art/icons/crafting_components_runestones_008.dds 53 Essence Runestone |H0:item:45843:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Okori 1 45843 182
+      /esoui/art/icons/crafting_ore_base_iron_r3.dds 36 Material |H0:item:23107:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h orichalcum ingot 1 23107 2162
+      /esoui/art/icons/crafting_heavy_armor_sp_names_001.dds 35 Raw Material |H0:item:23103:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h orichalcum ore 1 23103 38
+      /esoui/art/icons/crafting_components_runestones_007.dds 53 Essence Runestone |H0:item:45846:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Oru 1 45846 211
+      /esoui/art/icons/crafting_style_item_minotaur_r2.dds 44 Style Material |H0:item:81994:0:0:0:0:0:0:0:0:0:0:0:0:0:0:39:0:0:0:0:0|h|h Oxblood Fungus 1 81994 688
+      /esoui/art/icons/crafting_style_item_minotaur_r1.dds 17 Raw Material |H0:item:81995:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Oxblood Fungus Spore 1 81995 5
+      /esoui/art/icons/crafting_ore_palladium.dds 44 Style Material |H0:item:46152:0:0:0:0:0:0:0:0:0:0:0:0:0:0:15:0:0:0:0:0|h|h Palladium 1 46152 687
+      /esoui/art/icons/crafting_style_item_orderoth_r2.dds 44 Style Material |H0:item:81996:0:0:0:0:0:0:0:0:0:0:0:0:0:0:16:0:0:0:0:0|h|h Pearl Sand 1 81996 618
+      /esoui/art/icons/crafting_pewter_dust.dds 63 Raw Material |H0:item:135137:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h pewter dust 1 135137 62
+      /esoui/art/icons/crafting_pewter_refined.dds 64 Material |H0:item:135138:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h pewter ounce 1 135138 2353
+      /esoui/art/icons/crafting_forester_weapon_vendor_component_002.dds 42 Resin |H0:item:54178:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h pitch 2 54178 826
+      /esoui/art/icons/crafting_potion_base_oil_3_r3.dds 58 Poison Solvent |H0:item:75362:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pitch-Bile 1 75362 157
+      /esoui/art/icons/crafting_platinum_dust.dds 63 Raw Material |H0:item:135145:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h platinum dust 1 135145 195
+      /esoui/art/icons/crafting_platinum_refined.dds 64 Material |H0:item:135146:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h platinum ounce 1 135146 2225
+      /esoui/art/icons/crafting_components_runestones_032.dds 51 Potency Runestone |H0:item:45827:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pode 1 45827 5
+      /esoui/art/icons/crafting_components_runestones_031.dds 51 Potency Runestone |H0:item:45823:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pojode 1 45823 63
+      /esoui/art/icons/crafting_components_runestones_048.dds 51 Potency Runestone |H0:item:45808:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pojora 1 45808 87
+      /esoui/art/icons/crafting_style_item_redoran_r2.dds 44 Style Material |H0:item:130060:0:0:0:0:0:0:0:0:0:0:0:0:0:0:48:0:0:0:0:0|h|h Polished Scarab Elytra 1 130060 2
+      /esoui/art/icons/crafting_style_item_abahs_watch_r2.dds 44 Style Material |H0:item:76914:0:0:0:0:0:0:0:0:0:0:0:0:0:0:41:0:0:0:0:0|h|h Polished Shilling 1 76914 7
+      /esoui/art/icons/crafting_components_runestones_047.dds 51 Potency Runestone |H0:item:45811:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pora 1 45811 200
+      /esoui/art/icons/crafting_components_runestones_046.dds 51 Potency Runestone |H0:item:45856:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Porade 1 45856 360
+      /esoui/art/icons/crafting_style_item_malacath.dds 44 Style Material |H0:item:71584:0:0:0:0:0:0:0:0:0:0:0:0:0:0:13:0:0:0:0:0|h|h Potash 1 71584 4
+      /esoui/art/icons/crafting_components_veg_001.dds 10 Ingredient |H0:item:33758:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Potato 1 33758 187
+      /esoui/art/icons/crafting_potent_nirncrux_dust.dds 46 Weapon Trait |H0:item:56863:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Potent Nirncrux 1 56863 3
+      /esoui/art/icons/crafting_cooking_grilled_chicken.dds 10 Ingredient |H0:item:34321:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Poultry 1 34321 232
+      /esoui/art/icons/crafting_style_item_celestial_r1.dds 31 Reagent |H0:item:139019:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Powdered Mother of Pearl 2 139019 9
+      /esoui/art/icons/crafting_style_item_draugr_r2.dds 44 Style Material |H0:item:75373:0:0:0:0:0:0:0:0:0:0:0:0:0:0:31:0:0:0:0:0|h|h Pristine Shroud 1 75373 5
+      /esoui/art/icons/crafting_potion_base_water_2_r3.dds 33 Potion Solvent |H0:item:4570:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h pristine water 1 4570 465
+      /esoui/art/icons/jewelrycrafting_trait_raw_antimony.dds 68 Raw Trait |H0:item:135159:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pulverized Antimony 1 135159 18
+      /esoui/art/icons/crafting_flower_wormwood_r3.dds 68 Raw Trait |H0:item:139417:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pulverized Aurbic Amber 1 139417 10
+      /esoui/art/icons/jewelrycrafting_trait_raw_cobalt.dds 68 Raw Trait |H0:item:135158:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pulverized Cobalt 1 135158 16
+      /esoui/art/icons/crafting_undead_blood_salts.dds 68 Raw Trait |H0:item:139420:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pulverized Slaughterstone 1 139420 2
+      /esoui/art/icons/crafting_runecrafter_armor_component_005.dds 68 Raw Trait |H0:item:139416:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pulverized Titanium 1 139416 4
+      /esoui/art/icons/jewelrycrafting_trait_raw_zinc.dds 68 Raw Trait |H0:item:135160:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pulverized Zinc 1 135160 5
+      /esoui/art/icons/crafting_pumpkin.dds 10 Ingredient |H0:item:34305:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Pumpkin 1 34305 470
+      /esoui/art/icons/crafting_potion_base_water_3_r3.dds 33 Potion Solvent |H0:item:23267:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h purified water 1 23267 89
+      /esoui/art/icons/crafting_runecrafter_plug_component_002.dds 45 Armor Trait |H0:item:4456:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Quartz 1 4456 624
+      /esoui/art/icons/crafting_ingot_moonstone.dds 36 Material |H0:item:46129:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h quicksilver ingot 1 46129 146
+      /esoui/art/icons/crafting_ore_moonstone.dds 35 Raw Material |H0:item:23134:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Quicksilver ore 1 23134 8
+      /esoui/art/icons/crafting_radish.dds 10 Ingredient |H0:item:34307:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Radish 1 34307 167
+      /esoui/art/icons/crafting_components_runestones_018.dds 53 Essence Runestone |H0:item:45838:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rakeipa 1 45838 387
+      /esoui/art/icons/crafting_light_armor_standard_f_005.dds 39 Raw Material |H0:item:71200:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw ancestor silk 1 71200 261
+      /esoui/art/icons/crafting_light_armor_sp_001.dds 39 Raw Material |H0:item:23129:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw cotton 1 23129 5
+      /esoui/art/icons/crafting_cloth_base_ebonthread_r1.dds 39 Raw Material |H0:item:23131:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw ebonthread 1 23131 5
+      /esoui/art/icons/crafting_cloth_base_flax_r1.dds 39 Raw Material |H0:item:4464:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw flax 1 4464 33
+      /esoui/art/icons/crafting_cloth_base_jute_r1.dds 39 Raw Material |H0:item:812:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw jute 1 812 11
+      /esoui/art/icons/crafting_flower_raw_famin.dds 39 Raw Material |H0:item:33217:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw Kreshweed 1 33217 3
+      /esoui/art/icons/crafting_flower_saints_hair.dds 39 Raw Material |H0:item:33219:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw silverweed 1 33219 2
+      /esoui/art/icons/crafting_light_armor_standard_f_004.dds 39 Raw Material |H0:item:23130:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw spidersilk 1 23130 8
+      /esoui/art/icons/crafting_flower_voidbloom.dds 39 Raw Material |H0:item:33220:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h raw void bloom 1 33220 2
+      /esoui/art/icons/crafting_medium_armor_standard_f_001.dds 40 Material |H0:item:794:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rawhide 1 794 2749
+      /esoui/art/icons/crafting_medium_armor_component_004.dds 39 Raw Material |H0:item:793:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rawhide scraps 1 793 116
+      /esoui/art/icons/quest_food_003.dds 10 Ingredient |H0:item:33752:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Red Meat 1 33752 197
+      /esoui/art/icons/crafting_components_runestones_038.dds 51 Potency Runestone |H0:item:45829:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rede 1 45829 15
+      /esoui/art/icons/crafting_style_item_hlaalu_r2.dds 44 Style Material |H0:item:130059:0:0:0:0:0:0:0:0:0:0:0:0:0:0:49:0:0:0:0:0|h|h Refined Bonemold Resin 1 130059 12
+      /esoui/art/icons/crafting_furniture_base_regulus.dds 62 Furnishing Material |H0:item:114889:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Regulus 1 114889 448
+      /esoui/art/icons/crafting_components_runestones_053.dds 51 Potency Runestone |H0:item:64509:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rejera 1 64509 331
+      /esoui/art/icons/crafting_components_runestones_030.dds 51 Potency Runestone |H0:item:45824:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rekude 1 45824 74
+      /esoui/art/icons/crafting_components_runestones_029.dds 51 Potency Runestone |H0:item:45815:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rekura 1 45815 10
+      /esoui/art/icons/crafting_components_runestones_002.dds 52 Aspect Runestone |H0:item:45853:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rekuta 4 45853 621
+      /esoui/art/icons/crafting_components_runestones_054.dds 51 Potency Runestone |H0:item:68341:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Repora 1 68341 548
+      /esoui/art/icons/crafting_components_runestones_045.dds 51 Potency Runestone |H0:item:45813:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rera 1 45813 4
+      /esoui/art/icons/crafting_components_bread_001.dds 10 Ingredient |H0:item:29030:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rice 1 29030 1095
+      /esoui/art/icons/crafting_outlaw_styleitem.dds 44 Style Material |H0:item:71538:0:0:0:0:0:0:0:0:0:0:0:0:0:0:47:0:0:0:0:0|h|h Rogue's Soot 1 71538 22
+      /esoui/art/icons/crafting_flower_mountain_flower_r2.dds 10 Ingredient |H0:item:28636:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rose 1 28636 450
+      /esoui/art/icons/crafting_wood_rosin.dds 42 Resin |H0:item:54181:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rosin 5 54181 32
+      /esoui/art/icons/crafting_wood_rough_ash.dds 37 Raw Material |H0:item:4439:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rough ash 1 4439 3
+      /esoui/art/icons/crafting_wood_base_beech_r1.dds 37 Raw Material |H0:item:23117:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rough beech 1 23117 9
+      /esoui/art/icons/crafting_wood_rough_mahogany.dds 37 Raw Material |H0:item:23137:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rough mahogany 1 23137 1
+      /esoui/art/icons/crafting_forester_weapon_component_004.dds 37 Raw Material |H0:item:802:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rough maple 1 802 43
+      /esoui/art/icons/crafting_wood_base_oak_r1.dds 37 Raw Material |H0:item:521:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rough oak 1 521 15
+      /esoui/art/icons/crafting_woodworking_rough_ruby_ash.dds 37 Raw Material |H0:item:71199:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rough ruby ash 1 71199 1139
+      /esoui/art/icons/crafting_wood_base_yew_r1.dds 37 Raw Material |H0:item:23119:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rough yew 1 23119 8
+      /esoui/art/icons/crafting_colossus_iron.dds 36 Material |H0:item:64489:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rubedite Ingot 1 64489 4451
+      /esoui/art/icons/crafting_jewelry_base_ruby_r1.dds 35 Raw Material |H0:item:71198:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rubedite ore 1 71198 934
+      /esoui/art/icons/crafting_leather_ambergris.dds 39 Raw Material |H0:item:71239:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h rubedo hide scraps 1 71239 106
+      /esoui/art/icons/crafting_daedric_skin.dds 40 Material |H0:item:64506:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rubedo Leather 1 64506 1313
+      /esoui/art/icons/crafting_jewelry_base_ruby_r3.dds 46 Weapon Trait |H0:item:4486:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ruby 1 4486 366
+      /esoui/art/icons/crafting_components_bread_005.dds 10 Ingredient |H0:item:28639:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Rye 1 28639 1179
+      /esoui/art/icons/monster_plant_creature_seeds_001.dds 10 Ingredient |H0:item:27063:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Saltrice 1 27063 441
+      /esoui/art/icons/crafting_wood_sanded_ash.dds 38 Material |H0:item:46140:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded ash 1 46140 88
+      /esoui/art/icons/crafting_wood_base_beech_r3.dds 38 Material |H0:item:23121:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded beech 1 23121 1713
+      /esoui/art/icons/crafting_wood_sanded_birch.dds 38 Material |H0:item:46139:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded birch 1 46139 124
+      /esoui/art/icons/crafting_wood_base_hickory_r3.dds 38 Material |H0:item:23122:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded hickory 1 23122 1875
+      /esoui/art/icons/crafting_wood_sanded_mahogany.dds 38 Material |H0:item:46141:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded mahogany 1 46141 1144
+      /esoui/art/icons/crafting_forester_weapon_component_006.dds 38 Material |H0:item:803:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded maple 1 803 1283
+      /esoui/art/icons/crafting_wood_sanded_nightwood.dds 38 Material |H0:item:46142:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded nightwood 1 46142 253
+      /esoui/art/icons/crafting_wood_base_oak_r3.dds 38 Material |H0:item:533:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded oak 1 533 1616
+      /esoui/art/icons/crafting_wood_ruddy_ash.dds 38 Material |H0:item:64502:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Sanded Ruby Ash 1 64502 1948
+      /esoui/art/icons/crafting_wood_base_yew_r3.dds 38 Material |H0:item:23123:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h sanded yew 1 23123 820
+      /esoui/art/icons/crafting_accessory_sp_names_001.dds 45 Armor Trait |H0:item:23173:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Sapphire 1 23173 388
+      /esoui/art/icons/crafting_enchantment_base_sardonyx_r2.dds 45 Armor Trait |H0:item:30221:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Sardonyx 1 30221 890
+      /esoui/art/icons/crafting_poisonmaking_reagent_scrib_jelly.dds 31 Reagent |H0:item:77589:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Scrib Jelly 2 77589 271
+      /esoui/art/icons/crafting_leather_base_horkerskin_r2.dds 44 Style Material |H0:item:140267:0:0:0:0:0:0:0:0:0:0:0:0:0:0:75:0:0:0:0:0|h|h Sea Serpent Hide 1 140267 1
+      /esoui/art/icons/quest_dust_004.dds 10 Ingredient |H0:item:27058:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Seasoning 1 27058 428
+      /esoui/art/icons/crafting_cloth_stems.dds 10 Ingredient |H0:item:28666:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Seaweed 1 28666 757
+      /esoui/art/icons/crafting_fishing_shad.dds 16 Lure |H0:item:42874:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h shad, River Bait 1 42874 25
+      /esoui/art/icons/crafting_leather_base_leather_r2.dds 40 Material |H0:item:46138:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Shadowhide 1 46138 706
+      /esoui/art/icons/crafting_scraps_daedra_hide.dds 39 Raw Material |H0:item:4478:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h shadowhide scraps 1 4478 8
+      /esoui/art/icons/crafting_shimmering_sand.dds 44 Style Material |H0:item:151621:0:0:0:0:0:0:0:0:0:0:0:0:0:0:84:0:0:0:0:0|h|h Shimmering Sand 1 151621 8
+
+
+      /esoui/art/icons/crafting_silver_dust.dds 63 Raw Material |H0:item:135141:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h silver dust 1 135141 7
+      /esoui/art/icons/crafting_silver_refined.dds 64 Material |H0:item:135142:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h silver ounce 1 135142 316
+      /esoui/art/icons/crafting_cloth_silverweave.dds 40 Material |H0:item:46133:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h silverweave 1 46133 107
+      /esoui/art/icons/crafting_potion_base_oil_2_r3.dds 58 Poison Solvent |H0:item:75359:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Slime 1 75359 406
+      /esoui/art/icons/crafting_u36_small_game.dds 10 Ingredient |H0:item:33756:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Small Game 1 33756 173
+      /esoui/art/icons/crafting_poisonmaking_reagent_spider_egg.dds 31 Reagent |H0:item:77584:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Spider Egg 2 77584 780
+      /esoui/art/icons/crafting_cloth_base_spidersilk_r2.dds 40 Material |H0:item:23126:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h spidersilk 1 23126 2049
+      /esoui/art/icons/crafting_stardew.dds 33 Potion Solvent |H0:item:64500:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Star Dew 1 64500 60
+      /esoui/art/icons/crafting_style_item_celestial_r2.dds 44 Style Material |H0:item:81998:0:0:0:0:0:0:0:0:0:0:0:0:0:0:27:0:0:0:0:0|h|h Star Sapphire 1 81998 72
+      /esoui/art/icons/crafting_medium_armor_sp_names_002.dds 44 Style Material |H0:item:33258:0:0:0:0:0:0:0:0:0:0:0:0:0:0:2:0:0:0:0:0|h|h Starmetal 1 33258 865
+      /esoui/art/icons/crafting_ore_base_high_iron_r3.dds 36 Material |H0:item:4487:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Steel ingot 1 4487 1976
+      /esoui/art/icons/u34_crafting_style_item_steadfast_society.dds 44 Style Material |H0:item:182553:0:0:0:0:0:0:0:0:0:0:0:0:0:0:131:0:0:0:0:0|h|h Stendarr Stamp 1 182553 2
+      /esoui/art/icons/crafting_mushroom_stinkhorn_cap_r1.dds 31 Reagent |H0:item:30149:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h stinkhorn 2 30149 392
+      /esoui/art/icons/crafting_hide_scaled.dds 40 Material |H0:item:46137:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h superb hide 1 46137 77
+      /esoui/art/icons/crafting_scraps_scaled_hide.dds 39 Raw Material |H0:item:800:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h superb hide scraps 1 800 6
+      /esoui/art/icons/crafting_components_berry_004.dds 10 Ingredient |H0:item:34345:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Surilie Grapes 1 34345 1125
+      /esoui/art/icons/crafting_components_runestones_003.dds 52 Aspect Runestone |H0:item:45850:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Ta 1 45850 3357
+      /esoui/art/icons/crafting_components_runestones_028.dds 51 Potency Runestone |H0:item:45820:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Tade 1 45820 50
+      /esoui/art/icons/crafting_components_runestones_006.dds 53 Essence Runestone |H0:item:45847:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Taderi 1 45847 244
+      /esoui/art/icons/crafting_style_item_assassins_league_r2.dds 44 Style Material |H0:item:76910:0:0:0:0:0:0:0:0:0:0:0:0:0:0:46:0:0:0:0:0|h|h Tainted Blood 1 76910 64
+      /esoui/art/icons/crafting_potion_base_oil_4_r1.dds 58 Poison Solvent |H0:item:75363:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Tarblack 1 75363 25
+      /esoui/art/icons/justice_stolen_prop_sesnits_paperweight.dds 44 Style Material |H0:item:132617:0:0:0:0:0:0:0:0:0:0:0:0:0:0:65:0:0:0:0:0|h|h Tempered Brass 1 132617 11
+      /esoui/art/icons/crafting_tempering_alloy.dds 41 Temper |H0:item:54173:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h tempering alloy 5 54173 33
+      /esoui/art/icons/crafting_style_item_ebonshadow_r2.dds 44 Style Material |H0:item:132618:0:0:0:0:0:0:0:0:0:0:0:0:0:0:66:0:0:0:0:0|h|h Tenebrous Cord 1 132618 79
+      /esoui/art/icons/crafting_potion_base_oil_3_r2.dds 58 Poison Solvent |H0:item:75361:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Terebinthine 1 75361 1180
+      /esoui/art/icons/jewelrycrafting_booster_refined_terne.dds 65 Plating |H0:item:203631:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Terne Plating 2 203631 389
+      /esoui/art/icons/crafting_leather_base_topgrain_r3.dds 40 Material |H0:item:23100:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h thick leather 1 23100 1082
+      /esoui/art/icons/styleitemicon_u46_solsticeargonians.dds 44 Style Material |H0:item:212134:0:0:0:0:0:0:0:0:0:0:0:0:0:0:157:0:0:0:0:0|h|h Tide-Born Feathers 1 212134 22
+      /esoui/art/icons/crafting_runecrafter_armor_component_006.dds 66 Jewelry Trait |H0:item:139410:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Titanium 1 139410 15
+      /esoui/art/icons/crafting_components_veg_005.dds 10 Ingredient |H0:item:28603:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Tomato 1 28603 339
+      /esoui/art/icons/crafting_hide_fell.dds 40 Material |H0:item:46135:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h topgrain hide 1 46135 60
+      /esoui/art/icons/crafting_scraps_fell.dds 39 Raw Material |H0:item:23142:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h topgrain hide scraps 1 23142 2
+      /esoui/art/icons/crafting_poisonmaking_reagent_torchbug_thorax.dds 31 Reagent |H0:item:77581:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Torchbug Thorax 2 77581 63
+      /esoui/art/icons/crafting_wood_turpen.dds 42 Resin |H0:item:54179:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h turpen 3 54179 690
+      /esoui/art/icons/crafting_jewelry_base_turquoise_r3.dds 46 Weapon Trait |H0:item:813:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Turquoise 1 813 413
+      /esoui/art/icons/u37_crafting_style_item_vibranttumeric.dds 44 Style Material |H0:item:188340:0:0:0:0:0:0:0:0:0:0:0:0:0:0:139:0:0:0:0:0|h|h Vibrant Tumeric 1 188340 1
+      /esoui/art/icons/crafting_mushroom_violet_coprinus_r1.dds 31 Reagent |H0:item:30152:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h violet coprinus 2 30152 333
+      /esoui/art/icons/crafting_style_item_buoyant_armiger_r1.dds 17 Raw Material |H0:item:121521:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Viridian Dust 1 121521 7
+      /esoui/art/icons/crafting_leather_nitre.dds 44 Style Material |H0:item:137951:0:0:0:0:0:0:0:0:0:0:0:0:0:0:71:0:0:0:0:0|h|h Vitrified Malondo 1 137951 90
+      /esoui/art/icons/crafting_cloth_void.dds 40 Material |H0:item:46134:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h void cloth 1 46134 612
+      /esoui/art/icons/crafting_ingot_voidstone.dds 36 Material |H0:item:46130:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h voidstone ingot 1 46130 758
+      /esoui/art/icons/crafting_style_item_buoyant_armiger_r2.dds 44 Style Material |H0:item:121518:0:0:0:0:0:0:0:0:0:0:0:0:0:0:52:0:0:0:0:0|h|h Volcanic Viridian 1 121518 5
+      /esoui/art/icons/item_warriorsheartashes.dds 44 Style Material |H0:item:137957:0:0:0:0:0:0:0:0:0:0:0:0:0:0:74:0:0:0:0:0|h|h Warrior's Heart Ashes 1 137957 25
+      /esoui/art/icons/crafting_water_plant_water_hyacinth_r1.dds 31 Reagent |H0:item:30166:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h water hyacinth 2 30166 610
+      /esoui/art/icons/crafting_components_bread_002.dds 10 Ingredient |H0:item:34348:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Wheat 1 34348 1039
+      /esoui/art/icons/crafting_mushroom_white_cap_r1.dds 31 Reagent |H0:item:30154:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h white cap 2 30154 357
+      /esoui/art/icons/crafting_critter_dom_animal_fat.dds 10 Ingredient |H0:item:33754:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h White Meat 1 33754 179
+      /esoui/art/icons/crafting_style_item_wolfsbane_r2.dds 44 Style Material |H0:item:96388:0:0:0:0:0:0:0:0:0:0:0:0:0:0:42:0:0:0:0:0|h|h Wolfsbane Incense 1 96388 176
+      /esoui/art/icons/crafting_worms.dds 16 Lure |H0:item:42869:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h worms, Saltwater Bait 1 42869 1285
+      /esoui/art/icons/crafting_flower_wormwood_r1.dds 31 Reagent |H0:item:30159:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h wormwood 2 30159 594
+      /esoui/art/icons/crafting_style_item_telvanni_r2.dds 44 Style Material |H0:item:121519:0:0:0:0:0:0:0:0:0:0:0:0:0:0:51:0:0:0:0:0|h|h Wrought Ferrofungus 1 121519 10
+      /esoui/art/icons/crafting_components_bread_003.dds 10 Ingredient |H0:item:33774:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Yeast 1 33774 1094
+      /esoui/art/icons/quest_bandage_001.dds 10 Ingredient |H0:item:34335:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Yerba Mate 1 34335 736
+      /esoui/art/icons/jewelrycrafting_trait_refined_zinc.dds 66 Jewelry Trait |H0:item:135157:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h zinc 1 135157 32
+      /esoui/art/icons/jewelrycrafting_booster_refined_zircon.dds 65 Plating |H0:item:203633:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h Zircon Plating 4 203633 27
+    ]
+
+  efficiency:
+    backpackEfficiency: 97
+    backpackUsage: 97
+    bankEfficiency: 50
+    bankUsage: 50
+  hasCraftingBag: true
+
+location:
+  subzone: Alinor
+  world: NA Megaserver
+  zone: Summerset
+  zoneId: 1011
+  zoneIndex: 617
+
+mundus:
+  active: true
+  name: The Steed
+playStyle: ""
+
+progression:
+  achievementPercent: 17
+  achievementPoints: 12575
+  attributePoints: 0
+  availableChampionPoints: 0
+
+  enlightenment:
+    current: 162971
+    efficiency: 0
+    max: 0
+    percent: 0
+    remaining: -162971
+  isVampire: false
+  isWerewolf: false
+
+  metrics:
+    achievementProgress: 17
+    enlightenmentProgress: 0
+    skillPointEfficiency: 0
+  skillPoints: 0
+  totalAchievements: 72540
+  totalSkillPoints: 0
+  unspentAttributePoints: 0
+  unspentSkillPoints: 0
+  vampireStage: 0
+  werewolfStage: 0
+
+pvp:
+  basic:
+    campaignId: 0
+    campaignName: None
+    hasEmperor: false
+    isInBattleground: false
+    rank: 1
+    rankName: Volunteer Grade 1
+    rankPoints: 1500
+
+  summary:
+    battlegroundStatus:       isActive: false
+    campaignParticipation:       active: false
+
+    rankProgress:
+      currentRank: 1
+      rankName: Volunteer Grade 1
+      rankPoints: 1500
+
+quests:
+  active:
+    [
+      index isCompleted isTracked level name stepText
+      1 false false 50 Legacy of the Three The Windridge Caves are not far from here. I should make my way there and see if anything interesting remains.
+      2 false true 50 Valley of Blades A projection of Varen Aquilarios appeared to me when I arrived in town. I should talk to him and see what he wants.
+      3 false false 50 Invitation to Orsinium Once I enter Wrothgar, I need to find the caravan.
+      4 false false 50 The Missing Prophecy I've arrived in Pariah Abbey. I should seek out the statue of Azura and attempt to make contact with the Daedric Prince.
+      5 false false 50 A Masterful Plate I need to create the item specified by my contract.
+      6 false false 50 Of Knives and Long Shadows I should travel to the Mages Guild hall in Mournhold. Perhaps I can learn more from Skaldir himself.
+      7 false false 50 The Precursor The factotum's head contains a repeated message stating where to find its Integral of Memory. I should go to the Mnemonic Planisphere to find the missing component.
+      8 false false 50 The Tower Sentinels While Valsirenn takes the imprisoned Leythen, formerly of the Psijic Order and now an earl in the Court of Bedlam, to Artaeum, I need to travel to the Illumination Academy and locate the two tower sentinels, Hannayel and Imedril.
+      9 false false 50 Struck from Memory According to Esulo, sealing these forbidden tomes away in Traitor's Vault will keep them out of the hands of would-be necromancers. I should travel to the ruin and lock Mannimarco's Forbidden Tomes away for good.
+      10 false false 50 Breaches On the Bay Josajeh furnished me with a new map, more Psijic Seals, and the Augur of the Obscure. I must set out for the Iliac Bay and seal these time breaches.
+      11 false false 50 The Great Hunt Hircine's Great Hunt has begun. I should explore Bloodscent Pass and attempt to find the indrik.
+      12 false false 50 Competition and Contracts Zeechis told me that Deepscorn Hollow is said to be a smuggler's den on the coast. I should go there to investigate the rumors. It might be profitable.
+      13 false false 50 Shattered and Scattered Mirri says she and her brother were betrayed by some cultists, led by someone named Xigira. I should find out more from her before we go inside the ruin.
+      14 false false 50 The Second Era of Scribing I should seek out Adept Irnard to learn more about this magical anomaly and the Votary's call for aid. He should be at the location marked on my map.
+      15 false false 50 Support the Fellowship When I'm ready, I should enter the Writhing Fortress to find a way to deal a fatal blow to the Writhing Wall.
+      16 false false 50 Charging the Lens I should gather vitrified souls for the Stirk Fellowship's war effort. I can acquire vitrified souls from Coldharbour Daedra and Worm Cultists anywhere in Tamriel or Coldharbour.
+      17 false false 50 The Writhing Wall Vanus Galerion told us that the Writhing Wall is thinner at a place called Li-Xal Pass. Gabrielle wants to take his staff there and re-establish contact. I should meet her at the pass, north of Sunport.
+      18 true false 50 Dominion Heavy Pelts I gathered heavy pelts as requested. I should deliver them to Quartermaster Nurwalne and claim my reward.
+    ]
+
+  summary:
+    activeCount: 18
+    activeQuests: 18
+    completedQuests: 0
+    totalQuests: 18
+    zoneCompletion: 0
+
+  zone:
+    percent: 0
+    zoneIndex: 617
+
+riding:
+  capacity: 60
+  maxedOut: false
+  speed: 60
+  stamina: 60
+
+role:
+  emoji: ❓
+  selected: None
+
+skill:
+  earlyProgressLines:
+    [
+      index name progress rank type xp
+      6 Restoration Staff 0 1 2 current: 0
+max: 2
+min: 0
+      4 Psijic Order 0 1 5 current: 0
+max: 10
+min: 0
+    ]
+
+  inProgressLines:
+    [
+      index name passives progress rank type xp
+      1 Two Handed [
+  abilityId icon name purchased rank
+  29387 /esoui/art/icons/ability_weapon_027.dds Forceful false 0
+  29375 /esoui/art/icons/passive_dragonknight_026.dds Heavy Weapons false 0
+  29388 /esoui/art/icons/ability_dragonknight_028.dds Balanced Blade false 0
+  29389 /esoui/art/icons/passive_dragonknight_016.dds Follow Up false 0
+  29391 /esoui/art/icons/ability_weapon_021.dds Battle Rush false 0
+] 0 6 2 current: 2556
+max: 4782
+min: 2556
+      3 Dual Wield [
+  abilityId icon name purchased rank
+  45476 /esoui/art/icons/ability_weapon_019.dds Slaughter true 2
+  45477 /esoui/art/icons/ability_weapon_013.dds Dual Wield Expert true 2
+  45478 /esoui/art/icons/ability_weapon_018.dds Controlled Fury true 2
+  21114 /esoui/art/icons/ability_weapon_014.dds Ruffian false 0
+  30893 /esoui/art/icons/ability_weapon_016.dds Twin Blade and Blunt true 1
+] 38 46 2 current: 1225227
+max: 1299304
+min: 1179285
+      4 Bow [
+  abilityId icon name purchased rank
+  45494 /esoui/art/icons/ability_weapon_025.dds Vinedusk Training true 2
+  30930 /esoui/art/icons/ability_weapon_024.dds Accuracy false 0
+  30942 /esoui/art/icons/ability_armor_011.dds Ranger false 0
+  30936 /esoui/art/icons/passive_armor_002.dds Hawk Eye true 1
+  30923 /esoui/art/icons/ability_dragonknight_029.dds Hasty Retreat true 1
+] 69 45 2 current: 1144536
+max: 1179285
+min: 1065788
+      1 Light Armor [
+  abilityId icon name purchased rank
+  150185 /esoui/art/icons/passive_armor2_light.dds Light Armor Bonuses true 0
+  152778 /esoui/art/icons/passive_armor2_light.dds Light Armor Penalties true 0
+  29639 /esoui/art/icons/ability_armor_004.dds Grace false 0
+  29665 /esoui/art/icons/ability_armor_005.dds Evocation false 0
+  29663 /esoui/art/icons/ability_armor_006.dds Spell Warding false 0
+  29668 /esoui/art/icons/ability_sorcerer_038.dds Prodigy false 0
+  29667 /esoui/art/icons/ability_sorcerer_060.dds Concentration false 0
+] 20 42 3 current: 651643
+max: 689300
+min: 641802
+      2 Legerdemain [
+  abilityId icon name purchased rank
+  63802 /esoui/art/icons/ability_legerdemain_improvedsneak.dds Improved Hiding true 4
+  63806 /esoui/art/icons/ability_legerdemain_lightfingers.dds Light Fingers true 4
+  63810 /esoui/art/icons/ability_legerdemain_salesman.dds Trafficker true 4
+  63814 /esoui/art/icons/ability_legerdemain_lockpick.dds Locksmith true 4
+  63815 /esoui/art/icons/ability_legerdemain_sly.dds Kickback false 0
+] 100 20 4 current: 4180
+max: 4180
+min: 3780
+      4 Soul Magic [
+  abilityId icon name purchased rank
+  39269 /esoui/art/icons/ability_sorcerer_047.dds Soul Summons false 0
+  39266 /esoui/art/icons/ability_sorcerer_065.dds Soul Shatter false 0
+  39263 /esoui/art/icons/ability_sorcerer_043.dds Soul Lock false 0
+] 0 4 4 current: 30
+max: 40
+min: 30
+      1 Dark Brotherhood [
+  abilityId icon name purchased rank
+  78219 /esoui/art/icons/ability_darkbrotherhood_passive_001.dds Blade of Woe true 0
+  77392 /esoui/art/icons/ability_darkbrotherhood_passive_002.dds Scales of Pitiless Justice false 0
+  77397 /esoui/art/icons/ability_darkbrotherhood_passive_004.dds Padomaic Sprint false 0
+  77396 /esoui/art/icons/ability_darkbrotherhood_passive_003.dds Shadowy Supplier false 0
+  77400 /esoui/art/icons/ability_darkbrotherhood_passive_005.dds Shadow Rider false 0
+  77401 /esoui/art/icons/ability_darkbrotherhood_passive_006.dds Spectral Assassin false 0
+] 70 2 5 current: 60
+max: 75
+min: 25
+      2 Fighters Guild [
+  abilityId icon name purchased rank
+  29062 /esoui/art/icons/ability_fightersguild_passive_intimidate.dds Intimidating Presence false 0
+  35803 /esoui/art/icons/ability_dragonknight_025.dds Slayer false 0
+  35800 /esoui/art/icons/ability_dragonknight_034.dds Banish the Wicked false 0
+  40393 /esoui/art/icons/ability_armor_007.dds Skilled Tracker false 0
+  35804 /esoui/art/icons/ability_armor_011.dds Bounty Hunter false 0
+] 69 8 5 current: 4949
+max: 5360
+min: 4000
+      3 Mages Guild [
+  abilityId icon name purchased rank
+  29061 /esoui/art/icons/ability_weapon_024.dds Persuasive Will false 0
+  40436 /esoui/art/icons/ability_sorcerer_045.dds Mage Adept false 0
+  40437 /esoui/art/icons/ability_sorcerer_063.dds Everlasting Magic false 0
+  40438 /esoui/art/icons/ability_sorcerer_044.dds Magicka Controller false 0
+  43561 /esoui/art/icons/ability_sorcerer_038.dds Might of the Guild false 0
+] 45 8 5 current: 1005
+max: 1120
+min: 910
+      5 Thieves Guild [
+  abilityId icon name purchased rank
+  74580 /esoui/art/icons/ability_thievesguild_passive_001.dds Finders Keepers true 0
+  76454 /esoui/art/icons/ability_thievesguild_passive_005.dds Swiftly Forgotten true 1
+  76458 /esoui/art/icons/ability_thievesguild_passive_006.dds Haggling false 0
+  76451 /esoui/art/icons/ability_thievesguild_passive_002.dds Clemency false 0
+  76452 /esoui/art/icons/ability_thievesguild_passive_004.dds Timely Escape false 0
+  76453 /esoui/art/icons/ability_thievesguild_passive_003.dds Veil of Shadows false 0
+] 0 2 5 current: 10
+max: 35
+min: 10
+      6 Undaunted [
+  abilityId icon name purchased rank
+  55584 /esoui/art/icons/ability_templar_003.dds Undaunted Command false 0
+  55366 /esoui/art/icons/ability_armor_014.dds Undaunted Mettle false 0
+] 65 2 5 current: 115
+max: 150
+min: 50
+      1 Assault [
+  abilityId icon name purchased rank
+  39248 /esoui/art/icons/ability_weapon_028.dds Continuous Attack false 0
+  39254 /esoui/art/icons/ability_weapon_001.dds Reach false 0
+  39252 /esoui/art/icons/ability_weapon_023.dds Combat Frenzy false 0
+] 10 2 6 current: 1500
+max: 8000
+min: 700
+      3 Support [
+  abilityId icon name purchased rank
+  39255 /esoui/art/icons/ability_sorcerer_038.dds Magicka Aid false 0
+  39259 /esoui/art/icons/ability_sorcerer_045.dds Combat Medic false 0
+  39261 /esoui/art/icons/ability_sorcerer_018.dds Battle Resurrection false 0
+] 10 2 6 current: 1500
+max: 8000
+min: 700
+      1 Alchemy [
+  abilityId icon name purchased rank
+  45550 /esoui/art/icons/ability_alchemy_001.dds Solvent Proficiency true 3
+  47840 /esoui/art/icons/ability_smith_002.dds Keen Eye: Reagents false 0
+  45569 /esoui/art/icons/ability_alchemy_004.dds Medicinal Use true 1
+  45577 /esoui/art/icons/ability_alchemy_006.dds Chemistry true 1
+  45555 /esoui/art/icons/ability_alchemy_002.dds Laboratory Use false 0
+  47831 /esoui/art/icons/ability_alchemy_005.dds Snakeblood false 0
+] 3 25 8 current: 682789
+max: 738795
+min: 680595
+    ]
+
+  lines:
+    [
+            index: 1
+      name: Ardent Flame
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          45011 /esoui/art/icons/ability_sorcerer_011.dds Combustion true 2
+          45012 /esoui/art/icons/ability_dragonknight_023.dds Warmth true 2
+
+
+          45023 /esoui/art/icons/ability_dragonknight_028.dds Searing Heat true 2
+          45029 /esoui/art/icons/ability_dragonknight_024.dds World in Ruin true 2
+        ]
+      progress: 100
+      rank: 50
+      type: 1
+
+      xp:
+        current: 1459938
+        max: 1459938
+        min: 1352497
+            index: 2
+      name: Draconic Power
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          29455 /esoui/art/icons/ability_dragonknight_021.dds Iron Skin false 0
+          29457 /esoui/art/icons/ability_dragonknight_032.dds Burning Heart false 0
+          29460 /esoui/art/icons/ability_dragonknight_025.dds Elder Dragon false 0
+          29462 /esoui/art/icons/ability_dragonknight_020.dds Scaled Armor false 0
+        ]
+      progress: 100
+      rank: 50
+      type: 1
+
+      xp:
+        current: 1459938
+        max: 1459938
+        min: 1352497
+            index: 3
+      name: Earthen Heart
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          29468 /esoui/art/icons/ability_dragonknight_023.dds Eternal Mountain false 0
+          29463 /esoui/art/icons/ability_dragonknight_031.dds Battle Roar false 0
+          29473 /esoui/art/icons/ability_dragonknight_024.dds Mountain's Blessing false 0
+          29475 /esoui/art/icons/ability_sorcerer_007.dds Helping Hands false 0
+        ]
+      progress: 100
+      rank: 50
+      type: 1
+
+      xp:
+        current: 1459938
+        max: 1459938
+        min: 1352497
+            index: 1
+      name: Two Handed
+      passives: "[circular reference]"
+      progress: 0
+      rank: 6
+      type: 2
+      xp: "[circular reference]"
+            index: 2
+      name: One Hand and Shield
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          29420 /esoui/art/icons/ability_weapon_028.dds Fortress false 0
+          29397 /esoui/art/icons/ability_armor_014.dds Sword and Board false 0
+          29415 /esoui/art/icons/ability_dragonknight_034.dds Deadly Bash false 0
+          29399 /esoui/art/icons/ability_templar_027.dds Deflect Bolts false 0
+          29422 /esoui/art/icons/ability_armor_009.dds Battlefield Mobility false 0
+        ]
+      progress: 100
+      rank: 50
+      type: 2
+
+      xp:
+        current: 1704588
+        max: 1704588
+        min: 1561333
+            index: 3
+      name: Dual Wield
+      passives: "[circular reference]"
+      progress: 38
+      rank: 46
+      type: 2
+      xp: "[circular reference]"
+            index: 4
+      name: Bow
+      passives: "[circular reference]"
+      progress: 69
+      rank: 45
+      type: 2
+      xp: "[circular reference]"
+            index: 5
+      name: Destruction Staff
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          30948 /esoui/art/icons/ability_weapon_001.dds Tri Focus false 0
+          30957 /esoui/art/icons/ability_weapon_008.dds Penetrating Magic false 0
+          30962 /esoui/art/icons/ability_weapon_005.dds Elemental Force false 0
+          30959 /esoui/art/icons/ability_weapon_003.dds Ancient Knowledge false 0
+          30965 /esoui/art/icons/ability_weapon_006.dds Destruction Expert false 0
+        ]
+      progress: 100
+      rank: 50
+      type: 2
+
+      xp:
+        current: 1704588
+        max: 1704588
+        min: 1561333
+            index: 6
+      name: Restoration Staff
+      progress: 0
+      rank: 1
+      type: 2
+      xp: "[circular reference]"
+            index: 1
+      name: Light Armor
+      passives: "[circular reference]"
+      progress: 20
+      rank: 42
+      type: 3
+      xp: "[circular reference]"
+            index: 2
+      name: Medium Armor
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          150181 /esoui/art/icons/passive_armor2_medium.dds Medium Armor Bonuses true 0
+          45564 /esoui/art/icons/ability_armor_008.dds Dexterity true 3
+          45565 /esoui/art/icons/ability_armor_011.dds Wind Walker true 2
+          45567 /esoui/art/icons/ability_armor_007.dds Improved Sneak true 2
+          45572 /esoui/art/icons/ability_armor_010.dds Agility true 2
+          45574 /esoui/art/icons/ability_armor_009.dds Athletics true 2
+        ]
+      progress: 100
+      rank: 50
+      type: 3
+
+      xp:
+        current: 1112608
+        max: 1112608
+        min: 1040980
+            index: 3
+      name: Heavy Armor
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          150184 /esoui/art/icons/passive_armor2_heavy.dds Heavy Armor Bonuses true 0
+          152780 /esoui/art/icons/passive_armor2_heavy.dds Heavy Armor Penalties true 0
+          29825 /esoui/art/icons/ability_dragonknight_020.dds Resolve false 0
+          29769 /esoui/art/icons/ability_armor_014.dds Constitution false 0
+          29804 /esoui/art/icons/ability_armor_012.dds Juggernaut false 0
+          29773 /esoui/art/icons/ability_armor_013.dds Revitalize false 0
+          29791 /esoui/art/icons/ability_armor_015.dds Rapid Mending false 0
+        ]
+      progress: 100
+      rank: 50
+      type: 3
+
+      xp:
+        current: 1112608
+        max: 1112608
+        min: 1040980
+            index: 2
+      name: Legerdemain
+      passives: "[circular reference]"
+      progress: 100
+      rank: 20
+      type: 4
+      xp: "[circular reference]"
+            index: 4
+      name: Soul Magic
+      passives: "[circular reference]"
+      progress: 0
+      rank: 4
+      type: 4
+      xp: "[circular reference]"
+            index: 1
+      name: Dark Brotherhood
+      passives: "[circular reference]"
+      progress: 70
+      rank: 2
+      type: 5
+      xp: "[circular reference]"
+            index: 2
+      name: Fighters Guild
+      passives: "[circular reference]"
+      progress: 69
+      rank: 8
+      type: 5
+      xp: "[circular reference]"
+            index: 3
+      name: Mages Guild
+      passives: "[circular reference]"
+      progress: 45
+      rank: 8
+      type: 5
+      xp: "[circular reference]"
+            index: 4
+      name: Psijic Order
+      progress: 0
+      rank: 1
+      type: 5
+      xp: "[circular reference]"
+            index: 5
+      name: Thieves Guild
+      passives: "[circular reference]"
+      progress: 0
+      rank: 2
+      type: 5
+      xp: "[circular reference]"
+            index: 6
+      name: Undaunted
+      passives: "[circular reference]"
+      progress: 65
+      rank: 2
+      type: 5
+      xp: "[circular reference]"
+            index: 1
+      name: Assault
+      passives: "[circular reference]"
+      progress: 10
+      rank: 2
+      type: 6
+      xp: "[circular reference]"
+            index: 3
+      name: Support
+      passives: "[circular reference]"
+      progress: 10
+      rank: 2
+      type: 6
+      xp: "[circular reference]"
+            index: 1
+      name: Imperial Skills
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          36312 /esoui/art/icons/ability_templar_027.dds Diplomat true 0
+          50907 /esoui/art/icons/ability_dragonknight_020.dds Tough true 3
+          45280 /esoui/art/icons/ability_dragonknight_021.dds Imperial Mettle true 3
+          45293 /esoui/art/icons/ability_dragonknight_028.dds Red Diamond true 3
+        ]
+      progress: 100
+      rank: 50
+      type: 7
+
+      xp:
+        current: 2805665
+        max: 2805665
+        min: 2618171
+            index: 1
+      name: Alchemy
+      passives: "[circular reference]"
+      progress: 3
+      rank: 25
+      type: 8
+      xp: "[circular reference]"
+            index: 2
+      name: Blacksmithing
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          70041 /esoui/art/icons/ability_smith_001.dds Metalworking true 10
+          47854 /esoui/art/icons/ability_smith_002.dds Keen Eye: Ore false 0
+          48169 /esoui/art/icons/ability_smith_006.dds Miner Hireling false 0
+          48165 /esoui/art/icons/ability_smith_003.dds Metal Extraction true 3
+          48160 /esoui/art/icons/crafting_runecrafter_armor_vendor_component_002.dds Metallurgy false 0
+          48168 /esoui/art/icons/ability_smith_004.dds Temper Expertise true 3
+        ]
+      progress: 100
+      rank: 50
+      type: 8
+
+      xp:
+        current: 3667895
+        max: 3667895
+        min: 3456575
+            index: 3
+      name: Clothing
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          70044 /esoui/art/icons/ability_tradecraft_002.dds Tailoring true 10
+          47860 /esoui/art/icons/ability_smith_002.dds Keen Eye: Cloth false 0
+          48199 /esoui/art/icons/ability_tradecraft_007.dds Outfitter Hireling false 0
+          48195 /esoui/art/icons/ability_tradecraft_005.dds Unraveling true 3
+          48190 /esoui/art/icons/crafting_light_armor_component_004.dds Stitching false 0
+          48198 /esoui/art/icons/ability_tradecraft_004.dds Tannin Expertise true 3
+        ]
+      progress: 100
+      rank: 50
+      type: 8
+
+      xp:
+        current: 3667895
+        max: 3667895
+        min: 3456575
+            index: 4
+      name: Enchanting
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          70045 /esoui/art/icons/ability_enchanter_001b.dds Potency Improvement true 10
+          46763 /esoui/art/icons/ability_enchanter_002b.dds Aspect Improvement true 4
+          47851 /esoui/art/icons/ability_smith_002.dds Keen Eye: Rune Stones false 0
+          46770 /esoui/art/icons/ability_enchanter_008.dds Enchanter Hireling false 0
+          46769 /esoui/art/icons/ability_enchanter_004.dds Runestone Extraction true 3
+        ]
+      progress: 100
+      rank: 50
+      type: 8
+
+      xp:
+        current: 3667895
+        max: 3667895
+        min: 3456575
+            index: 5
+      name: Jewelry Crafting
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          103636 /esoui/art/icons/passive_jewelerengraver.dds Engraver true 5
+          103637 /esoui/art/icons/ability_smith_002.dds Keen Eye: Jewelry false 0
+          103645 /esoui/art/icons/passive_jewelryextraction.dds Jewelry Extraction true 3
+          103640 /esoui/art/icons/passive_lapidaryresearch.dds Lapidary Research false 0
+          103648 /esoui/art/icons/passive_platingexpertise.dds Platings Expertise true 3
+        ]
+      progress: 100
+      rank: 50
+      type: 8
+
+      xp:
+        current: 3667895
+        max: 3667895
+        min: 3456575
+            index: 6
+      name: Provisioning
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          44650 /esoui/art/icons/ability_provisioner_001.dds Recipe Improvement true 6
+          69953 /esoui/art/icons/ability_provisioner_006.dds Recipe Quality true 4
+          44602 /esoui/art/icons/ability_provisioner_004.dds Gourmand false 0
+          44612 /esoui/art/icons/ability_provisioner_005.dds Connoisseur false 0
+          44616 /esoui/art/icons/ability_provisioner_002.dds Chef false 0
+          44620 /esoui/art/icons/ability_provisioner_003.dds Brewer false 0
+          44634 /esoui/art/icons/ability_provisioner_007.dds Forager Hireling false 0
+        ]
+      progress: 100
+      rank: 50
+      type: 8
+
+      xp:
+        current: 3667895
+        max: 3667895
+        min: 3456575
+            index: 7
+      name: Woodworking
+
+      passives:
+        [
+          abilityId icon name purchased rank
+          70046 /esoui/art/icons/ability_tradecraft_003.dds Woodworking true 10
+          47857 /esoui/art/icons/ability_smith_002.dds Keen Eye: Wood false 0
+          48184 /esoui/art/icons/ability_tradecraft_007.dds Lumberjack Hireling false 0
+          48180 /esoui/art/icons/ability_tradecraft_006.dds Wood Extraction true 3
+          48181 /esoui/art/icons/crafting_forester_plug_component_002.dds Carpentry false 0
+          48177 /esoui/art/icons/ability_tradecraft_001.dds Resin Expertise true 3
+        ]
+      progress: 100
+      rank: 50
+      type: 8
+
+      xp:
+        current: 3667895
+        max: 3667895
+        min: 3456575
+    ]
+
+  maxedLines:
+    [
+      index name passives progress rank type xp
+      1 Ardent Flame "[circular reference]" 100 50 1 "[circular reference]"
+      2 Draconic Power "[circular reference]" 100 50 1 "[circular reference]"
+      3 Earthen Heart "[circular reference]" 100 50 1 "[circular reference]"
+      2 One Hand and Shield "[circular reference]" 100 50 2 "[circular reference]"
+      5 Destruction Staff "[circular reference]" 100 50 2 "[circular reference]"
+      2 Medium Armor "[circular reference]" 100 50 3 "[circular reference]"
+      3 Heavy Armor "[circular reference]" 100 50 3 "[circular reference]"
+      1 Imperial Skills "[circular reference]" 100 50 7 "[circular reference]"
+      2 Blacksmithing "[circular reference]" 100 50 8 "[circular reference]"
+      3 Clothing "[circular reference]" 100 50 8 "[circular reference]"
+      4 Enchanting "[circular reference]" 100 50 8 "[circular reference]"
+      5 Jewelry Crafting "[circular reference]" 100 50 8 "[circular reference]"
+      6 Provisioning "[circular reference]" 100 50 8 "[circular reference]"
+      7 Woodworking "[circular reference]" 100 50 8 "[circular reference]"
+    ]
+
+  summary:
+    completionPercent: 46
+    earlyProgressCount: 2
+    inProgressCount: 14
+    maxedCount: 14
+    totalLines: 30
+    totalMorphs: 28
+    totalPassives: 150
+    totalSkills: 28
+
+skillBar:
+  bars:
+    [
+      abilities id name
+      [
+  id isUltimate name
+  26768 true Soul Trap
+  28967 true Inferno
+  29004 true Dragon Blood
+  20319 true Spiked Armor
+  61503 true Vigor
+  29012 true Dragon Leap
+] 0 ⚔️ Front Bar (Main Hand)
+      [
+  id isUltimate name
+  28876 true Volley
+  61503 true Vigor
+  20917 true Fiery Breath
+  29071 true Obsidian Shield
+  29043 true Molten Weapons
+  15957 true Magma Armor
+] 1 🔮 Back Bar (Backup)
+    ]
+
+  points:
+    total: 0
+    unspent: 0
+    used: 0
+
+  summary:
+    regularAbilities: 0
+    totalAbilities: 12
+    ultimateCount: 12
+
+skillMorphs:
+  class: Dragonknight
+
+  skillTypes:
+    [
+      emoji name skillLines
+      ⚔️ Class [
+  abilities name rank
+  [
+  atMorphChoice currentMorph currentRank earnedRank morphs name progressionIndex purchased ultimate
+  true 0 4 12 [
+  abilityId morphSlot name selected
+  32958 1 Shifting Standard false
+  32947 2 Standard of Might false
+] Dragonknight Standard 11 false true
+  true 0 4 1 [
+  abilityId morphSlot name selected
+  20805 1 Molten Whip false
+  20816 2 Flame Lash false
+] Lava Whip 4 false false
+  true 0 4 20 [
+  abilityId morphSlot name selected
+  20944 1 Noxious Breath false
+  20930 2 Engulfing Flames false
+] Fiery Breath 12 true false
+  false 0 1 30 [
+  abilityId morphSlot name selected
+  20499 1 Chains of Devastation false
+  20496 2 Unrelenting Grip false
+] Fiery Grip 3 false false
+  true 0 4 42 [
+  abilityId morphSlot name selected
+  32853 1 Flames of Oblivion false
+  32881 2 Cauterize false
+] Inferno 13 true false
+] Ardent Flame 50
+  [
+  atMorphChoice currentMorph currentRank earnedRank morphs name progressionIndex purchased ultimate
+  true 0 4 12 [
+  abilityId morphSlot name selected
+  32719 1 Take Flight false
+  32715 2 Ferocious Leap false
+] Dragon Leap 1 true true
+  true 0 4 1 [
+  abilityId morphSlot name selected
+  20328 1 Hardened Armor false
+  20323 2 Volatile Armor false
+] Spiked Armor 5 true false
+  true 0 4 20 [
+  abilityId morphSlot name selected
+  32744 1 Green Dragon Blood false
+  32722 2 Coagulating Blood false
+] Dragon Blood 8 true false
+  true 0 4 42 [
+  abilityId morphSlot name selected
+  32792 1 Deep Breath false
+  32785 2 Draw Essence false
+] Inhale 10 false false
+] Draconic Power 50
+  [
+  atMorphChoice currentMorph currentRank earnedRank morphs name progressionIndex purchased ultimate
+  true 0 4 12 [
+  abilityId morphSlot name selected
+  17874 1 Magma Shell false
+  17878 2 Corrosive Armor false
+] Magma Armor 2 true true
+  true 0 4 1 [
+  abilityId morphSlot name selected
+  31820 1 Obsidian Shard false
+  31816 2 Stone Giant false
+] Stonefist 7 false false
+  true 0 4 4 [
+  abilityId morphSlot name selected
+  31874 1 Igneous Weapons false
+  31888 2 Molten Armaments false
+] Molten Weapons 6 true false
+  true 0 4 20 [
+  abilityId morphSlot name selected
+  29224 1 Igneous Shield false
+  32673 2 Fragmented Shield false
+] Obsidian Shield 9 true false
+] Earthen Heart 50
+]
+      ⚔️ Weapon [
+  abilities name rank
+  [
+  atMorphChoice currentMorph currentRank earnedRank morphs name progressionIndex purchased ultimate
+  true 0 4 2 [
+  abilityId morphSlot name selected
+  38256 1 Ransack false
+  38250 2 Pierce Armor false
+] Puncture 20 false false
+  true 0 4 20 [
+  abilityId morphSlot name selected
+  38401 1 Shielded Assault false
+  38405 2 Invasion false
+] Shield Charge 21 false false
+] One Hand and Shield 50
+  [
+  atMorphChoice currentMorph currentRank earnedRank morphs name progressionIndex purchased ultimate
+  true 0 4 2 [
+  abilityId morphSlot name selected
+  38857 1 Rapid Strikes false
+  38846 2 Bloodthirst false
+] Flurry 14 false false
+  true 0 4 4 [
+  abilityId morphSlot name selected
+  38839 1 Rending Slashes false
+  38845 2 Blood Craze false
+] Twin Slashes 15 false false
+  true 0 4 14 [
+  abilityId morphSlot name selected
+  38891 1 Whirling Blades false
+  38861 2 Steel Tornado false
+] Whirlwind 16 false false
+] Dual Wield 46
+  [
+  atMorphChoice currentMorph currentRank earnedRank morphs name progressionIndex purchased ultimate
+  true 0 4 2 [
+  abilityId morphSlot name selected
+  38685 1 Lethal Arrow false
+  38687 2 Focused Aim false
+] Snipe 18 false false
+  true 0 4 4 [
+  abilityId morphSlot name selected
+  38689 1 Endless Hail false
+  38695 2 Arrow Barrage false
+] Volley 19 true false
+  true 0 4 20 [
+  abilityId morphSlot name selected
+  38705 1 Bombard false
+  38701 2 Acid Spray false
+] Arrow Spray 17 false false
+] Bow 45
+  [
+  atMorphChoice currentMorph currentRank earnedRank morphs name progressionIndex purchased ultimate
+  true 0 4 2 [
+  abilityId morphSlot name selected
+  46348 1 Crushing Shock false
+  46356 2 Force Pulse false
+] Force Shock 22 false false
+  true 0 4 4 [
+  abilityId morphSlot name selected
+  39052 1 Unstable Wall of Elements false
+  39011 2 Elemental Blockade false
+] Wall of Elements 23 false false
+] Destruction Staff 50
+]
+      🌍 World [
+    abilities:
+    [
+            atMorphChoice: true
+      currentMorph: 0
+      currentRank: 4
+      earnedRank: 1
+
+      morphs:
+        [
+          abilityId morphSlot name selected
+          40328 1 Soul Splitting Trap false
+          40317 2 Consuming Trap false
+        ]
+      name: Soul Trap
+      progressionIndex: 26
+      purchased: true
+      ultimate: false
+    ]
+  name: Soul Magic
+  rank: 4
+]
+      🏰 Guild [
+  abilities name rank
+  [
+    atMorphChoice: true
+  currentMorph: 0
+  currentRank: 4
+  earnedRank: 2
+
+  morphs:
+    [
+      abilityId morphSlot name selected
+      40300 1 Silver Shards false
+      40336 2 Silver Leash false
+    ]
+  name: Silver Bolts
+  progressionIndex: 25
+  purchased: false
+  ultimate: false
+] Fighters Guild 8
+  [
+    atMorphChoice: true
+  currentMorph: 0
+  currentRank: 4
+  earnedRank: 4
+
+  morphs:
+    [
+      abilityId morphSlot name selected
+      40457 1 Degeneration false
+      40452 2 Structured Entropy false
+    ]
+  name: Entropy
+  progressionIndex: 24
+  purchased: false
+  ultimate: false
+] Mages Guild 8
+  [
+    atMorphChoice: false
+  currentMorph: 0
+  currentRank: 4
+  earnedRank: 1
+
+  morphs:
+    [
+      abilityId morphSlot name selected
+      41967 1 Sanguine Altar false
+      41958 2 Overflowing Altar false
+    ]
+  name: Blood Altar
+  progressionIndex: 27
+  purchased: false
+  ultimate: false
+] Undaunted 2
+]
+      ⚔️ Alliance War [
+    abilities:
+    [
+            atMorphChoice: true
+      currentMorph: 0
+      currentRank: 4
+      earnedRank: 2
+
+      morphs:
+        [
+          abilityId morphSlot name selected
+          61505 1 Echoing Vigor false
+          61507 2 Resolving Vigor false
+        ]
+      name: Vigor
+      progressionIndex: 28
+      purchased: true
+      ultimate: false
+    ]
+  name: Assault
+  rank: 2
+]
+    ]
+
+  summary:
+    availableMorphs: 28
+    chosenMorphs: 0
+    completionPercent: 0
+    totalMorphs: 28
+
+stats:
+  advanced:
+    core:
+      bashCost: 719
+      bashDamage: 5382
+      blockCost: 1117
+      blockMitigation: 50
+      blockSpeed: 40
+      breakFreeCost: 5076
+      dodgeRollCost: 1705
+      heavyAttackDamage: 7816
+      lightAttackDamage: 3908
+      sneakCost: 26
+      sneakSpeed: 0
+      sprintCost: 290
+      sprintSpeed: 0
+
+
+    damage:
+      bleed:
+        flat: 0
+        percent: 6
+      criticalDamage: 64
+      criticalResistance: 1320
+
+      disease:
+        flat: 0
+        percent: 6
+
+      flame:
+        flat: 0
+        percent: 11
+
+      frost:
+        flat: 0
+        percent: 0
+
+      magic:
+        flat: 0
+        percent: 6
+
+      oblivion:
+        flat: 0
+        percent: 6
+
+      physical:
+        flat: 0
+        percent: 6
+
+      poison:
+        flat: 0
+        percent: 11
+
+      shock:
+        flat: 0
+        percent: 6
+
+      spell:
+        flat: 0
+        percent: 6
+
+    healing:
+      criticalHealing: 14
+
+      healingDone:
+        flat: 0
+        percent: -0
+
+      healingTaken:
+        flat: 0
+        percent: -0
+
+    resistances:
+      bleed:
+        percent: 17.4
+        value: 11504
+
+      critical:
+        percent: 0
+        value: 1320
+
+      disease:
+        percent: 17.4
+        value: 11504
+
+      flame:
+        percent: 17.4
+        value: 11504
+
+      frost:
+        percent: 17.4
+        value: 11504
+
+      magic:
+        percent: 17.4
+        value: 11504
+
+      physical:
+        percent: 17.4
+        value: 11504
+
+      poison:
+        percent: 17.4
+        value: 11504
+
+      shock:
+        percent: 17.4
+        value: 11504
+
+      spell:
+        percent: 17.4
+        value: 11504
+
+  dpsEstimates:
+    average: 3519
+    spell: 3519
+    weapon: 3519
+
+  effectiveHealth:
+    average: 111508
+    physical: 111508
+    spell: 111508
+  health: 19960
+  healthRecovery: 637
+  magicka: 18638
+  magickaRecovery: 852
+  physicalMitigation: 82.1
+  physicalPenetration: 2338
+  physicalResist: 11504
+
+  resourceRatios:
+    health: 32
+    magicka: 30
+    stamina: 36
+  spellCritChance: 32.9
+  spellCritRating: 7209
+  spellMitigation: 82.1
+  spellPenetration: 2338
+  spellPower: 3022
+  spellResist: 11504
+  stamina: 22162
+  staminaRecovery: 932
+  weaponCritChance: 32.9
+  weaponCritRating: 7209
+  weaponPower: 3022
+
+titlesHousing:
+  current: Daedric Lord Slayer
+
+  owned:
+    [
+      id name
+      19 Abyssal Champion
+      20 Assassin
+      12 Bane of the Gold Coast
+      22 Champion of Blackwood
+      2 Covenant Hero
+      8 Daedric Lord Slayer
+      25 Dark Executioner
+      23 Dragon Master-at-Arms
+      17 Emissary
+      9 Enemy of Coldharbour
+      7 Fighters Guild Victor
+      26 Grand Sorcerer
+      24 Light's Champion
+      21 Locksmith
+      15 Lord of Misrule
+      14 Magnanimous
+      10 Master Thief
+      6 Master Wizard
+      1 Monster Hunter
+      18 Mystic
+      4 Recruit
+      11 Silencer
+      16 Style Master
+      13 Sun's Dusk Reaper
+      5 Tyro
+      3 Volunteer
+    ]
+
+  summary:
+    completionPercent: 100
+    totalAvailable: 26
+    totalOwned: 26
+
+undauntedPledges:
+  active: {}
+
+  daily:
+    keys: 0
+    normal: {}
+    veteran: {}
+
+  dungeonProgress:
+    hardmode:
+      completed: 0
+      dungeons: {}
+      total: 0
+
+    normal:
+      completed: 0
+      dungeons: {}
+      total: 0
+
+    veteran:
+      completed: 0
+      dungeons: {}
+      total: 0
+
+  keys:
+    categories: {}
+    total: 0
+
+  progress:
+    totalAvailable: 0
+    totalCompleted: 0
+
+  weekly:
+    keys: 0
+    normal: {}
+    veteran: {}

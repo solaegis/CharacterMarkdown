@@ -33,32 +33,29 @@ local function GenerateCompanion(companionData, format)
     end
 
     -- Show Available Companions section at the top
-    if companionData and companionData.acquired and #companionData.acquired > 0 then
+    -- Check both companions list and acquired list for backward compatibility
+    local companionsList = companionData and (companionData.companions or companionData.acquired) or {}
+    if companionData and #companionsList > 0 then
         -- Show available companions as styled table
         local CreateStyledTable = CM.utils.markdown.CreateStyledTable
         if CreateStyledTable then
             -- Sort companions by name for consistent ordering
             local sortedCompanions = {}
-            for _, comp in ipairs(companionData.acquired) do
+            for _, comp in ipairs(companionsList) do
                 table_insert(sortedCompanions, comp)
             end
             table.sort(sortedCompanions, function(a, b)
                 return a.name < b.name
             end)
 
-            local headers = { "Available Companions" }
-            local rows = {}
+            markdown = markdown .. "### Available Companions\n\n"
+
+            -- Show available companions as list
             for _, comp in ipairs(sortedCompanions) do
                 local companionLink = CreateCompanionLink(comp.name, format)
-                table_insert(rows, { companionLink })
+                markdown = markdown .. "- " .. companionLink .. "\n"
             end
-
-            local options = {
-                alignment = { "left" },
-                format = format,
-                coloredHeaders = true,
-            }
-            markdown = markdown .. CreateStyledTable(headers, rows, options)
+            markdown = markdown .. "\n"
         else
             -- Fallback to details format if CreateStyledTable not available
             markdown = markdown .. "<details>\n"
@@ -68,12 +65,12 @@ local function GenerateCompanion(companionData, format)
                 .. string_format(
                     "<summary>%sAvailable Companions (%d)%s</summary>\n\n",
                     summaryBold,
-                    #companionData.acquired,
+                    #companionsList,
                     summaryBoldEnd
                 )
 
             local sortedCompanions = {}
-            for _, comp in ipairs(companionData.acquired) do
+            for _, comp in ipairs(companionsList) do
                 table_insert(sortedCompanions, comp)
             end
             table.sort(sortedCompanions, function(a, b)
@@ -82,39 +79,31 @@ local function GenerateCompanion(companionData, format)
 
             for _, comp in ipairs(sortedCompanions) do
                 local companionLink = CreateCompanionLink(comp.name, format)
-                markdown = markdown .. "- " .. companionLink .. "\n"
+                markdown = markdown .. "- " .. companionLink .. " (" .. (comp.status or "Available") .. ")\n"
             end
 
             markdown = markdown .. "\n</details>\n\n"
         end
-    elseif format ~= "discord" then
-        -- No companions available message
+    elseif format ~= "discord" and (not companionData or not companionData.active) then
+        -- Only show "No companions available" if there's no active companion either
         markdown = markdown .. "*No companions available*\n\n"
     end
 
-    -- Handle nil companion data or no active companion
-    if not companionData or not companionData.active then
-        if format == "discord" then
-            markdown = markdown .. "**Companions:**\n*No active companion*\n\n"
-        else
-            -- Use CreateSeparator for consistent separator styling
-            local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-            if CreateSeparator then
-                markdown = markdown .. CreateSeparator("hr")
-            else
-                markdown = markdown .. "---\n\n"
-            end
-        end
-        return markdown
-    end
+
+
+    -- Extract active companion data
+    local activeCompanion = companionData.active
+    local companionName = activeCompanion.name or "Unknown"
+    local companionLevel = activeCompanion.level or 0
+    local skills = companionData.skills
 
     if format == "discord" then
-        local companionNameLinked = CreateCompanionLink(companionData.name, format)
+        local companionNameLinked = CreateCompanionLink(companionName, format)
         markdown = markdown
             .. "\n**Companion:** "
             .. companionNameLinked
             .. " (L"
-            .. (companionData.level or 0)
+            .. companionLevel
             .. ")\n"
         if companionData.skills then
             local ultimateText =
@@ -130,7 +119,8 @@ local function GenerateCompanion(companionData, format)
         if companionData.equipment and #companionData.equipment > 0 then
             markdown = markdown .. "Equipment:\n"
             for _, item in ipairs(companionData.equipment) do
-                local itemText = "• " .. item.name .. " (L" .. item.level .. ", " .. item.quality .. ")"
+                local qualityDisplay = (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal")
+                local itemText = "• " .. item.name .. " (L" .. item.level .. ", " .. qualityDisplay .. ")"
 
                 -- Add set information
                 if item.hasSet and item.setName then
@@ -161,13 +151,11 @@ local function GenerateCompanion(companionData, format)
         -- Active Companion section (only shown if there's an active companion)
         markdown = markdown .. "### Active Companion\n\n"
 
-        local companionNameLinked = CreateCompanionLink(companionData.name, format)
+        local companionNameLinked = CreateCompanionLink(companionName, format)
         markdown = markdown .. "#### 🧙 " .. companionNameLinked .. "\n\n"
 
         -- Collect warnings for companion issues
         local warnings = {}
-        local companionName = companionData.name or "Unknown"
-        local companionLevel = companionData.level or 0
         local level = companionLevel
 
         -- Check if underleveled
@@ -205,18 +193,18 @@ local function GenerateCompanion(companionData, format)
 
         -- Check for empty ability slots
         local emptySlots = 0
-        if companionData.skills then
+        if skills then
             -- Check ultimate
             if
-                companionData.skills.ultimate == "[Empty]"
-                or companionData.skills.ultimate == "Empty"
-                or not companionData.skills.ultimate
+                skills.ultimate == "[Empty]"
+                or skills.ultimate == "Empty"
+                or not skills.ultimate
             then
                 emptySlots = emptySlots + 1
             end
             -- Check abilities
-            if companionData.skills.abilities then
-                for _, ability in ipairs(companionData.skills.abilities) do
+            if skills.abilities then
+                for _, ability in ipairs(skills.abilities) do
                     if ability.name == "[Empty]" or ability.name == "Empty" or not ability.name then
                         emptySlots = emptySlots + 1
                     end
@@ -243,10 +231,10 @@ local function GenerateCompanion(companionData, format)
         end
 
         -- Skills section - Front bar format (horizontal table) using CreateStyledTable
-        if companionData.skills then
-            local abilities = companionData.skills.abilities or {}
-            local ultimate = companionData.skills.ultimate or "[Empty]"
-            local ultimateId = companionData.skills.ultimateId
+        if skills then
+            local abilities = skills.abilities or {}
+            local ultimate = skills.ultimate or "[Empty]"
+            local ultimateId = skills.ultimateId
 
             -- Create Front bar table with abilities (1-5) and ultimate (⚡)
             if #abilities > 0 or ultimate then
@@ -332,7 +320,8 @@ local function GenerateCompanion(companionData, format)
         end
 
         -- Equipment section (styled table with separate columns)
-        if companionData.equipment and #companionData.equipment > 0 then
+        local equipment = activeCompanion.equipment or companionData.equipment
+        if equipment and #equipment > 0 then
             local CreateStyledTable = CM.utils.markdown.CreateStyledTable
             if CreateStyledTable then
                 -- Map slot names to emojis (companion slots)
@@ -362,7 +351,8 @@ local function GenerateCompanion(companionData, format)
                     local slotText = slotEmoji .. " **" .. item.slot .. "**"
 
                     -- Item name with level and quality
-                    local itemText = item.name .. " (Level " .. item.level .. ", " .. item.quality .. ")" .. warning
+                    local qualityDisplay = (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal")
+                    local itemText = item.name .. " (Level " .. item.level .. ", " .. qualityDisplay .. ")" .. warning
 
                     -- Trait information
                     local traitText = item.traitName or "None"
@@ -370,7 +360,8 @@ local function GenerateCompanion(companionData, format)
                         traitText = "-"
                     end
 
-                    table_insert(rows, { slotText, itemText, item.quality, traitText })
+                    local qualityDisplay = (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal")
+                    table_insert(rows, { slotText, itemText, qualityDisplay, traitText })
                 end
 
                 local options = {
@@ -383,7 +374,7 @@ local function GenerateCompanion(companionData, format)
             else
                 -- Fallback to list format if CreateStyledTable not available
                 markdown = markdown .. "**Equipment:**\n"
-                for _, item in ipairs(companionData.equipment) do
+                for _, item in ipairs(equipment) do
                     local warning = ""
                     if item.level and item.level < level and item.level < 20 then
                         warning = " ⚠️"
@@ -396,7 +387,7 @@ local function GenerateCompanion(companionData, format)
                         .. " (Level "
                         .. item.level
                         .. ", "
-                        .. item.quality
+                        .. ((item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal"))
                         .. ")"
 
                     if item.hasSet and item.setName then

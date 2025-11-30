@@ -1,10 +1,10 @@
 ## Title: CharacterMarkdown
 ## Author: solaegis
-## Version: @project-version@
-## AddOnVersion: @project-version@
+## Version: 1.0.0
+## AddOnVersion: 1.0.0
 ## APIVersion: 101048
 ## SavedVariables: CharacterMarkdownSettings
-## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=180 LibSets>=80
+## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=180 LibSets>=80 LibSlashCommander>=4
 ## Description: Exports comprehensive character data in enhanced markdown format (GitHub/VS Code/Discord/Quick). Generate copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Includes ESO Plus, DLC access, currencies, progression, riding skills, inventory, PvP, collectibles, and crafting knowledge. Use /markdown [github|vscode|discord|quick] or configure in settings.
 ## This file is AddOnVersion: 20250121
 ## Directive above to support LibAddonMenu version sorting
@@ -30,6 +30,30 @@ src/utils/Chunking.lua
 src/utils/TestValidation.lua
 src/utils/SectionPresenceTests.lua
 src/utils/LibSetsIntegration.lua
+src/utils/TONL.lua
+
+## API Layer (depends on Core, utils)
+src/api/Character.lua
+src/api/Guilds.lua
+src/api/Combat.lua
+src/api/Equipment.lua
+src/api/Skills.lua
+src/api/Champion.lua
+src/api/PvP.lua
+src/api/Quests.lua
+src/api/Achievements.lua
+src/api/Crafting.lua
+src/api/Inventory.lua
+src/api/Collectibles.lua
+src/api/Progression.lua
+src/api/Time.lua
+src/api/System.lua
+src/api/Companion.lua
+src/api/Antiquities.lua
+src/api/Titles.lua
+src/api/ArmoryBuilds.lua
+src/api/UndauntedPledges.lua
+src/api/Mail.lua
 
 ## Link generators (depend on utils)
 src/links/Abilities.lua
@@ -42,22 +66,22 @@ src/links/Companions.lua
 src/collectors/Achievements.lua
 src/collectors/Antiquities.lua
 src/collectors/Character.lua
+src/collectors/Champion.lua
+src/collectors/PvP.lua
+src/collectors/Collectibles.lua
+src/collectors/Inventory.lua
 src/collectors/Progression.lua
 src/collectors/Quests.lua
 src/collectors/Skills.lua
-src/collectors/SkillMorphs.lua
 src/collectors/Equipment.lua
-src/collectors/EquipmentEnhancement.lua
+-- src/collectors/EquipmentEnhancement.lua  -- DISABLED: moved to DISABLED/
 src/collectors/Combat.lua
 src/collectors/Economy.lua
-src/collectors/World.lua
-src/collectors/TitlesHousing.lua
-src/collectors/PvPStats.lua
+src/collectors/Social.lua
 src/collectors/ArmoryBuilds.lua
-src/collectors/UndauntedPledges.lua
 src/collectors/Companion.lua
 src/collectors/Crafting.lua
-src/collectors/Extended.lua
+src/collectors/System.lua
 
 ## Markdown generator (depends on collectors + links)
 ## Helper utilities for generators
@@ -70,8 +94,9 @@ src/generators/sections/Economy.lua
 src/generators/sections/Character.lua
 src/generators/sections/Overview.lua
 src/generators/sections/Equipment.lua
-src/generators/sections/EquipmentEnhancement.lua
+-- src/generators/sections/EquipmentEnhancement.lua  -- DISABLED: moved to DISABLED/
 src/generators/sections/SkillMorphs.lua
+src/generators/sections/CharacterProgress.lua
 src/generators/sections/Combat.lua
 src/generators/sections/Crafting.lua
 src/generators/sections/DLCAndMundus.lua
@@ -87,8 +112,12 @@ src/generators/sections/Guilds.lua
 src/generators/sections/Companion.lua
 src/generators/sections/Footer.lua
 
-## Main markdown generator (orchestrates section generators)
+## Main Generator (orchestrates sections)
 src/generators/Markdown.lua
+
+## Formatters (output formatters)
+src/formatters/Markdown.lua
+src/formatters/TONL.lua
 
 ## Command system and events (depend on generators)
 src/Commands.lua

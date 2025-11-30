@@ -88,22 +88,15 @@ local function CreateCallout(type, content, format)
 
     local info = types[type] or types.info
 
-    if format == "github" then
-        return string_format(
-            '<blockquote style="border-left: 4px solid %s; background: %s10; padding: 10px;">\n%s <strong>%s</strong>\n\n%s\n</blockquote>',
-            info.color,
-            info.color,
-            info.emoji,
-            info.title,
-            content
-        )
-    elseif format == "discord" then
-        -- Discord doesn't support HTML, use simple blockquote
-        return string_format("> %s **%s**: %s", info.emoji, info.title, content)
-    else
-        -- VS Code and other formats
-        return string_format("> %s **%s**\n> \n> %s", info.emoji, info.title, content:gsub("\n", "\n> "))
-    end
+    -- Always use GitHub-style HTML blockquote for markdown
+    return string_format(
+        '<blockquote style="border-left: 4px solid %s; background: %s10; padding: 10px;">\n%s <strong>%s</strong>\n\n%s\n</blockquote>',
+        info.color,
+        info.color,
+        info.emoji,
+        info.title,
+        content
+    )
 end
 
 CM.utils.CreateCallout = CreateCallout

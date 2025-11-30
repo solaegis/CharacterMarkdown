@@ -84,202 +84,175 @@ local function GenerateSkillBarsOnly(skillBarData, format)
         CM.DebugPrint("GENERATOR", "GenerateSkillBarsOnly: InitializeUtilities failed: " .. tostring(err))
     end
 
-    -- Validate input data - handle nil, non-table, or empty table
-    if not skillBarData or type(skillBarData) ~= "table" or #skillBarData == 0 then
+    -- Validate input data - handle nil, non-table, or empty bars
+    if not skillBarData or type(skillBarData) ~= "table" then
         CM.DebugPrint("EQUIPMENT", "GenerateSkillBarsOnly: No skill bar data provided")
-        if format == "discord" then
-            return "\n**Skill Bars:**\n*No skill bars configured*\n"
-        else
-            return "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n"
-        end
+        return "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n"
+    end
+    
+    -- Check if bars exist and have content
+    local bars = skillBarData.bars or skillBarData  -- Support both {bars=[...]} and direct array
+    if not bars or type(bars) ~= "table" or #bars == 0 then
+        CM.DebugPrint("EQUIPMENT", "GenerateSkillBarsOnly: No bars in skill bar data")
+        return "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n"
     end
 
     local output = ""
 
-    if format == "discord" then
-        output = output .. "\n**Skill Bars:**\n"
-        for barIdx, bar in ipairs(skillBarData) do
-            if bar and type(bar) == "table" then
-                output = output .. (bar.name or "Unknown Bar") .. "\n"
-                local ultimateText = ""
-                if CreateAbilityLink then
-                    ultimateText = CreateAbilityLink(bar.ultimate or "", bar.ultimateId, format)
-                        or (bar.ultimate or "[Empty]")
-                else
-                    ultimateText = bar.ultimate or "[Empty]"
-                end
-                output = output .. "```" .. ultimateText .. "```\n"
-                local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
-                for i, ability in ipairs(abilities) do
-                    if ability and type(ability) == "table" then
-                        local abilityText = ""
-                        if CreateAbilityLink then
-                            abilityText = CreateAbilityLink(ability.name or "", ability.id, format)
-                                or (ability.name or "Unknown")
+    output = output .. "## ⚔️ Combat Arsenal\n\n"
+
+    -- Determine weapon types from bar names for better labels
+    local barLabels = {
+        { emoji = "⚔️", suffix = "" },
+        { emoji = "🔮", suffix = "" },
+    }
+
+    -- Try to detect weapon types from bar names
+    for barIdx, bar in ipairs(bars) do
+        local barName = bar.name or ""
+        if barName:find("Backup") or barName:find("Back Bar") then
+            barLabels[barIdx].suffix = " (Backup)"
+        elseif barName:find("Main") or barName:find("Front") then
+            barLabels[barIdx].suffix = " (Main Hand)"
+        end
+    end
+
+    for barIdx, bar in ipairs(bars) do
+        if bar and type(bar) == "table" then
+            local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
+            local barName = bar.name or "Unknown Bar"
+            output = output .. "### " .. label.emoji .. " " .. label.emoji .. " " .. barName .. "\n\n"
+
+            -- Safely get abilities array
+            local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
+            local hasUltimate = bar.ultimate and bar.ultimate ~= ""
+
+            -- Abilities table (horizontal format) using CreateStyledTable
+            if #abilities > 0 or hasUltimate then
+                local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+                if not CreateStyledTable then
+                    -- Fallback to manual table if CreateStyledTable not available
+                    local headerRow = "|"
+                    local separatorRow = "|"
+                    for i = 1, #abilities do
+                        headerRow = headerRow .. " " .. i .. " |"
+                        separatorRow = separatorRow .. ":--|"
+                    end
+                    if hasUltimate then
+                        headerRow = headerRow .. " ⚡ |"
+                        separatorRow = separatorRow .. ":--|"
+                    end
+                    output = output .. headerRow .. "\n"
+                    output = output .. separatorRow .. "\n"
+
+                    local abilitiesRow = "|"
+                    for _, ability in ipairs(abilities) do
+                        if ability and type(ability) == "table" then
+                            local abilityText = ""
+                            if CreateAbilityLink then
+                                local success_ab, abText =
+                                    pcall(CreateAbilityLink, ability.name or "Unknown", ability.id, format)
+                                if success_ab and abText then
+                                    abilityText = abText
+                                else
+                                    abilityText = ability.name or "Unknown"
+                                end
+                            else
+                                abilityText = ability.name or "Unknown"
+                            end
+                            abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
                         else
-                            abilityText = ability.name or "Unknown"
+                            abilitiesRow = abilitiesRow .. " - |"
                         end
-                        output = output .. i .. ". " .. abilityText .. "\n"
                     end
-                end
-            end
-        end
-    else
-        output = output .. "## ⚔️ Combat Arsenal\n\n"
-
-        -- Determine weapon types from bar names for better labels
-        local barLabels = {
-            { emoji = "⚔️", suffix = "" },
-            { emoji = "🔮", suffix = "" },
-        }
-
-        -- Try to detect weapon types from bar names
-        for barIdx, bar in ipairs(skillBarData) do
-            local barName = bar.name or ""
-            if barName:find("Backup") or barName:find("Back Bar") then
-                barLabels[barIdx].suffix = " (Backup)"
-            elseif barName:find("Main") or barName:find("Front") then
-                barLabels[barIdx].suffix = " (Main Hand)"
-            end
-        end
-
-        for barIdx, bar in ipairs(skillBarData) do
-            if bar and type(bar) == "table" then
-                local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
-                local barName = bar.name or "Unknown Bar"
-                output = output .. "### " .. label.emoji .. " " .. label.emoji .. " " .. barName .. "\n\n"
-
-                -- Safely get abilities array
-                local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
-                local hasUltimate = bar.ultimate and bar.ultimate ~= ""
-
-                -- Abilities table (horizontal format) using CreateStyledTable
-                if #abilities > 0 or hasUltimate then
-                    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-                    if not CreateStyledTable then
-                        -- Fallback to manual table if CreateStyledTable not available
-                        local headerRow = "|"
-                        local separatorRow = "|"
-                        for i = 1, #abilities do
-                            headerRow = headerRow .. " " .. i .. " |"
-                            separatorRow = separatorRow .. ":--|"
-                        end
-                        if hasUltimate then
-                            headerRow = headerRow .. " ⚡ |"
-                            separatorRow = separatorRow .. ":--|"
-                        end
-                        output = output .. headerRow .. "\n"
-                        output = output .. separatorRow .. "\n"
-
-                        local abilitiesRow = "|"
-                        for _, ability in ipairs(abilities) do
-                            if ability and type(ability) == "table" then
-                                local abilityText = ""
-                                if CreateAbilityLink then
-                                    local success_ab, abText =
-                                        pcall(CreateAbilityLink, ability.name or "Unknown", ability.id, format)
-                                    if success_ab and abText then
-                                        abilityText = abText
-                                    else
-                                        abilityText = ability.name or "Unknown"
-                                    end
-                                else
-                                    abilityText = ability.name or "Unknown"
-                                end
-                                abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
-                            else
-                                abilitiesRow = abilitiesRow .. " - |"
-                            end
-                        end
-                        if hasUltimate then
-                            local ultimateText = ""
-                            if CreateAbilityLink then
-                                local success_ult, ultText =
-                                    pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId, format)
-                                if success_ult and ultText then
-                                    ultimateText = ultText
-                                else
-                                    ultimateText = bar.ultimate or "[Empty]"
-                                end
+                    if hasUltimate then
+                        local ultimateText = ""
+                        if CreateAbilityLink then
+                            local success_ult, ultText =
+                                pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId, format)
+                            if success_ult and ultText then
+                                ultimateText = ultText
                             else
                                 ultimateText = bar.ultimate or "[Empty]"
                             end
-                            abilitiesRow = abilitiesRow .. " " .. ultimateText .. " |"
+                        else
+                            ultimateText = bar.ultimate or "[Empty]"
                         end
-                        output = output .. abilitiesRow .. "\n\n"
-                    else
-                        -- Build headers and row data
-                        local headers = {}
-                        local rowData = {}
+                        abilitiesRow = abilitiesRow .. " " .. ultimateText .. " |"
+                    end
+                    output = output .. abilitiesRow .. "\n\n"
+                else
+                    -- Build headers and row data
+                    local headers = {}
+                    local rowData = {}
 
-                        -- Add ability column headers (1-5)
-                        for i = 1, #abilities do
-                            table.insert(headers, tostring(i))
-                        end
+                    -- Add ability column headers (1-5)
+                    for i = 1, #abilities do
+                        table.insert(headers, tostring(i))
+                    end
 
-                        -- Add ultimate column header
-                        if hasUltimate then
-                            table.insert(headers, "⚡")
-                        end
+                    -- Add ultimate column header
+                    if hasUltimate then
+                        table.insert(headers, "⚡")
+                    end
 
-                        -- Build row data
-                        for _, ability in ipairs(abilities) do
-                            if ability and type(ability) == "table" then
-                                local abilityText = ""
-                                if CreateAbilityLink then
-                                    local success_ab, abText =
-                                        pcall(CreateAbilityLink, ability.name or "Unknown", ability.id, format)
-                                    if success_ab and abText then
-                                        abilityText = abText
-                                    else
-                                        abilityText = ability.name or "Unknown"
-                                    end
+                    -- Build row data
+                    for _, ability in ipairs(abilities) do
+                        if ability and type(ability) == "table" then
+                            local abilityText = ""
+                            if CreateAbilityLink then
+                                local success_ab, abText =
+                                    pcall(CreateAbilityLink, ability.name or "Unknown", ability.id, format)
+                                if success_ab and abText then
+                                    abilityText = abText
                                 else
                                     abilityText = ability.name or "Unknown"
                                 end
-                                table.insert(rowData, abilityText)
                             else
-                                table.insert(rowData, "-")
+                                abilityText = ability.name or "Unknown"
                             end
+                            table.insert(rowData, abilityText)
+                        else
+                            table.insert(rowData, "-")
                         end
+                    end
 
-                        -- Add ultimate to row data
-                        if hasUltimate then
-                            local ultimateText = ""
-                            if CreateAbilityLink then
-                                local success_ult, ultText =
-                                    pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId, format)
-                                if success_ult and ultText then
-                                    ultimateText = ultText
-                                else
-                                    ultimateText = bar.ultimate or "[Empty]"
-                                end
+                    -- Add ultimate to row data
+                    if hasUltimate then
+                        local ultimateText = ""
+                        if CreateAbilityLink then
+                            local success_ult, ultText =
+                                pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId, format)
+                            if success_ult and ultText then
+                                ultimateText = ultText
                             else
                                 ultimateText = bar.ultimate or "[Empty]"
                             end
-                            table.insert(rowData, ultimateText)
+                        else
+                            ultimateText = bar.ultimate or "[Empty]"
                         end
-
-                        -- Generate table with styled headers
-                        local alignment = {}
-                        for i = 1, #headers do
-                            table.insert(alignment, "center")
-                        end
-                        local options = {
-                            alignment = alignment,
-                            format = format,
-                            coloredHeaders = true,
-                            width = "100%",
-                        }
-                        output = output .. CreateStyledTable(headers, { rowData }, options)
+                        table.insert(rowData, ultimateText)
                     end
+
+                    -- Generate table with styled headers
+                    local alignment = {}
+                    for i = 1, #headers do
+                        table.insert(alignment, "center")
+                    end
+                    local options = {
+                        alignment = alignment,
+                        format = format,
+                        coloredHeaders = true,
+                        width = "100%",
+                    }
+                    output = output .. CreateStyledTable(headers, { rowData }, options)
                 end
             end
         end
+    end
 
-        if output == "## ⚔️ Combat Arsenal\n\n" then
-            output = output .. "*No skill bars configured*\n\n"
-        end
+    if output == "## ⚔️ Combat Arsenal\n\n" then
+        output = output .. "*No skill bars configured*\n\n"
     end
 
     return output
@@ -1171,7 +1144,7 @@ GenerateEquipment = function(equipmentData, format, noWrapper)
                             local success_ind, ind =
                                 pcall(markdown.GetProgressIndicator, math.min(set.count or 0, maxPieces), maxPieces)
                             if success_ind and ind then
-                                indicator = ind
+                                indicator = tostring(ind)
                             end
                         end
                         local success_set3, setLink = pcall(CreateSetLink, set.name or "", format)
@@ -1242,7 +1215,7 @@ GenerateEquipment = function(equipmentData, format, noWrapper)
                             local success_ind, ind =
                                 pcall(markdown.GetProgressIndicator, math.min(set.count or 0, maxPieces), maxPieces)
                             if success_ind and ind then
-                                indicator = ind
+                                indicator = tostring(ind)
                             end
                         end
                         local success_set3, setLink = pcall(CreateSetLink, set.name or "", format)

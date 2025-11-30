@@ -347,9 +347,183 @@ local function GenerateBuffs(buffsData, format)
 end
 
 -- =====================================================
+-- ADVANCED STATS
+-- =====================================================
+
+local function GenerateAdvancedStats(statsData, format)
+    InitializeUtilities()
+    
+    if not statsData or not statsData.advanced then
+        return ""
+    end
+    
+    if format == "discord" then
+        -- Discord formatting not implemented for advanced stats
+        return ""
+    end
+
+    local advanced = statsData.advanced
+    local markdown = ""
+
+    -- Helper for formatting numbers
+    local function fmt(val)
+        return FormatNumber(val or 0)
+    end
+
+    -- Helper for formatting percentages
+    local function fmtPct(val)
+        return (val or 0) .. "%"
+    end
+
+    -- Helper for damage/healing bonuses
+    local function fmtBonus(bonus)
+        if not bonus then return "0" end
+        local flat = bonus.flat or 0
+        local percent = bonus.percent or 0
+        
+        if flat == 0 and percent == 0 then return "0" end
+        if flat == 0 then return percent .. "%" end
+        if percent == 0 then return fmt(flat) end
+        return string.format("%s (+%s%%)", fmt(flat), percent)
+    end
+
+    markdown = markdown .. "\n<a id=\"advanced-stats\"></a>\n\n### Advanced Stats\n\n"
+    
+    -- Grid Layout Start
+    markdown = markdown .. "<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;\">\n"
+    
+    -- Column 1: Core Abilities
+    markdown = markdown .. "<div>\n\n"
+    markdown = markdown .. "| **Ability** | **Cost/Value** |\n"
+    markdown = markdown .. "|:---|---:|\n"
+    if advanced.core then
+        local core = advanced.core
+        markdown = markdown .. "| ⚔️ **Light Attack** | " .. fmt(core.lightAttackDamage) .. " dmg |\n"
+        markdown = markdown .. "| ⚔️ **Heavy Attack** | " .. fmt(core.heavyAttackDamage) .. " dmg |\n"
+        
+        local bashStr = ""
+        if core.bashCost > 0 then bashStr = fmt(core.bashCost) .. " cost, " end
+        markdown = markdown .. "| ⚔️ **Bash** | " .. bashStr .. fmt(core.bashDamage) .. " dmg |\n"
+        
+        local blockStr = ""
+        if core.blockCost > 0 then blockStr = fmt(core.blockCost) .. " cost, " end
+        markdown = markdown .. "| 🛡️ **Block** | " .. blockStr .. fmtPct(core.blockMitigation) .. " mit, " .. fmtPct(core.blockSpeed) .. " spd |\n"
+        
+        if core.breakFreeCost > 0 then
+            markdown = markdown .. "| 🔓 **Break Free** | " .. fmt(core.breakFreeCost) .. " cost |\n"
+        end
+        if core.dodgeRollCost > 0 then
+            markdown = markdown .. "| 🏃 **Dodge Roll** | " .. fmt(core.dodgeRollCost) .. " cost |\n"
+        end
+        
+        local sneakStr = ""
+        if core.sneakCost > 0 then sneakStr = fmt(core.sneakCost) .. " cost, " end
+        markdown = markdown .. "| 🐾 **Sneak** | " .. sneakStr .. fmtPct(core.sneakSpeed) .. " spd |\n"
+        
+        local sprintStr = ""
+        if core.sprintCost > 0 then sprintStr = fmt(core.sprintCost) .. " cost, " end
+        markdown = markdown .. "| 🏃‍♂️ **Sprint** | " .. sprintStr .. fmtPct(core.sprintSpeed) .. " spd |\n"
+    end
+    markdown = markdown .. "\n</div>\n"
+
+    -- Column 2: Resistances
+    markdown = markdown .. "<div>\n\n"
+    markdown = markdown .. "| **Resistance** | **Value** |\n"
+    markdown = markdown .. "|:---|---:|\n"
+    if advanced.resistances then
+        local res = advanced.resistances
+        -- Use the calculated percent if available (new structure), otherwise fallback
+        local function getResVal(key)
+            if type(res[key]) == "table" then
+                return fmtPct(res[key].percent)
+            else
+                return fmt(res[key]) -- Fallback for old data structure
+            end
+        end
+        
+        markdown = markdown .. "| 🔥 **Flame** | " .. getResVal("flame") .. " |\n"
+        markdown = markdown .. "| ⚡ **Shock** | " .. getResVal("shock") .. " |\n"
+        markdown = markdown .. "| ❄️ **Frost** | " .. getResVal("frost") .. " |\n"
+        markdown = markdown .. "| 🔮 **Magic** | " .. getResVal("magic") .. " |\n"
+        markdown = markdown .. "| 🦠 **Disease** | " .. getResVal("disease") .. " |\n"
+        markdown = markdown .. "| ☠️ **Poison** | " .. getResVal("poison") .. " |\n"
+        markdown = markdown .. "| 🩸 **Bleed** | " .. getResVal("bleed") .. " |\n"
+    end
+    markdown = markdown .. "\n</div>\n"
+
+    -- Column 3: Damage Bonuses
+    markdown = markdown .. "<div>\n\n"
+    markdown = markdown .. "| **Damage Type** | **Bonus** |\n"
+    markdown = markdown .. "|:---|---:|\n"
+    if advanced.damage then
+        local dmg = advanced.damage
+        markdown = markdown .. "| 💥 **Critical Damage** | " .. fmtPct(dmg.criticalDamage) .. " |\n"
+        markdown = markdown .. "| ⚔️ **Physical** | " .. fmtBonus(dmg.physical) .. " |\n"
+        markdown = markdown .. "| 🔥 **Flame** | " .. fmtBonus(dmg.flame) .. " |\n"
+        markdown = markdown .. "| ⚡ **Shock** | " .. fmtBonus(dmg.shock) .. " |\n"
+        markdown = markdown .. "| ❄️ **Frost** | " .. fmtBonus(dmg.frost) .. " |\n"
+        markdown = markdown .. "| 🔮 **Magic** | " .. fmtBonus(dmg.magic) .. " |\n"
+        markdown = markdown .. "| 🦠 **Disease** | " .. fmtBonus(dmg.disease) .. " |\n"
+        markdown = markdown .. "| ☠️ **Poison** | " .. fmtBonus(dmg.poison) .. " |\n"
+        markdown = markdown .. "| 🩸 **Bleed** | " .. fmtBonus(dmg.bleed) .. " |\n"
+        markdown = markdown .. "| 🌌 **Oblivion** | " .. fmtBonus(dmg.oblivion) .. " |\n"
+    end
+    markdown = markdown .. "\n</div>\n"
+
+    -- Column 4: Healing Bonuses
+    markdown = markdown .. "<div>\n\n"
+    markdown = markdown .. "| **Healing** | **Value** |\n"
+    markdown = markdown .. "|:---|---:|\n"
+    if advanced.healing then
+        local heal = advanced.healing
+        markdown = markdown .. "| 💚 **Healing Done** | " .. fmtBonus(heal.healingDone) .. " |\n"
+        markdown = markdown .. "| 💖 **Healing Taken** | " .. fmtBonus(heal.healingTaken) .. " |\n"
+        markdown = markdown .. "| ✨ **Critical Healing** | " .. fmtPct(heal.criticalHealing) .. " |\n"
+    end
+    markdown = markdown .. "\n</div>\n"
+
+    -- Grid Layout End
+    markdown = markdown .. "</div>\n\n"
+    
+    return markdown
+end
+
+-- =====================================================
 -- EXPORTS
 -- =====================================================
 
 CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateCombatStats = GenerateCombatStats
 CM.generators.sections.GenerateBuffs = GenerateBuffs
+CM.generators.sections.GenerateAdvancedStats = GenerateAdvancedStats
+
+-- =====================================================
+-- CHARACTER STATS WRAPPER
+-- =====================================================
+
+local function GenerateCharacterStats(statsData, format)
+    if not statsData then
+        CM.Warn("GenerateCharacterStats: statsData is nil")
+        return ""
+    end
+    
+    CM.DebugPrint("STATS_GEN", "GenerateCharacterStats called with format: " .. tostring(format))
+    
+    local result = ""
+    
+    -- Generate Combat Stats (inline=true for table-only output)
+    local combatStats = GenerateCombatStats(statsData, format, true)
+    CM.DebugPrint("STATS_GEN", string.format("Combat stats generated: %d chars", #combatStats))
+    result = result .. combatStats
+    
+    -- Generate Advanced Stats
+    local advancedStats = GenerateAdvancedStats(statsData, format)
+    CM.DebugPrint("STATS_GEN", string.format("Advanced stats generated: %d chars, has advanced: %s", 
+        #advancedStats, tostring(statsData.advanced ~= nil)))
+    result = result .. advancedStats
+
+    CM.DebugPrint("STATS_GEN", string.format("Total GenerateCharacterStats output: %d chars", #result))
+    return result
+end
+
+CM.generators.sections.GenerateCharacterStats = GenerateCharacterStats

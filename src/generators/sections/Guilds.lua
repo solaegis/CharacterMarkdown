@@ -23,7 +23,22 @@ local function GenerateGuilds(guildsData, format, undauntedPledgesData)
 
     local markdown = ""
 
-    if not guildsData or #guildsData == 0 then
+    -- Handle both direct list (old format) and structured object (new format)
+    local guildsList = guildsData
+    if guildsData and guildsData.list then
+        guildsList = guildsData.list
+    end
+
+    -- Sort guilds alphabetically by name
+    if guildsList and #guildsList > 1 then
+        table.sort(guildsList, function(a, b)
+            local nameA = (a.name or ""):lower()
+            local nameB = (b.name or ""):lower()
+            return nameA < nameB
+        end)
+    end
+
+    if not guildsList or #guildsList == 0 then
         -- Show placeholder when enabled but no data available
         if format ~= "discord" then
             local anchorId = GenerateAnchor and GenerateAnchor("🏰 Guild Membership") or "guild-membership"
@@ -55,7 +70,7 @@ local function GenerateGuilds(guildsData, format, undauntedPledgesData)
     if format == "discord" then
         markdown = markdown .. "**Guilds:**\n"
 
-        for _, guild in ipairs(guildsData) do
+        for _, guild in ipairs(guildsList) do
             markdown = markdown .. "• " .. guild.name
             if guild.rank and guild.rank ~= "" then
                 markdown = markdown .. " - " .. guild.rank
@@ -72,18 +87,26 @@ local function GenerateGuilds(guildsData, format, undauntedPledgesData)
         markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🏰 Guild Membership\n\n" -- Changed from 🏛️ for better compatibility
 
-        if #guildsData > 0 then
+        if #guildsList > 0 then
             local CreateStyledTable = CM.utils.markdown.CreateStyledTable
             if CreateStyledTable then
                 local headers = { "Guild Name", "Rank", "Members", "Alliance" }
                 local rows = {}
 
                 local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
-                for _, guild in ipairs(guildsData) do
-                    local allianceName = guild.alliance or "Cross-Alliance"
+                for _, guild in ipairs(guildsList) do
+                    local allianceName = "Unknown"
+                    if guild.alliance then
+                        if type(guild.alliance) == "table" then
+                            allianceName = guild.alliance.name or "Unknown"
+                        else
+                            allianceName = guild.alliance
+                        end
+                    end
+
                     -- Only link actual alliances (not "Cross-Alliance")
                     local allianceText = allianceName
-                    if allianceName ~= "Cross-Alliance" and allianceName ~= "" then
+                    if allianceName ~= "Cross-Alliance" and allianceName ~= "Unknown" and allianceName ~= "" then
                         allianceText = (CreateAllianceLink and CreateAllianceLink(allianceName, format)) or allianceName
                     end
 
@@ -107,10 +130,18 @@ local function GenerateGuilds(guildsData, format, undauntedPledgesData)
                 markdown = markdown .. "|:-----------|:-----|:--------|:---------|\n"
 
                 local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
-                for _, guild in ipairs(guildsData) do
-                    local allianceName = guild.alliance or "Cross-Alliance"
+                for _, guild in ipairs(guildsList) do
+                    local allianceName = "Unknown"
+                    if guild.alliance then
+                        if type(guild.alliance) == "table" then
+                            allianceName = guild.alliance.name or "Unknown"
+                        else
+                            allianceName = guild.alliance
+                        end
+                    end
+                    
                     local allianceText = allianceName
-                    if allianceName ~= "Cross-Alliance" and allianceName ~= "" then
+                    if allianceName ~= "Cross-Alliance" and allianceName ~= "Unknown" and allianceName ~= "" then
                         allianceText = (CreateAllianceLink and CreateAllianceLink(allianceName, format)) or allianceName
                     end
 
@@ -132,8 +163,6 @@ local function GenerateGuilds(guildsData, format, undauntedPledgesData)
         then
             markdown = markdown .. GenerateUndauntedActivePledges(undauntedPledgesData, format)
         end
-
-        markdown = markdown .. "---\n\n"
     end
 
     return markdown

@@ -378,12 +378,12 @@ local function GenerateDisciplineTable(discipline, unassignedCP, format)
         return GenerateSingleDiscipline(discipline, unassignedCP, format)
     end
 
-    local headers = { (discipline.emoji or "⚔️") .. " " .. discipline.name, " " }
+    local headers = { (discipline.emoji or "⚔️") .. " " .. discipline.name, "Assigned Points" }
     local rows = {}
 
     if disciplineTotal > 0 then
         -- Safety check: avoid division by zero
-        local disciplinePercent = maxPerDiscipline > 0 and math.floor((disciplineTotal / maxPerDiscipline) * 100) or 0
+        local disciplinePercent = maxPerDiscipline > 0 and math.min(100, math.floor((disciplineTotal / maxPerDiscipline) * 100)) or 0
         local progressBar = CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
 
         -- Progress row: progress bar + percentage | x/y points
@@ -455,7 +455,7 @@ local function GenerateSingleDiscipline(discipline, unassignedCP, format)
 
     if disciplineTotal > 0 then
         -- Safety check: avoid division by zero
-        local disciplinePercent = maxPerDiscipline > 0 and math.floor((disciplineTotal / maxPerDiscipline) * 100) or 0
+        local disciplinePercent = maxPerDiscipline > 0 and math.min(100, math.floor((disciplineTotal / maxPerDiscipline) * 100)) or 0
         local progressBar = CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
 
         markdown = markdown .. "#### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. "\n\n"
@@ -577,15 +577,11 @@ local function GenerateChampionPoints(cpData, format)
         local CreateStyledTable = CM.utils.markdown and CM.utils.markdown.CreateStyledTable
         if CreateStyledTable then
             local headers = { "Total", "Spent", "Available" }
-            local availableText = CM.utils.FormatNumber(availableCP)
-            if availableCP > 0 then
-                availableText = availableText .. " ⚠️"
-            end
             local rows = {
                 {
                     CM.utils.FormatNumber(totalCP),
                     CM.utils.FormatNumber(spentCP),
-                    availableText,
+                    CM.utils.FormatNumber(availableCP),
                 },
             }
             local options = {
@@ -598,25 +594,14 @@ local function GenerateChampionPoints(cpData, format)
             -- Fallback to simple markdown table if CreateStyledTable not available
             markdown = markdown .. "| **Total** | **Spent** | **Available** |\n"
             markdown = markdown .. "|:---------:|:---------:|:-------------:|\n"
-            if availableCP > 0 then
-                markdown = markdown
-                    .. "| "
-                    .. CM.utils.FormatNumber(totalCP)
-                    .. " | "
-                    .. CM.utils.FormatNumber(spentCP)
-                    .. " | "
-                    .. CM.utils.FormatNumber(availableCP)
-                    .. " ⚠️ |\n"
-            else
-                markdown = markdown
-                    .. "| "
-                    .. CM.utils.FormatNumber(totalCP)
-                    .. " | "
-                    .. CM.utils.FormatNumber(spentCP)
-                    .. " | "
-                    .. CM.utils.FormatNumber(availableCP)
-                    .. " |\n"
-            end
+            markdown = markdown
+                .. "| "
+                .. CM.utils.FormatNumber(totalCP)
+                .. " | "
+                .. CM.utils.FormatNumber(spentCP)
+                .. " | "
+                .. CM.utils.FormatNumber(availableCP)
+                .. " |\n"
             markdown = markdown .. "\n"
         end
 
@@ -663,7 +648,7 @@ local function GenerateChampionPoints(cpData, format)
 
                     if disciplineTotal > 0 then
                         local disciplinePercent = maxPerDiscipline > 0
-                                and math.floor((disciplineTotal / maxPerDiscipline) * 100)
+                                and math.min(100, math.floor((disciplineTotal / maxPerDiscipline) * 100))
                             or 0
                         local progressBar =
                             CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)

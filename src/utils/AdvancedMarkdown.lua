@@ -271,8 +271,7 @@ local function CreateTwoColumnLayout(column1, column2, gap)
 
 %s
 
-</div>
-<div>
+</div><div>
 
 %s
 
@@ -321,13 +320,11 @@ local function CreateThreeColumnLayout(column1, column2, column3, gap)
 
 %s
 
-</div>
-<div>
+</div><div>
 
 %s
 
-</div>
-<div>
+</div><div>
 
 %s
 
@@ -397,7 +394,7 @@ local function CreateResponsiveColumns(columns, minColumnWidth, gap)
         
         table.insert(parts, "<div>\n\n")
         table.insert(parts, safeContent)
-        table.insert(parts, "\n\n</div>\n")
+        table.insert(parts, "\n\n</div>")
     end
 
     table.insert(parts, "\n</div>\n\n")
@@ -975,7 +972,7 @@ local function CreateAttentionNeeded(warnings, format, headerTitle)
         if format == "vscode" then
             displayTitle = "⚠️ " .. headerTitle
         end
-        local headers = { displayTitle, "" } -- Empty second header
+        local headers = { displayTitle, "Fix" } -- Second header shows action needed
         local options = {
             alignment = { "left", "left" },
             format = format,

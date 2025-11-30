@@ -572,7 +572,7 @@ function CharacterMarkdown_OpenSettings()
 
     -- Use the /markdownsettings command that LAM registered for our panel
     -- This is the most reliable way to open our specific panel
-    local lamHandler = SLASH_COMMANDS["/markdownsettings"]
+    local lamHandler = SLASH_COMMANDS["/markdown_settings"]
     if lamHandler and type(lamHandler) == "function" then
         -- Call the LAM-registered handler directly
         lamHandler("")
@@ -603,8 +603,8 @@ end
 -- =====================================================
 
 function CharacterMarkdown_RegenerateMarkdown()
-    if not CM or not CM.generators or not CM.generators.GenerateMarkdown then
-        CM.Error("Generator not available")
+    if not CM or not CM.formatters or not CM.formatters.GenerateMarkdown then
+        CM.Error("Formatter not available")
         return
     end
 
@@ -616,8 +616,8 @@ function CharacterMarkdown_RegenerateMarkdown()
     -- Reset selection state when regenerating
     ResetSelectionState()
 
-    -- Get current format (default to github if not stored)
-    local format = CM.currentFormat or "github"
+    -- Get current formatter (default to markdown if not stored)
+    local formatter = CM.currentFormatter or "markdown"
 
     -- Clear the window and reset UI elements
     if editBoxControl then
@@ -649,7 +649,7 @@ function CharacterMarkdown_RegenerateMarkdown()
     end
 
     -- Regenerate markdown
-    local success, markdown = pcall(CM.generators.GenerateMarkdown, format)
+    local success, markdown = pcall(CM.formatters.GenerateMarkdown)
 
     if not success then
         CM.Error("Failed to regenerate markdown: " .. tostring(markdown))
@@ -953,14 +953,14 @@ end
 -- SHOW WINDOW FUNCTION
 -- =====================================================
 
-function CharacterMarkdown_ShowWindow(markdown, format)
+function CharacterMarkdown_ShowWindow(markdown, formatter)
     -- Validate inputs
     if not markdown then
         CM.Error("No markdown content provided to window")
         return false
     end
 
-    format = format or "github"
+    formatter = formatter or "markdown"
 
     -- CRITICAL: Clear previous state before showing new markdown
     ClearChunks()
@@ -968,8 +968,8 @@ function CharacterMarkdown_ShowWindow(markdown, format)
     -- Reset selection state when showing window with new content
     ResetSelectionState()
 
-    -- Store current format for regeneration
-    CM.currentFormat = format
+    -- Store current formatter for regeneration
+    CM.currentFormatter = formatter
 
     -- Initialize controls if needed
     if not InitializeWindowControls() then

@@ -224,6 +224,13 @@ local function GenerateActiveQuests(questData, format)
     local parts = {}
     local active = questData.active
 
+    -- Sort active quests alphabetically by name
+    if active and #active > 0 then
+        table.sort(active, function(a, b)
+            return (a.name or "") < (b.name or "")
+        end)
+    end
+
     if format == "discord" then
         table_insert(parts, "**Active Quests:**\n")
     else
@@ -265,22 +272,51 @@ local function GenerateActiveQuests(questData, format)
             local progressText = GetProgressText(quest)
             local typeEmoji = GetQuestTypeEmoji(quest.type)
 
+            -- Safely convert all quest fields to strings (handle boolean/nil)
+            local questName = ""
+            if quest.name then
+                if type(quest.name) == "string" then
+                    questName = quest.name
+                else
+                    questName = tostring(quest.name)
+                end
+            end
+            
+            local questLevel = tostring(quest.level or "")
+            local questType = ""
+            if quest.type then
+                if type(quest.type) == "string" then
+                    questType = quest.type
+                else
+                    questType = tostring(quest.type)
+                end
+            end
+            
+            local questZone = ""
+            if quest.zone then
+                if type(quest.zone) == "string" then
+                    questZone = quest.zone
+                else
+                    questZone = tostring(quest.zone)
+                end
+            end
+
             table_insert(
                 parts,
                 "| "
                     .. statusIcon
                     .. " **"
-                    .. quest.name
+                    .. questName
                     .. "** | "
-                    .. quest.level
+                    .. questLevel
                     .. " | "
                     .. typeEmoji
                     .. " "
-                    .. quest.type
+                    .. questType
                     .. " | "
                     .. progressText
                     .. " | "
-                    .. quest.zone
+                    .. questZone
                     .. " |\n"
             )
         end
@@ -385,18 +421,24 @@ local function GenerateQuests(questData, format)
         end
     end
 
+    -- Get values safely for debug output
+    local activeQuestsDebug = (questData.summary and questData.summary.activeQuests) or (questData.summary and questData.summary.activeCount) or "nil"
+    local totalQuestsDebug = (questData.summary and questData.summary.totalQuests) or "nil"
     CM.DebugPrint(
         "QUESTS",
         string.format(
-            "Summary - activeQuests: %s, totalQuests: %s",
-            tostring(questData.summary.activeQuests),
-            tostring(questData.summary.totalQuests)
+            "Summary - activeQuests/activeCount: %s, totalQuests: %s",
+            tostring(activeQuestsDebug),
+            tostring(totalQuestsDebug)
         )
     )
     CM.DebugPrint("QUESTS", string.format("Active quests count: %d", #(questData.active or {})))
 
     -- Check if there are any quests at all
-    local hasQuests = questData.summary.activeQuests > 0 or questData.summary.totalQuests > 0
+    -- Handle nil values safely
+    local activeQuests = (questData.summary and questData.summary.activeQuests) or (questData.summary and questData.summary.activeCount) or 0
+    local totalQuests = (questData.summary and questData.summary.totalQuests) or 0
+    local hasQuests = activeQuests > 0 or totalQuests > 0
 
     if not hasQuests then
         CM.DebugPrint("QUESTS", "No quests found, generating empty section message")

@@ -104,30 +104,14 @@ local function GenerateAchievementSummary(achievementData, format)
     InitializeUtilities()
 
     local markdown = ""
-
-    if format == "discord" then
-        markdown = markdown .. "**Achievement Progress:**\n"
-    else
-        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("🏆 Achievement Progress")
-            or "achievement-progress"
-        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## 🏆 Achievement Progress\n\n"
-    end
+    local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("🏆 Achievement Progress")
+        or "achievement-progress"
+    markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
+    markdown = markdown .. "## 🏆 Achievement Progress\n\n"
 
     local summary = achievementData.summary
 
-    if format == "discord" then
-        markdown = markdown .. "Total: " .. CM.utils.FormatNumber(summary.totalAchievements) .. " | "
-        markdown = markdown .. "Completed: " .. CM.utils.FormatNumber(summary.completedAchievements) .. " | "
-        markdown = markdown .. "Progress: " .. summary.completionPercent .. "%\n"
-        markdown = markdown
-            .. "Points: "
-            .. CM.utils.FormatNumber(summary.earnedPoints)
-            .. "/"
-            .. CM.utils.FormatNumber(summary.totalPoints)
-            .. "\n"
-    else
-        -- Pivot table: metrics as columns, values as rows
+    -- Pivot table: metrics as columns, values as rows
         local headers = { "Metric", "Value" }
         local rows = {
             { "Total Achievements", CM.utils.FormatNumber(summary.totalAchievements) },
@@ -160,7 +144,6 @@ local function GenerateAchievementSummary(achievementData, format)
             coloredHeaders = true,
         }
         markdown = markdown .. CreateStyledTable(transposedHeaders, transposedRows, options)
-    end
 
     return markdown
 end
@@ -193,83 +176,126 @@ local function GenerateAchievementCategories(achievementData, format)
         return markdown
     end
 
-    if format == "discord" then
-        markdown = markdown .. "**Achievement Categories:**\n"
-    else
-        markdown = markdown .. "### 📊 Achievement Categories\n\n"
+    markdown = markdown .. "### 📊 Achievement Categories\n\n"
+
+    -- Collect and sort categories alphabetically
+    local sortedCategories = {}
+    for _, categoryData in ipairs(categories) do
+        if categoryData.total > 0 then
+            table.insert(sortedCategories, categoryData)
+        end
     end
+    table.sort(sortedCategories, function(a, b)
+        return string.lower(a.name or "") < string.lower(b.name or "")
+    end)
 
-    if format == "discord" then
-        for categoryName, categoryData in pairs(categories) do
-            if categoryData.total > 0 then
-                local emoji = GetCategoryEmoji(categoryName)
-                local percent = categoryData.total > 0
-                        and math.floor((categoryData.completed / categoryData.total) * 100)
-                    or 0
-                markdown = markdown
-                    .. emoji
-                    .. " **"
-                    .. categoryName
-                    .. "**: "
-                    .. categoryData.completed
-                    .. "/"
-                    .. categoryData.total
-                    .. " ("
-                    .. percent
-                    .. "%)\n"
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
+
+    for _, categoryData in ipairs(sortedCategories) do
+        local categoryName = categoryData.name or "Unknown"
+        local emoji = GetCategoryEmoji(categoryName)
+        
+        -- Category Header (Collapsible)
+        markdown = markdown .. "<details>\n"
+        markdown = markdown .. "<summary><strong>" .. emoji .. " " .. categoryName .. " (" .. categoryData.earned .. "/" .. categoryData.total .. " pts)</strong></summary>\n\n"
+        
+        local subcategoryTables = {}
+        
+        -- Check for subcategories
+        if categoryData.subcategories and #categoryData.subcategories > 0 then
+            -- Sort subcategories alphabetically
+            table.sort(categoryData.subcategories, function(a, b)
+                return string.lower(a.name or "") < string.lower(b.name or "")
+            end)
+            
+            for _, sub in ipairs(categoryData.subcategories) do
+                local subName = sub.name or "Unknown"
+                local subPercent = sub.percent or 0
+                local subBar = CM.utils.GenerateProgressBar(subPercent, 10)
+                
+                local headers = { subName, "Value" }
+                local rows = {
+                    { "Points", (sub.earned or 0) .. "/" .. (sub.total or 0) },
+                    { "Progress", subBar .. " " .. subPercent .. "%" }
+                }
+                
+                local tableContent = ""
+                if CreateStyledTable then
+                    local options = {
+                        alignment = { "left", "right" },
+                        format = format,
+                        coloredHeaders = true,
+                    }
+                    tableContent = CreateStyledTable(headers, rows, options)
+                else
+                    -- Fallback
+                    tableContent = "| " .. subName .. " | Value |\n|:---|---:|\n"
+                    for _, row in ipairs(rows) do
+                        tableContent = tableContent .. "| " .. row[1] .. " | " .. row[2] .. " |\n"
+                    end
+                    tableContent = tableContent .. "\n"
+                end
+                
+                table.insert(subcategoryTables, tableContent)
             end
-        end
-    else
-        -- Use pivot table format: single table with all categories as rows
-        local headers = { "Category", "Completed", "Total", "Progress", "Points" }
-        local rows = {}
-        local categoryOrder = {}
-
-        -- Collect and sort categories alphabetically
-        for categoryName, categoryData in pairs(categories) do
-            if categoryData.total > 0 then
-                table.insert(categoryOrder, categoryName)
-            end
-        end
-        table.sort(categoryOrder, function(a, b)
-            return string.lower(a or "") < string.lower(b or "")
-        end)
-
-        for _, categoryName in ipairs(categoryOrder) do
-            local categoryData = categories[categoryName]
-            local emoji = GetCategoryEmoji(categoryName)
-            local percent = categoryData.total > 0
-                    and math.floor((categoryData.completed / categoryData.total) * 100)
-                or 0
-            local progressBar = CM.utils.GenerateProgressBar(percent, 8)
-
-            table.insert(rows, {
-                emoji .. " **" .. categoryName .. "**",
-                tostring(categoryData.completed),
-                tostring(categoryData.total),
-                progressBar .. " " .. percent .. "%",
-                CM.utils.FormatNumber(categoryData.points),
-            })
-        end
-
-        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-        if CreateStyledTable then
-            local options = {
-                alignment = { "left", "right", "right", "left", "right" },
-                format = format,
-                coloredHeaders = true,
-            }
-            markdown = markdown .. CreateStyledTable(headers, rows, options)
         else
-            -- Fallback to simple markdown table if CreateStyledTable not available
-            local lines = {}
-            table.insert(lines, "| " .. table.concat(headers, " | ") .. " |")
-            table.insert(lines, "| " .. string.rep("---|", #headers))
-            for _, row in ipairs(rows) do
-                table.insert(lines, "| " .. table.concat(row, " | ") .. " |")
+            -- Fallback: Create a single table for the category itself if no subcategories
+            local percent = categoryData.total > 0
+                    and math.floor((categoryData.earned / categoryData.total) * 100)
+                or 0
+            local progressBar = CM.utils.GenerateProgressBar(percent, 10)
+            
+            local headers = { "Metric", "Value" }
+            local rows = {
+                { "Completed", tostring(categoryData.earned) },
+                { "Total", tostring(categoryData.total) },
+                { "Points", tostring(categoryData.points or 0) },
+                { "Progress", progressBar .. " " .. percent .. "%" }
+            }
+            
+            local tableContent = ""
+            if CreateStyledTable then
+                local options = {
+                    alignment = { "left", "right" },
+                    format = format,
+                    coloredHeaders = true,
+                }
+                tableContent = CreateStyledTable(headers, rows, options)
+            else
+                tableContent = "| Metric | Value |\n|:---|---:|\n"
+                for _, row in ipairs(rows) do
+                    tableContent = tableContent .. "| " .. row[1] .. " | " .. row[2] .. " |\n"
+                end
+                tableContent = tableContent .. "\n"
             end
-            markdown = markdown .. table.concat(lines, "\n") .. "\n\n"
+            table.insert(subcategoryTables, tableContent)
         end
+        
+        -- Layout subcategory tables
+        if CreateResponsiveColumns and #subcategoryTables > 0 then
+            -- Calculate optimal layout
+            local LayoutCalculator = CM.utils.LayoutCalculator
+            local minWidth, gap
+            if LayoutCalculator then
+                minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(
+                    subcategoryTables,
+                    "250px",
+                    "20px"
+                )
+            else
+                minWidth = "250px"
+                gap = "20px"
+            end
+            markdown = markdown .. CreateResponsiveColumns(subcategoryTables, minWidth, gap)
+        else
+            -- Fallback to sequential display
+            for _, tableContent in ipairs(subcategoryTables) do
+                markdown = markdown .. tableContent
+            end
+        end
+        
+        markdown = markdown .. "\n</details>\n\n"
     end
 
     return markdown
@@ -283,12 +309,7 @@ local function GenerateInProgressAchievements(achievementData, format)
     InitializeUtilities()
 
     local markdown = ""
-
-    if format == "discord" then
-        markdown = markdown .. "**In-Progress Achievements:**\n"
-    else
-        markdown = markdown .. "### 🔄 In-Progress Achievements\n\n"
-    end
+    markdown = markdown .. "### 🔄 In-Progress Achievements\n\n"
 
     local inProgress = achievementData.inProgress
 
@@ -297,209 +318,235 @@ local function GenerateInProgressAchievements(achievementData, format)
         return markdown
     end
 
-    if format == "discord" then
-        for _, achievement in ipairs(inProgress) do
-            local statusIcon = GetAchievementStatusIcon(achievement)
-            local progressText = GetProgressText(achievement)
-            markdown = markdown
-                .. statusIcon
-                .. " **"
-                .. achievement.name
-                .. "**: "
-                .. progressText
-                .. " ("
-                .. achievement.points
-                .. " pts)\n"
+    -- Group achievements by category, then by subcategory
+    local categories = {}
+    for _, achievement in ipairs(inProgress) do
+        local category = achievement.category or "Miscellaneous"
+        if not categories[category] then
+            categories[category] = {}
         end
-    else
-        -- Group achievements by category, then by subcategory
-        local categories = {}
-        for _, achievement in ipairs(inProgress) do
-            local category = achievement.category or "Miscellaneous"
-            if not categories[category] then
-                categories[category] = {}
-            end
+        
+        -- Group by subcategory within category
+        local subcategory = achievement.subcategory or "General"
+        if not categories[category][subcategory] then
+            categories[category][subcategory] = {}
+        end
+        table.insert(categories[category][subcategory], achievement)
+    end
+
+    -- Sort achievements by name within each subcategory
+    for category, subcategories in pairs(categories) do
+        for subcategory, achievements in pairs(subcategories) do
+            table.sort(achievements, function(a, b)
+                return (a.name or "") < (b.name or "")
+            end)
+        end
+    end
+
+    -- Create styled tables for each category/subcategory
+    -- Don't sort categories alphabetically - preserve order for better layout density
+    local categoryOrder = {}
+    for category, _ in pairs(categories) do
+        table.insert(categoryOrder, category)
+    end
+
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    if CreateStyledTable then
+        -- Create one table per subcategory, grouped by category
+        local allTables = {}
+        
+        -- Process categories in order (no alphabetical sorting for better density)
+        for _, category in ipairs(categoryOrder) do
+            local subcategories = categories[category]
+            local categoryEmoji = GetCategoryEmoji(category)
             
-            -- Group by subcategory within category
-            local subcategory = achievement.subcategory or "General"
-            if not categories[category][subcategory] then
-                categories[category][subcategory] = {}
+            -- Get subcategories and sort them alphabetically
+            local subcategoryOrder = {}
+            for subcategory, _ in pairs(subcategories) do
+                table.insert(subcategoryOrder, subcategory or "General")
             end
-            table.insert(categories[category][subcategory], achievement)
-        end
-
-        -- Sort achievements by name within each subcategory
-        for category, subcategories in pairs(categories) do
-            for subcategory, achievements in pairs(subcategories) do
-                table.sort(achievements, function(a, b)
-                    return (a.name or "") < (b.name or "")
-                end)
-            end
-        end
-
-        -- Create styled tables for each category/subcategory
-        -- Don't sort categories alphabetically - preserve order for better layout density
-        local categoryOrder = {}
-        for category, _ in pairs(categories) do
-            table.insert(categoryOrder, category)
-        end
-
-        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-        if CreateStyledTable then
-            -- Create one table per subcategory, grouped by category
-            local allTables = {}
+            table.sort(subcategoryOrder, function(a, b)
+                return string.lower(a or "") < string.lower(b or "")
+            end)
             
-            -- Process categories in order (no alphabetical sorting for better density)
-            for _, category in ipairs(categoryOrder) do
-                local subcategories = categories[category]
-                local categoryEmoji = GetCategoryEmoji(category)
-                
-                -- Get subcategories and sort them alphabetically
-                local subcategoryOrder = {}
-                for subcategory, _ in pairs(subcategories) do
-                    table.insert(subcategoryOrder, subcategory or "General")
-                end
-                table.sort(subcategoryOrder, function(a, b)
-                    return string.lower(a or "") < string.lower(b or "")
-                end)
-                
-                -- Create one table per subcategory
-                for _, subcategory in ipairs(subcategoryOrder) do
-                    local achievements = subcategories[subcategory]
-                    if achievements and #achievements > 0 then
-                        -- Sort achievements by name within subcategory
-                        table.sort(achievements, function(a, b)
-                            return (a.name or "") < (b.name or "")
-                        end)
+            -- Create one table per subcategory
+            for _, subcategory in ipairs(subcategoryOrder) do
+                local achievements = subcategories[subcategory]
+                if achievements and #achievements > 0 then
+                    -- Sort achievements by name within subcategory
+                    table.sort(achievements, function(a, b)
+                        return (a.name or "") < (b.name or "")
+                    end)
+                    
+                    local headers = { "Achievement", "Progress", "Points" }
+                    local rows = {}
+                    
+                    for _, achievement in ipairs(achievements) do
+                        local statusIcon = GetAchievementStatusIcon(achievement)
+                        local progressText = GetProgressText(achievement)
                         
-                        local headers = { "Achievement", "Progress", "Points" }
-                        local rows = {}
-                        
-                        for _, achievement in ipairs(achievements) do
-                            local statusIcon = GetAchievementStatusIcon(achievement)
-                            local progressText = GetProgressText(achievement)
-                            
-                            table.insert(rows, {
-                                statusIcon .. " **" .. achievement.name .. "**",
-                                progressText,
-                                tostring(achievement.points),
-                            })
-                        end
-                        
-                        local options = {
-                            alignment = { "left", "left", "right" },
-                            format = format,
-                            coloredHeaders = true,
-                        }
-                        
-                        -- Ensure category and subcategory are valid strings
-                        local safeCategory = category or "Miscellaneous"
-                        local safeSubcategory = subcategory or "General"
-                        local safeCategoryEmoji = categoryEmoji or "🔧"
-                        
-                        -- Create table with category as header and subcategory in title
-                        local tableMarkdown = "#### " .. safeCategoryEmoji .. " " .. safeCategory .. "\n\n"
-                        tableMarkdown = tableMarkdown .. "##### " .. safeSubcategory .. "\n\n"
-                        local styledTable = CreateStyledTable(headers, rows, options)
-                        if styledTable and styledTable ~= "" then
-                            tableMarkdown = tableMarkdown .. styledTable
-                            table.insert(allTables, tableMarkdown)
+                        -- Safely convert achievement.name to string (handle boolean/nil)
+                        local achievementName = ""
+                        if achievement.name then
+                            if type(achievement.name) == "string" then
+                                achievementName = achievement.name
+                            else
+                                CM.DebugPrint("ACHIEVEMENTS", string.format(
+                                    "Invalid achievement name in in-progress: name=%s (type=%s), id=%s",
+                                    tostring(achievement.name),
+                                    type(achievement.name),
+                                    tostring(achievement.id)
+                                ))
+                                achievementName = tostring(achievement.name)
+                            end
                         else
-                            -- Fallback: log error and skip this table
-                            CM.DebugPrint("ERROR", string.format(
-                                "Failed to create styled table for %s > %s",
-                                safeCategory,
-                                safeSubcategory
+                            CM.DebugPrint("ACHIEVEMENTS", string.format(
+                                "Missing achievement name in in-progress: id=%s",
+                                tostring(achievement.id)
                             ))
                         end
+                        
+                        table.insert(rows, {
+                            statusIcon .. " **" .. achievementName .. "**",
+                            progressText,
+                            tostring(achievement.points or 0),
+                        })
+                    end
+                    
+                    local options = {
+                        alignment = { "left", "left", "right" },
+                        format = format,
+                        coloredHeaders = true,
+                    }
+                    
+                    -- Ensure category and subcategory are valid strings
+                    local safeCategory = category or "Miscellaneous"
+                    local safeSubcategory = subcategory or "General"
+                    local safeCategoryEmoji = categoryEmoji or "🔧"
+                    
+                    -- Create table with category as header and subcategory in title
+                    local tableMarkdown = "#### " .. safeCategoryEmoji .. " " .. safeCategory .. "\n\n"
+                    tableMarkdown = tableMarkdown .. "##### " .. safeSubcategory .. "\n\n"
+                    local styledTable = CreateStyledTable(headers, rows, options)
+                    if styledTable and styledTable ~= "" then
+                        tableMarkdown = tableMarkdown .. styledTable
+                        table.insert(allTables, tableMarkdown)
+                    else
+                        -- Fallback: log error and skip this table
+                        CM.DebugPrint("ERROR", string.format(
+                            "Failed to create styled table for %s > %s",
+                            safeCategory,
+                            safeSubcategory
+                        ))
                     end
                 end
             end
+        end
 
-            -- Use multi-column layout for better density (no need to sort categories)
-            local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
-            if CreateResponsiveColumns and #allTables > 1 then
-                -- Filter out any nil or empty entries
-                local validTables = {}
-                for _, tableContent in ipairs(allTables) do
-                    if tableContent and tableContent ~= "" then
-                        table.insert(validTables, tableContent)
-                    end
+        -- Use multi-column layout for better density (no need to sort categories)
+        local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
+        if CreateResponsiveColumns and #allTables > 1 then
+            -- Filter out any nil or empty entries
+            local validTables = {}
+            for _, tableContent in ipairs(allTables) do
+                if tableContent and tableContent ~= "" then
+                    table.insert(validTables, tableContent)
                 end
-                
-                if #validTables > 1 then
-                    -- Calculate optimal layout based on table content
-                    local LayoutCalculator = CM.utils.LayoutCalculator
-                    local minWidth, gap
-                    if LayoutCalculator then
-                        minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(
-                            validTables,
-                            #validTables > 6 and "300px" or "250px",
-                            "20px"
-                        )
-                    else
-                        minWidth = #validTables > 6 and "300px" or "250px"
-                        gap = "20px"
-                    end
-                    markdown = markdown .. CreateResponsiveColumns(validTables, minWidth, gap)
-                elseif #validTables == 1 then
-                    -- Single table: append directly
-                    markdown = markdown .. validTables[1]
+            end
+            
+            if #validTables > 1 then
+                -- Calculate optimal layout based on table content
+                local LayoutCalculator = CM.utils.LayoutCalculator
+                local minWidth, gap
+                if LayoutCalculator then
+                    minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(
+                        validTables,
+                        #validTables > 6 and "300px" or "250px",
+                        "20px"
+                    )
+                else
+                    minWidth = #validTables > 6 and "300px" or "250px"
+                    gap = "20px"
                 end
-            else
-                -- Single column or fallback
-                for _, tableContent in ipairs(allTables) do
-                    markdown = markdown .. tableContent
-                end
+                markdown = markdown .. CreateResponsiveColumns(validTables, minWidth, gap)
+            elseif #validTables == 1 then
+                -- Single table: append directly
+                markdown = markdown .. validTables[1]
             end
         else
-            -- Fallback to simple markdown table if CreateStyledTable not available
-            -- Create one table per subcategory, grouped by category
-            for _, category in ipairs(categoryOrder) do
-                local subcategories = categories[category]
-                local categoryEmoji = GetCategoryEmoji(category)
-                
-                -- Get subcategories and sort them alphabetically
-                local subcategoryOrder = {}
-                for subcategory, _ in pairs(subcategories) do
-                    table.insert(subcategoryOrder, subcategory or "General")
-                end
-                table.sort(subcategoryOrder, function(a, b)
-                    return string.lower(a or "") < string.lower(b or "")
-                end)
-                
-                -- Create one table per subcategory
-                for _, subcategory in ipairs(subcategoryOrder) do
-                    local achievements = subcategories[subcategory]
-                    if achievements and #achievements > 0 then
-                        -- Sort achievements by name within subcategory
-                        table.sort(achievements, function(a, b)
-                            return (a.name or "") < (b.name or "")
-                        end)
+            -- Single column or fallback
+            for _, tableContent in ipairs(allTables) do
+                markdown = markdown .. tableContent
+            end
+        end
+    else
+        -- Fallback to simple markdown table if CreateStyledTable not available
+        -- Create one table per subcategory, grouped by category
+        for _, category in ipairs(categoryOrder) do
+            local subcategories = categories[category]
+            local categoryEmoji = GetCategoryEmoji(category)
+            
+            -- Get subcategories and sort them alphabetically
+            local subcategoryOrder = {}
+            for subcategory, _ in pairs(subcategories) do
+                table.insert(subcategoryOrder, subcategory or "General")
+            end
+            table.sort(subcategoryOrder, function(a, b)
+                return string.lower(a or "") < string.lower(b or "")
+            end)
+            
+            -- Create one table per subcategory
+            for _, subcategory in ipairs(subcategoryOrder) do
+                local achievements = subcategories[subcategory]
+                if achievements and #achievements > 0 then
+                    -- Sort achievements by name within subcategory
+                    table.sort(achievements, function(a, b)
+                        return (a.name or "") < (b.name or "")
+                    end)
+                    
+                    markdown = markdown .. "#### " .. categoryEmoji .. " " .. category .. "\n\n"
+                    markdown = markdown .. "##### " .. subcategory .. "\n\n"
+                    markdown = markdown .. "| Achievement | Progress | Points |\n"
+                    markdown = markdown .. "|:-----------|:---------|------:|\n"
+                    
+                    for _, achievement in ipairs(achievements) do
+                        local statusIcon = GetAchievementStatusIcon(achievement)
+                        local progressText = GetProgressText(achievement)
                         
-                        markdown = markdown .. "#### " .. categoryEmoji .. " " .. category .. "\n\n"
-                        markdown = markdown .. "##### " .. subcategory .. "\n\n"
-                        markdown = markdown .. "| Achievement | Progress | Points |\n"
-                        markdown = markdown .. "|:-----------|:---------|------:|\n"
-                        
-                        for _, achievement in ipairs(achievements) do
-                            local statusIcon = GetAchievementStatusIcon(achievement)
-                            local progressText = GetProgressText(achievement)
-                            
-                            local row = "| "
-                                .. statusIcon
-                                .. " **"
-                                .. achievement.name
-                                .. "** | "
-                                .. progressText
-                                .. " | "
-                                .. achievement.points
-                                .. " |"
-                            row = row:gsub("%s+$", "") .. "\n"
-                            markdown = markdown .. row
+                        -- Safely convert achievement.name to string (handle boolean/nil)
+                        local achievementName = ""
+                        if achievement.name then
+                            if type(achievement.name) == "string" then
+                                achievementName = achievement.name
+                            else
+                                CM.DebugPrint("ACHIEVEMENTS", string.format(
+                                    "Invalid achievement name in in-progress fallback: name=%s (type=%s), id=%s",
+                                    tostring(achievement.name),
+                                    type(achievement.name),
+                                    tostring(achievement.id)
+                                ))
+                                achievementName = tostring(achievement.name)
+                            end
+                        else
+                            CM.DebugPrint("ACHIEVEMENTS", string.format(
+                                "Missing achievement name in in-progress fallback: id=%s",
+                                tostring(achievement.id)
+                            ))
                         end
-                        markdown = markdown .. "\n"
+                        
+                        local row = "| "
+                            .. statusIcon
+                            .. " **"
+                            .. achievementName
+                            .. "** | "
+                            .. progressText
+                            .. " | "
+                            .. tostring(achievement.points or 0)
+                            .. " |"
+                        row = row:gsub("%s+$", "") .. "\n"
+                        markdown = markdown .. row
                     end
+                    markdown = markdown .. "\n"
                 end
             end
         end
@@ -517,11 +564,7 @@ local function GenerateRecentAchievements(achievementData, format)
 
     local markdown = ""
 
-    if format == "discord" then
-        markdown = markdown .. "**Recent Achievements:**\n"
-    else
-        markdown = markdown .. "### 🎉 Recent Achievements\n\n"
-    end
+    markdown = markdown .. "### 🎉 Recent Achievements\n\n"
 
     local recent = achievementData.recent
 
@@ -530,62 +573,93 @@ local function GenerateRecentAchievements(achievementData, format)
         return markdown
     end
 
-    if format == "discord" then
-        for _, achievement in ipairs(recent) do
-            local categoryEmoji = GetCategoryEmoji(achievement.category)
-            markdown = markdown
-                .. "✅ **"
-                .. achievement.name
-                .. "** ("
-                .. achievement.points
-                .. " pts) - "
-                .. categoryEmoji
-                .. " "
-                .. achievement.category
-                .. "\n"
-        end
-    else
-        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-        if CreateStyledTable then
-            local headers = { "Achievement", "Points", "Category" }
-            local rows = {}
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    if CreateStyledTable then
+        local headers = { "Achievement", "Points", "Category" }
+        local rows = {}
 
-            for _, achievement in ipairs(recent) do
-                local categoryEmoji = GetCategoryEmoji(achievement.category)
+        for _, achievement in ipairs(recent) do
+            -- Skip invalid achievement entries (debug log them but don't display)
+            if not achievement.name or type(achievement.name) ~= "string" or achievement.name == "" then
+                CM.DebugPrint("ACHIEVEMENTS", string.format(
+                    "Skipping invalid achievement entry: name=%s (type=%s), id=%s, points=%s",
+                    tostring(achievement.name),
+                    type(achievement.name),
+                    tostring(achievement.id),
+                    tostring(achievement.points)
+                ))
+                -- Skip this achievement - don't add to rows
+            else
+                local achievementName = achievement.name
+                
+                -- Safely get category (handle nil/boolean)
+                local category = ""
+                if achievement.category then
+                    if type(achievement.category) == "string" then
+                        category = achievement.category
+                    else
+                        category = tostring(achievement.category)
+                    end
+                end
+                
+                local categoryEmoji = GetCategoryEmoji(category)
                 table.insert(rows, {
-                    "✅ **" .. achievement.name .. "**",
-                    tostring(achievement.points),
-                    categoryEmoji .. " " .. achievement.category,
+                    "✅ **" .. achievementName .. "**",
+                    tostring(achievement.points or 0),
+                    categoryEmoji .. " " .. category,
                 })
             end
+        end
 
-            local options = {
-                alignment = { "left", "right", "left" },
-                format = format,
-                coloredHeaders = true,
-            }
-            markdown = markdown .. CreateStyledTable(headers, rows, options)
-        else
-            -- Fallback to markdown table
-            markdown = markdown .. "| Achievement | Points | Category |\n"
-            markdown = markdown .. "|:------------|-------:|:--------|\n"
+        local options = {
+            alignment = { "left", "right", "left" },
+            format = format,
+            coloredHeaders = true,
+        }
+        markdown = markdown .. CreateStyledTable(headers, rows, options)
+    else
+        -- Fallback to markdown table
+        markdown = markdown .. "| Achievement | Points | Category |\n"
+        markdown = markdown .. "|:------------|-------:|:--------|\n"
 
-            for _, achievement in ipairs(recent) do
-                local categoryEmoji = GetCategoryEmoji(achievement.category)
+        for _, achievement in ipairs(recent) do
+            -- Skip invalid achievement entries (debug log them but don't display)
+            if not achievement.name or type(achievement.name) ~= "string" or achievement.name == "" then
+                CM.DebugPrint("ACHIEVEMENTS", string.format(
+                    "Skipping invalid achievement in recent fallback: name=%s (type=%s), id=%s",
+                    tostring(achievement.name),
+                    type(achievement.name),
+                    tostring(achievement.id)
+                ))
+                -- Skip this achievement - continue to next
+            else
+                -- Safely convert achievement.name and category to strings
+                local achievementName = achievement.name
+            
+            local category = ""
+            if achievement.category then
+                if type(achievement.category) == "string" then
+                    category = achievement.category
+                else
+                    category = tostring(achievement.category)
+                end
+            end
+            
+                local categoryEmoji = GetCategoryEmoji(category)
                 local row = "| ✅ **"
-                    .. achievement.name
+                    .. achievementName
                     .. "** | "
-                    .. achievement.points
+                    .. tostring(achievement.points or 0)
                     .. " | "
                     .. categoryEmoji
                     .. " "
-                    .. achievement.category
+                    .. category
                     .. " |"
                 row = row:gsub("%s+$", "") .. "\n"
                 markdown = markdown .. row
             end
-            markdown = markdown .. "\n"
-        end
+            end
+        markdown = markdown .. "\n"
     end
 
     return markdown
@@ -600,23 +674,17 @@ local function GenerateSkyshardAchievements(skyshardData, format)
 
     local markdown = ""
 
-    if format == "discord" then
-        markdown = markdown .. "**Skyshard Collection:**\n"
-        markdown = markdown .. "Collected: " .. skyshardData.collected .. "/" .. skyshardData.total .. " | "
-        markdown = markdown .. "Skill Points: " .. skyshardData.skillPoints .. "\n"
-    else
-        markdown = markdown .. "### ⭐ Skyshard Collection\n\n"
-        markdown = markdown .. "| Metric | Value |\n"
-        markdown = markdown .. "|:-------|------:|\n"
-        markdown = markdown .. "| **Collected** | " .. skyshardData.collected .. " |\n"
-        markdown = markdown .. "| **Total** | " .. skyshardData.total .. " |\n"
-        markdown = markdown .. "| **Skill Points Earned** | " .. skyshardData.skillPoints .. " |\n"
-        markdown = markdown
-            .. "| **Progress** | "
-            .. CM.utils.GenerateProgressBar(math.floor((skyshardData.collected / skyshardData.total) * 100), 12)
-            .. " |\n"
-        markdown = markdown .. "\n"
-    end
+    markdown = markdown .. "### ⭐ Skyshard Collection\n\n"
+    markdown = markdown .. "| Metric | Value |\n"
+    markdown = markdown .. "|:-------|------:|\n"
+    markdown = markdown .. "| **Collected** | " .. skyshardData.collected .. " |\n"
+    markdown = markdown .. "| **Total** | " .. skyshardData.total .. " |\n"
+    markdown = markdown .. "| **Skill Points Earned** | " .. skyshardData.skillPoints .. " |\n"
+    markdown = markdown
+        .. "| **Progress** | "
+        .. CM.utils.GenerateProgressBar(math.floor((skyshardData.collected / skyshardData.total) * 100), 12)
+        .. " |\n"
+    markdown = markdown .. "\n"
 
     return markdown
 end
@@ -626,21 +694,16 @@ local function GenerateLorebookAchievements(lorebookData, format)
 
     local markdown = ""
 
-    if format == "discord" then
-        markdown = markdown .. "**Lorebook Collection:**\n"
-        markdown = markdown .. "Collected: " .. lorebookData.collected .. "/" .. lorebookData.total .. "\n"
-    else
-        markdown = markdown .. "### 📚 Lorebook Collection\n\n"
-        markdown = markdown .. "| Metric | Value |\n"
-        markdown = markdown .. "|:-------|------:|\n"
-        markdown = markdown .. "| **Collected** | " .. lorebookData.collected .. " |\n"
-        markdown = markdown .. "| **Total** | " .. lorebookData.total .. " |\n"
-        markdown = markdown
-            .. "| **Progress** | "
-            .. CM.utils.GenerateProgressBar(math.floor((lorebookData.collected / lorebookData.total) * 100), 12)
-            .. " |\n"
-        markdown = markdown .. "\n"
-    end
+    markdown = markdown .. "### 📚 Lorebook Collection\n\n"
+    markdown = markdown .. "| Metric | Value |\n"
+    markdown = markdown .. "|:-------|------:|\n"
+    markdown = markdown .. "| **Collected** | " .. lorebookData.collected .. " |\n"
+    markdown = markdown .. "| **Total** | " .. lorebookData.total .. " |\n"
+    markdown = markdown
+        .. "| **Progress** | "
+        .. CM.utils.GenerateProgressBar(math.floor((lorebookData.collected / lorebookData.total) * 100), 12)
+        .. " |\n"
+    markdown = markdown .. "\n"
 
     return markdown
 end
@@ -665,13 +728,13 @@ local function GenerateAchievements(achievementData, format)
     -- Generate category breakdown (always shown when achievements enabled)
     markdown = markdown .. GenerateAchievementCategories(achievementData, format)
 
-    -- Show in-progress achievements
-    if #achievementData.inProgress > 0 then
+    -- Show in-progress achievements (if field exists and has items)
+    if achievementData.inProgress and type(achievementData.inProgress) == "table" and #achievementData.inProgress > 0 then
         markdown = markdown .. GenerateInProgressAchievements(achievementData, format)
     end
 
-    -- Show recent achievements
-    if #achievementData.recent > 0 then
+    -- Show recent achievements (if field exists and has items)
+    if achievementData.recent and type(achievementData.recent) == "table" and #achievementData.recent > 0 then
         markdown = markdown .. GenerateRecentAchievements(achievementData, format)
     end
 

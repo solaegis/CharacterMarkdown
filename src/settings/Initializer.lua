@@ -31,13 +31,13 @@ function CM.Settings.Initializer:Initialize()
     -- Initialize profile system
     self:InitializeProfiles()
 
-    -- Sync format to core from SavedVariables
-    if CM.settings and CM.settings.currentFormat then
-        CM.currentFormat = CM.settings.currentFormat
-    elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormat then
-        CM.currentFormat = CharacterMarkdownSettings.currentFormat
+    -- Sync formatter to core from SavedVariables
+    if CM.settings and CM.settings.currentFormatter then
+        CM.currentFormatter = CM.settings.currentFormatter
+    elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormatter then
+        CM.currentFormatter = CharacterMarkdownSettings.currentFormatter
     else
-        CM.currentFormat = "github" -- Fallback to default
+        CM.currentFormatter = "markdown" -- Fallback to default
     end
 
     CM.DebugPrint("SETTINGS", "Settings initialization complete")
@@ -119,6 +119,35 @@ function CM.Settings.Initializer:TryZOSavedVars()
         CM.Info("Quest tracking has been enabled in your settings!")
     end
 
+    -- MIGRATION: Split Character Stats into Basic and Advanced (Version 2.2.0+)
+    -- If settingsVersion is less than 3, migrate includeCharacterStats to new settings
+    if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 3 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
+        
+        -- If the old setting existed and was enabled, enable both new settings
+        -- If it didn't exist or was disabled, use defaults (true)
+        local oldSetting = CharacterMarkdownSettings.includeCharacterStats
+        if oldSetting == nil then
+            -- Setting never existed, use defaults
+            CharacterMarkdownSettings.includeBasicCombatStats = true
+            CharacterMarkdownSettings.includeAdvancedStats = true
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was nil, enabling both new stats by default")
+        elseif oldSetting == true then
+            -- Was enabled, keep enabled
+            CharacterMarkdownSettings.includeBasicCombatStats = true
+            CharacterMarkdownSettings.includeAdvancedStats = true
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was true, enabling both new stats")
+        else
+            -- Was explicitly disabled, respect that
+            CharacterMarkdownSettings.includeBasicCombatStats = false
+            CharacterMarkdownSettings.includeAdvancedStats = false
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was false, disabling both new stats")
+        end
+        
+        CharacterMarkdownSettings.settingsVersion = 3
+        CM.Info("Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats.")
+    end
+
     -- zo_savedvars_available = true -- luacheck: ignore
     CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully")
     return true
@@ -179,6 +208,35 @@ function CM.Settings.Initializer:InitializeFallback()
         CM.settings.showAllQuests = true
         CM.settings.settingsVersion = 2
         CM.Info("Quest tracking has been enabled in your settings!")
+    end
+
+    -- MIGRATION: Split Character Stats into Basic and Advanced (Version 2.2.0+)
+    -- If settingsVersion is less than 3, migrate includeCharacterStats to new settings
+    if not CM.settings.settingsVersion or CM.settings.settingsVersion < 3 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
+        
+        -- If the old setting existed and was enabled, enable both new settings
+        -- If it didn't exist or was disabled, use defaults (true)
+        local oldSetting = CM.settings.includeCharacterStats
+        if oldSetting == nil then
+            -- Setting never existed, use defaults
+            CM.settings.includeBasicCombatStats = true
+            CM.settings.includeAdvancedStats = true
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was nil, enabling both new stats by default")
+        elseif oldSetting == true then
+            -- Was enabled, keep enabled
+            CM.settings.includeBasicCombatStats = true
+            CM.settings.includeAdvancedStats = true
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was true, enabling both new stats")
+        else
+            -- Was explicitly disabled, respect that
+            CM.settings.includeBasicCombatStats = false
+            CM.settings.includeAdvancedStats = false
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was false, disabling both new stats")
+        end
+        
+        CM.settings.settingsVersion = 3
+        CM.Info("Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats.")
     end
 
     CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")
@@ -333,10 +391,10 @@ function CM.Settings.Initializer:ValidateSettings()
         end
     end
 
-    -- Validate format choice
-    if not CM.Settings.Defaults:IsValidFormat(CM.settings.currentFormat) then
-        CM.Warn("Invalid format '" .. tostring(CM.settings.currentFormat) .. "', resetting to github")
-        CM.settings.currentFormat = "github"
+    -- Validate formatter choice
+    if CM.settings.currentFormatter ~= "markdown" and CM.settings.currentFormatter ~= "tonl" then
+        CM.Warn("Invalid formatter '" .. tostring(CM.settings.currentFormatter) .. "', resetting to markdown")
+        CM.settings.currentFormatter = "markdown"
         fixed = fixed + 1
     end
 
@@ -436,7 +494,7 @@ function CM.Settings.Initializer:LoadProfile(profileName)
     CM.settings._lastModified = GetTimeStamp()
 
     -- Sync format to core
-    CM.currentFormat = CM.settings.currentFormat
+    CM.currentFormatter = CM.settings.currentFormatter
 
     CM.Info("Profile '" .. profileName .. "' loaded (" .. applied .. " settings applied)")
     CM.DebugPrint("SETTINGS", "Profile loaded successfully")
@@ -589,7 +647,7 @@ function CM.Settings.Initializer:ImportSettings(importString)
     CM.settings._lastModified = GetTimeStamp()
 
     -- Sync format to core
-    CM.currentFormat = CM.settings.currentFormat
+    CM.currentFormatter = CM.settings.currentFormatter
 
     CM.Info("Settings imported successfully (" .. applied .. " settings)")
     return true
@@ -694,7 +752,7 @@ function CM.Settings.Initializer:ResetToDefaults()
     -- These are user-entered data and should never be reset automatically
 
     -- Sync format to core
-    CM.currentFormat = CM.settings.currentFormat
+    CM.currentFormatter = CM.settings.currentFormatter
 
     CM.settings._lastModified = GetTimeStamp()
 

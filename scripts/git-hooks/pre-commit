@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# CharacterMarkdown - Git Pre-Commit Hook
+# Automatically trims example markdown files before commit
+# Install: cp scripts/git-hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# Get script directory (project root)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$SCRIPT_DIR" || exit 1
+
+# Check if task command exists
+if ! command -v task &> /dev/null; then
+    echo -e "${YELLOW}⚠️  Task not found. Skipping examples:trim${NC}"
+    echo -e "${YELLOW}   Install Task: https://taskfile.dev${NC}"
+    exit 0
+fi
+
+# Run examples:trim
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo " Pre-Commit: Trimming example markdown files"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+if task examples:trim; then
+    # Check if any files were modified
+    if ! git diff --quiet --exit-code assets/examples/*.md 2>/dev/null; then
+        echo ""
+        echo -e "${GREEN}✅ Example files trimmed${NC}"
+        echo "   Staging trimmed files..."
+        git add assets/examples/*.md
+        echo -e "${GREEN}✅ Trimmed files staged for commit${NC}"
+        echo ""
+    else
+        echo ""
+        echo -e "${GREEN}✅ Example files already trimmed${NC}"
+        echo ""
+    fi
+    exit 0
+else
+    echo ""
+    echo -e "${RED}❌ Failed to trim example files!${NC}"
+    echo ""
+    echo "To skip trimming (not recommended):"
+    echo "  git commit --no-verify"
+    echo ""
+    exit 1
+fi
+

@@ -2,7 +2,7 @@
 
 Utility scripts for CharacterMarkdown development and maintenance.
 
-## trim-markdown.py
+## trim.py
 
 **Purpose**: Intelligently trim unnecessary newlines from markdown files without breaking markdown syntax.
 
@@ -23,10 +23,10 @@ task examples:trim
 task examples:trim:dry-run
 
 # Direct usage
-python3 scripts/trim-markdown.py file1.md file2.md
+python3 scripts/trim.py file1.md file2.md
 
 # With dry-run
-python3 scripts/trim-markdown.py --dry-run file1.md file2.md
+python3 scripts/trim.py --dry-run file1.md file2.md
 ```
 
 **What it removes**:

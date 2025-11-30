@@ -22,10 +22,19 @@ local function GenerateGeneral(
     buffsData,
     mundusData,
     format,
-    ridingData
+    ridingData,
+    attributesData,
+    cpData,
+    settings
 )
     if not charData then
         return ""
+    end
+    
+    -- Check if character attributes should be included
+    local includeCharacterAttributes = true
+    if settings then
+        includeCharacterAttributes = settings.includeCharacterAttributes ~= false
     end
 
     local formatNumber = CM.utils and CM.utils.FormatNumber
@@ -70,6 +79,14 @@ local function GenerateGeneral(
             or (charData.server or "Unknown")
         table_insert(allRows, { "**Server**", serverText })
         table_insert(allRows, { "**Account**", charData.account or "Unknown" })
+
+        -- Optional character attributes (controlled by setting)
+        if includeCharacterAttributes then
+            -- Gender (from attributes data if available, otherwise from charData if it exists)
+            if attributesData and attributesData.gender and attributesData.gender ~= "Unknown" then
+                table_insert(allRows, { "**Gender**", attributesData.gender })
+            end
+        end
         
         -- Champion Points
         if charData.cp and charData.cp > 0 then
@@ -82,6 +99,90 @@ local function GenerateGeneral(
             "**Attributes**",
             string_format("🔵 %d / ❤️ %d / ⚡ %d", attrs.magicka or 0, attrs.health or 0, attrs.stamina or 0)
         })
+        
+        -- Available Champion Points (breakdown by discipline)
+        if cpData and cpData.disciplines then
+            local craftAvailable = 0
+            local warfareAvailable = 0
+            local fitnessAvailable = 0
+            
+            -- Calculate max per discipline based on total CP
+            -- Distribution rotation: Green (Craft) -> Blue (Warfare) -> Red (Fitness)
+            -- ID 3 = Craft (Green), ID 1 = Warfare (Blue), ID 2 = Fitness (Red)
+            local totalCP = cpData.total or 0
+            local basePerDiscipline = math.floor(totalCP / 3)
+            local remainder = totalCP % 3
+            
+            -- Calculate specific caps
+            local craftCap = basePerDiscipline + (remainder >= 1 and 1 or 0)
+            local warfareCap = basePerDiscipline + (remainder >= 2 and 1 or 0)
+            local fitnessCap = basePerDiscipline
+            
+            CM.DebugPrint("CP_OVERVIEW", string_format("Total CP: %d, Base: %d, Remainder: %d", totalCP, basePerDiscipline, remainder))
+            CM.DebugPrint("CP_OVERVIEW", string_format("Caps: Craft=%d, Warfare=%d, Fitness=%d", craftCap, warfareCap, fitnessCap))
+            
+            -- Get assigned points per discipline and calculate remaining capacity
+            for _, discipline in ipairs(cpData.disciplines) do
+                local name = discipline.name or ""
+                local id = discipline.id
+                local assigned = discipline.assigned or discipline.total or 0
+                local remaining = 0
+                
+                -- Determine cap for this discipline
+                local currentCap = basePerDiscipline -- Default fallback
+                if id then
+                    if id == 3 then currentCap = craftCap
+                    elseif id == 1 then currentCap = warfareCap
+                    elseif id == 2 then currentCap = fitnessCap
+                    end
+                end
+                
+                remaining = math.max(0, currentCap - assigned)
+                
+                CM.DebugPrint("CP_OVERVIEW", string_format("Discipline: '%s' (ID: %s), Assigned: %d, Remaining: %d", name, tostring(id), assigned, remaining))
+                
+                -- Use ID for matching if available (more reliable than name)
+                -- IDs: 1=Warfare, 2=Fitness, 3=Craft
+                if id then
+                    if id == 3 then -- Craft
+                        craftAvailable = remaining
+                        CM.DebugPrint("CP_OVERVIEW", "  -> Matched: CRAFT (by ID)")
+                    elseif id == 1 then -- Warfare
+                        warfareAvailable = remaining
+                        CM.DebugPrint("CP_OVERVIEW", "  -> Matched: WARFARE (by ID)")
+                    elseif id == 2 then -- Fitness
+                        fitnessAvailable = remaining
+                        CM.DebugPrint("CP_OVERVIEW", "  -> Matched: FITNESS (by ID)")
+                    end
+                else
+                    -- Fallback to name matching if ID is missing (legacy support)
+                    local DisciplineType = CM.constants and CM.constants.DisciplineType
+                    if DisciplineType then
+                        if name == DisciplineType.CRAFT then
+                            craftAvailable = remaining
+                            CM.DebugPrint("CP_OVERVIEW", "  -> Matched: CRAFT (by Name)")
+                        elseif name == DisciplineType.WARFARE then
+                            warfareAvailable = remaining
+                            CM.DebugPrint("CP_OVERVIEW", "  -> Matched: WARFARE (by Name)")
+                        elseif name == DisciplineType.FITNESS then
+                            fitnessAvailable = remaining
+                            CM.DebugPrint("CP_OVERVIEW", "  -> Matched: FITNESS (by Name)")
+                        end
+                    end
+                end
+            end
+            
+            CM.DebugPrint("CP_OVERVIEW", string_format("Final: Craft=%d, Warfare=%d, Fitness=%d", craftAvailable, warfareAvailable, fitnessAvailable))
+            
+            if craftAvailable > 0 or warfareAvailable > 0 or fitnessAvailable > 0 then
+                table_insert(allRows, {
+                    "**Available Champion Points**",
+                    string_format("⚒️ %d - ⚔️ %d - 💪 %d", craftAvailable, warfareAvailable, fitnessAvailable)
+                })
+            end
+
+
+        end
         
         -- Progression data
         if progressionData then
@@ -129,14 +230,32 @@ local function GenerateGeneral(
             end
         end
         
-        -- Optional fields
-        if charData.title and charData.title ~= "" then
-            local titleText = (CreateTitleLink and CreateTitleLink(charData.title, format)) or charData.title
-            table_insert(allRows, { "**Title**", titleText })
-        end
-        
-        if charData.age then
-            table_insert(allRows, { "**Age**", charData.age })
+        -- Optional character attributes (controlled by setting)
+        if includeCharacterAttributes then
+
+            
+            -- Title
+            local title = nil
+            if attributesData and attributesData.title and attributesData.title ~= "" then
+                title = attributesData.title
+            elseif charData.title and charData.title ~= "" then
+                title = charData.title
+            end
+            if title then
+                local titleText = (CreateTitleLink and CreateTitleLink(title, format)) or title
+                table_insert(allRows, { "**Title**", titleText })
+            end
+            
+            -- Age
+            local age = nil
+            if attributesData and attributesData.age then
+                age = attributesData.age
+            elseif charData.age then
+                age = charData.age
+            end
+            if age then
+                table_insert(allRows, { "**Age**", age })
+            end
         end
         
         if charData.esoPlus then
@@ -199,9 +318,28 @@ local function GenerateGeneral(
         
         -- Riding Skills (with emojis like attributes) - max is 60 for each
         if ridingData then
-            local speed = ridingData.speed or 0
-            local stamina = ridingData.stamina or 0
-            local capacity = ridingData.capacity or 0
+            -- Handle case where values might be booleans (true = maxed/60, false = 0)
+            local speed = ridingData.speed
+            if type(speed) == "boolean" then
+                speed = speed and 60 or 0
+            else
+                speed = speed or 0
+            end
+            
+            local stamina = ridingData.stamina
+            if type(stamina) == "boolean" then
+                stamina = stamina and 60 or 0
+            else
+                stamina = stamina or 0
+            end
+            
+            local capacity = ridingData.capacity
+            if type(capacity) == "boolean" then
+                capacity = capacity and 60 or 0
+            else
+                capacity = capacity or 0
+            end
+            
             if speed > 0 or stamina > 0 or capacity > 0 then
                 local allMaxed = (speed == 60 and stamina == 60 and capacity == 60)
                 local value = allMaxed 
@@ -213,6 +351,13 @@ local function GenerateGeneral(
                 })
             end
         end
+        
+        -- Sort rows by value length (ascending) for better table sizing
+        table.sort(allRows, function(a, b)
+            local lenA = string.len(a[2] or "")
+            local lenB = string.len(b[2] or "")
+            return lenA < lenB
+        end)
         
         -- Distribute rows into three balanced tables
         local totalRows = #allRows
@@ -321,6 +466,44 @@ local function GenerateGeneral(
                 attrs.health or 0,
                 attrs.stamina or 0
             )
+        
+        -- Available Champion Points (breakdown by discipline)
+        if cpData and cpData.disciplines then
+            local DisciplineType = CM.constants and CM.constants.DisciplineType
+            local craftAvailable = 0
+            local warfareAvailable = 0
+            local fitnessAvailable = 0
+            
+            -- Calculate max per discipline (660 or total/3, whichever is lower)
+            local maxPerDiscipline = math.min(660, math.floor((cpData.total or 0) / 3))
+            
+            -- Get assigned points per discipline and calculate remaining capacity
+            for _, discipline in ipairs(cpData.disciplines) do
+                local name = discipline.name or ""
+                local assigned = discipline.assigned or discipline.total or 0
+                local remaining = math.max(0, maxPerDiscipline - assigned)
+                
+                if DisciplineType then
+                    if name == DisciplineType.CRAFT then
+                        craftAvailable = remaining
+                    elseif name == DisciplineType.WARFARE then
+                        warfareAvailable = remaining
+                    elseif name == DisciplineType.FITNESS then
+                        fitnessAvailable = remaining
+                    end
+                end
+            end
+            
+            if craftAvailable > 0 or warfareAvailable > 0 or fitnessAvailable > 0 then
+                result = result
+                    .. string_format(
+                        "|| **Available Champion Points** | ⚒️ %d - ⚔️ %d - 💪 %d |\n",
+                        craftAvailable,
+                        warfareAvailable,
+                        fitnessAvailable
+                    )
+            end
+        end
 
         if progressionData then
             local unspentSkillPoints = progressionData.unspentSkillPoints or progressionData.skillPoints or 0
@@ -365,9 +548,28 @@ local function GenerateGeneral(
         
         -- Add riding skills summary if available (max is 60 for each)
         if ridingData then
-            local speed = ridingData.speed or 0
-            local stamina = ridingData.stamina or 0
-            local capacity = ridingData.capacity or 0
+            -- Handle case where values might be booleans (true = maxed/60, false = 0)
+            local speed = ridingData.speed
+            if type(speed) == "boolean" then
+                speed = speed and 60 or 0
+            else
+                speed = speed or 0
+            end
+            
+            local stamina = ridingData.stamina
+            if type(stamina) == "boolean" then
+                stamina = stamina and 60 or 0
+            else
+                stamina = stamina or 0
+            end
+            
+            local capacity = ridingData.capacity
+            if type(capacity) == "boolean" then
+                capacity = capacity and 60 or 0
+            else
+                capacity = capacity or 0
+            end
+            
             if speed > 0 or stamina > 0 or capacity > 0 then
                 local allMaxed = (speed == 60 and stamina == 60 and capacity == 60)
                 local skillsText = allMaxed
@@ -451,19 +653,46 @@ local function GenerateGeneral(
             or (charData.server or "Unknown")
         table.insert(lines, string_format("**Server:** %s", serverText))
         table.insert(lines, string_format("**Account:** %s", charData.account or "Unknown"))
+
+        -- Optional character attributes (controlled by setting)
+        if includeCharacterAttributes then
+            -- Gender (from attributes data if available)
+            if attributesData and attributesData.gender and attributesData.gender ~= "Unknown" then
+                table.insert(lines, string_format("**Gender:** %s", attributesData.gender))
+            end
+        end
         
         if charData.cp and charData.cp > 0 then
             table.insert(lines, string_format("**Champion Points:** %d", charData.cp))
         end
         
-        if charData.title and charData.title ~= "" then
-            local CreateTitleLink = CM.links and CM.links.CreateTitleLink
-            local titleText = (CreateTitleLink and CreateTitleLink(charData.title, format)) or charData.title
-            table.insert(lines, string_format("**Title:** %s", titleText))
-        end
-        
-        if charData.age then
-            table.insert(lines, string_format("**Age:** %s", charData.age))
+        -- Optional character attributes (controlled by setting)
+        if includeCharacterAttributes then
+
+            
+            -- Title
+            local title = nil
+            if attributesData and attributesData.title and attributesData.title ~= "" then
+                title = attributesData.title
+            elseif charData.title and charData.title ~= "" then
+                title = charData.title
+            end
+            if title then
+                local CreateTitleLink = CM.links and CM.links.CreateTitleLink
+                local titleText = (CreateTitleLink and CreateTitleLink(title, format)) or title
+                table.insert(lines, string_format("**Title:** %s", titleText))
+            end
+            
+            -- Age
+            local age = nil
+            if attributesData and attributesData.age then
+                age = attributesData.age
+            elseif charData.age then
+                age = charData.age
+            end
+            if age then
+                table.insert(lines, string_format("**Age:** %s", age))
+            end
         end
 
         if charData.esoPlus then
@@ -475,6 +704,41 @@ local function GenerateGeneral(
             lines,
             string_format("**Attributes:** 🔵 %d / ❤️ %d / ⚡ %d", attrs.magicka or 0, attrs.health or 0, attrs.stamina or 0)
         )
+        
+        -- Available Champion Points (breakdown by discipline)
+        if cpData and cpData.disciplines then
+            local DisciplineType = CM.constants and CM.constants.DisciplineType
+            local craftAvailable = 0
+            local warfareAvailable = 0
+            local fitnessAvailable = 0
+            
+            -- Calculate max per discipline (660 or total/3, whichever is lower)
+            local maxPerDiscipline = math.min(660, math.floor((cpData.total or 0) / 3))
+            
+            -- Get assigned points per discipline and calculate remaining capacity
+            for _, discipline in ipairs(cpData.disciplines) do
+                local name = discipline.name or ""
+                local assigned = discipline.assigned or discipline.total or 0
+                local remaining = math.max(0, maxPerDiscipline - assigned)
+                
+                if DisciplineType then
+                    if name == DisciplineType.CRAFT then
+                        craftAvailable = remaining
+                    elseif name == DisciplineType.WARFARE then
+                        warfareAvailable = remaining
+                    elseif name == DisciplineType.FITNESS then
+                        fitnessAvailable = remaining
+                    end
+                end
+            end
+            
+            if craftAvailable > 0 or warfareAvailable > 0 or fitnessAvailable > 0 then
+                table.insert(
+                    lines,
+                    string_format("**Available Champion Points:** ⚒️ %d - ⚔️ %d - 💪 %d", craftAvailable, warfareAvailable, fitnessAvailable)
+                )
+            end
+        end
 
         if progressionData then
             local unspentSkillPoints = progressionData.unspentSkillPoints or progressionData.skillPoints or 0
@@ -517,9 +781,28 @@ local function GenerateGeneral(
         
         -- Add riding skills summary if available (max is 60 for each)
         if ridingData then
-            local speed = ridingData.speed or 0
-            local stamina = ridingData.stamina or 0
-            local capacity = ridingData.capacity or 0
+            -- Handle case where values might be booleans (true = maxed/60, false = 0)
+            local speed = ridingData.speed
+            if type(speed) == "boolean" then
+                speed = speed and 60 or 0
+            else
+                speed = speed or 0
+            end
+            
+            local stamina = ridingData.stamina
+            if type(stamina) == "boolean" then
+                stamina = stamina and 60 or 0
+            else
+                stamina = stamina or 0
+            end
+            
+            local capacity = ridingData.capacity
+            if type(capacity) == "boolean" then
+                capacity = capacity and 60 or 0
+            else
+                capacity = capacity or 0
+            end
+            
             if speed > 0 or stamina > 0 or capacity > 0 then
                 local allMaxed = (speed == 60 and stamina == 60 and capacity == 60)
                 local skillsText = allMaxed
@@ -591,23 +874,77 @@ end
 CM.generators.sections.GenerateGeneral = GenerateGeneral
 
 -- =====================================================
--- CHARACTER STATS SUBSECTION
+-- HELPER: Check if setting is enabled
 -- =====================================================
 
-local function GenerateCharacterStats(statsData, format)
-    if not statsData then
-        return ""
+local function IsSettingEnabled(settings, settingName, defaultValue)
+    if not settings then
+        return defaultValue ~= false
     end
-
-    local GenerateCombatStats = CM.generators.sections.GenerateCombatStats
-    if GenerateCombatStats then
-        return GenerateCombatStats(statsData, format, true)
+    local value = settings[settingName]
+    if value == nil then
+        return defaultValue ~= false
     end
-
-    return ""
+    return value == true
 end
 
-CM.generators.sections.GenerateCharacterStats = GenerateCharacterStats
+-- =====================================================
+-- QUICK STATS GENERATOR (Aggregates General + Stats)
+-- =====================================================
+
+local function GenerateOverviewSection(
+    charData,
+    statsData,
+    format,
+    equipmentData,
+    progressionData,
+    currencyData,
+    cpData,
+    inventoryData,
+    locationData,
+    buffsData,
+    pvpData,
+    titlesHousingData,
+    mundusData,
+    ridingData,
+    settings
+)
+    local result = "## 📋 Overview\n\n"
+    
+    -- Extract characterAttributes from settings if passed via _collectedData
+    local attributesData = nil
+    if settings and settings._collectedData and settings._collectedData.characterAttributes then
+        attributesData = settings._collectedData.characterAttributes
+    end
+    
+    -- 1. General Section
+    if IsSettingEnabled(settings, "includeGeneral", true) then
+        result = result .. GenerateGeneral(
+            charData,
+            progressionData,
+            locationData,
+            buffsData,
+            mundusData,
+            format,
+            ridingData,
+            attributesData, -- Use extracted attributesData instead of charData.attributes
+            cpData,
+            settings
+        )
+    end
+    
+    -- 2. Currency Section
+    if IsSettingEnabled(settings, "includeCurrency", true) and CM.generators.sections.GenerateCurrency then
+        result = result .. CM.generators.sections.GenerateCurrency(currencyData, format)
+    end
+    
+    -- Note: Character Stats (Basic and Advanced) have been moved to Combat Arsenal section
+    -- They are no longer part of the Overview/QuickStats section
+    
+    return result
+end
+
+CM.generators.sections.GenerateOverviewSection = GenerateOverviewSection
 
 CM.DebugPrint("GENERATOR", "Overview section generators loaded")
 

@@ -29,138 +29,63 @@ local function GenerateCurrency(currencyData, format)
         return ""
     end
 
-    -- Enhanced visuals are now always enabled (baseline)
-    -- Build currency items for grid (enhanced visuals are baseline)
-    -- Use CreateCurrencyLink for labels if available
-    local goldLabel = (CreateCurrencyLink and CreateCurrencyLink("Gold", format)) or "Gold"
-    local apLabel = (CreateCurrencyLink and CreateCurrencyLink("Alliance Points", format)) or "AP"
-    local telVarLabel = (CreateCurrencyLink and CreateCurrencyLink("Tel Var", format)) or "Tel Var"
-    local crystalsLabel = (CreateCurrencyLink and CreateCurrencyLink("Crystals", format)) or "Crystals"
-    local writsLabel = (CreateCurrencyLink and CreateCurrencyLink("Writs", format)) or "Writs"
-    local ticketsLabel = (CreateCurrencyLink and CreateCurrencyLink("Tickets", format)) or "Tickets"
-
-    local items = {
-        { emoji = "💰", label = goldLabel, value = FormatNumber(currencyData.gold or 0) },
-        { emoji = "⚔️", label = apLabel, value = FormatNumber(currencyData.alliancePoints or 0) },
-        { emoji = "🔮", label = telVarLabel, value = FormatNumber(currencyData.telVar or 0) },
-        { emoji = "💎", label = crystalsLabel, value = FormatNumber(currencyData.transmuteCrystals or 0) },
-        { emoji = "📜", label = writsLabel, value = FormatNumber(currencyData.writs or 0) },
-        { emoji = "🎫", label = ticketsLabel, value = FormatNumber(currencyData.eventTickets or 0) },
-    }
-
-    -- Classic format: show detailed table with bank gold, total, crowns, etc.
-    if not markdown then
-        local result = "## 💰 Currency & Resources\n\n"
-
-        -- Add attention warning for event tickets at maximum
-        local eventTickets = currencyData.eventTickets or 0
-        if eventTickets >= 12 then
-            result = result
-                .. string_format(
-                    "🎫 **Event tickets at maximum** (%d/12) - Use tickets to avoid wasting future rewards\n\n",
-                    eventTickets
-                )
+    -- Helper to format currency values (with optional max)
+    local function FormatValue(current, max)
+        local currentStr = CM.utils.FormatNumber(current or 0)
+        -- Always show max if it exists and is greater than 0
+        if max and max > 0 then
+            return currentStr .. "/" .. CM.utils.FormatNumber(max)
         end
-
-        -- Build table rows
-        local headers = { "Currency", "Amount" }
-        local rows = {}
-
-        -- Gold (On Hand)
-        local goldOnHandLink = CreateCurrencyLink and CreateCurrencyLink("Gold (On Hand)", format)
-            or "💰 Gold (On Hand)"
-        table.insert(rows, { goldOnHandLink, FormatNumber(currencyData.gold or 0) })
-
-        if currencyData.goldBank and currencyData.goldBank > 0 then
-            local goldBankLink = CreateCurrencyLink and CreateCurrencyLink("Gold (Bank)", format) or "💰 Gold (Bank)"
-            table.insert(rows, { goldBankLink, FormatNumber(currencyData.goldBank) })
-        end
-        if currencyData.goldTotal and currencyData.goldTotal > 0 then
-            local goldTotalLink = CreateCurrencyLink and CreateCurrencyLink("Gold (Total)", format)
-                or "💰 Gold (Total)"
-            table.insert(rows, { goldTotalLink, FormatNumber(currencyData.goldTotal) })
-        end
-        if currencyData.telVar and currencyData.telVar > 0 then
-            local telVarLink = CreateCurrencyLink and CreateCurrencyLink("Tel Var Stones", format)
-                or "🔷 Tel Var Stones"
-            table.insert(rows, { telVarLink, FormatNumber(currencyData.telVar) })
-        end
-        if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
-            local crystalsLink = CreateCurrencyLink and CreateCurrencyLink("Transmute Crystals", format)
-                or "💎 Transmute Crystals"
-            table.insert(rows, { crystalsLink, FormatNumber(currencyData.transmuteCrystals) })
-        end
-        if currencyData.eventTickets and currencyData.eventTickets > 0 then
-            local ticketsLink = CreateCurrencyLink and CreateCurrencyLink("Event Tickets", format)
-                or "🎫 Event Tickets"
-            table.insert(rows, { ticketsLink, FormatNumber(currencyData.eventTickets) })
-        end
-        if currencyData.crowns and currencyData.crowns > 0 then
-            local crownsLink = CreateCurrencyLink and CreateCurrencyLink("Crowns", format) or "👑 Crowns"
-            table.insert(rows, { crownsLink, FormatNumber(currencyData.crowns) })
-        end
-        if currencyData.crownGems and currencyData.crownGems > 0 then
-            local crownGemsLink = CreateCurrencyLink and CreateCurrencyLink("Crown Gems", format) or "💠 Crown Gems"
-            table.insert(rows, { crownGemsLink, FormatNumber(currencyData.crownGems) })
-        end
-        if currencyData.sealsOfEndeavor and currencyData.sealsOfEndeavor > 0 then
-            local sealsLink = CreateCurrencyLink and CreateCurrencyLink("Seals of Endeavor", format)
-                or "🏅 Seals of Endeavor"
-            table.insert(rows, { sealsLink, FormatNumber(currencyData.sealsOfEndeavor) })
-        end
-
-        local CreateStyledTable = markdown and markdown.CreateStyledTable or CM.utils.markdown.CreateStyledTable
-        local options = {
-            alignment = { "left", "right" },
-            format = format,
-            coloredHeaders = true,
-        }
-        result = result .. CreateStyledTable(headers, rows, options)
-
-        return result
+        return currentStr
     end
 
+    -- Define all currencies with their labels and values (matching user's format)
+    local currencies = {
+        { label = "💰 **Gold**", value = FormatValue(currencyData.gold) },
+        { label = "⚔️ **Alliance Points**", value = FormatValue(currencyData.ap) },
+        { label = "🔮 **Tel Var**", value = FormatValue(currencyData.telvar) },
+        { label = "💎 **Transmute Crystals**", value = FormatValue(currencyData.transmute, currencyData.transmuteMax) },
+        { label = "📜 **Writs**", value = FormatValue(currencyData.vouchers) },
+        { label = "🎫 **Event Tickets**", value = FormatValue(currencyData.eventTickets, currencyData.eventTicketsMax) },
+        { label = "👑 **Crowns**", value = FormatValue(currencyData.crowns) },
+        { label = "💠 **Gems**", value = FormatValue(currencyData.gems) },
+        { label = "🏅 **Seals**", value = FormatValue(currencyData.seals) },
+        { label = "🗝️ **Keys**", value = FormatValue(currencyData.undauntedKeys) },
+        { label = "👕 **Tokens**", value = FormatValue(currencyData.outfitTokens) },
+        { label = "📚 **Fortunes**", value = FormatValue(currencyData.archivalFortunes) },
+        { label = "🔹 **Fragments**", value = FormatValue(currencyData.imperialFragments) },
+    }
+
     if format == "discord" then
-        -- Discord: Simple list format
         local result = "**Currency:**\n"
-        for _, item in ipairs(items) do
-            result = result .. item.emoji .. " **" .. item.label .. "**: " .. item.value .. "\n"
+        for _, item in ipairs(currencies) do
+            -- Remove markdown bold from label for Discord
+            local label = item.label:gsub("%*%*", "")
+            result = result .. label .. ": " .. item.value .. "\n"
         end
         return result .. "\n"
     end
 
-    -- ENHANCED: Compact grid layout (left-aligned for consistency with other sections)
-    local header = ""
-    if markdown and markdown.CreateHeader then
-        header = markdown.CreateHeader("Currency & Resources", "💰", nil, 2) or "## 💰 Currency & Resources\n\n"
-    else
-        header = "## 💰 Currency & Resources\n\n"
+    -- Markdown Table Format
+    local result = '<a id="currency"></a>\n\n### Currency\n\n'
+
+    local headers = { "Attribute", "Value" }
+    local rows = {}
+
+    for _, item in ipairs(currencies) do
+        -- Labels already include bold formatting
+        table.insert(rows, { item.label, item.value })
     end
 
-    -- Add attention warning for event tickets at maximum
-    local warningStr = ""
-    local eventTickets = currencyData.eventTickets or 0
-    if eventTickets >= 12 then
-        warningStr = string_format(
-            "🎫 **Event tickets at maximum** (%d/12) - Use tickets to avoid wasting future rewards\n\n",
-            eventTickets
-        )
-    end
+    local CreateStyledTable = markdown and markdown.CreateStyledTable or CM.utils.markdown.CreateStyledTable
+    local options = {
+        alignment = { "left", "left" },
+        format = format,
+        coloredHeaders = true,
+    }
+    result = result .. CreateStyledTable(headers, rows, options)
 
-    local content = ""
-    if markdown and markdown.CreateCompactGrid then
-        content = markdown.CreateCompactGrid(items, 3, format, "left") or ""
-    end
-    if content == "" then
-        -- Fallback if CreateCompactGrid fails
-        local lines = {}
-        for _, item in ipairs(items) do
-            table.insert(lines, item.emoji .. " **" .. item.label .. ":** " .. item.value)
-        end
-        content = table.concat(lines, "  \n") .. "\n\n"
-    end
-
-    return header .. warningStr .. content
+    return result
 end
 
 CM.generators.sections.GenerateCurrency = GenerateCurrency
@@ -492,8 +417,13 @@ end
 local function GenerateInventory(inventoryData, format)
     InitializeUtilities()
 
+    -- Ensure we output something if enabled, even if data is missing
     if not inventoryData then
-        return ""
+        if format == "discord" then
+            return "**Inventory:**\n*No inventory data available*\n\n"
+        else
+            return "## 🎒 Inventory\n\n*No inventory data available*\n\n"
+        end
     end
 
     local result = ""

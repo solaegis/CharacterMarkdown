@@ -41,70 +41,12 @@ local function GenerateDLCAccess(dlcData, format)
 
     -- If ESO Plus active, show section with ESO Plus status AND list all accessible DLCs
     if dlcData.hasESOPlus then
-        if format == "discord" then
-            markdown = markdown .. "**DLC Access:** ESO Plus (All DLCs Available)\n"
-            if #dlcData.accessible > 0 then
-                for _, dlcName in ipairs(dlcData.accessible) do
-                    markdown = markdown .. "✅ " .. dlcName .. "\n"
-                end
-            end
-            markdown = markdown .. "\n"
-        else
-            InitializeUtilities()
-            local anchorId = GenerateAnchor and GenerateAnchor("🗺️ DLC & Chapter Access") or "dlc--chapter-access"
-            markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
-            markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
-
-            -- Show all accessible DLCs (purchased or via ESO Plus)
-            if #dlcData.accessible > 0 then
-                for _, dlcName in ipairs(dlcData.accessible) do
-                    markdown = markdown .. "- ✅ " .. dlcName .. "\n"
-                end
-                markdown = markdown .. "\n"
-            end
-
-            markdown = markdown .. "**ESO Plus Active** - All DLCs and Chapters are accessible.\n\n"
-            -- Use CreateSeparator for consistent separator styling
-            local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-            if CreateSeparator then
-                markdown = markdown .. CreateSeparator("hr")
-            else
-                markdown = markdown .. "---\n\n"
-            end
-        end
-        return markdown
-    end
-
-    -- Only show DLC section if user does NOT have ESO Plus
-    if format == "discord" then
-        if #dlcData.accessible > 0 or #dlcData.locked > 0 then
-            markdown = markdown .. "**DLC Access:**\n"
-            if #dlcData.accessible > 0 then
-                for _, dlcName in ipairs(dlcData.accessible) do
-                    markdown = markdown .. "✅ " .. dlcName .. "\n"
-                end
-            end
-            if #dlcData.locked > 0 then
-                for _, dlcName in ipairs(dlcData.locked) do
-                    markdown = markdown .. "🔒 " .. dlcName .. "\n"
-                end
-            end
-            markdown = markdown .. "\n"
-        end
-    else
         InitializeUtilities()
         local anchorId = GenerateAnchor and GenerateAnchor("🗺️ DLC & Chapter Access") or "dlc--chapter-access"
         markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
 
-        -- Ensure accessible and locked arrays exist
-        if not dlcData.accessible then
-            dlcData.accessible = {}
-        end
-        if not dlcData.locked then
-            dlcData.locked = {}
-        end
-
+        -- Show all accessible DLCs (purchased or via ESO Plus)
         if #dlcData.accessible > 0 then
             for _, dlcName in ipairs(dlcData.accessible) do
                 markdown = markdown .. "- ✅ " .. dlcName .. "\n"
@@ -112,22 +54,53 @@ local function GenerateDLCAccess(dlcData, format)
             markdown = markdown .. "\n"
         end
 
-        if #dlcData.locked > 0 then
-            markdown = markdown .. "### 🔒 Locked Content\n\n"
-            for _, dlcName in ipairs(dlcData.locked) do
-                markdown = markdown .. "- 🔒 " .. dlcName .. "\n"
-            end
-            markdown = markdown .. "\n"
+        markdown = markdown .. "**ESO Plus Active** - All DLCs and Chapters are accessible.\n\n"
+        -- Use CreateSeparator for consistent separator styling
+        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+        if CreateSeparator then
+            markdown = markdown .. CreateSeparator("hr")
+        else
+            markdown = markdown .. "---\n\n"
         end
-
-        -- If no accessible or locked content, show a message
-        if #dlcData.accessible == 0 and #dlcData.locked == 0 then
-            markdown = markdown .. "*No DLC access information available*\n\n"
-        end
-
-        markdown = markdown .. "---\n\n"
+        return markdown
     end
 
+    -- Only show DLC section if user does NOT have ESO Plus
+    InitializeUtilities()
+    local anchorId = GenerateAnchor and GenerateAnchor("🗺️ DLC & Chapter Access") or "dlc--chapter-access"
+    markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
+    markdown = markdown .. "## 🗺️ DLC & Chapter Access\n\n"
+
+    -- Show accessible DLCs
+    if #dlcData.accessible > 0 then
+        markdown = markdown .. "### ✅ Accessible DLCs\n\n"
+        for _, dlcName in ipairs(dlcData.accessible) do
+            markdown = markdown .. "- ✅ " .. dlcName .. "\n"
+        end
+        markdown = markdown .. "\n"
+    end
+
+    -- Show locked DLCs
+    if #dlcData.locked > 0 then
+        markdown = markdown .. "### 🔒 Locked DLCs\n\n"
+        for _, dlcName in ipairs(dlcData.locked) do
+            markdown = markdown .. "- 🔒 " .. dlcName .. "\n"
+        end
+        markdown = markdown .. "\n"
+    end
+
+    -- If no accessible or locked content, show a message
+    if #dlcData.accessible == 0 and #dlcData.locked == 0 then
+        markdown = markdown .. "*No DLC access information available*\n\n"
+    end
+
+    -- Use CreateSeparator for consistent separator styling
+    local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+    if CreateSeparator then
+        markdown = markdown .. CreateSeparator("hr")
+    else
+        markdown = markdown .. "---\n\n"
+    end
     return markdown
 end
 
@@ -140,25 +113,18 @@ local function GenerateMundus(mundusData, format)
 
     local markdown = ""
 
-    if format == "discord" then
-        if mundusData.active then
-            local mundusText = CreateMundusLink(mundusData.name, format)
-            markdown = markdown .. "**Mundus:** " .. mundusText .. "\n\n"
-        end
+    InitializeUtilities()
+    local anchorId = GenerateAnchor and GenerateAnchor("🪨 Mundus Stone") or "mundus-stone"
+    markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
+    markdown = markdown .. "## 🪨 Mundus Stone\n\n"
+    if mundusData.active then
+        local mundusText = CreateMundusLink(mundusData.name, format)
+        markdown = markdown .. "✅ **Active:** " .. mundusText .. "\n\n"
     else
-        InitializeUtilities()
-        local anchorId = GenerateAnchor and GenerateAnchor("🪨 Mundus Stone") or "mundus-stone"
-        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## 🪨 Mundus Stone\n\n"
-        if mundusData.active then
-            local mundusText = CreateMundusLink(mundusData.name, format)
-            markdown = markdown .. "✅ **Active:** " .. mundusText .. "\n\n"
-        else
-            markdown = markdown .. "⚠️ **No Active Mundus Stone**\n\n"
-        end
-
-        markdown = markdown .. "---\n\n"
+        markdown = markdown .. "⚠️ **No Active Mundus Stone**\n\n"
     end
+
+    markdown = markdown .. "---\n\n"
 
     return markdown
 end
@@ -169,7 +135,7 @@ end
 
 -- Helper function to generate DLC content in collectibles format
 local function GenerateDLCAsCollectible(dlcData, format)
-    if not dlcData or format == "discord" or format == "quick" then
+    if not dlcData then
         return ""
     end
 
@@ -236,271 +202,300 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
     local settings = CharacterMarkdownSettings or {}
     local includeDetailed = settings.includeCollectiblesDetailed or false
 
-    if format == "discord" then
-        -- Discord: Always show summary counts only (no detailed lists)
-        markdown = markdown .. "**Collectibles:**\n"
+    -- Only show section if there's content to display
+    -- Check if we should show anything
+    local hasContent = false
 
-        if collectiblesData.categories then
-            for _, key in ipairs({
-                "mounts",
-                "pets",
-                "costumes",
-                "emotes",
-                "mementos",
-                "skins",
-                "polymorphs",
-                "personalities",
-            }) do
-                local category = collectiblesData.categories[key]
-                if category and category.total > 0 then
-                    local owned = #category.owned
-                    markdown = markdown
-                        .. category.emoji
-                        .. " "
-                        .. category.name
-                        .. ": ("
-                        .. owned
-                        .. " of "
-                        .. category.total
-                        .. ")\n"
-                end
-            end
-        end
+    -- Check if detailed mode has content
+    if includeDetailed and hasDetailedData and collectiblesData.categories then
+        hasContent = true
+    end
 
-        -- Add Riding Skills for Discord format
-        if ridingData then
-            markdown = markdown .. "**Riding Skills:**\n"
-            local speed = ridingData.speed or 0
-            local stamina = ridingData.stamina or 0
-            local capacity = ridingData.capacity or 0
-            markdown = markdown .. "• Speed: " .. speed .. "/60\n"
-            markdown = markdown .. "• Stamina: " .. stamina .. "/60\n"
-            markdown = markdown .. "• Capacity: " .. capacity .. "/60\n"
-        end
-
-        markdown = markdown .. "\n"
-    else
-        -- GitHub/VSCode: Only show section if there's content to display
-        -- Check if we should show anything
-        local hasContent = false
-
-        -- Check if detailed mode has content
-        if includeDetailed and hasDetailedData and collectiblesData.categories then
+    -- Check if fallback mode has content (any counts > 0)
+    if not hasContent then
+        local collections = collectiblesData.collections or {}
+        if
+            (collections.mounts and collections.mounts.count and collections.mounts.count > 0)
+            or (collections.pets and collections.pets.count and collections.pets.count > 0)
+            or (collections.costumes and collections.costumes.count and collections.costumes.count > 0)
+            or (collections.skins and collections.skins.count and collections.skins.count > 0)
+            or (collections.polymorphs and collections.polymorphs.count and collections.polymorphs.count > 0)
+        then
             hasContent = true
         end
+    end
 
-        -- Check if fallback mode has content (any counts > 0)
-        if not hasContent then
-            if
-                (collectiblesData.mounts and collectiblesData.mounts > 0)
-                or (collectiblesData.pets and collectiblesData.pets > 0)
-                or (collectiblesData.costumes and collectiblesData.costumes > 0)
-                or (collectiblesData.houses and collectiblesData.houses > 0)
-            then
-                hasContent = true
+    -- Check if titles/housing would add content
+    if not hasContent and titlesHousingData then
+        local titlesData = titlesHousingData.titles or {}
+        local housingData = titlesHousingData.housing or {}
+        
+        -- Check titles (support both old and new structure)
+        local hasTitles = (titlesData.total and titlesData.total > 0) 
+            or (titlesData.summary and titlesData.summary.totalAvailable and titlesData.summary.totalAvailable > 0)
+            or (titlesData.owned and #titlesData.owned > 0)
+            or (titlesData.current and titlesData.current ~= "") -- Check for current title
+            
+        -- Check housing (support both old and new structure)
+        local hasHousing = (housingData.total and housingData.total > 0)
+            or (housingData.summary and housingData.summary.totalOwned and housingData.summary.totalOwned > 0)
+            or (housingData.owned and #housingData.owned > 0)
+            or (housingData.primary and housingData.primary.name) -- Check for primary house
+            
+        if hasTitles or hasHousing then
+            hasContent = true
+        end
+    end
+
+    -- Check if DLC would add content
+    if not hasContent and dlcData and settings.includeDLCAccess then
+         if (dlcData.accessible and #dlcData.accessible > 0) or 
+            (dlcData.locked and #dlcData.locked > 0) or 
+            dlcData.hasESOPlus then
+            hasContent = true
+         end
+    end
+
+    -- Check if DLC would add content
+    if not hasContent and dlcData and settings.includeDLCAccess then
+         if (dlcData.accessible and #dlcData.accessible > 0) or 
+            (dlcData.locked and #dlcData.locked > 0) or 
+            dlcData.hasESOPlus then
+            hasContent = true
+         end
+    end
+
+    -- Only create section if we have content to show
+    if not hasContent then
+        return ""
+    end
+
+    -- GitHub/VSCode: Show collapsible detailed lists
+    InitializeUtilities()
+    markdown = markdown .. "## 🎨 Collectibles\n\n"
+
+    -- List to hold all sections for sorting
+    local sections = {}
+
+    -- 1. DLC Access
+    local includeDLCAccess = settings.includeDLCAccess
+    if includeDLCAccess == nil then
+        includeDLCAccess = false -- Default to false per Defaults.lua
+    end
+    
+    if dlcData and includeDLCAccess then
+        local dlcContent = GenerateDLCAsCollectible(dlcData, format)
+        if dlcContent ~= "" then
+            table.insert(sections, {
+                sortKey = "DLC & Chapter Access",
+                content = dlcContent
+            })
+        end
+    end
+
+    -- 2. Standard Categories
+    local categories = {
+        { key = "assistants", name = "Assistants", emoji = "💁" },
+        { key = "bodyMarkings", name = "Body Markings", emoji = "🖌️" },
+        { key = "costumes", name = "Costumes", emoji = "👗" },
+        { key = "emotes", name = "Emotes", emoji = "🗣️" },
+        { key = "facialAccessories", name = "Facial Accessories", emoji = "👓" },
+        { key = "hair", name = "Hair Styles", emoji = "💇" },
+        { key = "hats", name = "Hats", emoji = "🎩" },
+        { key = "headMarkings", name = "Head Markings", emoji = "🖍️" },
+        { key = "mementos", name = "Mementos", emoji = "🔮" },
+        { key = "mounts", name = "Mounts", emoji = "🐴" },
+        { key = "personalities", name = "Personalities", emoji = "🎭" },
+        { key = "pets", name = "Pets", emoji = "🐾" },
+        { key = "piercings", name = "Piercings", emoji = "💍" },
+        { key = "polymorphs", name = "Polymorphs", emoji = "✨" },
+        { key = "skins", name = "Skins", emoji = "🎭" }
+    }
+
+    local collections = collectiblesData.collections or {}
+
+    for _, cat in ipairs(categories) do
+        local collection = collections[cat.key]
+        if collection and collection.total and collection.total > 0 then
+            local owned = collection.count or 0
+            local total = collection.total or 0
+            
+            local sectionContent = ""
+            
+            -- Collapsible section header
+            sectionContent = sectionContent .. "<details>\n"
+            sectionContent = sectionContent
+                .. "<summary>"
+                .. cat.emoji
+                .. " "
+                .. cat.name
+                .. " ("
+                .. owned
+                .. " of "
+                .. total
+                .. ")</summary>\n\n"
+
+            -- Add progress bar
+            InitializeUtilities()
+            local progress = math.floor((owned / total) * 100)
+            local progressBar = GenerateProgressBar(progress, 20)
+            sectionContent = sectionContent .. "| Progress |\n"
+            sectionContent = sectionContent .. "| --- |\n"
+            sectionContent = sectionContent
+                .. "| "
+                .. progressBar
+                .. " "
+                .. progress
+                .. "% ("
+                .. owned
+                .. "/"
+                .. total
+                .. ") |\n\n"
+
+            -- List owned collectibles (alphabetically sorted)
+            if owned > 0 and collection.list then
+                -- Sort in-place to ensure consistent ordering
+                table.sort(collection.list, function(a, b)
+                    local nameA = (a.name or ""):lower()
+                    local nameB = (b.name or ""):lower()
+                    return nameA < nameB
+                end)
+
+                for _, collectible in ipairs(collection.list) do
+                    InitializeUtilities()
+                    -- Use fullName for links (UESP uses full names), display name for text
+                    local linkName = collectible.fullName or collectible.name
+                    local displayName = collectible.name
+                    local collectibleLink = (CreateCollectibleLink and CreateCollectibleLink(linkName, format))
+                        or displayName
+                    sectionContent = sectionContent .. "- " .. collectibleLink
+                    -- Add rarity if available
+                    if collectible.quality then
+                        sectionContent = sectionContent .. " [" .. collectible.quality .. "]"
+                    end
+                    sectionContent = sectionContent .. "\n"
+                end
+            else
+                sectionContent = sectionContent .. "*No " .. cat.name:lower() .. " owned*\n"
+            end
+
+            sectionContent = sectionContent .. "</details>\n\n"
+            
+            table.insert(sections, {
+                sortKey = cat.name,
+                content = sectionContent
+            })
+        end
+    end
+
+    -- 3. Lorebooks
+    if lorebooksData and format ~= "discord" and format ~= "quick" then
+        local GenerateLorebooks = CM.generators.sections.GenerateLorebooks
+        if GenerateLorebooks then
+            local lorebooksContent = GenerateLorebooks(lorebooksData, format)
+            -- Content is already in collapsible format
+            if lorebooksContent ~= "" then
+                table.insert(sections, {
+                    sortKey = "Lorebooks",
+                    content = lorebooksContent
+                })
             end
         end
+    end
 
-        -- Check if titles/housing would add content
-        if not hasContent and titlesHousingData and format ~= "discord" and format ~= "quick" then
+    -- 4. Titles & Housing
+    if titlesHousingData and format ~= "discord" and format ~= "quick" then
+        local GenerateTitles = CM.generators.sections.GenerateTitles
+        local GenerateHousing = CM.generators.sections.GenerateHousing
+        if GenerateTitles and GenerateHousing then
             local titlesData = titlesHousingData.titles or {}
             local housingData = titlesHousingData.housing or {}
-            if (titlesData.total and titlesData.total > 0) or (housingData.total and housingData.total > 0) then
-                hasContent = true
+
+            -- Generate Titles section (collapsible)
+            -- Check for total (legacy), summary.totalAvailable (new), or owned list (new)
+            local hasTitles = (titlesData.total and titlesData.total > 0) 
+                or (titlesData.summary and titlesData.summary.totalAvailable and titlesData.summary.totalAvailable > 0)
+                or (titlesData.list and #titlesData.list > 0)
+                or (titlesData.owned and #titlesData.owned > 0)
+                
+            if titlesData and hasTitles then
+                local titlesContent = GenerateTitles(titlesData, format)
+                -- Remove header if present (will be in summary)
+                titlesContent = titlesContent:gsub("^###%s+👑%s+Titles%s*\n%s*\n", "")
+
+                if titlesContent ~= "" then
+                    -- Count owned titles
+                    local owned = 0
+                    if titlesData.summary and titlesData.summary.totalOwned then
+                        owned = titlesData.summary.totalOwned
+                    elseif titlesData.owned and type(titlesData.owned) == "table" then
+                        owned = #titlesData.owned
+                    else
+                        owned = 0
+                    end
+                    local total = (titlesData.summary and titlesData.summary.totalAvailable) or 0
+
+                    local sectionContent = ""
+                    sectionContent = sectionContent .. "<details>\n"
+                    sectionContent = sectionContent .. "<summary>👑 Titles (" .. owned .. " of " .. total .. ")</summary>\n\n"
+                    sectionContent = sectionContent .. titlesContent
+                    sectionContent = sectionContent .. "</details>\n\n"
+                    
+                    table.insert(sections, {
+                        sortKey = "Titles",
+                        content = sectionContent
+                    })
+                end
             end
-        end
 
-        -- Only create section if we have content to show
-        if not hasContent then
-            return ""
-        end
+            -- Generate Housing section (collapsible)
+            -- Check for total (legacy), summary.totalOwned (new), or owned list (new)
+            local hasHousing = (housingData.total and housingData.total > 0)
+                or (housingData.summary and housingData.summary.totalAvailable and housingData.summary.totalAvailable > 0)
+                or (housingData.owned and #housingData.owned > 0)
+                
+            if housingData and hasHousing then
+                local housingContent = GenerateHousing(housingData, format)
+                -- Remove header if present (will be in summary)
+                housingContent = housingContent:gsub("^###%s+🏠%s+Housing%s*\n%s*\n", "")
 
-        -- GitHub/VSCode: Show collapsible detailed lists if enabled or if we have owned items
-        InitializeUtilities()
-        markdown = markdown .. "## 🎨 Collectibles\n\n"
+                if housingContent ~= "" then
+                    local owned = 0
+                    if housingData.summary and housingData.summary.totalOwned then
+                        owned = housingData.summary.totalOwned
+                    elseif housingData.owned and type(housingData.owned) == "table" then
+                        owned = #housingData.owned
+                    end
+                    local total = (housingData.summary and housingData.summary.totalAvailable) or 0
 
-        -- Add DLC as first collapsible item (respects includeDLCAccess setting)
-        local includeDLCAccess = settings.includeDLCAccess
-        if includeDLCAccess == nil then
-            includeDLCAccess = false -- Default to false per Defaults.lua
-        end
-        
-        if dlcData and includeDLCAccess then
-            local dlcContent = GenerateDLCAsCollectible(dlcData, format)
-            if dlcContent ~= "" then
-                markdown = markdown .. dlcContent
-            end
-        end
-
-        if includeDetailed and hasDetailedData and collectiblesData.categories then
-            -- Detailed mode: Show collapsible sections with (X of Y) format
-            for _, key in ipairs({
-                "mounts",
-                "pets",
-                "costumes",
-                "emotes",
-                "mementos",
-                "skins",
-                "polymorphs",
-                "personalities",
-            }) do
-                local category = collectiblesData.categories[key]
-                if category and category.total > 0 then
-                    local owned = #category.owned
-
-                    -- Collapsible section header
-                    markdown = markdown .. "<details>\n"
-                    markdown = markdown
-                        .. "<summary>"
-                        .. category.emoji
-                        .. " "
-                        .. category.name
-                        .. " ("
+                    local sectionContent = ""
+                    sectionContent = sectionContent .. "<details>\n"
+                    sectionContent = sectionContent
+                        .. "<summary>🏠 Housing ("
                         .. owned
                         .. " of "
-                        .. category.total
+                        .. total
                         .. ")</summary>\n\n"
-
-                    -- Add progress bar
-                    InitializeUtilities()
-                    local progress = math.floor((owned / category.total) * 100)
-                    local progressBar = GenerateProgressBar(progress, 20)
-                    markdown = markdown .. "| Progress |\n"
-                    markdown = markdown .. "| --- |\n"
-                    markdown = markdown
-                        .. "| "
-                        .. progressBar
-                        .. " "
-                        .. progress
-                        .. "% ("
-                        .. owned
-                        .. "/"
-                        .. category.total
-                        .. ") |\n\n"
-
-                    -- List owned collectibles (alphabetically sorted)
-                    if owned > 0 then
-                        -- Ensure collectibles are sorted alphabetically by display name (case-insensitive)
-                        -- Sort in-place to ensure consistent ordering
-                        table.sort(category.owned, function(a, b)
-                            local nameA = (a.name or ""):lower()
-                            local nameB = (b.name or ""):lower()
-                            return nameA < nameB
-                        end)
-
-                        for _, collectible in ipairs(category.owned) do
-                            InitializeUtilities()
-                            -- Use fullName for links (UESP uses full names), display name for text
-                            local linkName = collectible.fullName or collectible.name
-                            local displayName = collectible.name
-                            local collectibleLink = (CreateCollectibleLink and CreateCollectibleLink(linkName, format))
-                                or displayName
-                            markdown = markdown .. "- " .. collectibleLink
-                            -- Add rarity if available
-                            if collectible.quality then
-                                markdown = markdown .. " [" .. collectible.quality .. "]"
-                            end
-                            markdown = markdown .. "\n"
-                        end
-                    else
-                        markdown = markdown .. "*No " .. category.name:lower() .. " owned*\n"
-                    end
-
-                    markdown = markdown .. "</details>\n\n"
-                end
-            end
-
-            -- Add Lorebooks section (as part of collectibles, after other categories)
-            if lorebooksData and format ~= "discord" and format ~= "quick" then
-                local GenerateLorebooks = CM.generators.sections.GenerateLorebooks
-                if GenerateLorebooks then
-                    local lorebooksContent = GenerateLorebooks(lorebooksData, format)
-                    -- Content is already in collapsible format
-                    if lorebooksContent ~= "" then
-                        markdown = markdown .. lorebooksContent
-                    end
-                end
-            end
-        else
-            -- Fallback: Show simple count table if detailed data not available
-            markdown = markdown .. "| Type | Count |\n"
-            markdown = markdown .. "|:-----|------:|\n"
-            if collectiblesData.mounts and collectiblesData.mounts > 0 then
-                markdown = markdown .. "| **🐴 Mounts** | " .. collectiblesData.mounts .. " |\n"
-            end
-            if collectiblesData.pets and collectiblesData.pets > 0 then
-                markdown = markdown .. "| **🐾 Pets** | " .. collectiblesData.pets .. " |\n"
-            end
-            if collectiblesData.costumes and collectiblesData.costumes > 0 then
-                markdown = markdown .. "| **👗 Costumes** | " .. collectiblesData.costumes .. " |\n"
-            end
-            if collectiblesData.houses and collectiblesData.houses > 0 then
-                markdown = markdown .. "| **🏠 Houses** | " .. collectiblesData.houses .. " |\n"
-            end
-            markdown = markdown .. "\n"
-        end
-
-        -- Add Titles & Housing section (collapsible, like other collectibles)
-        if titlesHousingData and format ~= "discord" and format ~= "quick" then
-            local GenerateTitles = CM.generators.sections.GenerateTitles
-            local GenerateHousing = CM.generators.sections.GenerateHousing
-            if GenerateTitles and GenerateHousing then
-                local titlesData = titlesHousingData.titles or {}
-                local housingData = titlesHousingData.housing or {}
-
-                -- Generate Titles section (collapsible)
-                if
-                    titlesData
-                    and (titlesData.total and titlesData.total > 0 or (titlesData.list and #titlesData.list > 0))
-                then
-                    local titlesContent = GenerateTitles(titlesData, format)
-                    -- Remove header if present (will be in summary)
-                    titlesContent = titlesContent:gsub("^###%s+👑%s+Titles%s*\n%s*\n", "")
-
-                    if titlesContent ~= "" then
-                        -- Count owned titles
-                        local owned = 0
-                        if titlesData.list and #titlesData.list > 0 then
-                            for _, title in ipairs(titlesData.list) do
-                                if title.unlocked then
-                                    owned = owned + 1
-                                end
-                            end
-                        else
-                            owned = titlesData.owned or 0
-                        end
-                        local total = titlesData.total or 0
-
-                        markdown = markdown .. "<details>\n"
-                        markdown = markdown .. "<summary>👑 Titles (" .. owned .. " of " .. total .. ")</summary>\n\n"
-                        markdown = markdown .. titlesContent
-                        markdown = markdown .. "</details>\n\n"
-                    end
-                end
-
-                -- Generate Housing section (collapsible)
-                if housingData and housingData.total and housingData.total > 0 then
-                    local housingContent = GenerateHousing(housingData, format)
-                    -- Remove header if present (will be in summary)
-                    housingContent = housingContent:gsub("^###%s+🏠%s+Housing%s*\n%s*\n", "")
-
-                    if housingContent ~= "" then
-                        local owned = housingData.owned or 0
-                        local total = housingData.total or 0
-
-                        markdown = markdown .. "<details>\n"
-                        markdown = markdown
-                            .. "<summary>🏠 Housing ("
-                            .. owned
-                            .. " of "
-                            .. total
-                            .. ")</summary>\n\n"
-                        markdown = markdown .. housingContent
-                        markdown = markdown .. "</details>\n\n"
-                    end
+                    sectionContent = sectionContent .. housingContent
+                    sectionContent = sectionContent .. "</details>\n\n"
+                    
+                    table.insert(sections, {
+                        sortKey = "Housing",
+                        content = sectionContent
+                    })
                 end
             end
         end
+    end
+    
+    -- Sort all sections alphabetically by sortKey
+    table.sort(sections, function(a, b)
+        return a.sortKey:lower() < b.sortKey:lower()
+    end)
+    
+    -- Concatenate sorted sections
+    for _, section in ipairs(sections) do
+        markdown = markdown .. section.content
     end
 
     return markdown

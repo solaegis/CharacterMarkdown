@@ -1,184 +1,74 @@
--- CharacterMarkdown - Antiquity Data Collector
--- Collects data about antiquities, leads, and scrying progress
+-- CharacterMarkdown - Antiquities Data Collector
+-- Composition logic moved from API layer
 
 local CM = CharacterMarkdown
 
--- =====================================================
--- HELPER FUNCTIONS
--- =====================================================
-
-local function GetAntiquityQuality(antiquityId)
-    local success, quality = pcall(GetAntiquityQuality, antiquityId)
-    return success and quality or ANTIQUITY_QUALITY_MAGIC
-end
-
-local function GetAntiquityName(antiquityId)
-    local success, name = pcall(GetAntiquityName, antiquityId)
-    return success and name or "Unknown"
-end
-
-local function GetAntiquitySetIcon(setId)
-    local success, icon = pcall(GetAntiquitySetIcon, setId)
-    return success and icon or ""
-end
-
-local function GetAntiquitySetName(setId)
-    local success, name = pcall(GetAntiquitySetName, setId)
-    return success and name or "Unknown Set"
-end
-
-local function GetNumAntiquitySetAntiquities(setId)
-    local success, count = pcall(GetNumAntiquitySetAntiquities, setId)
-    return success and count or 0
-end
-
-local function GetAntiquityHasLead(antiquityId)
-    local success, hasLead = pcall(GetAntiquityHasLead, antiquityId)
-    return success and hasLead or false
-end
-
-local function GetAntiquityIsRepeatable(antiquityId)
-    local success, isRepeatable = pcall(GetAntiquityIsRepeatable, antiquityId)
-    return success and isRepeatable or false
-end
-
-local function GetNumAntiquitySets()
-    local success, count = pcall(GetNumAntiquitySets)
-    return success and count or 0
-end
-
--- =====================================================
--- ANTIQUITY DATA COLLECTION
--- =====================================================
-
-local function CollectAntiquityData()
+local function CollectAntiquitiesData()
+    -- Use API layer granular functions (composition at collector level)
+    local sets = CM.api.antiquities.GetSets()
+    
     local data = {
+        sets = sets or {},
         summary = {
             totalAntiquities = 0,
             discoveredAntiquities = 0,
             activeLeads = 0,
             completedAntiquities = 0,
             totalSets = 0,
-            completedSets = 0,
+            completedSets = 0
         },
-        sets = {},
-        activeLeads = {},
-        recentDiscoveries = {},
+        activeLeads = {}
     }
-
-    CM.DebugPrint("ANTIQUITIES", "Starting antiquity data collection...")
-
-    -- Get total number of antiquity sets
-    local numSets = GetNumAntiquitySets()
-    CM.DebugPrint("ANTIQUITIES", string.format("Found %d antiquity sets", numSets))
-
-    if numSets == 0 then
-        CM.DebugPrint("ANTIQUITIES", "No antiquity sets found - player may not have access")
-        return data
-    end
-
-    data.summary.totalSets = numSets
-
-    -- Iterate through all antiquity sets
-    for setIndex = 1, numSets do
-        local setId = CM.SafeCall(GetAntiquitySetId, setIndex)
-
-        if setId then
-            local setName = GetAntiquitySetName(setId)
-            local setIcon = GetAntiquitySetIcon(setId)
-            local numAntiquities = GetNumAntiquitySetAntiquities(setId)
-
-            local setData = {
-                id = setId,
-                name = setName,
-                icon = setIcon,
-                totalAntiquities = numAntiquities,
-                discoveredAntiquities = 0,
-                completedAntiquities = 0,
-                antiquities = {},
-            }
-
-            -- Iterate through antiquities in this set
-            for antiquityIndex = 1, numAntiquities do
-                local antiquityId = CM.SafeCall(GetAntiquitySetAntiquityId, setId, antiquityIndex)
-
-                if antiquityId then
-                    data.summary.totalAntiquities = data.summary.totalAntiquities + 1
-
-                    local name = GetAntiquityName(antiquityId)
-                    local quality = GetAntiquityQuality(antiquityId)
-                    local hasLead = GetAntiquityHasLead(antiquityId)
-                    local isRepeatable = GetAntiquityIsRepeatable(antiquityId)
-
-                    -- Check if antiquity has been discovered
-                    local success, isDiscovered = pcall(GetHasAntiquityBeenDiscovered, antiquityId)
-                    isDiscovered = success and isDiscovered or false
-
-                    -- Check if antiquity is in progress (has lead and not completed)
-                    local isInProgress = hasLead and not isDiscovered
-
-                    local antiquityData = {
-                        id = antiquityId,
-                        name = name,
-                        quality = quality,
-                        hasLead = hasLead,
-                        isDiscovered = isDiscovered,
-                        isRepeatable = isRepeatable,
-                        isInProgress = isInProgress,
-                    }
-
-                    table.insert(setData.antiquities, antiquityData)
-
-                    -- Update counters
-                    if isDiscovered then
-                        data.summary.discoveredAntiquities = data.summary.discoveredAntiquities + 1
-                        data.summary.completedAntiquities = data.summary.completedAntiquities + 1
-                        setData.discoveredAntiquities = setData.discoveredAntiquities + 1
-                        setData.completedAntiquities = setData.completedAntiquities + 1
-                    end
-
-                    if hasLead and not isDiscovered then
-                        data.summary.activeLeads = data.summary.activeLeads + 1
-                        table.insert(data.activeLeads, antiquityData)
-                    end
-                end
+    
+    -- Calculate summary statistics
+    local activeLeads = {}
+    
+    for _, set in ipairs(data.sets) do
+        set.discoveredAntiquities = 0
+        set.completedAntiquities = 0
+        
+        for _, antiquity in ipairs(set.antiquities or {}) do
+            data.summary.totalAntiquities = data.summary.totalAntiquities + 1
+            
+            if antiquity.isDiscovered then
+                data.summary.discoveredAntiquities = data.summary.discoveredAntiquities + 1
+                data.summary.completedAntiquities = data.summary.completedAntiquities + 1
+                set.discoveredAntiquities = set.discoveredAntiquities + 1
+                set.completedAntiquities = set.completedAntiquities + 1
             end
-
-            -- Check if set is complete
-            if setData.completedAntiquities == setData.totalAntiquities and setData.totalAntiquities > 0 then
-                data.summary.completedSets = data.summary.completedSets + 1
+            
+            if antiquity.isInProgress then
+                data.summary.activeLeads = data.summary.activeLeads + 1
+                table.insert(activeLeads, antiquity)
             end
-
-            table.insert(data.sets, setData)
+        end
+        
+        if set.completedAntiquities == set.numAntiquities and set.numAntiquities > 0 then
+            data.summary.completedSets = data.summary.completedSets + 1
         end
     end
-
+    
+    data.summary.totalSets = #data.sets
+    
+    -- Calculate completion percentages
+    data.summary.discoveryPercent = data.summary.totalAntiquities > 0 
+        and math.floor((data.summary.discoveredAntiquities / data.summary.totalAntiquities) * 100) or 0
+    data.summary.completionPercent = data.summary.totalAntiquities > 0 
+        and math.floor((data.summary.completedAntiquities / data.summary.totalAntiquities) * 100) or 0
+    data.summary.setCompletionPercent = data.summary.totalSets > 0 
+        and math.floor((data.summary.completedSets / data.summary.totalSets) * 100) or 0
+    
     -- Sort active leads by quality (highest first)
-    table.sort(data.activeLeads, function(a, b)
-        return a.quality > b.quality
+    table.sort(activeLeads, function(a, b)
+        return (a.quality or 0) > (b.quality or 0)
     end)
-
-    CM.Info(
-        string.format(
-            "[ANTIQUITIES] Collection complete: %d total antiquities, %d discovered, %d active leads, %d/%d sets complete",
-            data.summary.totalAntiquities,
-            data.summary.discoveredAntiquities,
-            data.summary.activeLeads,
-            data.summary.completedSets,
-            data.summary.totalSets
-        )
-    )
-
+    
+    data.activeLeads = activeLeads
+    
     return data
 end
 
--- =====================================================
--- EXPORTS
--- =====================================================
+CM.collectors.CollectAntiquitiesData = CollectAntiquitiesData
 
-CM.collectors = CM.collectors or {}
-CM.collectors.CollectAntiquityData = CollectAntiquityData
+CM.DebugPrint("COLLECTOR", "Antiquities collector module loaded")
 
-return {
-    CollectAntiquityData = CollectAntiquityData,
-}

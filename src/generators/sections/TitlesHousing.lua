@@ -32,6 +32,14 @@ local function GenerateTitles(titlesData, format)
         titlesData = {}
     end
 
+    -- Extract summary data
+    local totalOwned = (titlesData.summary and titlesData.summary.totalOwned) 
+        or (titlesData.owned and #titlesData.owned) 
+        or 0
+    local totalAvailable = (titlesData.summary and titlesData.summary.totalAvailable) 
+        or titlesData.total 
+        or 0
+
     -- Fallback: Try to get title from character data if collector failed
     if not titlesData.current or titlesData.current == "" then
         -- Check custom title in both CM.charData and CharacterMarkdownData
@@ -67,7 +75,7 @@ local function GenerateTitles(titlesData, format)
     -- Always show section if we have a current title, even if collector failed
     if titlesData.current and titlesData.current ~= "" then
         -- We have a title, show the section - continue below
-    elseif not titlesData.total or titlesData.total == 0 then
+    elseif totalAvailable == 0 and totalOwned == 0 then
         -- No titles data available at all
         if format ~= "discord" then
             markdown = markdown .. "### 👑 Titles\n\n"
@@ -99,25 +107,25 @@ local function GenerateTitles(titlesData, format)
             end
             markdown = markdown .. "• Current: " .. currentTitleText .. "\n"
 
-            if titlesData.total and titlesData.total > 0 then
+            if totalAvailable > 0 then
                 markdown = markdown
                     .. "• Owned: "
-                    .. (titlesData.owned or 0)
+                    .. totalOwned
                     .. "/"
-                    .. titlesData.total
+                    .. totalAvailable
                     .. " ("
-                    .. math.floor(((titlesData.owned or 0) / titlesData.total) * 100)
+                    .. math.floor((totalOwned / totalAvailable) * 100)
                     .. "%)\n"
             end
         else
-            if titlesData.total and titlesData.total > 0 then
+            if totalAvailable > 0 then
                 markdown = markdown
                     .. "**Titles:** "
-                    .. (titlesData.owned or 0)
+                    .. totalOwned
                     .. "/"
-                    .. titlesData.total
+                    .. totalAvailable
                     .. " ("
-                    .. math.floor(((titlesData.owned or 0) / titlesData.total) * 100)
+                    .. math.floor((totalOwned / totalAvailable) * 100)
                     .. "%)\n"
             else
                 markdown = markdown .. "**Titles:** *No titles available*\n"
@@ -130,18 +138,8 @@ local function GenerateTitles(titlesData, format)
         -- Current Title removed - now shown in Overview section
 
         -- Add progress bar if we have total count
-        if titlesData.total and titlesData.total > 0 then
-            local owned = titlesData.owned or 0
-            if titlesData.list and #titlesData.list > 0 then
-                -- Count unlocked titles from list
-                owned = 0
-                for _, title in ipairs(titlesData.list) do
-                    if title.unlocked then
-                        owned = owned + 1
-                    end
-                end
-            end
-            local progress = math.floor((owned / titlesData.total) * 100)
+        if totalAvailable > 0 then
+            local progress = math.floor((totalOwned / totalAvailable) * 100)
             local progressBar = GenerateProgressBar(progress, 20)
             markdown = markdown .. "| Progress |\n"
             markdown = markdown .. "| --- |\n"
@@ -151,19 +149,17 @@ local function GenerateTitles(titlesData, format)
                 .. " "
                 .. progress
                 .. "% ("
-                .. owned
+                .. totalOwned
                 .. "/"
-                .. titlesData.total
+                .. totalAvailable
                 .. ") |\n\n"
         end
 
         -- Show all owned titles as a list
-        if titlesData.list and #titlesData.list > 0 then
+        if titlesData.owned and #titlesData.owned > 0 then
             local ownedTitles = {}
-            for _, title in ipairs(titlesData.list) do
-                if title.unlocked then
-                    table.insert(ownedTitles, title.name)
-                end
+            for _, title in ipairs(titlesData.owned) do
+                table.insert(ownedTitles, title.name)
             end
 
             if #ownedTitles > 0 then
@@ -176,9 +172,9 @@ local function GenerateTitles(titlesData, format)
             else
                 markdown = markdown .. "*No titles owned*\n\n"
             end
-        elseif titlesData.total and titlesData.total > 0 then
+        elseif totalAvailable > 0 then
             -- Show count if we have total but no list
-            markdown = markdown .. "**Owned:** " .. (titlesData.owned or 0) .. "/" .. titlesData.total .. "\n\n"
+            markdown = markdown .. "**Owned:** " .. totalOwned .. "/" .. totalAvailable .. "\n\n"
         elseif titlesData.current and titlesData.current ~= "" then
             -- We have a current title but no total count - collector may have failed
             markdown = markdown
@@ -200,7 +196,19 @@ local function GenerateHousing(housingData, format)
 
     local markdown = ""
 
-    if not housingData or not housingData.total or housingData.total == 0 then
+    if not housingData then
+        housingData = {}
+    end
+
+    -- Extract summary data
+    local totalOwned = (housingData.summary and housingData.summary.totalOwned) 
+        or (housingData.owned and #housingData.owned) 
+        or 0
+    local totalAvailable = (housingData.summary and housingData.summary.totalAvailable) 
+        or housingData.total 
+        or 0
+
+    if totalOwned == 0 then
         -- Show placeholder when section enabled but no housing
         if format ~= "discord" then
             markdown = markdown .. "### 🏠 Housing\n\n"
@@ -210,49 +218,59 @@ local function GenerateHousing(housingData, format)
     end
 
     if format == "discord" then
-        markdown = markdown
-            .. "**Housing:** "
-            .. housingData.owned
-            .. "/"
-            .. housingData.total
-            .. " ("
-            .. math.floor((housingData.owned / housingData.total) * 100)
-            .. "%)\n"
+        markdown = markdown .. "**Housing:** " .. totalOwned
+        
+        if totalAvailable > 0 then
+            markdown = markdown
+                .. "/"
+                .. totalAvailable
+                .. " ("
+                .. math.floor((totalOwned / totalAvailable) * 100)
+                .. "%)"
+        end
+        markdown = markdown .. "\n"
 
-        if housingData.primary and housingData.primary ~= "" then
-            local primaryLink = (CreateHouseLink and CreateHouseLink(housingData.primary, format))
-                or housingData.primary
+        if housingData.primary and housingData.primary.name then
+            local primaryName = housingData.primary.name
+            local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName, format))
+                or primaryName
             markdown = markdown .. "• Primary: " .. primaryLink .. "\n"
         end
         markdown = markdown .. "\n"
     else
         markdown = markdown .. "### 🏠 Housing\n\n"
 
-        if housingData.primary and housingData.primary ~= "" then
-            local primaryLink = (CreateHouseLink and CreateHouseLink(housingData.primary, format))
-                or housingData.primary
+        if housingData.primary and housingData.primary.name then
+            local primaryName = housingData.primary.name
+            local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName, format))
+                or primaryName
             markdown = markdown .. "**Primary Residence:** " .. primaryLink .. "\n\n"
         end
 
-        local progress = math.floor((housingData.owned / housingData.total) * 100)
-        local progressBar = GenerateProgressBar(progress, 20)
-        markdown = markdown .. "| Progress |\n"
-        markdown = markdown .. "| --- |\n"
-        markdown = markdown
-            .. "| "
-            .. progressBar
-            .. " "
-            .. progress
-            .. "% ("
-            .. housingData.owned
-            .. "/"
-            .. housingData.total
-            .. ") |\n\n"
+        if totalAvailable > 0 then
+            local progress = math.floor((totalOwned / totalAvailable) * 100)
+            local progressBar = GenerateProgressBar(progress, 20)
+            markdown = markdown .. "| Progress |\n"
+            markdown = markdown .. "| --- |\n"
+            markdown = markdown
+                .. "| "
+                .. progressBar
+                .. " "
+                .. progress
+                .. "% ("
+                .. totalOwned
+                .. "/"
+                .. totalAvailable
+                .. ") |\n\n"
+        else
+            -- Just show count if total is unknown
+            markdown = markdown .. "**Total Owned:** " .. totalOwned .. "\n\n"
+        end
 
         -- Show owned houses
         local ownedHouses = {}
-        for _, house in ipairs(housingData.houses) do
-            if house.owned then
+        if housingData.owned and #housingData.owned > 0 then
+            for _, house in ipairs(housingData.owned) do
                 table.insert(ownedHouses, house.name)
             end
         end

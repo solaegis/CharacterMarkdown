@@ -1,11 +1,7 @@
--- CharacterMarkdown - Equipment Data Collector (Tier 1 Enhanced)
--- Gear, sets, mundus stones, active buffs, enchantments, item details
+-- CharacterMarkdown - Equipment Data Collector
+-- Composition logic moved from API layer
 
 local CM = CharacterMarkdown
-
--- =====================================================
--- EQUIPMENT (TIER 1 COMPLETE)
--- =====================================================
 
 local function CollectEquipmentData()
     local equipment = { sets = {}, items = {} }
@@ -36,12 +32,12 @@ local function CollectEquipmentData()
     -- Collect set information
     local sets = {}
     for _, slotIndex in ipairs(equipSlots) do
-        local itemName = GetItemName(BAG_WORN, slotIndex)
-        if itemName and itemName ~= "" then
-            local itemLink = GetItemLink(BAG_WORN, slotIndex)
-            local hasSet, setName = GetItemLinkSetInfo(itemLink)
-            if hasSet and setName then
-                sets[setName] = (sets[setName] or 0) + 1
+        -- Use API layer for basic item info
+        local itemInfo = CM.api.equipment.GetEquippedItem(slotIndex)
+        if itemInfo and itemInfo.name and itemInfo.name ~= "" then
+            -- Use set info from API layer
+            if itemInfo.set and itemInfo.set.hasSet and itemInfo.set.name then
+                sets[itemInfo.set.name] = (sets[itemInfo.set.name] or 0) + 1
             end
         end
     end
@@ -70,95 +66,82 @@ local function CollectEquipmentData()
 
     -- Collect equipment items with extended details
     for _, slotIndex in ipairs(equipSlots) do
-        local itemName = GetItemName(BAG_WORN, slotIndex)
-        if itemName and itemName ~= "" then
+        -- Use API layer for basic item info
+        local itemInfo = CM.api.equipment.GetEquippedItem(slotIndex)
+        if itemInfo and itemInfo.name and itemInfo.name ~= "" then
             -- Strip superscript markers from item names (^n, ^N, ^F, ^p, etc.)
-            itemName = itemName:gsub("%^%w+$", "")
-            local itemLink = GetItemLink(BAG_WORN, slotIndex)
-            local hasSet, setName = GetItemLinkSetInfo(itemLink)
-            local quality = GetItemLinkQuality(itemLink)
-            local traitType = GetItemLinkTraitInfo(itemLink)
-            local traitName = GetString("SI_ITEMTRAITTYPE", traitType) or "None"
+            local itemName = itemInfo.name:gsub("%^%w+$", "")
+            local itemLink = itemInfo.link
+            local hasSet = itemInfo.set and itemInfo.set.hasSet or false
+            local setName = itemInfo.set and itemInfo.set.name or nil
+            local quality = itemInfo.quality or 0
+            -- Ensure quality is a number (0-4)
+            if type(quality) ~= "number" then
+                quality = 0
+            end
+            local traitName = itemInfo.trait and itemInfo.trait.name or "None"
 
-            -- ===== NEW: ENCHANTMENT INFO =====
-            local enchantName, enchantIcon, enchantCharge, enchantMaxCharge = nil, nil, 0, 0
+            -- Enchantment info (from API layer, but need extended details)
+            local enchantName = itemInfo.enchant and itemInfo.enchant.name or nil
+            local enchantIcon, enchantCharge, enchantMaxCharge = nil, 0, 0
+            -- Get extended enchant details (charge, max charge, icon) via direct API call
             local success1, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
             if success1 then
-                -- Always try to get charge data even if name is missing
-                -- charge can be 0 (depleted) or a positive number (has charge)
-                -- CRITICAL: Ensure charge is a number, not a string
                 if charge ~= nil and type(charge) == "number" then
                     enchantCharge = charge
-                elseif charge ~= nil and type(charge) == "string" then
-                    -- If charge is a string, it's likely the enchantment name was returned in wrong position
-                    -- Try to extract a number from it, or default to 0
-                    local numCharge = tonumber(charge)
-                    if numCharge then
-                        enchantCharge = numCharge
-                    else
-                        -- If it's a string that's not a number, it might be the name - don't assign to charge
-                        enchantCharge = 0
-                    end
                 end
-                -- CRITICAL: Ensure maxCharge is a number, not a string
                 if maxCharge ~= nil and type(maxCharge) == "number" and maxCharge > 0 then
                     enchantMaxCharge = maxCharge
-                elseif maxCharge ~= nil and type(maxCharge) == "string" then
-                    local numMaxCharge = tonumber(maxCharge)
-                    if numMaxCharge and numMaxCharge > 0 then
-                        enchantMaxCharge = numMaxCharge
-                    end
                 end
-                -- Only set name if it's a valid non-empty string
-                if name and name ~= "" and type(name) == "string" then
+                if icon then
+                    enchantIcon = icon
+                end
+                -- Use name from extended call if API layer didn't provide it
+                if not enchantName and name and name ~= "" and type(name) == "string" then
                     enchantName = name
-                    if icon then
-                        enchantIcon = icon
-                    end
                 end
             end
 
-            -- ===== NEW: ITEM STYLE =====
+            -- Item style
             local itemStyle = 0
             local success2, style = pcall(GetItemLinkItemStyle, itemLink)
             if success2 and style then
                 itemStyle = style
             end
 
-            -- ===== NEW: REQUIRED LEVEL/CP =====
+            -- Required level/CP
             local requiredLevel, requiredCP = 0, 0
             local success3, level = pcall(GetItemLinkRequiredLevel, itemLink)
             if success3 and level then
                 requiredLevel = level
             end
-
             local success4, cp = pcall(GetItemLinkRequiredChampionPoints, itemLink)
             if success4 and cp then
                 requiredCP = cp
             end
 
-            -- ===== NEW: BIND TYPE =====
+            -- Bind type
             local bindType = BIND_TYPE_NONE
             local success5, bind = pcall(GetItemLinkBindType, itemLink)
             if success5 and bind then
                 bindType = bind
             end
 
-            -- ===== NEW: ITEM VALUE =====
+            -- Item value
             local itemValue = 0
             local success6, value = pcall(GetItemLinkValue, itemLink, false)
             if success6 and value then
                 itemValue = value
             end
 
-            -- ===== NEW: CRAFTED STATUS =====
+            -- Crafted status
             local isCrafted = false
             local success7, crafted = pcall(IsItemLinkCrafted, itemLink)
             if success7 then
                 isCrafted = crafted
             end
 
-            -- ===== NEW: ITEM CLASSIFICATION =====
+            -- Item classification
             local armorType = ARMOR_TYPE_NONE
             local weaponType = WEAPON_TYPE_NONE
             local craftedQuality = ITEM_QUALITY_NONE
@@ -168,31 +151,26 @@ local function CollectEquipmentData()
             if success8 and armor then
                 armorType = armor
             end
-
             local success9, weapon = pcall(GetItemLinkWeaponType, itemLink)
             if success9 and weapon then
                 weaponType = weapon
             end
-
             local success10, craftedQual = pcall(GetItemLinkCraftedQuality, itemLink)
             if success10 and craftedQual then
                 craftedQuality = craftedQual
             end
-
             local success11, stolen = pcall(GetItemLinkStolen, itemLink)
             if success11 then
                 isStolen = stolen
             end
 
-            -- ===== NEW: ITEM DETAILS =====
+            -- Item details
             local flavorText = ""
             local originalItemLink = ""
-
             local success12, flavor = pcall(GetItemLinkFlavorText, itemLink)
             if success12 and flavor and flavor ~= "" then
                 flavorText = flavor
             end
-
             local success13, originalItem = pcall(GetItemLinkClothierOriginalItem, itemLink)
             if success13 and originalItem and originalItem ~= "" then
                 originalItemLink = originalItem
@@ -205,10 +183,10 @@ local function CollectEquipmentData()
                 name = itemName,
                 setName = (hasSet and setName) and setName or "-",
                 quality = CM.utils.GetQualityColor(quality),
+                qualityNumeric = quality or 0,  -- Store numeric quality for calculations
                 qualityEmoji = CM.utils.GetQualityEmoji(quality),
                 trait = traitName,
                 isEmpty = false,
-                -- NEW FIELDS (Tier 1)
                 enchantment = enchantName or false,
                 enchantIcon = enchantIcon,
                 enchantCharge = enchantCharge,
@@ -219,128 +197,89 @@ local function CollectEquipmentData()
                 bindType = bindType,
                 value = itemValue,
                 isCrafted = isCrafted,
-                -- NEW FIELDS (Item Classification)
                 armorType = armorType,
                 weaponType = weaponType,
                 craftedQuality = craftedQuality,
                 isStolen = isStolen,
-                -- NEW FIELDS (Item Details)
                 flavorText = flavorText,
                 originalItemLink = originalItemLink,
             })
         end
     end
+    
+    -- ===== COMPUTED FIELDS =====
+    
+    -- Set Bonus Analysis
+    local setCounts = {}
+    for _, setData in ipairs(equipment.sets) do
+        local setName = setData.name
+        if setName then
+            setCounts[setName] = setData.count or 0
+        end
+    end
+    
+    local activeSetBonuses = {}
+    for setName, count in pairs(setCounts) do
+        if count >= 2 then
+            table.insert(activeSetBonuses, {
+                name = setName,
+                pieces = count,
+                has2Piece = count >= 2,
+                has3Piece = count >= 3,
+                has4Piece = count >= 4,
+                has5Piece = count >= 5
+            })
+        end
+    end
+    
+    equipment.setBonuses = activeSetBonuses
+    
+    -- Trait Distribution
+    local traitCounts = {}
+    for _, item in ipairs(equipment.items) do
+        local traitName = item.trait or "None"
+        traitCounts[traitName] = (traitCounts[traitName] or 0) + 1
+    end
+    equipment.traitDistribution = traitCounts
+    
+    -- Gear Score (rough calculation based on quality and level)
+    local gearScore = 0
+    local itemCount = 0
+    for _, item in ipairs(equipment.items) do
+        -- Use qualityNumeric (number) instead of quality (string/color)
+        -- Ensure we have numeric values for calculations
+        local qualityNum = 0
+        if item.qualityNumeric ~= nil then
+            if type(item.qualityNumeric) == "number" then
+                qualityNum = item.qualityNumeric
+            elseif type(item.qualityNumeric) == "string" then
+                qualityNum = tonumber(item.qualityNumeric) or 0
+            end
+        end
+        
+        local levelValue = 0
+        if item.requiredLevel ~= nil then
+            if type(item.requiredLevel) == "number" then
+                levelValue = item.requiredLevel
+            elseif type(item.requiredLevel) == "string" then
+                levelValue = tonumber(item.requiredLevel) or 0
+            end
+        end
+        
+        -- Calculate gear score if we have valid values
+        if qualityNum >= 0 and levelValue >= 0 then
+            -- Quality: 0-4 (white to gold), Level: 1-50
+            local qualityMultiplier = qualityNum + 1  -- 1-5
+            gearScore = gearScore + (qualityMultiplier * levelValue)
+            itemCount = itemCount + 1
+        end
+    end
+    equipment.gearScore = itemCount > 0 and math.floor(gearScore / itemCount) or 0
 
     return equipment
 end
 
 CM.collectors.CollectEquipmentData = CollectEquipmentData
 
--- =====================================================
--- MUNDUS STONE
--- =====================================================
+CM.DebugPrint("COLLECTOR", "Equipment collector module loaded")
 
-local function CollectMundusData()
-    local data = { active = false, name = nil }
-
-    local mundusStones = {
-        ["The Apprentice"] = true,
-        ["The Atronach"] = true,
-        ["The Lady"] = true,
-        ["The Lord"] = true,
-        ["The Lover"] = true,
-        ["The Mage"] = true,
-        ["The Ritual"] = true,
-        ["The Serpent"] = true,
-        ["The Shadow"] = true,
-        ["The Steed"] = true,
-        ["The Thief"] = true,
-        ["The Tower"] = true,
-        ["The Warrior"] = true,
-        ["Boon: The Apprentice"] = "The Apprentice",
-        ["Boon: The Atronach"] = "The Atronach",
-        ["Boon: The Lady"] = "The Lady",
-        ["Boon: The Lord"] = "The Lord",
-        ["Boon: The Lover"] = "The Lover",
-        ["Boon: The Mage"] = "The Mage",
-        ["Boon: The Ritual"] = "The Ritual",
-        ["Boon: The Serpent"] = "The Serpent",
-        ["Boon: The Shadow"] = "The Shadow",
-        ["Boon: The Steed"] = "The Steed",
-        ["Boon: The Thief"] = "The Thief",
-        ["Boon: The Tower"] = "The Tower",
-        ["Boon: The Warrior"] = "The Warrior",
-    }
-
-    local numBuffs = CM.SafeCall(GetNumBuffs, "player") or 0
-
-    for i = 1, numBuffs do
-        local buffName = CM.SafeCall(GetUnitBuffInfo, "player", i)
-
-        if buffName then
-            local mundusMatch = mundusStones[buffName]
-            if mundusMatch then
-                data.active = true
-                data.name = type(mundusMatch) == "string" and mundusMatch or buffName
-                break
-            end
-        end
-    end
-
-    return data
-end
-
-CM.collectors.CollectMundusData = CollectMundusData
-
--- =====================================================
--- ACTIVE BUFFS
--- =====================================================
-
-local function CollectActiveBuffs()
-    local buffs = { food = nil, potion = nil, other = {} }
-
-    local foodKeywords = { "Food", "Drink", "Broth", "Stew", "Soup", "Meal", "Feast" }
-    local potionKeywords = { "Potion", "Elixir", "Draught", "Tonic" }
-
-    local numBuffs = CM.SafeCall(GetNumBuffs, "player") or 0
-
-    for i = 1, numBuffs do
-        local buffName = CM.SafeCall(GetUnitBuffInfo, "player", i)
-
-        if buffName and buffName ~= "" then
-            local isFood = false
-            local isPotion = false
-
-            for _, keyword in ipairs(foodKeywords) do
-                if buffName:find(keyword) then
-                    isFood = true
-                    break
-                end
-            end
-
-            if not isFood then
-                for _, keyword in ipairs(potionKeywords) do
-                    if buffName:find(keyword) then
-                        isPotion = true
-                        break
-                    end
-                end
-            end
-
-            if isFood and not buffs.food then
-                buffs.food = buffName
-            elseif isPotion and not buffs.potion then
-                buffs.potion = buffName
-            elseif not isFood and not isPotion and #buffs.other < 5 then
-                local isMundus = buffName:find("^The ") or buffName:find("^Boon:")
-                if not isMundus then
-                    table.insert(buffs.other, buffName)
-                end
-            end
-        end
-    end
-
-    return buffs
-end
-
-CM.collectors.CollectActiveBuffs = CollectActiveBuffs

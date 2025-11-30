@@ -1,5 +1,5 @@
 -- CharacterMarkdown - Markdown Generation Engine
--- Generates markdown in multiple formats (GitHub, VSCode, Discord, Quick)
+-- Generates markdown in GitHub style format
 
 local CM = CharacterMarkdown
 
@@ -9,10 +9,10 @@ local CM = CharacterMarkdown
 local function GetGenerators()
     return {
         -- Character sections
-        GenerateQuickSummary = CM.generators.sections.GenerateQuickSummary,
         GenerateHeader = CM.generators.sections.GenerateHeader,
-        GenerateQuickStats = CM.generators.sections.GenerateQuickStats,
         GenerateGeneral = CM.generators.sections.GenerateGeneral,
+        GenerateQuickStats = CM.generators.sections.GenerateQuickStats,
+        GenerateOverviewSection = CM.generators.sections.GenerateOverviewSection,
         GenerateCharacterStats = CM.generators.sections.GenerateCharacterStats,
         GenerateCustomNotes = CM.generators.sections.GenerateCustomNotes,
         GenerateDynamicTableOfContents = CM.generators.sections.GenerateDynamicTableOfContents,
@@ -30,9 +30,11 @@ local function GetGenerators()
         GenerateEquipment = CM.generators.sections.GenerateEquipment,
         GenerateSkills = CM.generators.sections.GenerateSkills,
         GenerateProgressSummary = CM.generators.sections.GenerateProgressSummary,
+        GenerateCharacterProgress = CM.generators.sections.GenerateCharacterProgress,
 
         -- Combat sections
         GenerateCombatStats = CM.generators.sections.GenerateCombatStats,
+        GenerateAdvancedStats = CM.generators.sections.GenerateAdvancedStats,
         GenerateBuffs = CM.generators.sections.GenerateBuffs,
 
         -- Content sections
@@ -45,7 +47,7 @@ local function GetGenerators()
         GenerateAchievements = CM.generators.sections.GenerateAchievements,
         GenerateAntiquities = CM.generators.sections.GenerateAntiquities,
         GenerateQuests = CM.generators.sections.GenerateQuests,
-        GenerateEquipmentEnhancement = CM.generators.sections.GenerateEquipmentEnhancement,
+        -- GenerateEquipmentEnhancement = CM.generators.sections.GenerateEquipmentEnhancement,  -- DISABLED: moved to DISABLED/
 
         -- World sections
         GenerateWorldProgress = CM.generators.sections.GenerateWorldProgress,
@@ -74,7 +76,7 @@ local collectionErrors = {}
 local function SafeCollect(collectorName, collectorFunc)
     -- Check if function exists before trying to call it
     if not collectorFunc or type(collectorFunc) ~= "function" then
-        CM.Warn(string.format("⚠️ %s not available", collectorName))
+        -- Silently return empty data if collector not available
         return {} -- Return empty data if function doesn't exist
     end
 
@@ -97,12 +99,12 @@ local function ReportCollectionErrors()
         return
     end
 
-    -- Log errors to chat (always shown, not just debug mode)
-    CM.Warn(string.format("Encountered %d error(s) during data collection:", #collectionErrors))
+    -- Errors are logged to saved variables but not spammed to chat
+    -- Users can check the error log if needed
+    CM.DebugPrint("ERRORS", string.format("Encountered %d error(s) during data collection", #collectionErrors))
     for i, err in ipairs(collectionErrors) do
-        CM.Warn(string.format("  %d. %s: %s", i, err.collector, err.error))
+        CM.DebugPrint("ERRORS", string.format("  %d. %s: %s", i, err.collector, err.error))
     end
-    CM.Warn("Generated markdown may be incomplete. Try /reloadui if issues persist.")
 end
 
 local function ResetCollectionErrors()
@@ -212,7 +214,8 @@ local function GetSectionRegistry(format, settings, gen, data)
             tostring(settings.includeChampionDiagram)
         )
     end)
-    return {
+    
+    local registry = {
         -- Header (controlled by includeHeader setting, not in TOC)
         {
             name = "Header",
@@ -228,9 +231,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             name = "TableOfContents",
             tocEntry = nil, -- Not in TOC
             condition = function()
-                return format ~= "discord"
-                    and format ~= "quick"
-                    and IsSettingEnabled(settings, "includeTableOfContents", true)
+                return IsSettingEnabled(settings, "includeTableOfContents", true)
             end,
             generator = function()
                 -- TOC will be generated dynamically from this registry
@@ -241,28 +242,39 @@ local function GetSectionRegistry(format, settings, gen, data)
         },
 
         -- ========================================
-        -- SECTIONS IN TOC ORDER (as shown in Table of Contents)
+        -- SECTIONS ORGANIZED TO MATCH SETTINGS PANEL ORDER
+        -- ========================================
+        -- Sections are ordered to match the settings panel organization
+        -- This ensures the TOC reflects the same structure as the settings UI
+
+        -- ========================================
+        -- OVERVIEW & CUSTOM NOTES (Special sections)
         -- ========================================
 
-        -- 1. 📋 Overview (Quick Stats Summary)
+        -- 1. 📋 Overview (Quick Stats Summary) - Uses multiple collectors
         {
             name = "QuickStats",
             tocEntry = {
                 title = "📋 Overview",
-                subsections = { "General", "Currency", "Character Stats" },
+                subsections = { "General", "Currency" },
             },
             condition = function()
-                -- Show Overview if format is not discord AND any subsection is enabled
-                if format == "discord" then
-                    return false
-                end
                 -- Check if any subsection is enabled
                 return IsSettingEnabled(settings, "includeGeneral", true)
                     or IsSettingEnabled(settings, "includeCurrency", true)
                     or IsSettingEnabled(settings, "includeCharacterStats", true)
             end,
             generator = function()
-                return gen.GenerateQuickStats(
+                -- Pass attributes data through settings for GenerateGeneral
+                local settingsWithData = {}
+                for k, v in pairs(settings) do
+                    settingsWithData[k] = v
+                end
+                settingsWithData._collectedData = {
+                    characterAttributes = data.characterAttributes
+                }
+                -- Call GenerateOverviewSection which includes the section header
+                return gen.GenerateOverviewSection(
                     data.character,
                     data.stats,
                     format,
@@ -277,7 +289,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                     data.titlesHousing,
                     data.mundus,
                     data.riding,
-                    settings
+                    settingsWithData
                 )
             end,
         },
@@ -296,30 +308,87 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- 2. ⚔️ Combat Arsenal (Skill Bars Only - Front/Back Bar)
+        -- ========================================
+        -- COMBAT ARSENAL (Composite section grouping multiple collectors)
+        -- ========================================
+
+
+        -- 2. ⚔️ Combat Arsenal (Character Stats + Optional Skill Bars)
+        -- Uses: Combat.lua - CollectCombatStatsData, Skills.lua - CollectSkillBarData
         {
-            name = "SkillBars",
+            name = "CombatArsenal",
             tocEntry = {
                 title = "⚔️ Combat Arsenal",
-                subsections = { "Equipment & Active Sets", "Champion Points", "Character Progress", "Companions" },
+                subsections = { "Character Stats", "Advanced Stats" },
             },
-            condition = IsSettingEnabled(settings, "includeSkillBars", true),
+            condition = function()
+                local basicEnabled = IsSettingEnabled(settings, "includeBasicCombatStats", true)
+                local advancedEnabled = IsSettingEnabled(settings, "includeAdvancedStats", true)
+                local barsEnabled = IsSettingEnabled(settings, "includeSkillBars", true)
+                
+                return basicEnabled or advancedEnabled or barsEnabled
+            end,
             generator = function()
-                -- Generate ONLY the skill bars (front/back bar tables)
-                local skillBarData = data.skillBar or {}
-                local success, result = pcall(gen.GenerateSkillBarsOnly, skillBarData, format)
-                if success then
-                    return result or ""
-                else
-                    CM.Warn("GenerateSkillBarsOnly failed: " .. tostring(result))
-                    if format == "discord" then
-                        return "\n**Skill Bars:**\n*Error generating skill bars*\n\n"
-                    else
-                        return "## ⚔️ Combat Arsenal\n\n*Error generating skill bars*\n\n"
+                -- Ensure stats data exists
+                if not data.stats then
+                    if CM.collectors and CM.collectors.CollectCombatStatsData then
+                        data.stats = CM.collectors.CollectCombatStatsData()
                     end
                 end
+
+                -- Start with section header
+                local output = "## ⚔️ Combat Arsenal\n\n"
+                
+                -- Generate Basic Combat Stats
+                if IsSettingEnabled(settings, "includeBasicCombatStats", true) then
+                    CM.DebugPrint("STATS_GEN", "Generating Basic Combat Stats...")
+                    if data.stats then
+                        local success, result = pcall(gen.GenerateCombatStats, data.stats, format, true) -- inline=true
+                        if success then
+                            local statsOutput = result or ""
+                            if statsOutput ~= "" then
+                                CM.DebugPrint("STATS_GEN", string.format("✓ Generated %d characters of basic stats", #statsOutput))
+                                output = output .. statsOutput
+                            end
+                        end
+                    end
+                end
+
+                -- Generate Advanced Stats
+                if IsSettingEnabled(settings, "includeAdvancedStats", true) then
+                    CM.DebugPrint("STATS_GEN", "Generating Advanced Stats...")
+                    if data.stats then
+                        local success, result = pcall(gen.GenerateAdvancedStats, data.stats, format)
+                        if success then
+                            local advStatsOutput = result or ""
+                            if advStatsOutput ~= "" then
+                                CM.DebugPrint("STATS_GEN", string.format("✓ Generated %d characters of advanced stats", #advStatsOutput))
+                                output = output .. advStatsOutput
+                            end
+                        end
+                    end
+                end
+
+                -- Generate Skill Bars (optional)
+                if IsSettingEnabled(settings, "includeSkillBars", true) then
+                    local skillBarData = data.skillBar or {}
+                    local success, result = pcall(gen.GenerateSkillBarsOnly, skillBarData, format)
+                    
+                    if success then
+                        output = output .. (result or "")
+                    end
+                end
+
+                -- If we generated nothing, return empty to skip section
+                return output
             end,
         },
+
+        -- ========================================
+        -- EQUIPMENT (Equipment.lua collector)
+        -- ========================================
+        -- Uses: Equipment.lua - CollectEquipmentData
+        -- Setting: includeEquipment
 
         -- 2a. Equipment & Active Sets (separate section)
         {
@@ -332,94 +401,19 @@ local function GetSectionRegistry(format, settings, gen, data)
                 if success then
                     return result or ""
                 else
-                    CM.Warn("GenerateEquipment failed: " .. tostring(result))
+                    -- Silently fail - error already logged
                     return ""
                 end
             end,
         },
 
-        -- 2b. Character Progress (Summary + Skill Morphs + Status-Organized Progression)
-        {
-            name = "CharacterProgress",
-            tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
-            condition = IsSettingEnabled(settings, "includeSkills", true),
-            generator = function()
-                -- Generate Character Progress section with summary, morphs, and status-organized skills
-                local skillMorphsData = data.skillMorphs or {}
-                local skillProgressionData = data.skill or {}
+        -- ========================================
+        -- CHAMPION POINTS (Champion.lua collector)
+        -- ========================================
+        -- Uses: Champion.lua - CollectChampionPointData
+        -- Settings: includeChampionPoints, includeChampionDiagram
 
-                local output = ""
-                if format == "discord" then
-                    output = "\n**Character Progress:**\n"
-                else
-                    output = "## 📜 Character Progress\n\n"
-                end
-
-                -- Add Progress Summary Dashboard (non-Discord only)
-                if format ~= "discord" and gen.GenerateProgressSummary then
-                    local success, summaryContent =
-                        pcall(gen.GenerateProgressSummary, skillProgressionData, skillMorphsData, format)
-                    if success and summaryContent then
-                        output = output .. summaryContent
-                    end
-                end
-
-                -- Add Skill Morphs (collapsible section, respects includeSkillMorphs setting)
-                if IsSettingEnabled(settings, "includeSkillMorphs", false) and skillMorphsData and #skillMorphsData > 0 and format ~= "discord" then
-                    local success, morphsContent = pcall(gen.GenerateSkillMorphs, skillMorphsData, format)
-                    if success and morphsContent then
-                        -- Strip header and separator from morphs
-                        morphsContent = morphsContent:gsub("^##%s+🌿%s+Skill%s+Morphs%s*\n%s*\n", "")
-                        morphsContent = morphsContent:gsub("%-%-%-%s*\n%s*$", "")
-
-                        -- Count total abilities for summary
-                        local totalAbilities = 0
-                        for _, skillType in ipairs(skillMorphsData) do
-                            for _, skillLine in ipairs(skillType.skillLines or {}) do
-                                totalAbilities = totalAbilities + #(skillLine.abilities or {})
-                            end
-                        end
-
-                        -- Wrap in collapsible section
-                        output = output .. "<details>\n"
-                        output = output
-                            .. string.format(
-                                "<summary>🌿 Skill Morphs (%d abilities with morph choices)</summary>\n\n",
-                                totalAbilities
-                            )
-                        output = output .. morphsContent
-                        output = output .. "</details>\n\n"
-                    end
-                elseif IsSettingEnabled(settings, "includeSkillMorphs", false) and skillMorphsData and #skillMorphsData > 0 and format == "discord" then
-                    -- Discord: keep existing format
-                    local success, morphsContent = pcall(gen.GenerateSkillMorphs, skillMorphsData, format)
-                    if success and morphsContent then
-                        output = output .. morphsContent
-                    end
-                end
-
-                -- Add Skill Progression (now status-organized, with optional morph integration)
-                if skillProgressionData and #skillProgressionData > 0 then
-                    local success, skillsContent =
-                        pcall(gen.GenerateSkills, skillProgressionData, format, skillMorphsData)
-                    if success and skillsContent then
-                        -- Skills no longer outputs header, so just append content
-                        output = output .. skillsContent
-                    end
-                end
-
-                -- Use CreateSeparator for consistent separator styling
-                local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-                if CreateSeparator then
-                    output = output .. CreateSeparator("hr")
-                else
-                    output = output .. "---\n\n"
-                end
-                return output
-            end,
-        },
-
-        -- 2c. ⭐ Champion Points (part of Combat Arsenal)
+        -- 2b. ⭐ Champion Points (part of Combat Arsenal)
         {
             name = "ChampionPoints",
             tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
@@ -437,9 +431,9 @@ local function GetSectionRegistry(format, settings, gen, data)
                 local cpResult = gen.GenerateChampionPoints(data.cp, format)
                 markdown = markdown .. cpResult
 
-                -- Add Mermaid diagram if enabled (GitHub/VSCode only - Mermaid doesn't render in Discord)
+                -- Add Mermaid diagram if enabled
                 local diagramEnabled = IsSettingEnabled(currentSettings, "includeChampionDiagram", false)
-                if diagramEnabled and format ~= "discord" then
+                if diagramEnabled then
                     local diagramResult = gen.GenerateChampionDiagram(data.cp)
                     markdown = markdown .. diagramResult
                 end
@@ -448,17 +442,34 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- 2d. 👥 Companions (part of Combat Arsenal)
+        -- ========================================
+        -- SKILLS (Skills.lua collectors)
+        -- ========================================
+        -- Uses: Skills.lua - CollectSkillBarData, CollectSkillProgressionData, CollectSkillMorphsData
+        -- Settings: includeSkillBars, includeSkills, includeSkillMorphs
+
+        -- 2c. Character Progress (Summary + Skill Morphs + Status-Organized Progression)
         {
-            name = "Companion",
+            name = "CharacterProgress",
             tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
-            condition = IsSettingEnabled(settings, "includeCompanion", true),
+            condition = IsSettingEnabled(settings, "includeSkills", true),
             generator = function()
-                return gen.GenerateCompanion(data.companion, format)
+                local skillProgressionData = data.skill or {}
+                local skillMorphsData = data.skillMorphs or {}
+                
+                -- Use the new consolidated generator
+                return gen.GenerateCharacterProgress(skillProgressionData, skillMorphsData, format)
             end,
         },
 
-        -- 3. ⚔️ PvP Profile (includes Alliance War skills conditionally)
+
+        -- ========================================
+        -- PVP (PvP.lua collector) - Settings Panel Order: 8
+        -- ========================================
+        -- Uses: PvP.lua - CollectPvPData
+        -- Settings: includePvP, includePvPStats, showPvPProgression, showCampaignRewards, showLeaderboards, showBattlegrounds, detailedPvP, showAllianceWarSkills
+
+        -- ⚔️ PvP Profile (includes Alliance War skills conditionally)
         {
             name = "PvPStats",
             tocEntry = {
@@ -471,33 +482,85 @@ local function GetSectionRegistry(format, settings, gen, data)
             generator = function()
                 -- Pass skill progression data so PvP section can include Alliance War skills
                 local skillProgressionData = data.skill or {}
-                return gen.GeneratePvPStats(data.pvp, data.pvpStats, format, skillProgressionData, settings)
+                -- Use unified pvp structure: data.pvp.basic and data.pvp.stats
+                local pvpBasic = data.pvp and data.pvp.basic or nil
+                local pvpStats = data.pvp and data.pvp.stats or nil
+                return gen.GeneratePvPStats(pvpBasic, pvpStats, format, skillProgressionData, settings)
             end,
         },
 
-        -- 6. 🏰 Guild Membership (includes Undaunted Active Pledges as subsection)
+        -- ========================================
+        -- COMPANION (Companion.lua collector) - Settings Panel Order: 9
+        -- ========================================
+        -- Uses: Companion.lua - CollectCompanionData
+        -- Setting: includeCompanion
+
+        -- 👥 Companions (standalone section, moved from Combat Arsenal)
         {
-            name = "Guilds",
+            name = "Companion",
             tocEntry = {
-                title = "🏰 Guild Membership",
+                title = "👥 Companions",
             },
-            condition = IsSettingEnabled(settings, "includeGuilds", true),
+            condition = IsSettingEnabled(settings, "includeCompanion", true),
             generator = function()
-                local undauntedPledgesData = nil
-                if IsSettingEnabled(settings, "includeUndauntedPledges", true) then
-                    undauntedPledgesData = data.undauntedPledges
-                end
-                return gen.GenerateGuilds(data.guilds, format, undauntedPledgesData)
+                return gen.GenerateCompanion(data.companion, format)
             end,
         },
 
-        -- 7. 🎨 Collectibles (includes Accessible Content, Titles & Housing as collapsible subsections)
+        -- ========================================
+        -- COLLECTIBLES (Collectibles.lua collector) - Settings Panel Order: 10
+        -- ========================================
+        -- Uses: Collectibles.lua - CollectCollectiblesData, CollectDLCAccess, CollectHousingData
+        -- Settings: includeCollectibles, includeCollectiblesDetailed, includeDLCAccess, includeTitlesHousing
+
+        -- 🎨 Collectibles (includes Accessible Content, Titles & Housing as collapsible subsections)
         {
             name = "Collectibles",
             tocEntry = {
                 title = "🎨 Collectibles",
             },
-            condition = IsSettingEnabled(settings, "includeCollectibles", true),
+            condition = function()
+                if not IsSettingEnabled(settings, "includeCollectibles", true) then
+                    return false
+                end
+                -- Check if there is any collectible data to show
+                local hasData = false
+                if data.collectibles then
+                    -- Check for simple counts
+                    if (data.collectibles.mounts and data.collectibles.mounts > 0) or
+                       (data.collectibles.pets and data.collectibles.pets > 0) or
+                       (data.collectibles.costumes and data.collectibles.costumes > 0) or
+                       (data.collectibles.houses and data.collectibles.houses > 0) then
+                        hasData = true
+                    end
+                    -- Check for detailed categories
+                    if not hasData and data.collectibles.categories then
+                        for _, cat in pairs(data.collectibles.categories) do
+                            if cat and cat.total and cat.total > 0 then
+                                hasData = true
+                                break
+                            end
+                        end
+                    end
+                end
+                -- Check for DLC data if enabled
+                if not hasData and IsSettingEnabled(settings, "includeDLCAccess", false) and data.dlc then
+                     if (data.dlc.accessible and #data.dlc.accessible > 0) or 
+                        (data.dlc.locked and #data.dlc.locked > 0) or 
+                        data.dlc.hasESOPlus then
+                        hasData = true
+                     end
+                end
+                -- Check for Titles/Housing if enabled (implicit check as they are part of collectibles section)
+                if not hasData and data.titlesHousing then
+                    local titles = data.titlesHousing.titles
+                    local housing = data.titlesHousing.housing
+                    if (titles and (titles.total or 0) > 0) or (housing and (housing.total or 0) > 0) then
+                        hasData = true
+                    end
+                end
+                return hasData
+            end,
             generator = function()
                 local lorebooksData = (data.worldProgress and data.worldProgress.lorebooks) or nil
                 return gen.GenerateCollectibles(
@@ -512,10 +575,12 @@ local function GetSectionRegistry(format, settings, gen, data)
         },
 
         -- ========================================
-        -- ADDITIONAL SECTIONS (not in TOC)
+        -- INVENTORY (Inventory.lua collector) - Settings Panel Order: 6
         -- ========================================
+        -- Uses: Inventory.lua - CollectInventoryData, CollectCurrencyData
+        -- Settings: includeInventory, showBagContents, showBankContents, showCraftingBagContents, includeCurrency
 
-        -- Inventory
+        -- 🎒 Inventory
         {
             name = "Inventory",
             tocEntry = {
@@ -527,21 +592,13 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- Crafting (DISABLED - ESO API too complex/unreliable)
-        --[[
-        {
-            name = "Crafting",
-            tocEntry = {
-                title = "⚒️ Crafting"
-            },
-            condition = IsSettingEnabled(settings, "includeCrafting", true),
-            generator = function()
-                return gen.GenerateCrafting(data.crafting, format)
-            end
-        },
-        --]]
+        -- ========================================
+        -- ACHIEVEMENTS (Achievements.lua collector) - Settings Panel Order: 11
+        -- ========================================
+        -- Uses: Achievements.lua - CollectAchievementsData
+        -- Settings: includeAchievements, showAllAchievements
 
-        -- Achievements (standalone section)
+        -- 🏆 Achievements (standalone section)
         {
             name = "Achievements",
             tocEntry = {
@@ -575,7 +632,13 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- Antiquities (standalone section)
+        -- ========================================
+        -- ANTIQUITIES (Antiquities.lua collector) - Settings Panel Order: 12
+        -- ========================================
+        -- Uses: Antiquities.lua - CollectAntiquitiesData
+        -- Settings: includeAntiquities, includeAntiquitiesDetailed
+
+        -- 🏺 Antiquities (standalone section)
         {
             name = "Antiquities",
             tocEntry = {
@@ -596,7 +659,14 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- Quests (standalone section)
+        -- ========================================
+        -- QUESTS (Quests.lua collector) - Settings Panel Order: 13
+        -- ========================================
+        -- Uses: Quests.lua - CollectQuestJournalData, CollectUndauntedPledgesData
+        -- Settings: includeQuests (disabled), includeUndauntedPledges
+
+        -- 📜 Quests (standalone section) - DISABLED
+        --[[
         {
             name = "Quests",
             tocEntry = {
@@ -636,53 +706,64 @@ local function GetSectionRegistry(format, settings, gen, data)
                 return markdown
             end,
         },
+        --]]
 
-        -- Equipment Enhancement (optional advanced section, not in default TOC)
-        {
-            name = "Equipment Enhancement",
-            tocEntry = nil, -- Not shown in TOC
-            condition = IsSettingEnabled(settings, "includeEquipmentEnhancement", false),
-            generator = function()
-                local markdown = ""
+        -- ========================================
+        -- ARMORY BUILDS (ArmoryBuilds.lua collector) - Settings Panel Order: 14
+        -- ========================================
+        -- Uses: ArmoryBuilds.lua - CollectArmoryBuildsData
+        -- Setting: includeArmoryBuilds
+        -- NOTE: Currently not in section registry, but collector exists
+        -- TODO: Add Armory Builds section when generator is implemented
 
-                -- Show basic equipment enhancement summary
-                if data.equipmentEnhancement then
-                    markdown = markdown .. gen.GenerateEquipmentEnhancement(data.equipmentEnhancement, format)
-                end
-
-                -- Show detailed analysis if enabled
-                if IsSettingEnabled(settings, "includeEquipmentAnalysis", false) and data.equipmentEnhancement then
-                    -- Additional detailed content is handled in the main generator
-                    -- This is intentionally empty as detailed content is processed elsewhere
-                    -- No action needed here
-                end
-
-                -- Show only recommendations if enabled
-                if
-                    IsSettingEnabled(settings, "includeEquipmentRecommendations", false) and data.equipmentEnhancement
-                then
-                    -- Generate recommendations only (without summary header)
-                    -- Recommendations are already included in the main section above
-                end
-
-                return markdown
-            end,
-        },
-
-        -- World Progress
-        -- World Progress (DISABLED - ESO achievement API too complex/unreliable for skyshard tracking)
+        -- ========================================
+        -- CRAFTING (Crafting.lua collector) - Settings Panel Order: 15
+        -- ========================================
+        -- Uses: Crafting.lua - CollectCraftingData
+        -- Setting: includeCrafting
+        -- NOTE: Currently disabled in section registry
+        -- TODO: Enable Crafting section when generator is implemented
         --[[
         {
-            name = "World Progress",
+            name = "Crafting",
             tocEntry = {
-                title = "🌍 World Progress"
+                title = "⚒️ Crafting"
             },
-            condition = IsSettingEnabled(settings, "includeWorldProgress", true),
+            condition = IsSettingEnabled(settings, "includeCrafting", true),
             generator = function()
-                return gen.GenerateWorldProgress(data.worldProgress, format)
+                return gen.GenerateCrafting(data.crafting, format)
             end
         },
         --]]
+
+        -- ========================================
+        -- SOCIAL (Social.lua collector) - Settings Panel Order: 16
+        -- ========================================
+        -- Uses: Social.lua - CollectGuildsData, CollectMailData
+        -- Settings: includeGuilds, includeMail
+
+        -- 🏰 Guild Membership (includes Undaunted Active Pledges as subsection)
+        {
+            name = "Guilds",
+            tocEntry = {
+                title = "🏰 Guild Membership",
+            },
+            condition = IsSettingEnabled(settings, "includeGuilds", true),
+            generator = function()
+                local undauntedPledgesData = nil
+                if IsSettingEnabled(settings, "includeUndauntedPledges", true) then
+                    undauntedPledgesData = data.undauntedPledges
+                end
+                return gen.GenerateGuilds(data.guilds, format, undauntedPledgesData)
+            end,
+        },
+
+        -- ========================================
+        -- COMBAT (Combat.lua collectors)
+        -- ========================================
+        -- Uses: Combat.lua - CollectCombatStatsData, CollectRoleData, CollectActiveBuffs, CollectMundusData
+        -- Settings: includeCombatStats, includeRole, includeBuffs
+        -- NOTE: These are shown in Overview table, not as standalone sections
 
         -- Buffs (standalone section, not in TOC - shown in Overview table)
         {
@@ -694,16 +775,17 @@ local function GetSectionRegistry(format, settings, gen, data)
             end,
         },
 
-        -- Mundus (Discord only, not in TOC)
+        -- Mundus (included in DLC section, not standalone)
         {
             name = "Mundus",
-            tocEntry = nil, -- Not shown in TOC
-            condition = format == "discord",
+            tocEntry = nil, -- Not shown in TOC (included in DLC section)
+            condition = false, -- Always false - Mundus is handled in DLC section
             generator = function()
-                return gen.GenerateMundus(data.mundus, format)
             end,
         },
     }
+
+    return registry
 end
 
 -- =====================================================
@@ -711,11 +793,11 @@ end
 -- =====================================================
 
 local function GenerateMarkdown(format)
-    format = format or "github"
+    format = format or "markdown"  -- Default to markdown (GitHub style)
 
     -- Reset error tracking
     ResetCollectionErrors()
-
+    
     -- Verify collectors are loaded
     if not CM.collectors then
         CM.Error("CM.collectors namespace doesn't exist!")
@@ -738,6 +820,7 @@ local function GenerateMarkdown(format)
 
     local collectedData = {
         character = SafeCollect("CollectCharacterData", CM.collectors.CollectCharacterData),
+        characterAttributes = SafeCollect("CollectAttributesData", CM.collectors.CollectAttributesData),
         dlc = SafeCollect("CollectDLCAccess", CM.collectors.CollectDLCAccess),
         mundus = SafeCollect("CollectMundusData", CM.collectors.CollectMundusData),
         buffs = SafeCollect("CollectActiveBuffs", CM.collectors.CollectActiveBuffs),
@@ -757,20 +840,30 @@ local function GenerateMarkdown(format)
         location = SafeCollect("CollectLocationData", CM.collectors.CollectLocationData),
         collectibles = SafeCollect("CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
         -- crafting = SafeCollect("CollectCraftingKnowledgeData", CM.collectors.CollectCraftingKnowledgeData),  -- DISABLED
-        achievements = SafeCollect("CollectAchievementData", CM.collectors.CollectAchievementData),
-        antiquities = SafeCollect("CollectAntiquityData", CM.collectors.CollectAntiquityData),
-        quests = SafeCollect("CollectQuestData", CM.collectors.CollectQuestData),
+        achievements = SafeCollect("CollectAchievementsData", CM.collectors.CollectAchievementsData),
+        antiquities = SafeCollect("CollectAntiquitiesData", CM.collectors.CollectAntiquitiesData),
+        quests = SafeCollect("CollectQuestJournalData", CM.collectors.CollectQuestJournalData),
         -- equipmentEnhancement = SafeCollect("CollectEquipmentEnhancementData", CM.collectors.CollectEquipmentEnhancementData),  -- DISABLED: generator returns empty
         -- worldProgress = SafeCollect("CollectWorldProgressData", CM.collectors.CollectWorldProgressData),  -- DISABLED
-        titlesHousing = SafeCollect("CollectTitlesHousingData", CM.collectors.CollectTitlesHousingData),
-        pvpStats = SafeCollect("CollectPvPStatsData", CM.collectors.CollectPvPStatsData),
+        titles = SafeCollect("CollectTitlesData", CM.collectors.CollectTitlesData),
+        housing = SafeCollect("CollectHousingData", CM.collectors.CollectHousingData),
         armoryBuilds = SafeCollect("CollectArmoryBuildsData", CM.collectors.CollectArmoryBuildsData),
         undauntedPledges = SafeCollect("CollectUndauntedPledgesData", CM.collectors.CollectUndauntedPledgesData),
-        guilds = SafeCollect("CollectGuildData", CM.collectors.CollectGuildData),
+        guilds = SafeCollect("CollectGuildsData", CM.collectors.CollectGuildsData),
+        mail = SafeCollect("CollectMailData", CM.collectors.CollectMailData),
         customNotes = (CM.charData and CM.charData.customNotes)
             or (CharacterMarkdownData and CharacterMarkdownData.customNotes)
             or "",
     }
+
+    -- Add composite data structures
+    collectedData.titlesHousing = {
+        titles = collectedData.titles,
+        housing = collectedData.housing,
+        collections = collectedData.collectibles -- Pass collectibles for furniture collections if needed
+    }
+
+
 
     -- Report any collection errors
     ReportCollectionErrors()
@@ -779,21 +872,17 @@ local function GenerateMarkdown(format)
     -- Settings are always stored in flat format in SavedVariables
     -- CM.GetSettings() merges with defaults to ensure every setting is true or false, never nil
     local settings = CM.GetSettings() or {}
+    
+
 
     -- Get section generators
     local gen = GetGenerators()
 
-    -- QUICK FORMAT - one-line summary
-    if format == "quick" then
-        local result = gen.GenerateQuickSummary(collectedData.character, collectedData.equipment)
-        -- Clear collected data immediately for quick format
-        collectedData = nil
-        return result
-    end
+    format = "markdown" -- Enforce markdown format (GitHub style)
 
-    -- FULL FORMATS (GitHub, VSCode, Discord)
+    -- Generate markdown
     CM.DebugPrint("GENERATOR", function()
-        return string.format("Generating markdown in %s format...", format)
+        return "Generating markdown..."
     end)
 
     local markdown = ""
@@ -870,25 +959,40 @@ local function GenerateMarkdown(format)
                         end
                     end
 
-                    -- AUTO-ADD ANCHOR: If section has a tocEntry, prepend anchor before content
-                    -- IMPORTANT: Only add anchor if result has actual content (not empty or whitespace-only)
-                    if result and result ~= "" and result:gsub("%s+", "") ~= "" then
-                        if section.tocEntry and section.tocEntry.title then
-                            local anchor = GenerateAnchor(section.tocEntry.title)
-                            if anchor and anchor ~= "" then
-                                -- Only add anchor if content doesn't already have one
-                                if not result:match("^%s*<a id=") then
-                                    result = string.format('<a id="%s"></a>\n\n%s', anchor, result)
-                                    CM.DebugPrint(
-                                        "MARKDOWN",
-                                        string.format("Auto-added anchor: #%s for section %s", anchor, section.name)
-                                    )
+                        -- AUTO-ADD ANCHOR: If section has a tocEntry, prepend anchor before content
+                        -- IMPORTANT: Only add anchor if result has actual content (not empty or whitespace-only)
+                        if result and result ~= "" and result:gsub("%s+", "") ~= "" then
+                            if section.tocEntry and section.tocEntry.title then
+                                local anchor = GenerateAnchor(section.tocEntry.title)
+                                if anchor and anchor ~= "" then
+                                    -- Only add anchor if content doesn't already have one
+                                    if not result:match("^%s*<a id=") then
+                                        result = string.format('<a id="%s"></a>\n\n%s', anchor, result)
+                                        CM.DebugPrint(
+                                            "MARKDOWN",
+                                            string.format("Auto-added anchor: #%s for section %s", anchor, section.name)
+                                        )
+                                    end
                                 end
                             end
-                        end
 
-                        markdown = markdown .. result
-                    end
+                            -- AUTO-ADD SEPARATOR: Ensure section ends with a separator
+                            -- Check if result already ends with a separator (--- or <hr>)
+                            -- Allow for trailing whitespace/newlines
+                            local hasSeparator = result:match("%-%-%-%s*$") or result:match("<hr>%s*$") or result:match("<hr%s*/>%s*$")
+                            
+                            if not hasSeparator then
+                                local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
+                                if CreateSeparator then
+                                    result = result .. CreateSeparator("hr")
+                                else
+                                    result = result .. "\n---\n\n"
+                                end
+                                CM.DebugPrint("GENERATOR", string.format("Auto-added separator for section %s", section.name))
+                            end
+
+                            markdown = markdown .. result
+                        end
                 else
                     CM.Error(string.format("  ✗ %s FAILED: %s", section.name, tostring(result)))
                     -- For critical sections, add placeholder on error

@@ -26,34 +26,42 @@ end
 -- PLAY STYLES LIST
 -- =====================================================
 
+-- Display names shown to users in dropdown
 local PLAY_STYLES = {
     "", -- Empty option (default)
+    "Crafter",
     "Healer",
     "Hybrid Build",
     "Magicka DPS",
+    "Mule",
     "Off-Tank",
     "Parse DPS",
     "PvP Bomblade",
     "PvP Brawler",
     "PvP Ganker",
     "PvP Support",
+    "Resource Farmer",
     "Solo Self-Sufficient",
     "Stamina DPS",
     "Support DPS",
     "Tank",
 }
 
+-- Internal values saved to SavedVariables (must match exactly)
 local PLAY_STYLE_VALUES = {
     "", -- Empty option (default)
+    "crafter",
     "healer",
     "hybrid_build",
     "magicka_dps",
+    "mule",
     "off_tank",
     "parse_dps",
     "pvp_bomblade",
     "pvp_brawler",
     "pvp_ganker",
     "pvp_support",
+    "resource_farmer",
     "solo_self_sufficient",
     "stamina_dps",
     "support_dps",
@@ -99,7 +107,7 @@ function CM.Settings.Panel:Initialize()
         displayName = "Character Markdown",
         author = "solaegis",
         version = CM.version,
-        slashCommand = "/markdownsettings",
+        slashCommand = "/markdown_settings",
         registerForRefresh = true,
         registerForDefaults = true,
         -- CRITICAL: Custom defaults handler to preserve text fields (customNotes, customTitle, playStyle)
@@ -160,9 +168,9 @@ function CM.Settings.Panel:Initialize()
             CharacterMarkdownSettings.activeProfile = "Custom"
             CharacterMarkdownSettings._lastModified = GetTimeStamp()
             
-            -- Sync format to core
-            if CharacterMarkdownSettings.currentFormat then
-                CM.currentFormat = CharacterMarkdownSettings.currentFormat
+            -- Sync formatter to core
+            if CharacterMarkdownSettings.currentFormatter then
+                CM.currentFormatter = CharacterMarkdownSettings.currentFormatter
             end
             
             CM.InvalidateSettingsCache()
@@ -180,6 +188,7 @@ function CM.Settings.Panel:Initialize()
         website = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html",
         feedback = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html#comments",
         donation = "https://www.buymeacoffee.com/lewisvavasw",
+        registerForRefresh = true,
     }
 
     self.panelId = "CharacterMarkdownPanel"
@@ -188,6 +197,31 @@ function CM.Settings.Panel:Initialize()
     -- Register options with proper getFunc/setFunc
     local optionsData = self:BuildOptionsData()
     LAM:RegisterOptionControls(self.panelId, optionsData)
+
+    -- Manually resize Build Notes editbox after controls are created
+    -- LAM2 doesn't properly support the height parameter for editboxes
+    local function ResizeBuildNotesEditbox()
+        local editBox = _G["CharacterMarkdown_BuildNotesEditBox"]
+        if editBox then
+            -- Find the actual text input control (editbox is the container)
+            local textControl = editBox.editbox or editBox
+            if textControl and textControl.SetHeight then
+                textControl:SetHeight(500)
+                CM.DebugPrint("SETTINGS", "Build Notes editbox height set to 500px")
+            end
+        end
+    end
+    
+    -- Try to resize immediately after registration
+    zo_callLater(ResizeBuildNotesEditbox, 500)
+    
+    -- Also register callback for when panel is shown/refreshed
+    -- Fix for crash in LAM.util.RegisterForRefreshIfNeeded (replaced with standard callback)
+    CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
+        if panel and panel.data and panel.data.name == "Character Markdown" then
+            ResizeBuildNotesEditbox()
+        end
+    end)
 
     CM.DebugPrint("SETTINGS", "Settings panel registered with LAM")
 
@@ -201,16 +235,30 @@ end
 function CM.Settings.Panel:BuildOptionsData()
     local options = {}
 
-    -- Add sections in order matching markdown output flow
+    -- Add sections organized by collector modules (bottom-up refactor)
     self:AddActions(options) -- FIRST: Quick actions and controls
-    self:AddFormatSection(options)
-    self:AddCustomNotes(options) -- Character-Specific Settings (appears after Overview in output)
+    self:AddFormatterSection(options)
+    self:AddCustomNotes(options) -- Character-Specific Settings
     self:AddLayoutSection(options) -- Layout options (Header/Footer/TOC)
-    self:AddCombatBuildSection(options) -- Combat Arsenal section
-    self:AddPvPSocialSection(options) -- PvP & Social (includes Guilds)
-    self:AddEconomyResourcesSection(options) -- Economy & Resources (includes Collectibles)
-    self:AddCharacterIdentitySection(options) -- Character Identity & Progression (Achievements, DLC, Titles)
-    self:AddContentActivitiesSection(options) -- Content & Activities (Antiquities, Undaunted, Companion)
+    
+    -- Collector-based sections (organized by collector module)
+    self:AddCharacterSection(options) -- Character.lua collectors
+    self:AddCombatSection(options) -- Combat.lua collectors
+    self:AddChampionSection(options) -- Champion.lua collectors
+    self:AddSkillsSection(options) -- Skills.lua collectors
+    self:AddEquipmentSection(options) -- Equipment.lua collectors
+    self:AddInventorySection(options) -- Inventory.lua collectors
+    self:AddProgressionSection(options) -- Progression.lua collectors
+    self:AddPvPSection(options) -- PvP.lua collectors
+    self:AddCompanionSection(options) -- Companion.lua collectors
+    self:AddCollectiblesSection(options) -- Collectibles.lua collectors
+    self:AddAchievementsSection(options) -- Achievements.lua collectors
+    self:AddAntiquitiesSection(options) -- Antiquities.lua collectors
+    self:AddQuestsSection(options) -- Quests.lua collectors (includes Undaunted Pledges)
+    self:AddArmoryBuildsSection(options) -- ArmoryBuilds.lua collectors
+    self:AddCraftingSection(options) -- Crafting.lua collectors
+    self:AddSocialSection(options) -- Social.lua collectors (Guilds, Mail)
+    
     self:AddLinkSettings(options)
     self:AddSupportSection(options) -- LAST: Support section
 
@@ -218,78 +266,67 @@ function CM.Settings.Panel:BuildOptionsData()
 end
 
 -- =====================================================
--- FORMAT SETTINGS
+-- FORMATTER SETTINGS
 -- =====================================================
 
-function CM.Settings.Panel:AddFormatSection(options)
+function CM.Settings.Panel:AddFormatterSection(options)
     table.insert(options, {
         type = "header",
-        name = "Output Format",
+        name = "Output Formatter",
         width = "full",
     })
 
     table.insert(options, {
         type = "dropdown",
-        name = "Default Format",
-        tooltip = "Select the default output format for /markdown command",
-        choices = { "GitHub", "VS Code", "Discord", "Quick Summary" },
-        choicesValues = { "github", "vscode", "discord", "quick" },
+        name = "Default Formatter",
+        tooltip = "Select the default output formatter for /markdown command",
+        choices = { "Markdown", "TONL" },
+        choicesValues = { "markdown", "tonl" },
         getFunc = function()
             -- Use CM.settings if available (ZO_SavedVars proxy), otherwise fallback to CharacterMarkdownSettings
-            if CM.settings and CM.settings.currentFormat then
-                return CM.settings.currentFormat
-            elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormat then
-                return CharacterMarkdownSettings.currentFormat
+            if CM.settings and CM.settings.currentFormatter then
+                return CM.settings.currentFormatter
+            elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormatter then
+                return CharacterMarkdownSettings.currentFormatter
             else
-                return "github" -- Default fallback
+                return "markdown" -- Default fallback
             end
         end,
         setFunc = function(value)
             -- CRITICAL: Save to both CM.settings (ZO_SavedVars proxy) and CharacterMarkdownSettings
             -- This ensures persistence regardless of which reference is used
             if CM.settings then
-                CM.settings.currentFormat = value
+                CM.settings.currentFormatter = value
                 CM.settings._lastModified = GetTimeStamp()
             end
             if CharacterMarkdownSettings then
-                CharacterMarkdownSettings.currentFormat = value
+                CharacterMarkdownSettings.currentFormatter = value
                 CharacterMarkdownSettings._lastModified = GetTimeStamp()
             end
-            CM.currentFormat = value -- Sync to core
+            CM.currentFormatter = value -- Sync to core
             CM.InvalidateSettingsCache() -- Invalidate cache on change
-            CM.DebugPrint("SETTINGS", "Format changed to: " .. tostring(value))
+            CM.DebugPrint("SETTINGS", "Formatter changed to: " .. tostring(value))
         end,
         width = "full",
-        default = "github",
+        default = "markdown",
     })
 
     table.insert(options, {
         type = "description",
         text = "|cFFFFFF==============================================================|r\n\n"
-            .. "|cFFD700GitHub Format|r\n"
+            .. "|cFFD700Markdown Formatter|r\n"
             .. "• Standard markdown with limited HTML tags\n"
             .. "• Clickable UESP links (abilities, sets, race, class, mundus, CP)\n"
             .. "• Tables and collapsible sections (<details>)\n"
             .. "• No custom colors/gradients (security restrictions)\n"
             .. "• Preview at: markdownlivepreview.com (may show more than GitHub)\n"
             .. "• Best for: GitHub README, GitLab, web platforms\n\n"
-            .. "|c3B88C3VS Code Format|r\n"
-            .. "• Full HTML/CSS styling with inline styles\n"
-            .. "• Colored tables, gradients, and custom layouts\n"
-            .. "• Enhanced ASCII art and Unicode box drawing\n"
-            .. "• Emoji-based visual indicators\n"
-            .. "• Best for: VS Code preview, local markdown viewers\n\n"
-            .. "|c7289DADiscord Format|r\n"
-            .. "• Discord-optimized markdown with code blocks\n"
-            .. "• Clickable UESP links for all game content\n"
-            .. "• Compact layout with character count warning\n"
-            .. "• Paste directly in Discord channels\n"
-            .. "• Best for: Discord channels, guild recruitment, LFG posts\n\n"
-            .. "|cFF8C00Quick Summary|r\n"
-            .. "• Ultra-compact one-line format\n"
-            .. "• Name, level, CP, class, top 2 sets\n"
-            .. "• Perfect for quick shares and status updates\n"
-            .. "• Best for: Quick references, alt lists, spreadsheets\n\n"
+            .. "|c9B59B6TONL Formatter|r\n"
+            .. "• Token-Oriented Object Notation (compact structured data)\n"
+            .. "• ~40% fewer tokens than JSON for LLM processing\n"
+            .. "• Tabular arrays and indentation-based structure\n"
+            .. "• All character data in structured format\n"
+            .. "• Best for: LLM/AI processing, data analysis, structured exports\n\n"
             .. "|cFFFFFF==============================================================|r",
         width = "full",
     })
@@ -337,52 +374,183 @@ function CM.Settings.Panel:AddLayoutSection(options)
         width = "half",
         default = true,
     })
+end
 
-    -- Overview Section (subsections)
-    table.insert(options, {
+-- =====================================================
+-- COMBAT SECTION (Combat.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddCombatSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Combat statistics, role, active buffs, and attributes.",
+        width = "full",
+    })
+
+    -- Basic Combat Stats (CollectCombatStatsData - basic stats)
+    table.insert(controls, {
         type = "checkbox",
-        name = "Include General",
-        tooltip = "Show General subsection with character identity, attributes, skill points, vampire/werewolf status, enlightenment, and ESO Plus status (GitHub/VSCode only).",
+        name = "Include Basic Combat Stats",
+        tooltip = "Show basic combat statistics table in Combat Arsenal\\n(Health, Magicka, Stamina, Power, Critical Strike, Penetration, etc.)",
         getFunc = function()
-            return CharacterMarkdownSettings.includeGeneral
+            return CharacterMarkdownSettings.includeBasicCombatStats
         end,
-        setFunc = CreateSetFunc("includeGeneral"),
+        setFunc = CreateSetFunc("includeBasicCombatStats"),
         width = "half",
         default = true,
     })
 
-    table.insert(options, {
+    -- Advanced Stats (CollectCombatStatsData - advanced stats)
+    table.insert(controls, {
         type = "checkbox",
-        name = "Include Character Stats",
-        tooltip = "Show Character Stats subsection with combat statistics (health, resources, weapon/spell power, resistances) (GitHub/VSCode only).",
+        name = "Include Advanced Stats",
+        tooltip = "Show advanced combat statistics in Combat Arsenal\\n(Core Abilities, Elemental Resistances, Damage Bonuses, Healing Bonuses, etc.)",
         getFunc = function()
-            return CharacterMarkdownSettings.includeCharacterStats
+            return CharacterMarkdownSettings.includeAdvancedStats
         end,
-        setFunc = CreateSetFunc("includeCharacterStats"),
+        setFunc = CreateSetFunc("includeAdvancedStats"),
         width = "half",
         default = true,
+    })
+
+    -- Combat Stats (CollectCombatStatsData) - DEPRECATED, keeping for backwards compatibility
+    table.insert(controls, {
+        type = "checkbox",
+        name = "|c888888Include Combat Statistics (Legacy)|r",
+        tooltip = "|cFF6B6BDEPRECATED|r - This setting will be removed in a future version.\n\nUse 'Basic Combat Stats' and 'Advanced Stats' instead.\n\nThis setting is kept for backwards compatibility only.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeCombatStats
+        end,
+        setFunc = CreateSetFunc("includeCombatStats"),
+        width = "half",
+        default = true,
+        warning = "This setting is deprecated",
+    })
+
+    -- Role (CollectRoleData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Role",
+        tooltip = "Show selected role (Tank/Healer/DPS) in overview",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeRole
+        end,
+        setFunc = CreateSetFunc("includeRole"),
+        width = "half",
+        default = true,
+    })
+
+    -- Active Buffs (CollectActiveBuffs)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Active Buffs",
+        tooltip = "Show food, potions, and other active buffs",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeBuffs
+        end,
+        setFunc = CreateSetFunc("includeBuffs"),
+        width = "half",
+        default = true,
+    })
+
+    -- Attribute Distribution (from Progression.lua, but shown here for logical grouping)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Attribute Distribution",
+        tooltip = "Show magicka/health/stamina attribute points",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeAttributes
+        end,
+        setFunc = CreateSetFunc("includeAttributes"),
+        width = "half",
+        default = true,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Combat",
+        tooltip = "Combat statistics, role, active buffs, and attributes.",
+        controls = controls,
     })
 end
 
 -- =====================================================
--- COMBAT & BUILD SECTION
+-- CHARACTER SECTION (Character.lua collectors)
 -- =====================================================
 
-function CM.Settings.Panel:AddCombatBuildSection(options)
-    table.insert(options, {
-        type = "header",
-        name = "Combat Arsenal",
-        width = "full",
-    })
-
-    table.insert(options, {
+function CM.Settings.Panel:AddCharacterSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
         type = "description",
-        text = "Core build information: skills, equipment, champion points, and combat stats. Essential for build sharing.",
+        text = "Character identity, location, and titles.",
         width = "full",
     })
 
-    -- Champion Points
+    -- Current Location (CollectLocationData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Current Location",
+        tooltip = "Show current zone/location in overview\n(Minimal size impact)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeLocation
+        end,
+        setFunc = CreateSetFunc("includeLocation"),
+        width = "half",
+        default = true,
+    })
+
+    -- Titles (CollectTitlesData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Titles",
+        tooltip = "Show character titles.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeTitlesHousing
+        end,
+        setFunc = CreateSetFunc("includeTitlesHousing"),
+        width = "half",
+        default = false,
+    })
+    
+    -- Character Attributes (CollectAttributesData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Attributes",
+        tooltip = "Show character attributes (age, gender, race, title, etc.)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeCharacterAttributes
+        end,
+        setFunc = CreateSetFunc("includeCharacterAttributes"),
+        width = "half",
+        default = true,
+    })
+    
     table.insert(options, {
+        type = "submenu",
+        name = "Character",
+        tooltip = "Character identity, location, and titles.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- CHAMPION SECTION (Champion.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddChampionSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Champion Point allocation and discipline breakdown.",
+        width = "full",
+    })
+
+    -- Champion Points (CollectChampionPointData)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include Champion Points",
         tooltip = "Show Champion Point allocation and discipline breakdown",
@@ -394,7 +562,8 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         default = true,
     })
 
-    table.insert(options, {
+    -- CP Visual Diagram
+    table.insert(controls, {
         type = "checkbox",
         name = "    Include CP Visual Diagram",
         tooltip = "Show a Mermaid diagram visualizing your invested Champion Points with prerequisite relationships (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. Uses cluster API to discover skill relationships.",
@@ -408,9 +577,30 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         width = "half",
         default = false,
     })
-
-    -- Skill Bars
+    
     table.insert(options, {
+        type = "submenu",
+        name = "Champion Points",
+        tooltip = "Champion Point allocation and discipline breakdown.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- SKILLS SECTION (Skills.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddSkillsSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Skill bars, skill progression, and skill morphs.",
+        width = "full",
+    })
+
+    -- Skill Bars (CollectSkillBarData)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include Skill Bars",
         tooltip = "Show front and back bar abilities with ultimates",
@@ -422,8 +612,8 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         default = true,
     })
 
-    -- Character Progress (Skills)
-    table.insert(options, {
+    -- Character Progress (CollectSkillProgressionData)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include Character Progress",
         tooltip = "Show Character Progress section with skill line ranks, progress, and passives",
@@ -435,7 +625,8 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         default = true,
     })
 
-    table.insert(options, {
+    -- Skill Morphs (CollectSkillMorphsData)
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show All Available Morphs",
         tooltip = "Show all morphable skills with their morph choices (not just equipped abilities).\nWhen enabled, displays comprehensive morph information for all unlocked skills.\nWhen disabled, shows only equipped abilities on bars.\nWARNING: Can generate 2-5KB of additional text for fully skilled characters.",
@@ -449,9 +640,30 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         width = "half",
         default = false,
     })
-
-    -- Equipment
+    
     table.insert(options, {
+        type = "submenu",
+        name = "Skills",
+        tooltip = "Skill bars, skill progression, and skill morphs.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- EQUIPMENT SECTION (Equipment.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddEquipmentSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Equipped items and armor sets.",
+        width = "full",
+    })
+
+    -- Equipment (CollectEquipmentData)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include Equipment",
         tooltip = "Show equipped items and armor sets",
@@ -462,209 +674,30 @@ function CM.Settings.Panel:AddCombatBuildSection(options)
         width = "half",
         default = true,
     })
-
-    -- Equipment Enhancement settings removed - feature disabled (generators return empty strings)
-    -- Keeping settings in Defaults.lua for backward compatibility with saved settings
-
-    -- Combat Stats
+    
     table.insert(options, {
-        type = "checkbox",
-        name = "Include Combat Statistics",
-        tooltip = "Show health, resources, weapon/spell power, resistances",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeCombatStats
-        end,
-        setFunc = CreateSetFunc("includeCombatStats"),
-        width = "half",
-        default = true,
-    })
-
-    -- Active Buffs
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Active Buffs",
-        tooltip = "Show food, potions, and other active buffs",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeBuffs
-        end,
-        setFunc = CreateSetFunc("includeBuffs"),
-        width = "half",
-        default = true,
-    })
-
-    -- Attribute Distribution
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Attribute Distribution",
-        tooltip = "Show magicka/health/stamina attribute points",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeAttributes
-        end,
-        setFunc = CreateSetFunc("includeAttributes"),
-        width = "half",
-        default = true,
-    })
-
-    -- Armory Builds
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Armory Builds",
-        tooltip = "Show saved armory builds and configurations.",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeArmoryBuilds
-        end,
-        setFunc = CreateSetFunc("includeArmoryBuilds"),
-        width = "half",
-        default = false,
+        type = "submenu",
+        name = "Equipment",
+        tooltip = "Equipped items and armor sets.",
+        controls = controls,
     })
 end
 
 -- =====================================================
--- CHARACTER IDENTITY & PROGRESSION SECTION
+-- INVENTORY SECTION (Inventory.lua collectors)
 -- =====================================================
 
-function CM.Settings.Panel:AddCharacterIdentitySection(options)
-    table.insert(options, {
-        type = "header",
-        name = "Progress & Achievements",
-        width = "full",
-    })
-
-    table.insert(options, {
+function CM.Settings.Panel:AddInventorySection(options)
+    local controls = {}
+    
+    table.insert(controls, {
         type = "description",
-        text = "Achievement tracking, world progress, and character milestones (opt-in for detail level).",
+        text = "Inventory space, currency, and item lists.",
         width = "full",
     })
 
-    -- Role
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Role",
-        tooltip = "Show selected role (Tank/Healer/DPS) in overview",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeRole
-        end,
-        setFunc = CreateSetFunc("includeRole"),
-        width = "half",
-        default = true,
-    })
-
-    -- Current Location
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Current Location",
-        tooltip = "Show current zone/location in overview\n(Minimal size impact)",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeLocation
-        end,
-        setFunc = CreateSetFunc("includeLocation"),
-        width = "half",
-        default = true,
-    })
-
-    -- Progression Info setting removed - feature disabled (generator returns empty string)
-    -- Keeping setting in Defaults.lua for backward compatibility with saved settings
-
-    -- Achievement Tracking
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Achievement Tracking",
-        tooltip = "Show achievement progress with category breakdown (Combat, PvP, Exploration, Crafting, etc.), in-progress achievements, and recent completions.\n(~1000-2000 chars depending on progress)",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeAchievements
-        end,
-        setFunc = CreateSetFunc("includeAchievements"),
-        width = "half",
-        default = false,
-    })
-
-    table.insert(options, {
-        type = "checkbox",
-        name = "    Show All Achievements",
-        tooltip = "Show all achievements. When disabled, shows only achievements that are currently in progress (have some progress but not completed). Useful for goal tracking when disabled.",
-        getFunc = function()
-            return CharacterMarkdownSettings.showAllAchievements ~= false
-        end,
-        setFunc = CreateSetFunc("showAllAchievements"),
-        disabled = function()
-            return not CharacterMarkdownSettings.includeAchievements
-        end,
-        width = "half",
-        default = true,
-    })
-
-    -- World Progress
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include World Progress",
-        tooltip = "Show lorebook collection, zone completion, and world exploration progress.",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeWorldProgress
-        end,
-        setFunc = CreateSetFunc("includeWorldProgress"),
-        width = "half",
-        default = false,
-    })
-
-    -- Titles & Housing
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Titles & Housing",
-        tooltip = "Show character titles and owned houses.",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeTitlesHousing
-        end,
-        setFunc = CreateSetFunc("includeTitlesHousing"),
-        width = "half",
-        default = false,
-    })
-
-    -- DLC/Chapter Access
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include DLC/Chapter Access",
-        tooltip = "Show which DLCs and Chapters are accessible\n(~400-600 chars - large section)",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeDLCAccess
-        end,
-        setFunc = CreateSetFunc("includeDLCAccess"),
-        width = "half",
-        default = false,
-    })
-end
-
--- =====================================================
--- ECONOMY & RESOURCES SECTION
--- =====================================================
-
-function CM.Settings.Panel:AddEconomyResourcesSection(options)
-    table.insert(options, {
-        type = "header",
-        name = "Economy & Resources",
-        width = "full",
-    })
-
-    table.insert(options, {
-        type = "description",
-        text = "Currency, inventory, collectibles, and crafting resources.",
-        width = "full",
-    })
-
-    -- Currency & Resources
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Currency & Resources",
-        tooltip = "Show gold, Alliance Points, Tel Var, Transmutes, Writs, Event Tickets, etc.\n(~500-800 chars)",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeCurrency
-        end,
-        setFunc = CreateSetFunc("includeCurrency"),
-        width = "half",
-        default = true,
-    })
-
-    -- Inventory Space
-    table.insert(options, {
+    -- Inventory Space (CollectInventoryData)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include Inventory Space",
         tooltip = "Show backpack and bank space usage\n(~150-200 chars)",
@@ -676,8 +709,8 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         default = true,
     })
 
-    -- Bag Contents (detailed item list)
-    table.insert(options, {
+    -- Bag Contents
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show Bag Item List",
         tooltip = "Show detailed list of all items in your backpack\nWarning: Can generate LARGE output with many items!",
@@ -692,8 +725,8 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         end,
     })
 
-    -- Bank Contents (detailed item list)
-    table.insert(options, {
+    -- Bank Contents
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show Bank Item List",
         tooltip = "Show detailed list of all items in your bank\nWarning: Can generate LARGE output with many items!",
@@ -708,8 +741,8 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         end,
     })
 
-    -- Crafting Bag Contents (detailed item list)
-    table.insert(options, {
+    -- Crafting Bag Contents
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show Crafting Bag Item List",
         tooltip = "Show detailed list of all items in your crafting bag (ESO Plus only)\nWarning: Can generate LARGE output with many items!",
@@ -724,49 +757,55 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         end,
     })
 
-    -- Crafting Knowledge
-    table.insert(options, {
+    -- Currency & Resources (CollectCurrencyData)
+    table.insert(controls, {
         type = "checkbox",
-        name = "Include Crafting Knowledge",
-        tooltip = "Show known motifs and active research slots\n(~150-200 chars)",
+        name = "Include Currency & Resources",
+        tooltip = "Show gold, Alliance Points, Tel Var, Transmutes, Writs, Event Tickets, etc.\n(~500-800 chars)",
         getFunc = function()
-            return CharacterMarkdownSettings.includeCrafting
+            return CharacterMarkdownSettings.includeCurrency
         end,
-        setFunc = CreateSetFunc("includeCrafting"),
-        width = "half",
-        default = false,
-    })
-
-    -- Collectibles
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Collectibles",
-        tooltip = "Show counts for mounts, pets, costumes, and houses owned\n(~200-300 chars)",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeCollectibles
-        end,
-        setFunc = CreateSetFunc("includeCollectibles"),
+        setFunc = CreateSetFunc("includeCurrency"),
         width = "half",
         default = true,
     })
-
+    
     table.insert(options, {
+        type = "submenu",
+        name = "Inventory",
+        tooltip = "Inventory space, currency, and item lists.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- PROGRESSION SECTION (Progression.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddProgressionSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Character progression metrics and riding skills.",
+        width = "full",
+    })
+
+    -- Progression Data (CollectProgressionData)
+    table.insert(controls, {
         type = "checkbox",
-        name = "    Detailed Collectibles Lists",
-        tooltip = "Show detailed lists of all owned collectibles (mounts, pets, costumes, emotes, mementos, skins, polymorphs, personalities) with progress bars and UESP links. Includes DLC/Chapter access, Titles, and Housing.\n(Can add 5000+ chars depending on collection size)",
+        name = "Include Progression Data",
+        tooltip = "Show skill points, attribute points, achievement points, available CP, vampire/werewolf status, and enlightenment\n(~200-400 chars)",
         getFunc = function()
-            return CharacterMarkdownSettings.includeCollectiblesDetailed
+            return CharacterMarkdownSettings.includeProgression
         end,
-        setFunc = CreateSetFunc("includeCollectiblesDetailed"),
-        disabled = function()
-            return not CharacterMarkdownSettings.includeCollectibles
-        end,
+        setFunc = CreateSetFunc("includeProgression"),
         width = "half",
         default = false,
     })
 
-    -- Riding Skills
-    table.insert(options, {
+    -- Riding Skills (CollectRidingSkillsData)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include Riding Skills",
         tooltip = "Show riding speed, stamina, and capacity progress\n(~200-300 chars)",
@@ -777,133 +816,30 @@ function CM.Settings.Panel:AddEconomyResourcesSection(options)
         width = "half",
         default = false,
     })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Progression",
+        tooltip = "Character progression metrics and riding skills.",
+        controls = controls,
+    })
 end
 
 -- =====================================================
--- CONTENT & ACTIVITIES SECTION
+-- PVP SECTION (PvP.lua collectors)
 -- =====================================================
 
-function CM.Settings.Panel:AddContentActivitiesSection(options)
-    table.insert(options, {
-        type = "header",
-        name = "Content & Activities",
-        width = "full",
-    })
-
-    table.insert(options, {
-        type = "description",
-        text = "Antiquities, Undaunted pledges, and active companion information.",
-        width = "full",
-    })
-
-    -- Antiquities
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Antiquities",
-        tooltip = "Show antiquities progress, active leads, and discovered antiquities.",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeAntiquities
-        end,
-        setFunc = CreateSetFunc("includeAntiquities"),
-        width = "half",
-        default = true,
-    })
-
-    table.insert(options, {
-        type = "checkbox",
-        name = "    Detailed Antiquity Sets",
-        tooltip = "Show detailed breakdown of antiquity sets with progress tracking.",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeAntiquitiesDetailed
-        end,
-        setFunc = CreateSetFunc("includeAntiquitiesDetailed"),
-        disabled = function()
-            return not CharacterMarkdownSettings.includeAntiquities
-        end,
-        width = "half",
-        default = false,
-    })
-
-    -- Undaunted Pledges
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Undaunted Pledges",
-        tooltip = "Show active Undaunted pledges from quest journal.",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeUndauntedPledges
-        end,
-        setFunc = CreateSetFunc("includeUndauntedPledges"),
-        width = "half",
-        default = false,
-    })
-
-    -- Companion Info
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Companion Info",
-        tooltip = "Show active companion details (if summoned)",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeCompanion
-        end,
-        setFunc = CreateSetFunc("includeCompanion"),
-        width = "half",
-        default = true,
-    })
-
-    --[[ QUEST SECTION DISABLED TEMPORARILY - Issues being investigated
-    table.insert(options, {
-        type = "checkbox",
-        name = "Include Quest Tracking",
-        tooltip = "Show active quests, progress tracking, and quest categorization.",
-        getFunc = function() return CharacterMarkdownSettings.includeQuests end,
-        setFunc = CreateSetFunc("includeQuests"),
-        width = "half",
-        default = false,
-    })
+function CM.Settings.Panel:AddPvPSection(options)
+    local controls = {}
     
-    table.insert(options, {
-        type = "checkbox",
-        name = "    Detailed Quest Categories",
-        tooltip = "Show quest breakdown by categories (Main Story, Guild Quests, DLC Quests, etc.) with zone tracking.",
-        getFunc = function() return CharacterMarkdownSettings.includeQuestsDetailed end,
-        setFunc = CreateSetFunc("includeQuestsDetailed"),
-        disabled = function() return not CharacterMarkdownSettings.includeQuests end,
-        width = "half",
-        default = false,
-    })
-    
-    table.insert(options, {
-        type = "checkbox",
-        name = "    Show All Quests",
-        tooltip = "Show all quests. When disabled, shows only currently active quests. Useful for current objective tracking when disabled.",
-        getFunc = function() return CharacterMarkdownSettings.showAllQuests ~= false end,
-        setFunc = CreateSetFunc("showAllQuests"),
-        disabled = function() return not CharacterMarkdownSettings.includeQuests end,
-        width = "half",
-        default = false,
-    })
-    --]]
-end
-
--- =====================================================
--- PVP & SOCIAL SECTION
--- =====================================================
-
-function CM.Settings.Panel:AddPvPSocialSection(options)
-    table.insert(options, {
-        type = "header",
-        name = "PvP & Social",
-        width = "full",
-    })
-
-    table.insert(options, {
+    table.insert(controls, {
         type = "description",
-        text = "PvP statistics, guild membership, and multiplayer content.",
+        text = "PvP statistics, progression, and Alliance War skills.",
         width = "full",
     })
 
-    -- Basic PvP Information
-    table.insert(options, {
+    -- Basic PvP Information (CollectPvPData - basic)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include PvP Information",
         tooltip = "Show Alliance War rank and current campaign\n(~150-200 chars)",
@@ -915,8 +851,8 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         default = false,
     })
 
-    -- PvP Statistics
-    table.insert(options, {
+    -- PvP Statistics (CollectPvPData - stats)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include PvP Statistics",
         tooltip = "Show detailed PvP statistics and achievements.",
@@ -929,7 +865,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
     })
 
     -- PvP Detail Options (dependent on includePvPStats)
-    table.insert(options, {
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show PvP Progression",
         tooltip = "Include rank progress bars, percentages, and AP needed to next grade.",
@@ -944,7 +880,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         default = false,
     })
 
-    table.insert(options, {
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show Campaign Rewards",
         tooltip = "Display reward tier progress and loyalty streak.",
@@ -959,7 +895,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         default = false,
     })
 
-    table.insert(options, {
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show Leaderboards",
         tooltip = "Include campaign leaderboard ranking (requires API query).",
@@ -974,7 +910,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         default = false,
     })
 
-    table.insert(options, {
+    table.insert(controls, {
         type = "checkbox",
         name = "    Show Battlegrounds",
         tooltip = "Include battleground leaderboard stats and medals.",
@@ -989,7 +925,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         default = false,
     })
 
-    table.insert(options, {
+    table.insert(controls, {
         type = "checkbox",
         name = "    Detailed PvP Mode",
         tooltip = "Full comprehensive mode with campaign timing, underpop bonus, emperor info, and current match stats.",
@@ -1005,7 +941,7 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
     })
 
     -- Alliance War Skills (independent setting)
-    table.insert(options, {
+    table.insert(controls, {
         type = "checkbox",
         name = "Show Alliance War Skills",
         tooltip = "Display Alliance War skill lines (Assault/Support/Emperor) in PvP section.\nUseful for PvE players who use these skills but don't actively PvP.",
@@ -1016,20 +952,406 @@ function CM.Settings.Panel:AddPvPSocialSection(options)
         width = "half",
         default = false,
     })
-
-    -- Guild Membership
+    
     table.insert(options, {
+        type = "submenu",
+        name = "PvP",
+        tooltip = "PvP statistics, progression, and Alliance War skills.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- COMPANION SECTION (Companion.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddCompanionSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Active companion information.",
+        width = "full",
+    })
+
+    -- Companion Info (CollectCompanionData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Companion Info",
+        tooltip = "Show active companion details (if summoned)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeCompanion
+        end,
+        setFunc = CreateSetFunc("includeCompanion"),
+        width = "half",
+        default = true,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Companion",
+        tooltip = "Active companion information.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- COLLECTIBLES SECTION (Collectibles.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddCollectiblesSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Mounts, pets, costumes, collectible items, DLC access, and housing.",
+        width = "full",
+    })
+
+    -- Collectibles (CollectCollectiblesData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Collectibles",
+        tooltip = "Show counts for mounts, pets, costumes, and collectible items\n(~200-300 chars)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeCollectibles
+        end,
+        setFunc = CreateSetFunc("includeCollectibles"),
+        width = "half",
+        default = true,
+    })
+
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Detailed Collectibles Lists",
+        tooltip = "Show detailed lists of all owned collectibles (mounts, pets, costumes, emotes, mementos, skins, polymorphs, personalities) with progress bars and UESP links.\n(Can add 5000+ chars depending on collection size)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeCollectiblesDetailed
+        end,
+        setFunc = CreateSetFunc("includeCollectiblesDetailed"),
+        disabled = function()
+            return not CharacterMarkdownSettings.includeCollectibles
+        end,
+        width = "half",
+        default = false,
+    })
+
+    -- DLC/Chapter Access (CollectDLCAccess)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include DLC/Chapter Access",
+        tooltip = "Show which DLCs and Chapters are accessible\n(~400-600 chars - large section)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeDLCAccess
+        end,
+        setFunc = CreateSetFunc("includeDLCAccess"),
+        width = "half",
+        default = false,
+    })
+
+    -- Housing (CollectHousingData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Housing",
+        tooltip = "Show owned houses and primary residence\n(~200-400 chars)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeHousing
+        end,
+        setFunc = CreateSetFunc("includeHousing"),
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Collectibles",
+        tooltip = "Mounts, pets, costumes, collectible items, DLC access, and housing.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- ACHIEVEMENTS SECTION (Achievements.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddAchievementsSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Achievement tracking and progress.",
+        width = "full",
+    })
+
+    -- Achievement Tracking (CollectAchievementsData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Achievement Tracking",
+        tooltip = "Show achievement progress with category breakdown (Combat, PvP, Exploration, Crafting, etc.), in-progress achievements, and recent completions.\n(~1000-2000 chars depending on progress)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeAchievements
+        end,
+        setFunc = CreateSetFunc("includeAchievements"),
+        width = "half",
+        default = false,
+    })
+
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Show All Achievements",
+        tooltip = "Show all achievements. When disabled, shows only achievements that are currently in progress (have some progress but not completed). Useful for goal tracking when disabled.",
+        getFunc = function()
+            return CharacterMarkdownSettings.showAllAchievements ~= false
+        end,
+        setFunc = CreateSetFunc("showAllAchievements"),
+        disabled = function()
+            return not CharacterMarkdownSettings.includeAchievements
+        end,
+        width = "half",
+        default = true,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Achievements",
+        tooltip = "Achievement tracking and progress.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- ANTIQUITIES SECTION (Antiquities.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddAntiquitiesSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Antiquities progress, active leads, and discovered antiquities.",
+        width = "full",
+    })
+
+    -- Antiquities (CollectAntiquitiesData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Antiquities",
+        tooltip = "Show antiquities progress, active leads, and discovered antiquities.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeAntiquities
+        end,
+        setFunc = CreateSetFunc("includeAntiquities"),
+        width = "half",
+        default = true,
+    })
+
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Detailed Antiquity Sets",
+        tooltip = "Show detailed breakdown of antiquity sets with progress tracking.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeAntiquitiesDetailed
+        end,
+        setFunc = CreateSetFunc("includeAntiquitiesDetailed"),
+        disabled = function()
+            return not CharacterMarkdownSettings.includeAntiquities
+        end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Antiquities",
+        tooltip = "Antiquities progress, active leads, and discovered antiquities.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- QUESTS SECTION (Quests.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddQuestsSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Quest tracking and Undaunted pledges.",
+        width = "full",
+    })
+
+    -- Quest Tracking (CollectQuestJournalData)
+    --[[ QUEST SECTION DISABLED TEMPORARILY - Issues being investigated
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Quest Tracking",
+        tooltip = "Show active quests, progress tracking, and quest categorization.",
+        getFunc = function() return CharacterMarkdownSettings.includeQuests end,
+        setFunc = CreateSetFunc("includeQuests"),
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Detailed Quest Categories",
+        tooltip = "Show quest breakdown by categories (Main Story, Guild Quests, DLC Quests, etc.) with zone tracking.",
+        getFunc = function() return CharacterMarkdownSettings.includeQuestsDetailed end,
+        setFunc = CreateSetFunc("includeQuestsDetailed"),
+        disabled = function() return not CharacterMarkdownSettings.includeQuests end,
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Show All Quests",
+        tooltip = "Show all quests. When disabled, shows only currently active quests. Useful for current objective tracking when disabled.",
+        getFunc = function() return CharacterMarkdownSettings.showAllQuests ~= false end,
+        setFunc = CreateSetFunc("showAllQuests"),
+        disabled = function() return not CharacterMarkdownSettings.includeQuests end,
+        width = "half",
+        default = false,
+    })
+    --]]
+
+    -- Undaunted Pledges (CollectUndauntedPledgesData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Undaunted Pledges",
+        tooltip = "Show active Undaunted pledges from quest journal.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeUndauntedPledges
+        end,
+        setFunc = CreateSetFunc("includeUndauntedPledges"),
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Quests",
+        tooltip = "Quest tracking and Undaunted pledges.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- ARMORY BUILDS SECTION (ArmoryBuilds.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddArmoryBuildsSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Saved armory builds and configurations.",
+        width = "full",
+    })
+
+    -- Armory Builds (CollectArmoryBuildsData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Armory Builds",
+        tooltip = "Show saved armory builds and configurations.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeArmoryBuilds
+        end,
+        setFunc = CreateSetFunc("includeArmoryBuilds"),
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Armory Builds",
+        tooltip = "Saved armory builds and configurations.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- CRAFTING SECTION (Crafting.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddCraftingSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Crafting knowledge, research, and styles.",
+        width = "full",
+    })
+
+    -- Crafting Knowledge (CollectCraftingData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Crafting Knowledge",
+        tooltip = "Show known motifs and active research slots\n(~150-200 chars)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeCrafting
+        end,
+        setFunc = CreateSetFunc("includeCrafting"),
+        width = "half",
+        default = false,
+    })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Crafting",
+        tooltip = "Crafting knowledge, research, and styles.",
+        controls = controls,
+    })
+end
+
+-- =====================================================
+-- SOCIAL SECTION (Social.lua collectors)
+-- =====================================================
+
+function CM.Settings.Panel:AddSocialSection(options)
+    local controls = {}
+    
+    table.insert(controls, {
+        type = "description",
+        text = "Guild membership and mail information.",
+        width = "full",
+    })
+
+    -- Guild Membership (CollectGuildsData)
+    table.insert(controls, {
         type = "checkbox",
         name = "Include Guild Membership",
-        tooltip = "Show guild membership information including guild names, member counts, and your rank.",
+        tooltip = "Show guild membership information including guild names, member counts, and your rank\n(~200-400 chars)",
         getFunc = function()
             return CharacterMarkdownSettings.includeGuilds
         end,
         setFunc = CreateSetFunc("includeGuilds"),
         width = "half",
+        default = true,
+    })
+
+    -- Mail (CollectMailData)
+    table.insert(controls, {
+        type = "checkbox",
+        name = "Include Mail",
+        tooltip = "Show mail information including unread count and attachments\n(~100-200 chars)",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeMail
+        end,
+        setFunc = CreateSetFunc("includeMail"),
+        width = "half",
         default = false,
     })
+    
+    table.insert(options, {
+        type = "submenu",
+        name = "Social",
+        tooltip = "Guild membership and mail information.",
+        controls = controls,
+    })
 end
+
 
 -- =====================================================
 -- LINK SETTINGS
@@ -1062,7 +1384,7 @@ function CM.Settings.Panel:AddLinkSettings(options)
             CM.InvalidateSettingsCache()
         end,
         width = "full",
-        default = false,
+        default = true,
     })
 end
 
@@ -1238,7 +1560,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
             end
         end,
         width = "full",
-        height = 300, -- Increased height - scrollbar should appear automatically when content exceeds this
+        height = 500, -- Large editbox for better visibility - scrollbar appears when content exceeds this
         isMultiline = true,
         isExtraWide = true,
         maxChars = 1900, -- ESO SavedVariables has a ~2000 character limit per string value
@@ -1296,7 +1618,7 @@ function CM.Settings.Panel:AddActions(options)
         width = "half",
     })
 
-    -- Helper function to enable/disable all sections
+    -- Helper function to enable/disable all sections (organized by collector modules)
     local function ToggleAllSections(enable)
         local value = enable == true
 
@@ -1304,55 +1626,46 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.includeHeader = value
         CharacterMarkdownSettings.includeFooter = value
         CharacterMarkdownSettings.includeTableOfContents = value
-        -- includeQuickStats removed - use includeGeneral/includeCurrency/includeCharacterStats instead
-        CharacterMarkdownSettings.includeGeneral = value
-        CharacterMarkdownSettings.includeCharacterStats = value
         CharacterMarkdownSettings.includeAttentionNeeded = value
 
-        -- COMBAT & BUILD
-        CharacterMarkdownSettings.includeChampionPoints = value
-        CharacterMarkdownSettings.includeChampionDiagram = value
-        CharacterMarkdownSettings.includeSkillBars = value
-        CharacterMarkdownSettings.includeSkills = value
-        CharacterMarkdownSettings.includeSkillMorphs = value
-        CharacterMarkdownSettings.includeEquipment = value
-        -- Equipment Enhancement settings removed (feature disabled)
-        CharacterMarkdownSettings.includeCombatStats = value
-        CharacterMarkdownSettings.includeBuffs = value
-        CharacterMarkdownSettings.includeAttributes = value
-        CharacterMarkdownSettings.includeArmoryBuilds = value
-
-        -- CHARACTER IDENTITY & PROGRESSION
-        CharacterMarkdownSettings.includeRole = value
+        -- CHARACTER (Character.lua collectors)
         CharacterMarkdownSettings.includeLocation = value
-        -- includeProgression removed (feature disabled)
-        CharacterMarkdownSettings.includeAchievements = value
-        CharacterMarkdownSettings.showAllAchievements = value
-        CharacterMarkdownSettings.includeWorldProgress = value
+        CharacterMarkdownSettings.includeCharacterAttributes = value
         CharacterMarkdownSettings.includeTitlesHousing = value
         CharacterMarkdownSettings.includeDLCAccess = value
 
-        -- ECONOMY & RESOURCES
-        CharacterMarkdownSettings.includeCurrency = value
+        -- COMBAT (Combat.lua collectors)
+        CharacterMarkdownSettings.includeCombatStats = value
+        CharacterMarkdownSettings.includeBasicCombatStats = value
+        CharacterMarkdownSettings.includeAdvancedStats = value
+        CharacterMarkdownSettings.includeRole = value
+        CharacterMarkdownSettings.includeBuffs = value
+        CharacterMarkdownSettings.includeAttributes = value
+
+        -- CHAMPION (Champion.lua collectors)
+        CharacterMarkdownSettings.includeChampionPoints = value
+        CharacterMarkdownSettings.includeChampionDiagram = value
+
+        -- SKILLS (Skills.lua collectors)
+        CharacterMarkdownSettings.includeSkillBars = value
+        CharacterMarkdownSettings.includeSkills = value
+        CharacterMarkdownSettings.includeSkillMorphs = value
+
+        -- EQUIPMENT (Equipment.lua collectors)
+        CharacterMarkdownSettings.includeEquipment = value
+
+        -- INVENTORY (Inventory.lua collectors)
         CharacterMarkdownSettings.includeInventory = value
         CharacterMarkdownSettings.showBagContents = value
         CharacterMarkdownSettings.showBankContents = value
         CharacterMarkdownSettings.showCraftingBagContents = value
-        CharacterMarkdownSettings.includeCrafting = value
-        CharacterMarkdownSettings.includeCollectibles = value
-        CharacterMarkdownSettings.includeCollectiblesDetailed = value
+        CharacterMarkdownSettings.includeCurrency = value
+
+        -- PROGRESSION (Progression.lua collectors)
+        CharacterMarkdownSettings.includeProgression = value
         CharacterMarkdownSettings.includeRidingSkills = value
 
-        -- CONTENT & ACTIVITIES
-        CharacterMarkdownSettings.includeAntiquities = value
-        CharacterMarkdownSettings.includeAntiquitiesDetailed = value
-        CharacterMarkdownSettings.includeUndauntedPledges = value
-        CharacterMarkdownSettings.includeCompanion = value
-        -- CharacterMarkdownSettings.includeQuests = value  -- DISABLED
-        -- CharacterMarkdownSettings.includeQuestsDetailed = value  -- DISABLED
-        -- CharacterMarkdownSettings.showAllQuests = value  -- DISABLED
-
-        -- PVP & SOCIAL
+        -- PVP (PvP.lua collectors)
         CharacterMarkdownSettings.includePvP = value
         CharacterMarkdownSettings.includePvPStats = value
         CharacterMarkdownSettings.showPvPProgression = value
@@ -1361,7 +1674,39 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.showBattlegrounds = value
         CharacterMarkdownSettings.detailedPvP = value
         CharacterMarkdownSettings.showAllianceWarSkills = value
+
+        -- COMPANION (Companion.lua collectors)
+        CharacterMarkdownSettings.includeCompanion = value
+
+        -- COLLECTIBLES (Collectibles.lua collectors)
+        CharacterMarkdownSettings.includeCollectibles = value
+        CharacterMarkdownSettings.includeCollectiblesDetailed = value
+        CharacterMarkdownSettings.includeDLCAccess = value
+        CharacterMarkdownSettings.includeHousing = value
+
+        -- ACHIEVEMENTS (Achievements.lua collectors)
+        CharacterMarkdownSettings.includeAchievements = value
+        CharacterMarkdownSettings.showAllAchievements = value
+
+        -- ANTIQUITIES (Antiquities.lua collectors)
+        CharacterMarkdownSettings.includeAntiquities = value
+        CharacterMarkdownSettings.includeAntiquitiesDetailed = value
+
+        -- QUESTS (Quests.lua collectors)
+        -- CharacterMarkdownSettings.includeQuests = value  -- DISABLED
+        -- CharacterMarkdownSettings.includeQuestsDetailed = value  -- DISABLED
+        -- CharacterMarkdownSettings.showAllQuests = value  -- DISABLED
+        CharacterMarkdownSettings.includeUndauntedPledges = value
+
+        -- ARMORY BUILDS (ArmoryBuilds.lua collectors)
+        CharacterMarkdownSettings.includeArmoryBuilds = value
+
+        -- CRAFTING (Crafting.lua collectors)
+        CharacterMarkdownSettings.includeCrafting = value
+
+        -- SOCIAL (Social.lua collectors)
         CharacterMarkdownSettings.includeGuilds = value
+        CharacterMarkdownSettings.includeMail = value
 
         -- LINKS
         CharacterMarkdownSettings.enableAbilityLinks = value

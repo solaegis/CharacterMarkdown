@@ -1,0 +1,66 @@
+-- CharacterMarkdown - API Layer - Equipment
+-- Abstraction for gear, item links, sets, and traits
+
+local CM = CharacterMarkdown
+CM.api = CM.api or {}
+CM.api.equipment = {}
+
+local api = CM.api.equipment
+
+-- =====================================================
+-- GRANULAR GETTERS
+-- =====================================================
+
+function api.GetItemLink(bagId, slotIndex)
+    return CM.SafeCall(GetItemLink, bagId, slotIndex, LINK_STYLE_DEFAULT) or ""
+end
+
+function api.GetItemInfo(bagId, slotIndex)
+    -- Returns detailed info about item in slot
+    local link = api.GetItemLink(bagId, slotIndex)
+    if not link or link == "" then return nil end
+    
+    local success_info, icon, stack, _, _, _, equipType, itemStyleId, quality = CM.SafeCallMulti(GetItemInfo, bagId, slotIndex)
+    local name = CM.SafeCall(GetItemName, bagId, slotIndex)
+    
+    -- Trait
+    local traitType = CM.SafeCall(GetItemTrait, bagId, slotIndex)
+    local traitName = "None"
+    if traitType and traitType > 0 then
+        traitName = CM.SafeCall(GetString, "SI_ITEMTRAITTYPE", traitType)
+    end
+    
+    -- Set Info
+    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId = CM.SafeCallMulti(GetItemLinkSetInfo, link, false)
+    
+    -- Enchant
+    local success_enchant, hasEnchant, enchantName, enchantDesc = CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
+    
+    return {
+        name = name or "Unknown",
+        link = link,
+        icon = icon,
+        quality = quality,
+        trait = {
+            id = traitType,
+            name = traitName
+        },
+        set = {
+            hasSet = hasSet,
+            name = setName,
+            id = setId,
+            count = numEquipped,
+            max = maxEquipped
+        },
+        enchant = {
+            hasEnchant = hasEnchant,
+            name = enchantName
+        }
+    }
+end
+
+function api.GetEquippedItem(equipSlot)
+    return api.GetItemInfo(BAG_WORN, equipSlot)
+end
+
+-- Composition functions moved to collector level

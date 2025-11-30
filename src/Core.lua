@@ -109,7 +109,7 @@ CM.constants.DisciplineType = {
 }
 
 -- State management
-CM.currentFormat = "github"
+CM.currentFormatter = "markdown"
 CM.isInitialized = false
 
 -- Debug system with LibDebugLogger integration
@@ -243,22 +243,11 @@ CM.cached = {
 -- Example:
 --   local health = CM.SafeCall(GetPlayerStat, STAT_HEALTH_MAX) or 0
 function CM.SafeCall(func, ...)
-    -- Check if function exists before calling
-    if not func or type(func) ~= "function" then
-        CM.DebugPrint("SAFECALL", function()
-            return string.format("SafeCall: function is nil or not a function (type=%s)", type(func))
-        end)
-        return nil
+    local success, result = CM.SafeCallMulti(func, ...)
+    if success then
+        return result
     end
-
-    local success, result = pcall(func, ...)
-    if not success then
-        CM.DebugPrint("SAFECALL", function()
-            return string.format("Error in SafeCall: %s", tostring(result))
-        end)
-        return nil
-    end
-    return result
+    return nil
 end
 
 -- Safe call wrapper for functions returning multiple values
@@ -404,7 +393,7 @@ function CM.CreateLink(text, linkType, format)
         linksEnabled = false
     end
 
-    if not linksEnabled or (format ~= "github" and format ~= "discord") then
+    if not linksEnabled then
         return text
     end
 
@@ -426,27 +415,11 @@ function CM.CreateLink(text, linkType, format)
     return "[" .. text .. "](" .. url .. ")"
 end
 
--- Initialize SavedVariables (deferred - will be properly initialized in Events.lua)
--- Don't create temporary tables here as they might interfere with real SavedVariables
-local function InitializeSavedVariables()
-    -- Only try to access if they already exist - don't create temporary ones
-    if not CharacterMarkdownSettings and _G.CharacterMarkdownSettings then
-        CharacterMarkdownSettings = _G.CharacterMarkdownSettings
-        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownSettings found in _G")
-    end
 
-    -- Don't create temporary tables - wait for proper initialization in Events.lua
-    -- This prevents race conditions where temporary tables might interfere with real SavedVariables
-    if not CharacterMarkdownSettings then
-        CM.DebugPrint("SAVEDVARS", "CharacterMarkdownSettings not yet available - will initialize in Events.lua")
-    end
-end
-
-InitializeSavedVariables()
 
 if logger then
     logger:Info("LibDebugLogger initialized for CharacterMarkdown")
-    logger:SetEnabled(true)
+    logger:SetEnabled(false)
 end
 
 CM.DebugPrint("INIT", "Core namespace initialized")

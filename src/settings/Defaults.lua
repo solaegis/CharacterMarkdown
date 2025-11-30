@@ -19,9 +19,9 @@ function CM.Settings.Defaults:GetAll()
         detectedOS = "unknown", -- Auto-detected OS: "windows", "mac", or "unknown"
         
         -- ====================================
-        -- FORMAT SETTINGS
+        -- FORMATTER SETTINGS
         -- ====================================
-        currentFormat = "github", -- Default format: github, vscode, discord, quick
+        currentFormatter = "markdown", -- Default formatter: markdown, tonl
 
         -- ====================================
         -- LAYOUT SETTINGS
@@ -42,13 +42,15 @@ function CM.Settings.Defaults:GetAll()
         includeCompanion = true,
         includeBuffs = true,
         includeAttributes = true,
+        includeCharacterAttributes = true, -- Character attributes (age, gender, race, title, etc.)
         includeDLCAccess = false, -- DLC/Chapter access (opt-in, not essential for build sharing)
         includeRole = true,
         includeLocation = true,
         includeBuildNotes = true, -- Include custom build notes
         includeQuickStats = true, -- Quick stats at top (GitHub/VSCode only)
         includeGeneral = true, -- Include General subsection in Overview
-        includeCharacterStats = true, -- Include Character Stats subsection in Overview
+        includeBasicCombatStats = true, -- Include Basic Combat Stats in Combat Arsenal (Health, Magicka, Stamina, Power, Crit, etc.)
+        includeAdvancedStats = true, -- Include Advanced Stats in Combat Arsenal (Core Abilities, Resistances, Damage Bonuses, etc.)
         includeAttentionNeeded = true, -- Attention needed section (GitHub/VSCode only)
         includeTableOfContents = true, -- Table of contents (GitHub/VSCode only)
 
@@ -81,10 +83,12 @@ function CM.Settings.Defaults:GetAll()
         includeEquipmentRecommendations = false, -- Optimization recommendations
         includeWorldProgress = false, -- World progress tracking
         includeTitlesHousing = false, -- Titles and housing
+        includeHousing = false, -- Housing information (owned houses, primary residence)
         includePvPStats = false, -- PvP statistics
         includeArmoryBuilds = false, -- Armory builds
         includeUndauntedPledges = false, -- Undaunted pledges
         includeGuilds = true, -- Guild membership (social context, minimal size ~200-400 chars)
+        includeMail = false, -- Mail information (unread count, attachments)
 
         -- ====================================
         -- PVP DISPLAY SETTINGS

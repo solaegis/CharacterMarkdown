@@ -1,176 +1,89 @@
 -- CharacterMarkdown - Companion Data Collector
--- Active companion information
+-- Composition logic moved from API layer
 
 local CM = CharacterMarkdown
 
--- =====================================================
--- COMPANION
--- =====================================================
-
 local function CollectCompanionData()
-    local companion = { active = false, acquired = {} }
-
-    -- Collect all acquired companions
-    local success, companionIndices = pcall(GetCompanionIndices)
-    if success and companionIndices then
-        for _, companionId in ipairs(companionIndices) do
-            local companionName = CM.SafeCall(GetCompanionName, companionId)
-            if companionName and companionName ~= "" then
-                table.insert(companion.acquired, {
-                    id = companionId,
-                    name = companionName,
-                })
+    -- Use API layer granular functions (composition at collector level)
+    local companions = CM.api.companion.GetAllCompanions()
+    local hasActive = CM.api.companion.HasActiveCompanion()
+    
+    local data = {}
+    
+    -- Transform API data to expected format
+    data.companions = {}
+    for _, comp in ipairs(companions.list or {}) do
+        if comp.unlocked then
+            table.insert(data.companions, {
+                name = comp.name,
+                id = comp.id
+            })
+        end
+    end
+    
+    data.hasActive = hasActive or false
+    
+    -- Active companion details (cross-API composition)
+    if data.hasActive then
+        -- Try multiple approaches to get companion name
+        local name = nil
+        local level = 0
+        
+        -- Approach 1: Try GetUnitName("companion") - unit API
+        name = CM.SafeCall(GetUnitName, "companion")
+        level = CM.SafeCall(GetUnitLevel, "companion") or 0
+        
+        -- Approach 2: If unit API fails, try to find active companion from list
+        -- (This is a fallback - ideally we'd have GetActiveCompanionId())
+        if not name or name == "" then
+            CM.DebugPrint("COMPANION", "GetUnitName('companion') failed, trying to find active companion from list")
+            -- Try to match by checking which companion is active
+            -- Note: This is a workaround - ideally ESO would provide GetActiveCompanionId()
+            for _, comp in ipairs(companions.list or {}) do
+                -- If we only have one companion and it's active, use it
+                if #companions.list == 1 then
+                    name = comp.name
+                    CM.DebugPrint("COMPANION", string.format("Using single companion name: %s", tostring(name)))
+                    break
+                end
             end
         end
-    end
-
-    if not HasActiveCompanion() then
-        return companion
-    end
-
-    companion.active = true
-    companion.name = CM.SafeCall(GetUnitName, "companion") or "Unknown Companion"
-    companion.level = CM.SafeCall(GetUnitLevel, "companion") or 0
-
-    -- Ensure active companion is in acquired list (in case GetCompanionIndices didn't include it)
-    local activeInAcquired = false
-    for _, comp in ipairs(companion.acquired) do
-        if comp.name == companion.name then
-            activeInAcquired = true
-            break
+        
+        -- Final fallback
+        if not name or name == "" then
+            name = "Unknown Companion"
+            CM.Error("Companion: Failed to get companion name. GetUnitName('companion') returned nil/empty and couldn't find active companion in list.")
         end
+        
+        data.active = {
+            name = name,
+            level = level
+        }
+        data.skills = CM.api.companion.GetCompanionSkills()
+        data.equipment = CM.api.companion.GetCompanionEquipment()
+        
+        -- Add computed summary for active companion
+        data.summary = {
+            totalCompanions = companions.list and #companions.list or 0,
+            hasActive = true,
+            activeLevel = data.active.level or 0,
+            skillCount = data.skills and #data.skills or 0,
+            equipmentCount = data.equipment and #data.equipment or 0
+        }
+    else
+        data.active = nil
+        data.skills = nil
+        data.equipment = nil
+        data.summary = {
+            totalCompanions = companions.list and #companions.list or 0,
+            hasActive = false
+        }
     end
-    if not activeInAcquired and companion.name and companion.name ~= "Unknown Companion" then
-        table.insert(companion.acquired, {
-            id = nil, -- We don't have the ID for the active companion if it wasn't in indices
-            name = companion.name,
-        })
-    end
-
-    -- Skills
-    local success, companionSkills = pcall(function()
-        local skills = { ultimate = nil, ultimateId = nil, abilities = {} }
-
-        -- Companions have 5 regular ability slots (API slots 3-7) and 1 ultimate slot (API slot 8)
-        -- Slots unlock as companion levels: 2 slots at start, +1 at level 2, +1 at level 7, +1 at level 12, ultimate at level 20
-        -- Slot 3 is the first ability slot (where Provoke goes), then slots 4-7 are the remaining 4 abilities
-        local ultimateSlotId = CM.SafeCall(GetSlotBoundId, 8, HOTBAR_CATEGORY_COMPANION)
-        if ultimateSlotId and ultimateSlotId > 0 then
-            skills.ultimate = CM.SafeCall(GetAbilityName, ultimateSlotId) or "[Empty]"
-            skills.ultimateId = ultimateSlotId
-        else
-            skills.ultimate = "[Empty]"
-        end
-
-        -- Collect regular ability slots 3-7 (slot 3 is Provoke/first, then 4-7 for remaining 4)
-        -- This makes API slot 3 (Provoke) display as slot 1, API slot 4 as slot 2, etc.
-        for slotIndex = 3, 7 do
-            local slotId = CM.SafeCall(GetSlotBoundId, slotIndex, HOTBAR_CATEGORY_COMPANION)
-            if slotId and slotId > 0 then
-                local abilityName = CM.SafeCall(GetAbilityName, slotId)
-                table.insert(skills.abilities, {
-                    name = (abilityName and abilityName ~= "") and abilityName or "[Empty]",
-                    id = slotId,
-                })
-            else
-                table.insert(skills.abilities, {
-                    name = "[Empty]",
-                    id = nil,
-                })
-            end
-        end
-
-        return skills
-    end)
-
-    if success and companionSkills then
-        companion.skills = companionSkills
-    end
-
-    -- Equipment
-    local equipment = {}
-    local equipSlots = {
-        { slot = EQUIP_SLOT_MAIN_HAND, name = "Main Hand" },
-        { slot = EQUIP_SLOT_OFF_HAND, name = "Off Hand" },
-        { slot = EQUIP_SLOT_HEAD, name = "Head" },
-        { slot = EQUIP_SLOT_CHEST, name = "Chest" },
-        { slot = EQUIP_SLOT_SHOULDERS, name = "Shoulders" },
-        { slot = EQUIP_SLOT_HAND, name = "Hands" },
-        { slot = EQUIP_SLOT_WAIST, name = "Waist" },
-        { slot = EQUIP_SLOT_LEGS, name = "Legs" },
-        { slot = EQUIP_SLOT_FEET, name = "Feet" },
-    }
-
-    for _, slotInfo in ipairs(equipSlots) do
-        local success2, itemName = pcall(function()
-            return CM.SafeCall(GetItemName, BAG_COMPANION_WORN, slotInfo.slot)
-        end)
-
-        if success2 and itemName and itemName ~= "" then
-            local itemLink = CM.SafeCall(GetItemLink, BAG_COMPANION_WORN, slotInfo.slot, LINK_STYLE_DEFAULT)
-            if not itemLink then
-                -- Fallback to basic info if itemLink fails
-                table.insert(equipment, {
-                    slot = slotInfo.name,
-                    name = itemName,
-                    quality = "Unknown",
-                    level = 0,
-                })
-            else
-                local quality = CM.SafeCall(GetItemLinkQuality, itemLink)
-                local itemLevel = CM.SafeCall(GetItemLinkRequiredLevel, itemLink) or 0
-
-                -- Set information
-                local hasSet, setName = false, nil
-                local success3, has, name = pcall(GetItemLinkSetInfo, itemLink)
-                if success3 then
-                    hasSet = has
-                    setName = name
-                end
-
-                -- Trait information
-                local traitType, traitName = nil, nil
-                local success4, trait = pcall(GetItemLinkTraitInfo, itemLink)
-                if success4 and trait then
-                    traitType = trait
-                    traitName = CM.SafeCall(GetString, "SI_ITEMTRAITTYPE", trait) or "None"
-                end
-
-                -- Enchantment information
-                local enchantName, enchantCharge, enchantMaxCharge = nil, nil, nil
-                local success5, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
-                if success5 then
-                    if name and name ~= "" then
-                        enchantName = name
-                    end
-                    if charge ~= nil then
-                        enchantCharge = charge
-                    end
-                    if maxCharge ~= nil and maxCharge > 0 then
-                        enchantMaxCharge = maxCharge
-                    end
-                end
-
-                table.insert(equipment, {
-                    slot = slotInfo.name,
-                    name = itemName,
-                    quality = CM.utils.GetQualityColor(quality),
-                    level = itemLevel,
-                    hasSet = hasSet,
-                    setName = setName,
-                    traitType = traitType,
-                    traitName = traitName,
-                    enchantName = enchantName,
-                    enchantCharge = enchantCharge,
-                    enchantMaxCharge = enchantMaxCharge,
-                })
-            end
-        end
-    end
-
-    companion.equipment = equipment
-
-    return companion
+    
+    return data
 end
 
 CM.collectors.CollectCompanionData = CollectCompanionData
+
+CM.DebugPrint("COLLECTOR", "Companion collector module loaded")
+

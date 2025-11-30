@@ -12,43 +12,7 @@ local table_insert = table.insert
 -- Import advanced markdown utilities (with nil check)
 local markdown = (CM.utils and CM.utils.markdown) or nil
 
--- =====================================================
--- QUICK SUMMARY (One-line format)
--- =====================================================
-
-local function GenerateQuickSummary(charData, equipmentData)
-    if not charData then
-        return "ERROR: No character data"
-    end
-
-    local name = charData.name or "Unknown"
-    local level = charData.level or 1
-    -- Fix: Use correct field name (cp, not championPoints)
-    local cp = charData.cp or 0
-    local race = charData.race or "Unknown"
-    local class = charData.class or "Unknown"
-
-    -- Get top 2 sets
-    local sets = {}
-    if equipmentData and equipmentData.sets then
-        for setName, count in pairs(equipmentData.sets) do
-            if count >= 2 then
-                table.insert(sets, string_format("%s(%d)", setName, count))
-            end
-        end
-        table.sort(sets, function(a, b)
-            local countA = tonumber(a:match("%((%d+)%)"))
-            local countB = tonumber(b:match("%((%d+)%)"))
-            return countA > countB
-        end)
-    end
-
-    local setStr = #sets > 0 and (" • " .. table_concat({ sets[1], sets[2] }, ", ")) or ""
-
-    return string_format("%s • L%d CP%d • %s %s%s", name, level, cp, race, class, setStr)
-end
-
-CM.generators.sections.GenerateQuickSummary = GenerateQuickSummary
+-- GenerateQuickSummary removed - quick format no longer supported
 
 -- =====================================================
 -- ENHANCED HEADER with Badges
@@ -76,7 +40,7 @@ local function GenerateHeader(charData, format)
     end
 
     -- Enhanced visuals are now always enabled (baseline)
-    if format == "discord" or not markdown then
+    if not markdown then
         -- Classic format
         local header = string_format("# %s\n\n", displayTitle)
         header = header .. string_format("**%s %s**  \n", race, class)
@@ -163,9 +127,6 @@ local function GenerateQuickStats(
     if not charData then
         return ""
     end
-    if format == "discord" then
-        return ""
-    end -- Skip for Discord
 
     local formatNumber = CM.utils and CM.utils.FormatNumber
     local safeFormat = function(val)
@@ -188,43 +149,47 @@ local function GenerateQuickStats(
     if IsSettingEnabled("includeGeneral", true) then
         local GenerateGeneral = CM.generators.sections.GenerateGeneral
         if GenerateGeneral then
-            generalSection = GenerateGeneral(charData, progressionData, locationData, buffsData, mundusData, format, ridingData)
+            -- Get attributes data from collectedData (passed via settings context)
+            local attributesData = nil
+            if settings and settings._collectedData and settings._collectedData.characterAttributes then
+                attributesData = settings._collectedData.characterAttributes
+            end
+            generalSection = GenerateGeneral(charData, progressionData, locationData, buffsData, mundusData, format, ridingData, attributesData, cpData, settings)
         end
     end
 
-    local characterStatsSection = ""
-    if IsSettingEnabled("includeCharacterStats", true) then
-        local GenerateCharacterStats = CM.generators.sections.GenerateCharacterStats
-        if GenerateCharacterStats then
-            characterStatsSection = GenerateCharacterStats(statsData, format)
-        end
-    end
+
 
     local currencySection = ""
     if IsSettingEnabled("includeCurrency", true) and currencyData then
         local markdown = CM.utils and CM.utils.markdown
         local CreateStyledTable = markdown and markdown.CreateStyledTable
         
-        if CreateStyledTable and format ~= "discord" then
+        -- Define all currency types with their emojis and labels
+        local currencyItems = {
+            { key = "gold", label = "Gold", emoji = "💰" },
+            { key = "ap", label = "Alliance Points", emoji = "⚔️" },
+            { key = "telvar", label = "Tel Var", emoji = "🔮" },
+            { key = "transmute", label = "Transmute Crystals", emoji = "💎" },
+            { key = "vouchers", label = "Writs", emoji = "📜" },
+            { key = "eventTickets", label = "Event Tickets", emoji = "🎫" },
+            { key = "crowns", label = "Crowns", emoji = "👑" },
+            { key = "gems", label = "Gems", emoji = "💠" },
+            { key = "seals", label = "Seals", emoji = "🏅" },
+            { key = "undauntedKeys", label = "Keys", emoji = "🗝️" },
+            { key = "outfitTokens", label = "Tokens", emoji = "👕" },
+            { key = "archivalFortunes", label = "Fortunes", emoji = "📚" },
+            { key = "imperialFragments", label = "Fragments", emoji = "🔹" },
+        }
+
+        if CreateStyledTable then
             -- Use styled table
             local currencyRows = {}
-            -- Always include Gold so Currency section is never empty
-            table_insert(currencyRows, { "**Gold**", safeFormat(currencyData.gold or 0) })
             
-            if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
-                table_insert(currencyRows, { "**Alliance Points**", safeFormat(currencyData.alliancePoints) })
-            end
-            if currencyData.telVar and currencyData.telVar > 0 then
-                table_insert(currencyRows, { "**Tel Var**", safeFormat(currencyData.telVar) })
-            end
-            if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
-                table_insert(currencyRows, { "**Transmute Crystals**", safeFormat(currencyData.transmuteCrystals) })
-            end
-            if currencyData.writs and currencyData.writs > 0 then
-                table_insert(currencyRows, { "**Writs**", safeFormat(currencyData.writs) })
-            end
-            if currencyData.eventTickets and currencyData.eventTickets > 0 then
-                table_insert(currencyRows, { "**Event Tickets**", safeFormat(currencyData.eventTickets) })
+            for _, item in ipairs(currencyItems) do
+                local value = currencyData[item.key]
+                -- Always include all currencies to match Economy section
+                table_insert(currencyRows, { item.emoji .. " **" .. item.label .. "**", safeFormat(value or 0) })
             end
             
             -- Currency section is always created since Gold is always included
@@ -238,27 +203,14 @@ local function GenerateQuickStats(
             currencySection = "### Currency\n\n" .. currencyTable
         else
             -- Fallback to simple table format
-            -- Always include Gold so Currency section is never empty
-            local currencyRows = string_format("|| **Gold** | %s |\n", safeFormat(currencyData.gold or 0))
+            local currencyRows = ""
             
-            if currencyData.alliancePoints and currencyData.alliancePoints > 0 then
-                currencyRows = currencyRows
-                    .. string_format("|| **Alliance Points** | %s |\n", safeFormat(currencyData.alliancePoints))
+            for _, item in ipairs(currencyItems) do
+                local value = currencyData[item.key]
+                -- Always include all currencies
+                currencyRows = currencyRows .. string_format("|| %s **%s** | %s |\n", item.emoji, item.label, safeFormat(value or 0))
             end
-            if currencyData.telVar and currencyData.telVar > 0 then
-                currencyRows = currencyRows .. string_format("|| **Tel Var** | %s |\n", safeFormat(currencyData.telVar))
-            end
-            if currencyData.transmuteCrystals and currencyData.transmuteCrystals > 0 then
-                currencyRows = currencyRows
-                    .. string_format("|| **Transmute Crystals** | %s |\n", safeFormat(currencyData.transmuteCrystals))
-            end
-            if currencyData.writs and currencyData.writs > 0 then
-                currencyRows = currencyRows .. string_format("|| **Writs** | %s |\n", safeFormat(currencyData.writs))
-            end
-            if currencyData.eventTickets and currencyData.eventTickets > 0 then
-                currencyRows = currencyRows
-                    .. string_format("|| **Event Tickets** | %s |\n", safeFormat(currencyData.eventTickets))
-            end
+
             -- Currency section is always created since Gold is always included
             currencySection = string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
         end
@@ -363,9 +315,7 @@ local function GenerateQuickStats(
         end
     end
     
-    if characterStatsSection ~= "" then
-        result = result .. characterStatsSection
-    end
+
 
     return result
 end
@@ -378,9 +328,6 @@ CM.generators.sections.GenerateQuickStats = GenerateQuickStats
 
 -- FIX #5: Enhanced attention needed with more warnings
 local function GenerateAttentionNeeded(progressionData, inventoryData, ridingData, companionData, currencyData, format)
-    if format == "discord" then
-        return ""
-    end
 
     -- Enhanced visuals are now always enabled (baseline)
     local warnings = {}
@@ -497,9 +444,7 @@ local function AutoLinkSetsAndAbilities(notes, format, equipmentData, skillBarDa
     if not notes or notes == "" then
         return notes
     end
-    if format ~= "github" and format ~= "discord" then
-        return notes
-    end -- Only link in formats that support it
+    -- Always enable links (markdown format supports it)
 
     local CreateSetLink = CM.links and CM.links.CreateSetLink
     local CreateAbilityLink = CM.links and CM.links.CreateAbilityLink
@@ -594,9 +539,7 @@ CM.generators.sections.GenerateCustomNotes = GenerateCustomNotes
 -- Generate Table of Contents dynamically from section registry
 -- This ensures TOC always matches actual output
 local function GenerateDynamicTableOfContents(registry, format)
-    if format == "discord" or format == "quick" then
-        return ""
-    end
+    -- Always generate TOC for markdown format
 
     local tocLines = {}
 

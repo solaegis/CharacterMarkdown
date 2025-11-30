@@ -886,27 +886,36 @@ tasks:
   # =============================================================================
 
   git:hooks:install:
-    desc: Install git hooks (pre-push validation)
+    desc: Install git hooks (pre-commit trim + pre-push validation)
     cmds:
       - |
         echo "🔧 Installing git hooks..."
         
-        # Check if pre-push hook script exists
-        if [ ! -f "scripts/git-hooks/pre-push" ]; then
-          echo "❌ scripts/git-hooks/pre-push not found"
-          exit 1
-        fi
-        
         # Create .git/hooks directory if it doesn't exist
         mkdir -p .git/hooks
         
-        # Copy pre-push hook
-        cp scripts/git-hooks/pre-push .git/hooks/pre-push
-        chmod +x .git/hooks/pre-push
+        # Install pre-commit hook (examples:trim)
+        if [ -f "scripts/git-hooks/pre-commit" ]; then
+          cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
+          chmod +x .git/hooks/pre-commit
+          echo "✅ Pre-commit hook installed"
+          echo "   This hook will trim example files before commit"
+          echo "   To bypass: git commit --no-verify"
+        else
+          echo "⚠️  scripts/git-hooks/pre-commit not found"
+        fi
         
-        echo "✅ Pre-push hook installed"
-        echo "   This hook will run validation before pushing tags"
-        echo "   To bypass: git push --no-verify"
+        # Install pre-push hook (validation)
+        if [ -f "scripts/git-hooks/pre-push" ]; then
+          cp scripts/git-hooks/pre-push .git/hooks/pre-push
+          chmod +x .git/hooks/pre-push
+          echo "✅ Pre-push hook installed"
+          echo "   This hook will run validation before pushing tags"
+          echo "   To bypass: git push --no-verify"
+        else
+          echo "❌ scripts/git-hooks/pre-push not found"
+          exit 1
+        fi
     silent: true
 
   git:hooks:uninstall:
@@ -914,11 +923,22 @@ tasks:
     cmds:
       - |
         echo "🗑️  Removing git hooks..."
+        REMOVED=0
+        
+        if [ -f ".git/hooks/pre-commit" ]; then
+          rm .git/hooks/pre-commit
+          echo "✅ Pre-commit hook removed"
+          REMOVED=1
+        fi
+        
         if [ -f ".git/hooks/pre-push" ]; then
           rm .git/hooks/pre-push
           echo "✅ Pre-push hook removed"
-        else
-          echo "ℹ️  No pre-push hook found"
+          REMOVED=1
+        fi
+        
+        if [ $REMOVED -eq 0 ]; then
+          echo "ℹ️  No git hooks found"
         fi
     silent: true
 
@@ -1092,20 +1112,13 @@ tasks:
   # EXAMPLES & MARKDOWN FORMATTING
   # =============================================================================
 
-  examples:trim:
-    desc: Trim unnecessary newlines from example markdown files
-    cmds:
-      - |
-        echo "✂️  Trimming example markdown files..."
-        python3 scripts/trim-markdown.py assets/examples/*.md
-    silent: true
 
   examples:trim:dry-run:
     desc: Preview what would be trimmed without modifying files
     cmds:
       - |
-        echo "🔍 Dry run: checking example markdown files..."
-        python3 scripts/trim-markdown.py --dry-run assets/examples/*.md
+        echo "🔍 Dry run: checking example files..."
+        python3 scripts/trim.py --dry-run examples/*.md examples/*.tonl
     silent: true
 
   # =============================================================================
@@ -1137,7 +1150,7 @@ tasks:
           ! -path "*/node_modules/*" \
           ! -path "*/book/*" \
           ! -path "*/.task/*" \
-          ! -path "*/assets/examples/*" \
+          ! -path "*/examples/*" \
           -mtime +180 2>/dev/null)
         if [ -n "$STALE" ]; then
           echo "$STALE" | while read file; do
@@ -1225,7 +1238,7 @@ tasks:
           ! -path "*/node_modules/*" \
           ! -path "*/book/*" \
           ! -path "*/.task/*" \
-          ! -path "*/assets/examples/*" \
+          ! -path "*/examples/*" \
           -mtime +180 2>/dev/null)
         
         if [ -n "$STALE" ]; then
@@ -1268,7 +1281,7 @@ tasks:
           ! -path "*/node_modules/*" \
           ! -path "*/book/*" \
           ! -path "*/.task/*" \
-          ! -path "*/assets/examples/*" \
+          ! -path "*/examples/*" \
           ! -name "README.md" \
           ! -name "CHANGELOG.md" \
           ! -name "LICENSE.md" | while read doc; do
@@ -1321,7 +1334,7 @@ tasks:
           ! -path "*/node_modules/*" \
           ! -path "*/book/*" \
           ! -path "*/.task/*" \
-          ! -path "*/assets/examples/*" \
+          ! -path "*/examples/*" \
           -exec basename {} \; | sort | while read file; do
           COUNT=$(find . -type f -name "$file" \
             ! -path "*/node_modules/*" \
@@ -1347,7 +1360,7 @@ tasks:
           ! -path "*/node_modules/*" \
           ! -path "*/book/*" \
           ! -path "*/.task/*" \
-          ! -path "*/assets/examples/*" | while read file; do
+          ! -path "*/examples/*" | while read file; do
           grep "^# " "$file" 2>/dev/null | sed "s/^# //" | while read heading; do
             echo "$heading|$file" >> "$TEMP_FILE"
           done
@@ -1662,4 +1675,11 @@ tasks:
     desc: Alias for release:workflow (guided release process)
     cmds:
       - task: release:workflow
+    silent: true
+  examples:trim:
+    desc: Trim unnecessary newlines from example files
+    cmds:
+      - |
+        echo "✂️  Trimming example files..."
+        python3 scripts/trim.py examples/*.md examples/*.tonl
     silent: true

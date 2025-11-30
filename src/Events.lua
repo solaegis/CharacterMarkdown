@@ -49,19 +49,137 @@ local function OnPlayerActivated(event)
     EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED)
 end
 
+-- =====================================================
+-- CACHE INVALIDATION HANDLERS
+-- =====================================================
+
+local function OnCollectibleUnlocked(event, collectibleId)
+    -- Clear collectibles cache when a collectible is unlocked
+    if CM.api and CM.api.collectibles and CM.api.collectibles.ClearCache then
+        CM.api.collectibles.ClearCache()
+        CM.DebugPrint("CACHE", "Collectibles cache cleared (collectible unlocked: " .. tostring(collectibleId) .. ")")
+    end
+end
+
+local function OnSkillRankUpdate(event, skillType, skillLineIndex, skillIndex, rank)
+    -- Clear skills cache when a skill rank changes
+    if CM.api and CM.api.skills and CM.api.skills.ClearCache then
+        CM.api.skills.ClearCache()
+        CM.DebugPrint("CACHE", "Skills cache cleared (skill rank updated)")
+    end
+end
+
+local function OnSkillPointsChanged(event)
+    -- Clear skills cache when skill points change
+    if CM.api and CM.api.skills and CM.api.skills.ClearCache then
+        CM.api.skills.ClearCache()
+        CM.DebugPrint("CACHE", "Skills cache cleared (skill points changed)")
+    end
+end
+
+local function OnTitleUnlocked(event, titleId)
+    -- Clear titles cache when a title is unlocked
+    if CM.api and CM.api.titles and CM.api.titles.ClearCache then
+        CM.api.titles.ClearCache()
+        CM.DebugPrint("CACHE", "Titles cache cleared (title unlocked: " .. tostring(titleId) .. ")")
+    end
+end
+
+local function OnAntiquityUnlocked(event, antiquityId)
+    -- Clear antiquities cache when an antiquity is unlocked
+    if CM.api and CM.api.antiquities and CM.api.antiquities.ClearCache then
+        CM.api.antiquities.ClearCache()
+        CM.DebugPrint("CACHE", "Antiquities cache cleared (antiquity unlocked: " .. tostring(antiquityId) .. ")")
+    end
+end
+
+local function OnHouseOwnershipChanged(event, houseId)
+    -- Clear collectibles cache when house ownership changes (houses are collectibles)
+    if CM.api and CM.api.collectibles and CM.api.collectibles.ClearCache then
+        CM.api.collectibles.ClearCache()
+        CM.DebugPrint("CACHE", "Collectibles cache cleared (house ownership changed: " .. tostring(houseId) .. ")")
+    end
+end
+
 local function RegisterEvents()
     EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_ADD_ON_LOADED, OnAddOnLoaded)
     EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
+    
+    -- Register cache invalidation events (only if events exist)
+    -- Use pcall to safely register events that may not exist in all ESO versions
+    
+    -- Collectibles cache invalidation
+    local success1 = pcall(function()
+        EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_COLLECTIBLE_UNLOCKED, OnCollectibleUnlocked)
+    end)
+    if not success1 then
+        CM.DebugPrint("CACHE", "EVENT_COLLECTIBLE_UNLOCKED not available")
+    end
+    
+    -- Skills cache invalidation
+    local success2 = pcall(function()
+        EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_SKILL_RANK_UPDATE, OnSkillRankUpdate)
+    end)
+    if not success2 then
+        CM.DebugPrint("CACHE", "EVENT_SKILL_RANK_UPDATE not available")
+    end
+    
+    local success3 = pcall(function()
+        EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_SKILL_POINTS_CHANGED, OnSkillPointsChanged)
+    end)
+    if not success3 then
+        CM.DebugPrint("CACHE", "EVENT_SKILL_POINTS_CHANGED not available")
+    end
+    
+    -- Titles cache invalidation
+    local success4 = pcall(function()
+        EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_TITLE_UNLOCKED, OnTitleUnlocked)
+    end)
+    if not success4 then
+        CM.DebugPrint("CACHE", "EVENT_TITLE_UNLOCKED not available")
+    end
+    
+    -- Antiquities cache invalidation
+    local success5 = pcall(function()
+        EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_ANTIQUITY_UNLOCKED, OnAntiquityUnlocked)
+    end)
+    if not success5 then
+        CM.DebugPrint("CACHE", "EVENT_ANTIQUITY_UNLOCKED not available")
+    end
+    
+    -- House ownership changes (houses are collectibles)
+    local success6 = pcall(function()
+        EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_HOUSE_OWNERSHIP_CHANGED, OnHouseOwnershipChanged)
+    end)
+    if not success6 then
+        CM.DebugPrint("CACHE", "EVENT_HOUSE_OWNERSHIP_CHANGED not available")
+    end
 end
 
 local function UnregisterEvents()
     EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_ADD_ON_LOADED)
+    
+    -- Unregister cache invalidation events (safely handle missing events)
+    pcall(function() EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_COLLECTIBLE_UNLOCKED) end)
+    pcall(function() EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_SKILL_RANK_UPDATE) end)
+    pcall(function() EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_SKILL_POINTS_CHANGED) end)
+    pcall(function() EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_TITLE_UNLOCKED) end)
+    pcall(function() EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_ANTIQUITY_UNLOCKED) end)
+    pcall(function() EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_HOUSE_OWNERSHIP_CHANGED) end)
 end
 
 CM.events.OnAddOnLoaded = OnAddOnLoaded
 CM.events.OnPlayerActivated = OnPlayerActivated
 CM.events.RegisterEvents = RegisterEvents
 CM.events.UnregisterEvents = UnregisterEvents
+
+-- Export cache invalidation handlers for manual clearing if needed
+CM.events.OnCollectibleUnlocked = OnCollectibleUnlocked
+CM.events.OnSkillRankUpdate = OnSkillRankUpdate
+CM.events.OnSkillPointsChanged = OnSkillPointsChanged
+CM.events.OnTitleUnlocked = OnTitleUnlocked
+CM.events.OnAntiquityUnlocked = OnAntiquityUnlocked
+CM.events.OnHouseOwnershipChanged = OnHouseOwnershipChanged
 
 -- Register event handlers
 RegisterEvents()

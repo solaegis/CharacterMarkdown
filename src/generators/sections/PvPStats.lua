@@ -562,12 +562,18 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format, skillProgressionD
     -- =====================================================
     -- TABLE FORMAT (GitHub/VSCode) with multi-column layout
     -- =====================================================
+    -- =====================================================
+    -- TABLE FORMAT (GitHub/VSCode) with multi-column layout
+    -- =====================================================
     else
-        markdown = markdown .. "## ⚔️ PvP\n\n"
-
-        -- PvP Stats section (if enabled) - Show first
+        -- Generate content first to check if we have anything to show
+        local pvpContent = ""
+        local skillsContent = ""
+        
+        -- PvP Stats section (if enabled)
         if showPvPStats then
-            markdown = markdown .. "### PvP Profile\n\n"
+            local pvpSection = ""
+            pvpSection = pvpSection .. "### PvP Profile\n\n"
 
             -- Use 2-3 column layout for PvP areas
             local CreateTwoColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateTwoColumnLayout
@@ -578,35 +584,52 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format, skillProgressionD
             local column2 = GenerateCampaignColumn(pvp, settings, format)
             local column3 = GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings, format)
 
-            -- Use 3-column if we have content in the third column, otherwise 2-column
-            if CreateThreeColumnLayout and column3 ~= "" then
-                markdown = markdown .. CreateThreeColumnLayout(column1, column2, column3)
-            elseif CreateTwoColumnLayout then
-                markdown = markdown .. CreateTwoColumnLayout(column1, column2)
-            else
-                -- Fallback to vertical layout
-                markdown = markdown .. column1 .. "\n"
-                markdown = markdown .. column2 .. "\n"
-                if column3 ~= "" then
-                    markdown = markdown .. column3 .. "\n"
+            -- Only add if we have at least one column with content
+            if column1 ~= "" or column2 ~= "" or column3 ~= "" then
+                -- Use 3-column if we have content in the third column, otherwise 2-column
+                if CreateThreeColumnLayout and column3 ~= "" then
+                    pvpSection = pvpSection .. CreateThreeColumnLayout(column1, column2, column3)
+                elseif CreateTwoColumnLayout then
+                    pvpSection = pvpSection .. CreateTwoColumnLayout(column1, column2)
+                else
+                    -- Fallback to vertical layout
+                    pvpSection = pvpSection .. column1 .. "\n"
+                    pvpSection = pvpSection .. column2 .. "\n"
+                    if column3 ~= "" then
+                        pvpSection = pvpSection .. column3 .. "\n"
+                    end
                 end
+                pvpContent = pvpSection
             end
         end
 
-        -- Alliance War Skills section (if enabled) - Show after PvP Profile
+        -- Alliance War Skills section (if enabled)
         if showAllianceWarSkills and skillProgressionData then
             local allianceWarSkills = GenerateAllianceWarSkills(skillProgressionData, format)
             if allianceWarSkills ~= "" then
-                markdown = markdown .. allianceWarSkills .. "\n"
+                skillsContent = allianceWarSkills .. "\n"
             end
         end
 
-        -- Use CreateSeparator for consistent separator styling
-        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-        if CreateSeparator then
-            markdown = markdown .. CreateSeparator("hr")
-        else
-            markdown = markdown .. "---\n\n"
+        -- Only output the main header if we have content
+        if pvpContent ~= "" or skillsContent ~= "" then
+            markdown = markdown .. "## ⚔️ PvP\n\n"
+            
+            if pvpContent ~= "" then
+                markdown = markdown .. pvpContent
+            end
+            
+            if skillsContent ~= "" then
+                markdown = markdown .. skillsContent
+            end
+
+            -- Use CreateSeparator for consistent separator styling
+            local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+            if CreateSeparator then
+                markdown = markdown .. CreateSeparator("hr")
+            else
+                markdown = markdown .. "---\n\n"
+            end
         end
     end
 

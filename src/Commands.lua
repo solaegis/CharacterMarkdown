@@ -3,356 +3,6 @@
 local CM = CharacterMarkdown
 
 -- =====================================================
--- SHORTEST UNIQUE SHORTCUT CALCULATION
--- =====================================================
-
--- Calculate shortest unique prefix for a list of strings
--- If any command needs more than 1 character due to conflicts,
--- ALL commands use the same minimum length for consistency
-local function FindShortestUniquePrefixes(strings)
-    local prefixes = {}
-    local sorted = {}
-    
-    -- Create sorted copy
-    for i, str in ipairs(strings) do
-        table.insert(sorted, str)
-    end
-    table.sort(sorted)
-    
-    -- First pass: find minimum length needed for each string
-    local minLengths = {}
-    local globalMinLen = 1
-    
-    for i, str in ipairs(sorted) do
-        local minLen = 1
-        local found = false
-        
-        while not found and minLen <= #str do
-            local prefix = str:sub(1, minLen)
-            local unique = true
-            
-            -- Check if this prefix is unique among all strings
-            for j, otherStr in ipairs(sorted) do
-                if i ~= j and otherStr:sub(1, minLen) == prefix then
-                    unique = false
-                    break
-                end
-            end
-            
-            if unique then
-                minLengths[str] = minLen
-                -- Update global minimum if this needs more characters
-                if minLen > globalMinLen then
-                    globalMinLen = minLen
-                end
-                found = true
-            else
-                minLen = minLen + 1
-            end
-        end
-        
-        -- If no unique prefix found, use full string length
-        if not found then
-            minLengths[str] = #str
-            if #str > globalMinLen then
-                globalMinLen = #str
-            end
-        end
-    end
-    
-    -- Second pass: ensure all commands use at least globalMinLen characters
-    for i, str in ipairs(sorted) do
-        local requiredLen = math.max(minLengths[str], globalMinLen)
-        if requiredLen <= #str then
-            prefixes[str] = str:sub(1, requiredLen)
-        else
-            prefixes[str] = str
-        end
-    end
-    
-    return prefixes
-end
-
--- =====================================================
--- COMMAND PARSING
--- =====================================================
-
--- Parse subcommand pattern: object:action or object
-local function ParseSubcommand(args)
-    if not args or args == "" then
-        return nil, nil, ""
-    end
-    
-    local trimmed = args:lower():match("^%s*(.-)%s*$")
-    
-    -- Check for object:action pattern
-    local object, action = trimmed:match("^(%S+):(%S+)$")
-    if object and action then
-        local remaining = trimmed:match("^%S+:%S+%s+(.*)$") or ""
-        return object, action, remaining
-    end
-    
-    -- Check for object only (no colon)
-    local objectOnly = trimmed:match("^(%S+)")
-    if objectOnly then
-        local remaining = trimmed:match("^%S+%s+(.*)$") or ""
-        return objectOnly, nil, remaining
-    end
-    
-    return nil, nil, ""
-end
-
--- Match command with shortest unique prefix support
-local function MatchCommand(input, fullCommand, shortcuts)
-    if not input or not fullCommand then
-        return false
-    end
-    
-    -- Exact match
-    if input == fullCommand then
-        return true
-    end
-    
-    -- Shortcut match
-    if shortcuts and shortcuts[fullCommand] then
-        local shortcut = shortcuts[fullCommand]
-        if input == shortcut then
-            return true
-        end
-    end
-    
-    -- Prefix match (for backward compatibility)
-    if fullCommand:sub(1, #input) == input then
-        return true
-    end
-    
-    return false
-end
-
--- =====================================================
--- FORMAT COMMANDS
--- =====================================================
-
-local formatCommands = {
-    "format:github",
-    "format:vscode",
-    "format:discord",
-    "format:quick",
-}
-
-local formatShortcuts = FindShortestUniquePrefixes(formatCommands)
-local formatMap = {
-    ["format:github"] = "github",
-    ["format:vscode"] = "vscode",
-    ["format:discord"] = "discord",
-    ["format:quick"] = "quick",
-}
-
--- Parse format command
-local function ParseFormatCommand(args)
-    if not args or args == "" then
-        return nil -- No format specified, use current
-    end
-    
-    local object, action = ParseSubcommand(args)
-    
-    -- Check if it's a format command
-    if object then
-        -- Check if object matches "format" with shortest unique prefix
-        local formatObjects = {"format"}
-        local formatObjectShortcuts = FindShortestUniquePrefixes(formatObjects)
-        
-        if MatchCommand(object, "format", formatObjectShortcuts) then
-            -- It's a format command, find the format
-            if action then
-                -- Build the full command string to match
-                local inputCmd = "format:" .. action
-                
-                -- Match against full commands using shortcuts
-                for fullCmd, format in pairs(formatMap) do
-                    if MatchCommand(inputCmd, fullCmd, formatShortcuts) then
-                        return format
-                    end
-                end
-            end
-        end
-    end
-    
-    return nil
-end
-
--- =====================================================
--- SUBCOMMAND ROUTING
--- =====================================================
-
-local subcommandHandlers = {}
-
--- Register a subcommand handler
-local function RegisterSubcommand(object, action, handler, description)
-    if not subcommandHandlers[object] then
-        subcommandHandlers[object] = {}
-    end
-    subcommandHandlers[object][action or ""] = {
-        handler = handler,
-        description = description,
-    }
-end
-
--- Route subcommand to appropriate handler
-local function RouteSubcommand(object, action, remainingArgs)
-    if not object then
-        return false
-    end
-    
-    -- Calculate object shortcuts
-    local objects = {}
-    for obj, _ in pairs(subcommandHandlers) do
-        table.insert(objects, obj)
-    end
-    local objectShortcuts = FindShortestUniquePrefixes(objects)
-    
-    -- Try to find object by shortest unique prefix
-    local foundObject = nil
-    for obj, _ in pairs(subcommandHandlers) do
-        if MatchCommand(object, obj, objectShortcuts) then
-            foundObject = obj
-            break
-        end
-    end
-    
-    if not foundObject then
-        return false
-    end
-    
-    local objectHandlers = subcommandHandlers[foundObject]
-    if not objectHandlers then
-        return false
-    end
-    
-    -- Try exact action match first
-    local handler = objectHandlers[action or ""]
-    if handler and handler.handler then
-        handler.handler(remainingArgs)
-        return true
-    end
-    
-    -- Try to find by shortest unique prefix
-    if action then
-        local actions = {}
-        for act, _ in pairs(objectHandlers) do
-            if act ~= "" then
-                table.insert(actions, act)
-            end
-        end
-        local actionShortcuts = FindShortestUniquePrefixes(actions)
-        
-        for act, handlerData in pairs(objectHandlers) do
-            if MatchCommand(action, act, actionShortcuts) then
-                handlerData.handler(remainingArgs)
-                return true
-            end
-        end
-    end
-    
-    return false
-end
-
--- =====================================================
--- HELP OUTPUT
--- =====================================================
-
-local function ShowHelp()
-    CM.Info("=== CharacterMarkdown Commands ===")
-    CM.Info(" ")
-    CM.Info("  /markdown - Generate profile")
-    CM.Info(" ")
-    
-    -- Collect all commands with descriptions
-    local allCommands = {}
-    
-    -- Format commands
-    for _, cmd in ipairs(formatCommands) do
-        local format = formatMap[cmd]
-        local shortcut = formatShortcuts[cmd] or cmd
-        table.insert(allCommands, {
-            command = cmd,
-            shortcut = shortcut,
-            description = "Generate " .. format .. " format",
-            category = "format",
-        })
-    end
-    
-    -- Calculate object shortcuts
-    local objects = {}
-    for object, _ in pairs(subcommandHandlers) do
-        table.insert(objects, object)
-    end
-    local objectShortcuts = FindShortestUniquePrefixes(objects)
-    
-    -- Subcommands
-    for object, handlers in pairs(subcommandHandlers) do
-        for action, handlerData in pairs(handlers) do
-            local fullCmd = object
-            if action and action ~= "" then
-                fullCmd = object .. ":" .. action
-            end
-            
-            -- Calculate shortcut for action
-            local actions = {}
-            for act, _ in pairs(handlers) do
-                if act ~= "" then
-                    table.insert(actions, act)
-                end
-            end
-            local actionShortcuts = FindShortestUniquePrefixes(actions)
-            local objectShort = objectShortcuts[object] or object
-            local shortcut = objectShort
-            if action and action ~= "" then
-                local actionShort = actionShortcuts[action] or action
-                shortcut = objectShort .. ":" .. actionShort
-            end
-            
-            table.insert(allCommands, {
-                command = fullCmd,
-                shortcut = shortcut,
-                description = handlerData.description or "",
-                category = object,
-            })
-        end
-    end
-    
-    -- Add help command
-    table.insert(allCommands, {
-        command = "help",
-        shortcut = objectShortcuts["help"] or "help",
-        description = "Show this help",
-        category = "help",
-    })
-    
-    -- Sort alphabetically
-    table.sort(allCommands, function(a, b)
-        return a.command < b.command
-    end)
-    
-    -- Group by category and display
-    CM.Info("Subcommands (alphabetically grouped):")
-    local lastCategory = nil
-    for _, cmdData in ipairs(allCommands) do
-        if cmdData.category ~= lastCategory then
-            lastCategory = cmdData.category
-        end
-        local displayCmd = "/markdown " .. cmdData.command
-        if cmdData.shortcut ~= cmdData.command then
-            displayCmd = displayCmd .. " (or " .. cmdData.shortcut .. ")"
-        end
-        CM.Info("  " .. displayCmd .. " - " .. cmdData.description)
-    end
-    
-    CM.Info(" ")
-    CM.Info("Settings: ESC → Settings → Add-Ons → CharacterMarkdown")
-end
-
--- =====================================================
 -- COMMAND HANDLERS
 -- =====================================================
 
@@ -429,7 +79,7 @@ local function HandleSettings(args)
     
     -- Use the /markdownsettings command that LAM registered for our panel
     -- This is the most reliable way to open our specific panel
-    local lamHandler = SLASH_COMMANDS["/markdownsettings"]
+    local lamHandler = SLASH_COMMANDS["/markdown_settings"]
     if lamHandler and type(lamHandler) == "function" then
         -- Call the LAM-registered handler directly
         lamHandler("")
@@ -462,8 +112,8 @@ end
 
 local function HandleSettingsGet(args)
     if not args or args == "" then
-        CM.Error("Usage: /markdown settings:get <key>")
-        CM.Info("Example: /markdown settings:get includeChampionPoints")
+        CM.Error("Usage: /markdown settings get <key>")
+        CM.Info("Example: /markdown settings get includeChampionPoints")
         return
     end
     
@@ -494,14 +144,14 @@ end
 
 local function HandleSettingsSet(args)
     if not args or args == "" then
-        CM.Error("Usage: /markdown settings:set <key> <value>")
-        CM.Info("Example: /markdown settings:set includeChampionPoints true")
+        CM.Error("Usage: /markdown settings set <key> <value>")
+        CM.Info("Example: /markdown settings set includeChampionPoints true")
         return
     end
     
     local key, valueStr = args:match("^%s*(%S+)%s+(.+)$")
     if not key or not valueStr then
-        CM.Error("Invalid format. Use: /markdown settings:set <key> <value>")
+        CM.Error("Invalid format. Use: /markdown settings set <key> <value>")
         return
     end
     
@@ -750,11 +400,15 @@ local function HandleTest(args)
         return
     end
 
-    local testFormat = CM.currentFormat or "github"
-    CM.Info(string.format("Generating %s format with current settings...", testFormat))
+    local testFormatter = CM.currentFormatter or "markdown"
+    CM.Info(string.format("Generating %s formatter with current settings...", testFormatter))
 
     local success, markdown = pcall(function()
-        return CM.generators.GenerateMarkdown(testFormat)
+        if testFormatter == "tonl" then
+            return CM.formatters.GenerateTONL()
+        else
+            return CM.formatters.GenerateMarkdown()
+        end
     end)
 
     if not success or not markdown then
@@ -790,14 +444,26 @@ local function HandleTest(args)
     CM.Info(" ")
     CM.Info("|cFFD700[4/4] Validation Tests|r")
 
-    local validationResults = CM.tests.validation.ValidateMarkdown(markdownString, testFormat)
+    local validationResults = CM.tests.validation.ValidateMarkdown(markdownString, testFormatter)
 
     local sectionResults = nil
     if CM.tests and CM.tests.sectionPresence then
-        sectionResults = CM.tests.sectionPresence.ValidateSectionPresence(markdownString, testFormat, testSettings)
+        sectionResults = CM.tests.sectionPresence.ValidateSectionPresence(markdownString, testFormatter, testSettings)
     end
 
     CM.tests.validation.PrintTestReport()
+
+    -- ================================================
+    -- PHASE 5: UNIT TESTS
+    -- ================================================
+    CM.Info(" ")
+    CM.Info("|cFFD700[5/5] Unit Tests|r")
+    
+    if CM.tests.chunking then
+        CM.tests.chunking.RunTests()
+    else
+        CM.Warn("Chunking tests not available")
+    end
 
     if sectionResults and CM.tests.sectionPresence then
         CM.tests.sectionPresence.PrintSectionTestReport()
@@ -855,66 +521,235 @@ local function HandleTestLayout(args)
 end
 
 -- =====================================================
--- REGISTER SUBCOMMANDS
+-- STAT SCANNER (DEBUG UTILITY)
 -- =====================================================
 
-RegisterSubcommand("debug", nil, HandleDebug, "Toggle debug mode")
-RegisterSubcommand("debug", "on", HandleDebugOn, "Enable debug mode")
-RegisterSubcommand("debug", "off", HandleDebugOff, "Disable debug mode")
+local function HandleScanStats(args)
+    CM.Info("|cFFD700=== STAT Scanner ===|r")
+    CM.Info("Scanning STAT_ IDs 1-200 for non-zero values...")
+    CM.Info("This may take a moment...")
+    CM.Info(" ")
+    
+    local foundStats = {}
+    local totalFound = 0
+    
+    -- Scan range - try without bonus option first
+    for i = 1, 200 do
+        local value = GetPlayerStat(i)
+        if value and value > 0 then
+            totalFound = totalFound + 1
+            table.insert(foundStats, {id = i, value = value})
+        end
+    end
+    
+    -- Display results
+    if totalFound == 0 then
+        CM.Warn("No non-zero stats found in range 1-200")
+    else
+        CM.Success(string.format("Found %d non-zero stats:", totalFound))
+        CM.Info(" ")
+        CM.Info("|cFFFFFFID  | Value|r")
+        CM.Info("|cFFFFFF----|------|r")
+        
+        for _, stat in ipairs(foundStats) do
+            CM.Info(string.format("|cFFFFFF%-4d| %s|r", stat.id, CM.utils.FormatNumber(stat.value)))
+        end
+        
+        CM.Info(" ")
+        CM.Info("|cFFD700Compare these IDs to your screenshot values:|r")
+        CM.Info("  Bash Cost: 696")
+        CM.Info("  Block Cost: 1757")
+        CM.Info("  Break Free Cost: 4590")
+        CM.Info("  Dodge Roll Cost: 3802")
+        CM.Info("  Sneak Cost: 119")
+        CM.Info("  Sprint Cost: 475")
+        CM.Info(" ")
+        CM.Info("Once you find matching IDs, let me know!")
+    end
+end
 
-RegisterSubcommand("help", nil, ShowHelp, "Show this help")
+local function HandleTestConstants(args)
+    CM.Info("|cFFD700=== Testing Core Ability Costs ===|r")
+    CM.Info("Trying GetAbilityCost() with common ability IDs...")
+    CM.Info(" ")
+    
+    -- Expanded list of ability IDs to test for Sneak/Sprint
+    local abilitiesToTest = {
+        {name = "Bash (21970)", id = 21970},
+        {name = "Break Free (16565)", id = 16565},
+        {name = "Dodge Roll (28549)", id = 28549},
+        {name = "Sprint (15000)", id = 15000},
+        {name = "Sprint (973)", id = 973},
+        {name = "Sprint (1000)", id = 1000},
+        {name = "Sneak (20299)", id = 20299},
+        {name = "Sneak (20000)", id = 20000},
+        {name = "Sneak (19999)", id = 19999},
+    }
+    
+    for _, ability in ipairs(abilitiesToTest) do
+        local cost = GetAbilityCost(ability.id, COMBAT_MECHANIC_FLAGS_STAMINA)
+        if cost and cost > 0 then
+            CM.Info(string.format("|cFFFFFF%s: %d|r", ability.name, cost))
+        else
+            CM.Warn(string.format("%s: No cost found", ability.name))
+        end
+    end
+    
+    CM.Info(" ")
+    CM.Info("|cFFD700=== Testing Damage/Crit Bonus Stats ===|r")
+    
+    -- Test various stat IDs that might be damage bonuses
+    -- Based on scan, we saw IDs like 49=100, 50=200 which might be percentages
+    local bonusStatsToTest = {
+        {name = "ID 48", id = 48},
+        {name = "ID 49", id = 49},
+        {name = "ID 50", id = 50},
+        {name = "ID 78 (Crit Damage?)", id = 78},
+        {name = "ID 79", id = 79},
+        {name = "ID 80", id = 80},
+    }
+    
+    for _, stat in ipairs(bonusStatsToTest) do
+        local value = GetPlayerStat(stat.id)
+        if value and value > 0 then
+            -- Try to interpret as percentage
+            local asPercent = value / 100
+            CM.Info(string.format("|cFFFFFF%s: %d (%.1f%%)|r", stat.name, value, asPercent))
+        else
+            CM.Warn(string.format("%s: 0 or nil", stat.name))
+        end
+    end
+    
+    CM.Info(" ")
+    CM.Info("|cFFD700=== Done ===|r")
+end
 
-RegisterSubcommand("settings", nil, HandleSettings, "Open settings panel")
-RegisterSubcommand("settings", "show", HandleSettingsShow, "Show SavedVariables debug info")
-RegisterSubcommand("settings", "get", HandleSettingsGet, "Get current value of a setting (advanced)")
-RegisterSubcommand("settings", "set", HandleSettingsSet, "Set value of a setting (advanced)")
-RegisterSubcommand("settings", "reset", HandleSettingsReset, "Reset all settings to defaults (advanced)")
-RegisterSubcommand("settings", "enable-all", HandleSettingsEnableAll, "Enable all boolean settings (advanced)")
-
-RegisterSubcommand("test", nil, HandleTest, "Run comprehensive diagnostic + validation tests")
-RegisterSubcommand("test", "layout", HandleTestLayout, "Run layout calculator tests")
+local function HandleFindNames(args)
+    CM.Info("|cFFD700=== Testing GetAdvancedStatValue (Corrected) ===|r")
+    
+    local advancedStats = {
+        {name = "Sneak Cost", id = ADVANCED_STAT_DISPLAY_TYPE_SNEAK_COST},
+        {name = "Sprint Cost", id = ADVANCED_STAT_DISPLAY_TYPE_SPRINT_COST},
+        {name = "Crit Damage", id = ADVANCED_STAT_DISPLAY_TYPE_CRITICAL_DAMAGE},
+        {name = "Physical Bonus", id = ADVANCED_STAT_DISPLAY_TYPE_PHYSICAL_DAMAGE}, -- Verify this exists
+        {name = "Flame Bonus", id = ADVANCED_STAT_DISPLAY_TYPE_FIRE_DAMAGE},
+        {name = "Shock Bonus", id = ADVANCED_STAT_DISPLAY_TYPE_SHOCK_DAMAGE}, -- Verify this exists
+        {name = "Magic Bonus", id = ADVANCED_STAT_DISPLAY_TYPE_MAGIC_DAMAGE},
+        {name = "Disease Bonus", id = ADVANCED_STAT_DISPLAY_TYPE_DISEASE_DAMAGE},
+        {name = "Poison Bonus", id = ADVANCED_STAT_DISPLAY_TYPE_POISON_DAMAGE},
+        {name = "Bleed Bonus", id = ADVANCED_STAT_DISPLAY_TYPE_BLEED_DAMAGE},
+    }
+    
+    for _, stat in ipairs(advancedStats) do
+        if stat.id then
+            -- API returns: displayFormat, flatValue, percentValue
+            local format, flat, pct = GetAdvancedStatValue(stat.id)
+            flat = flat or 0
+            pct = pct or 0
+            CM.Info(string.format("%s: Flat=%d, Pct=%.1f%% (Format: %d)", stat.name, flat, pct, format or -1))
+        else
+            CM.Info(string.format("%s: Constant NIL", stat.name))
+        end
+    end
+end
 
 -- =====================================================
--- MAIN COMMAND HANDLER
+-- CACHE COMMANDS
 -- =====================================================
 
-local function CommandHandler(args)
+local function HandleCacheClear(args)
+    local cleared = {}
+    local count = 0
+    
+    -- Clear all API module caches
+    if CM.api and CM.api.skills and CM.api.skills.ClearCache then
+        CM.api.skills.ClearCache()
+        table.insert(cleared, "Skills")
+        count = count + 1
+    end
+    
+    if CM.api and CM.api.collectibles and CM.api.collectibles.ClearCache then
+        CM.api.collectibles.ClearCache()
+        table.insert(cleared, "Collectibles")
+        count = count + 1
+    end
+    
+    if CM.api and CM.api.titles and CM.api.titles.ClearCache then
+        CM.api.titles.ClearCache()
+        table.insert(cleared, "Titles")
+        count = count + 1
+    end
+    
+    if CM.api and CM.api.antiquities and CM.api.antiquities.ClearCache then
+        CM.api.antiquities.ClearCache()
+        table.insert(cleared, "Antiquities")
+        count = count + 1
+    end
+    
+    if count > 0 then
+        CM.Success("Cleared " .. count .. " cache(s): " .. table.concat(cleared, ", "))
+    else
+        CM.Info("No caches available to clear")
+    end
+end
+
+-- =====================================================
+-- MAIN GENERATION LOGIC
+-- =====================================================
+
+local function GenerateOutput(formatter)
     if not CM.isInitialized then
         CM.Error("Addon not fully initialized. Try again in a moment or /reloadui")
         return
     end
 
-    -- Handle help
-    if args and args:lower():match("^%s*help") then
-        ShowHelp()
-        return
+    CM.currentFormatter = formatter
+    if CharacterMarkdownSettings then
+        CharacterMarkdownSettings.currentFormatter = formatter
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
     end
 
-    -- Parse subcommand
-    local object, action, remaining = ParseSubcommand(args)
-    CM.DebugPrint("COMMANDS", string.format("Parsed: object='%s' action='%s' remaining='%s'", 
-        tostring(object), tostring(action), tostring(remaining)))
-    
-    -- Try to route as subcommand first
-    if object and RouteSubcommand(object, action, remaining) then
-        CM.DebugPrint("COMMANDS", "Subcommand routed successfully")
-        return
-    else
-        CM.DebugPrint("COMMANDS", "Subcommand routing failed or no object")
-    end
-    
-    -- Try format command
-    local format = ParseFormatCommand(args)
-    if format then
-        CM.currentFormat = format
-        if CharacterMarkdownSettings then
-            CharacterMarkdownSettings.currentFormat = format
-            CharacterMarkdownSettings._lastModified = GetTimeStamp()
-            CM.InvalidateSettingsCache()
+    CM.DebugPrint("COMMAND", "Generating " .. formatter .. " output...")
+
+    -- TONL formatter
+    if formatter == "tonl" then
+        if not CM.formatters or not CM.formatters.GenerateTONL then
+            CM.Error("TONL formatter not loaded!")
+            CM.Error("Try /reloadui to restart the addon")
+            return
         end
 
-        CM.DebugPrint("COMMAND", "Generating " .. format .. " format...")
+        local success, tonlOutput = pcall(function()
+            return CM.formatters.GenerateTONL()
+        end)
 
+        if not success then
+            CM.Error("Failed to generate TONL:")
+            CM.Error(tostring(tonlOutput))
+            return
+        end
+
+        if not tonlOutput or tonlOutput == "" then
+            CM.Error("Generated TONL is empty or nil")
+            return
+        end
+
+        local tonlSize = string.len(tonlOutput)
+        CM.DebugPrint("COMMAND", string.format("TONL generated: %d chars", tonlSize))
+
+        if CharacterMarkdown_ShowWindow then
+            CM.DebugPrint("COMMAND", "Opening display window...")
+            CharacterMarkdown_ShowWindow(tonlOutput, formatter)
+        else
+            CM.Warn("Window display not available")
+            CM.Info("TONL copied to clipboard")
+        end
+        return
+    end
+
+    -- Markdown formatter
+    if formatter == "markdown" then
         if not CM.generators or not CM.generators.GenerateMarkdown then
             CM.Error("Markdown generator not loaded!")
             CM.Error("Try /reloadui to restart the addon")
@@ -922,7 +757,7 @@ local function CommandHandler(args)
         end
 
         local success, markdown = pcall(function()
-            return CM.generators.GenerateMarkdown(format)
+            return CM.generators.GenerateMarkdown()
         end)
 
         if not success then
@@ -974,7 +809,7 @@ local function CommandHandler(args)
                         validationMarkdown = validationMarkdown .. chunk.content
                     end
                 end
-                local results = CM.tests.validation.ValidateMarkdown(validationMarkdown, format)
+                local results = CM.tests.validation.ValidateMarkdown(validationMarkdown, formatter)
                 if #results.failed > 0 then
                     CM.DebugPrint("TESTS", string.format("⚠️ %d validation test(s) failed", #results.failed))
                 end
@@ -983,33 +818,211 @@ local function CommandHandler(args)
 
         if CharacterMarkdown_ShowWindow then
             CM.DebugPrint("COMMAND", "Opening display window...")
-            CharacterMarkdown_ShowWindow(markdown, format)
+            CharacterMarkdown_ShowWindow(markdown, formatter)
         else
             CM.Warn("Window display not available")
             CM.Info("Markdown copied to clipboard")
         end
         return
     end
-
-    -- No args - generate with current format
-    if not args or args == "" then
-        local format = CM.currentFormat
-        -- Recursively call with format command
-        return CommandHandler("format:" .. format)
-    end
-
-    -- Unknown command
-    CM.Error("Unknown command: " .. tostring(args))
-    ShowHelp()
 end
 
-CM.commands.CommandHandler = CommandHandler
-CM.commands.ParseCommandArgs = ParseFormatCommand
-CM.commands.ShowHelp = ShowHelp
-CM.commands.ParseSubcommand = ParseSubcommand
-CM.commands.RouteSubcommand = RouteSubcommand
+-- =====================================================
+-- COMMAND REGISTRATION
+-- =====================================================
 
-SLASH_COMMANDS["/markdown"] = CommandHandler
+local function InitializeCommands()
+    -- Check for LibSlashCommander
+    if LibSlashCommander then
+        CM.Info("Using LibSlashCommander for enhanced command handling")
+        
+        -- Main Command: /markdown (and /cm)
+        local cmd = LibSlashCommander:Register({"/markdown", "/cm"}, function(args)
+            -- Default action: Generate with current formatter
+            local formatter = CM.currentFormatter or "markdown"
+            GenerateOutput(formatter)
+        end, "Character Markdown")
+        
+        -- Subcommand: settings
+        local settingsCmd = cmd:RegisterSubCommand()
+        settingsCmd:AddAlias("settings")
+        settingsCmd:AddAlias("s")
+        settingsCmd:SetCallback(function(args)
+            -- If no args, open settings
+            if not args or args == "" then
+                HandleSettings()
+            else
+                -- Route to specific settings subcommands manually or register them deeper?
+                -- LibSlashCommander supports nested subcommands.
+                -- For now, let's keep it simple and route manually if needed, 
+                -- BUT LibSlashCommander is best used with nested structure.
+                
+                -- Let's register nested subcommands for settings
+                -- Note: We can't easily mix "callback with args" and "nested subcommands" on the same node 
+                -- if we want auto-completion for the nested ones.
+                -- However, LibSlashCommander allows a callback AND subcommands.
+                
+                -- Actually, the best way is to register subcommands for 'show', 'get', etc.
+                -- But since we already have the handler functions that parse args, 
+                -- we might just want to delegate.
+                -- BUT to get auto-completion, we should register them.
+                
+                -- Let's try to parse the first arg and route, or fallback to HandleSettings
+                local firstArg = args:match("^(%S+)")
+                if firstArg then
+                    -- If it matches a known subcommand, it should have been routed by LibSlashCommander 
+                    -- IF we registered it.
+                    -- If we are here, it means it didn't match a registered subcommand (or we haven't registered them yet).
+                    
+                    -- For 'settings', let's just use the manual handler for simplicity 
+                    -- as 'get'/'set' take dynamic args.
+                    if firstArg == "show" then HandleSettingsShow() 
+                    elseif firstArg == "get" then HandleSettingsGet(args:sub(5))
+                    elseif firstArg == "set" then HandleSettingsSet(args:sub(5))
+                    elseif firstArg == "reset" then HandleSettingsReset()
+                    elseif firstArg == "enable-all" then HandleSettingsEnableAll()
+                    else HandleSettings() end
+                else
+                    HandleSettings()
+                end
+            end
+        end)
+        settingsCmd:SetDescription("Open settings or manage configuration")
+        settingsCmd:SetAutoComplete({
+            "show", "get", "set", "reset", "enable-all"
+        })
+        
+        -- Subcommand: debug
+        local debugCmd = cmd:RegisterSubCommand()
+        debugCmd:AddAlias("debug")
+        debugCmd:SetCallback(function(args)
+            if args == "on" then HandleDebugOn()
+            elseif args == "off" then HandleDebugOff()
+            else HandleDebug() end
+        end)
+        debugCmd:SetDescription("Toggle debug mode")
+        debugCmd:SetAutoComplete({"on", "off"})
+        
+        -- Subcommand: tonl
+        local tonlCmd = cmd:RegisterSubCommand()
+        tonlCmd:AddAlias("tonl")
+        tonlCmd:SetCallback(function() GenerateOutput("tonl") end)
+        tonlCmd:SetDescription("Generate TONL output")
+        
+        -- Subcommand: markdown
+        local mdCmd = cmd:RegisterSubCommand()
+        mdCmd:AddAlias("markdown")
+        mdCmd:SetCallback(function() GenerateOutput("markdown") end)
+        mdCmd:SetDescription("Generate Markdown output")
+        
+        -- Subcommand: test
+        local testCmd = cmd:RegisterSubCommand()
+        testCmd:AddAlias("test")
+        testCmd:SetCallback(function(args)
+            if args == "layout" then HandleTestLayout()
+            elseif args == "constants" then HandleTestConstants()
+            else HandleTest() end
+        end)
+        testCmd:SetDescription("Run diagnostic tests")
+        testCmd:SetAutoComplete({"layout", "constants"})
+        
+        -- Subcommand: scan
+        local scanCmd = cmd:RegisterSubCommand()
+        scanCmd:AddAlias("scan")
+        scanCmd:SetCallback(function(args)
+            if args == "stats" then HandleScanStats() end
+        end)
+        scanCmd:SetDescription("Scan stats (debug)")
+        scanCmd:SetAutoComplete({"stats"})
+        
+        -- Subcommand: cache
+        local cacheCmd = cmd:RegisterSubCommand()
+        cacheCmd:AddAlias("cache")
+        cacheCmd:SetCallback(function(args)
+            if args == "clear" then HandleCacheClear() end
+        end)
+        cacheCmd:SetDescription("Manage cache")
+        cacheCmd:SetAutoComplete({"clear"})
+        
+        -- Subcommand: find
+        local findCmd = cmd:RegisterSubCommand()
+        findCmd:AddAlias("find")
+        findCmd:SetCallback(function(args)
+            if args == "names" then HandleFindNames() end
+        end)
+        findCmd:SetDescription("Find IDs (debug)")
+        findCmd:SetAutoComplete({"names"})
+        
+        -- Register global aliases for backward compatibility
+        -- /tonl
+        LibSlashCommander:Register("/tonl", function() GenerateOutput("tonl") end, "Generate TONL output")
+        
+    else
+        -- Fallback: Manual parsing
+        CM.Info("LibSlashCommander not found - using basic command handling")
+        
+        local function ManualHandler(args)
+            args = args or ""
+            local command, rest = args:match("^(%S+)(.*)")
+            command = command and command:lower() or ""
+            rest = rest and rest:match("^%s*(.*)") or ""
+            
+            if command == "" then
+                local formatter = CM.currentFormatter or "markdown"
+                GenerateOutput(formatter)
+            elseif command == "settings" or command == "s" then
+                if rest:match("^show") then HandleSettingsShow()
+                elseif rest:match("^get") then HandleSettingsGet(rest)
+                elseif rest:match("^set") then HandleSettingsSet(rest)
+                elseif rest:match("^reset") then HandleSettingsReset()
+                elseif rest:match("^enable%-all") then HandleSettingsEnableAll()
+                else HandleSettings() end
+            elseif command == "debug" then
+                if rest == "on" then HandleDebugOn()
+                elseif rest == "off" then HandleDebugOff()
+                else HandleDebug() end
+            elseif command == "tonl" then
+                GenerateOutput("tonl")
+            elseif command == "markdown" then
+                GenerateOutput("markdown")
+            elseif command == "test" then
+                if rest == "layout" then HandleTestLayout()
+                elseif rest == "constants" then HandleTestConstants()
+                else HandleTest() end
+            elseif command == "scan" and rest == "stats" then
+                HandleScanStats()
+            elseif command == "cache" and rest == "clear" then
+                HandleCacheClear()
+            elseif command == "find" and rest == "names" then
+                HandleFindNames()
+            elseif command == "help" then
+                CM.Info("/markdown - Generate profile")
+                CM.Info("/markdown settings - Open settings")
+                CM.Info("/markdown debug - Toggle debug")
+                CM.Info("/markdown tonl - Generate TONL")
+                CM.Info("/markdown test - Run tests")
+            else
+                CM.Error("Unknown command: " .. command)
+                CM.Info("Type /markdown help for commands")
+            end
+        end
+        
+        SLASH_COMMANDS["/markdown"] = ManualHandler
+        SLASH_COMMANDS["/cm"] = ManualHandler
+        SLASH_COMMANDS["/tonl"] = function() GenerateOutput("tonl") end
+    end
+end
+
+-- Initialize
+InitializeCommands()
+
+-- Export for external use if needed
+CM.commands.CommandHandler = function(args)
+    -- This is a bit tricky with LibSlashCommander as it takes over.
+    -- But we can just expose the GenerateOutput for programmatic use.
+    local formatter = CM.currentFormatter or "markdown"
+    GenerateOutput(formatter)
+end
+CM.commands.GenerateOutput = GenerateOutput
 
 CM.DebugPrint("COMMANDS", "Command module loaded")
-CM.DebugPrint("COMMANDS", "/markdown command registered")
