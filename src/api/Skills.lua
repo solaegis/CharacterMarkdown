@@ -91,17 +91,7 @@ function api.GetSkillTypes()
     local numSkillTypes = CM.SafeCall(GetNumSkillTypes) or 0
     local types = {}
     
-    local skillTypeNames = {
-        [1] = "Class",
-        [2] = "Weapon",
-        [3] = "Armor",
-        [4] = "World",
-        [5] = "Guild",
-        [6] = "Alliance War",
-        [7] = "Racial",
-        [8] = "Craft",
-        [9] = "Champion"
-    }
+    local skillTypeNames = CM.Constants.SKILL_TYPE_NAMES
     
     -- Force iteration of known skill types (1-9) to ensure we get them even if GetNumSkillTypes fails
     local maxSkillType = 9 
@@ -332,65 +322,10 @@ function api._GetMorphsData(playerClass)
     playerClass = playerClass or "Unknown"
     
     -- Class skill line mapping for filtering
-    local classSkillLines = {
-        ["Dragonknight"] = {
-            ["Ardent Flame"] = true,
-            ["Draconic Power"] = true,
-            ["Earthen Heart"] = true,
-        },
-        ["Nightblade"] = {
-            ["Assassination"] = true,
-            ["Shadow"] = true,
-            ["Siphoning"] = true,
-        },
-        ["Sorcerer"] = {
-            ["Daedric Summoning"] = true,
-            ["Dark Magic"] = true,
-            ["Storm Calling"] = true,
-        },
-        ["Templar"] = {
-            ["Aedric Spear"] = true,
-            ["Dawn's Wrath"] = true,
-            ["Restoring Light"] = true,
-        },
-        ["Warden"] = {
-            ["Animal Companions"] = true,
-            ["Green Balance"] = true,
-            ["Winter's Embrace"] = true,
-        },
-        ["Necromancer"] = {
-            ["Grave Lord"] = true,
-            ["Bone Tyrant"] = true,
-            ["Living Death"] = true,
-        },
-        ["Arcanist"] = {
-            ["Herald of the Tome"] = true,
-            ["Apocryphal Soldier"] = true,
-            ["Curative Runeforms"] = true,
-        },
-    }
-    
-    local invalidSkillTypes = {
-        ["Vengeance"] = true,
-        ["Racial"] = true,
-    }
-    local invalidSkillLines = {
-        ["Vengeance"] = true,
-        ["Crown Store"] = true,
-        [""] = true,
-    }
-    
-    local skillTypeEmojis = {
-        ["Class"] = "⚔️",
-        ["Weapon"] = "⚔️",
-        ["Armor"] = "🛡️",
-        ["World"] = "🌍",
-        ["Guild"] = "🏰",
-        ["Alliance War"] = "⚔️",
-        ["Racial"] = "⭐",
-        ["Craft"] = "⚒️",
-        ["Champion"] = "⭐",
-    }
+    local classSkillLines = CM.Constants.CLASS_SKILL_LINES
+    local invalidSkillTypes = CM.Constants.INVALID_SKILL_TYPES
+    local invalidSkillLines = CM.Constants.INVALID_SKILL_LINES
+    local skillTypeEmojis = CM.Constants.SKILL_TYPE_EMOJIS
     
     local processedProgressions = {}
     local skillTypes = api.GetSkillTypes()
@@ -406,8 +341,13 @@ function api._GetMorphsData(playerClass)
                 if not invalidSkillLines[skillLine.name] then
                     -- Filter class skills for other classes
                     local isClassSkill = (skillType.name == "Class")
-                    local isPlayerClass = not isClassSkill
-                        or (classSkillLines[playerClass] and classSkillLines[playerClass][skillLine.name])
+                    local isPlayerClass = true
+                    
+                    if isClassSkill then
+                        -- Class skills returned by GetSkillLinesByType are always the player's class skills
+                        -- because you cannot discover other classes' skill lines.
+                        isPlayerClass = true
+                    end
                     
                     if isPlayerClass then
                         local abilities = api.GetSkillAbilitiesWithMorphs(skillType.index, skillLine.index)

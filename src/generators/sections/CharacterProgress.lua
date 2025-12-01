@@ -7,7 +7,6 @@ CM.generators.sections = CM.generators.sections or {}
 
 local string_format = string.format
 local table_concat = table.concat
-local table_insert = table.insert
 
 local markdown = (CM.utils and CM.utils.markdown) or nil
 
@@ -21,10 +20,10 @@ local function GenerateProgressBar(percent)
     local emptyBlocks = totalBlocks - filledBlocks
     
     local bar = ""
-    for i = 1, filledBlocks do
+    for _ = 1, filledBlocks do
         bar = bar .. "█"
     end
-    for i = 1, emptyBlocks do
+    for _ = 1, emptyBlocks do
         bar = bar .. "░" -- Light shade block
     end
     
@@ -33,18 +32,8 @@ local function GenerateProgressBar(percent)
 end
 
 local function GetSkillTypeEmoji(typeName)
-    local emojis = {
-        ["Class"] = "⚔️",
-        ["Weapon"] = "⚔️",
-        ["Armor"] = "🛡️",
-        ["World"] = "🌍",
-        ["Guild"] = "🏰",
-        ["Alliance War"] = "⚔️",
-        ["Racial"] = "⭐",
-        ["Craft"] = "⚒️",
-        ["Champion"] = "⭐",
-    }
-    return emojis[typeName] or "📜"
+    local emojis = CM.Constants.SKILL_TYPE_EMOJIS
+    return emojis[typeName] or CM.Constants.DEFAULT_SKILL_EMOJI
 end
 
 -- =====================================================
@@ -166,7 +155,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
     local maxedLines = progressionData.maxedLines
     if maxedLines and type(maxedLines) == "table" and #maxedLines > 0 then
         local maxedCount = progressionData.summary and progressionData.summary.maxedCount or #maxedLines
-        result = result .. "### ✅ Maxed Skills\n\n"
+        result = result .. string_format("### ✅ Maxed Skills (%d)\n\n", maxedCount)
         
         -- Group by type
         local linesByType = {}
@@ -188,7 +177,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
             end
         end
         
-        local typeOrder = { "Class", "Weapon", "Armor", "World", "Guild", "Alliance War", "Racial", "Craft" }
+        local typeOrder = CM.Constants.SKILL_TYPE_ORDER
         
         for _, typeName in ipairs(typeOrder) do
             local lines = linesByType[typeName]
@@ -265,7 +254,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
             end
         end
         
-        local typeOrder = { "Class", "Weapon", "Armor", "World", "Guild", "Alliance War", "Racial", "Craft" }
+        local typeOrder = CM.Constants.SKILL_TYPE_ORDER
         
         for _, typeName in ipairs(typeOrder) do
             local lines = linesByType[typeName]

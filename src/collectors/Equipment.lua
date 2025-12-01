@@ -31,6 +31,7 @@ local function CollectEquipmentData()
 
     -- Collect set information
     local sets = {}
+    local setItemLinks = {}
     for _, slotIndex in ipairs(equipSlots) do
         -- Use API layer for basic item info
         local itemInfo = CM.api.equipment.GetEquippedItem(slotIndex)
@@ -38,6 +39,10 @@ local function CollectEquipmentData()
             -- Use set info from API layer
             if itemInfo.set and itemInfo.set.hasSet and itemInfo.set.name then
                 sets[itemInfo.set.name] = (sets[itemInfo.set.name] or 0) + 1
+                -- Store one item link for this set to query bonuses later
+                if not setItemLinks[itemInfo.set.name] then
+                    setItemLinks[itemInfo.set.name] = itemInfo.link
+                end
             end
         end
     end
@@ -58,6 +63,18 @@ local function CollectEquipmentData()
                 setData.dlcId = setInfo.dlcId
                 setData.chapterId = setInfo.chapterId
                 setData.zoneIds = setInfo.zoneIds
+            end
+        end
+
+        -- Get detailed set bonuses
+        if setItemLinks[setName] then
+            local bonuses = CM.api.equipment.GetSetBonuses(setItemLinks[setName])
+            if bonuses then
+                -- Add active status to each bonus
+                for _, bonus in ipairs(bonuses) do
+                    bonus.isActive = (count >= bonus.numRequired)
+                end
+                setData.bonuses = bonuses
             end
         end
 

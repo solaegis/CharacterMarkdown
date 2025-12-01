@@ -113,6 +113,7 @@ local function CollectCombatStatsData()
     local resistances = CM.api.combat.GetResistances()
     local damageBonuses = CM.api.combat.GetDamageBonuses()
     local healingBonuses = CM.api.combat.GetHealingBonuses()
+    local utilityStats = CM.api.combat.GetUtilityStats()
 
     -- DERIVED CALCULATIONS (Fallback for missing API constants)
     
@@ -190,7 +191,8 @@ local function CollectCombatStatsData()
         core = coreStats,
         resistances = enhancedResistances,
         damage = damageBonuses,
-        healing = healingBonuses
+        healing = healingBonuses,
+        utility = utilityStats
     }
 
     return stats

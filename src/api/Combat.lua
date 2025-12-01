@@ -247,7 +247,24 @@ function api.GetHealingBonuses()
             flat = healingTaken.flat,
             percent = healingTaken.percent
         },
-        criticalHealing = critHealing.percent
+        -- Critical Healing is Base (50%) + Bonus
+        criticalHealing = 50 + critHealing.percent
+    }
+end
+
+function api.GetUtilityStats()
+    -- Riding Stats
+    local speedBonus, maxSpeedBonus, staminaBonus, maxStaminaBonus, inventoryBonus, maxInventoryBonus = GetRidingStats()
+    
+    return {
+        riding = {
+            speed = speedBonus or 0,
+            maxSpeed = maxSpeedBonus or 0,
+            stamina = staminaBonus or 0,
+            maxStamina = maxStaminaBonus or 0,
+            inventory = inventoryBonus or 0,
+            maxInventory = maxInventoryBonus or 0
+        }
     }
 end
 

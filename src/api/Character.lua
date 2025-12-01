@@ -11,32 +11,15 @@ local api = CM.api.character
 -- FALLBACK LOOKUP TABLES
 -- =====================================================
 
+-- =====================================================
+-- FALLBACK LOOKUP TABLES
+-- =====================================================
+
 -- Race ID to name mapping (fallback if API fails)
--- ESO Race IDs: 1=Altmer, 2=Argonian, 3=Bosmer, 4=Breton, 5=Dunmer, 6=Imperial, 7=Khajiit, 8=Nord, 9=Orc, 10=Redguard
-local RACE_NAMES = {
-    [1] = "Altmer",
-    [2] = "Argonian",
-    [3] = "Bosmer",
-    [4] = "Breton",
-    [5] = "Dunmer",
-    [6] = "Imperial",
-    [7] = "Khajiit",
-    [8] = "Nord",
-    [9] = "Orc",
-    [10] = "Redguard",
-}
+local RACE_NAMES = CM.Constants.RACE_NAMES
 
 -- Class ID to name mapping (fallback if API fails)
--- ESO Class IDs: 1=Dragonknight, 2=Sorcerer, 3=Nightblade, 4=Templar, 5=Warden, 6=Necromancer, 7=Arcanist
-local CLASS_NAMES = {
-    [1] = "Dragonknight",
-    [2] = "Sorcerer",
-    [3] = "Nightblade",
-    [4] = "Templar",
-    [5] = "Warden",
-    [6] = "Necromancer",
-    [7] = "Arcanist",
-}
+local CLASS_NAMES = CM.Constants.CLASS_NAMES
 
 -- =====================================================
 -- PUBLIC API

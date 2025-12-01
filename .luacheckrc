@@ -32,5 +32,8 @@ globals = {
     "ATTRIBUTE_HEALTH", 
     "ATTRIBUTE_STAMINA",
     "CharacterMarkdownSettings",
-    "CharacterMarkdownData"
+    "CharacterMarkdownData",
+    "CharacterMarkdown",
+    "HOTBAR_CATEGORY_PRIMARY",
+    "HOTBAR_CATEGORY_BACKUP"
 }

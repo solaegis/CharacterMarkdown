@@ -42,6 +42,18 @@ def is_chunk_marker(line: str) -> bool:
     return bool(re.match(r'^<!--\s*Chunk\s+\d+.*-->$', stripped))
 
 
+def is_build_notes_header(line: str) -> bool:
+    """Check if line is the Build Notes section header."""
+    stripped = line.strip()
+    return stripped == '## 📝 Build Notes'
+
+
+def is_section_separator(line: str) -> bool:
+    """Check if line is a section separator (horizontal rule)."""
+    stripped = line.strip()
+    return stripped == '---'
+
+
 def trim_markdown(content: str) -> str:
     """
     Trim unnecessary newlines from markdown content.
@@ -54,15 +66,35 @@ def trim_markdown(content: str) -> str:
     - Preserve table spacing
     - Remove chunk markers
     - Ensure single newline at EOF
+    - Preserve Build Notes section exactly as-is
     """
     lines = content.splitlines()
     result = []
     
     in_code_block = False
     in_html_block = False
+    in_build_notes = False
     consecutive_blanks = 0
     
     for i, line in enumerate(lines):
+        # Check for Build Notes section start
+        if is_build_notes_header(line):
+            in_build_notes = True
+            result.append(line.rstrip())
+            consecutive_blanks = 0
+            continue
+            
+        # Inside Build Notes: preserve everything exactly as-is until separator
+        if in_build_notes:
+            if is_section_separator(line):
+                in_build_notes = False
+                result.append(line.rstrip())
+                consecutive_blanks = 0
+            else:
+                # Preserve line exactly (including trailing spaces)
+                result.append(line)
+            continue
+
         # Remove trailing whitespace
         line = line.rstrip()
         

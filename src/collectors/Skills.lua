@@ -16,8 +16,8 @@ local function CollectSkillBarData()
     local bars = {}
     
     local barConfigs = {
-        { id = 0, name = "⚔️ Front Bar (Main Hand)", hotbarCategory = HOTBAR_CATEGORY_PRIMARY, apiKey = "primary" },
-        { id = 1, name = "🔮 Back Bar (Backup)", hotbarCategory = HOTBAR_CATEGORY_BACKUP, apiKey = "backup" },
+        { id = 0, name = CM.Constants.BAR_NAMES.PRIMARY, hotbarCategory = HOTBAR_CATEGORY_PRIMARY, apiKey = "primary" },
+        { id = 1, name = CM.Constants.BAR_NAMES.BACKUP, hotbarCategory = HOTBAR_CATEGORY_BACKUP, apiKey = "backup" },
     }
     
     for _, config in ipairs(barConfigs) do
@@ -119,7 +119,7 @@ local function CollectSkillProgressionData()
         data.summary.totalLines = #skillLines
         
         local loopCount = 0
-        for i, line in ipairs(skillLines) do
+        for _, line in ipairs(skillLines) do
             loopCount = loopCount + 1
             -- Calculate progress percent for the line
             local current = line.xp.current or 0

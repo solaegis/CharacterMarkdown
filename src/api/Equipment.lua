@@ -59,6 +59,27 @@ function api.GetItemInfo(bagId, slotIndex)
     }
 end
 
+function api.GetSetBonuses(itemLink)
+    if not itemLink or itemLink == "" then return {} end
+    
+    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId = CM.SafeCallMulti(GetItemLinkSetInfo, itemLink, false)
+    
+    if not success or not hasSet then return {} end
+    
+    local bonuses = {}
+    for i = 1, numBonuses do
+        local success_bonus, numRequired, description = CM.SafeCallMulti(GetItemLinkSetBonusInfo, itemLink, false, i)
+        if success_bonus and description and description ~= "" then
+            table.insert(bonuses, {
+                numRequired = numRequired,
+                description = description
+            })
+        end
+    end
+    
+    return bonuses
+end
+
 function api.GetEquippedItem(equipSlot)
     return api.GetItemInfo(BAG_WORN, equipSlot)
 end

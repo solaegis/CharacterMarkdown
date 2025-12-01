@@ -1,10 +1,14 @@
--- CharacterMarkdown - Constants Module
--- Centralized constants to replace magic numbers
+-- CharacterMarkdown - Constants
+-- Centralized location for static data, lookups, and configuration constants
 
 local CM = CharacterMarkdown
 
+-- Define CM.constants (legacy lowercase) and alias CM.Constants (new uppercase) to it
+CM.constants = CM.constants or {}
+CM.Constants = CM.constants
+
 -- =====================================================
--- CHUNKING CONSTANTS
+-- CHUNKING CONSTANTS (Restored)
 -- =====================================================
 --
 -- ESO EditBox Limits - Based on Real-World Testing:
@@ -52,7 +56,7 @@ CM.constants.CHUNKING = {
 }
 
 -- =====================================================
--- STRING LIMITS
+-- STRING LIMITS (Restored)
 -- =====================================================
 
 CM.constants.LIMITS = {
@@ -62,7 +66,7 @@ CM.constants.LIMITS = {
 }
 
 -- =====================================================
--- FORMAT NAMES
+-- FORMAT NAMES (Restored)
 -- =====================================================
 
 CM.constants.FORMATS = {
@@ -73,7 +77,7 @@ CM.constants.FORMATS = {
 }
 
 -- =====================================================
--- CHAMPION POINTS CONSTANTS
+-- CHAMPION POINTS CONSTANTS (Restored)
 -- =====================================================
 
 CM.constants.CP = {
@@ -83,11 +87,149 @@ CM.constants.CP = {
 }
 
 -- =====================================================
--- DEFAULT VALUES
+-- DEFAULT VALUES (Restored)
 -- =====================================================
 
 CM.constants.DEFAULTS = {
     EDITBOX_LIMIT_FALLBACK = 10000, -- Fallback EditBox limit if CHUNKING constant not available
+}
+
+-- =====================================================
+-- GAME CONSTANTS & LOOKUPS (New)
+-- =====================================================
+
+-- Race ID to name mapping (fallback if API fails)
+-- ESO Race IDs: 1=Altmer, 2=Argonian, 3=Bosmer, 4=Breton, 5=Dunmer, 6=Imperial, 7=Khajiit, 8=Nord, 9=Orc, 10=Redguard
+CM.constants.RACE_NAMES = {
+    [1] = "Altmer",
+    [2] = "Argonian",
+    [3] = "Bosmer",
+    [4] = "Breton",
+    [5] = "Dunmer",
+    [6] = "Imperial",
+    [7] = "Khajiit",
+    [8] = "Nord",
+    [9] = "Orc",
+    [10] = "Redguard",
+}
+
+-- Class ID to name mapping (fallback if API fails)
+-- ESO Class IDs: 1=Dragonknight, 2=Sorcerer, 3=Nightblade, 4=Templar, 5=Warden, 6=Necromancer, 7=Arcanist
+CM.constants.CLASS_NAMES = {
+    [1] = "Dragonknight",
+    [2] = "Sorcerer",
+    [3] = "Nightblade",
+    [4] = "Templar",
+    [5] = "Warden",
+    [6] = "Necromancer",
+    [7] = "Arcanist",
+}
+
+-- Skill Type Names (Standard ESO Types)
+CM.constants.SKILL_TYPE_NAMES = {
+    [1] = "Class",
+    [2] = "Weapon",
+    [3] = "Armor",
+    [4] = "World",
+    [5] = "Guild",
+    [6] = "Alliance War",
+    [7] = "Racial",
+    [8] = "Craft",
+    [9] = "Champion"
+}
+
+-- Skill Type Emojis for Markdown Generation
+CM.constants.SKILL_TYPE_EMOJIS = {
+    ["Class"] = "⚔️",
+    ["Weapon"] = "⚔️",
+    ["Armor"] = "🛡️",
+    ["World"] = "🌍",
+    ["Guild"] = "🏰",
+    ["Alliance War"] = "⚔️",
+    ["Racial"] = "⭐",
+    ["Craft"] = "⚒️",
+    ["Champion"] = "⭐",
+}
+
+-- Default Emoji Fallback
+CM.constants.DEFAULT_SKILL_EMOJI = "📜"
+
+-- =====================================================
+-- FILTERING & VALIDATION (New)
+-- =====================================================
+
+-- Invalid Skill Types to skip in processing
+CM.constants.INVALID_SKILL_TYPES = {
+    ["Vengeance"] = true,
+    ["Racial"] = true, -- Often handled separately or hidden
+}
+
+-- Invalid Skill Lines to skip in processing
+CM.constants.INVALID_SKILL_LINES = {
+    ["Vengeance"] = true,
+    ["Crown Store"] = true,
+    [""] = true,
+}
+
+-- Class Skill Lines Mapping (Fallback / Reference)
+-- Used if dynamic detection fails or for validation
+CM.constants.CLASS_SKILL_LINES = {
+    ["Dragonknight"] = {
+        ["Ardent Flame"] = true,
+        ["Draconic Power"] = true,
+        ["Earthen Heart"] = true,
+    },
+    ["Nightblade"] = {
+        ["Assassination"] = true,
+        ["Shadow"] = true,
+        ["Siphoning"] = true,
+    },
+    ["Sorcerer"] = {
+        ["Daedric Summoning"] = true,
+        ["Dark Magic"] = true,
+        ["Storm Calling"] = true,
+    },
+    ["Templar"] = {
+        ["Aedric Spear"] = true,
+        ["Dawn's Wrath"] = true,
+        ["Restoring Light"] = true,
+    },
+    ["Warden"] = {
+        ["Animal Companions"] = true,
+        ["Green Balance"] = true,
+        ["Winter's Embrace"] = true,
+    },
+    ["Necromancer"] = {
+        ["Grave Lord"] = true,
+        ["Bone Tyrant"] = true,
+        ["Living Death"] = true,
+    },
+    ["Arcanist"] = {
+        ["Herald of the Tome"] = true,
+        ["Apocryphal Soldier"] = true,
+        ["Curative Runeforms"] = true,
+    },
+}
+
+-- Order for displaying skill types
+CM.constants.SKILL_TYPE_ORDER = { 
+    "Class", 
+    "Weapon", 
+    "Armor", 
+    "World", 
+    "Guild", 
+    "Alliance War", 
+    "Racial", 
+    "Craft" 
+}
+
+-- =====================================================
+-- UI / DISPLAY CONSTANTS (New)
+-- =====================================================
+
+CM.constants.BAR_NAMES = {
+    PRIMARY = "⚔️ Front Bar (Main Hand)",
+    BACKUP = "🔮 Back Bar (Backup)"
 }
 
 CM.DebugPrint("UTILS", "Constants module loaded")

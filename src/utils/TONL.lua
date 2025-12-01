@@ -103,11 +103,35 @@ local function EncodeValue(value, indent, visited)
     elseif valueType == "number" then
         return tostring(value)
     elseif valueType == "string" then
-        -- Check if string needs quoting (contains special chars, spaces, or is empty)
-        if value == "" or value:match("[%s:,\\[\\]{}]") or value:match("^%d") then
-            return string_format('"%s"', EscapeString(value))
+        -- Check if string contains newlines
+        if value:find("\n") then
+            -- Split into lines and encode as array
+            local lines = {}
+            -- Robust split including empty lines
+            for line in (value .. "\n"):gmatch("(.-)\n") do
+                table_insert(lines, line)
+            end
+            
+            -- If the original string didn't end with a newline, the last element is correct.
+            -- If it DID end with a newline, we get an extra empty string at the end.
+            -- e.g. "A\nB" -> "A\nB\n" -> {"A", "B"} (Correct)
+            -- e.g. "A\n" -> "A\n\n" -> {"A", ""} (Preserves trailing newline as empty line)
+            -- e.g. "A\n\nB" -> "A\n\nB\n" -> {"A", "", "B"} (Correct)
+            
+            -- However, if the last line is empty, it might be an artifact of our split method 
+            -- combined with a trailing newline in the input.
+            -- For TONL, we generally want to preserve the exact structure.
+            -- "Line 1\n" -> ["Line 1", ""] seems correct if we want to preserve the trailing newline.
+            
+            -- Recursively encode as array
+            return EncodeValue(lines, indent, visited)
         else
-            return value
+            -- Check if string needs quoting (contains special chars, spaces, or is empty)
+            if value == "" or value:match("[%s:,\\[\\]{}]") or value:match("^%d") then
+                return string_format('"%s"', EscapeString(value))
+            else
+                return value
+            end
         end
     elseif valueType == "table" then
         -- Prevent circular references
