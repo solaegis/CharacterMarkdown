@@ -163,6 +163,7 @@ local function CollectChampionPointData()
                     passive = 0,
                     slottableSkills = {},
                     passiveSkills = {},
+                    available = apiDiscipline.unspent or 0,  -- Per-discipline unspent points
                 }
 
                 -- Process skills from API

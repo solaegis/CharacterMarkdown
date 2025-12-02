@@ -64,10 +64,15 @@ function api.GetDisciplineInfo(disciplineIndex)
         CM.DebugPrint("CP_API", string.format("Discipline %s: Fallback GetChampionPointsInDiscipline=%d", name or "Unknown", savedPointsTotal))
     end
     
+    -- Get unspent points for this discipline
+    local unspent = CM.SafeCall(GetAvailableChampionPointsForDiscipline, disciplineId) or 0
+    CM.DebugPrint("CP_API", string.format("Discipline %s: GetAvailableChampionPointsForDiscipline=%d", name or "Unknown", unspent))
+    
     return {
         id = disciplineId,
         name = name or "Unknown",
-        spent = savedPointsTotal
+        spent = savedPointsTotal,
+        unspent = unspent
     }
 end
 

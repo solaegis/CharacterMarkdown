@@ -361,7 +361,7 @@ local function GenerateChampionDiagram(cpData)
                     starData = {
                         tree = discipline.name, -- Use discipline name as fallback
                         type = "passive", -- Default to passive
-                        node = string.format("%s_%s", discipline.name:sub(1, 1), skill.name:gsub(" ", "_")),
+                        node = string.format("%s_%s", discipline.name:sub(1, 1), skill.name:gsub("[^%w]", "_")),
                     }
                 end
 
@@ -465,10 +465,10 @@ local function GenerateChampionDiagram(cpData)
     -- Generate diagram with new cleaner format
     markdown = markdown .. "```mermaid\n"
     markdown = markdown
-        .. "%%{init: {'theme':'base', 'themeVariables': { 'background':'transparent','fontSize':'14px','primaryColor':'#e8f4f0','primaryTextColor':'#000','primaryBorderColor':'#4a9d7f','lineColor':'#999','secondaryColor':'#f0f4f8','tertiaryColor':'#faf0f0'}}}%%\n\n"
+        .. "%%{init: {\"theme\":\"base\", \"themeVariables\": { \"background\":\"transparent\",\"fontSize\":\"14px\",\"primaryColor\":\"#e8f4f0\",\"primaryTextColor\":\"#000\",\"primaryBorderColor\":\"#4a9d7f\",\"lineColor\":\"#999\",\"secondaryColor\":\"#f0f4f8\",\"tertiaryColor\":\"#faf0f0\"}}}%%\n\n"
     markdown = markdown .. "graph LR\n"
-    markdown = markdown .. "  %%%% Champion Point Investment Visualization\n"
-    markdown = markdown .. "  %%%% Enhanced readability with clear visual hierarchy\n\n"
+    markdown = markdown .. "  %% Champion Point Investment Visualization\n"
+    markdown = markdown .. "  %% Enhanced readability with clear visual hierarchy\n\n"
 
     -- Build discipline map for easy lookup
     local disciplineMap = {}
@@ -503,7 +503,7 @@ local function GenerateChampionDiagram(cpData)
             local treeIcon = treeEmoji[treeName] or ""
             local pointsInvested = treePoints[treeName]
 
-            markdown = markdown .. "  %%%% ========================================\n"
+            markdown = markdown .. "  %% ========================================\n"
             markdown = markdown
                 .. string.format(
                     "  %%%% %s %s CONSTELLATION (%d/%d pts)\n",
@@ -512,7 +512,7 @@ local function GenerateChampionDiagram(cpData)
                     pointsInvested,
                     MAX_POINTS_PER_CONSTELLATION
                 )
-            markdown = markdown .. "  %%%% ========================================\n\n"
+            markdown = markdown .. "  %% ========================================\n\n"
 
             -- Mermaid subgraph with simplified title
             markdown = markdown
@@ -554,7 +554,7 @@ local function GenerateChampionDiagram(cpData)
                         local starData = entry.starData
                         local nodeId = starData.node
                         local points = skill.points
-                        local maxPoints = GetMaxPoints(skill.name)
+                        local maxPoints = (skill.maxPoints and skill.maxPoints > 0) and skill.maxPoints or GetMaxPoints(skill.name)
                         local indicator = GetPointIndicator(points, maxPoints)
                         local percentage = math.floor((points / maxPoints) * 100)
 
@@ -580,9 +580,10 @@ local function GenerateChampionDiagram(cpData)
                 end
             end
 
-            -- Add available points node
+            -- Add available points node (use per-discipline available from discipline data)
+            local disciplineAvailable = discipline and discipline.available or 0
             markdown = markdown
-                .. string.format('    %s_AVAIL["💎 <b>%d points available</b>"]\n', treeName:upper(), available)
+                .. string.format('    %s_AVAIL["💎 <b>%d points available</b>"]\n', treeName:upper(), disciplineAvailable)
             markdown = markdown .. "    \n"
 
             -- Create connections from title nodes to skill nodes (dashed arrows for visual organization)
@@ -684,9 +685,9 @@ local function GenerateChampionDiagram(cpData)
     end
 
     -- Add simplified legend matching the example format
-    markdown = markdown .. "  %%%% ========================================\n"
-    markdown = markdown .. "  %%%% LEGEND\n"
-    markdown = markdown .. "  %%%% ========================================\n\n"
+    markdown = markdown .. "  %% ========================================\n"
+    markdown = markdown .. "  %% LEGEND\n"
+    markdown = markdown .. "  %% ========================================\n\n"
 
     -- Parent legend subgraph
     markdown = markdown .. '  subgraph LEGEND ["📖 LEGEND & VISUAL GUIDE"]\n'
