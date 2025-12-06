@@ -3,7 +3,7 @@ title = "CharacterMarkdown Documentation"
 description = "Complete documentation for the CharacterMarkdown ESO addon"
 authors = ["CharacterMarkdown Contributors"]
 language = "en"
-multilingual = false
+
 
 # Source directory - mdBook will read markdown from here
 # SUMMARY.md must be in this directory
