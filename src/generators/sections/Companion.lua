@@ -218,14 +218,15 @@ local function GenerateCompanion(companionData, format)
             )
         end
 
-        -- Check companion rapport low (< 1000)
-        if companionData.rapport and companionData.rapport < 1000 then
+        -- Check companion rapport low (< 5, where 5 is "Close")
+        -- Rapport levels: 1=Disdainful, 2=Wary, 3=Cordial, 4=Friendly, 5=Close
+        if companionData.rapport and companionData.rapport.level and companionData.rapport.level < 5 then
             table_insert(
                 warnings,
                 string_format(
-                    "💔 **Companion rapport low**: %s (%d) - Build relationship",
+                    "💔 **Companion rapport low**: %s (%s) - Build relationship",
                     companionName,
-                    companionData.rapport
+                    companionData.rapport.description or tostring(companionData.rapport.level)
                 )
             )
         end
