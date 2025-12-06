@@ -399,14 +399,15 @@ local function GenerateAttentionNeeded(progressionData, inventoryData, ridingDat
     end
 
     -- Check companion rapport low (keep this for rapport-specific warnings)
+    -- Rapport levels: 1=Disdainful, 2=Wary, 3=Cordial, 4=Friendly, 5=Close
     if companionData and companionData.active and companionData.rapport then
-        if companionData.rapport < 1000 then
+        if companionData.rapport.level and companionData.rapport.level < 5 then
             table.insert(
                 warnings,
                 string_format(
-                    "💔 **Companion rapport low**: %s (%d)",
-                    companionData.name or "Unknown",
-                    companionData.rapport
+                    "💔 **Companion rapport low**: %s (%s)",
+                    companionData.active.name or "Unknown",
+                    companionData.rapport.description or tostring(companionData.rapport.level)
                 )
             )
         end
