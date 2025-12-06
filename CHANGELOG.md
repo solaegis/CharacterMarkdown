@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2025-12-06
+
+### Added
+- **Companion Features**: Enhanced companion data collection and display
+  - Added "Available Companions" section listing all unlocked companions
+  - Companion list now indicates if a companion is available or requires a quest
+- **Advanced Stats**: Detailed breakdown of advanced combat statistics
+  - Expanded stats collection to include more granular data points
+
+### Fixed
+- **Markdown Generation**: Fixed several issues with document generation
+  - Fixed double separators appearing in Table of Contents
+  - Fixed chunking logic to prevent breaking inline markdown links
+- **Mermaid Diagrams**: Comprehensive fixes for Champion Point diagrams
+  - Fixed incorrect quoting of node IDs causing parse errors
+  - Fixed diagram truncation issue by adjusting chunking limits
+  - Corrected star connections and slottable status (e.g., Meticulous Disassembly)
+  - Improved diagram layout (top-down direction, smoother curves)
+- **Stats**: Fixed calculation of Healing Critical stat
+- **Companions**: Fixed missing ability bar for active companion
+
 ### Planned
 - Export templates (user-defined markdown templates)
 - Build comparison (compare two characters side-by-side)
