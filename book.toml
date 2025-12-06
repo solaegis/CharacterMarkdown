@@ -10,6 +10,7 @@ multilingual = false
 src = "docs"
 
 # Build output directory
+[build]
 build-dir = "book"
 
 # GitHub Pages configuration
