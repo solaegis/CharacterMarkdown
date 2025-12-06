@@ -38,12 +38,12 @@ if [ -d "$SOURCE_DIR/src" ]; then
     
     # Find and copy only allowed file types recursively
     # EXCLUDE test files and test directories
-    # CRITICAL: Use -name patterns (not -path) for filename matching across all directories
+    # NOTE: *Tests.lua files like LayoutCalculatorTests.lua and SectionPresenceTests.lua
+    #       are PRODUCTION code listed in manifest and MUST be included
     for ext in "${ALLOWED_EXTENSIONS[@]}"; do
         find "$SOURCE_DIR/src" -type f -name "*.${ext}" \
             ! -path "*/test/*" \
             ! -path "*/tests/*" \
-            ! -name "*Tests.lua" \
             ! -name "test_*.lua" \
             ! -name "*_test.lua" \
             ! -name "verify_*.lua" \
@@ -69,3 +69,4 @@ fi
 
 echo "✅ Whitelist-based copy complete"
 echo "   Only ESOUI-allowed file types included: ${ALLOWED_EXTENSIONS[*]}"
+
