@@ -289,6 +289,11 @@ tasks:
       - |
         echo "📦 Building {{.ADDON_NAME}} release..."
         
+        # CRITICAL: Pre-build validation (shift left - fail fast)
+        echo "🔍 Running pre-build validation..."
+        chmod +x scripts/pre-build-check.sh
+        ./scripts/pre-build-check.sh || (echo "❌ Pre-build validation failed. Fix issues before building." && exit 1)
+        
         # Get version from Git (tag or commit SHA)
         if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
           # On a tag
@@ -303,12 +308,10 @@ tasks:
         mkdir -p {{.BUILD_DIR}}/{{.ADDON_NAME}}
         mkdir -p {{.DIST_DIR}}
         
-        # Copy files using .build-ignore exclusions
-        rsync -a --quiet \
-          --exclude-from=.build-ignore \
-          --exclude='{{.BUILD_DIR}}' \
-          --exclude='{{.DIST_DIR}}' \
-          . {{.BUILD_DIR}}/{{.ADDON_NAME}}/
+        # CRITICAL: Use whitelist-based copy (ONLY allowed file types)
+        echo "📋 Copying files (whitelist: *.lua, *.xml, *.txt, *.addon, *.md)..."
+        chmod +x scripts/build-copy.sh
+        ./scripts/build-copy.sh . {{.BUILD_DIR}}/{{.ADDON_NAME}}
       - |
         # Get version again for replacement
         if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
@@ -342,6 +345,11 @@ tasks:
       - |
         echo "📦 Building {{.ADDON_NAME}} (fast mode)..."
         
+        # CRITICAL: Pre-build validation (shift left - fail fast)
+        echo "🔍 Running pre-build validation..."
+        chmod +x scripts/pre-build-check.sh
+        ./scripts/pre-build-check.sh || (echo "❌ Pre-build validation failed. Fix issues before building." && exit 1)
+        
         # Get version from Git (tag or commit SHA)
         if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
           VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
@@ -353,11 +361,11 @@ tasks:
         
         mkdir -p {{.BUILD_DIR}}/{{.ADDON_NAME}}
         mkdir -p {{.DIST_DIR}}
-        rsync -a --quiet \
-          --exclude-from=.build-ignore \
-          --exclude='{{.BUILD_DIR}}' \
-          --exclude='{{.DIST_DIR}}' \
-          . {{.BUILD_DIR}}/{{.ADDON_NAME}}/
+        
+        # CRITICAL: Use whitelist-based copy (ONLY allowed file types)
+        echo "📋 Copying files (whitelist: *.lua, *.xml, *.txt, *.addon, *.md)..."
+        chmod +x scripts/build-copy.sh
+        ./scripts/build-copy.sh . {{.BUILD_DIR}}/{{.ADDON_NAME}}
       - |
         # Get version again for replacement
         if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
