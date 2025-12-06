@@ -44,7 +44,7 @@ SLASH_COMMANDS = {}
 CALLBACK_MANAGER = { RegisterCallback = function() end }
 
 -- Load the file
-local chunk, err = loadfile("/Users/lvavasour/git/CharacterMarkdown/src/settings/Panel.lua")
+local chunk, err = loadfile("src/settings/Panel.lua")
 if not chunk then
     print("Error loading file: " .. err)
     os.exit(1)

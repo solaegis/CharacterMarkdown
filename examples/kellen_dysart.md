@@ -4,7 +4,7 @@
 
 # Kellen Dysart (The Immortal)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-784-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Sorcerer-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-786-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Sorcerer-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Breton Sorcerer • Daggerfall Covenant Alliance**
 
@@ -45,7 +45,7 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Level** | 50 |
-| **Champion Points** | 784 |
+| **Champion Points** | 786 |
 | **Gender** | Male |
 | **Race** | Breton |
 | **Class** | Sorcerer |
@@ -56,7 +56,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Age** | 9d 18h 10m |
+| **Age** | 9d 18h 57m |
 | **ESO Plus** | ✅ Active |
 | **🪨 Mundus Stone** | The Atronach |
 | **Title** | The Immortal |
@@ -69,11 +69,11 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Attributes** | 🔵 44 / ❤️ 20 / ⚡ 0 |
-| **Location** | Gold Coast (Kvatch Wayshrine) |
+| **Available Champion Points** | ⚒️ 2 - ⚔️ 22 - 💪 27 |
 | **🐴 Riding Skills** | 🐴 60 / 💪 60 / 🎒 60 ✅ |
-| **Available Champion Points** | ⚒️ 27 - ⚔️ 21 - 💪 21 |
 | **Skill Points** | 🎯 23 available - Ready to spend |
-| **🍖 Active Buffs** | Other: Minor Protection, Increase Max Magicka, Gallop, Summon Twilight Matriarch |
+| **Location** | Alik'r Desert (Hollow Waste Dolmen) |
+| **🍖 Active Buffs** | Other: Minor Protection, Gallop, Summon Twilight Matriarch |
 
 
 </div>
@@ -85,7 +85,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 105,311 |
+| 💰 **Gold** | 105,887 |
 | ⚔️ **Alliance Points** | 23,976 |
 | 🔮 **Tel Var** | 500 |
 | 💎 **Transmute Crystals** | 95 |
@@ -93,7 +93,7 @@
 | 🎫 **Event Tickets** | 2 |
 | 👑 **Crowns** | 700 |
 | 💠 **Gems** | 140 |
-| 🏅 **Seals** | 4,760 |
+| 🏅 **Seals** | 12,815 |
 | 🗝️ **Keys** | 9 |
 | 👕 **Tokens** | 3 |
 | 📚 **Fortunes** | 0 |
@@ -140,7 +140,7 @@ Crushing Shock? **Correction**—fixing reality's error. Crystal Fragments cryst
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
 | 💚 **Resources** | Health | 25,657 |
-|  | Magicka | 31,358 |
+|  | Magicka | 25,772 |
 |  | Stamina | 14,307 |
 | ⚔️ **Offensive** | Weapon Power | 2,875 |
 |  | Spell Power | 2,875 |
@@ -180,8 +180,8 @@ Crushing Shock? **Correction**—fixing reality's error. Crystal Fragments cryst
 
 | **Ability** | **Cost/Value** |
 |:---|---:|
-| ⚔️ **Light Attack** | 4,129 dmg |
-| ⚔️ **Heavy Attack** | 8,258 dmg |
+| ⚔️ **Light Attack** | 3,905 dmg |
+| ⚔️ **Heavy Attack** | 7,811 dmg |
 | ⚔️ **Bash** | 673 cost, 4,398 dmg |
 | 🛡️ **Block** | 2,100 cost, 50% mit, 40% spd |
 | 🔓 **Break Free** | 4,320 cost |
@@ -225,7 +225,7 @@ Crushing Shock? **Correction**—fixing reality's error. Crystal Fragments cryst
 |:---|---:|
 | 💚 **Healing Done** | 0 |
 | 💖 **Healing Taken** | 0 |
-| ✨ **Critical Healing** | 8% |
+| ✨ **Critical Healing** | 58% |
 
 </div>
 </div>
@@ -277,14 +277,14 @@ Crushing Shock? **Correction**—fixing reality's error. Crystal Fragments cryst
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 784 | 735 | 0 |
+| 786 | 735 | 51 |
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
 | **⚒️ Craft** | **Assigned Points** |
 | --- | ---: |
-| ████████████ 100% | 260/235 points |
+| ███████████░ 99% | 260/262 points |
 | **Out of Sight** | 30 points |
 | **Wanderer** | 10 points |
 | **Fortune's Favor** | 10 points |
@@ -299,7 +299,7 @@ Crushing Shock? **Correction**—fixing reality's error. Crystal Fragments cryst
 
 | **⚔️ Warfare** | **Assigned Points** |
 | --- | ---: |
-| ████████████ 100% | 240/240 points |
+| ██████████░░ 91% | 240/262 points |
 | **Precision** | 20 points |
 | **Fighting Finesse** | 50 points |
 | **Piercing** | 20 points |
@@ -312,7 +312,7 @@ Crushing Shock? **Correction**—fixing reality's error. Crystal Fragments cryst
 
 | **💪 Fitness** | **Assigned Points** |
 | --- | ---: |
-| ███████████░ 97% | 235/240 points |
+| ██████████░░ 89% | 235/262 points |
 | **Hero's Vigor** | 10 points |
 | **Bloody Renewal** | 50 points |
 | **Mystic Tenacity** | 10 points |
@@ -330,163 +330,162 @@ Crushing Shock? **Correction**—fixing reality's error. Crystal Fragments cryst
 ## 🎯 Champion Points Visual
 
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'background':'transparent','fontSize':'14px','primaryColor':'#e8f4f0','primaryTextColor':'#000','primaryBorderColor':'#4a9d7f','lineColor':'#999','secondaryColor':'#f0f4f8','tertiaryColor':'#faf0f0'}}}%%
+%%{initialize: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%
 
-graph LR
-  %%%% Champion Point Investment Visualization
-  %%%% Enhanced readability with clear visual hierarchy
+graph TD
+  %% Champion Point Investment Visualization
+  %% Enhanced readability with clear visual hierarchy
 
-  %%%% ========================================
+  %% ========================================
   %% ⚒️ CRAFT CONSTELLATION (260/564 pts)
-  %%%% ========================================
+  %% ========================================
 
-  subgraph CRAFT ["⚒️ CRAFT CONSTELLATION"]
-    direction TB
+  subgraph subCRAFT ["⚒️ CRAFT CONSTELLATION"]
 
-    CRAFT_TITLE["<b>Slottable Stars</b>"]
-    C_IND2["⭐ Breakfall<br/><b>50/50 pts</b> | MAXED"]
-    C_IND1["⭐ Steed's Blessing<br/><b>50/50 pts</b> | MAXED"]
-    C_R1["Gilded Fingers<br/><b>20/50 pts</b> | ●○○ 40%"]
+    "CRAFT_TITLE"["Slottable Stars"]
+    "C_IND2"["⭐ Breakfall\n50/50 pts | MAXED"]
+    "C_IND1"["⭐ Steed's Blessing\n50/50 pts | MAXED"]
+    "C_R1"["Gilded Fingers\n20/50 pts | ●○○ 40%"]
 
-    CRAFT_PASS["<b>Passive Stars</b>"]
-    C_Sustaining_Shadows["⭐ Sustaining Shadows<br/><b>50/50 pts</b> | MAXED"]
-    C_Out_of_Sight["Out of Sight<br/><b>30/50 pts</b> | ●●○ 60%"]
-    C_Fortune's_Favor["Fortune's Favor<br/><b>10/50 pts</b> | ○○○ 20%"]
-    C_R6["Wanderer<br/><b>10/100 pts</b> | ○○○ 10%"]
+    "CRAFT_PASS"["Passive Stars"]
+    "C_SustainingShadows"["⭐ Sustaining Shadows\n50/50 pts | MAXED"]
+    "C_OutofSight"["⭐ Out of Sight\n30/30 pts | MAXED"]
+    "C_FortuneFavor"["Fortune's Favor\n10/50 pts | ○○○ 20%"]
+    "C_R6b"["Wanderer\n10/50 pts | ○○○ 20%"]
 
-    CRAFT_BASE["<b>Independent Stars</b>"]
-    C_BASE1["Fleet Phantom<br/><b>40/50 pts</b> | ●●● 80%"]
+    "CRAFT_BASE"["Independent Stars"]
+    "C_BASE1"["⭐ Fleet Phantom\n40/40 pts | MAXED"]
 
-    CRAFT_AVAIL["💎 <b>0 points available</b>"]
+    "CRAFT_AVAIL"["💎 2 points available"]
 
-    CRAFT_TITLE -.-> C_IND2 & C_IND1 & C_R1
-    CRAFT_PASS -.-> C_Sustaining_Shadows & C_Out_of_Sight & C_Fortune's_Favor & C_R6
-    CRAFT_BASE -.-> C_BASE1
+    "CRAFT_TITLE" --> "C_IND2" & "C_IND1" & "C_R1"
+    "CRAFT_PASS" --> "C_SustainingShadows" & "C_OutofSight" & "C_FortuneFavor" & "C_R6b"
+    "CRAFT_BASE" --> "C_BASE1"
 
-    style CRAFT_TITLE fill:transparent,stroke:none,color:#4a9d7f
-    style CRAFT_PASS fill:transparent,stroke:none,color:#4a9d7f
-    style CRAFT_BASE fill:transparent,stroke:none,color:#4a9d7f
-    style C_IND2 fill:#4a9d7f,stroke:#ffd700,stroke-width:4px,color:#fff
-    style C_IND1 fill:#4a9d7f,stroke:#ffd700,stroke-width:4px,color:#fff
-    style C_R1 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:3px,color:#fff
-    style C_Sustaining_Shadows fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
-    style C_Out_of_Sight fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
-    style C_Fortune's_Favor fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
-    style C_R6 fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
-    style C_BASE1 fill:#4a9d7f,stroke:#ff8c00,stroke-width:3px,color:#fff
-    style CRAFT_AVAIL fill:#d4e8df,stroke:#4a9d7f,stroke-width:2px,stroke-dasharray:5 5,color:#4a9d7f
+    style "CRAFT_TITLE" fill:transparent,stroke:none,color:#4a9d7f
+    style "CRAFT_PASS" fill:transparent,stroke:none,color:#4a9d7f
+    style "CRAFT_BASE" fill:transparent,stroke:none,color:#4a9d7f
+    style "C_IND2" fill:#4a9d7f,stroke:#ffd700,stroke-width:4px,color:#fff
+    style "C_IND1" fill:#4a9d7f,stroke:#ffd700,stroke-width:4px,color:#fff
+    style "C_R1" fill:#4a9d7f,stroke:#4a9d7f,stroke-width:3px,color:#fff
+    style "C_SustainingShadows" fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    style "C_OutofSight" fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    style "C_FortuneFavor" fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    style "C_R6b" fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    style "C_BASE1" fill:#4a9d7f,stroke:#ff8c00,stroke-width:3px,color:#fff
+    style "CRAFT_AVAIL" fill:#d4e8df,stroke:#4a9d7f,stroke-width:2px,stroke-dasharray:5 5,color:#4a9d7f
+
 
   end
-  style CRAFT fill:transparent,stroke:#4a9d7f,stroke-width:3px
+  style subCRAFT fill:transparent,stroke:#4a9d7f,stroke-width:3px
 
-  %%%% ========================================
+  %% ========================================
   %% ⚔️ WARFARE CONSTELLATION (240/564 pts)
-  %%%% ========================================
+  %% ========================================
 
-  subgraph WARFARE ["⚔️ WARFARE CONSTELLATION"]
-    direction TB
+  subgraph subWARFARE ["⚔️ WARFARE CONSTELLATION"]
 
-    WARFARE_TITLE["<b>Slottable Stars</b>"]
-    W_IND1["⭐ Deadly Aim<br/><b>50/50 pts</b> | MAXED"]
-    W_IND2["⭐ Master-at-Arms<br/><b>50/50 pts</b> | MAXED"]
-    W_IND3["⭐ Thaumaturge<br/><b>50/50 pts</b> | MAXED"]
+    "WARFARE_TITLE"["Slottable Stars"]
+    "W_IND1"["⭐ Deadly Aim\n50/50 pts | MAXED"]
+    "W_IND2"["⭐ Master-at-Arms\n50/50 pts | MAXED"]
+    "W_IND3"["⭐ Thaumaturge\n50/50 pts | MAXED"]
 
-    WARFARE_PASS["<b>Passive Stars</b>"]
-    W_C1["⭐ Fighting Finesse<br/><b>50/50 pts</b> | MAXED"]
-    W_R1["Precision<br/><b>20/50 pts</b> | ●○○ 40%"]
+    "WARFARE_PASS"["Passive Stars"]
+    "W_C1"["⭐ Fighting Finesse\n50/50 pts | MAXED"]
+    "W_R1"["⭐ Precision\n20/20 pts | MAXED"]
 
-    WARFARE_AVAIL["💎 <b>0 points available</b>"]
+    "WARFARE_AVAIL"["💎 22 points available"]
 
-    WARFARE_TITLE -.-> W_IND1 & W_IND2 & W_IND3
-    WARFARE_PASS -.-> W_C1 & W_R1
+    "WARFARE_TITLE" --> "W_IND1" & "W_IND2" & "W_IND3"
+    "WARFARE_PASS" --> "W_C1" & "W_R1"
 
-    style WARFARE_TITLE fill:transparent,stroke:none,color:#5b7fb8
-    style WARFARE_PASS fill:transparent,stroke:none,color:#5b7fb8
-    style W_IND1 fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
-    style W_IND2 fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
-    style W_IND3 fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
-    style W_C1 fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
-    style W_R1 fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
-    style WARFARE_AVAIL fill:#d4e4f0,stroke:#5b7fb8,stroke-width:2px,stroke-dasharray:5 5,color:#5b7fb8
+    style "WARFARE_TITLE" fill:transparent,stroke:none,color:#5b7fb8
+    style "WARFARE_PASS" fill:transparent,stroke:none,color:#5b7fb8
+    style "W_IND1" fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
+    style "W_IND2" fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
+    style "W_IND3" fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
+    style "W_C1" fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
+    style "W_R1" fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
+    style "WARFARE_AVAIL" fill:#d4e4f0,stroke:#5b7fb8,stroke-width:2px,stroke-dasharray:5 5,color:#5b7fb8
+
 
   end
-  style WARFARE fill:transparent,stroke:#5b7fb8,stroke-width:3px
+  style subWARFARE fill:transparent,stroke:#5b7fb8,stroke-width:3px
 
-  %%%% ========================================
+  %% ========================================
   %% 💪 FITNESS CONSTELLATION (235/564 pts)
-  %%%% ========================================
+  %% ========================================
 
-  subgraph FITNESS ["💪 FITNESS CONSTELLATION"]
-    direction TB
+  subgraph subFITNESS ["💪 FITNESS CONSTELLATION"]
 
-    FITNESS_TITLE["<b>Slottable Stars</b>"]
-    SS3["Bloody Renewal<br/><b>50/75 pts</b> | ●●○ 66%"]
+    "FITNESS_TITLE"["Slottable Stars"]
+    "SS3"["⭐ Bloody Renewal\n50/50 pts | MAXED"]
 
-    FITNESS_PASS["<b>Passive Stars</b>"]
-    SD4["⭐ Fortified<br/><b>50/50 pts</b> | MAXED"]
-    F_L1["Tumbling<br/><b>15/50 pts</b> | ●○○ 30%"]
-    F_L3["Hero's Vigor<br/><b>10/50 pts</b> | ○○○ 20%"]
-    F_C1["Mystic Tenacity<br/><b>10/50 pts</b> | ○○○ 20%"]
+    "FITNESS_PASS"["Passive Stars"]
+    "SD4"["⭐ Fortified\n50/50 pts | MAXED"]
+    "F_L1"["Tumbling\n15/30 pts | ●●○ 50%"]
+    "F_L3"["Hero's Vigor\n10/20 pts | ●●○ 50%"]
+    "F_C1"["Mystic Tenacity\n10/50 pts | ○○○ 20%"]
 
-    FITNESS_BASE["<b>Independent Stars</b>"]
-    F_BASE3["⭐ Rejuvenation<br/><b>50/50 pts</b> | MAXED"]
-    F_BASE1["⭐ Boundless Vitality<br/><b>50/50 pts</b> | MAXED"]
+    "FITNESS_BASE"["Independent Stars"]
+    "F_BASE3"["⭐ Rejuvenation\n50/50 pts | MAXED"]
+    "F_BASE1"["⭐ Boundless Vitality\n50/50 pts | MAXED"]
 
-    FITNESS_AVAIL["💎 <b>0 points available</b>"]
+    "FITNESS_AVAIL"["💎 27 points available"]
 
-    FITNESS_TITLE -.-> SS3
-    FITNESS_PASS -.-> SD4 & F_L1 & F_L3 & F_C1
-    FITNESS_BASE -.-> F_BASE3 & F_BASE1
+    "FITNESS_TITLE" --> "SS3"
+    "FITNESS_PASS" --> "SD4" & "F_L1" & "F_L3" & "F_C1"
+    "FITNESS_BASE" --> "F_BASE3" & "F_BASE1"
 
-    style FITNESS_TITLE fill:transparent,stroke:none,color:#b87a7a
-    style FITNESS_PASS fill:transparent,stroke:none,color:#b87a7a
-    style FITNESS_BASE fill:transparent,stroke:none,color:#b87a7a
-    style SS3 fill:#b87a7a,stroke:#b87a7a,stroke-width:3px,color:#fff
-    style SD4 fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
-    style F_L1 fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
-    style F_L3 fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
-    style F_C1 fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
-    style F_BASE3 fill:#b87a7a,stroke:#ff8c00,stroke-width:3px,color:#fff
-    style F_BASE1 fill:#b87a7a,stroke:#ff8c00,stroke-width:3px,color:#fff
-    style FITNESS_AVAIL fill:#f0d4d4,stroke:#b87a7a,stroke-width:2px,stroke-dasharray:5 5,color:#b87a7a
+    style "FITNESS_TITLE" fill:transparent,stroke:none,color:#b87a7a
+    style "FITNESS_PASS" fill:transparent,stroke:none,color:#b87a7a
+    style "FITNESS_BASE" fill:transparent,stroke:none,color:#b87a7a
+    style "SS3" fill:#b87a7a,stroke:#b87a7a,stroke-width:3px,color:#fff
+    style "SD4" fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    style "F_L1" fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    style "F_L3" fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    style "F_C1" fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    style "F_BASE3" fill:#b87a7a,stroke:#ff8c00,stroke-width:3px,color:#fff
+    style "F_BASE1" fill:#b87a7a,stroke:#ff8c00,stroke-width:3px,color:#fff
+    style "FITNESS_AVAIL" fill:#f0d4d4,stroke:#b87a7a,stroke-width:2px,stroke-dasharray:5 5,color:#b87a7a
+
 
   end
-  style FITNESS fill:transparent,stroke:#b87a7a,stroke-width:3px
+  style subFITNESS fill:transparent,stroke:#b87a7a,stroke-width:3px
 
-  %%%% ========================================
-  %%%% LEGEND
-  %%%% ========================================
+  %% ========================================
+  %% LEGEND
+  %% ========================================
 
-  subgraph LEGEND ["📖 LEGEND & VISUAL GUIDE"]
-    direction TB
+  subgraph subLEGEND ["📖 LEGEND & VISUAL GUIDE"]
 
-    LEG_STARS["<b>Star Types</b>"]
-    LEG_S1["⭐ Gold Border = Maxed Slottable"]
-    LEG_S2["🔶 Orange Border = Independent Star"]
-    LEG_S3["Standard Border = In Progress"]
+    "LEG_STARS"["Star Types"]
+    "LEG_S1"["⭐ Gold Border = Maxed Slottable"]
+    "LEG_S2"["🔶 Orange Border = Independent Star"]
+    "LEG_S3"["Standard Border = In Progress"]
 
-    LEG_FILL["<b>Progress Indicators</b>"]
-    LEG_F1["⭐ = 100% Maxed"]
-    LEG_F2["●●● = 75-99%"]
-    LEG_F3["●●○ = 50-74%"]
-    LEG_F4["●○○ = 25-49%"]
-    LEG_F5["○○○ = 1-24%"]
+    "LEG_FILL"["Progress Indicators"]
+    "LEG_F1"["⭐ = 100% Maxed"]
+    "LEG_F2"["●●● = 75-99%"]
+    "LEG_F3"["●●○ = 50-74%"]
+    "LEG_F4"["●○○ = 25-49%"]
+    "LEG_F5"["○○○ = 1-24%"]
 
-    LEG_STARS -.-> LEG_S1 & LEG_S2 & LEG_S3
-    LEG_FILL -.-> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5
+    "LEG_STARS" --> "LEG_S1" & "LEG_S2" & "LEG_S3"
+    "LEG_FILL" --> "LEG_F1" & "LEG_F2" & "LEG_F3" & "LEG_F4" & "LEG_F5"
 
-    style LEG_STARS fill:transparent,stroke:none,color:#ccc
-    style LEG_FILL fill:transparent,stroke:none,color:#ccc
-    style LEG_S1 fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333
-    style LEG_S2 fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333
-    style LEG_S3 fill:#fff,stroke:#999,stroke-width:2px,color:#333
-    style LEG_F1 fill:#eee,stroke:#333,stroke-width:1px,color:#333
-    style LEG_F2 fill:#eee,stroke:#333,stroke-width:1px,color:#333
-    style LEG_F3 fill:#eee,stroke:#333,stroke-width:1px,color:#333
-    style LEG_F4 fill:#eee,stroke:#333,stroke-width:1px,color:#333
-    style LEG_F5 fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style "LEG_STARS" fill:transparent,stroke:none,color:#ccc
+    style "LEG_FILL" fill:transparent,stroke:none,color:#ccc
+    style "LEG_S1" fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333
+    style "LEG_S2" fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333
+    style "LEG_S3" fill:#fff,stroke:#999,stroke-width:2px,color:#333
+    style "LEG_F1" fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style "LEG_F2" fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style "LEG_F3" fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style "LEG_F4" fill:#eee,stroke:#333,stroke-width:1px,color:#333
+    style "LEG_F5" fill:#eee,stroke:#333,stroke-width:1px,color:#333
   end
-  style LEGEND fill:transparent,stroke:#999,stroke-width:3px
+  style subLEGEND fill:transparent,stroke:#999,stroke-width:3px
 ```
 
 ---
@@ -582,10 +581,10 @@ graph LR
   ⚪ **Morph 1**: [Daedric Prey](https://en.uesp.net/wiki/Online:Daedric_Prey)
   ⚪ **Morph 2**: [Haunting Curse](https://en.uesp.net/wiki/Online:Haunting_Curse)
 
-
   </details>
 
 ✅ **[Summon Twilight Matriarch](https://en.uesp.net/wiki/Online:Summon_Twilight_Matriarch)** (Rank 4)
+
 
   ✅ **Morph 2**: [Summon Twilight Matriarch](https://en.uesp.net/wiki/Online:Summon_Twilight_Matriarch)
 
@@ -930,7 +929,7 @@ graph LR
 - One Hand and Shield: Rank 6 ░░░░░░░░░░ 0%
 - Dual Wield: Rank 7 ░░░░░░░░░░ 9%
 - Bow: Rank 6 ░░░░░░░░░░ 0%
-- Restoration Staff: Rank 44 ████████░░ 87%
+- Restoration Staff: Rank 44 █████████░ 95%
   <details>
   <summary>✨ Passives</summary>
 
@@ -959,7 +958,7 @@ graph LR
   - 🔒 [Athletics](https://en.uesp.net/wiki/Online:Athletics)
 
   </details>
-- Heavy Armor: Rank 48 ███░░░░░░░ 31%
+- Heavy Armor: Rank 48 ██████░░░░ 61%
   <details>
   <summary>✨ Passives</summary>
 
@@ -997,7 +996,7 @@ graph LR
   - 🔒 [Spectral Assassin](https://en.uesp.net/wiki/Online:Spectral_Assassin)
 
   </details>
-- Fighters Guild: Rank 9 █░░░░░░░░░ 17%
+- Fighters Guild: Rank 9 ███░░░░░░░ 34%
 - Mages Guild: Rank 6 ██████░░░░ 64%
 - Psijic Order: Rank 2 ░░░░░░░░░░ 0%
   <details>
@@ -1194,14 +1193,14 @@ graph LR
 - Dunmer Cultural Garb
 - Forebear Dishdasha
 - Fort Amol Guard Armor
-
-
 - Frostedge Bandit Armor
 - Golden Saint
 - Grim Harvester
 - Hollow Moon Garb
 - Imperial Chancellor
 - Keeper's Garb
+
+
 - Lion Guard Knight
 - Mages Guild Formal Robes
 - Mages Guild Leggings Uniform
@@ -1544,19 +1543,22 @@ graph LR
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 26 | 180 | █░░░░░░░░░ 14% |
-| Bank | 235 | 480 | ████░░░░░░ 48% |
+| Backpack | 51 | 180 | ██░░░░░░░░ 28% |
+| Bank | 240 | 480 | █████░░░░░ 50% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (26 unique items)</summary>
+<summary><strong>Backpack Items</strong> (51 unique items)</summary>
 
-#### Other (26 items)
+#### Other (51 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
+| ⚪ ancestor silk epaulets | 1 | ⚪ |
+| 🔵 ancestor silk gloves of Health | 1 | 🔵 |
 | 🟢 ancestor silk hat of Magicka | 1 | 🟢 |
 | ⚪ ancestor silk sash | 1 | ⚪ |
+| 🟢 ancestor silk sash of Stamina | 1 | 🟢 |
 | 🟢 Beekeeper's Gauntlets | 1 | 🟢 |
 | 🟣 Bound Gold Coast Spellcaster Elixir | 24 | 🟣 |
 | 🟢 Bow of the Wilderqueen | 1 | 🟢 |
@@ -1567,43 +1569,67 @@ graph LR
 | 🟣 Crown Refreshing Drink | 10 | 🟣 |
 | ⚪ Cyrodiil Assault Crate | 1 | ⚪ |
 | ⚪ Cyrodiil Defense Crate | 1 | ⚪ |
-| ⚪ Daedra Husk | 1 | ⚪ |
+| ⚪ Daedra Husk | 4 | ⚪ |
 | ⚪ Dwarven Gear | 1 | ⚪ |
+| ⚪ Elemental Essence | 1 | ⚪ |
 | ⚪ Essence of health | 4 | ⚪ |
 | 🟣 Fragment of Rulanyil | 1 | 🟣 |
 | 🟢 Gloom-Graced Bow | 1 | 🟢 |
-| ⚪ Lockpick | 200 | ⚪ |
 | ⚪ Lockpick | 1 | ⚪ |
+| ⚪ Lockpick | 200 | ⚪ |
+| 🟢 Necklace of the Withered Hand | 1 | 🟢 |
+| ⚪ platinum necklace | 1 | ⚪ |
+| 🟢 Ring of the Order of Diagna | 1 | 🟢 |
+| 🟢 Ring of the Withered Hand | 1 | 🟢 |
 | ⚪ rubedite gauntlets | 1 | ⚪ |
+| 🟢 rubedite greatsword of Flame | 1 | 🟢 |
+| 🔵 rubedite greatsword of Shock | 1 | 🔵 |
+| ⚪ rubedite pauldron | 1 | ⚪ |
+| 🔵 Rubedite pauldron of Magicka | 1 | 🔵 |
 | ⚪ rubedite sabatons | 1 | ⚪ |
 | ⚪ rubedo leather arm cops | 1 | ⚪ |
+| ⚪ rubedo leather belt | 1 | ⚪ |
+| 🟢 rubedo leather guards of Stamina | 1 | 🟢 |
+| ⚪ Rubedo Leather jack | 1 | ⚪ |
+| ⚪ ruby ash ice staff | 1 | ⚪ |
+| 🟢 Ruby Ash ice staff of Flame | 1 | 🟢 |
+| 🔵 ruby ash restoration staff of Frost | 1 | 🔵 |
 | 🟢 ruby ash shield of Health | 1 | 🟢 |
 | 🟢 ruby ash shield of Health | 1 | 🟢 |
-| 🟢 Soul Gem | 108 | 🟢 |
-| ⚪ Soul Gem (Empty) | 2 | ⚪ |
+| 🔵 ruby ash shield of Stamina | 1 | 🔵 |
+| 🟢 Soul Gem | 109 | 🟢 |
+| ⚪ Soul Gem (Empty) | 4 | ⚪ |
+| 🔵 Stormhaven Treasure Map I | 1 | 🔵 |
+| 🟢 Sword-Singer's Necklace | 1 | 🟢 |
+| 🟢 Sword-Singer's Ring | 1 | 🟢 |
+| ⚪ Truly Superb Glyph of Reduce Feat Cost | 1 | ⚪ |
+| ⚪ Truly Superb Glyph of Shock | 1 | ⚪ |
+| ⚪ Truly Superb Glyph of Stamina | 1 | ⚪ |
 
 </details>
 
 <details>
-<summary><strong>Bank Items</strong> (235 unique items)</summary>
+<summary><strong>Bank Items</strong> (240 unique items)</summary>
 
-#### Other (235 items)
+#### Other (240 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟡 Anthology of Abodes Available for Acquisition | 1 | 🟡 |
 | 🟡 Attribute Respecification Scroll | 2 | 🟡 |
 | 🟡 Attunable Blacksmithing Station, Bound | 1 | 🟡 |
 | 🟡 Attunable Clothing Station, Bound | 1 | 🟡 |
 | 🟡 Attunable Woodworking Station, Bound | 1 | 🟡 |
 | 🟣 Axe of Agility | 1 | 🟣 |
-| 🔵 Ayleid Refuge Inferno Staff | 1 | 🔵 |
-| 🔵 Ayleid Refuge Lightning Staff | 1 | 🔵 |
-| 🔵 beech bow of Shock | 1 | 🔵 |
-| 🔵 beech shield of Health | 1 | 🔵 |
+| 🟢 beech ice staff of Frost | 1 | 🟢 |
+| ⚪ beech restoration staff | 1 | ⚪ |
+| 🟢 beech restoration staff of Flame | 1 | 🟢 |
+| 🔵 beech restoration staff of Flame | 1 | 🔵 |
+| 🔵 Beekeeper's Necklace | 1 | 🔵 |
 | 🟣 Big-Eared Ginger Kitten's Tag | 1 | 🟣 |
+| 🔵 Bleakrock Treasure Map II | 1 | 🔵 |
 | 🔵 Blueprint: Argonian Bed, Woven | 1 | 🔵 |
 | 🟣 Bonedust Pigment | 2 | 🟣 |
+| 🟢 Bow of Night Terror | 1 | 🟢 |
 | 🟢 Companion's Axe | 1 | 🟢 |
 | 🟢 Companion's Axe | 1 | 🟢 |
 | 🟢 Companion's Axe | 1 | 🟢 |
@@ -1612,39 +1638,39 @@ graph LR
 | 🔵 Companion's Battle Axe | 1 | 🔵 |
 | 🟢 Companion's Battle Axe | 1 | 🟢 |
 | 🟢 Companion's Battle Axe | 1 | 🟢 |
-| 🟢 Companion's Boots | 1 | 🟢 |
 | 🔵 Companion's Boots | 1 | 🔵 |
+| 🟢 Companion's Boots | 1 | 🟢 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🔵 Companion's Bow | 1 | 🔵 |
+| 🔵 Companion's Bow | 1 | 🔵 |
+| 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
-| 🔵 Companion's Bow | 1 | 🔵 |
-| 🔵 Companion's Bow | 1 | 🔵 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bracers | 1 | 🟢 |
 | 🔵 Companion's Bracers | 1 | 🔵 |
 | 🟢 Companion's Bracers | 1 | 🟢 |
 | 🔵 Companion's Bracers | 1 | 🔵 |
+| 🟢 Companion's Breeches | 1 | 🟢 |
 | 🔵 Companion's Breeches | 1 | 🔵 |
 | 🔵 Companion's Breeches | 1 | 🔵 |
 | 🟢 Companion's Breeches | 1 | 🟢 |
-| 🟢 Companion's Breeches | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
-| 🔵 Companion's Dagger | 1 | 🔵 |
+| 🟢 Companion's Dagger | 1 | 🟢 |
 | 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
-| 🟢 Companion's Dagger | 1 | 🟢 |
+| 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
 | 🟢 Companion's Ice Staff | 1 | 🟢 |
@@ -1657,85 +1683,83 @@ graph LR
 | 🟢 Companion's Jack | 1 | 🟢 |
 | 🟢 Companion's Jack | 1 | 🟢 |
 | 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jerkin | 1 | 🟢 |
+| 🔵 Companion's Jerkin | 1 | 🔵 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🔵 Companion's Jerkin | 1 | 🔵 |
-| 🔵 Companion's Jerkin | 1 | 🔵 |
+| 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🟣 Companion's Jerkin | 1 | 🟣 |
 | 🟢 Companion's Lightning Staff | 1 | 🟢 |
 | 🔵 Companion's Lightning Staff | 1 | 🔵 |
-| 🟢 Companion's Mace | 1 | 🟢 |
 | 🔵 Companion's Mace | 1 | 🔵 |
 | 🟢 Companion's Mace | 1 | 🟢 |
+| 🟢 Companion's Mace | 1 | 🟢 |
+| 🟢 Companion's Maul | 1 | 🟢 |
+| 🔵 Companion's Maul | 1 | 🔵 |
 | 🟢 Companion's Maul | 1 | 🟢 |
 | 🟣 Companion's Maul | 1 | 🟣 |
-| 🔵 Companion's Maul | 1 | 🔵 |
-| 🟢 Companion's Maul | 1 | 🟢 |
-| 🟢 Companion's Maul | 1 | 🟢 |
 | 🟢 Companion's Maul | 1 | 🟢 |
 | 🔵 Companion's Maul | 1 | 🔵 |
+| 🟢 Companion's Maul | 1 | 🟢 |
 | 🔵 Companion's Necklace | 1 | 🔵 |
 | 🟢 Companion's Necklace | 1 | 🟢 |
 | 🟢 Companion's Necklace | 1 | 🟢 |
-| 🟢 Companion's Necklace | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟣 Companion's Restoration Staff | 1 | 🟣 |
-| 🟣 Companion's Restoration Staff | 1 | 🟣 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟣 Companion's Restoration Staff | 1 | 🟣 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟣 Companion's Restoration Staff | 1 | 🟣 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟣 Companion's Restoration Staff | 1 | 🟣 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Ring | 1 | 🔵 |
 | 🟢 Companion's Ring | 1 | 🟢 |
 | 🔵 Companion's Ring | 1 | 🔵 |
-| 🔵 Companion's Robe | 1 | 🔵 |
+| 🔵 Companion's Ring | 1 | 🔵 |
 | 🟢 Companion's Robe | 1 | 🟢 |
+| 🔵 Companion's Robe | 1 | 🔵 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Sabatons | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🔵 Companion's Shield | 1 | 🔵 |
 | 🔵 Companion's Shield | 1 | 🔵 |
 | 🔵 Companion's Shield | 1 | 🔵 |
 | 🟢 Companion's Shield | 1 | 🟢 |
 | 🟢 Companion's Shield | 1 | 🟢 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🔵 Companion's Shield | 1 | 🔵 |
 | 🟣 Companion's Shield | 1 | 🟣 |
-| 🟢 Companion's Shoes | 1 | 🟢 |
 | 🔵 Companion's Shoes | 1 | 🔵 |
-| 🔵 Companion's Sword | 1 | 🔵 |
+| 🟢 Companion's Shoes | 1 | 🟢 |
 | 🔵 Companion's Sword | 1 | 🔵 |
 | 🟢 Companion's Sword | 1 | 🟢 |
+| 🔵 Companion's Sword | 1 | 🔵 |
 | 🟣 Coral Haj Mota Decoy | 1 | 🟣 |
 | 🔵 Counterfeit Pardon Edict | 16 | 🔵 |
 | 🔵 Crackling Lodestone | 1 | 🔵 |
 | 🔵 Crafting Motif 1: High Elf Style | 1 | 🔵 |
-| 🔵 Crafting Motif 4: Nord Style | 3 | 🔵 |
-| 🔵 Crafting Motif 5: Breton Style | 1 | 🔵 |
+| 🔵 Crafting Motif 4: Nord Style | 2 | 🔵 |
 | 🟣 Crafting Motif 12: Barbaric Style | 2 | 🟣 |
 | 🟣 Crafting Motif 34: Assassins League Axes | 3 | 🟣 |
 | 🟣 Crafting Motif 40: Order Hour Axes | 2 | 🟣 |
@@ -1766,13 +1790,11 @@ graph LR
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
-| 🟣 Crown Tri-Restoration Potion | 75 | 🟣 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🔵 Cyrodiil Treasure Map II | 1 | 🔵 |
 | 🔵 Cyrodiil Treasure Map VII | 1 | 🔵 |
 | 🔵 Cyrodiil Treasure Map XI | 1 | 🔵 |
 | 🔵 Cyrodiil Treasure Map XVII | 1 | 🔵 |
-| 🔵 Defiler's Ice Staff | 1 | 🔵 |
 | 🟣 Diagram: Daedric Chandelier, Ritual | 1 | 🟣 |
 | 🟣 Epaulets of a Mother's Sorrow | 1 | 🟣 |
 | 🔵 Epaulets of Necropotence | 1 | 🔵 |
@@ -1783,6 +1805,7 @@ graph LR
 | 🟡 Fortified Brass Gloves | 1 | 🟡 |
 | 🟡 Fortified Brass Sash | 1 | 🟡 |
 | 🟣 Glass Style Motif Fragment | 5 | 🟣 |
+| 🔵 Gloom-Graced Restoration Staff | 1 | 🔵 |
 | 🔵 Gloves of Necropotence | 1 | 🔵 |
 | 🟡 Gold Coast Draining Poison | 100 | 🟡 |
 | 🟡 Gold Coast Experience Scroll | 15 | 🟡 |
@@ -1790,7 +1813,6 @@ graph LR
 | 🟣 Gold Coast Swift Survivor Elixir | 200 | 🟣 |
 | 🟡 Gold Coast Trapping Poison | 100 | 🟡 |
 | 🟣 Gold Coast Warrior Elixir | 100 | 🟣 |
-| 🔵 Gryphon's Lightning Staff | 1 | 🔵 |
 | 🟣 Harvested Soul Fragment | 1 | 🟣 |
 | 🟣 Harvested Soul Fragment | 1 | 🟣 |
 | 🔵 Hat of Necropotence | 1 | 🔵 |
@@ -1799,23 +1821,30 @@ graph LR
 | 🟡 Instant Clothing Research | 5 | 🟡 |
 | ⚪ Keep Door Woodwork Repair Kit | 15 | ⚪ |
 | ⚪ Keep Wall Masonry Repair Kit | 34 | ⚪ |
+| 🔵 Khenarthi's Roost Treasure Map IV | 1 | 🔵 |
 | 🟣 Leniency Edict | 8 | 🟣 |
 | 🟡 Major Gold Coast Experience Scroll | 4 | 🟡 |
 | 🟡 Major Gold Coast Experience Scroll | 5 | 🟡 |
+| 🔵 Merethic Signet | 1 | 🔵 |
 | 🟢 Pattern: Argonian Baskets, Double | 1 | 🟢 |
 | 🟢 Pattern: Wood Elf Awning, Leather | 1 | 🟢 |
 | 🟣 Plague-Drenched Fabric | 1 | 🟣 |
+| ⚪ platinum necklace | 1 | ⚪ |
+| 🔵 platinum ring of Reduce Feat Cost | 1 | 🔵 |
 | 🟡 Pledge of Mara | 1 | 🟡 |
+| 🟣 Prophet's Lightning Staff | 1 | 🟣 |
 | 🟣 Psijic Glowglobe's Meteoric Glass | 1 | 🟣 |
 | 🔵 Recipe: Bowl of "Peeled Eyeballs" | 3 | 🔵 |
+| 🟢 Recipe: Carrot Cheesecake | 1 | 🟢 |
 | 🟢 Recipe: Colovian Ginger Beer | 1 | 🟢 |
 | 🟢 Recipe: Garlic-and-Pepper Venison Steak | 1 | 🟢 |
+| 🟢 Recipe: Ginseng Tonic | 1 | 🟢 |
 | 🟢 Recipe: Hearty Garlic Corn Chowder | 3 | 🟢 |
+| 🔵 Recipe: Late Hearthfire Vegetable Tart | 1 | 🔵 |
 | 🟢 Recipe: Sweet Sanguine Apples | 6 | 🟢 |
 | 🟢 Recipe: Tomato Soup | 2 | 🟢 |
+| 🔵 Restoration Staff of Night Terror | 1 | 🔵 |
 | 🟣 Ring of Endurance | 1 | 🟣 |
-| 🔵 ruby ash bow of Flame | 1 | 🔵 |
-| 🔵 ruby ash shield of Stamina | 1 | 🔵 |
 | 🟣 Shard of Writhing Bone | 6 | 🟣 |
 | 🔵 Skeletal Marionette Parts | 1 | 🔵 |
 | 🟢 Spirit Stone | 1 | 🟢 |
@@ -1830,24 +1859,25 @@ graph LR
 </details>
 
 <details>
-<summary><strong>Crafting Bag Items</strong> (374 unique items)</summary>
+<summary><strong>Crafting Bag Items</strong> (377 unique items)</summary>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
+
 
 #### Armor Trait (9 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Almandine | 828 | ⚪ |
-| ⚪ Bloodstone | 934 | ⚪ |
-| ⚪ Diamond | 512 | ⚪ |
-| ⚪ Emerald | 469 | ⚪ |
+| ⚪ Almandine | 843 | ⚪ |
+| ⚪ Bloodstone | 944 | ⚪ |
+| ⚪ Diamond | 529 | ⚪ |
+| ⚪ Emerald | 478 | ⚪ |
 | ⚪ Fortified Nirncrux | 4 | ⚪ |
-| ⚪ Garnet | 529 | ⚪ |
-| ⚪ Quartz | 646 | ⚪ |
-| ⚪ Sapphire | 403 | ⚪ |
-| ⚪ Sardonyx | 920 | ⚪ |
+| ⚪ Garnet | 535 | ⚪ |
+| ⚪ Quartz | 658 | ⚪ |
+| ⚪ Sapphire | 412 | ⚪ |
+| ⚪ Sardonyx | 934 | ⚪ |
 
 
 </div><div>
@@ -1856,11 +1886,11 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 Denata | 1028 | 🔵 |
-| 🟢 Jejota | 2110 | 🟢 |
-| 🟡 Kuta | 166 | 🟡 |
-| 🟣 Rekuta | 628 | 🟣 |
-| ⚪ Ta | 3437 | ⚪ |
+| 🔵 Denata | 1042 | 🔵 |
+| 🟢 Jejota | 2142 | 🟢 |
+| 🟡 Kuta | 178 | 🟡 |
+| 🟣 Rekuta | 641 | 🟣 |
+| ⚪ Ta | 3502 | ⚪ |
 
 
 </div><div>
@@ -1869,24 +1899,24 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Dekeipa | 304 | ⚪ |
-| ⚪ Deni | 1035 | ⚪ |
-| ⚪ Denima | 314 | ⚪ |
-| ⚪ Deteri | 197 | ⚪ |
+| ⚪ Dekeipa | 312 | ⚪ |
+| ⚪ Deni | 1059 | ⚪ |
+| ⚪ Denima | 326 | ⚪ |
+| ⚪ Deteri | 200 | ⚪ |
 | ⚪ Hakeijo | 1 | ⚪ |
-| ⚪ Haoko | 225 | ⚪ |
-| ⚪ Kaderi | 199 | ⚪ |
-| ⚪ Kuoko | 238 | ⚪ |
-| ⚪ Makderi | 214 | ⚪ |
-| ⚪ Makko | 1039 | ⚪ |
-| ⚪ Makkoma | 358 | ⚪ |
-| ⚪ Meip | 399 | ⚪ |
-| ⚪ Oko | 1067 | ⚪ |
-| ⚪ Okoma | 280 | ⚪ |
-| ⚪ Okori | 187 | ⚪ |
-| ⚪ Oru | 213 | ⚪ |
-| ⚪ Rakeipa | 399 | ⚪ |
-| ⚪ Taderi | 248 | ⚪ |
+| ⚪ Haoko | 226 | ⚪ |
+| ⚪ Kaderi | 205 | ⚪ |
+| ⚪ Kuoko | 240 | ⚪ |
+| ⚪ Makderi | 217 | ⚪ |
+| ⚪ Makko | 1059 | ⚪ |
+| ⚪ Makkoma | 364 | ⚪ |
+| ⚪ Meip | 401 | ⚪ |
+| ⚪ Oko | 1094 | ⚪ |
+| ⚪ Okoma | 283 | ⚪ |
+| ⚪ Okori | 193 | ⚪ |
+| ⚪ Oru | 217 | ⚪ |
+| ⚪ Rakeipa | 406 | ⚪ |
+| ⚪ Taderi | 250 | ⚪ |
 
 
 </div><div>
@@ -1895,14 +1925,14 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Alchemical Resin | 1254 | ⚪ |
-| ⚪ Bast | 490 | ⚪ |
-| ⚪ Clean Pelt | 574 | ⚪ |
-| ⚪ Decorative Wax | 713 | ⚪ |
-| ⚪ Heartwood | 685 | ⚪ |
-| ⚪ Mundane Rune | 1311 | ⚪ |
-| ⚪ Ochre | 298 | ⚪ |
-| ⚪ Regulus | 460 | ⚪ |
+| ⚪ Alchemical Resin | 1302 | ⚪ |
+| ⚪ Bast | 500 | ⚪ |
+| ⚪ Clean Pelt | 582 | ⚪ |
+| ⚪ Decorative Wax | 727 | ⚪ |
+| ⚪ Heartwood | 705 | ⚪ |
+| ⚪ Mundane Rune | 1359 | ⚪ |
+| ⚪ Ochre | 308 | ⚪ |
+| ⚪ Regulus | 466 | ⚪ |
 
 
 </div><div>
@@ -1911,56 +1941,56 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Acai Berry | 958 | ⚪ |
-| ⚪ Apples | 1427 | ⚪ |
+| ⚪ Acai Berry | 964 | ⚪ |
+| ⚪ Apples | 1441 | ⚪ |
 | ⚪ Bananas | 412 | ⚪ |
-| ⚪ Barley | 990 | ⚪ |
+| ⚪ Barley | 998 | ⚪ |
 | ⚪ Beets | 275 | ⚪ |
 | 🟣 Bervez Juice | 47 | 🟣 |
-| ⚪ Bittergreen | 389 | ⚪ |
-| ⚪ Carrots | 239 | ⚪ |
-| ⚪ Cheese | 106 | ⚪ |
+| ⚪ Bittergreen | 391 | ⚪ |
+| ⚪ Carrots | 240 | ⚪ |
+| ⚪ Cheese | 115 | ⚪ |
 | ⚪ Coffee | 874 | ⚪ |
-| ⚪ Comberry | 375 | ⚪ |
-| ⚪ Corn | 226 | ⚪ |
-| ⚪ Fish | 394 | ⚪ |
+| ⚪ Comberry | 376 | ⚪ |
+| ⚪ Corn | 234 | ⚪ |
+| ⚪ Fish | 395 | ⚪ |
 | ⚪ Flour | 314 | ⚪ |
 | 🟣 Frost Mirriam | 32 | 🟣 |
 | ⚪ Game | 171 | ⚪ |
-| ⚪ Garlic | 160 | ⚪ |
-| ⚪ Ginger | 677 | ⚪ |
-| ⚪ Ginkgo | 832 | ⚪ |
-| ⚪ Ginseng | 906 | ⚪ |
-| ⚪ Greens | 394 | ⚪ |
-| ⚪ Guarana | 899 | ⚪ |
-| ⚪ Honey | 748 | ⚪ |
-| ⚪ Isinglass | 619 | ⚪ |
-| ⚪ Jasmine | 324 | ⚪ |
-| ⚪ Jazbay Grapes | 359 | ⚪ |
-| ⚪ Lemon | 736 | ⚪ |
-| ⚪ Lotus | 413 | ⚪ |
-| ⚪ Melon | 543 | ⚪ |
-| ⚪ Metheglin | 739 | ⚪ |
-| ⚪ Millet | 344 | ⚪ |
-| ⚪ Mint | 353 | ⚪ |
-| ⚪ Potato | 187 | ⚪ |
-| ⚪ Poultry | 235 | ⚪ |
-| ⚪ Pumpkin | 471 | ⚪ |
-| ⚪ Radish | 169 | ⚪ |
-| ⚪ Red Meat | 197 | ⚪ |
-| ⚪ Rice | 1109 | ⚪ |
-| ⚪ Rose | 454 | ⚪ |
-| ⚪ Rye | 1187 | ⚪ |
+| ⚪ Garlic | 159 | ⚪ |
+| ⚪ Ginger | 681 | ⚪ |
+| ⚪ Ginkgo | 846 | ⚪ |
+| ⚪ Ginseng | 909 | ⚪ |
+| ⚪ Greens | 397 | ⚪ |
+| ⚪ Guarana | 901 | ⚪ |
+| ⚪ Honey | 761 | ⚪ |
+| ⚪ Isinglass | 620 | ⚪ |
+| ⚪ Jasmine | 329 | ⚪ |
+| ⚪ Jazbay Grapes | 377 | ⚪ |
+| ⚪ Lemon | 743 | ⚪ |
+| ⚪ Lotus | 416 | ⚪ |
+| ⚪ Melon | 564 | ⚪ |
+| ⚪ Metheglin | 752 | ⚪ |
+| ⚪ Millet | 346 | ⚪ |
+| ⚪ Mint | 356 | ⚪ |
+| ⚪ Potato | 190 | ⚪ |
+| ⚪ Poultry | 250 | ⚪ |
+| ⚪ Pumpkin | 478 | ⚪ |
+| ⚪ Radish | 170 | ⚪ |
+| ⚪ Red Meat | 199 | ⚪ |
+| ⚪ Rice | 1117 | ⚪ |
+| ⚪ Rose | 456 | ⚪ |
+| ⚪ Rye | 1194 | ⚪ |
 | ⚪ Saltrice | 456 | ⚪ |
-| ⚪ Seasoning | 428 | ⚪ |
-| ⚪ Seaweed | 764 | ⚪ |
-| ⚪ Small Game | 174 | ⚪ |
-| ⚪ Surilie Grapes | 1143 | ⚪ |
-| ⚪ Tomato | 352 | ⚪ |
-| ⚪ Wheat | 1047 | ⚪ |
-| ⚪ White Meat | 179 | ⚪ |
-| ⚪ Yeast | 1105 | ⚪ |
-| ⚪ Yerba Mate | 738 | ⚪ |
+| ⚪ Seasoning | 440 | ⚪ |
+| ⚪ Seaweed | 766 | ⚪ |
+| ⚪ Small Game | 178 | ⚪ |
+| ⚪ Surilie Grapes | 1151 | ⚪ |
+| ⚪ Tomato | 361 | ⚪ |
+| ⚪ Wheat | 1054 | ⚪ |
+| ⚪ White Meat | 181 | ⚪ |
+| ⚪ Yeast | 1110 | ⚪ |
+| ⚪ Yerba Mate | 754 | ⚪ |
 
 
 </div><div>
@@ -1969,7 +1999,7 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Luminous Ink | 20 | ⚪ |
+| ⚪ Luminous Ink | 21 | ⚪ |
 
 
 </div><div>
@@ -1978,11 +2008,11 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ antimony | 46 | ⚪ |
-| ⚪ Aurbic Amber | 9 | ⚪ |
-| ⚪ cobalt | 31 | ⚪ |
-| ⚪ Titanium | 15 | ⚪ |
-| ⚪ zinc | 33 | ⚪ |
+| ⚪ antimony | 47 | ⚪ |
+| ⚪ Aurbic Amber | 10 | ⚪ |
+| ⚪ cobalt | 33 | ⚪ |
+| ⚪ Titanium | 16 | ⚪ |
+| ⚪ zinc | 35 | ⚪ |
 
 
 </div><div>
@@ -1991,12 +2021,12 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ crawlers, Foul Bait | 1304 | ⚪ |
+| ⚪ crawlers, Foul Bait | 1315 | ⚪ |
 | ⚪ fish roe, Foul Bait | 3 | ⚪ |
-| ⚪ guts, Lake Bait | 884 | ⚪ |
+| ⚪ guts, Lake Bait | 894 | ⚪ |
 | ⚪ insect parts, River Bait | 344 | ⚪ |
 | ⚪ shad, River Bait | 25 | ⚪ |
-| ⚪ worms, Saltwater Bait | 1303 | ⚪ |
+| ⚪ worms, Saltwater Bait | 1326 | ⚪ |
 
 
 </div><div>
@@ -2005,48 +2035,48 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Ancestor Silk | 3122 | ⚪ |
-| ⚪ Calcinium ingot | 240 | ⚪ |
-| ⚪ copper ounce | 1710 | ⚪ |
-| ⚪ cotton | 1593 | ⚪ |
-| ⚪ dwarven ingot | 2208 | ⚪ |
-| ⚪ ebonthread | 735 | ⚪ |
+| ⚪ Ancestor Silk | 3158 | ⚪ |
+| ⚪ Calcinium ingot | 250 | ⚪ |
+| ⚪ copper ounce | 1838 | ⚪ |
+| ⚪ cotton | 1641 | ⚪ |
+| ⚪ dwarven ingot | 2240 | ⚪ |
+| ⚪ ebonthread | 745 | ⚪ |
 | ⚪ ebony ingot | 1319 | ⚪ |
-| ⚪ electrum ounce | 142 | ⚪ |
+| ⚪ electrum ounce | 145 | ⚪ |
 | ⚪ fell hide | 606 | ⚪ |
-| ⚪ flax | 1224 | ⚪ |
+| ⚪ flax | 1230 | ⚪ |
 | ⚪ Galatite ingot | 195 | ⚪ |
-| ⚪ hide | 881 | ⚪ |
-| ⚪ Iron Hide | 46 | ⚪ |
+| ⚪ hide | 882 | ⚪ |
+| ⚪ Iron Hide | 56 | ⚪ |
 | ⚪ Iron ingot | 927 | ⚪ |
 | ⚪ ironthread | 54 | ⚪ |
-| ⚪ jute | 818 | ⚪ |
+| ⚪ jute | 828 | ⚪ |
 | ⚪ Kresh Fiber | 102 | ⚪ |
-| ⚪ leather | 1247 | ⚪ |
-| ⚪ orichalcum ingot | 2259 | ⚪ |
-| ⚪ pewter ounce | 2501 | ⚪ |
-| ⚪ platinum ounce | 2058 | ⚪ |
+| ⚪ leather | 1312 | ⚪ |
+| ⚪ orichalcum ingot | 2349 | ⚪ |
+| ⚪ pewter ounce | 2531 | ⚪ |
+| ⚪ platinum ounce | 2084 | ⚪ |
 | ⚪ quicksilver ingot | 146 | ⚪ |
-| ⚪ rawhide | 2865 | ⚪ |
-| ⚪ Rubedite Ingot | 4575 | ⚪ |
-| ⚪ Rubedo Leather | 1446 | ⚪ |
+| ⚪ rawhide | 2920 | ⚪ |
+| ⚪ Rubedite Ingot | 4550 | ⚪ |
+| ⚪ Rubedo Leather | 1434 | ⚪ |
 | ⚪ sanded ash | 88 | ⚪ |
-| ⚪ sanded beech | 1750 | ⚪ |
+| ⚪ sanded beech | 1798 | ⚪ |
 | ⚪ sanded birch | 124 | ⚪ |
-| ⚪ sanded hickory | 1875 | ⚪ |
+| ⚪ sanded hickory | 1885 | ⚪ |
 | ⚪ sanded mahogany | 1154 | ⚪ |
 | ⚪ sanded maple | 1322 | ⚪ |
 | ⚪ sanded nightwood | 253 | ⚪ |
-| ⚪ sanded oak | 1658 | ⚪ |
-| ⚪ Sanded Ruby Ash | 3047 | ⚪ |
+| ⚪ sanded oak | 1672 | ⚪ |
+| ⚪ Sanded Ruby Ash | 3009 | ⚪ |
 | ⚪ sanded yew | 830 | ⚪ |
 | ⚪ Shadowhide | 710 | ⚪ |
 | ⚪ silver ounce | 319 | ⚪ |
 | ⚪ silverweave | 107 | ⚪ |
-| ⚪ spidersilk | 2059 | ⚪ |
-| ⚪ Steel ingot | 2044 | ⚪ |
+| ⚪ spidersilk | 2085 | ⚪ |
+| ⚪ Steel ingot | 2054 | ⚪ |
 | ⚪ superb hide | 77 | ⚪ |
-| ⚪ thick leather | 1092 | ⚪ |
+| ⚪ thick leather | 1095 | ⚪ |
 | ⚪ topgrain hide | 60 | ⚪ |
 | ⚪ void cloth | 612 | ⚪ |
 | ⚪ voidstone ingot | 768 | ⚪ |
@@ -2058,10 +2088,10 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟡 Chromium Plating | 24 | 🟡 |
-| 🔵 Iridium Plating | 258 | 🔵 |
-| 🟢 Terne Plating | 410 | 🟢 |
-| 🟣 Zircon Plating | 22 | 🟣 |
+| 🟡 Chromium Plating | 26 | 🟡 |
+| 🔵 Iridium Plating | 276 | 🔵 |
+| 🟢 Terne Plating | 428 | 🟢 |
+| 🟣 Zircon Plating | 26 | 🟣 |
 
 
 </div><div>
@@ -2071,12 +2101,12 @@ graph LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Alkahest | 1868 | ⚪ |
-| ⚪ Gall | 880 | ⚪ |
-| ⚪ Grease | 2137 | ⚪ |
-| ⚪ Ichor | 2216 | ⚪ |
+| ⚪ Gall | 912 | ⚪ |
+| ⚪ Grease | 2154 | ⚪ |
+| ⚪ Ichor | 2234 | ⚪ |
 | ⚪ Night-Oil | 8 | ⚪ |
 | ⚪ Pitch-Bile | 157 | ⚪ |
-| ⚪ Slime | 432 | ⚪ |
+| ⚪ Slime | 437 | ⚪ |
 | ⚪ Tarblack | 25 | ⚪ |
 | ⚪ Terebinthine | 1180 | ⚪ |
 
@@ -2088,33 +2118,33 @@ graph LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Denara | 15 | ⚪ |
-| ⚪ Edode | 53 | ⚪ |
-| ⚪ Edora | 108 | ⚪ |
+| ⚪ Edode | 61 | ⚪ |
+| ⚪ Edora | 117 | ⚪ |
 | ⚪ Hade | 107 | ⚪ |
 | ⚪ Idode | 40 | ⚪ |
-| ⚪ Itade | 299 | ⚪ |
-| ⚪ Jaera | 125 | ⚪ |
-| ⚪ Jayde | 49 | ⚪ |
-| ⚪ Jehade | 227 | ⚪ |
+| ⚪ Itade | 307 | ⚪ |
+| ⚪ Jaera | 133 | ⚪ |
+| ⚪ Jayde | 59 | ⚪ |
+| ⚪ Jehade | 229 | ⚪ |
 | ⚪ Jejora | 82 | ⚪ |
-| ⚪ Jera | 140 | ⚪ |
-| ⚪ Jode | 165 | ⚪ |
-| ⚪ Jora | 301 | ⚪ |
+| ⚪ Jera | 150 | ⚪ |
+| ⚪ Jode | 170 | ⚪ |
+| ⚪ Jora | 309 | ⚪ |
 | ⚪ Kude | 65 | ⚪ |
 | ⚪ Kura | 47 | ⚪ |
-| ⚪ Notade | 188 | ⚪ |
+| ⚪ Notade | 189 | ⚪ |
 | ⚪ Ode | 57 | ⚪ |
 | ⚪ Odra | 108 | ⚪ |
 | ⚪ Pode | 5 | ⚪ |
-| ⚪ Pojode | 68 | ⚪ |
-| ⚪ Pojora | 99 | ⚪ |
+| ⚪ Pojode | 70 | ⚪ |
+| ⚪ Pojora | 107 | ⚪ |
 | ⚪ Pora | 200 | ⚪ |
-| ⚪ Porade | 363 | ⚪ |
+| ⚪ Porade | 376 | ⚪ |
 | ⚪ Rede | 15 | ⚪ |
-| ⚪ Rejera | 340 | ⚪ |
-| ⚪ Rekude | 74 | ⚪ |
+| ⚪ Rejera | 345 | ⚪ |
+| ⚪ Rekude | 83 | ⚪ |
 | ⚪ Rekura | 10 | ⚪ |
-| ⚪ Repora | 559 | ⚪ |
+| ⚪ Repora | 564 | ⚪ |
 | ⚪ Rera | 4 | ⚪ |
 | ⚪ Tade | 55 | ⚪ |
 
@@ -2125,12 +2155,12 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ cleansed water | 935 | ⚪ |
-| ⚪ clear water | 932 | ⚪ |
+| ⚪ cleansed water | 949 | ⚪ |
+| ⚪ clear water | 937 | ⚪ |
 | ⚪ cloud mist | 40 | ⚪ |
 | ⚪ filtered water | 545 | ⚪ |
-| ⚪ Lorkhan's Tears | 770 | ⚪ |
-| ⚪ natural water | 1013 | ⚪ |
+| ⚪ Lorkhan's Tears | 775 | ⚪ |
+| ⚪ natural water | 1015 | ⚪ |
 | ⚪ pristine water | 481 | ⚪ |
 | ⚪ purified water | 89 | ⚪ |
 | ⚪ Star Dew | 60 | ⚪ |
@@ -2138,16 +2168,17 @@ graph LR
 
 </div><div>
 
-#### Raw Material (46 items)
+#### Raw Material (48 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Ashes of Remorse | 2 | ⚪ |
 | ⚪ Calcinium ore | 3 | ⚪ |
-| ⚪ Cassiterite Sand | 3 | ⚪ |
+| ⚪ Cassiterite Sand | 4 | ⚪ |
 | ⚪ Coarse Chalk | 2 | ⚪ |
+| ⚪ copper dust | 9 | ⚪ |
 | ⚪ Dried Blood | 6 | ⚪ |
-| ⚪ dwarven ore | 1 | ⚪ |
+| ⚪ dwarven ore | 11 | ⚪ |
 | ⚪ Dwemer Scrap | 8 | ⚪ |
 | ⚪ ebony ore | 5 | ⚪ |
 | ⚪ electrum dust | 1 | ⚪ |
@@ -2157,35 +2188,36 @@ graph LR
 | ⚪ hide scraps | 2 | ⚪ |
 | ⚪ high iron ore | 4 | ⚪ |
 | ⚪ iron hide scraps | 7 | ⚪ |
-| ⚪ iron ore | 19 | ⚪ |
-| ⚪ leather scraps | 5 | ⚪ |
+| ⚪ iron ore | 39 | ⚪ |
 | ⚪ Malachite Shard | 6 | ⚪ |
-| ⚪ orichalcum ore | 6 | ⚪ |
+| ⚪ orichalcum ore | 31 | ⚪ |
 | ⚪ Oxblood Fungus Spore | 7 | ⚪ |
-| ⚪ pewter dust | 7 | ⚪ |
-| ⚪ platinum dust | 5 | ⚪ |
+| ⚪ platinum dust | 2 | ⚪ |
 | ⚪ Quicksilver ore | 8 | ⚪ |
+| ⚪ raw ancestor silk | 3 | ⚪ |
 | ⚪ raw cotton | 5 | ⚪ |
 | ⚪ raw ebonthread | 5 | ⚪ |
 | ⚪ raw flax | 5 | ⚪ |
-| ⚪ raw jute | 4 | ⚪ |
+| ⚪ raw jute | 7 | ⚪ |
 | ⚪ raw Kreshweed | 3 | ⚪ |
 | ⚪ raw silverweed | 2 | ⚪ |
-| ⚪ raw spidersilk | 8 | ⚪ |
+| ⚪ raw spidersilk | 7 | ⚪ |
 | ⚪ raw void bloom | 2 | ⚪ |
 | ⚪ rawhide scraps | 8 | ⚪ |
 | ⚪ rough ash | 3 | ⚪ |
-| ⚪ rough beech | 2 | ⚪ |
+| ⚪ rough beech | 15 | ⚪ |
+| ⚪ rough hickory | 19 | ⚪ |
 | ⚪ rough mahogany | 1 | ⚪ |
-| ⚪ rough maple | 3 | ⚪ |
+| ⚪ rough maple | 17 | ⚪ |
 | ⚪ rough oak | 2 | ⚪ |
-| ⚪ rough ruby ash | 1 | ⚪ |
+| ⚪ rough ruby ash | 77 | ⚪ |
 | ⚪ rough yew | 8 | ⚪ |
-| ⚪ rubedite ore | 30 | ⚪ |
-| ⚪ rubedo hide scraps | 1 | ⚪ |
+| ⚪ rubedite ore | 75 | ⚪ |
+| ⚪ rubedo hide scraps | 5 | ⚪ |
 | ⚪ shadowhide scraps | 8 | ⚪ |
 | ⚪ silver dust | 7 | ⚪ |
 | ⚪ superb hide scraps | 6 | ⚪ |
+| ⚪ thick leather scraps | 37 | ⚪ |
 | ⚪ topgrain hide scraps | 2 | ⚪ |
 | ⚪ Viridian Dust | 7 | ⚪ |
 
@@ -2197,11 +2229,11 @@ graph LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Pulverized Antimony | 9 | ⚪ |
-| ⚪ Pulverized Aurbic Amber | 1 | ⚪ |
-| ⚪ Pulverized Cobalt | 14 | ⚪ |
+| ⚪ Pulverized Aurbic Amber | 7 | ⚪ |
+| ⚪ Pulverized Cobalt | 6 | ⚪ |
 | ⚪ Pulverized Slaughterstone | 2 | ⚪ |
-| ⚪ Pulverized Titanium | 7 | ⚪ |
-| ⚪ Pulverized Zinc | 10 | ⚪ |
+| ⚪ Pulverized Titanium | 9 | ⚪ |
+| ⚪ Pulverized Zinc | 3 | ⚪ |
 
 
 </div><div>
@@ -2210,36 +2242,36 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟢 Beetle Scuttle | 243 | 🟢 |
-| 🟢 blessed thistle | 548 | 🟢 |
-| 🟢 blue entoloma | 486 | 🟢 |
-| 🟢 bugloss | 741 | 🟢 |
+| 🟢 Beetle Scuttle | 245 | 🟢 |
+| 🟢 blessed thistle | 559 | 🟢 |
+| 🟢 blue entoloma | 505 | 🟢 |
+| 🟢 bugloss | 764 | 🟢 |
 | 🟢 Butterfly Wing | 69 | 🟢 |
-| 🟢 Clam Gall | 8 | 🟢 |
-| 🟢 columbine | 526 | 🟢 |
-| 🟢 corn flower | 633 | 🟢 |
+| 🟢 Clam Gall | 9 | 🟢 |
+| 🟢 columbine | 533 | 🟢 |
+| 🟢 corn flower | 638 | 🟢 |
 | 🟢 Dragon's Bile | 11 | 🟢 |
 | 🟢 Dragon's Blood | 6 | 🟢 |
-| 🟢 dragonthorn | 663 | 🟢 |
-| 🟢 emetic russula | 464 | 🟢 |
-| 🟢 Fleshfly Larva||Fleshfly Larvae | 454 | 🟢 |
-| 🟢 imp stool | 395 | 🟢 |
-| 🟢 lady's smock | 625 | 🟢 |
-| 🟢 luminous russula | 321 | 🟢 |
-| 🟢 mountain flower | 485 | 🟢 |
+| 🟢 dragonthorn | 681 | 🟢 |
+| 🟢 emetic russula | 468 | 🟢 |
+| 🟢 Fleshfly Larva||Fleshfly Larvae | 455 | 🟢 |
+| 🟢 imp stool | 396 | 🟢 |
+| 🟢 lady's smock | 632 | 🟢 |
+| 🟢 luminous russula | 332 | 🟢 |
+| 🟢 mountain flower | 502 | 🟢 |
 | 🟢 Mudcrab Chitin | 42 | 🟢 |
-| 🟢 namira's rot | 355 | 🟢 |
-| 🟢 Nightshade | 404 | 🟢 |
-| 🟢 nirnroot | 427 | 🟢 |
-| 🟢 Powdered Mother of Pearl | 10 | 🟢 |
+| 🟢 namira's rot | 357 | 🟢 |
+| 🟢 Nightshade | 414 | 🟢 |
+| 🟢 nirnroot | 434 | 🟢 |
+| 🟢 Powdered Mother of Pearl | 11 | 🟢 |
 | 🟢 Scrib Jelly | 271 | 🟢 |
-| 🟢 Spider Egg | 786 | 🟢 |
-| 🟢 stinkhorn | 400 | 🟢 |
+| 🟢 Spider Egg | 792 | 🟢 |
+| 🟢 stinkhorn | 410 | 🟢 |
 | 🟢 Torchbug Thorax | 63 | 🟢 |
-| 🟢 violet coprinus | 336 | 🟢 |
-| 🟢 water hyacinth | 614 | 🟢 |
+| 🟢 violet coprinus | 342 | 🟢 |
+| 🟢 water hyacinth | 628 | 🟢 |
 | 🟢 white cap | 372 | 🟢 |
-| 🟢 wormwood | 606 | 🟢 |
+| 🟢 wormwood | 625 | 🟢 |
 
 
 </div><div>
@@ -2248,37 +2280,38 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟣 mastic | 143 | 🟣 |
-| 🟢 pitch | 860 | 🟢 |
+| 🟣 mastic | 144 | 🟣 |
+| 🟢 pitch | 867 | 🟢 |
 | 🟡 rosin | 26 | 🟡 |
-| 🔵 turpen | 734 | 🔵 |
+| 🔵 turpen | 762 | 🔵 |
 
 
 </div><div>
 
-#### Style Material (72 items)
+#### Style Material (73 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Adamantite | 882 | ⚪ |
+| ⚪ Adamantite | 892 | ⚪ |
 | ⚪ Amber Marble | 663 | ⚪ |
 | ⚪ Ancient Sandstone | 17 | ⚪ |
-| ⚪ Argentum | 1021 | ⚪ |
+| ⚪ Argentum | 1043 | ⚪ |
 | ⚪ Ash Canvas | 17 | ⚪ |
 | ⚪ Auric Tusk | 10 | ⚪ |
-| ⚪ Azure Plasm | 131 | ⚪ |
+| ⚪ Azure Plasm | 138 | ⚪ |
+| ⚪ Bat Oil | 1 | ⚪ |
 | ⚪ Black Beeswax | 229 | ⚪ |
 | ⚪ Boiled Carapace | 1 | ⚪ |
-| ⚪ Bone | 880 | ⚪ |
-| ⚪ Bronze | 591 | ⚪ |
+| ⚪ Bone | 889 | ⚪ |
+| ⚪ Bronze | 610 | ⚪ |
 | ⚪ Brooch of Fellowship | 39 | ⚪ |
 | ⚪ Cassiterite | 9 | ⚪ |
-| ⚪ Corundum | 880 | ⚪ |
+| ⚪ Corundum | 887 | ⚪ |
 | ⚪ Crocodile Leather | 1 | ⚪ |
 | 🟡 Crown Mimic Stone | 70 | 🟡 |
 | ⚪ Culanda Lacquer | 48 | ⚪ |
-| ⚪ Daedra Heart | 530 | ⚪ |
-| ⚪ Desecrated Grave Soil | 20 | ⚪ |
+| ⚪ Daedra Heart | 531 | ⚪ |
+| ⚪ Desecrated Grave Soil | 22 | ⚪ |
 | ⚪ Dragon Scute | 12 | ⚪ |
 | ⚪ Dragonthread | 42 | ⚪ |
 | ⚪ Dwemer Frame | 14 | ⚪ |
@@ -2289,7 +2322,7 @@ graph LR
 | ⚪ Ferrous Salts | 17 | ⚪ |
 | ⚪ Fine Chalk | 79 | ⚪ |
 | ⚪ Firesong Skarn | 2 | ⚪ |
-| ⚪ flint | 878 | ⚪ |
+| ⚪ flint | 891 | ⚪ |
 | ⚪ Funerary Wrappings | 1 | ⚪ |
 | ⚪ Goldscale | 4 | ⚪ |
 | ⚪ Gryphon Plume | 1 | ⚪ |
@@ -2299,16 +2332,16 @@ graph LR
 | ⚪ Ivory Brigade Clasp | 6 | ⚪ |
 | ⚪ Laurel | 84 | ⚪ |
 | ⚪ Lion Fang | 6 | ⚪ |
-| ⚪ Malachite | 81 | ⚪ |
-| ⚪ Manganese | 883 | ⚪ |
+| ⚪ Malachite | 82 | ⚪ |
+| ⚪ Manganese | 891 | ⚪ |
 | ⚪ Marsh Nettle Sprig | 5 | ⚪ |
 | ⚪ Minotaur Bezoar | 5 | ⚪ |
-| ⚪ Molybdenum | 796 | ⚪ |
-| ⚪ Moonstone | 880 | ⚪ |
-| ⚪ Nickel | 830 | ⚪ |
-| ⚪ Obsidian | 881 | ⚪ |
+| ⚪ Molybdenum | 813 | ⚪ |
+| ⚪ Moonstone | 889 | ⚪ |
+| ⚪ Nickel | 835 | ⚪ |
+| ⚪ Obsidian | 890 | ⚪ |
 | ⚪ Oxblood Fungus | 689 | ⚪ |
-| ⚪ Palladium | 709 | ⚪ |
+| ⚪ Palladium | 728 | ⚪ |
 | ⚪ Pearl Sand | 619 | ⚪ |
 | ⚪ Polished Scarab Elytra | 2 | ⚪ |
 | ⚪ Polished Shilling | 7 | ⚪ |
@@ -2319,15 +2352,15 @@ graph LR
 | ⚪ Sea Serpent Hide | 1 | ⚪ |
 | ⚪ Shimmering Sand | 8 | ⚪ |
 | ⚪ Star Sapphire | 72 | ⚪ |
-| ⚪ Starmetal | 881 | ⚪ |
+| ⚪ Starmetal | 892 | ⚪ |
 | ⚪ Stendarr Stamp | 2 | ⚪ |
 | ⚪ Tainted Blood | 64 | ⚪ |
 | ⚪ Tempered Brass | 11 | ⚪ |
-| ⚪ Tenebrous Cord | 85 | ⚪ |
+| ⚪ Tenebrous Cord | 95 | ⚪ |
 | ⚪ Tide-Born Feathers | 22 | ⚪ |
 | ⚪ Umbral Droplet | 1 | ⚪ |
 | ⚪ Vibrant Tumeric | 1 | ⚪ |
-| ⚪ Vitrified Malondo | 102 | ⚪ |
+| ⚪ Vitrified Malondo | 113 | ⚪ |
 | ⚪ Volcanic Viridian | 5 | ⚪ |
 | ⚪ Warrior's Heart Ashes | 25 | ⚪ |
 | ⚪ Wolfsbane Incense | 176 | ⚪ |
@@ -2340,10 +2373,10 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟡 dreugh wax | 24 | 🟡 |
-| 🟣 elegant lining | 252 | 🟣 |
-| 🔵 embroidery | 1198 | 🔵 |
-| 🟢 hemming | 1208 | 🟢 |
+| 🟡 dreugh wax | 25 | 🟡 |
+| 🟣 elegant lining | 255 | 🟣 |
+| 🔵 embroidery | 1241 | 🔵 |
+| 🟢 hemming | 1220 | 🟢 |
 
 
 </div><div>
@@ -2352,9 +2385,9 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 dwarven oil | 975 | 🔵 |
-| 🟣 grain solvent | 191 | 🟣 |
-| 🟢 honing stone | 1119 | 🟢 |
+| 🔵 dwarven oil | 1015 | 🔵 |
+| 🟣 grain solvent | 194 | 🟣 |
+| 🟢 honing stone | 1130 | 🟢 |
 | 🟡 tempering alloy | 16 | 🟡 |
 
 
@@ -2364,15 +2397,15 @@ graph LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Amethyst | 681 | ⚪ |
-| ⚪ Carnelian | 198 | ⚪ |
-| ⚪ Chysolite | 437 | ⚪ |
-| ⚪ Citrine | 593 | ⚪ |
-| ⚪ Fire Opal | 381 | ⚪ |
-| ⚪ Jade | 340 | ⚪ |
+| ⚪ Amethyst | 686 | ⚪ |
+| ⚪ Carnelian | 200 | ⚪ |
+| ⚪ Chysolite | 445 | ⚪ |
+| ⚪ Citrine | 602 | ⚪ |
+| ⚪ Fire Opal | 389 | ⚪ |
+| ⚪ Jade | 349 | ⚪ |
 | ⚪ Potent Nirncrux | 3 | ⚪ |
-| ⚪ Ruby | 376 | ⚪ |
-| ⚪ Turquoise | 428 | ⚪ |
+| ⚪ Ruby | 381 | ⚪ |
+| ⚪ Turquoise | 438 | ⚪ |
 
 
 </div>
@@ -2760,6 +2793,8 @@ graph LR
 
 
 </div>
+
+
 </div>
 
 
@@ -4116,10 +4151,10 @@ graph LR
 
 | **Guild Name** | **Rank** | **Members** | **Alliance** |
 | --- | --- | ---: | --- |
-| **Alphabet Mafia** | Member | 425 | Daggerfall Covenant |
-| **Pacrooti's Hirelings** | Member | 480 | Aldmeri Dominion |
-| **Paradox Raiding** | Member | 497 | Ebonheart Pact |
-| **Sew and Tell** | Member | 315 | Aldmeri Dominion |
+| **Alphabet Mafia** | Member | 428 | Daggerfall Covenant |
+| **Pacrooti's Hirelings** | Member | 482 | Aldmeri Dominion |
+| **Paradox Raiding** | Member | 499 | Ebonheart Pact |
+| **Sew and Tell** | Member | 313 | Aldmeri Dominion |
 | **Swiftrunners** | Member | 58 | Aldmeri Dominion |
 
 ---
@@ -4128,10 +4163,10 @@ graph LR
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-104,354%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-105,704%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 11/30/2025</sub>
+<sub>Generated on 12/02/2025</sub>
 
 </div>

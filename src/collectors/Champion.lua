@@ -116,7 +116,7 @@ local function CollectChampionPointData()
 
     -- Get total CP earned (account-wide) from API
     data.total = cpPoints.total or 0
-    data.available = cpPoints.unspent or 0
+    data.available = cpPoints.unspent
 
     if data.total < CP_CONSTANTS.MIN_CP_FOR_SYSTEM then
         return data
@@ -128,6 +128,16 @@ local function CollectChampionPointData()
     else
         data.analysis.maxSlottablePerDiscipline = 3
     end
+
+    -- Calculate CP Caps per discipline (Rotation: Green/Craft -> Blue/Warfare -> Red/Fitness)
+    local basePerDiscipline = math.floor(data.total / 3)
+    local remainder = data.total % 3
+    
+    local caps = {
+        [3] = basePerDiscipline + (remainder >= 1 and 1 or 0), -- Craft (Green)
+        [1] = basePerDiscipline + (remainder >= 2 and 1 or 0), -- Warfare (Blue)
+        [2] = basePerDiscipline,                               -- Fitness (Red)
+    }
 
     -- Process disciplines from API
     local success, allocations = pcall(function()
@@ -145,11 +155,14 @@ local function CollectChampionPointData()
                 local emoji, displayName = GetDisciplineInfo(disciplineId)
                 local disciplineTypeConstant = GetDisciplineTypeConstant(disciplineId)
                 
-                -- Get assigned points
-                local disciplineAssigned = apiDiscipline.spent or 0
-                if disciplineAssigned == 0 then
-                    disciplineAssigned = GetDisciplineSpentPoints(disciplineId, disciplineTypeConstant)
+                -- Get assigned points (API value - often unreliable/lagging)
+                local apiAssigned = apiDiscipline.spent or 0
+                if apiAssigned == 0 then
+                    apiAssigned = GetDisciplineSpentPoints(disciplineId, disciplineTypeConstant)
                 end
+                
+                -- Determine Cap for this discipline
+                local disciplineCap = caps[disciplineId] or basePerDiscipline
 
                 local disciplineData = {
                     id = disciplineId,
@@ -157,13 +170,15 @@ local function CollectChampionPointData()
                     emoji = emoji,
                     skills = {},
                     allStars = {},
-                    assigned = disciplineAssigned,
-                    total = 0,
+                    assigned = apiAssigned, -- Keep API value for reference
+                    cap = disciplineCap,    -- Calculated Cap
+                    spent = 0,              -- Will be calculated from skills
+                    available = 0,          -- Will be calculated (Cap - Spent)
+                    total = 0,              -- Legacy: Will be set to Spent
                     slottable = 0,
                     passive = 0,
                     slottableSkills = {},
                     passiveSkills = {},
-                    available = apiDiscipline.unspent or 0,  -- Per-discipline unspent points
                 }
 
                 -- Process skills from API
@@ -214,10 +229,15 @@ local function CollectChampionPointData()
                     end
                 end
 
-                -- Calculate discipline total
-                local calculatedDisciplineTotal = disciplineData.slottable + disciplineData.passive
-                disciplineData.total = calculatedDisciplineTotal > 0 and calculatedDisciplineTotal or disciplineAssigned
-                totalSpent = totalSpent + disciplineData.total
+                -- Calculate discipline total (Spent) from skills
+                local calculatedSpent = disciplineData.slottable + disciplineData.passive
+                
+                -- Update discipline data with calculated values
+                disciplineData.spent = calculatedSpent
+                disciplineData.total = calculatedSpent -- Legacy compatibility
+                disciplineData.available = math.max(0, disciplineData.cap - calculatedSpent)
+                
+                totalSpent = totalSpent + calculatedSpent
 
                 table.insert(disciplines, disciplineData)
             end

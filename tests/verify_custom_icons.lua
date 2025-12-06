@@ -2,7 +2,13 @@
 CharacterMarkdown = {
     utils = {
         markdown = {
-            CreateBadgeRow = function(badges) return "BADGE_ROW" end,
+            CreateBadgeRow = function(badges) 
+                local s = "BADGE_ROW: "
+                for _, b in ipairs(badges) do 
+                    s = s .. (b.image or "") .. " " 
+                end 
+                return s
+            end,
             CreateCenteredBlock = function(content) return "CENTERED_BLOCK:\n" .. content end,
             CreateSeparator = function() return "---\n\n" end
         }
@@ -41,7 +47,7 @@ end
 -- The file `src/generators/sections/Character.lua` uses `CharacterMarkdown` global.
 -- It returns a table.
 
-local chunk = loadfile("/Users/lvavasour/git/CharacterMarkdown/src/generators/sections/Character.lua")
+local chunk = loadfile("src/generators/sections/Character.lua")
 if not chunk then
     print("Error loading file")
     os.exit(1)

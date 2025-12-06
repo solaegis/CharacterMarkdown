@@ -42,14 +42,16 @@ local function GenerateHeader(charData, format)
     -- Enhanced visuals are now always enabled (baseline)
     if not markdown then
         -- Classic format
-        local header = string_format("# %s\n\n", displayTitle)
-        header = header .. string_format("**%s %s**  \n", race, class)
-        header = header .. string_format("**Level %d • CP %d • %s**\n\n", level, cp, alliance)
+        -- Classic format
+        local parts = {}
+        table_insert(parts, string_format("# %s\n\n", displayTitle))
+        table_insert(parts, string_format("**%s %s**  \n", race, class))
+        table_insert(parts, string_format("**Level %d • CP %d • %s**\n\n", level, cp, alliance))
         if isESOPlus then
-            header = header .. "✨ *ESO Plus Active*\n\n"
+            table_insert(parts, "✨ *ESO Plus Active*\n\n")
         end
         -- Add leading newline for proper markdown formatting
-        return "\n" .. header
+        return "\n" .. table_concat(parts)
     end
 
     -- ENHANCED FORMAT with badges (with nil checks)
@@ -95,6 +97,20 @@ local function GenerateHeader(charData, format)
         header = header .. CreateSeparator("hr")
     else
         header = header .. "---\n\n"
+    end
+    
+    -- Check for Custom Icon via LibCustomIcons
+    if LibCustomIcons and LibCustomIcons.GetStatic and GetDisplayName then
+        local displayName = GetDisplayName()
+        local iconPath = LibCustomIcons.GetStatic(displayName)
+        if iconPath then
+            -- Convert to URL (assuming standard GitHub hosting for the library)
+            -- Remove "LibCustomIcons/" prefix if present to avoid double path
+            local relativePath = iconPath:gsub("^LibCustomIcons/", "")
+            local iconUrl = "https://raw.githubusercontent.com/m00nyONE/LibCustomIcons/main/" .. relativePath
+            local iconMarkdown = string_format("\n![Custom Icon](%s)\n\n", iconUrl)
+            header = header .. iconMarkdown
+        end
     end
 
     -- Add leading newline for proper markdown formatting
@@ -203,13 +219,14 @@ local function GenerateQuickStats(
             currencySection = "### Currency\n\n" .. currencyTable
         else
             -- Fallback to simple table format
-            local currencyRows = ""
+            local currencyRowsParts = {}
             
             for _, item in ipairs(currencyItems) do
                 local value = currencyData[item.key]
                 -- Always include all currencies
-                currencyRows = currencyRows .. string_format("|| %s **%s** | %s |\n", item.emoji, item.label, safeFormat(value or 0))
+                table.insert(currencyRowsParts, string_format("|| %s **%s** | %s |\n", item.emoji, item.label, safeFormat(value or 0)))
             end
+            local currencyRows = table.concat(currencyRowsParts)
 
             -- Currency section is always created since Gold is always included
             currencySection = string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
@@ -611,10 +628,7 @@ local function GenerateDynamicTableOfContents(registry, format)
     end
 
     local tocContent = table_concat(tocLines, "\n")
-    -- Use CreateSeparator for consistent separator styling
-    local CreateSeparator = markdown and markdown.CreateSeparator
-    local separator = CreateSeparator and CreateSeparator("hr") or "---\n\n"
-    return string_format("## 📑 Table of Contents\n\n%s\n\n%s", tocContent, separator)
+    return string_format("## 📑 Table of Contents\n\n%s\n\n", tocContent)
 end
 
 CM.generators.sections.GenerateDynamicTableOfContents = GenerateDynamicTableOfContents

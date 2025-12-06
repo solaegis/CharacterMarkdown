@@ -1,0 +1,166 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#6b1e1e',
+    'primaryTextColor': '#fff',
+    'primaryBorderColor': '#c0392b',
+    'lineColor': '#e74c3c',
+    'secondaryColor': '#922b21',
+    'tertiaryColor': '#400d0d',
+    'background': '#1a0808',
+    'mainBkg': '#6b1e1e',
+    'nodeBorder': '#c0392b',
+    'clusterBkg': '#400d0d',
+    'titleColor': '#f1948a',
+    'edgeLabelBackground': '#400d0d'
+  },
+  'flowchart': {
+    'curve': 'basis',
+    'nodeSpacing': 50,
+    'rankSpacing': 60,
+    'padding': 15
+  }
+}}%%
+
+flowchart LR
+    subgraph OFFENSE["⚔️ DIRECT DAMAGE"]
+        direction TB
+        11["✅ Precision<br/><small>2stg × 10pts = 20 max</small>"]
+        12["🔲 Fighting Finesse<br/><small>2stg × 25pts = 50 max</small>"]
+        30["🔲 Reaving Blows<br/><small>50stg × 1pts = 50 max</small>"]
+        8["🔲 Wrathful Strikes<br/><small>5stg × 10pts = 50 max</small>"]
+        32["🔲 Occult Overload<br/><small>5stg × 10pts = 50 max</small>"]
+        31["🔲 Backstabber<br/><small>5stg × 10pts = 50 max</small>"]
+    end
+
+    subgraph WEAPON["🗡️ WEAPON MASTERY"]
+        direction TB
+        10["✅ Piercing<br/><small>2stg × 10pts = 20 max</small>"]
+        277["🔲 Exploiter<br/><small>5stg × 10pts = 50 max</small>"]
+        276["🔲 Force of Nature<br/><small>50stg × 1pts = 50 max</small>"]
+        264["🔲 Master-at-Arms<br/><small>2stg × 25pts = 50 max</small>"]
+        259["🔲 Weapons Expert<br/><small>2stg × 25pts = 50 max</small>"]
+        25["🔲 Deadly Aim<br/><small>2stg × 25pts = 50 max</small>"]
+        23["🔲 Biting Aura<br/><small>2stg × 25pts = 50 max</small>"]
+        27["🔲 Thaumaturge<br/><small>2stg × 25pts = 50 max</small>"]
+    end
+
+    subgraph MAGIC_DMG["✨ MAGIC DAMAGE"]
+        direction TB
+        17["✅ Flawless Ritual<br/><small>2stg × 20pts = 40 max</small>"]
+        21["✅ War Mage<br/><small>30stg × 1pts = 30 max</small>"]
+        18["✅ Battle Mastery<br/><small>2stg × 20pts = 40 max</small>"]
+        22["✅ Mighty<br/><small>30stg × 1pts = 30 max</small>"]
+    end
+
+    subgraph HEALING["💚 HEALING"]
+        direction TB
+        108["✅ Blessed<br/><small>2stg × 10pts = 20 max</small>"]
+        262["🔲 From the Brink<br/><small>5stg × 10pts = 50 max</small>"]
+        263["🔲 Enlivening Overflow<br/><small>1stg × 50pts = 50 max</small>"]
+        261["🔲 Hope Infusion<br/><small>1stg × 50pts = 50 max</small>"]
+        260["🔲 Salve of Renewal<br/><small>5stg × 10pts = 50 max</small>"]
+        24["🔲 Soothing Tide<br/><small>5stg × 10pts = 50 max</small>"]
+        9["🔲 Rejuvenator<br/><small>5stg × 10pts = 50 max</small>"]
+        163["🔲 Foresight<br/><small>1stg × 50pts = 50 max</small>"]
+        29["🔲 Cleansing Revival<br/><small>1stg × 50pts = 50 max</small>"]
+        26["🔲 Focused Mending<br/><small>5stg × 10pts = 50 max</small>"]
+        28["🔲 Swift Renewal<br/><small>5stg × 10pts = 50 max</small>"]
+    end
+
+    subgraph DEFENSE["🛡️ DAMAGE MITIGATION"]
+        direction TB
+        99["✅ Eldritch Insight<br/><small>2stg × 10pts = 20 max</small>"]
+        20["✅ Quick Recovery<br/><small>2stg × 10pts = 20 max</small>"]
+        265["🔲 Ironclad<br/><small>2stg × 25pts = 50 max</small>"]
+        13["🔲 Resilience<br/><small>5stg × 10pts = 50 max</small>"]
+        136["🔲 Enduring Resolve<br/><small>2stg × 25pts = 50 max</small>"]
+        14["✅ Preparation<br/><small>2stg × 10pts = 20 max</small>"]
+        15["✅ Elemental Aegis<br/><small>2stg × 10pts = 20 max</small>"]
+        16["✅ Hardy<br/><small>2stg × 10pts = 20 max</small>"]
+    end
+
+    subgraph SUSTAIN["⚡ RESOURCE SUSTAIN"]
+        direction TB
+        6["✅ Tireless Discipline<br/><small>2stg × 20pts = 40 max</small>"]
+        5["🔲 Endless Endurance<br/><small>50stg × 1pts = 50 max</small>"]
+        4["🔲 Untamed Aggression<br/><small>50stg × 1pts = 50 max</small>"]
+    end
+
+    subgraph BLOCK["🔰 BLOCK & RIPOSTE"]
+        direction TB
+        134["🔲 Duelist's Rebuff<br/><small>2stg × 25pts = 50 max</small>"]
+        133["🔲 Unassailable<br/><small>2stg × 25pts = 50 max</small>"]
+        162["🔲 Riposte<br/><small>50stg × 1pts = 50 max</small>"]
+        159["🔲 Bulwark<br/><small>50stg × 1pts = 50 max</small>"]
+        160["🔲 Reinforced<br/><small>50stg × 1pts = 50 max</small>"]
+        161["🔲 Last Stand<br/><small>50stg × 1pts = 50 max</small>"]
+        33["🔲 Cutting Defense<br/><small>50stg × 1pts = 50 max</small>"]
+    end
+
+    %% Offense connections
+    11 -->|"10"| 12
+    11 -->|"10"| 30
+    11 -->|"10"| 8
+    11 -->|"10"| 32
+    11 -->|"10"| 31
+
+    %% Weapon connections
+    11 -->|"10"| 10
+    99 -->|"10"| 10
+    6 -->|"10"| 10
+    10 -->|"10"| 277
+    10 -->|"10"| 276
+    10 -->|"10"| 264
+    10 -->|"10"| 259
+    10 -->|"10"| 25
+    10 -->|"10"| 23
+    10 -->|"10"| 27
+
+    %% Magic damage connections
+    10 -->|"10"| 17
+    17 -->|"10"| 21
+    10 -->|"10"| 18
+    18 -->|"20"| 22
+
+    %% Healing connections
+    11 -->|"10"| 108
+    99 -->|"10"| 108
+    108 -->|"10"| 262
+    108 -->|"10"| 263
+    108 -->|"10"| 261
+    108 -->|"10"| 260
+    108 -->|"10"| 24
+    24 -->|"10"| 9
+    108 -->|"10"| 26
+    26 -->|"10"| 29
+    108 -->|"10"| 28
+
+    %% Defense connections
+    99 -->|"10"| 20
+    20 -->|"10"| 265
+    20 -->|"10"| 13
+    20 -->|"10"| 136
+    20 -->|"10"| 14
+    14 -->|"10"| 15
+    14 -->|"10"| 16
+
+    %% Block connections
+    99 -->|"10"| 134
+    20 -->|"10"| 133
+    134 -->|"1"| 162
+    133 -->|"25"| 159
+    162 -->|"1"| 160
+    159 -->|"1"| 160
+    162 -->|"1"| 161
+    160 -->|"1"| 161
+    33 -->|"1"| 161
+    162 -->|"1"| 33
+    160 -->|"1"| 33
+
+    %% Class styling
+    classDef slotted fill:#6b1e1e,stroke:#e74c3c,stroke-width:3px,color:#fff
+    classDef unslotted fill:#400d0d,stroke:#c0392b,stroke-width:2px,color:#f1948a
+
+    class 12,262,263,261,260,24,9,163,29,26,28,277,276,264,259,25,23,27,30,8,32,31,265,13,136,160,162,159,161,33,134,133,5,4 slotted
+    class 11,108,10,17,21,18,22,6,20,14,15,16,99 unslotted

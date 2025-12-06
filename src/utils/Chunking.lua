@@ -908,6 +908,39 @@ local function IsInsideCodeBlock(markdown, pos)
     return nil
 end
 
+-- Helper function to get the Mermaid header (e.g., "graph TD") from a block
+local function GetMermaidHeader(markdown, blockStart)
+    -- blockStart is the newline before ```
+    -- So ``` starts at blockStart + 1
+    -- Find the end of the line containing ```mermaid
+    local lineEnd = string.find(markdown, "\n", blockStart + 1)
+    if not lineEnd then return "graph TD" end -- Should not happen
+    
+    local firstLine = string.sub(markdown, blockStart + 1, lineEnd - 1)
+    -- Check if header is on the same line: ```mermaid graph TD
+    local sameLineHeader = firstLine:match("```mermaid%s+(.+)")
+    if sameLineHeader then
+        return sameLineHeader
+    end
+    
+    -- Header is on the next line
+    local secondLineStart = lineEnd + 1
+    local secondLineEnd = string.find(markdown, "\n", secondLineStart)
+    if not secondLineEnd then return "graph TD" end
+    
+    local secondLine = string.sub(markdown, secondLineStart, secondLineEnd - 1)
+    -- If second line is empty or comment, try next line (simple heuristic)
+    if secondLine:match("^%s*$") or secondLine:match("^%%") then
+         local thirdLineStart = secondLineEnd + 1
+         local thirdLineEnd = string.find(markdown, "\n", thirdLineStart)
+         if thirdLineEnd then
+             return string.sub(markdown, thirdLineStart, thirdLineEnd - 1)
+         end
+    end
+    
+    return secondLine
+end
+
 local function FindSafeNewline(markdown, startPos, endPos)
     local markdownLen = string.len(markdown)
     endPos = math.min(endPos, markdownLen)
@@ -920,12 +953,39 @@ local function FindSafeNewline(markdown, startPos, endPos)
             local codeBlock = IsInsideCodeBlock(markdown, i)
             if codeBlock then
                 -- This newline is inside a code block
-                -- CRITICAL: Search BACKWARDS to split BEFORE the code block, not after
-                -- (Code blocks can be huge - 474+ lines - can't keep them in one chunk)
                 local blockStart = codeBlock[1]
                 
-                -- Jump to before the code block and continue searching
-                i = blockStart - 1
+                -- Check if it's a Mermaid block
+                local isMermaid, mStart, mEnd = IsInsideMermaidBlock(markdown, i)
+                
+                if isMermaid then
+                    -- It is a Mermaid block. Check if we are inside a subgraph.
+                    -- IsInsideMermaidBlock returns the innermost structure boundaries.
+                    -- If mStart points to "subgraph", we are inside a subgraph.
+                    -- If mStart points to "```mermaid", we are at top level.
+                    
+                    -- Check the line at mStart
+                    local checkLen = 20
+                    local checkStr = string.sub(markdown, math.max(1, mStart), math.min(markdownLen, mStart + checkLen))
+                    
+                    if checkStr:match("subgraph") then
+                        -- Inside subgraph - NOT safe to split here.
+                        -- Jump to before the subgraph starts
+                        i = mStart - 1
+                    else
+                        -- Top level Mermaid block - SAFE to split here!
+                        -- Return this position
+                        return i
+                    end
+                else
+                    -- Not a Mermaid block (or logic failed) - standard behavior
+                    -- CRITICAL: Search BACKWARDS to split BEFORE the code block, not after
+                    -- (Code blocks can be huge - 474+ lines - can't keep them in one chunk)
+                    
+                    -- Jump to before the code block and continue searching
+                    i = blockStart - 1
+                end
+
                 if i < startPos then
                     -- Can't split before the block within our search range
                     break
@@ -1131,6 +1191,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
     local chunkNum = 1
     local pos = 1
     local prependNewlineToChunk = false -- Track if next chunk needs a leading newline
+    local prependMermaidHeader = nil -- Track if next chunk needs a Mermaid header
 
     while pos <= markdownLength do
         -- Calculate safe boundaries for this chunk
@@ -1576,16 +1637,19 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     foundNewline = true
                 else
                     -- Fallback to regular newline search if no safe newline found
-                    -- But still check for headers to avoid truncation
+                    -- But still check for headers and links to avoid truncation
                     for i = potentialEnd, searchStart, -1 do
                         if string.sub(markdown, i, i) == "\n" then
                             -- Check if this newline is right before a header
                             if not IsNewlineBeforeHeader(markdown, i, markdownLength) then
-                                chunkEnd = i
-                                foundNewline = true
-                                break
+                                -- CRITICAL: Also check if this newline is inside a markdown link
+                                if not IsInsideMarkdownLink(markdown, i) then
+                                    chunkEnd = i
+                                    foundNewline = true
+                                    break
+                                end
                             end
-                            -- If it's before a header, continue searching for a better position
+                            -- If it's before a header or inside a link, continue searching for a better position
                         end
                     end
                 end
@@ -1600,16 +1664,19 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     foundNewline = true
                 else
                     -- Fallback to regular newline search
-                    -- But still check for headers to avoid truncation
+                    -- But still check for headers and links to avoid truncation
                     for i = potentialEnd, extendedSearchStart, -1 do
                         if string.sub(markdown, i, i) == "\n" then
                             -- Check if this newline is right before a header
                             if not IsNewlineBeforeHeader(markdown, i, markdownLength) then
-                                chunkEnd = i
-                                foundNewline = true
-                                break
+                                -- CRITICAL: Also check if this newline is inside a markdown link
+                                if not IsInsideMarkdownLink(markdown, i) then
+                                    chunkEnd = i
+                                    foundNewline = true
+                                    break
+                                end
                             end
-                            -- If it's before a header, continue searching for a better position
+                            -- If it's before a header or inside a link, continue searching for a better position
                         end
                     end
                 end
@@ -4470,19 +4537,82 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
         end
 
+        -- Prepend newline if needed (from previous chunk split)
+        if prependNewlineToChunk then
+            chunkContent = "\n" .. chunkContent
+            prependNewlineToChunk = false
+        end
+        
+        -- Prepend Mermaid header if needed
+        if prependMermaidHeader then
+            chunkContent = prependMermaidHeader .. chunkContent
+            prependMermaidHeader = nil
+        end
+
         -- Add HTML comment marker at START of chunk (safe, won't be truncated, ignored by renderers)
         local contentSizeBeforePadding = string.len(chunkContent)
         local chunkMarker = string.format("<!-- Chunk %d (%d bytes before padding) -->\n\n", chunkNum, contentSizeBeforePadding)
         chunkContent = chunkMarker .. chunkContent
         finalSize = string.len(chunkContent)
-        
+
+        -- Check if we split inside a Mermaid block
+        -- If so, we need to close this block and prepare header for next block
+        local inMermaid, mStart, mEnd = IsInsideMermaidBlock(markdown, chunkEnd)
+        -- Only if we are strictly inside (chunkEnd < mEnd)
+        -- Note: mEnd might be the end of the block ```
+        if inMermaid and chunkEnd < mEnd then
+             -- Check if we are really inside the block (not just at the end)
+             -- If chunkEnd points to the newline before ```, we are effectively at the end?
+             -- IsInsideMermaidBlock returns blockEnd as position AFTER ```
+             
+             -- If chunkEnd is inside, append closing backticks
+             chunkContent = chunkContent .. "\n```\n"
+             
+             -- Prepare header for next chunk
+             -- We need to find the start of the MAIN mermaid block to get the header
+             -- mStart might be a subgraph start. We need the block start.
+             -- Search backwards from mStart for ```mermaid
+             local blockStart = mStart
+             local searchLimit = math.max(1, mStart - 50000)
+             -- If mStart is subgraph, search back. If mStart is ```mermaid, we are good.
+             local checkStr = string.sub(markdown, math.max(1, mStart), math.min(markdownLength, mStart + 20))
+             if checkStr:match("subgraph") then
+                 -- We are in a subgraph, need to find main block start
+                 -- This is expensive but necessary if we split inside subgraph (fallback case)
+                 -- Or if we split at top level but IsInsideMermaidBlock returns top level range
+                 
+                 -- Wait, if we are at top level, mStart IS the block start (or close to it).
+                 -- IsInsideMermaidBlock returns `mermaidStart` which is `i - 9` (start of ```mermaid).
+                 -- So checkStr should match ```mermaid.
+             end
+             
+             -- If we are in a subgraph, we might have trouble finding the header easily if we don't search back.
+             -- But let's assume for now we split at top level or close enough.
+             -- If we can't find ```mermaid at mStart, we search back.
+             
+             if not string.sub(markdown, mStart, mStart+10):match("```mermaid") then
+                  -- Search back for ```mermaid
+                  for k = mStart, searchLimit, -1 do
+                      if string.sub(markdown, k, k+9) == "```mermaid" then
+                          blockStart = k
+                          break
+                      end
+                  end
+             end
+             
+             local header = GetMermaidHeader(markdown, blockStart)
+             prependMermaidHeader = "```mermaid\n" .. header .. "\n"
+             
+             CM.DebugPrint("CHUNKING", string.format("Split inside Mermaid block. Appended closing backticks and prepared header '%s' for next chunk.", header:gsub("\n", "\\n")))
+        end
+
         -- Add padding only if enabled
         if not CHUNKING.DISABLE_PADDING then
             -- CRITICAL: Use NEWLINES as padding (not spaces or HTML comments)
             -- Newlines are safe if truncated, work in any markdown context, and are invisible in rendered output
             -- Normalize trailing newlines to single newline, then add padding newlines
             chunkContent = chunkContent:gsub("\n+$", "\n") .. string.rep("\n", spacePaddingSize)
-            finalSize = finalSize + paddingSize -- paddingSize = spacePaddingSize newlines
+            finalSize = string.len(chunkContent)
             CM.DebugPrint(
                 "CHUNKING",
                 string.format(

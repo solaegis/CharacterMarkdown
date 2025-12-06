@@ -106,67 +106,32 @@ local function GenerateGeneral(
             local warfareAvailable = 0
             local fitnessAvailable = 0
             
-            -- Calculate max per discipline based on total CP
-            -- Distribution rotation: Green (Craft) -> Blue (Warfare) -> Red (Fitness)
-            -- ID 3 = Craft (Green), ID 1 = Warfare (Blue), ID 2 = Fitness (Red)
-            local totalCP = cpData.total or 0
-            local basePerDiscipline = math.floor(totalCP / 3)
-            local remainder = totalCP % 3
-            
-            -- Calculate specific caps
-            local craftCap = basePerDiscipline + (remainder >= 1 and 1 or 0)
-            local warfareCap = basePerDiscipline + (remainder >= 2 and 1 or 0)
-            local fitnessCap = basePerDiscipline
-            
-            CM.DebugPrint("CP_OVERVIEW", string_format("Total CP: %d, Base: %d, Remainder: %d", totalCP, basePerDiscipline, remainder))
-            CM.DebugPrint("CP_OVERVIEW", string_format("Caps: Craft=%d, Warfare=%d, Fitness=%d", craftCap, warfareCap, fitnessCap))
-            
-            -- Get assigned points per discipline and calculate remaining capacity
+            -- Get available points directly from pre-calculated discipline data
             for _, discipline in ipairs(cpData.disciplines) do
                 local name = discipline.name or ""
                 local id = discipline.id
-                local assigned = discipline.assigned or discipline.total or 0
-                local remaining = 0
-                
-                -- Determine cap for this discipline
-                local currentCap = basePerDiscipline -- Default fallback
-                if id then
-                    if id == 3 then currentCap = craftCap
-                    elseif id == 1 then currentCap = warfareCap
-                    elseif id == 2 then currentCap = fitnessCap
-                    end
-                end
-                
-                remaining = math.max(0, currentCap - assigned)
-                
-                CM.DebugPrint("CP_OVERVIEW", string_format("Discipline: '%s' (ID: %s), Assigned: %d, Remaining: %d", name, tostring(id), assigned, remaining))
+                local available = discipline.available or 0
                 
                 -- Use ID for matching if available (more reliable than name)
                 -- IDs: 1=Warfare, 2=Fitness, 3=Craft
                 if id then
                     if id == 3 then -- Craft
-                        craftAvailable = remaining
-                        CM.DebugPrint("CP_OVERVIEW", "  -> Matched: CRAFT (by ID)")
+                        craftAvailable = available
                     elseif id == 1 then -- Warfare
-                        warfareAvailable = remaining
-                        CM.DebugPrint("CP_OVERVIEW", "  -> Matched: WARFARE (by ID)")
+                        warfareAvailable = available
                     elseif id == 2 then -- Fitness
-                        fitnessAvailable = remaining
-                        CM.DebugPrint("CP_OVERVIEW", "  -> Matched: FITNESS (by ID)")
+                        fitnessAvailable = available
                     end
                 else
-                    -- Fallback to name matching if ID is missing (legacy support)
+                    -- Fallback to name matching if ID is missing
                     local DisciplineType = CM.constants and CM.constants.DisciplineType
                     if DisciplineType then
                         if name == DisciplineType.CRAFT then
-                            craftAvailable = remaining
-                            CM.DebugPrint("CP_OVERVIEW", "  -> Matched: CRAFT (by Name)")
+                            craftAvailable = available
                         elseif name == DisciplineType.WARFARE then
-                            warfareAvailable = remaining
-                            CM.DebugPrint("CP_OVERVIEW", "  -> Matched: WARFARE (by Name)")
+                            warfareAvailable = available
                         elseif name == DisciplineType.FITNESS then
-                            fitnessAvailable = remaining
-                            CM.DebugPrint("CP_OVERVIEW", "  -> Matched: FITNESS (by Name)")
+                            fitnessAvailable = available
                         end
                     end
                 end
@@ -474,22 +439,18 @@ local function GenerateGeneral(
             local warfareAvailable = 0
             local fitnessAvailable = 0
             
-            -- Calculate max per discipline (660 or total/3, whichever is lower)
-            local maxPerDiscipline = math.min(660, math.floor((cpData.total or 0) / 3))
-            
-            -- Get assigned points per discipline and calculate remaining capacity
+            -- Get available points directly from pre-calculated discipline data
             for _, discipline in ipairs(cpData.disciplines) do
                 local name = discipline.name or ""
-                local assigned = discipline.assigned or discipline.total or 0
-                local remaining = math.max(0, maxPerDiscipline - assigned)
+                local available = discipline.available or 0
                 
                 if DisciplineType then
                     if name == DisciplineType.CRAFT then
-                        craftAvailable = remaining
+                        craftAvailable = available
                     elseif name == DisciplineType.WARFARE then
-                        warfareAvailable = remaining
+                        warfareAvailable = available
                     elseif name == DisciplineType.FITNESS then
-                        fitnessAvailable = remaining
+                        fitnessAvailable = available
                     end
                 end
             end

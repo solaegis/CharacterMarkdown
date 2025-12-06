@@ -7,6 +7,7 @@ CM.generators.sections = CM.generators.sections or {}
 
 local string_format = string.format
 local table_concat = table.concat
+local table_insert = table.insert
 
 local markdown = (CM.utils and CM.utils.markdown) or nil
 
@@ -51,10 +52,11 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
         morphsData = {} -- Provide empty table as fallback
     end
     
-    local result = "## 📜 Character Progress\n\n"
+    local parts = {}
+    table_insert(parts, "## 📜 Character Progress\n\n")
     
     -- 1. Progress Overview Table
-    result = result .. "### Progress Overview\n\n"
+    table_insert(parts, "### Progress Overview\n\n")
     
     local summary = progressionData.summary
     if summary then
@@ -69,18 +71,18 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
         
         if markdown and markdown.CreateStyledTable then
             local options = { alignment = { "right", "right", "right", "right", "right" } }
-            result = result .. markdown.CreateStyledTable(headers, { row }, options) .. "\n"
+            table_insert(parts, markdown.CreateStyledTable(headers, { row }, options) .. "\n")
         else
-            result = result .. "| " .. table_concat(headers, " | ") .. " |\n"
-            result = result .. "| ---: | ---: | ---: | ---: | ---: |\n"
-            result = result .. "| " .. table_concat(row, " | ") .. " |\n\n"
+            table_insert(parts, "| " .. table_concat(headers, " | ") .. " |\n")
+            table_insert(parts, "| ---: | ---: | ---: | ---: | ---: |\n")
+            table_insert(parts, "| " .. table_concat(row, " | ") .. " |\n\n")
         end
     end
     
     -- 2. Skill Morphs (Collapsible)
     if morphsData and morphsData.skillTypes then
         local totalMorphs = morphsData.summary and morphsData.summary.totalMorphs or 0
-        result = result .. string_format("<details>\n<summary>🌿 Skill Morphs (%d abilities with morph choices)</summary>\n\n", totalMorphs)
+        table_insert(parts, string_format("<details>\n<summary>🌿 Skill Morphs (%d abilities with morph choices)</summary>\n\n", totalMorphs))
         
         for _, skillType in ipairs(morphsData.skillTypes) do
             if #skillType.skillLines > 0 then
@@ -92,10 +94,10 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                     typeAbilityCount = typeAbilityCount + #line.abilities
                 end
                 
-                result = result .. string_format("### %s %s (%d abilities with morph choices)\n\n", emoji, skillType.name, typeAbilityCount)
+                table_insert(parts, string_format("### %s %s (%d abilities with morph choices)\n\n", emoji, skillType.name, typeAbilityCount))
                 
                 for _, line in ipairs(skillType.skillLines) do
-                    result = result .. string_format("#### %s (Rank %d)\n\n", line.name, line.rank)
+                    table_insert(parts, string_format("#### %s (Rank %d)\n\n", line.name, line.rank))
                     
                     for _, ability in ipairs(line.abilities) do
                         local icon = ability.ultimate and "⚠️" or (ability.purchased and "✅" or "🔒")
@@ -115,7 +117,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                         local CreateSkillLink = CM.links and CM.links.CreateSkillLink
                         local link = (CreateSkillLink and CreateSkillLink(morphName, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", morphName, morphName:gsub(" ", "_"))
                         
-                        result = result .. string_format("%s **%s** (Rank %d)\n\n", icon, link, ability.currentRank)
+                        table_insert(parts, string_format("%s **%s** (Rank %d)\n\n", icon, link, ability.currentRank))
                         
                         -- Selected morph info (if any)
                         if ability.currentMorph > 0 then
@@ -127,35 +129,35 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                              for _, m in ipairs(ability.morphs) do
                                 if m.selected then
                                     local mLink = (CreateSkillLink and CreateSkillLink(m.name, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", m.name, m.name:gsub(" ", "_"))
-                                    result = result .. string_format("  ✅ **Morph %d**: %s\n\n", m.morphSlot, mLink)
+                                    table_insert(parts, string_format("  ✅ **Morph %d**: %s\n\n", m.morphSlot, mLink))
                                 end
                              end
                         end
                         
                         -- Other morph options
                         if #ability.morphs > 0 then
-                            result = result .. "  <details>\n  <summary>Other morph options</summary>\n\n"
+                            table_insert(parts, "  <details>\n  <summary>Other morph options</summary>\n\n")
                             for _, m in ipairs(ability.morphs) do
                                 if not m.selected then
                                     local mLink = (CreateSkillLink and CreateSkillLink(m.name, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", m.name, m.name:gsub(" ", "_"))
-                                    result = result .. string_format("  ⚪ **Morph %d**: %s\n", m.morphSlot, mLink)
+                                    table_insert(parts, string_format("  ⚪ **Morph %d**: %s\n", m.morphSlot, mLink))
                                 end
                             end
-                            result = result .. "\n  </details>\n\n"
+                            table_insert(parts, "\n  </details>\n\n")
                         end
                     end
                 end
             end
         end
         
-        result = result .. "</details>\n\n"
+        table_insert(parts, "</details>\n\n")
     end
     
     -- 3. Maxed Skills (Collapsible)
     local maxedLines = progressionData.maxedLines
     if maxedLines and type(maxedLines) == "table" and #maxedLines > 0 then
         local maxedCount = progressionData.summary and progressionData.summary.maxedCount or #maxedLines
-        result = result .. string_format("### ✅ Maxed Skills (%d)\n\n", maxedCount)
+        table_insert(parts, string_format("### ✅ Maxed Skills (%d)\n\n", maxedCount))
         
         -- Group by type
         local linesByType = {}
@@ -183,13 +185,13 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
             local lines = linesByType[typeName]
             if lines and #lines > 0 then
                 local emoji = GetSkillTypeEmoji(typeName)
-                result = result .. string_format("<details>\n<summary>%s %s (%d skill lines maxed)</summary>\n\n", emoji, typeName, #lines)
+                table_insert(parts, string_format("<details>\n<summary>%s %s (%d skill lines maxed)</summary>\n\n", emoji, typeName, #lines))
                 
                 for _, line in ipairs(lines) do
                     local CreateSkillLineLink = CM.links and CM.links.CreateSkillLineLink
                     local link = (CreateSkillLineLink and CreateSkillLineLink(line.name, format)) or string_format("**[%s](https://en.uesp.net/wiki/Online:%s)**", line.name, line.name:gsub(" ", "_"))
                     
-                    result = result .. string_format("- %s\n", link)
+                    table_insert(parts, string_format("- %s\n", link))
                     
                     -- Passives for this line
                     if line.passives and #line.passives > 0 then
@@ -200,7 +202,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                         end
                         
                         if hasPurchasedPassives then
-                            result = result .. "  <details>\n  <summary>✨ Passives</summary>\n\n"
+                            table_insert(parts, "  <details>\n  <summary>✨ Passives</summary>\n\n")
                             for _, passive in ipairs(line.passives) do
                                 if passive and type(passive) == "table" and passive.name then
                                     local status = passive.purchased and "✅" or "🔒"
@@ -213,15 +215,15 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                                         rankStr = string_format(" (Rank %d)", passive.rank)
                                     end
                                     
-                                    result = result .. string_format("  - %s %s%s\n", status, pLink, rankStr)
+                                    table_insert(parts, string_format("  - %s %s%s\n", status, pLink, rankStr))
                                 end
                             end
-                            result = result .. "\n  </details>\n"
+                            table_insert(parts, "\n  </details>\n")
                         end
                     end
                 end
-                result = result .. "\n"
-                result = result .. "</details>\n\n"
+                table_insert(parts, "\n")
+                table_insert(parts, "</details>\n\n")
             end
         end
     end
@@ -229,7 +231,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
     -- 4. In-Progress Skills
     local inProgressLines = progressionData.inProgressLines
     if inProgressLines and type(inProgressLines) == "table" and #inProgressLines > 0 then
-        result = result .. "### 📈 In-Progress Skills\n\n"
+        table_insert(parts, "### 📈 In-Progress Skills\n\n")
         
         -- Group by type
         local linesByType = {}
@@ -260,14 +262,14 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
             local lines = linesByType[typeName]
             if lines and #lines > 0 then
                 local emoji = GetSkillTypeEmoji(typeName)
-                result = result .. string_format("<details>\n<summary>%s %s (%d skill lines in progress)</summary>\n\n", emoji, typeName, #lines)
+                table_insert(parts, string_format("<details>\n<summary>%s %s (%d skill lines in progress)</summary>\n\n", emoji, typeName, #lines))
                 
                 for _, line in ipairs(lines) do
                     local CreateSkillLineLink = CM.links and CM.links.CreateSkillLineLink
                     local link = (CreateSkillLineLink and CreateSkillLineLink(line.name, format)) or string_format("**[%s](https://en.uesp.net/wiki/Online:%s)**", line.name, line.name:gsub(" ", "_"))
                     local bar = GenerateProgressBar(line.progress)
                     
-                    result = result .. string_format("- %s: Rank %d %s\n", link, line.rank, bar)
+                    table_insert(parts, string_format("- %s: Rank %d %s\n", link, line.rank, bar))
                     
                     -- Passives for this line
                     if line.passives and #line.passives > 0 then
@@ -278,7 +280,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                         end
                         
                         if hasPurchasedPassives then
-                            result = result .. "  <details>\n  <summary>✨ Passives</summary>\n\n"
+                            table_insert(parts, "  <details>\n  <summary>✨ Passives</summary>\n\n")
                             for _, passive in ipairs(line.passives) do
                                 if passive and type(passive) == "table" and passive.name then
                                     local status = passive.purchased and "✅" or "🔒"
@@ -291,21 +293,21 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                                         rankStr = string_format(" (Rank %d)", passive.rank)
                                     end
                                     
-                                    result = result .. string_format("  - %s %s%s\n", status, pLink, rankStr)
+                                    table_insert(parts, string_format("  - %s %s%s\n", status, pLink, rankStr))
                                 end
                             end
-                            result = result .. "\n  </details>\n"
+                            table_insert(parts, "\n  </details>\n")
                         end
                     end
                 end
                 
-                result = result .. "\n"
-                result = result .. "</details>\n\n"
+                table_insert(parts, "\n")
+                table_insert(parts, "</details>\n\n")
             end
         end
     end
     
-    return result
+    return table_concat(parts)
 end
 
 CM.generators.sections.GenerateCharacterProgress = GenerateCharacterProgress

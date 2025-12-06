@@ -1399,6 +1399,28 @@ function CM.Settings.Panel:AddCustomNotes(options)
         width = "full",
     })
 
+    -- Check for LibCustomIcons
+    if LibCustomIcons and LibCustomIcons.GetStatic and GetDisplayName then
+        local displayName = GetDisplayName()
+        local iconPath = LibCustomIcons.GetStatic(displayName)
+        
+        if iconPath then
+            table.insert(options, {
+                type = "texture",
+                image = iconPath,
+                width = "full",
+                height = 64, 
+                tooltip = "This icon is provided by LibCustomIcons addon"
+            })
+            
+            table.insert(options, {
+                type = "description",
+                text = "|c6BCF7EYou have a custom icon!|r This icon will appear in your character header.",
+                width = "full",
+            })
+        end
+    end
+
     table.insert(options, {
         type = "checkbox",
         name = "Include Build Notes",

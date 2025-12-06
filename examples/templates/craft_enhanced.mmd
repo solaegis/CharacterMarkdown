@@ -1,0 +1,124 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#2d5016',
+    'primaryTextColor': '#fff',
+    'primaryBorderColor': '#4a7c23',
+    'lineColor': '#6b8e23',
+    'secondaryColor': '#3d6b1c',
+    'tertiaryColor': '#1a3009',
+    'background': '#0d1a00',
+    'mainBkg': '#2d5016',
+    'nodeBorder': '#4a7c23',
+    'clusterBkg': '#1a3009',
+    'titleColor': '#9acd32',
+    'edgeLabelBackground': '#1a3009'
+  },
+  'flowchart': {
+    'curve': 'basis',
+    'nodeSpacing': 50,
+    'rankSpacing': 60,
+    'padding': 15
+  }
+}}%%
+
+flowchart LR
+    subgraph STEALTH["🗡️ STEALTH & THIEVERY"]
+        direction TB
+        76["🔲 Friends in Low Places<br/><small>1stg × 25pts = 25 max</small>"]
+        68["✅ Out of Sight<br/><small>3stg × 10pts = 30 max</small>"]
+        67["✅ Fleet Phantom<br/><small>5stg × 8pts = 40 max</small>"]
+        77["✅ Infamous<br/><small>1stg × 25pts = 25 max</small>"]
+        80["🔲 Shadowstrike<br/><small>1stg × 75pts = 75 max</small>"]
+        90["✅ Cutpurse's Art<br/><small>1stg × 25pts = 25 max</small>"]
+        84["🔲 Fade Away<br/><small>1stg × 50pts = 50 max</small>"]
+    end
+
+    subgraph GATHER["🌿 GATHERING & CRAFTING"]
+        direction TB
+        279["✅ Discipline Artisan<br/><small>5stg × 10pts = 50 max</small>"]
+        78["🔲 Master Gatherer<br/><small>5stg × 15pts = 75 max</small>"]
+        79["✅ Treasure Hunter<br/><small>1stg × 50pts = 50 max</small>"]
+        81["✅ Plentiful Harvest<br/><small>5stg × 10pts = 50 max</small>"]
+        83["✅ Meticulous Disassembly<br/><small>1stg × 50pts = 50 max</small>"]
+        72["✅ Inspiration Boost<br/><small>3stg × 15pts = 45 max</small>"]
+    end
+
+    subgraph FISH["🎣 FISHING"]
+        direction TB
+        89["🔲 Angler's Instincts<br/><small>1stg × 25pts = 25 max</small>"]
+        88["🔲 Reel Technique<br/><small>1stg × 50pts = 50 max</small>"]
+    end
+
+    subgraph CONSUME["🧪 CONSUMABLES"]
+        direction TB
+        85["✅ Rationer<br/><small>3stg × 10pts = 30 max</small>"]
+        86["✅ Liquid Efficiency<br/><small>1stg × 50pts = 50 max</small>"]
+        91["✅ Homemaker<br/><small>1stg × 25pts = 25 max</small>"]
+    end
+
+    subgraph MOUNT["🐎 MOUNT & MOVEMENT"]
+        direction TB
+        82["🔲 War Mount<br/><small>1stg × 75pts = 75 max</small>"]
+        92["🔲 Gifted Rider<br/><small>5stg × 10pts = 50 max</small>"]
+        66["🔲 Steed's Blessing<br/><small>50stg × 1pts = 50 max</small>"]
+        70["✅ Wanderer<br/><small>5stg × 10pts = 50 max</small>"]
+        65["🔲 Sustaining Shadows<br/><small>50stg × 1pts = 50 max</small>"]
+    end
+
+    subgraph UTILITY["⚡ UTILITY"]
+        direction TB
+        75["✅ Steadfast Enchantment<br/><small>5stg × 10pts = 50 max</small>"]
+        71["✅ Fortune's Favor<br/><small>5stg × 10pts = 50 max</small>"]
+        74["✅ Gilded Fingers<br/><small>5stg × 10pts = 50 max</small>"]
+        69["✅ Breakfall<br/><small>5stg × 10pts = 50 max</small>"]
+        87["✅ Soul Reservoir<br/><small>1stg × 30pts = 30 max</small>"]
+    end
+
+    %% Stealth connections
+    76 -->|"25"| 68
+    76 -->|"25"| 67
+    67 -->|"8"| 77
+    77 -->|"25"| 80
+    80 -->|"75"| 90
+    90 -->|"25"| 84
+    83 -->|"50"| 84
+
+    %% Gathering connections
+    72 -->|"15"| 83
+    71 -->|"10"| 72
+    83 -->|"50"| 78
+    83 -->|"50"| 79
+    84 -->|"50"| 78
+    79 -->|"25"| 78
+    75 -->|"10"| 79
+
+    %% Fishing connections
+    86 -->|"50"| 89
+    89 -->|"25"| 88
+    88 -->|"50"| 91
+
+    %% Consumables connections
+    75 -->|"10"| 85
+    85 -->|"10"| 86
+
+    %% Mount connections
+    92 -->|"10"| 82
+    81 -->|"10"| 82
+    78 -->|"15"| 92
+    78 -->|"15"| 81
+
+    %% Utility connections
+    71 -->|"10"| 70
+    70 -->|"10"| 75
+    74 -->|"0"| 71
+    70 -->|"10"| 69
+    69 -->|"10"| 87
+
+    %% Class styling
+    classDef slotted fill:#2d5016,stroke:#9acd32,stroke-width:3px,color:#fff
+    classDef unslotted fill:#1a3009,stroke:#4a7c23,stroke-width:2px,color:#9acd32
+    classDef groupStyle fill:#0d1a00,stroke:#4a7c23,stroke-width:2px,color:#9acd32
+
+    class 76,84,80,78,89,88,82,92,66,65 slotted
+    class 68,67,77,90,279,79,81,83,72,85,86,91,70,75,71,74,69,87 unslotted

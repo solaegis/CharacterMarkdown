@@ -1,0 +1,1106 @@
+version: 2
+description: |
+  ESO Champion Points - Update 48
+  IDs sourced from in-game UI (authoritative)
+  Numeric values require verification from eso-hub.com
+  Prerequisites set to empty - require in-game path verification
+
+# =============================================================================
+# CRAFT CONSTELLATION (29 stars) - Green/Thief
+# =============================================================================
+craft:
+  # Row 1
+  - id: 76
+    name: "Friends in Low Places"
+    slottable: true
+    stages: 1
+    points_per_stage: 25
+    max_points: 25
+    prerequisites: []
+    notes: "This slotted passive removes 1000 gold from your bounty once per day when you commit a crime that adds bounty, provided you are level 50 or higher and your bounty is at least 1000 gold. It activates automatically under those conditions, aiding players engaging in thieving or criminal activities like those in the Thieves Guild"
+    
+  - id: 279
+    name: "Discipline Artisan"
+    slottable: false
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: []
+    notes: "It increases experience gain for currently active skills and their skill lines by 3% per stage, up to 15% at maximum, and the bonus is multiplicative with other EXP sources. Jump points occur at 0, 10, 20, 30, 40, and 50, requiring 50 total points to max out.​"
+
+  - id: 84
+    name: "Fade Away"
+    slottable: true
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Cutpurse's Art", min_points: 25}, {star: "Meticulous Disassembly", min_points: 50}]
+    notes: "Escaping from a guard removes 25% of your current heat, though it does not affect bounty. It requires 50 points to unlock with jump points at 0 and 50."
+    
+  - id: 68
+    name: "Out of Sight"
+    slottable: false
+    stages: 3
+    points_per_stage: 10
+    max_points: 30
+    prerequisites: [{star: "Friends in Low Places", min_points: 25}]
+    notes: ""
+
+  - id: 80
+    name: "Shadowstrike"
+    slottable: true
+    stages: 1
+    points_per_stage: 75
+    max_points: 75
+    prerequisites: [{star: "Infamous", min_points: 25}]
+    notes: "Killing an enemy with Blade of Woe grants invisibility for 5 seconds after a brief delay, distracting nearby enemies or witnesses, and allows continued Blade of Woe use during the effect. It unlocks at 75 points with jump points at 0 and 75."
+    
+  - id: 90
+    name: "Cutpurse's Art"
+    slottable: false
+    stages: 1
+    points_per_stage: 25
+    max_points: 25
+    prerequisites: [{star: "Shadowstrike", min_points: 75}]
+    notes: "Increases the chance to obtain higher-quality loot (blue and purple items) when pickpocketing NPCs."
+
+  - id: 78
+    name: "Master Gatherer"
+    slottable: true
+    stages: 5
+    points_per_stage: 15
+    max_points: 75
+    prerequisites: [{star: "Treasure Hunter", min_points: 25}, {star: "Fade Away", min_points: 50},{star: "Meticulous Disassembly", min_points: 50}]
+    notes: "Reduces harvesting time from resource nodes by 10% per stage, up to 50% at maximum."
+    
+  - id: 79
+    name: "Treasure Hunter"
+    slottable: false
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Meticulous Disassembly", min_points: 50},{star: "Steadfast Enchantment", min_points: 10}]
+    notes: "Increases the quality of items found in treasure chests by one tier (e.g., simple chests drop green gear, advanced ones drop purple)."
+
+  - id: 89
+    name: "Angler's Instincts"
+    slottable: true
+    stages: 1
+    points_per_stage: 25
+    max_points: 25
+    prerequisites: [{star: "Liquid Efficiency", min_points: 50}]
+    notes: "Increases the chance of catching higher-quality fish, equivalent to fishing with another player, and stacks with similar bonuses like group fishing."
+    
+  - id: 75
+    name: "Steadfast Enchantment"
+    slottable: false
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Wanderer", min_points: 10}]
+    notes: "Weapon enchantments have a 10% chance per stage to not consume a charge when activated, up to 50% at maximum, extending their uptime without recharging."
+
+  - id: 88
+    name: "Reel Technique"
+    slottable: true
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Angler's Instincts", min_points: 25}]
+    notes: ""
+    
+  - id: 85
+    name: "Rationer"
+    slottable: false  
+    stages: 3
+    points_per_stage: 10
+    max_points: 30
+    prerequisites: [{star: "Steadfast Enchantment", min_points: 10}]
+    notes: "Adds 10 minutes to the duration of any food or drink that increases character stats per stage, up to 30 minutes at maximum."
+
+  - id: 82
+    name: "War Mount"
+    slottable: true
+    stages: 1
+    points_per_stage: 75  
+    max_points: 75
+    prerequisites: [{star: "Gifted Rider", min_points: 10},{star: "Plentiful Harvest", min_points: 10}]
+    notes: "Removes all mount Stamina costs when outside of combat, allowing indefinite sprinting on mounts without feeding or stamina drain."
+    
+  - id: 86
+    name: "Liquid Efficiency"
+    slottable: false
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Rationer", min_points: 10}]
+    notes: "Using a potion or poison grants a 10% chance to not consume it."
+
+  - id: 92
+    name: "Gifted Rider"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Master Gatherer", min_points: 15}]
+    notes: ""
+    
+  - id: 91
+    name: "Homemaker"
+    slottable: false
+    stages: 1
+    points_per_stage: 25
+    max_points: 25
+    prerequisites: [{star: "Reel Technique", min_points: 50}]
+    notes: "Grants a 10% chance to find a second furnishing plan whenever one is looted from world containers like urns or safes."
+
+  - id: 66
+    name: "Steed's Blessing"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Increases out-of-combat movement speed by 0.4% per stage, up to 20% at maximum."
+    
+  - id: 70
+    name: "Wanderer"
+    slottable: false
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Fortune's Favor", min_points: 10}]
+    notes: "Reduces the cost of Wayshrine usage by 10% per stage, up to 50% at maximum. "
+
+  - id: 65
+    name: "Sustaining Shadows"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Reduces the cost of Sneak by 1% per stage, up to 50% at maximum."
+    
+  - id: 81
+    name: "Plentiful Harvest"
+    slottable: false
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Master Gatherer", min_points: 15}]
+    notes: "Grants a 10% chance per stage to double the yield from normal resource nodes, up to 50% at maximum."
+
+  - id: 83
+    name: "Meticulous Disassembly"
+    slottable: false
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Inspiration Boost", min_points: 15}]
+    notes: "Improves extraction chances for Blacksmithing, Clothing, Woodworking, and Jewelry ingredients from deconstructed gear, plus higher-tier refining yields like resins, tempers, tannins, and platings from raw materials. I"
+    
+  - id: 72
+    name: "Inspiration Boost"
+    slottable: false
+    stages: 3
+    points_per_stage: 15
+    max_points: 45
+    prerequisites: [{star: "Fortune's Favor", min_points: 10}]
+    notes: "Increases crafting inspiration gained by 10% per stage, up to 30% at 45 points, aiding experience for skill lines like Blacksmithing or Enchanting."
+
+  - id: 71
+    name: "Fortune's Favor"
+    slottable: false
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Gilded Fingers", min_points: 0}]
+    notes: "Increases gold found in treasure chests and safeboxes by 10% per stage, up to 50% at maximum."
+    
+  - id: 77
+    name: "Infamous"
+    slottable: false
+    stages: 1
+    points_per_stage: 25
+    max_points: 25
+    prerequisites: [{star: "Fleet Phantom", min_points: 8}]
+    notes: "Increases the value of fenced items by 25%."
+
+  - id: 67
+    name: "Fleet Phantom"
+    slottable: false
+    stages: 5
+    points_per_stage: 8
+    max_points: 40
+    prerequisites: [{star: "Friends in Low Places", min_points: 25}]
+    notes: "Reduces the Movement Speed penalty of Sneak by 5% per stage, up to 25% at maximum. "
+    
+  - id: 74
+    name: "Gilded Fingers"
+    slottable: false
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: []
+    notes: "Increases gold gained from all sources by 2% per stage, up to 10% at maximum."
+
+  - id: 69
+    name: "Breakfall"
+    slottable: false  
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Wanderer", min_points: 10}]
+    notes: "Reduces fall damage by 10% per stage, up to 50% at maximum."
+    
+  - id: 87
+    name: "Soul Reservoir"
+    slottable: false
+    stages: 1
+    points_per_stage: 30  
+    max_points: 30
+    prerequisites: [{star: "Breakfall", min_points: 10}]
+    notes: "When resurrecting yourself or another player, gain a 33% chance to not consume a soul gem. "
+
+  - id: 1
+    name: "Professional Upkeep"
+    slottable: false
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Reduces the cost of repairing armor by 1% per stage, up to 50% at maximum."
+
+# =============================================================================
+# WARFARE CONSTELLATION (48 stars) - Blue/Mage
+# =============================================================================
+warfare:
+  - id: 12
+    name: "Fighting Finesse"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Precision", min_points: 10}]
+    notes: "Increases Critical Damage and Critical Healing done by 4% per stage, up to 8% at 50 points. "
+
+  - id: 262
+    name: "From the Brink"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Blessed", min_points: 10}]
+    notes: "When healing yourself or an ally under 25% Health, grant them a damage shield absorbing up to 2200 damage per stage for 6 seconds; once every 30 seconds per target. "
+
+  - id: 263
+    name: "Enlivening Overflow"
+    slottable: true
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Blessed", min_points: 10}]
+    notes: "Overhealing yourself or an ally grants them Health, Magicka, and Stamina Recovery equal to 0.5% of your Max Magicka (up to 150 cap) for 6 seconds; once every 12 seconds per target."
+
+  - id: 261
+    name: "Hope Infusion"
+    slottable: true
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Blessed", min_points: 10}]
+    notes: "Healing yourself or an ally under 50% Health grants them Minor Heroism for 1 second per 300 Magicka Recovery, up to 1.5 seconds currently; once every 10 seconds per target."
+
+  - id: 260
+    name: "Salve of Renewal"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Blessed", min_points: 10}]
+    notes: "Removing a harmful effect from yourself or an ally sanctifies the ground beneath them, healing them and allies within 8 meters for 1280 Health per stage; once every 10 seconds per target."
+
+  - id: 24
+    name: "Soothing Tide"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Blessed", min_points: 10}]
+    notes: "Increases Healing Done with area of effect heals by 2% per stage, up to 10% at maximum. "
+
+  - id: 9
+    name: "Rejuvenator"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Soothing Tide", min_points: 10}]
+    notes: "Grants 41 Weapon and Spell Damage to healing abilities per stage, up to 205 at maximum."
+
+  - id: 163
+    name: "Foresight"
+    slottable: true
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: []
+    notes: "After drinking a potion, reduces the cost of Magicka and Stamina healing abilities by 75% for 6 seconds."
+
+  - id: 29
+    name: "Cleansing Revival"
+    slottable: true
+    stages: 1
+    points_per_stage: 50
+    max_points: 50
+    prerequisites: [{star: "Focused Mending", min_points: 10}]
+    notes: "Healing a target under 25% Health removes all harmful effects from them; once every 24 seconds per target."
+
+  - id: 26
+    name: "Focused Mending"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Blessed", min_points: 10}]
+    notes: "Increases the amount of Health healed by 2% per stage, up to 10% at maximum."
+
+  - id: 28
+    name: "Swift Renewal"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Blessed", min_points: 10}]
+    notes: "Increases the amount of Health healed by 2% per stage, up to 10% at maximum."
+
+  - id: 277
+    name: "Exploiter"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases damage done against Off Balance enemies by 2% per stage, up to 10% at maximum. "
+
+  - id: 276
+    name: "Force of Nature"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases your Offensive Penetration by 660 for every status effect your target has."
+
+  - id: 264
+    name: "Master-at-Arms"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases damage done with direct damage attacks by 3% per stage, up to 15% at maximum."
+
+  - id: 259
+    name: "Weapons Expert"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases damage done with Light and Heavy Attacks by 4% per stage, up to 20% at maximum."
+
+  - id: 25
+    name: "Deadly Aim"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases damage done with single target attacks by 3% per stage, up to 15% at maximum."
+
+  - id: 23
+    name: "Biting Aura"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases damage done with area of effect attacks by 3% per stage, up to 15% at maximum."
+
+  - id: 27
+    name: "Thaumaturge"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases damage done with damage over time effects by 3% per stage, up to 6% at maximum."
+
+  - id: 30
+    name: "Reaving Blows"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Precision", min_points: 10}]
+    notes: "When you deal direct damage, you heal for 7% of the damage done."
+
+  - id: 8
+    name: "Wrathful Strikes"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Precision", min_points: 10}]
+    notes: "Grants 41 Weapon and Spell Damage to damaging abilities per stage, up to 2050 at maximum."
+
+  - id: 32
+    name: "Occult Overload"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Precision", min_points: 10}]
+    notes: "Killing an enemy with a status effect causes them to explode for 1037 Oblivion Damage per stage to enemies within 4 meters, applying a random status effect; once every second."
+
+  - id: 31
+    name: "Backstabber"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Precision", min_points: 10}]
+    notes: "Increases Critical Damage done by 2% per stage against enemies you are flanking, up to 10% at maximum."
+
+  - id: 265
+    name: "Ironclad"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Quick Recovery", min_points: 10}]
+    notes: "Reduces damage taken from direct damage attacks by 3% per stage, up to 15% at maximum."
+
+  - id: 13
+    name: "Resilience"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Quick Recovery", min_points: 10}]
+    notes: "Grants 132 Critical Resistance per stage, up to 6600 at maximum."
+
+  - id: 136
+    name: "Enduring Resolve"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Quick Recovery", min_points: 10}]
+    notes: "Reduces damage taken from damage over time attacks by 3% per stage, up to 15% at maximum."
+
+  - id: 160
+    name: "Reinforced"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Riposte", min_points: 1},{star: "Bulwark", min_points: 1}]
+    notes: "When you begin Bracing, gain a damage shield absorbing 5140 damage for 3 seconds; once every 10 seconds."
+
+  - id: 162
+    name: "Riposte"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Duelist's Rebuff", min_points: 1}]
+    notes: "Increases damage done with single target attacks by 2% per stage, up to 10% at maximum."
+
+  - id: 159
+    name: "Bulwark"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Unassailable", min_points: 25}]
+    notes: "While you have a Shield or Frost Staff equipped, your Spell and Physical Resistance is increased by 1900."
+
+  - id: 161
+    name: "Last Stand"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Riposte", min_points: 1},{star: "Reinforced", min_points: 1},{star: "Cutting Defense", min_points: 1}]
+    notes: "While you have a Shield or Frost Staff equipped, your Spell and Physical Resistance is increased by 1900."
+
+  - id: 33
+    name: "Cutting Defense"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Riposte", min_points: 1},{star: "Reinforced", min_points: 1}]
+    notes: "When you block an attack from an enemy within 7 meters, your next direct damage attack made within 5 seconds deals 33% additional damage; can occur once every 10 seconds."
+
+  - id: 11
+    name: "Precision"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: []
+    notes: "Grants 160 Critical Chance per stage, up to 320 at maximum with 20 points."
+
+  - id: 108
+    name: "Blessed"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Precision", min_points: 10},{star: "Eldritch Insight", min_points: 10}]
+    notes: "Increases Healing Done by 1% per stage, up to 5% at maximum."
+
+  - id: 10
+    name: "Piercing"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Precision", min_points: 10},{star: "Eldritch Insight", min_points: 10},{star: "Tireless Discipline", min_points: 10}]
+    notes: "Grants 350 Offensive Penetration per stage, up to 700 at maximum. "
+
+  - id: 17
+    name: "Flawless Ritual"
+    slottable: false
+    stages: 2
+    points_per_stage: 20
+    max_points: 40
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases your chance to apply a Magical status effect by 30% per stage, up to 60% at maximum."
+
+  - id: 21
+    name: "War Mage"
+    slottable: false
+    stages: 30
+    points_per_stage: 1
+    max_points: 30
+    prerequisites: [{star: "Flawless Ritual", min_points: 10}]
+    notes: "Grants 100 Weapon and Spell Damage to Magical attacks (Magic, Flame, Frost, Shock Damage) per stage, up to 300 at maximum."
+
+  - id: 18
+    name: "Battle Mastery"
+    slottable: false
+    stages: 2
+    points_per_stage: 20
+    max_points: 40
+    prerequisites: [{star: "Piercing", min_points: 10}]
+    notes: "Increases your chance to apply a Martial status effect by 30% per stage, up to 60% at maximum."
+
+  - id: 22
+    name: "Mighty"
+    slottable: false
+    stages: 30
+    points_per_stage: 1
+    max_points: 30
+    prerequisites: [{star: "Battle Mastery", min_points: 20}]
+    notes: "Grants 100 Weapon and Spell Damage to Martial attacks (Physical, Poison, Disease, Bleed Damage) per stage, up to 300 at maximum."
+
+  - id: 6
+    name: "Tireless Discipline"
+    slottable: false
+    stages: 2
+    points_per_stage: 20
+    max_points: 40
+    prerequisites: []
+    notes: "Grants 260 Max Stamina per stage, up to 520 at maximum."
+
+  - id: 20
+    name: "Quick Recovery"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Eldritch Insight", min_points: 10}]
+    notes: "Increases Healing Received by 1% per stage, up to 2% at maximum."
+
+  - id: 14
+    name: "Preparation"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Quick Recovery", min_points: 10}]
+    notes: "Reduces damage taken from non-player attacks (PvE bosses/adds) by 5% per stage, up to 10% at maximum."
+
+  - id: 15
+    name: "Elemental Aegis"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Preparation", min_points: 10}]
+    notes: "Reduces damage taken from Magical attacks by 1% per stage, up to 20% at maximum; affects Magic, Flame, Frost, and Shock Damage. "
+
+  - id: 16
+    name: "Hardy"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Preparation", min_points: 10}]
+    notes: "Reduces damage taken from Martial attacks by 1% per stage, up to 20% at maximum; affects Physical, Poison, Disease, and Bleed Damage."
+
+  - id: 99
+    name: "Eldritch Insight"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: []
+    notes: "Grants 260 Max Magicka per stage, up to 520 at maximum."
+
+  - id: 134
+    name: "Duelist's Rebuff"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Eldritch Insight", min_points: 10}]
+    notes: "Reduces damage taken from single target attacks by 3% per stage, up to 15% at maximum."
+
+  - id: 133
+    name: "Unassailable"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Quick Recovery", min_points: 10}]
+    notes: "Reduces damage taken from area of effect attacks by 3% per stage, up to 15% at maximum."
+
+  - id: 5
+    name: "Endless Endurance"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Increases Max Stamina by 26 per stage, up to 1300 at maximum; also grants Major Heroism when taking damage below 20% Health (3 Ultimate every 1.5 seconds for 9 seconds, once every 9 seconds)."
+
+  - id: 4
+    name: "Untamed Aggression"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Increases Weapon and Spell Damage by 3 per stage, up to 150 at maximum. "
+
+  - id: 3
+    name: "Arcane Supremacy"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Increases Max Magicka by 26 per stage, up to 1300 at maximum."
+
+# =============================================================================
+# FITNESS CONSTELLATION (41 stars) - Red/Warrior
+# =============================================================================
+fitness:
+  - id: 272
+    name: "Thrill of the Hunt"
+    slottable: true
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Hasty", min_points: 10}]
+    notes: "Whenever you kill an enemy, gain Major Expedition for 3 seconds per stage, increasing your Movement Speed by 30%."
+
+  - id: 270
+    name: "Celerity"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Hasty", min_points: 10}]
+    notes: "Increases Movement Speed by 5% per stage, up to 10% at maximum."
+
+  - id: 271
+    name: "Refreshing Stride"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Hasty", min_points: 10}]
+    notes: "While Sprinting, gain 100 Health and Magicka Recovery per stage, up to 500 at maximum."
+
+
+
+  - id: 63
+    name: "Shield Master"
+    slottable: true 
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Hero's Vigor", min_points: 10}]
+    notes: "Reduces the cost of damage shield abilities by 2% per stage, up to 10% at maximum. "
+
+  - id: 46
+    name: "Bastion"
+    slottable: true 
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Shield Master", min_points: 10}]
+    notes: "Increases the effectiveness of your damage shields and damage against shielded enemies by 3% per stage, up to 15% at maximum."
+
+  - id: 57
+    name: "Survival Instincts"
+    slottable: true 
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Mystic Tenacity", min_points: 10}]
+    notes: "While afflicted with a Status Effect, your core combat skills cost 5% less per stage, up to 25% at maximum."
+
+  - id: 56
+    name: "Spirit Mastery"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Tempered Soul", min_points: 25}]
+    notes: "Decreases the time it takes to resurrect an ally by 33%."
+
+  - id: 61
+    name: "Arcane Alacrity"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Bastion", min_points: 10}]
+    notes: "While under the effects of a damage shield, your dodge roll costs 160 less Stamina per stage, up to 800 at maximum."
+
+  - id: 48
+    name: "Bloody Renewal"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Hero's Vigor", min_points: 10}]
+    notes: "Restore 300 Stamina per stage whenever you kill an enemy, up to 1500 at maximum."
+
+  - id: 49
+    name: "Strategic Reserve"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Hero's Vigor", min_points: 10}]
+    notes: "Gain 30 Health Recovery for every 10 Ultimate you have, up to 1500 Health Recovery at maximum Ultimate storage."
+
+  - id: 274
+    name: "Relentlessness"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Mystic Tenacity", min_points: 10}]
+    notes: "Being Stunned or Feared grants Major Protection for 3 seconds, reducing damage taken by 10%."
+
+  - id: 275
+    name: "Pain's Refuge"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Mystic Tenacity", min_points: 10}]
+    notes: "Reduces damage taken by 1% per negative effect active on you, up to 20% at maximum."
+
+  - id: 273
+    name: "Sustained by Suffering"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Mystic Tenacity", min_points: 10}]
+    notes: "Increases Health, Magicka, and Stamina Recovery by 30 per stage while under negative effects, up to 150 at maximum."
+
+  - id: 47
+    name: "Siphoning Spells"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Hero's Vigor", min_points: 10}]
+    notes: "Restore 300 Magicka per stage whenever you kill an enemy, up to 1500 at maximum."
+
+  - id: 62
+    name: "Rousing Speed"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Sprinter", min_points: 10}]
+    notes: "Increases Movement Speed by 5% per stage, up to 25% at maximum."
+
+  - id: 268
+    name: "Soothing Shield"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Nimble Protector", min_points: 3}]
+    notes: "When you successfully block an attack, gain a 15% chance to restore 147 Health per stage, up to 735 at maximum."
+
+  - id: 267
+    name: "Bracing Anchor"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Nimble Protector", min_points: 3}]
+    notes: "While in combat, it increases the amount of damage you can block by 4% per stage (up to 20% at maximum), but applies a constant 16% Movement Speed reduction at all stages."
+
+  - id: 266
+    name: "Ward Master"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Nimble Protector", min_points: 3}]
+    notes: "It reduces damage taken by 2% per stage while blocking and under a damage shield effect, up to 10% at maximum (50 points invested in 10-point increments)."
+
+  - id: 60
+    name: "On Guard"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Tireless Guardian", min_points: 10}]
+    notes: "While under the effects of Crowd Control Immunity, it increases the amount of damage you block by 2% per stage, up to 10% at maximum."
+
+  - id: 51
+    name: "Expert Evasion"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Tumbling", min_points: 10}]
+    notes: "Your next Roll Dodge is free of cost, with a 30-second cooldown after use; requires 50 points to unlock and must be slotted to activate."
+
+  - id: 52
+    name: "Slippery"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Defiance", min_points: 10}]
+    notes: "When affected by a disabling effect, it automatically triggers Break Free at no cost; afterward, you become Winded and cannot trigger it or similar effects for 21 seconds."
+
+  - id: 64
+    name: "Unchained"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: [{star: "Slippery", min_points: 10}]
+    notes: "When you use Break Free, the cost of your next Stamina ability within 5 seconds is reduced by 11% per stage, up to 55% at maximum."
+
+  - id: 59
+    name: "Juggernaut"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Defiance", min_points: 10}]
+    notes: "While under the effects of Crowd Control Immunity, it reduces damage taken by 2% per stage, up to 10% at maximum."
+
+  - id: 54
+    name: "Peace of Mind"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Defiance", min_points: 10}]
+    notes: "It increases Magicka and Health Recovery by 40 per stage while under Crowd Control Immunity effects, up to 200 at maximum."
+
+  - id: 55
+    name: "Hardened"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: [{star: "Defiance", min_points: 10}]
+    notes: "It increases the duration of Crowd Control Immunity by 3% per stage, up to 15% at maximum."
+
+  - id: 35
+    name: "Rejuvenation"
+    slottable: true
+    stages: 5
+    points_per_stage: 10
+    max_points: 50
+    prerequisites: []
+    notes: "Grants 1.8 Health, Magicka, and Stamina Recovery per stage, up to 90 at maximum."
+
+  - id: 34
+    name: "Fortified"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Grants 34.6 Armor per stage, up to 1730 at maximum."
+
+  - id: 2
+    name: "Boundless Vitality"
+    slottable: true
+    stages: 50
+    points_per_stage: 1
+    max_points: 50
+    prerequisites: []
+    notes: "Grants 28 Maximum Health per stage, up to 1400 at maximum."
+
+  - id: 38
+    name: "Sprinter"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: []
+    notes: "Reduces the cost of Sprint by 20 Stamina per stage, up to 40 Stamina at maximum"
+
+  - id: 42
+    name: "Hasty"
+    slottable: false
+    stages: 2
+    points_per_stage: 8
+    max_points: 16
+    prerequisites: [{star: "Sprinter", min_points: 10},{star: "Hero's Vigor", min_points: 10}]
+    notes: "Increases movement speed while Sprinting by 2% per stage, up to 4% at maximum "
+
+  - id: 113
+    name: "Hero's Vigor"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Mystic Tenacity", min_points: 10}]
+    notes: "Grants 280 Maximum Health per stage, up to 560 at maximum "
+
+  - id: 58
+    name: "Tempered Soul"
+    slottable: false
+    stages: 2
+    points_per_stage: 25
+    max_points: 50
+    prerequisites: [{star: "Piercing Gaze", min_points: 10},{star: "Survival Instincts", min_points: 10}]
+    notes: "Return to life after resurrection with 5% more resources (Health, Magicka, Stamina) per stage, up to 10% at maximum "
+
+  - id: 45
+    name: "Piercing Gaze"
+    slottable: false
+    stages: 3
+    points_per_stage: 10
+    max_points: 30
+    prerequisites: [{star: "Hero's Vigor", min_points: 10}]
+    notes: ""
+
+  - id: 53
+    name: "Mystic Tenacity"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Hero's Vigor", min_points: 10},{star: "Tumbling", min_points: 10}]
+    notes: "Reduces the duration of Elemental Status Effects applied to you by 5% per stage, up to 25% at maximum."
+
+  - id: 39
+    name: "Tireless Guardian"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Hasty", min_points: 10}]
+    notes: "Reduces the cost of Block by 20 Stamina per stage, up to 40 Stamina at maximum."
+
+  - id: 40
+    name: "Savage Defense"
+    slottable: false
+    stages: 2
+    points_per_stage: 15
+    max_points: 30
+    prerequisites: [{star: "Tireless Guardian", min_points: 10}]
+    notes: "Reduces the cost of Bash by 45 Stamina per stage, up to 90 at maximum."
+
+  - id: 50
+    name: "Bashing Brutality"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: [{star: "Tireless Guardian", min_points: 10}]
+    notes: "Increases your Bash damage by 60 per stage, up to 120 at maximum."
+
+  - id: 44
+    name: "Nimble Protector"
+    slottable: false
+    stages: 2
+    points_per_stage: 3
+    max_points: 6
+    prerequisites: [{star: "Tireless Guardian", min_points: 10}]
+    notes: "Increases your Movement Speed while Bracing by 3% per stage, up to 6% at maximum."
+
+  - id: 43
+    name: "Fortification"
+    slottable: false
+    stages: 2
+    points_per_stage: 15
+    max_points: 20
+    prerequisites: [{star: "Tireless Guardian", min_points: 10}]
+    notes: "Increases your Bash damage by 60 per stage, up to 120 at maximum."
+
+
+
+  - id: 37
+    name: "Tumbling"
+    slottable: false
+    stages: 2
+    points_per_stage: 15
+    max_points: 30
+    prerequisites: []
+    notes: "Reduces the cost of Roll Dodge by 120 Stamina per stage, up to 240 at maximum."
+
+  - id: 128
+    name: "Defiance"
+    slottable: false
+    stages: 2
+    points_per_stage: 10
+    max_points: 20
+    prerequisites: []
+    notes: "Reduces the cost of Break Free by 110 Stamina per stage, up to 220 at maximum."
+
+# =============================================================================
+# VERIFICATION CHECKLIST
+# =============================================================================
+# Total stars from screenshot:
+#   Craft: 28 (header shows 262 total, 200 spent, 62 available)
+#   Warfare: 43 (header shows 261 total, 200 spent, 61 available)  
+#   Fitness: 44 (header shows 261 total, 199 spent, 62 available)
+#
+# Data requiring verification:
+# - All stages values
+# - All points_per_stage values
+# - All max_points values (except those visible in screenshot)
+# - All prerequisites (path connections)
+# - All slottable status (except those clearly slotted in screenshot)
+#
+# Verified from screenshot:
+# - All ID numbers
+# - All star names
+# - Current point allocations shown
+# - Stars that are currently slotted (marked with checkmark icon)

@@ -1,0 +1,150 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#1e4d6b',
+    'primaryTextColor': '#fff',
+    'primaryBorderColor': '#3498db',
+    'lineColor': '#5dade2',
+    'secondaryColor': '#2874a6',
+    'tertiaryColor': '#0d2840',
+    'background': '#061520',
+    'mainBkg': '#1e4d6b',
+    'nodeBorder': '#3498db',
+    'clusterBkg': '#0d2840',
+    'titleColor': '#85c1e9',
+    'edgeLabelBackground': '#0d2840'
+  },
+  'flowchart': {
+    'curve': 'basis',
+    'nodeSpacing': 50,
+    'rankSpacing': 60,
+    'padding': 15
+  }
+}}%%
+
+flowchart LR
+    subgraph RECOVERY["💧 RECOVERY"]
+        direction TB
+        35["🔲 Rejuvenation<br/><small>5stg × 10pts = 50 max</small>"]
+        34["🔲 Fortified<br/><small>50stg × 1pts = 50 max</small>"]
+        2["🔲 Boundless Vitality<br/><small>50stg × 1pts = 50 max</small>"]
+    end
+
+    subgraph SPEED["⚡ SPEED & MOBILITY"]
+        direction TB
+        38["✅ Sprinter<br/><small>2stg × 10pts = 20 max</small>"]
+        42["✅ Hasty<br/><small>2stg × 8pts = 16 max</small>"]
+        272["🔲 Thrill of the Hunt<br/><small>2stg × 25pts = 50 max</small>"]
+        270["🔲 Celerity<br/><small>5stg × 10pts = 50 max</small>"]
+        271["🔲 Refreshing Stride<br/><small>5stg × 10pts = 50 max</small>"]
+        62["🔲 Rousing Speed<br/><small>5stg × 10pts = 50 max</small>"]
+    end
+
+    subgraph SHIELD["🛡️ SHIELD & BLOCK"]
+        direction TB
+        113["✅ Hero's Vigor<br/><small>2stg × 10pts = 20 max</small>"]
+        63["🔲 Shield Master<br/><small>5stg × 10pts = 50 max</small>"]
+        46["🔲 Bastion<br/><small>5stg × 10pts = 50 max</small>"]
+        50["✅ Bashing Brutality<br/><small>2stg × 10pts = 20 max</small>"]
+    end
+
+    subgraph MAGIC["✨ MAGIC SUSTAIN"]
+        direction TB
+        58["✅ Tempered Soul<br/><small>2stg × 25pts = 50 max</small>"]
+        56["🔲 Spirit Mastery<br/><small>50stg × 1pts = 50 max</small>"]
+        61["🔲 Arcane Alacrity<br/><small>5stg × 10pts = 50 max</small>"]
+        47["🔲 Siphoning Spells<br/><small>5stg × 10pts = 50 max</small>"]
+        45["✅ Piercing Gaze<br/><small>3stg × 10pts = 30 max</small>"]
+    end
+
+    subgraph HEALTH["❤️ HEALTH & SURVIVAL"]
+        direction TB
+        48["🔲 Bloody Renewal<br/><small>5stg × 10pts = 50 max</small>"]
+        49["🔲 Strategic Reserve<br/><small>50stg × 1pts = 50 max</small>"]
+        53["✅ Mystic Tenacity<br/><small>2stg × 10pts = 20 max</small>"]
+        57["🔲 Survival Instincts<br/><small>5stg × 10pts = 50 max</small>"]
+        274["🔲 Relentlessness<br/><small>50stg × 1pts = 50 max</small>"]
+        275["🔲 Pain's Refuge<br/><small>50stg × 1pts = 50 max</small>"]
+        273["🔲 Sustained by Suffering<br/><small>50stg × 1pts = 50 max</small>"]
+    end
+
+    subgraph DEFENSE["🔰 DEFENSIVE"]
+        direction TB
+        39["✅ Tireless Guardian<br/><small>2stg × 10pts = 20 max</small>"]
+        40["✅ Savage Defense<br/><small>2stg × 15pts = 30 max</small>"]
+        60["🔲 On Guard<br/><small>5stg × 10pts = 50 max</small>"]
+        44["✅ Nimble Protector<br/><small>2stg × 3pts = 6 max</small>"]
+        43["✅ Fortification<br/><small>2stg × 15pts = 20 max</small>"]
+        268["🔲 Soothing Shield<br/><small>5stg × 10pts = 50 max</small>"]
+        267["🔲 Bracing Anchor<br/><small>5stg × 10pts = 50 max</small>"]
+        266["🔲 Ward Master<br/><small>5stg × 10pts = 50 max</small>"]
+    end
+
+    subgraph EVASION["💨 EVASION & CC"]
+        direction TB
+        37["✅ Tumbling<br/><small>2stg × 15pts = 30 max</small>"]
+        51["🔲 Expert Evasion<br/><small>50stg × 1pts = 50 max</small>"]
+        128["✅ Defiance<br/><small>2stg × 10pts = 20 max</small>"]
+        52["🔲 Slippery<br/><small>50stg × 1pts = 50 max</small>"]
+        64["🔲 Unchained<br/><small>50stg × 1pts = 50 max</small>"]
+        59["🔲 Juggernaut<br/><small>5stg × 10pts = 50 max</small>"]
+        54["🔲 Peace of Mind<br/><small>5stg × 10pts = 50 max</small>"]
+        55["🔲 Hardened<br/><small>5stg × 10pts = 50 max</small>"]
+    end
+
+    %% Speed connections
+    38 -->|"10"| 42
+    38 -->|"10"| 62
+    42 -->|"10"| 272
+    42 -->|"10"| 270
+    42 -->|"10"| 271
+    113 -->|"10"| 42
+
+    %% Shield connections
+    113 -->|"10"| 63
+    63 -->|"10"| 46
+    46 -->|"10"| 61
+
+    %% Defense connections
+    42 -->|"10"| 39
+    39 -->|"10"| 40
+    39 -->|"10"| 50
+    39 -->|"10"| 44
+    39 -->|"10"| 43
+    39 -->|"10"| 60
+    44 -->|"3"| 268
+    44 -->|"3"| 267
+    44 -->|"3"| 266
+
+    %% Magic connections
+    113 -->|"10"| 45
+    45 -->|"10"| 58
+    57 -->|"10"| 58
+    58 -->|"25"| 56
+    113 -->|"10"| 47
+
+    %% Health connections
+    113 -->|"10"| 48
+    113 -->|"10"| 49
+    53 -->|"10"| 113
+    113 -->|"10"| 53
+    53 -->|"10"| 57
+    53 -->|"10"| 274
+    53 -->|"10"| 275
+    53 -->|"10"| 273
+    37 -->|"10"| 53
+
+    %% Evasion connections
+    37 -->|"10"| 51
+    128 -->|"10"| 52
+    52 -->|"10"| 64
+    128 -->|"10"| 59
+    128 -->|"10"| 54
+    128 -->|"10"| 55
+
+    %% Class styling
+    classDef slotted fill:#1e4d6b,stroke:#5dade2,stroke-width:3px,color:#fff
+    classDef unslotted fill:#0d2840,stroke:#3498db,stroke-width:2px,color:#85c1e9
+
+    class 272,270,271,63,46,57,56,61,48,49,274,275,273,47,62,268,267,266,60,51,52,64,59,54,55,35,34,2 slotted
+    class 38,42,113,58,45,53,39,40,50,44,43,37,128 unslotted

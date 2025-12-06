@@ -13,11 +13,21 @@ CharacterMarkdown = {
     links = {
         CreateSkillLink = function(name) return "[" .. name .. "](link)" end,
         CreateSkillLineLink = function(name) return "**[" .. name .. "](link)**" end
+    },
+    Warn = function() end,
+    Constants = {
+        SKILL_TYPE_EMOJIS = {
+            ["Class"] = "⚔️",
+            ["Weapon"] = "⚔️",
+            ["Armor"] = "🛡️",
+        },
+        DEFAULT_SKILL_EMOJI = "📜",
+        SKILL_TYPE_ORDER = { "Class" }
     }
 }
 
 -- Load the generator file
-local generatorFile = "/Users/lvavasour/git/CharacterMarkdown/src/generators/sections/CharacterProgress.lua"
+local generatorFile = "src/generators/sections/CharacterProgress.lua"
 local f = io.open(generatorFile, "r")
 local content = f:read("*all")
 f:close()

@@ -891,7 +891,10 @@ local function GenerateMarkdown(format)
     local sections = GetSectionRegistry(format, settings, gen, collectedData)
 
     -- Generate all sections based on registry
+    -- Generate all sections based on registry
     -- Generate sections
+    local markdownChunks = {}
+    
     for _, section in ipairs(sections) do
         local conditionMet = false
         if type(section.condition) == "function" then
@@ -910,18 +913,48 @@ local function GenerateMarkdown(format)
                 -- Verify function exists
                 if not gen.GenerateDynamicTableOfContents then
                     CM.Error("GenerateDynamicTableOfContents function not found!")
-                end
-
-                local success, result = pcall(gen.GenerateDynamicTableOfContents, sections, format)
-                if success then
-                    local resultLength = result and #result or 0
-                    CM.DebugPrint("GENERATOR", string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength))
-                    if resultLength == 0 then
-                        CM.DebugPrint("GENERATOR", "Dynamic TOC returned empty string!")
-                    end
-                    markdown = markdown .. result
+                    -- Set result to empty to fall through
                 else
-                    CM.Error(string.format("Dynamic TOC generation failed: %s", tostring(result)))
+                    local success, resultTOC = pcall(gen.GenerateDynamicTableOfContents, sections, format)
+                    if success then
+                        local resultLength = resultTOC and #resultTOC or 0
+                        CM.DebugPrint("GENERATOR", string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength))
+                        
+                        -- DIRECTLY REPLACING THE LOGIC:
+                        -- If we successfully generated TOC, treat it as 'result' for the common block
+                        if resultTOC and resultTOC ~= "" then
+                            -- We will process this result using the common block logic by setting a flag or restructure
+                            -- To minimize diff, we'll just execute the common logic here for TOC
+                            
+                            local result = resultTOC
+                            
+                            -- AUTO-ADD ANCHOR (TOC usually doesn't need anchor, but check tocEntry)
+                             if section.tocEntry and section.tocEntry.title then
+                                local anchor = GenerateAnchor(section.tocEntry.title)
+                                if anchor and anchor ~= "" then
+                                    if not result:match("^%s*<a id=") then
+                                        result = string.format('<a id="%s"></a>\n\n%s', anchor, result)
+                                    end
+                                end
+                            end
+
+                            -- AUTO-ADD SEPARATOR
+                            local hasSeparator = result:match("%-%-%-%s*$") or result:match("<hr>%s*$") or result:match("<hr%s*/>%s*$")
+                            if not hasSeparator then
+                                local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
+                                if CreateSeparator then
+                                    result = result .. CreateSeparator("hr")
+                                else
+                                    result = result .. "\n---\n\n"
+                                end
+                                CM.DebugPrint("GENERATOR", string.format("Auto-added separator for section %s", section.name))
+                            end
+                            
+                            table.insert(markdownChunks, result)
+                        end
+                    else
+                        CM.Error(string.format("Dynamic TOC generation failed: %s", tostring(resultTOC)))
+                    end
                 end
             -- Normal section generation
             elseif not section.generator or type(section.generator) ~= "function" then
@@ -991,7 +1024,7 @@ local function GenerateMarkdown(format)
                                 CM.DebugPrint("GENERATOR", string.format("Auto-added separator for section %s", section.name))
                             end
 
-                            markdown = markdown .. result
+                            table.insert(markdownChunks, result)
                         end
                 else
                     CM.Error(string.format("  ✗ %s FAILED: %s", section.name, tostring(result)))
@@ -999,11 +1032,9 @@ local function GenerateMarkdown(format)
                     if section.name == "SkillBars" or section.name == "Equipment" then
                         CM.Error(string.format("CRITICAL: Section '%s' failed, adding placeholder", section.name))
                         if section.name == "SkillBars" then
-                            markdown = markdown
-                                .. "## ⚔️ Combat Arsenal\n\n*Error generating skill bars*\n\n---\n\n"
+                             table.insert(markdownChunks, "## ⚔️ Combat Arsenal\n\n*Error generating skill bars*\n\n---\n\n")
                         elseif section.name == "Equipment" then
-                            markdown = markdown
-                                .. "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n"
+                             table.insert(markdownChunks, "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n")
                         end
                     end
                 end
@@ -1011,6 +1042,8 @@ local function GenerateMarkdown(format)
         end
     end
     -- Markdown generated
+    
+    local markdown = table.concat(markdownChunks)
 
     -- CRITICAL CHECK: If markdown is empty at this point, log it
     if markdown == "" or #markdown == 0 then

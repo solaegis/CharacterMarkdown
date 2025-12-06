@@ -361,15 +361,17 @@ end
 
 -- Generate a discipline as a table (for multi-column table layout)
 local function GenerateDisciplineTable(discipline, unassignedCP, format)
-    local disciplineTotal = discipline.total or 0
-    local disciplineAssigned = discipline.assigned or disciplineTotal
+    local disciplineSpent = discipline.spent or discipline.total or 0
+    local maxPerDiscipline = discipline.cap or (disciplineSpent + (discipline.available or 0))
 
-    -- Calculate max per discipline: assigned + unassigned (per API guide)
-    local maxPerDiscipline = disciplineAssigned + unassignedCP
+    -- Fallback if cap is missing (shouldn't happen with new collector)
+    if maxPerDiscipline == 0 and unassignedCP then
+         maxPerDiscipline = disciplineSpent + unassignedCP
+    end
 
-    -- Ensure max is at least equal to assigned (safety check)
-    if maxPerDiscipline < disciplineAssigned then
-        maxPerDiscipline = disciplineAssigned
+    -- Ensure max is at least equal to spent (safety check)
+    if maxPerDiscipline < disciplineSpent then
+        maxPerDiscipline = disciplineSpent
     end
 
     local CreateStyledTable = CM.utils.markdown and CM.utils.markdown.CreateStyledTable
@@ -381,14 +383,14 @@ local function GenerateDisciplineTable(discipline, unassignedCP, format)
     local headers = { (discipline.emoji or "⚔️") .. " " .. discipline.name, "Assigned Points" }
     local rows = {}
 
-    if disciplineTotal > 0 then
+    if disciplineSpent > 0 then
         -- Safety check: avoid division by zero
-        local disciplinePercent = maxPerDiscipline > 0 and math.min(100, math.floor((disciplineTotal / maxPerDiscipline) * 100)) or 0
+        local disciplinePercent = maxPerDiscipline > 0 and math.min(100, math.floor((disciplineSpent / maxPerDiscipline) * 100)) or 0
         local progressBar = CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
 
         -- Progress row: progress bar + percentage | x/y points
         local progressBarText = progressBar .. " " .. disciplinePercent .. "%"
-        local pointsText = CM.utils.FormatNumber(disciplineTotal) .. "/" .. maxPerDiscipline .. " points"
+        local pointsText = CM.utils.FormatNumber(disciplineSpent) .. "/" .. maxPerDiscipline .. " points"
         table.insert(rows, { progressBarText, pointsText })
 
         -- Show skills breakdown using unified function
@@ -442,26 +444,29 @@ end
 
 local function GenerateSingleDiscipline(discipline, unassignedCP, format)
     local markdown = ""
-    local disciplineTotal = discipline.total or 0
-    local disciplineAssigned = discipline.assigned or disciplineTotal
+    local disciplineSpent = discipline.spent or discipline.total or 0
+    local maxPerDiscipline = discipline.cap or (disciplineSpent + (discipline.available or 0))
 
-    -- Calculate max per discipline: assigned + unassigned (per API guide)
-    local maxPerDiscipline = disciplineAssigned + unassignedCP
-
-    -- Ensure max is at least equal to assigned (safety check)
-    if maxPerDiscipline < disciplineAssigned then
-        maxPerDiscipline = disciplineAssigned
+    -- Fallback if cap is missing
+    if maxPerDiscipline == 0 and unassignedCP then
+         maxPerDiscipline = disciplineSpent + unassignedCP
     end
 
-    if disciplineTotal > 0 then
+    -- Ensure max is at least equal to spent (safety check)
+    if maxPerDiscipline < disciplineSpent then
+        maxPerDiscipline = disciplineSpent
+    end
+
+    if disciplineSpent > 0 then
         -- Safety check: avoid division by zero
-        local disciplinePercent = maxPerDiscipline > 0 and math.min(100, math.floor((disciplineTotal / maxPerDiscipline) * 100)) or 0
+        local disciplinePercent = maxPerDiscipline > 0 and math.min(100, math.floor((disciplineSpent / maxPerDiscipline) * 100)) or 0
         local progressBar = CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
 
+        -- Progress row: progress bar + percentage | x/y points
         markdown = markdown .. "#### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. "\n\n"
         markdown = markdown
             .. "**"
-            .. CM.utils.FormatNumber(disciplineTotal)
+            .. CM.utils.FormatNumber(disciplineSpent)
             .. "/"
             .. maxPerDiscipline
             .. " points** "
@@ -638,17 +643,16 @@ local function GenerateChampionPoints(cpData, format)
             else
                 -- Fallback to vertical layout if multi-column not available or wrong number of disciplines
                 for _, discipline in ipairs(cpData.disciplines) do
-                    local disciplineTotal = discipline.total or 0
-                    local disciplineAssigned = discipline.assigned or disciplineTotal
-
-                    local maxPerDiscipline = disciplineAssigned + unassignedCP
-                    if maxPerDiscipline < disciplineAssigned then
-                        maxPerDiscipline = disciplineAssigned
+                    local disciplineSpent = discipline.spent or discipline.total or 0
+                    local maxPerDiscipline = discipline.cap or (disciplineSpent + (discipline.available or 0))
+                    
+                    if maxPerDiscipline < disciplineSpent then
+                        maxPerDiscipline = disciplineSpent
                     end
 
-                    if disciplineTotal > 0 then
+                    if disciplineSpent > 0 then
                         local disciplinePercent = maxPerDiscipline > 0
-                                and math.min(100, math.floor((disciplineTotal / maxPerDiscipline) * 100))
+                                and math.min(100, math.floor((disciplineSpent / maxPerDiscipline) * 100))
                             or 0
                         local progressBar =
                             CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
@@ -659,7 +663,7 @@ local function GenerateChampionPoints(cpData, format)
                             .. " "
                             .. discipline.name
                             .. " ("
-                            .. CM.utils.FormatNumber(disciplineTotal)
+                            .. CM.utils.FormatNumber(disciplineSpent)
                             .. "/"
                             .. maxPerDiscipline
                             .. " points) "
@@ -697,7 +701,7 @@ local function GenerateChampionPoints(cpData, format)
                             markdown = markdown .. "*Points assigned but details not available*\n\n"
                         end
                     else
-                        local maxPerDiscipline = disciplineAssigned + unassignedCP
+                        local maxPerDiscipline = discipline.cap or (discipline.available or 0)
                         if maxPerDiscipline == 0 then
                             maxPerDiscipline = unassignedCP
                         end
