@@ -1,85 +1,139 @@
 # CharacterMarkdown Build Exclusions
-# Files and directories to exclude from release ZIP
+# CRITICAL: ESOUI only allows *.lua, *.xml, *.txt, *.addon, *.md files
+# All other file types and development files MUST be excluded
 
+# ============================================================================
+# C/C++ Header Files (CRITICAL - NOT ALLOWED BY ESOUI)
+# ============================================================================
+*.h
+*.hpp
+*.c
+*.cpp
+.lua/
+
+# ============================================================================
 # Version Control
+# ============================================================================
 .git
 .gitignore
 .gitattributes
-
-# CI/CD
 .github
+
+# ============================================================================
+# Build System & CI/CD
+# ============================================================================
 .task
 Taskfile.yml
 Taskfile.yaml
+.pre-commit-config.yaml
+.luacheckrc
+.stylua.toml
+.cursorrules
+.agent
+.build-ignore
 
+# ============================================================================
 # Build Artifacts
+# ============================================================================
 build
 dist
 *.zip
 
-# Documentation
+# ============================================================================
+# Documentation (EXCLUDE from distribution)
+# ============================================================================
 docs
 archive
 book
 book.toml
 *.md
-README.md
+!README_ESOUI.txt
 CHANGELOG*
 LICENSE
+RELEASE_CHECKLIST.md
 
-# Keep README_ESOUI.txt for ESOUI upload action
-# README_ESOUI.txt
-
-# Development Tools
-.pre-commit-config.yaml
-.luacheckrc
+# ============================================================================
+# Development Scripts & Tools
+# ============================================================================
 scripts
+*.py
+*.sh
+generate_diagrams.py
 
-# IDE / Editor
-.vscode
-.idea
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Backup Files
-*.backup
-*.bak
-*.old
-*.orig
-
-# Test Files
+# ============================================================================
+# Test & Debug Files (CRITICAL - NOT FOR RELEASE)
+# ============================================================================
 test
 tests
 spec
 test_*.lua
 *_test.lua
+verify_*.lua
+debug_*.lua
+reproduce_*.lua
+*Tests.lua
 
-# Node Modules (if using Node-based tools)
-node_modules
-package.json
-package-lock.json
+# ============================================================================
+# Examples & Templates (NOT FOR RELEASE)
+# ============================================================================
+examples
 
-# Python Virtual Environments (if using Python tools)
-venv
-.venv
-__pycache__
+# ============================================================================
+# Assets (NOT FOR RELEASE - ESO doesn't use these)
+# ============================================================================
+assets
 
-# Logs
+# ============================================================================
+# Temporary & Validation Files
+# ============================================================================
+issues_summary.txt
+validation_report*.txt
+uesp_linked_phrases.txt
+*.tmp
+*.temp
 *.log
-
-# Temporary Files
 tmp
 temp
 .tmp
 
-# macOS
+# ============================================================================
+# IDE / Editor
+# ============================================================================
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# ============================================================================
+# Backup Files
+# ============================================================================
+*.backup
+*.bak
+*.old
+*.orig
+
+# ============================================================================
+# Node Modules
+# ============================================================================
+node_modules
+package.json
+package-lock.json
+
+# ============================================================================
+# Python
+# ============================================================================
+venv
+.venv
+__pycache__
+*.pyc
+
+# ============================================================================
+# OS Files
+# ============================================================================
 .DS_Store
 .AppleDouble
 .LSOverride
-
-# Windows
 Thumbs.db
 ehthumbs.db
 Desktop.ini

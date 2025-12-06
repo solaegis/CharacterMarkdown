@@ -229,12 +229,12 @@ local function GenerateAchievementCategories(achievementData, format)
                     }
                     tableContent = CreateStyledTable(headers, rows, options)
                 else
-                    -- Fallback
-                    tableContent = "| " .. subName .. " | Value |\n|:---|---:|\n"
+                    -- Fallback: Use table.concat for performance
+                    local parts = { "| " .. subName .. " | Value |", "|:---|---:|" }
                     for _, row in ipairs(rows) do
-                        tableContent = tableContent .. "| " .. row[1] .. " | " .. row[2] .. " |\n"
+                        parts[#parts + 1] = "| " .. row[1] .. " | " .. row[2] .. " |"
                     end
-                    tableContent = tableContent .. "\n"
+                    tableContent = table.concat(parts, "\n") .. "\n\n"
                 end
                 
                 table.insert(subcategoryTables, tableContent)
@@ -263,11 +263,12 @@ local function GenerateAchievementCategories(achievementData, format)
                 }
                 tableContent = CreateStyledTable(headers, rows, options)
             else
-                tableContent = "| Metric | Value |\n|:---|---:|\n"
+                -- Fallback: Use table.concat for performance
+                local parts = { "| Metric | Value |", "|:---|---:|" }
                 for _, row in ipairs(rows) do
-                    tableContent = tableContent .. "| " .. row[1] .. " | " .. row[2] .. " |\n"
+                    parts[#parts + 1] = "| " .. row[1] .. " | " .. row[2] .. " |"
                 end
-                tableContent = tableContent .. "\n"
+                tableContent = table.concat(parts, "\n") .. "\n\n"
             end
             table.insert(subcategoryTables, tableContent)
         end

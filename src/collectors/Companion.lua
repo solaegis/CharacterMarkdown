@@ -62,13 +62,24 @@ local function CollectCompanionData()
         data.skills = CM.api.companion.GetCompanionSkills()
         data.equipment = CM.api.companion.GetCompanionEquipment()
         
+        -- Get rapport level (API 101048+)
+        if CM.api.companion.GetCompanionRapport then
+            data.rapport = CM.api.companion.GetCompanionRapport()
+        end
+        
+        -- Get outfit info (API 101048+)
+        if CM.api.companion.GetCompanionOutfit then
+            data.outfit = CM.api.companion.GetCompanionOutfit()
+        end
+        
         -- Add computed summary for active companion
         data.summary = {
             totalCompanions = companions.list and #companions.list or 0,
             hasActive = true,
             activeLevel = data.active.level or 0,
             skillCount = data.skills and #data.skills or 0,
-            equipmentCount = data.equipment and #data.equipment or 0
+            equipmentCount = data.equipment and #data.equipment or 0,
+            rapportLevel = data.rapport and data.rapport.description or nil
         }
     else
         data.active = nil

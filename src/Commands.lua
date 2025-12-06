@@ -734,13 +734,40 @@ local function GenerateOutput(formatter)
             return
         end
 
-        if not tonlOutput or tonlOutput == "" then
-            CM.Error("Generated TONL is empty or nil")
+        if not tonlOutput then
+            CM.Error("Generated TONL is nil")
             return
         end
 
-        local tonlSize = string.len(tonlOutput)
-        CM.DebugPrint("COMMAND", string.format("TONL generated: %d chars", tonlSize))
+        -- Handle chunked output (table) or single string
+        local isChunksArray = type(tonlOutput) == "table"
+        local tonlSize = 0
+
+        if isChunksArray then
+            if #tonlOutput == 0 then
+                CM.Error("Generated TONL chunks array is empty")
+                return
+            end
+            for _, chunk in ipairs(tonlOutput) do
+                tonlSize = tonlSize + string.len(chunk.content)
+            end
+            CM.DebugPrint(
+                "COMMAND",
+                string.format(
+                    "TONL generated: %d chars in %d chunk%s",
+                    tonlSize,
+                    #tonlOutput,
+                    #tonlOutput == 1 and "" or "s"
+                )
+            )
+        else
+            if tonlOutput == "" then
+                CM.Error("Generated TONL is empty")
+                return
+            end
+            tonlSize = string.len(tonlOutput)
+            CM.DebugPrint("COMMAND", string.format("TONL generated: %d chars", tonlSize))
+        end
 
         if CharacterMarkdown_ShowWindow then
             CM.DebugPrint("COMMAND", "Opening display window...")

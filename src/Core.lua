@@ -23,7 +23,7 @@ CM.name = "CharacterMarkdown"
 -- Initialize version - will be updated after addon loads when GetAddOnMetadata is available
 CM.version = "@project-version@" -- Fallback version (replaced during build)
 CM.author = "solaegis"
-CM.apiVersion = 101047
+CM.apiVersion = 101048
 
 -- Update version and metadata from manifest after addon loads
 -- This function will be called from Events.lua after EVENT_ADD_ON_LOADED

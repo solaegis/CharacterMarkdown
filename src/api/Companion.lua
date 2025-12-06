@@ -204,5 +204,61 @@ end
 
 -- Composition functions moved to collector level
 
+-- =====================================================
+-- COMPANION OUTFIT & RAPPORT (API 101048+)
+-- =====================================================
+
+function api.GetCompanionOutfit()
+    if not api.HasActiveCompanion() then
+        return nil
+    end
+    
+    -- Try to get the active companion's collectible ID
+    local companionDefId = CM.SafeCall(GetActiveCompanionDefId)
+    if not companionDefId then
+        return nil
+    end
+    
+    -- Get the companion's default outfit ID
+    local outfitId = CM.SafeCall(GetCompanionDefaultOutfitId, companionDefId)
+    local outfitName = nil
+    
+    if outfitId and outfitId > 0 then
+        -- Try to get outfit name
+        outfitName = CM.SafeCall(GetOutfitName, outfitId)
+    end
+    
+    return {
+        companionDefId = companionDefId,
+        outfitId = outfitId,
+        outfitName = outfitName or "Default"
+    }
+end
+
+function api.GetCompanionRapport()
+    if not api.HasActiveCompanion() then
+        return nil
+    end
+    
+    local companionDefId = CM.SafeCall(GetActiveCompanionDefId)
+    if not companionDefId then
+        return nil
+    end
+    
+    -- Get rapport level and description
+    local rapportLevel = CM.SafeCall(GetCompanionRapportLevel, companionDefId)
+    local rapportDescription = nil
+    
+    if rapportLevel then
+        -- SI_COMPANIONRAPPORTLEVEL values: 1=Disdainful, 2=Wary, 3=Cordial, 4=Friendly, 5=Close
+        rapportDescription = CM.SafeCall(GetString, "SI_COMPANIONRAPPORTLEVEL", rapportLevel)
+    end
+    
+    return {
+        level = rapportLevel or 0,
+        description = rapportDescription or "Unknown"
+    }
+end
+
 CM.DebugPrint("API", "Companion API module loaded")
 

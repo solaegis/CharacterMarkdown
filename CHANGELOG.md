@@ -5,6 +5,21 @@ All notable changes to Character Markdown will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.4] - 2025-12-06
+
+### 🔧 Fixed
+- **ESOUI Compliance**: Fixed package compliance issue that caused rejection
+  - Removed all non-allowed file types (C/C++ headers, Python scripts, config files)
+  - Enhanced build exclusion system to prevent future compliance issues
+  - Added automated validation to detect ESOUI-disallowed files before upload
+  - Package now contains only ESOUI-allowed files: `*.lua`, `*.xml`, `*.txt`, `*.addon`
+
+### 🛠️ Cleanup
+- Removed test and debug files from repository root
+- Cleaned up temporary validation and test files
+- Enhanced `.build-ignore` with comprehensive exclusions
+- Improved ZIP validation script to catch compliance issues early
+
 ## [2.2.3] - 2025-12-06
 
 ### 🛠️ Cleanup

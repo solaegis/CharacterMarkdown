@@ -49,14 +49,14 @@
 | **Gender** | Male |
 | **Race** | Imperial |
 | **🪨 Mundus Stone** | The Steed |
-| **Account** | @SOLAEGIS |
+| **Age** | 19d 1h 6m |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Age** | 19d 0h 54m |
+| **Account** | @SOLAEGIS |
 | **ESO Plus** | ✅ Active |
 | **Class** | Dragonknight |
 | **Server** | NA Megaserver |
@@ -269,8 +269,8 @@ After all, *someone* has to supply the heroes with their gear.
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟢 **Night's Silence** | `5/5` ██████████ 100% *(+2 extra)* |
 | 🟢 **Armor of the Seducer** | `5/5` ██████████ 100% *(+1 extra)* |
+| 🟢 **Night's Silence** | `5/5` ██████████ 100% *(+2 extra)* |
 
 ### 📋 Equipment Details
 
@@ -297,6 +297,9 @@ After all, *someone* has to supply the heroes with their gear.
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
 | 791 | 694 | 97 |
+
+
+> ✨ **Enlightened** - 184,679 XP bonus remaining
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
@@ -583,9 +586,8 @@ graph TD
 
 ⚠️ **[Dragon Leap](https://en.uesp.net/wiki/Online:Dragon_Leap)** (Rank 4)
 
+
   <details>
-
-
   <summary>Other morph options</summary>
 
   ⚪ **Morph 1**: [Take Flight](https://en.uesp.net/wiki/Online:Take_Flight)
@@ -1124,48 +1126,6 @@ graph TD
 
 ---
 
-<a id="companions"></a>
-
-## 👥 Companions
-
-### Available Companions
-
-- Bastian Hallix
-- Ember
-- Isobel Veloise
-- Mirri Elendis
-- Tanlorin
-- Zerith-var
-
-### Active Companion
-
-#### 🧙 Tanlorin
-
-#### Front Bar
-
-| **1** | **2** | **3** | **4** | **5** | **⚡** |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| Internal Conflict | Volcanic Arms | Shattered Spirit | Igneous Armor | Kindle | [Empty] |
-
-| **Slot** | **Item** | **Quality** | **Trait** |
-| --- | --- | --- | --- |
-| ⚔️ **Main Hand** | Companion's Lightning Staff (Level 1, ⭐ Epic) ⚠️ | ⭐ Epic | Aggressive |
-| ⛑️ **Head** | Companion's Helmet (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
-| 🛡️ **Chest** | Companion's Jack (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
-| 👑 **Shoulders** | Companion's Epaulets (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Augmented |
-| ✋ **Hands** | Companion's Bracers (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Augmented |
-| ⚡ **Waist** | Companion's Belt (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
-| 👖 **Legs** | Companion's Guards (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
-| 👟 **Feet** | Companion's Boots (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Soothing |
-
-| **Attention Needed** | **Fix** |
-| --- | --- |
-| 👥 **Companion underleveled** | Tanlorin (Level 15/20) - Needs XP |
-| 👥 **Companion outdated gear** | 8 pieces below level - Upgrade equipment |
-| 👥 **Companion empty ability slots** | 1 - Assign abilities |
-
----
-
 <a id="collectibles"></a>
 
 ## 🎨 Collectibles
@@ -1210,8 +1170,6 @@ graph TD
 - Black Hand Robe
 - Bloodthorn Robes
 - Colovian Uniform
-
-
 - Courier Uniform
 - Court of Bedlam
 - Covenant Scout
@@ -1306,6 +1264,8 @@ graph TD
 - Dremora Deceiver's Diadem
 - Eternal Hunger Coronal
 - Malign Ambitions Crown
+
+
 </details>
 
 <details>
@@ -1726,8 +1686,6 @@ graph TD
 | --- | ---: | --- |
 | 🔵 ancestor silk gloves of Health | 1 | 🔵 |
 | 🟣 ancestor silk gloves of Magicka | 1 | 🟣 |
-
-
 | 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
 | 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
 | 🟡 Attribute Respecification Scroll | 2 | 🟡 |
@@ -1772,6 +1730,8 @@ graph TD
 | 🟢 Companion's Breeches | 1 | 🟢 |
 | 🟢 Companion's Breeches | 1 | 🟢 |
 | 🔵 Companion's Breeches | 1 | 🔵 |
+
+
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
@@ -2350,7 +2310,6 @@ graph TD
 
 </div><div>
 
-
 #### Reagent (30 items)
 
 | **Item** | **Stack** | **Quality** |
@@ -2400,6 +2359,7 @@ graph TD
 
 
 </div><div>
+
 
 #### Style Material (73 items)
 
@@ -4272,10 +4232,10 @@ graph TD
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-110,014%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-108,498%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 12/06/2025 • Version: 2.2.2-2-g0e62920</sub>
+<sub>Generated on 12/06/2025 • Version: 2.2.3</sub>
 
 </div>

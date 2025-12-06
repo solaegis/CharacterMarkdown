@@ -109,3 +109,52 @@ function api.GetDisciplineSkills(disciplineIndex)
 end
 
 -- Composition functions moved to collector level
+
+-- =====================================================
+-- ENLIGHTENMENT TRACKING (API 101048+)
+-- =====================================================
+
+function api.GetEnlightenmentInfo()
+    -- Check if enlightenment is available for this character
+    local isEnlightened = CM.SafeCall(IsEnlightenedAvailableForCharacter) or false
+    
+    -- Get remaining enlightenment pool (XP bonus remaining)
+    local poolRemaining = CM.SafeCall(GetEnlightenedPool) or 0
+    
+    -- Get time until enlightenment changes (seconds)
+    local timeUntilChange = CM.SafeCall(GetTimeUntilEnlightenmentChange) or 0
+    
+    -- Format time for display if enlightened
+    local timeFormatted = nil
+    if isEnlightened and timeUntilChange > 0 then
+        -- Use ZO_FormatTime if available, otherwise format manually
+        if ZO_FormatTime then
+            timeFormatted = CM.SafeCall(ZO_FormatTime, timeUntilChange, TIME_FORMAT_STYLE_DESCRIPTIVE)
+        else
+            -- Manual formatting fallback
+            local hours = math.floor(timeUntilChange / 3600)
+            local minutes = math.floor((timeUntilChange % 3600) / 60)
+            timeFormatted = string.format("%dh %dm", hours, minutes)
+        end
+    end
+    
+    CM.DebugPrint("CP_API", string.format(
+        "Enlightenment: active=%s, pool=%d, timeUntilChange=%d",
+        tostring(isEnlightened), poolRemaining, timeUntilChange
+    ))
+    
+    return {
+        isEnlightened = isEnlightened,
+        poolRemaining = poolRemaining,
+        timeUntilChange = timeUntilChange,
+        timeFormatted = timeFormatted
+    }
+end
+
+-- Get pending (uncommitted) champion point changes
+function api.GetPendingPoints()
+    local pending = CM.SafeCall(GetNumPendingChampionPoints) or 0
+    return pending
+end
+
+CM.DebugPrint("API", "Champion API module loaded")

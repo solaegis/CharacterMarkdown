@@ -106,6 +106,8 @@ local function CollectChampionPointData()
         spent = 0,
         available = 0,
         disciplines = {},
+        enlightenment = nil, -- Will be populated from API
+        pendingPoints = 0,   -- Uncommitted changes
         analysis = {
             slottableSkills = 0,
             passiveSkills = 0,
@@ -117,6 +119,16 @@ local function CollectChampionPointData()
     -- Get total CP earned (account-wide) from API
     data.total = cpPoints.total or 0
     data.available = cpPoints.unspent
+    
+    -- Get enlightenment info (API 101048+)
+    if CM.api.champion.GetEnlightenmentInfo then
+        data.enlightenment = CM.api.champion.GetEnlightenmentInfo()
+    end
+    
+    -- Get pending (uncommitted) CP changes
+    if CM.api.champion.GetPendingPoints then
+        data.pendingPoints = CM.api.champion.GetPendingPoints()
+    end
 
     if data.total < CP_CONSTANTS.MIN_CP_FOR_SYSTEM then
         return data

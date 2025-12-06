@@ -83,9 +83,6 @@ local function CollectSkillProgressionData()
     
     local data = {
         lines = skillLines,
-        maxedLines = {},
-        inProgressLines = {},
-        earlyProgressLines = {},
         summary = {
             totalLines = 0,
             totalSkills = 0,
@@ -112,10 +109,6 @@ local function CollectSkillProgressionData()
 
     -- Calculate summary statistics and categorize
     if skillLines then
-        -- CM.Warn("CollectSkillProgressionData found " .. #skillLines .. " total lines")
-        -- CM.Warn("First line type: " .. type(skillLines[1]))
-        -- if skillLines[1] then CM.Warn("First line name: " .. tostring(skillLines[1].name)) end
-        
         data.summary.totalLines = #skillLines
         
         local loopCount = 0
@@ -134,52 +127,22 @@ local function CollectSkillProgressionData()
             end
             line.progress = progress
 
-            -- Categorize
+            -- Add status field instead of separate arrays
             if IsMaxed(line) then
+                line.status = "maxed"
                 -- Fetch passives for maxed lines
                 line.passives = CM.api.skills.GetSkillPassives(line.type, line.index)
-                table.insert(data.maxedLines, line)
                 data.summary.maxedCount = data.summary.maxedCount + 1
-                -- CM.Warn("Line MAXED: " .. line.name)
             elseif line.rank > 1 or progress > 0 then
+                line.status = "in_progress"
                 -- Fetch passives for in-progress lines too
                 line.passives = CM.api.skills.GetSkillPassives(line.type, line.index)
-                table.insert(data.inProgressLines, line)
                 data.summary.inProgressCount = data.summary.inProgressCount + 1
-                -- CM.Warn("Line IN PROGRESS: " .. line.name .. " (Rank " .. line.rank .. ", " .. progress .. "%)")
             else
-                table.insert(data.earlyProgressLines, line)
+                line.status = "early"
                 data.summary.earlyProgressCount = data.summary.earlyProgressCount + 1
-                -- CM.Warn("Line EARLY: " .. line.name)
             end
 
-            -- Count skills/morphs/passives (using existing logic if available, or just counting)
-            -- ...
-
-
-            -- Count skills/morphs/passives (using existing logic if available, or just counting)
-            -- The original logic iterated line.skills, but GetSkillLines doesn't return .skills by default?
-            -- Wait, GetSkillLines in API returns list of lines. It does NOT populate .skills.
-            -- The original code assumed line.skills existed. 
-            -- Let's check src/api/Skills.lua again. GetSkillLines calls GetSkillLinesByType.
-            -- GetSkillLinesByType returns { index, name, rank, id }.
-            -- GetSkillLines adds { type, index, name, rank, xp }.
-            -- It does NOT add .skills.
-            -- So the original code: `if line.skills then ... end` was likely doing nothing or I missed something.
-            -- Ah, looking at the original file content I read in Step 21:
-            -- `local skillLines = CM.api.skills.GetSkillLines()`
-            -- `for _, line in ipairs(skillLines) do if line.skills then ... end end`
-            -- It seems the original code expected `line.skills` but the API `GetSkillLines` I read in Step 22 does NOT provide it.
-            -- This implies the original code might have been incomplete or I missed where `line.skills` comes from.
-            -- OR `GetSkillLines` was modified recently?
-            -- Regardless, I need to populate summary stats.
-            -- I can use GetSkillAbilitiesWithMorphs to count skills/morphs if I want accurate counts.
-            -- But that might be expensive to do for ALL lines.
-            -- For now, I'll skip detailed skill counting for the summary if it's too expensive, 
-            -- or just do it for the lines we care about.
-            -- The example output has "Overall Completion 34%", "Abilities with Morphs 35".
-            -- So I DO need these counts.
-            
             -- Let's fetch abilities for counting
             local abilities = CM.api.skills.GetSkillAbilitiesWithMorphs(line.type, line.index)
             for _, skill in ipairs(abilities) do
@@ -193,13 +156,6 @@ local function CollectSkillProgressionData()
             local passives = CM.api.skills.GetSkillPassives(line.type, line.index)
             data.summary.totalPassives = data.summary.totalPassives + #passives
         end
-        -- CM.Warn("Loop finished. Iterated " .. loopCount .. " times.")
-        -- CM.Warn("Summary: Maxed=" .. data.summary.maxedCount .. ", InProgress=" .. data.summary.inProgressCount .. ", Early=" .. data.summary.earlyProgressCount)
-        
-        -- CRITICAL: Verify arrays are populated
-        -- CM.Warn("COLLECTOR RETURN: maxedLines count = " .. #data.maxedLines)
-        -- CM.Warn("COLLECTOR RETURN: inProgressLines count = " .. #data.inProgressLines)
-        -- CM.Warn("COLLECTOR RETURN: earlyProgressLines count = " .. #data.earlyProgressLines)
         
         -- Calculate overall completion
         if data.summary.totalLines > 0 then

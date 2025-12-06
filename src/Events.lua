@@ -53,53 +53,71 @@ end
 -- CACHE INVALIDATION HANDLERS
 -- =====================================================
 
+-- Throttling mechanism to prevent rapid successive cache clears
+local pendingCacheClear = {}
+local CACHE_CLEAR_DELAY_MS = 500
+
+local function ThrottledCacheClear(cacheKey, clearFunc, debugMessage)
+    if pendingCacheClear[cacheKey] then return end
+    pendingCacheClear[cacheKey] = true
+    
+    zo_callLater(function()
+        if clearFunc then
+            clearFunc()
+            CM.DebugPrint("CACHE", debugMessage)
+        end
+        pendingCacheClear[cacheKey] = nil
+    end, CACHE_CLEAR_DELAY_MS)
+end
+
 local function OnCollectibleUnlocked(event, collectibleId)
-    -- Clear collectibles cache when a collectible is unlocked
+    -- Clear collectibles cache when a collectible is unlocked (throttled)
     if CM.api and CM.api.collectibles and CM.api.collectibles.ClearCache then
-        CM.api.collectibles.ClearCache()
-        CM.DebugPrint("CACHE", "Collectibles cache cleared (collectible unlocked: " .. tostring(collectibleId) .. ")")
+        ThrottledCacheClear("collectibles", CM.api.collectibles.ClearCache, 
+            "Collectibles cache cleared (collectible unlocked: " .. tostring(collectibleId) .. ")")
     end
 end
 
 local function OnSkillRankUpdate(event, skillType, skillLineIndex, skillIndex, rank)
-    -- Clear skills cache when a skill rank changes
+    -- Clear skills cache when a skill rank changes (throttled)
     if CM.api and CM.api.skills and CM.api.skills.ClearCache then
-        CM.api.skills.ClearCache()
-        CM.DebugPrint("CACHE", "Skills cache cleared (skill rank updated)")
+        ThrottledCacheClear("skills", CM.api.skills.ClearCache, 
+            "Skills cache cleared (skill rank updated)")
     end
 end
 
 local function OnSkillPointsChanged(event)
-    -- Clear skills cache when skill points change
+    -- Clear skills cache when skill points change (throttled)
     if CM.api and CM.api.skills and CM.api.skills.ClearCache then
-        CM.api.skills.ClearCache()
-        CM.DebugPrint("CACHE", "Skills cache cleared (skill points changed)")
+        ThrottledCacheClear("skills", CM.api.skills.ClearCache, 
+            "Skills cache cleared (skill points changed)")
     end
 end
 
 local function OnTitleUnlocked(event, titleId)
-    -- Clear titles cache when a title is unlocked
+    -- Clear titles cache when a title is unlocked (throttled)
     if CM.api and CM.api.titles and CM.api.titles.ClearCache then
-        CM.api.titles.ClearCache()
-        CM.DebugPrint("CACHE", "Titles cache cleared (title unlocked: " .. tostring(titleId) .. ")")
+        ThrottledCacheClear("titles", CM.api.titles.ClearCache, 
+            "Titles cache cleared (title unlocked: " .. tostring(titleId) .. ")")
     end
 end
 
 local function OnAntiquityUnlocked(event, antiquityId)
-    -- Clear antiquities cache when an antiquity is unlocked
+    -- Clear antiquities cache when an antiquity is unlocked (throttled)
     if CM.api and CM.api.antiquities and CM.api.antiquities.ClearCache then
-        CM.api.antiquities.ClearCache()
-        CM.DebugPrint("CACHE", "Antiquities cache cleared (antiquity unlocked: " .. tostring(antiquityId) .. ")")
+        ThrottledCacheClear("antiquities", CM.api.antiquities.ClearCache, 
+            "Antiquities cache cleared (antiquity unlocked: " .. tostring(antiquityId) .. ")")
     end
 end
 
 local function OnHouseOwnershipChanged(event, houseId)
-    -- Clear collectibles cache when house ownership changes (houses are collectibles)
+    -- Clear collectibles cache when house ownership changes (throttled)
     if CM.api and CM.api.collectibles and CM.api.collectibles.ClearCache then
-        CM.api.collectibles.ClearCache()
-        CM.DebugPrint("CACHE", "Collectibles cache cleared (house ownership changed: " .. tostring(houseId) .. ")")
+        ThrottledCacheClear("collectibles", CM.api.collectibles.ClearCache, 
+            "Collectibles cache cleared (house ownership changed: " .. tostring(houseId) .. ")")
     end
 end
+
 
 local function RegisterEvents()
     EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_ADD_ON_LOADED, OnAddOnLoaded)

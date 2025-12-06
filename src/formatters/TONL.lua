@@ -178,6 +178,49 @@ local function GenerateTONL()
 
     -- Clear collected data to help GC
     collectedData = nil
+
+    -- Check if chunking is needed
+    local tonlLength = string.len(tonlOutput)
+    local CHUNKING = CM.constants and CM.constants.CHUNKING
+    local DEFAULTS = CM.constants and CM.constants.DEFAULTS
+    local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT)
+        or (DEFAULTS and DEFAULTS.EDITBOX_LIMIT_FALLBACK)
+        or 10000
+
+    -- Chunk if necessary
+    if tonlLength > EDITBOX_LIMIT then
+        CM.DebugPrint("FORMATTER", function()
+            return string.format("TONL exceeds EditBox limit (%d > %d), chunking...", tonlLength, EDITBOX_LIMIT)
+        end)
+
+        -- Use the consolidated chunking utility
+        local Chunking = CM.utils and CM.utils.Chunking
+        local SplitMarkdownIntoChunks = Chunking and Chunking.SplitMarkdownIntoChunks
+
+        if SplitMarkdownIntoChunks then
+            local chunks = SplitMarkdownIntoChunks(tonlOutput)
+            CM.DebugPrint("FORMATTER", function()
+                return string.format("TONL chunked into %d chunks", #chunks)
+            end)
+
+            -- Clear intermediate reference
+            tonlOutput = nil
+
+            -- Hint to Lua GC
+            collectgarbage("step", 1000)
+
+            return chunks
+        else
+            CM.Error("Chunking utility not available - TONL may be truncated!")
+
+            -- Clear references even on error path
+            collectgarbage("step", 1000)
+
+            return tonlOutput
+        end
+    end
+
+    -- Hint to Lua GC
     collectgarbage("step", 1000)
 
     return tonlOutput

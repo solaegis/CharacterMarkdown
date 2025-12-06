@@ -269,3 +269,46 @@ function api.GetUtilityStats()
 end
 
 -- Composition functions moved to collector level
+
+-- =====================================================
+-- COMPREHENSIVE ADVANCED STATS (API 101048+)
+-- =====================================================
+
+-- Aggregate all available advanced stats into a single lookup
+function api.GetAllAdvancedStats()
+    -- Define all known ADVANCED_STAT_DISPLAY_TYPE constants
+    -- These provide more accurate values than raw STAT_ constants
+    local advancedStatTypes = {
+        { key = "sneakCost", type = ADVANCED_STAT_DISPLAY_TYPE_SNEAK_COST },
+        { key = "sprintCost", type = ADVANCED_STAT_DISPLAY_TYPE_SPRINT_COST },
+        { key = "criticalDamage", type = ADVANCED_STAT_DISPLAY_TYPE_CRITICAL_DAMAGE },
+        { key = "criticalHealing", type = ADVANCED_STAT_DISPLAY_TYPE_CRITICAL_HEALING },
+        { key = "healingDone", type = ADVANCED_STAT_DISPLAY_TYPE_HEALING_DONE },
+        { key = "healingTaken", type = ADVANCED_STAT_DISPLAY_TYPE_HEALING_TAKEN },
+        { key = "physicalDamage", type = ADVANCED_STAT_DISPLAY_TYPE_PHYSICAL_DAMAGE },
+        { key = "magicDamage", type = ADVANCED_STAT_DISPLAY_TYPE_MAGIC_DAMAGE },
+        { key = "fireDamage", type = ADVANCED_STAT_DISPLAY_TYPE_FIRE_DAMAGE },
+        { key = "shockDamage", type = ADVANCED_STAT_DISPLAY_TYPE_SHOCK_DAMAGE },
+        { key = "frostDamage", type = ADVANCED_STAT_DISPLAY_TYPE_FROST_DAMAGE },
+        { key = "diseaseDamage", type = ADVANCED_STAT_DISPLAY_TYPE_DISEASE_DAMAGE },
+        { key = "poisonDamage", type = ADVANCED_STAT_DISPLAY_TYPE_POISON_DAMAGE },
+        { key = "bleedDamage", type = ADVANCED_STAT_DISPLAY_TYPE_BLEED_DAMAGE },
+        { key = "oblivionDamage", type = ADVANCED_STAT_DISPLAY_TYPE_OBLIVION_DAMAGE },
+    }
+    
+    local stats = {}
+    for _, statDef in ipairs(advancedStatTypes) do
+        if statDef.type then
+            local advStat = api.GetAdvancedStat(statDef.type)
+            stats[statDef.key] = {
+                flat = advStat.flat,
+                percent = advStat.percent
+            }
+        end
+    end
+    
+    CM.DebugPrint("COMBAT_API", string.format("Collected %d advanced stats", #advancedStatTypes))
+    return stats
+end
+
+CM.DebugPrint("API", "Combat API module loaded")

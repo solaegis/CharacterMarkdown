@@ -610,6 +610,18 @@ local function GenerateChampionPoints(cpData, format)
             markdown = markdown .. "\n"
         end
 
+        -- Display enlightenment status if available (API 101048+)
+        if cpData.enlightenment and cpData.enlightenment.isEnlightened then
+            local enlightenment = cpData.enlightenment
+            local poolText = CM.utils.FormatNumber(enlightenment.poolRemaining)
+            local timeText = enlightenment.timeFormatted or "Unknown"
+            markdown = markdown .. "\n> ✨ **Enlightened** - " .. poolText .. " XP bonus remaining"
+            if enlightenment.timeUntilChange and enlightenment.timeUntilChange > 0 then
+                markdown = markdown .. " (resets in " .. timeText .. ")"
+            end
+            markdown = markdown .. "\n\n"
+        end
+
         -- Always show disciplines section if data exists
         if cpData.disciplines and #cpData.disciplines > 0 then
             local unassignedCP = availableCP or 0 -- Unassigned CP (shared pool)

@@ -36,10 +36,8 @@ local function CollectCraftBagItems()
                 
                 table.insert(items, {
                     name = itemName,
-                    link = itemLink,
                     stack = stack or 1,
                     quality = quality or 0,
-                    icon = icon,
                     itemType = itemType,
                     itemTypeName = itemTypeName,
                     slot = slotIndex,
@@ -76,10 +74,8 @@ local function CollectCraftBagItems()
                     
                     table.insert(items, {
                         name = itemName,
-                        link = itemLink,
                         stack = stack or 1,
                         quality = quality or 0,
-                        icon = icon,
                         itemType = itemType,
                         itemTypeName = itemTypeName,
                         slot = slotIndex,
@@ -118,10 +114,8 @@ local function CollectBagItems(bagId)
             
             table.insert(items, {
                 name = itemName,
-                link = itemLink,
                 stack = stack or 1,
                 quality = quality or 0,
-                icon = icon,
                 slot = slotIndex,
             })
         end

@@ -106,28 +106,105 @@ validate_zip_structure() {
         fi
     done
     
-    # Check for unwanted files
+    # CRITICAL: Check for ESOUI disallowed file types
+    # ESOUI ONLY allows: *.lua, *.xml, *.txt, *.addon, *.md
+    echo ""
+    echo "CRITICAL: Checking for ESOUI-disallowed file types..."
+    echo ""
+    
+    local disallowed_extensions=(
+        "\.h$"      # C header files
+        "\.hpp$"    # C++ header files
+        "\.c$"      # C source files
+        "\.cpp$"    # C++ source files
+        "\.py$"     # Python scripts
+        "\.sh$"     # Shell scripts
+        "\.yaml$"   # YAML config files
+        "\.yml$"    # YAML config files (alternate)
+        "\.toml$"   # TOML config files
+        "\.json$"   # JSON files
+        "\.js$"     # JavaScript files
+        "\.ts$"     # TypeScript files
+        "\.css$"    # CSS files
+        "\.html$"   # HTML files
+        "\.dds$"    # DDS texture files
+        "\.zip$"    # Nested ZIP files
+        "\.backup$" # Backup files
+        "\.bak$"    # Backup files
+        "\.old$"    # Old files
+        "\.orig$"   # Original files
+        "\.tmp$"    # Temporary files
+        "\.log$"    # Log files
+    )
+    
+    local has_disallowed=0
+    for ext in "${disallowed_extensions[@]}"; do
+        local matches=$(echo "$zip_contents" | grep -E "$ext" | grep -v "^Archive:" | grep -v "^  Length" | grep -v "^---------" | grep -v "files$")
+        if [ -n "$matches" ]; then
+            print_error "❌ CRITICAL: ZIP contains ESOUI-disallowed files with extension: $ext"
+            echo "$matches" | head -5
+            has_disallowed=1
+        fi
+    done
+    
+    if [ $has_disallowed -eq 1 ]; then
+        echo ""
+        print_error "ESOUI COMPLIANCE FAILURE: Package contains disallowed file types!"
+        print_error "ESOUI only allows: *.lua, *.xml, *.txt, *.addon, *.md"
+        print_error "All other file types will cause rejection by ESOUI staff"
+        echo ""
+        return 1
+    else
+        print_success "✅ All files use ESOUI-allowed extensions"
+    fi
+    
+    # Check for unwanted files/directories
     local unwanted_patterns=(
         ".DS_Store"
-        ".git/"
-        ".github/"
-        ".task/"
+        "\.git/"
+        "\.github/"
+        "\.task/"
+        "\.lua/include"  # CRITICAL: Lua C header directory
         "node_modules/"
+        "__pycache__/"
         "test/"
-        "*.backup"
-        "Taskfile.yaml"
+        "tests/"
+        "examples/"
+        "assets/"
+        "docs/"
+        "archive/"
+        "book/"
+        "scripts/"
+        "\.vscode/"
+        "\.idea/"
+        "Taskfile"
+        "\.cursorrules"
+        "\.stylua"
+        "\.luacheckrc"
+        "verify_"
+        "debug_"
+        "reproduce_"
+        "test_"
+        "_test\.lua"
+        "Tests\.lua"
+        "issues_summary"
+        "validation_report"
     )
     
     local has_unwanted=0
     for pattern in "${unwanted_patterns[@]}"; do
         if echo "$zip_contents" | grep -q "$pattern"; then
-            print_warning "ZIP contains unwanted files: $pattern"
+            print_warning "⚠️  ZIP contains unwanted files/directories: $pattern"
             has_unwanted=1
         fi
     done
     
     if [ $has_unwanted -eq 0 ]; then
-        print_success "No unwanted files detected"
+        print_success "✅ No unwanted development files detected"
+    else
+        echo ""
+        print_warning "Package contains development files that should be excluded"
+        print_warning "These files will increase package size unnecessarily"
     fi
     
     echo ""
