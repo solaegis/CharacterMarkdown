@@ -32,13 +32,8 @@ function CM.Settings.Initializer:Initialize()
     self:InitializeProfiles()
 
     -- Sync formatter to core from SavedVariables
-    if CM.settings and CM.settings.currentFormatter then
-        CM.currentFormatter = CM.settings.currentFormatter
-    elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormatter then
-        CM.currentFormatter = CharacterMarkdownSettings.currentFormatter
-    else
-        CM.currentFormatter = "markdown" -- Fallback to default
-    end
+    -- Sync formatter to core from SavedVariables (REMOVED)
+    -- REMOVED: Strict enforcement checks this logic from Commands instead
 
     CM.DebugPrint("SETTINGS", "Settings initialization complete")
     return true
@@ -392,11 +387,8 @@ function CM.Settings.Initializer:ValidateSettings()
     end
 
     -- Validate formatter choice
-    if CM.settings.currentFormatter ~= "markdown" and CM.settings.currentFormatter ~= "tonl" then
-        CM.Warn("Invalid formatter '" .. tostring(CM.settings.currentFormatter) .. "', resetting to markdown")
-        CM.settings.currentFormatter = "markdown"
-        fixed = fixed + 1
-    end
+    -- Validate formatter choice (REMOVED)
+    -- REMOVED: Strict enforcement
 
     if fixed > 0 then
         CM.DebugPrint("SETTINGS", "Validated and fixed " .. fixed .. " settings")

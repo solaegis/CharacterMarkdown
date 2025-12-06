@@ -14,7 +14,7 @@ FEATURES
 * Build Improvement Guidance - Get AI-driven recommendations on skill rotations, gear optimization, attribute allocation, and CP distribution based on your playstyle goals
 * Dynamic Build Goals - Easily share your build with AI to explore different playstyles - switch from PvE to PvP, DPS to Tank, or experiment with hybrid builds with expert AI guidance
 * Complete Character Profile - Comprehensive export of level, CP, attributes, skills, equipment, combat stats, and progression data
-* Multiple Output Formats - GitHub (default), Discord, VS Code, and Quick summary formats optimized for different AI platforms and sharing needs
+* Multiple Output Formats - Markdown (default) and TONL (data) optimized for different AI platforms and sharing needs
 * Smart Wiki Links - Automatic UESP links for abilities, sets, races, classes, zones - perfect for AI context and verification
 * Rich Output - Tables, progress bars, and collapsible sections for GitHub format that AI tools can easily parse and analyze
 * Easy Sharing - Copy to clipboard for seamless pasting into AI chat interfaces, Discord, forums, or documentation
@@ -64,19 +64,16 @@ OUTPUT FORMATS & COMMANDS
 -------------------------
 
 Available Commands:
-/markdown           - Open export window (default GitHub format)
-/markdown github    - Generate GitHub format markdown
-/markdown discord   - Generate Discord format markdown  
-/markdown vscode    - Generate VS Code format markdown
-/markdown quick     - Generate one-line summary
+/markdown (or /cm)  - Generate Markdown format (default)
+/tonl               - Generate TONL data format
+/markdown help      - Show available commands
+/markdown version   - Show version
 /markdown notes "text" - Set custom build notes
 /markdown settings  - Open settings (if LibAddonMenu is installed)
 
 Format Details:
-* GitHub (Default) - Full markdown tables with collapsible sections, rich formatting, comprehensive UESP wiki links. Best for AI analysis with maximum context and detail.
-* Discord - Compact tables optimized for Discord, essential information only. Works well with AI for quick build reviews.
-* VS Code - Clean, readable format optimized for code editors and AI assistants that prefer structured text.
-* Quick - One-line character summary for status updates and brief AI queries.
+* Markdown (Default) - Full markdown tables with collapsible sections, rich formatting, comprehensive UESP wiki links. Best for AI analysis with maximum context and detail.
+* TONL - Structured data format (Tom's Obvious, Minimal Language). Machine-readable export ideal for data processing and external tools.
 
 SETTINGS AND CUSTOMIZATION
 ---------------------------
@@ -96,8 +93,6 @@ Built-in Profiles:
 * Full Documentation - Everything enabled (maximum detail)
 * PvE Build - Focused on trials/dungeons
 * PvP Build - Optimized for Cyrodiil/Battlegrounds
-* Discord Share - Compact format for Discord
-* Quick Reference - Essentials only
 
 Advanced Features:
 * Custom Notes - Add personal build notes with /markdown notes "text"

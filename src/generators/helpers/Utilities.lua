@@ -54,28 +54,20 @@ end
 -- @param format: Output format ("github", "vscode", "discord", "quick")
 -- @return: Formatted header string
 local function GenerateSectionHeader(name, emoji, format)
-    if format == "discord" then
-        local header = "**" .. name .. ":**"
-        if emoji then
-            header = emoji .. " " .. header
-        end
-        return header .. "\n"
-    else
-        -- GitHub/VSCode format with anchor
-        local markdown = CM.utils and CM.utils.markdown
-        local anchorId = markdown and markdown.GenerateAnchor and markdown.GenerateAnchor(name)
-            or name:lower():gsub("[^%w]+", "-")
-        local header = ""
-        if anchorId then
-            header = string.format('<a id="%s"></a>\n\n', anchorId)
-        end
-        local title = name
-        if emoji then
-            title = emoji .. " " .. title
-        end
-        header = header .. "## " .. title .. "\n\n"
-        return header
+    -- GitHub/VSCode format with anchor
+    local markdown = CM.utils and CM.utils.markdown
+    local anchorId = markdown and markdown.GenerateAnchor and markdown.GenerateAnchor(name)
+        or name:lower():gsub("[^%w]+", "-")
+    local header = ""
+    if anchorId then
+        header = string.format('<a id="%s"></a>\n\n', anchorId)
     end
+    local title = name
+    if emoji then
+        title = emoji .. " " .. title
+    end
+    header = header .. "## " .. title .. "\n\n"
+    return header
 end
 
 -- Handle empty data case with consistent messaging
@@ -85,48 +77,33 @@ end
 -- @param emoji: Optional emoji for header
 -- @return: Formatted empty state message
 local function HandleEmptyData(message, format, sectionName, emoji)
-    if format == "discord" then
-        local header = ""
-        if sectionName then
-            header = "**" .. sectionName .. ":**\n"
-            if emoji then
-                header = emoji .. " " .. header
-            end
+    local header = ""
+    if sectionName then
+        local markdown = CM.utils and CM.utils.markdown
+        local anchorId = markdown and markdown.GenerateAnchor and markdown.GenerateAnchor(sectionName)
+            or sectionName:lower():gsub("[^%w]+", "-")
+        if anchorId then
+            header = string.format('<a id="%s"></a>\n\n', anchorId)
         end
-        return header .. "*" .. message .. "*\n\n"
-    else
-        local header = ""
-        if sectionName then
-            local markdown = CM.utils and CM.utils.markdown
-            local anchorId = markdown and markdown.GenerateAnchor and markdown.GenerateAnchor(sectionName)
-                or sectionName:lower():gsub("[^%w]+", "-")
-            if anchorId then
-                header = string.format('<a id="%s"></a>\n\n', anchorId)
-            end
-            local title = sectionName
-            if emoji then
-                title = emoji .. " " .. title
-            end
-            header = header .. "## " .. title .. "\n\n"
+        local title = sectionName
+        if emoji then
+            title = emoji .. " " .. title
         end
-        return header .. "*" .. message .. "*\n\n---\n\n"
+        header = header .. "## " .. title .. "\n\n"
     end
+    return header .. "*" .. message .. "*\n\n---\n\n"
 end
 
 -- Format section footer (separator)
 -- @param format: Output format
 -- @return: Footer separator string
 local function FormatSectionFooter(format)
-    if format == "discord" then
-        return "\n"
+    -- Use CreateSeparator for consistent separator styling
+    local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+    if CreateSeparator then
+        return CreateSeparator("hr")
     else
-        -- Use CreateSeparator for consistent separator styling
-        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-        if CreateSeparator then
-            return CreateSeparator("hr")
-        else
-            return "---\n\n"
-        end
+        return "---\n\n"
     end
 end
 

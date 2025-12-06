@@ -109,7 +109,7 @@ CM.constants.DisciplineType = {
 }
 
 -- State management
-CM.currentFormatter = "markdown"
+-- CM.currentFormatter = "markdown" -- REMOVED: Strict enforcement
 CM.isInitialized = false
 
 -- Debug system with LibDebugLogger integration

@@ -48,28 +48,28 @@
 | **Champion Points** | 791 |
 | **Gender** | Male |
 | **Race** | Imperial |
-| **Account** | @SOLAEGIS |
 | **🪨 Mundus Stone** | The Steed |
+| **Account** | @SOLAEGIS |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
+| **Age** | 19d 0h 54m |
 | **ESO Plus** | ✅ Active |
-| **Age** | 19d 0h 16m |
 | **Class** | Dragonknight |
 | **Server** | NA Megaserver |
 | **Alliance** | Ebonheart Pact |
-| **Location** | Summerset (Alinor) |
+| **Title** | Dragon Master-at-Arms |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Title** | Dragon Master-at-Arms |
 | **Attributes** | 🔵 0 / ❤️ 0 / ⚡ 64 |
+| **Location** | Alinor Outlaws Refuge (634) |
 | **Available Champion Points** | ⚒️ 9 - ⚔️ 60 - 💪 28 |
 | **🐴 Riding Skills** | 🐴 60 / 💪 60 / 🎒 60 ✅ |
 | **Skill Points** | 🎯 3 available - Ready to spend |
@@ -85,7 +85,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 590,568 |
+| 💰 **Gold** | 9,389 |
 | ⚔️ **Alliance Points** | 1,500 |
 | 🔮 **Tel Var** | 2,500 |
 | 💎 **Transmute Crystals** | 95 |
@@ -269,8 +269,8 @@ After all, *someone* has to supply the heroes with their gear.
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟢 **Armor of the Seducer** | `5/5` ██████████ 100% *(+1 extra)* |
 | 🟢 **Night's Silence** | `5/5` ██████████ 100% *(+2 extra)* |
+| 🟢 **Armor of the Seducer** | `5/5` ██████████ 100% *(+1 extra)* |
 
 ### 📋 Equipment Details
 
@@ -584,8 +584,9 @@ graph TD
 ⚠️ **[Dragon Leap](https://en.uesp.net/wiki/Online:Dragon_Leap)** (Rank 4)
 
   <details>
-  <summary>Other morph options</summary>
 
+
+  <summary>Other morph options</summary>
 
   ⚪ **Morph 1**: [Take Flight](https://en.uesp.net/wiki/Online:Take_Flight)
   ⚪ **Morph 2**: [Ferocious Leap](https://en.uesp.net/wiki/Online:Ferocious_Leap)
@@ -1209,11 +1210,11 @@ graph TD
 - Black Hand Robe
 - Bloodthorn Robes
 - Colovian Uniform
+
+
 - Courier Uniform
 - Court of Bedlam
 - Covenant Scout
-
-
 - Crown Dishdasha
 - Cyrod Patrician Formal Gown
 - Dark Seducer
@@ -1568,22 +1569,17 @@ graph TD
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 161 | 200 | ████████░░ 80% |
-| Bank | 230 | 480 | ████░░░░░░ 47% |
+| Backpack | 134 | 200 | ██████░░░░ 67% |
+| Bank | 240 | 480 | █████░░░░░ 50% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (161 unique items)</summary>
+<summary><strong>Backpack Items</strong> (134 unique items)</summary>
 
-#### Other (161 items)
+#### Other (134 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 ancestor silk gloves of Health | 1 | 🔵 |
-| 🟣 ancestor silk gloves of Magicka | 1 | 🟣 |
-| 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
-| 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
-| 🔵 ancestor silk sash of Stamina | 1 | 🔵 |
 | 🔵 Blackreach: Arkthzand Cavern Treasure Map | 1 | 🔵 |
 | 🔵 Blackreach: Greymoor Caverns Treasure Map I | 1 | 🔵 |
 | 🔵 Blackreach: Greymoor Caverns Treasure Map II | 1 | 🔵 |
@@ -1594,7 +1590,6 @@ graph TD
 | ⚪ Construct's Integral of Introspection | 1 | ⚪ |
 | ⚪ Construct's Left Arm | 1 | ⚪ |
 | ⚪ Construct's Right Leg | 1 | ⚪ |
-| 🔵 Counterfeit Pardon Edict | 2 | 🔵 |
 | 🟣 Crown Fortifying Meal | 144 | 🟣 |
 | 🔵 Crown Repair Kit | 10 | 🔵 |
 | 🔵 Crown Soul Gem | 20 | 🔵 |
@@ -1621,19 +1616,15 @@ graph TD
 | 🔵 Deadlands Treasure Map I | 1 | 🔵 |
 | 🟣 Fragment of Rulanyil | 1 | 🟣 |
 | 🟣 Fragment of the Crazed | 1 | 🟣 |
-| 🔵 Gloom-Graced axe | 1 | 🔵 |
 | 🟣 Gold Coast Spellcaster Elixir | 100 | 🟣 |
 | 🟡 Gold Coast Trapping Poison | 100 | 🟡 |
 | 🟣 Gryphon's Helmet | 1 | 🟣 |
-| 🟣 Gryphon's Jack | 1 | 🟣 |
-| 🟣 Gryphon's Necklace | 1 | 🟣 |
-| 🟣 Gryphon's Ring | 1 | 🟣 |
 | ⚪ Horn of Beasts | 1 | ⚪ |
 | 🟢 Litany of Blood | 1 | 🟢 |
 | 🟢 Locket of the Pariah | 1 | 🟢 |
-| ⚪ Lockpick | 5 | ⚪ |
 | ⚪ Lockpick | 2 | ⚪ |
 | ⚪ Lockpick | 200 | ⚪ |
+| 🟡 Master Blacksmithing Writ | 1 | 🟡 |
 | 🟣 Master Blacksmithing Writ | 1 | 🟣 |
 | 🟣 Master Blacksmithing Writ | 1 | 🟣 |
 | 🟣 Master Blacksmithing Writ | 1 | 🟣 |
@@ -1641,29 +1632,28 @@ graph TD
 | 🟡 Master Blacksmithing Writ | 1 | 🟡 |
 | 🟣 Master Blacksmithing Writ | 1 | 🟣 |
 | 🟣 Master Blacksmithing Writ | 1 | 🟣 |
-| 🟡 Master Blacksmithing Writ | 1 | 🟡 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
-| 🟣 Master Enchanting Writ | 1 | 🟣 |
 | 🟡 Master Enchanting Writ | 1 | 🟡 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
-| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🟣 Master Enchanting Writ | 1 | 🟣 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
+| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
@@ -1674,24 +1664,10 @@ graph TD
 | ⚪ nightwood ice staff | 1 | ⚪ |
 | 🟣 Painting of Aldmeri Ruins, Refined | 1 | 🟣 |
 | ⚪ potion of Ravage Health | 2 | ⚪ |
-| 🔵 Proof of Trinimac's Valor | 1 | 🔵 |
 | 🟢 Psijic Codex Transcription | 1 | 🟢 |
-| 🟢 Recipe: Firsthold Fruit and Cheese Plate | 1 | 🟢 |
-| 🟢 Recipe: Hearty Garlic Corn Chowder | 1 | 🟢 |
-| 🔵 Recipe: Melon-Baked Parmesan Pork | 1 | 🔵 |
 | 🟣 Recipe: Psijic Ambrosia, Fragment IV | 1 | 🟣 |
 | 🟣 Recipe: Psijic Ambrosia, Fragment V | 1 | 🟣 |
-| 🟢 Recipe: Tomato Garlic Chutney | 1 | 🟢 |
 | ⚪ Roguish Stealth Draught | 10 | ⚪ |
-| 🔵 rubedite battle axe of Flame | 1 | 🔵 |
-| 🔵 rubedite cuirass of Health | 1 | 🔵 |
-| ⚪ rubedite greatsword | 1 | ⚪ |
-| 🔵 rubedite greaves of Health | 1 | 🔵 |
-| 🔵 rubedite maul of Frost | 1 | 🔵 |
-| 🔵 rubedite pauldron of Stamina | 1 | 🔵 |
-| 🔵 rubedo leather belt of Magicka | 1 | 🔵 |
-| 🔵 ruby ash bow of Shock | 1 | 🔵 |
-| 🔵 ruby ash lightning staff of Shock | 1 | 🔵 |
 | 🟡 Runebox: Colovian Filigreed Hood | 1 | 🟡 |
 | 🟡 Runebox: Colovian Filigreed Hood | 1 | 🟡 |
 | 🟡 Runebox: Colovian Fur Hood | 1 | 🟡 |
@@ -1721,8 +1697,6 @@ graph TD
 | 🟣 Unknown Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Unknown Provisioning Writ | 4 | 🟣 |
 | 🟣 Unknown Woodworking Writ | 3 | 🟣 |
-| 🔵 Vanus's Gloves | 1 | 🔵 |
-| ⚪ Vibrant Paint Set | 10 | ⚪ |
 | ⚪ voidsteel dagger | 1 | ⚪ |
 | 🔵 Western Skyrim Treasure Map I | 1 | 🔵 |
 | 🔵 Witches Festival Writ | 1 | 🔵 |
@@ -1744,13 +1718,18 @@ graph TD
 </details>
 
 <details>
-<summary><strong>Bank Items</strong> (230 unique items)</summary>
+<summary><strong>Bank Items</strong> (240 unique items)</summary>
 
-
-#### Other (230 items)
+#### Other (240 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
+| 🔵 ancestor silk gloves of Health | 1 | 🔵 |
+| 🟣 ancestor silk gloves of Magicka | 1 | 🟣 |
+
+
+| 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
+| 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
 | 🟡 Attribute Respecification Scroll | 2 | 🟡 |
 | 🟡 Attunable Blacksmithing Station, Bound | 1 | 🟡 |
 | 🟡 Attunable Clothing Station, Bound | 1 | 🟡 |
@@ -1772,35 +1751,35 @@ graph TD
 | 🟢 Companion's Boots | 1 | 🟢 |
 | 🔵 Companion's Boots | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
-| 🔵 Companion's Bow | 1 | 🔵 |
-| 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
-| 🟢 Companion's Bracers | 1 | 🟢 |
-| 🔵 Companion's Bracers | 1 | 🔵 |
+| 🔵 Companion's Bow | 1 | 🔵 |
+| 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bracers | 1 | 🔵 |
 | 🟢 Companion's Bracers | 1 | 🟢 |
+| 🟢 Companion's Bracers | 1 | 🟢 |
+| 🔵 Companion's Bracers | 1 | 🔵 |
+| 🔵 Companion's Breeches | 1 | 🔵 |
 | 🟢 Companion's Breeches | 1 | 🟢 |
 | 🟢 Companion's Breeches | 1 | 🟢 |
 | 🔵 Companion's Breeches | 1 | 🔵 |
-| 🔵 Companion's Breeches | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
-| 🟢 Companion's Dagger | 1 | 🟢 |
-| 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
+| 🟢 Companion's Dagger | 1 | 🟢 |
+| 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
@@ -1809,25 +1788,25 @@ graph TD
 | 🟢 Companion's Ice Staff | 1 | 🟢 |
 | 🟢 Companion's Ice Staff | 1 | 🟢 |
 | 🟢 Companion's Inferno Staff | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
 | 🔵 Companion's Jack | 1 | 🔵 |
-| 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🔵 Companion's Jerkin | 1 | 🔵 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🔵 Companion's Jerkin | 1 | 🔵 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
-| 🟢 Companion's Lightning Staff | 1 | 🟢 |
 | 🔵 Companion's Lightning Staff | 1 | 🔵 |
-| 🟢 Companion's Mace | 1 | 🟢 |
-| 🟢 Companion's Mace | 1 | 🟢 |
+| 🟢 Companion's Lightning Staff | 1 | 🟢 |
 | 🔵 Companion's Mace | 1 | 🔵 |
-| 🔵 Companion's Maul | 1 | 🔵 |
+| 🟢 Companion's Mace | 1 | 🟢 |
+| 🟢 Companion's Mace | 1 | 🟢 |
 | 🟢 Companion's Maul | 1 | 🟢 |
+| 🔵 Companion's Maul | 1 | 🔵 |
 | 🟢 Companion's Maul | 1 | 🟢 |
 | 🟢 Companion's Maul | 1 | 🟢 |
 | 🔵 Companion's Maul | 1 | 🔵 |
@@ -1837,56 +1816,56 @@ graph TD
 | 🔵 Companion's Necklace | 1 | 🔵 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟣 Companion's Restoration Staff | 1 | 🟣 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Ring | 1 | 🔵 |
 | 🟢 Companion's Ring | 1 | 🟢 |
 | 🔵 Companion's Ring | 1 | 🔵 |
-| 🔵 Companion's Ring | 1 | 🔵 |
-| 🟢 Companion's Robe | 1 | 🟢 |
-| 🟢 Companion's Robe | 1 | 🟢 |
 | 🔵 Companion's Robe | 1 | 🔵 |
+| 🟢 Companion's Robe | 1 | 🟢 |
+| 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Sabatons | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🟢 Companion's Shield | 1 | 🟢 |
 | 🔵 Companion's Shield | 1 | 🔵 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🟢 Companion's Shield | 1 | 🟢 |
 | 🟣 Companion's Shield | 1 | 🟣 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🔵 Companion's Shield | 1 | 🔵 |
+| 🔵 Companion's Shield | 1 | 🔵 |
 | 🔵 Companion's Shield | 1 | 🔵 |
 | 🟢 Companion's Shoes | 1 | 🟢 |
 | 🔵 Companion's Shoes | 1 | 🔵 |
+| 🔵 Companion's Sword | 1 | 🔵 |
+| 🔵 Companion's Sword | 1 | 🔵 |
 | 🟢 Companion's Sword | 1 | 🟢 |
-| 🔵 Companion's Sword | 1 | 🔵 |
-| 🔵 Companion's Sword | 1 | 🔵 |
 | 🟣 Coral Haj Mota Decoy | 1 | 🟣 |
-| 🔵 Counterfeit Pardon Edict | 18 | 🔵 |
+| 🔵 Counterfeit Pardon Edict | 20 | 🔵 |
 | 🔵 Crackling Lodestone | 1 | 🔵 |
 | 🔵 Crafting Motif 1: High Elf Style | 1 | 🔵 |
 | 🔵 Crafting Motif 4: Nord Style | 2 | 🔵 |
@@ -1932,6 +1911,7 @@ graph TD
 | 🟡 Fortified Brass Gloves | 1 | 🟡 |
 | 🟡 Fortified Brass Sash | 1 | 🟡 |
 | 🟣 Glass Style Motif Fragment | 5 | 🟣 |
+| 🔵 Gloom-Graced axe | 1 | 🔵 |
 | 🔵 Gloves of Necropotence | 1 | 🔵 |
 | 🟡 Gold Coast Draining Poison | 100 | 🟡 |
 | 🟡 Gold Coast Experience Scroll | 15 | 🟡 |
@@ -1961,16 +1941,21 @@ graph TD
 | 🟢 Recipe: Bitter Tea | 1 | 🟢 |
 | 🔵 Recipe: Bowl of "Peeled Eyeballs" | 3 | 🔵 |
 | 🟢 Recipe: Bravil's Best Beet Risotto | 1 | 🟢 |
-| 🟢 Recipe: Carrot Cheesecake | 1 | 🟢 |
+| 🟢 Recipe: Carrot Cheesecake | 2 | 🟢 |
 | 🟢 Recipe: Colovian Ginger Beer | 2 | 🟢 |
 | 🟢 Recipe: Garlic-and-Pepper Venison Steak | 1 | 🟢 |
 | 🟢 Recipe: Ginseng Tonic | 1 | 🟢 |
-| 🟢 Recipe: Hearty Garlic Corn Chowder | 3 | 🟢 |
+| 🟢 Recipe: Hearty Garlic Corn Chowder | 4 | 🟢 |
 | 🔵 Recipe: Late Hearthfire Vegetable Tart | 1 | 🔵 |
 | 🟢 Recipe: Mate Infusion | 1 | 🟢 |
 | 🟢 Recipe: Sweet Sanguine Apples | 6 | 🟢 |
 | 🟢 Recipe: Tomato Soup | 2 | 🟢 |
 | 🟣 Ring of Endurance | 1 | 🟣 |
+| 🔵 rubedite battle axe of Flame | 1 | 🔵 |
+| ⚪ rubedite greatsword | 1 | ⚪ |
+| 🔵 rubedite maul of Frost | 1 | 🔵 |
+| 🔵 ruby ash bow of Shock | 1 | 🔵 |
+| 🔵 ruby ash lightning staff of Shock | 1 | 🔵 |
 | 🟣 Shard of Writhing Bone | 6 | 🟣 |
 | 🔵 Skeletal Marionette Parts | 1 | 🔵 |
 | 🟢 Spirit Stone | 1 | 🟢 |
@@ -4285,14 +4270,12 @@ graph TD
 
 ---
 
----
-
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-110,770%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-110,014%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 12/06/2025</sub>
+<sub>Generated on 12/06/2025 • Version: 2.2.2-2-g0e62920</sub>
 
 </div>

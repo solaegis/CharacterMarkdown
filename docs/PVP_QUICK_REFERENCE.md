@@ -110,7 +110,6 @@ Enable in Settings Panel:
 
 ### "Progress bar not showing"
 - Make sure `showPvPProgression` is enabled
-- Discord format uses text instead of bars
 
 ### "No current match stats"
 - Only shows when you're in an active battleground
@@ -170,7 +169,6 @@ Reign Duration: 2h 35m
 - **Disable leaderboards** if you don't care about ranking (saves API queries)
 - **Enable detailed mode** only when creating showcase profiles
 - **Use minimal** for quick daily profiles
-- **Discord format** is most compact for chat sharing
 
 ## Commands
 

@@ -83,9 +83,6 @@ local function CreateCallout(type, content, format)
     if format == "github" or format == "vscode" then
         -- GitHub/VS Code native callout syntax
         return string_format("> [!%s]\n%s\n\n", callout.tag, escaped_content)
-    elseif format == "discord" then
-        -- Discord uses simple blockquote with emoji
-        return string_format("> %s **%s**\n> %s\n\n", callout.emoji, callout.tag, escaped_content)
     else
         -- Fallback: simple blockquote
         return string_format("> %s %s\n\n", callout.emoji, escaped_content)
@@ -558,14 +555,6 @@ local function CreateCompactGrid(items, columns, format, align)
     format = format or "github"
     align = align or "center" -- Default to center for backwards compatibility
 
-    if format ~= "github" and format ~= "vscode" then
-        -- Fallback to simple list for Discord
-        local lines = {}
-        for _, item in ipairs(items) do
-            table.insert(lines, string_format("%s **%s**: %s", item.emoji or "•", item.label, item.value))
-        end
-        return table_concat(lines, "\n") .. "\n\n"
-    end
 
     -- Use native markdown table instead of HTML table
     -- Format: Simple table with emoji, value, and label in each cell (single line)
@@ -701,77 +690,7 @@ local function CreateStyledTable(headers, rows, options)
         end
     end
 
-    -- VSCode with colored headers: use HTML table
-    if format == "vscode" and coloredHeaders then
-        local html = {}
-        -- Add table width style if specified, otherwise default to 100%
-        local widthStyle = ' style="width: 100%;"'
-        if tableWidth then
-            if type(tableWidth) == "string" then
-                widthStyle = string_format(' style="width: %s;"', tableWidth)
-            elseif type(tableWidth) == "number" then
-                widthStyle = string_format(' style="width: %dpx;"', tableWidth)
-            end
-        end
-        
-        table.insert(html, string_format('<table%s>', widthStyle))
-        table.insert(html, "<thead>")
-        table.insert(html, "<tr>")
 
-        -- Header row with colored background
-        for i, header in ipairs(boldHeaders) do
-            local align = alignment[i] or "left"
-            local alignStyle = ""
-            if align == "center" then
-                alignStyle = "text-align: center;"
-            elseif align == "right" then
-                alignStyle = "text-align: right;"
-            else
-                alignStyle = "text-align: left;"
-            end
-            table.insert(
-                html,
-                string_format(
-                    '<th style="background-color: #0078d4; color: white; padding: 8px; %s">%s</th>',
-                    alignStyle,
-                    header
-                )
-            )
-        end
-
-        table.insert(html, "</tr>")
-        table.insert(html, "</thead>")
-        table.insert(html, "<tbody>")
-
-        -- Data rows
-        for _, row in ipairs(rows) do
-            table.insert(html, "<tr>")
-            for i, cell in ipairs(row) do
-                local align = alignment[i] or "left"
-                local alignStyle = ""
-                if align == "center" then
-                    alignStyle = "text-align: center;"
-                elseif align == "right" then
-                    alignStyle = "text-align: right;"
-                else
-                    alignStyle = "text-align: left;"
-                end
-                -- Convert markdown bold to HTML bold for VSCode format
-                local cellContent = cell
-                if useHtmlBold then
-                    cellContent = cellContent:gsub("%*%*(.-)%*%*", "<strong>%1</strong>")
-                end
-                table.insert(html, string_format('<td style="padding: 8px; %s">%s</td>', alignStyle, cellContent))
-            end
-            table.insert(html, "</tr>")
-        end
-
-        table.insert(html, "</tbody>")
-        table.insert(html, "</table>")
-        table.insert(html, "")
-
-        return table_concat(html, "\n") .. "\n"
-    end
 
     -- Standard Markdown table (for all other cases)
     local lines = {}

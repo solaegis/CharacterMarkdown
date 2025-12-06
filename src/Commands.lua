@@ -65,6 +65,10 @@ local function HandleDebugOff(args)
     CM.Success("Debug mode DISABLED")
 end
 
+local function HandleVersion(args)
+    CM.Info("Character Markdown Version: " .. (CM.version or "Unknown"))
+end
+
 -- Settings handlers
 local function HandleSettings(args)
     CM.DebugPrint("COMMANDS", "HandleSettings called")
@@ -703,12 +707,12 @@ local function GenerateOutput(formatter)
         return
     end
 
-    CM.currentFormatter = formatter
-    if CharacterMarkdownSettings then
-        CharacterMarkdownSettings.currentFormatter = formatter
-        CharacterMarkdownSettings._lastModified = GetTimeStamp()
-        CM.InvalidateSettingsCache()
-    end
+    -- CM.currentFormatter = formatter -- REMOVED
+    -- if CharacterMarkdownSettings then
+    --     CharacterMarkdownSettings.currentFormatter = formatter
+    --     CharacterMarkdownSettings._lastModified = GetTimeStamp()
+    --     CM.InvalidateSettingsCache()
+    -- end
 
     CM.DebugPrint("COMMAND", "Generating " .. formatter .. " output...")
 
@@ -838,9 +842,8 @@ local function InitializeCommands()
         
         -- Main Command: /markdown (and /cm)
         local cmd = LibSlashCommander:Register({"/markdown", "/cm"}, function(args)
-            -- Default action: Generate with current formatter
-            local formatter = CM.currentFormatter or "markdown"
-            GenerateOutput(formatter)
+            -- STRICT: Always default to markdown
+            GenerateOutput("markdown")
         end, "Character Markdown")
         
         -- Subcommand: settings
@@ -902,6 +905,24 @@ local function InitializeCommands()
         end)
         debugCmd:SetDescription("Toggle debug mode")
         debugCmd:SetAutoComplete({"on", "off"})
+
+        -- Subcommand: version
+        local verCmd = cmd:RegisterSubCommand()
+        verCmd:AddAlias("version")
+        verCmd:SetCallback(HandleVersion)
+        verCmd:SetDescription("Show addon version")
+
+        -- Subcommand: help
+        local helpCmd = cmd:RegisterSubCommand()
+        helpCmd:AddAlias("help")
+        helpCmd:SetCallback(function()
+            CM.Info("/markdown - Generate Markdown profile (Alias: /cm)")
+            CM.Info("/markdown tonl - Generate TONL profile")
+            CM.Info("/markdown settings - Open settings")
+            CM.Info("/markdown version - Show version")
+            CM.Info("/markdown debug - Toggle debug")
+        end)
+        helpCmd:SetDescription("Show available commands")
         
         -- Subcommand: tonl
         local tonlCmd = cmd:RegisterSubCommand()
@@ -968,8 +989,8 @@ local function InitializeCommands()
             rest = rest and rest:match("^%s*(.*)") or ""
             
             if command == "" then
-                local formatter = CM.currentFormatter or "markdown"
-                GenerateOutput(formatter)
+                -- STRICT: Always default to markdown
+                GenerateOutput("markdown")
             elseif command == "settings" or command == "s" then
                 if rest:match("^show") then HandleSettingsShow()
                 elseif rest:match("^get") then HandleSettingsGet(rest)
@@ -981,6 +1002,8 @@ local function InitializeCommands()
                 if rest == "on" then HandleDebugOn()
                 elseif rest == "off" then HandleDebugOff()
                 else HandleDebug() end
+            elseif command == "version" then
+                HandleVersion()
             elseif command == "tonl" then
                 GenerateOutput("tonl")
             elseif command == "markdown" then
@@ -996,10 +1019,11 @@ local function InitializeCommands()
             elseif command == "find" and rest == "names" then
                 HandleFindNames()
             elseif command == "help" then
-                CM.Info("/markdown - Generate profile")
+                CM.Info("/markdown - Generate Markdown profile (Alias: /cm)")
+                CM.Info("/markdown tonl - Generate TONL profile")
                 CM.Info("/markdown settings - Open settings")
                 CM.Info("/markdown debug - Toggle debug")
-                CM.Info("/markdown tonl - Generate TONL")
+                CM.Info("/markdown version - Show version")
                 CM.Info("/markdown test - Run tests")
             else
                 CM.Error("Unknown command: " .. command)

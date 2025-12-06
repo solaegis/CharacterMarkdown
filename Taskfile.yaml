@@ -735,6 +735,19 @@ tasks:
     cmds:
       - |
         echo "📥 Installing {{.ADDON_NAME}} to ESO Live..."
+        
+        # Get version from Git (tag or commit SHA)
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+          echo "   Using tag version: ${VERSION}"
+        elif git describe --tags >/dev/null 2>&1; then
+          VERSION=$(git describe --tags | sed 's/^v//')
+          echo "   Using dev version: ${VERSION}"
+        else
+          VERSION=$(git rev-parse --short HEAD)
+          echo "   Using commit SHA: ${VERSION}"
+        fi
+
         mkdir -p "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
         
         # Copy manifest (.addon format)
@@ -760,6 +773,10 @@ tasks:
           cp LICENSE "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
           echo "  ✓ Copied LICENSE"
         fi
+        
+        # Inject version into installed files
+        echo "🔄 Injecting version ${VERSION} into installed files..."
+        ./scripts/replace-version.sh "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}" "$VERSION"
         
         echo "✅ Installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
     silent: true

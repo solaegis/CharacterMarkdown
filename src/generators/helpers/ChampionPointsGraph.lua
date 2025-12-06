@@ -1734,7 +1734,7 @@ function ChampionPointsGraph.generateMermaidDiagram(constellationName, character
     table.insert(diagram, '')
     
     -- Flowchart declaration
-    table.insert(diagram, 'flowchart TB')
+    table.insert(diagram, 'flowchart LR')
     
     -- Generate subgraphs
     local categories = CATEGORIES[constellationName]

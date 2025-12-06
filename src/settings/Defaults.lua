@@ -21,7 +21,10 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         -- FORMATTER SETTINGS
         -- ====================================
-        currentFormatter = "markdown", -- Default formatter: markdown, tonl
+        -- ====================================
+        -- FORMATTER SETTINGS
+        -- ====================================
+        -- currentFormatter = "markdown", -- REMOVED: Strict enforcement
 
         -- ====================================
         -- LAYOUT SETTINGS

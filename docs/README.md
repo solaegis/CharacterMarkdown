@@ -31,11 +31,10 @@
 
 ### Commands
 ```
-/markdown          # Open export window (default GitHub format)
-/markdown github   # GitHub format with full tables
-/markdown discord  # Discord-optimized format
-/markdown vscode   # VS Code format
-/markdown quick    # One-line summary
+/markdown (or /cm) # Generate Markdown format
+/tonl              # Generate TONL data format
+/markdown help     # Show commands
+/markdown version  # Show version
 ```
 
 ### Export Process
@@ -92,8 +91,6 @@ Control which information appears in your markdown:
 - **Full Documentation**: Everything enabled (comprehensive)
 - **PvE Build**: Focus on trials/dungeons
 - **PvP Build**: Optimized for Cyrodiil/Battlegrounds
-- **Discord Share**: Compact format for Discord
-- **Quick Reference**: Just the essentials
 
 #### Custom Profiles
 1. Configure settings as desired
@@ -106,32 +103,19 @@ Control which information appears in your markdown:
 
 ## Output Formats
 
-### GitHub Format (Default)
+### Markdown Format (Default)
 **Best for**: GitHub README files, detailed documentation
 - Full tables with rich formatting
 - Collapsible sections
 - Comprehensive UESP links
 - Progress bars and emojis
 
-### Discord Format
-**Best for**: Discord servers, chat sharing
-- Compact tables optimized for Discord
-- Essential information only
-- Discord-compatible formatting
-- Shorter length
+### TONL Format
+**Best for**: Data processing, external tools
+- Structured data format (Tom's Obvious, Minimal Language)
+- Machine-readable export
+- Ideal for programmatic use
 
-### VS Code Format
-**Best for**: Code editors, plain text
-- Clean, readable format
-- Minimal formatting
-- No special characters
-- Easy to read in editors
-
-### Quick Format
-**Best for**: Status updates, brief summaries
-- One-line character summary
-- Key stats only
-- Perfect for status messages
 
 ---
 
@@ -229,10 +213,7 @@ Include this information:
 
 ## Tips & Best Practices
 
-### For Discord Sharing
-- Use Discord format for best compatibility
-- Keep notes brief and relevant
-- Consider using Quick format for status updates
+
 
 ### For GitHub Documentation
 - Use GitHub format for full documentation

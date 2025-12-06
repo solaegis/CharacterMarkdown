@@ -168,10 +168,10 @@ function CM.Settings.Panel:Initialize()
             CharacterMarkdownSettings.activeProfile = "Custom"
             CharacterMarkdownSettings._lastModified = GetTimeStamp()
             
-            -- Sync formatter to core
-            if CharacterMarkdownSettings.currentFormatter then
-                CM.currentFormatter = CharacterMarkdownSettings.currentFormatter
-            end
+            -- Sync formatter to core (REMOVED)
+            -- if CharacterMarkdownSettings.currentFormatter then
+            --     CM.currentFormatter = CharacterMarkdownSettings.currentFormatter
+            -- end
             
             CM.InvalidateSettingsCache()
             CM.Info("Settings reset to defaults (text fields preserved)")
@@ -237,8 +237,10 @@ function CM.Settings.Panel:BuildOptionsData()
 
     -- Add sections organized by collector modules (bottom-up refactor)
     self:AddActions(options) -- FIRST: Quick actions and controls
-    self:AddFormatterSection(options)
+
+    -- self:AddFormatterSection(options) -- REMOVED: Formatter selection removed
     self:AddCustomNotes(options) -- Character-Specific Settings
+
     self:AddLayoutSection(options) -- Layout options (Header/Footer/TOC)
     
     -- Collector-based sections (organized by collector module)
@@ -269,68 +271,13 @@ end
 -- FORMATTER SETTINGS
 -- =====================================================
 
-function CM.Settings.Panel:AddFormatterSection(options)
-    table.insert(options, {
-        type = "header",
-        name = "Output Formatter",
-        width = "full",
-    })
+-- =====================================================
+-- FORMATTER SETTINGS (REMOVED)
+-- =====================================================
 
-    table.insert(options, {
-        type = "dropdown",
-        name = "Default Formatter",
-        tooltip = "Select the default output formatter for /markdown command",
-        choices = { "Markdown", "TONL" },
-        choicesValues = { "markdown", "tonl" },
-        getFunc = function()
-            -- Use CM.settings if available (ZO_SavedVars proxy), otherwise fallback to CharacterMarkdownSettings
-            if CM.settings and CM.settings.currentFormatter then
-                return CM.settings.currentFormatter
-            elseif CharacterMarkdownSettings and CharacterMarkdownSettings.currentFormatter then
-                return CharacterMarkdownSettings.currentFormatter
-            else
-                return "markdown" -- Default fallback
-            end
-        end,
-        setFunc = function(value)
-            -- CRITICAL: Save to both CM.settings (ZO_SavedVars proxy) and CharacterMarkdownSettings
-            -- This ensures persistence regardless of which reference is used
-            if CM.settings then
-                CM.settings.currentFormatter = value
-                CM.settings._lastModified = GetTimeStamp()
-            end
-            if CharacterMarkdownSettings then
-                CharacterMarkdownSettings.currentFormatter = value
-                CharacterMarkdownSettings._lastModified = GetTimeStamp()
-            end
-            CM.currentFormatter = value -- Sync to core
-            CM.InvalidateSettingsCache() -- Invalidate cache on change
-            CM.DebugPrint("SETTINGS", "Formatter changed to: " .. tostring(value))
-        end,
-        width = "full",
-        default = "markdown",
-    })
-
-    table.insert(options, {
-        type = "description",
-        text = "|cFFFFFF==============================================================|r\n\n"
-            .. "|cFFD700Markdown Formatter|r\n"
-            .. "• Standard markdown with limited HTML tags\n"
-            .. "• Clickable UESP links (abilities, sets, race, class, mundus, CP)\n"
-            .. "• Tables and collapsible sections (<details>)\n"
-            .. "• No custom colors/gradients (security restrictions)\n"
-            .. "• Preview at: markdownlivepreview.com (may show more than GitHub)\n"
-            .. "• Best for: GitHub README, GitLab, web platforms\n\n"
-            .. "|c9B59B6TONL Formatter|r\n"
-            .. "• Token-Oriented Object Notation (compact structured data)\n"
-            .. "• ~40% fewer tokens than JSON for LLM processing\n"
-            .. "• Tabular arrays and indentation-based structure\n"
-            .. "• All character data in structured format\n"
-            .. "• Best for: LLM/AI processing, data analysis, structured exports\n\n"
-            .. "|cFFFFFF==============================================================|r",
-        width = "full",
-    })
-end
+-- function CM.Settings.Panel:AddFormatterSection(options)
+--     -- Removed as part of strict format enforcement
+-- end
 
 -- =====================================================
 -- LAYOUT SECTION

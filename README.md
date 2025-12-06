@@ -9,7 +9,7 @@
 ## ✨ Features
 
 - **📊 Complete Character Profile** - Level, CP, attributes, skills, equipment, combat stats
-- **🎯 Multiple Formats** - GitHub, Discord, VS Code, Quick summary
+- **🎯 Multiple Formats** - Markdown (Default), TONL (Data)
 - **🔗 Smart Links** - Automatic UESP links for abilities, sets, races, classes
 - **⚙️ Customizable** - Extensive settings and profile system
 - **🎨 Rich Output** - Tables, emojis, progress bars, collapsible sections
@@ -23,13 +23,12 @@
 
 ### Usage
 ```
-/markdown                    # Open export window
-/markdown github             # GitHub format (default)
-/markdown discord            # Discord format
-/markdown vscode             # VS Code format
-/markdown quick              # One-line summary
+/markdown (or /cm)           # Generate Markdown format (default)
+/tonl                        # Generate TONL data format
 
 # Settings management
+/markdown help               # Show available commands
+/markdown version            # Show version
 /markdown settings           # Open settings panel
 ```
 
@@ -57,25 +56,16 @@
 
 ## 🎨 Output Formats
 
-### GitHub Format (Default)
+### Markdown Format (Default)
 - Full tables with collapsible sections
 - Rich formatting with emojis and progress bars
 - Comprehensive UESP links
-- Perfect for GitHub README files
+- Perfect for GitHub README files and documentation
 
-### Discord Format
-- Compact tables optimized for Discord
-- Essential information only
-- Discord-compatible formatting
-
-### VS Code Format
-- Clean, readable format
-- Optimized for code editors
-- Minimal formatting
-
-### Quick Format
-- One-line character summary
-- Perfect for status updates
+### TONL Format
+- Structured data format (Tom's Obvious, Minimal Language)
+- Machine-readable export
+- Best for data processing and external tools
 
 ## ⚙️ Settings & Customization
 
@@ -93,8 +83,6 @@ Access settings via:
 - **Full Documentation** - Everything enabled
 - **PvE Build** - Focus on trials/dungeons
 - **PvP Build** - Optimized for Cyrodiil/Battlegrounds
-- **Discord Share** - Compact format
-- **Quick Reference** - Essentials only
 
 ## 🔧 Advanced Features
 
