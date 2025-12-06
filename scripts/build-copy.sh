@@ -38,16 +38,17 @@ if [ -d "$SOURCE_DIR/src" ]; then
     
     # Find and copy only allowed file types recursively
     # EXCLUDE test files and test directories
+    # CRITICAL: Use -name patterns (not -path) for filename matching across all directories
     for ext in "${ALLOWED_EXTENSIONS[@]}"; do
         find "$SOURCE_DIR/src" -type f -name "*.${ext}" \
             ! -path "*/test/*" \
             ! -path "*/tests/*" \
-            ! -path "*/*Tests.lua" \
-            ! -path "*/test_*.lua" \
-            ! -path "*/*_test.lua" \
-            ! -path "*/verify_*.lua" \
-            ! -path "*/debug_*.lua" \
-            ! -path "*/reproduce_*.lua" \
+            ! -name "*Tests.lua" \
+            ! -name "test_*.lua" \
+            ! -name "*_test.lua" \
+            ! -name "verify_*.lua" \
+            ! -name "debug_*.lua" \
+            ! -name "reproduce_*.lua" \
             ! -path "*/.luarocks/*" \
             | while read -r file; do
             # Get relative path from src/
@@ -68,4 +69,3 @@ fi
 
 echo "✅ Whitelist-based copy complete"
 echo "   Only ESOUI-allowed file types included: ${ALLOWED_EXTENSIONS[*]}"
-
