@@ -76,41 +76,7 @@ local function FormatMundusStones(mundus)
 end
 
 -- =====================================================
--- DISCORD FORMAT
--- =====================================================
 
-local function GenerateArmoryBuildsDiscord(armory)
-    local markdown = ""
-
-    markdown = markdown .. "**Armory Builds:** " .. (armory.unlocked or 0) .. " slots unlocked"
-
-    if armory.builds and #armory.builds > 0 then
-        markdown = markdown .. " (" .. #armory.builds .. " configured)\n"
-
-        for _, build in ipairs(armory.builds) do
-            markdown = markdown .. "• **" .. build.name .. "**"
-
-            -- Add brief summary
-            local details = {}
-            if build.skillPoints and build.skillPoints > 0 then
-                table.insert(details, build.skillPoints .. " SP")
-            end
-            if build.curse then
-                table.insert(details, build.curse)
-            end
-
-            if #details > 0 then
-                markdown = markdown .. " (" .. table.concat(details, ", ") .. ")"
-            end
-            markdown = markdown .. "\n"
-        end
-    else
-        markdown = markdown .. "\n*No builds configured*\n"
-    end
-
-    markdown = markdown .. "\n"
-    return markdown
-end
 
 -- =====================================================
 -- STANDARD FORMAT
@@ -243,12 +209,12 @@ end
 -- MAIN GENERATOR
 -- =====================================================
 
-local function GenerateArmoryBuilds(armoryData, format)
+local function GenerateArmoryBuilds(armoryData)
     InitializeUtilities()
 
     if not armoryData or not armoryData.armory then
         -- Show placeholder when enabled but no data available
-        if format ~= "discord" then
+        if true then
             local anchorId = GenerateAnchor and GenerateAnchor("🏰 Armory Builds") or "armory-builds"
             return string.format(
                 '<a id="%s"></a>\n\n## 🏰 Armory Builds\n\n*No armory data available*\n\n---\n\n',
@@ -260,8 +226,9 @@ local function GenerateArmoryBuilds(armoryData, format)
 
     local armory = armoryData.armory
 
-    if format == "discord" then
-        return GenerateArmoryBuildsDiscord(armory)
+    if false then
+        -- Discord logic removed
+        return ""
     else
         return GenerateArmoryBuildsStandard(armory)
     end

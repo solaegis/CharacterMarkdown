@@ -22,15 +22,12 @@ end
 -- COMPANION
 -- =====================================================
 
-local function GenerateCompanion(companionData, format)
+local function GenerateCompanion(companionData)
     InitializeUtilities()
 
     local markdown = ""
 
-    -- For non-Discord formats, show header
-    if format ~= "discord" then
-        markdown = markdown .. "## 👥 Companions\n\n"
-    end
+    markdown = markdown .. "## 👥 Companions\n\n"
 
     -- Show Available Companions section at the top
     -- Check both companions list and acquired list for backward compatibility
@@ -52,21 +49,17 @@ local function GenerateCompanion(companionData, format)
 
             -- Show available companions as list
             for _, comp in ipairs(sortedCompanions) do
-                local companionLink = CreateCompanionLink(comp.name, format)
+                local companionLink = CreateCompanionLink(comp.name)
                 markdown = markdown .. "- " .. companionLink .. "\n"
             end
             markdown = markdown .. "\n"
         else
             -- Fallback to details format if CreateStyledTable not available
             markdown = markdown .. "<details>\n"
-            local summaryBold = (format == "vscode") and "<strong>" or "**"
-            local summaryBoldEnd = (format == "vscode") and "</strong>" or "**"
             markdown = markdown
                 .. string_format(
-                    "<summary>%sAvailable Companions (%d)%s</summary>\n\n",
-                    summaryBold,
-                    #companionsList,
-                    summaryBoldEnd
+                    "<summary>**Available Companions (%d)**</summary>\n\n",
+                    #companionsList
                 )
 
             local sortedCompanions = {}
@@ -78,80 +71,26 @@ local function GenerateCompanion(companionData, format)
             end)
 
             for _, comp in ipairs(sortedCompanions) do
-                local companionLink = CreateCompanionLink(comp.name, format)
+                local companionLink = CreateCompanionLink(comp.name)
                 markdown = markdown .. "- " .. companionLink .. " (" .. (comp.status or "Available") .. ")\n"
             end
 
             markdown = markdown .. "\n</details>\n\n"
         end
-    elseif format ~= "discord" and (not companionData or not companionData.active) then
+    elseif (not companionData or not companionData.active) then
         -- Only show "No companions available" if there's no active companion either
         markdown = markdown .. "*No companions available*\n\n"
     end
-
-
 
     -- Extract active companion data
     local activeCompanion = companionData.active
     local companionName = activeCompanion.name or "Unknown"
     local companionLevel = activeCompanion.level or 0
     local skills = companionData.skills
+    -- Active Companion section (only shown if there's an active companion)
+    markdown = markdown .. "### Active Companion\n\n"
 
-    if format == "discord" then
-        local companionNameLinked = CreateCompanionLink(companionName, format)
-        markdown = markdown
-            .. "\n**Companion:** "
-            .. companionNameLinked
-            .. " (L"
-            .. companionLevel
-            .. ")\n"
-        if companionData.skills then
-            local ultimateText =
-                CreateAbilityLink(companionData.skills.ultimate, companionData.skills.ultimateId, format)
-            markdown = markdown .. "```" .. ultimateText .. "```\n"
-            if companionData.skills.abilities and #companionData.skills.abilities > 0 then
-                for i, ability in ipairs(companionData.skills.abilities) do
-                    local abilityText = CreateAbilityLink(ability.name, ability.id, format)
-                    markdown = markdown .. i .. ". " .. abilityText .. "\n"
-                end
-            end
-        end
-        if companionData.equipment and #companionData.equipment > 0 then
-            markdown = markdown .. "Equipment:\n"
-            for _, item in ipairs(companionData.equipment) do
-                local qualityDisplay = (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal")
-                local itemText = "• " .. item.name .. " (L" .. item.level .. ", " .. qualityDisplay .. ")"
-
-                -- Add set information
-                if item.hasSet and item.setName then
-                    itemText = itemText .. " [Set: " .. item.setName .. "]"
-                end
-
-                -- Add trait information
-                if item.traitName and item.traitName ~= "None" then
-                    itemText = itemText .. " [Trait: " .. item.traitName .. "]"
-                end
-
-                -- Add enchantment information
-                if item.enchantName then
-                    itemText = itemText .. " [Enchant: " .. item.enchantName .. "]"
-                    if item.enchantMaxCharge and item.enchantMaxCharge > 0 then
-                        local chargePercent = item.enchantCharge
-                                and item.enchantCharge > 0
-                                and math.floor((item.enchantCharge / item.enchantMaxCharge) * 100)
-                            or 0
-                        itemText = itemText .. " (" .. chargePercent .. "%)"
-                    end
-                end
-
-                markdown = markdown .. itemText .. "\n"
-            end
-        end
-    else
-        -- Active Companion section (only shown if there's an active companion)
-        markdown = markdown .. "### Active Companion\n\n"
-
-        local companionNameLinked = CreateCompanionLink(companionName, format)
+    local companionNameLinked = CreateCompanionLink(companionName)
         markdown = markdown .. "#### 🧙 " .. companionNameLinked .. "\n\n"
 
         -- Collect warnings for companion issues
@@ -169,6 +108,8 @@ local function GenerateCompanion(companionData, format)
                 )
             )
         end
+
+
 
         -- Check for outdated gear
         local outdatedGearCount = 0
@@ -265,7 +206,7 @@ local function GenerateCompanion(companionData, format)
                     end
 
                     -- Add ultimate to row data
-                    local ultimateText = CreateAbilityLink(ultimate, ultimateId, format)
+                    local ultimateText = CreateAbilityLink(ultimate, ultimateId)
                     table_insert(rowData, ultimateText)
 
                     -- Generate table with styled headers
@@ -275,7 +216,6 @@ local function GenerateCompanion(companionData, format)
                     end
                     local options = {
                         alignment = alignment,
-                        format = format,
                         coloredHeaders = true,
                         width = "100%",
                     }
@@ -304,7 +244,7 @@ local function GenerateCompanion(companionData, format)
                     -- Add abilities (up to 5)
                     for i = 1, 5 do
                         if abilities[i] then
-                            local abilityText = CreateAbilityLink(abilities[i].name, abilities[i].id, format)
+                            local abilityText = CreateAbilityLink(abilities[i].name, abilities[i].id)
                             abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
                         else
                             abilitiesRow = abilitiesRow .. " [Empty] |"
@@ -312,7 +252,7 @@ local function GenerateCompanion(companionData, format)
                     end
 
                     -- Add ultimate in 6th column
-                    local ultimateText = CreateAbilityLink(ultimate, ultimateId, format)
+                    local ultimateText = CreateAbilityLink(ultimate, ultimateId)
                     abilitiesRow = abilitiesRow .. " " .. ultimateText .. " |"
 
                     markdown = markdown .. abilitiesRow .. "\n\n"
@@ -367,7 +307,6 @@ local function GenerateCompanion(companionData, format)
 
                 local options = {
                     alignment = { "left", "left", "left", "left" },
-                    format = format,
                     coloredHeaders = true,
                     width = "100%",
                 }
@@ -420,7 +359,7 @@ local function GenerateCompanion(companionData, format)
         if #warnings > 0 then
             local CreateAttentionNeeded = CM.utils.markdown and CM.utils.markdown.CreateAttentionNeeded
             if CreateAttentionNeeded then
-                markdown = markdown .. CreateAttentionNeeded(warnings, format, "Attention Needed")
+                markdown = markdown .. CreateAttentionNeeded(warnings)
             else
                 -- Fallback to blockquote if function not available
                 markdown = markdown .. "> [!WARNING]\n"
@@ -430,9 +369,6 @@ local function GenerateCompanion(companionData, format)
                 markdown = markdown .. "\n"
             end
         end
-
-        markdown = markdown .. "---\n\n"
-    end
 
     return markdown
 end

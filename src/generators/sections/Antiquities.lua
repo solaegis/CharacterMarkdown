@@ -76,53 +76,41 @@ end
 -- ANTIQUITIES SUMMARY GENERATOR
 -- =====================================================
 
-local function GenerateAntiquitiesSummary(antiquityData, format)
+local function GenerateAntiquitiesSummary(antiquityData)
     InitializeUtilities()
 
     local markdown = ""
     local summary = antiquityData.summary
 
-    if format == "discord" then
-        markdown = markdown .. "**Antiquities Progress:**\n"
-        markdown = markdown
-            .. "Discovered: "
-            .. CM.utils.FormatNumber(summary.discoveredAntiquities)
-            .. "/"
-            .. CM.utils.FormatNumber(summary.totalAntiquities)
-            .. " | "
-        markdown = markdown .. "Active Leads: " .. summary.activeLeads .. " | "
-        markdown = markdown .. "Sets Complete: " .. summary.completedSets .. "/" .. summary.totalSets .. "\n"
-    else
-        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("🏺 Antiquities") or "antiquities"
-        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## 🏺 Antiquities\n\n"
+    local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("🏺 Antiquities") or "antiquities"
+    markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
+    markdown = markdown .. "## 🏺 Antiquities\n\n"
 
-        -- Calculate completion percentage
-        local discoveryPercent = summary.totalAntiquities > 0
-                and math.floor((summary.discoveredAntiquities / summary.totalAntiquities) * 100)
-            or 0
-        local setsPercent = summary.totalSets > 0 and math.floor((summary.completedSets / summary.totalSets) * 100) or 0
+    -- Calculate completion percentage
+    local discoveryPercent = summary.totalAntiquities > 0
+            and math.floor((summary.discoveredAntiquities / summary.totalAntiquities) * 100)
+        or 0
+    local setsPercent = summary.totalSets > 0 and math.floor((summary.completedSets / summary.totalSets) * 100) or 0
 
-        markdown = markdown .. "| Metric | Value |\n"
-        markdown = markdown .. "|:-------|------:|\n"
-        markdown = markdown .. "| **Total Antiquities** | " .. CM.utils.FormatNumber(summary.totalAntiquities) .. " |\n"
-        markdown = markdown
-            .. "| **Discovered** | "
-            .. CM.utils.FormatNumber(summary.discoveredAntiquities)
-            .. " ("
-            .. discoveryPercent
-            .. "%) |\n"
-        markdown = markdown .. "| **Active Leads** | " .. summary.activeLeads .. " |\n"
-        markdown = markdown
-            .. "| **Completed Sets** | "
-            .. summary.completedSets
-            .. "/"
-            .. summary.totalSets
-            .. " ("
-            .. setsPercent
-            .. "%) |\n"
-        markdown = markdown .. "\n"
-    end
+    markdown = markdown .. "| Metric | Value |\n"
+    markdown = markdown .. "|:-------|------:|\n"
+    markdown = markdown .. "| **Total Antiquities** | " .. CM.utils.FormatNumber(summary.totalAntiquities) .. " |\n"
+    markdown = markdown
+        .. "| **Discovered** | "
+        .. CM.utils.FormatNumber(summary.discoveredAntiquities)
+        .. " ("
+        .. discoveryPercent
+        .. "%) |\n"
+    markdown = markdown .. "| **Active Leads** | " .. summary.activeLeads .. " |\n"
+    markdown = markdown
+        .. "| **Completed Sets** | "
+        .. summary.completedSets
+        .. "/"
+        .. summary.totalSets
+        .. " ("
+        .. setsPercent
+        .. "%) |\n"
+    markdown = markdown .. "\n"
 
     return markdown
 end
@@ -131,7 +119,7 @@ end
 -- ACTIVE LEADS GENERATOR
 -- =====================================================
 
-local function GenerateActiveLeads(antiquityData, format)
+local function GenerateActiveLeads(antiquityData)
     InitializeUtilities()
 
     local markdown = ""
@@ -140,37 +128,27 @@ local function GenerateActiveLeads(antiquityData, format)
         return markdown
     end
 
-    if format == "discord" then
-        markdown = markdown .. "**Active Leads:**\n"
-        for _, lead in ipairs(antiquityData.activeLeads) do
-            local qualityIcon = GetQualityColor(lead.quality)
-            local qualityName = GetQualityName(lead.quality)
-            markdown = markdown .. qualityIcon .. " **" .. lead.name .. "** (" .. qualityName .. ")\n"
-        end
-        markdown = markdown .. "\n"
-    else
-        markdown = markdown .. "### 🔎 Active Leads\n\n"
-        markdown = markdown .. "| Antiquity | Quality | Repeatable |\n"
-        markdown = markdown .. "|:----------|:--------|:----------:|\n"
+    markdown = markdown .. "### 🔎 Active Leads\n\n"
+    markdown = markdown .. "| Antiquity | Quality | Repeatable |\n"
+    markdown = markdown .. "|:----------|:--------|:----------:|\n"
 
-        for _, lead in ipairs(antiquityData.activeLeads) do
-            local qualityIcon = GetQualityColor(lead.quality)
-            local qualityName = GetQualityName(lead.quality)
-            local repeatableText = lead.isRepeatable and "✓" or "✗"
+    for _, lead in ipairs(antiquityData.activeLeads) do
+        local qualityIcon = GetQualityColor(lead.quality)
+        local qualityName = GetQualityName(lead.quality)
+        local repeatableText = lead.isRepeatable and "✓" or "✗"
 
-            markdown = markdown
-                .. "| "
-                .. qualityIcon
-                .. " **"
-                .. lead.name
-                .. "** | "
-                .. qualityName
-                .. " | "
-                .. repeatableText
-                .. " |\n"
-        end
-        markdown = markdown .. "\n"
+        markdown = markdown
+            .. "| "
+            .. qualityIcon
+            .. " **"
+            .. lead.name
+            .. "** | "
+            .. qualityName
+            .. " | "
+            .. repeatableText
+            .. " |\n"
     end
+    markdown = markdown .. "\n"
 
     return markdown
 end
@@ -179,7 +157,7 @@ end
 -- ANTIQUITY SETS GENERATOR
 -- =====================================================
 
-local function GenerateAntiquitySets(antiquityData, format)
+local function GenerateAntiquitySets(antiquityData)
     InitializeUtilities()
 
     local markdown = ""
@@ -190,54 +168,33 @@ local function GenerateAntiquitySets(antiquityData, format)
         return markdown
     end
 
-    if format == "discord" then
-        markdown = markdown .. "**Antiquity Sets:**\n"
-        for _, setData in ipairs(antiquityData.sets) do
-            local percent = setData.totalAntiquities > 0
-                    and math.floor((setData.completedAntiquities / setData.totalAntiquities) * 100)
-                or 0
-            local completeIcon = percent == 100 and "✅" or "🔄"
-            markdown = markdown
-                .. completeIcon
-                .. " **"
-                .. setData.name
-                .. "**: "
-                .. setData.completedAntiquities
-                .. "/"
-                .. setData.totalAntiquities
-                .. " ("
-                .. percent
-                .. "%)\n"
-        end
-    else
-        markdown = markdown .. "### 📦 Antiquity Sets\n\n"
-        markdown = markdown .. "| Set Name | Progress | Discovered | Total |\n"
-        markdown = markdown .. "|:---------|:---------|----------:|------:|\n"
+    markdown = markdown .. "### 📦 Antiquity Sets\n\n"
+    markdown = markdown .. "| Set Name | Progress | Discovered | Total |\n"
+    markdown = markdown .. "|:---------|:---------|----------:|------:|\n"
 
-        for _, setData in ipairs(antiquityData.sets) do
-            local percent = setData.totalAntiquities > 0
-                    and math.floor((setData.completedAntiquities / setData.totalAntiquities) * 100)
-                or 0
-            local progressBar = CM.utils.GenerateProgressBar(percent, 10)
-            local completeIcon = percent == 100 and "✅" or "🔄"
+    for _, setData in ipairs(antiquityData.sets) do
+        local percent = setData.totalAntiquities > 0
+                and math.floor((setData.completedAntiquities / setData.totalAntiquities) * 100)
+            or 0
+        local progressBar = CM.utils.GenerateProgressBar(percent, 10)
+        local completeIcon = percent == 100 and "✅" or "🔄"
 
-            markdown = markdown
-                .. "| "
-                .. completeIcon
-                .. " **"
-                .. setData.name
-                .. "** | "
-                .. progressBar
-                .. " "
-                .. percent
-                .. "% | "
-                .. setData.discoveredAntiquities
-                .. " | "
-                .. setData.totalAntiquities
-                .. " |\n"
-        end
-        markdown = markdown .. "\n"
+        markdown = markdown
+            .. "| "
+            .. completeIcon
+            .. " **"
+            .. setData.name
+            .. "** | "
+            .. progressBar
+            .. " "
+            .. percent
+            .. "% | "
+            .. setData.discoveredAntiquities
+            .. " | "
+            .. setData.totalAntiquities
+            .. " |\n"
     end
+    markdown = markdown .. "\n"
 
     return markdown
 end
@@ -246,7 +203,7 @@ end
 -- MAIN ANTIQUITIES GENERATOR
 -- =====================================================
 
-local function GenerateAntiquities(antiquityData, format)
+local function GenerateAntiquities(antiquityData)
     InitializeUtilities()
 
     -- Return empty if no antiquity data
@@ -263,27 +220,25 @@ local function GenerateAntiquities(antiquityData, format)
     local settings = CM.GetSettings()
 
     -- Generate antiquities summary (always shown)
-    markdown = markdown .. GenerateAntiquitiesSummary(antiquityData, format)
+    markdown = markdown .. GenerateAntiquitiesSummary(antiquityData)
 
     -- Show active leads if any exist
     if #antiquityData.activeLeads > 0 then
-        markdown = markdown .. GenerateActiveLeads(antiquityData, format)
+        markdown = markdown .. GenerateActiveLeads(antiquityData)
     end
 
     -- Generate detailed sets section if enabled
     if settings.includeAntiquitiesDetailed and #antiquityData.sets > 0 then
-        markdown = markdown .. GenerateAntiquitySets(antiquityData, format)
+        markdown = markdown .. GenerateAntiquitySets(antiquityData)
     end
 
-    -- Add section separator (except for discord)
-    if format ~= "discord" then
-        -- Use CreateSeparator for consistent separator styling
-        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-        if CreateSeparator then
-            markdown = markdown .. CreateSeparator("hr")
-        else
-            markdown = markdown .. "---\n\n"
-        end
+    -- Add section separator
+    -- Use CreateSeparator for consistent separator styling
+    local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+    if CreateSeparator then
+        markdown = markdown .. CreateSeparator("hr")
+    else
+        markdown = markdown .. "---\n\n"
     end
 
     return markdown

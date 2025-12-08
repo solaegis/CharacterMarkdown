@@ -117,7 +117,7 @@
 - **Main Commands**:
   - `/markdown [format|test|unittest|filter:clear|help|save]`
   - `/cmdsettings [export|import|test:import-export]`
-- **Format Commands**: Direct format names (github, vscode, discord, quick) without colons
+- **Format Commands**: Standard markdown generation is the default.
 - Always validate arguments and show helpful error messages
 
 ### Settings Management
@@ -181,7 +181,7 @@
   - `customNotes`: Custom build notes entered by user
   - `customTitle`: Custom character title
   - `playStyle`: Play style tag (magicka_dps, stamina_tank, etc.)
-  - `markdown_format`: Format of last generated markdown (github, vscode, discord, quick)
+  - `markdown_format`: Format of last generated markdown (default: markdown)
   - `markdown`: Full cached markdown document for this character
   - `_initialized`, `_lastModified`, `_characterName`, `_accountName`: Metadata fields
 
@@ -343,7 +343,7 @@ The chunking constants in `src/utils/Constants.lua` are based on extensive real-
   local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
   local CreateStyledTable = CM.utils.markdown.CreateStyledTable
   
-  if CreateResponsiveColumns and CreateStyledTable and format ~= "discord" then
+  if CreateResponsiveColumns and CreateStyledTable then
       local tables = {}
       for _, data in ipairs(dataList) do
           table.insert(tables, CreateStyledTable(headers, rows, options))
@@ -369,7 +369,7 @@ The chunking constants in `src/utils/Constants.lua` are based on extensive real-
 - **When NOT to use**: 
   - Single tables (append directly)
   - Tables separated by other content (headers, text, etc.) - only group truly contiguous tables
-  - Discord format (not supported, use vertical fallback)
+  - Tables separated by other content (headers, text, etc.) - only group truly contiguous tables
 - **Examples**: See `ChampionPoints.lua` (disciplines), `Achievements.lua` (categories), `Overview.lua` (General columns)
 
 ### Settings Panel (LibAddonMenu-2.0)

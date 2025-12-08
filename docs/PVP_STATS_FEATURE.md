@@ -245,7 +245,7 @@ For maximum detail:
 ---
 ```
 
-### Discord Format (Compact)
+### Compact Format
 
 ```markdown
 **⚔️ PvP Profile:**

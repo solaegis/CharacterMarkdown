@@ -32,7 +32,7 @@ end
 CM.links.GenerateAbilityURL = GenerateAbilityURL
 
 -- Create markdown link for ability
-local function CreateAbilityLink(abilityName, abilityId, format)
+local function CreateAbilityLink(abilityName, abilityId)
     if not abilityName or abilityName == "[Empty]" or abilityName == "[Empty Slot]" then
         return abilityName or "[Empty]"
     end
@@ -59,7 +59,7 @@ local function CreateAbilityLink(abilityName, abilityId, format)
     local url = GenerateAbilityURL(abilityName, abilityId)
 
     -- Ensure URL is valid before creating link
-    if url and url ~= "" and (format == "github" or format == "discord") then
+    if url and url ~= "" then
         -- Validate URL format to prevent truncation - ensure it starts with https:// and is complete
         if url:find("^https://") and url:find("en.uesp.net/wiki/Online:") then
             -- Ensure URL is complete (ends with proper format or ability name)

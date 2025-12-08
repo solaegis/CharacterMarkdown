@@ -148,9 +148,9 @@ Example:
 
 - **Addon Type**: ESO (Elder Scrolls Online) addon written in Lua
 - **Purpose**: Export character builds in markdown format
-- **Target Users**: ESO players sharing builds on Discord/GitHub/forums
+- **Target Users**: ESO players sharing builds
 - **Key Commands**: `/markdown`, `/markdown settings`, `/markdown test`
-- **Output Formats**: GitHub, Discord, VS Code, Quick
+- **Output Formats**: Markdown, TONL, VS Code, Quick
 
 ## Common Components to Watch For
 

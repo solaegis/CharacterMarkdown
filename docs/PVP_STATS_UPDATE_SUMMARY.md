@@ -24,7 +24,7 @@ Enhanced the PvP Stats section with comprehensive Alliance War and Battlegrounds
      - **Enhanced**: Adds progression bars and reward tiers
      - **Competitive**: Adds leaderboard rankings and BG stats
      - **Comprehensive**: All details including emperor info, timing, current match
-   - Supports both GitHub/VSCode (table format) and Discord (compact format)
+   - Supports both Markdown (table format) and Compact (text format)
    - Includes progress bars for rank progression and reward tiers
    - Formatted time remaining displays
    - Emperor candidate badges
@@ -233,7 +233,7 @@ All sub-options:
    - If emperor exists, verify emperor info
    - In BG, verify K/D ratio and medals
 
-7. **Discord Format**
+7. **Compact Format**
    - Change format to Discord
    - Verify compact format
    - Check all tiers in Discord format

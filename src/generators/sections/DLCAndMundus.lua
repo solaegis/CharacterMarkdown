@@ -23,7 +23,7 @@ end
 -- DLC ACCESS
 -- =====================================================
 
-local function GenerateDLCAccess(dlcData, format)
+local function GenerateDLCAccess(dlcData)
     local markdown = ""
 
     -- Handle nil or empty dlcData
@@ -108,7 +108,7 @@ end
 -- MUNDUS STONE
 -- =====================================================
 
-local function GenerateMundus(mundusData, format)
+local function GenerateMundus(mundusData)
     InitializeUtilities()
 
     local markdown = ""
@@ -118,7 +118,7 @@ local function GenerateMundus(mundusData, format)
     markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
     markdown = markdown .. "## 🪨 Mundus Stone\n\n"
     if mundusData.active then
-        local mundusText = CreateMundusLink(mundusData.name, format)
+        local mundusText = CreateMundusLink(mundusData.name)
         markdown = markdown .. "✅ **Active:** " .. mundusText .. "\n\n"
     else
         markdown = markdown .. "⚠️ **No Active Mundus Stone**\n\n"
@@ -134,7 +134,7 @@ end
 -- =====================================================
 
 -- Helper function to generate DLC content in collectibles format
-local function GenerateDLCAsCollectible(dlcData, format)
+local function GenerateDLCAsCollectible(dlcData)
     if not dlcData then
         return ""
     end
@@ -194,7 +194,7 @@ local function GenerateDLCAsCollectible(dlcData, format)
     return "<details>\n<summary>" .. summaryText .. "</summary>\n\n" .. content .. "\n</details>\n\n"
 end
 
-local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooksData, titlesHousingData, ridingData)
+local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData, titlesHousingData, ridingData)
     local markdown = ""
 
     -- Check if we have detailed data enabled
@@ -284,7 +284,7 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
     end
     
     if dlcData and includeDLCAccess then
-        local dlcContent = GenerateDLCAsCollectible(dlcData, format)
+        local dlcContent = GenerateDLCAsCollectible(dlcData)
         if dlcContent ~= "" then
             table.insert(sections, {
                 sortKey = "DLC & Chapter Access",
@@ -366,7 +366,7 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
                     -- Use fullName for links (UESP uses full names), display name for text
                     local linkName = collectible.fullName or collectible.name
                     local displayName = collectible.name
-                    local collectibleLink = (CreateCollectibleLink and CreateCollectibleLink(linkName, format))
+                    local collectibleLink = (CreateCollectibleLink and CreateCollectibleLink(linkName))
                         or displayName
                     sectionContent = sectionContent .. "- " .. collectibleLink
                     -- Add rarity if available
@@ -389,10 +389,10 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
     end
 
     -- 3. Lorebooks
-    if lorebooksData and format ~= "discord" and format ~= "quick" then
+    if lorebooksData then
         local GenerateLorebooks = CM.generators.sections.GenerateLorebooks
         if GenerateLorebooks then
-            local lorebooksContent = GenerateLorebooks(lorebooksData, format)
+            local lorebooksContent = GenerateLorebooks(lorebooksData)
             -- Content is already in collapsible format
             if lorebooksContent ~= "" then
                 table.insert(sections, {
@@ -404,7 +404,7 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
     end
 
     -- 4. Titles & Housing
-    if titlesHousingData and format ~= "discord" and format ~= "quick" then
+    if titlesHousingData then
         local GenerateTitles = CM.generators.sections.GenerateTitles
         local GenerateHousing = CM.generators.sections.GenerateHousing
         if GenerateTitles and GenerateHousing then
@@ -419,7 +419,7 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
                 or (titlesData.owned and #titlesData.owned > 0)
                 
             if titlesData and hasTitles then
-                local titlesContent = GenerateTitles(titlesData, format)
+                local titlesContent = GenerateTitles(titlesData)
                 -- Remove header if present (will be in summary)
                 titlesContent = titlesContent:gsub("^###%s+👑%s+Titles%s*\n%s*\n", "")
 
@@ -455,7 +455,7 @@ local function GenerateCollectibles(collectiblesData, format, dlcData, lorebooks
                 or (housingData.owned and #housingData.owned > 0)
                 
             if housingData and hasHousing then
-                local housingContent = GenerateHousing(housingData, format)
+                local housingContent = GenerateHousing(housingData)
                 -- Remove header if present (will be in summary)
                 housingContent = housingContent:gsub("^###%s+🏠%s+Housing%s*\n%s*\n", "")
 

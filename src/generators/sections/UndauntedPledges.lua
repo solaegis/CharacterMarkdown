@@ -19,7 +19,7 @@ end
 -- UNDAUNTED PLEDGES
 -- =====================================================
 
-local function GenerateUndauntedPledges(pledgesData, format)
+local function GenerateUndauntedPledges(pledgesData)
     InitializeUtilities()
 
     local markdown = ""
@@ -32,49 +32,8 @@ local function GenerateUndauntedPledges(pledgesData, format)
     local dungeonProgress = pledgesData.dungeonProgress or {}
     local keys = pledgesData.keys or {}
 
-    if format == "discord" then
-        markdown = markdown .. "**Undaunted Pledges:**\n"
-
-        -- Daily pledges
-        if pledges.daily then
-            local dailyNormal = #pledges.daily.normal or 0
-            local dailyVeteran = #pledges.daily.veteran or 0
-            if dailyNormal > 0 or dailyVeteran > 0 then
-                markdown = markdown .. "• Daily: " .. (dailyNormal + dailyVeteran) .. " available"
-                if pledges.daily.keys > 0 then
-                    markdown = markdown .. " (" .. pledges.daily.keys .. " keys)"
-                end
-                markdown = markdown .. "\n"
-            end
-        end
-
-        -- Weekly pledges
-        if pledges.weekly then
-            local weeklyNormal = #pledges.weekly.normal or 0
-            local weeklyVeteran = #pledges.weekly.veteran or 0
-            if weeklyNormal > 0 or weeklyVeteran > 0 then
-                markdown = markdown .. "• Weekly: " .. (weeklyNormal + weeklyVeteran) .. " available"
-                if pledges.weekly.keys > 0 then
-                    markdown = markdown .. " (" .. pledges.weekly.keys .. " keys)"
-                end
-                markdown = markdown .. "\n"
-            end
-        end
-
-        -- Progress
-        if pledges.progress and pledges.progress.totalAvailable > 0 then
-            local percent = math.floor((pledges.progress.totalCompleted / pledges.progress.totalAvailable) * 100)
-            markdown = markdown
-                .. "• Progress: "
-                .. pledges.progress.totalCompleted
-                .. "/"
-                .. pledges.progress.totalAvailable
-                .. " ("
-                .. percent
-                .. "%)\n"
-        end
-
-        markdown = markdown .. "\n"
+    if false then
+        -- Discord block removed
     else
         local anchorId = GenerateAnchor and GenerateAnchor("🏰 Undaunted Pledges") or "undaunted-pledges"
         markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
@@ -106,16 +65,16 @@ local function GenerateUndauntedPledges(pledgesData, format)
                 dungeonName = dungeonName:gsub("^%s+", ""):gsub("%s+$", "")
 
                 -- Create links for dungeon and location
-                local dungeonLink = (CreateZoneLink and CreateZoneLink(dungeonName, format)) or dungeonName
+                local dungeonLink = (CreateZoneLink and CreateZoneLink(dungeonName)) or dungeonName
                 local locationLink = ""
                 if locationText ~= "" then
-                    locationLink = (CreateZoneLink and CreateZoneLink(locationText, format)) or locationText
+                    locationLink = (CreateZoneLink and CreateZoneLink(locationText)) or locationText
                 elseif pledgeText:find(" - ") then
                     -- Extract zone from pledge name if location field is empty
                     local zoneName = pledgeText:match("%- (.+)$")
                     if zoneName then
                         zoneName = zoneName:gsub("^%s+", ""):gsub("%s+$", "")
-                        locationLink = (CreateZoneLink and CreateZoneLink(zoneName, format)) or zoneName
+                        locationLink = (CreateZoneLink and CreateZoneLink(zoneName)) or zoneName
                     end
                 end
 

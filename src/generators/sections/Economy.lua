@@ -22,7 +22,7 @@ end
 -- CURRENCY
 -- =====================================================
 
-local function GenerateCurrency(currencyData, format)
+local function GenerateCurrency(currencyData)
     InitializeUtilities()
 
     if not currencyData then
@@ -56,16 +56,6 @@ local function GenerateCurrency(currencyData, format)
         { label = "🔹 **Fragments**", value = FormatValue(currencyData.imperialFragments) },
     }
 
-    if format == "discord" then
-        local result = "**Currency:**\n"
-        for _, item in ipairs(currencies) do
-            -- Remove markdown bold from label for Discord
-            local label = item.label:gsub("%*%*", "")
-            result = result .. label .. ": " .. item.value .. "\n"
-        end
-        return result .. "\n"
-    end
-
     -- Markdown Table Format
     local result = '<a id="currency"></a>\n\n### Currency\n\n'
 
@@ -80,7 +70,6 @@ local function GenerateCurrency(currencyData, format)
     local CreateStyledTable = markdown and markdown.CreateStyledTable or CM.utils.markdown.CreateStyledTable
     local options = {
         alignment = { "left", "left" },
-        format = format,
         coloredHeaders = true,
     }
     result = result .. CreateStyledTable(headers, rows, options)
@@ -94,7 +83,7 @@ CM.generators.sections.GenerateCurrency = GenerateCurrency
 -- RIDING SKILLS
 -- =====================================================
 
-local function GenerateRidingSkills(ridingData, format)
+local function GenerateRidingSkills(ridingData)
     InitializeUtilities()
 
     if not ridingData then
@@ -106,47 +95,6 @@ local function GenerateRidingSkills(ridingData, format)
     local stamina = ridingData.stamina or 0
     local capacity = ridingData.capacity or 0
     local maxRiding = 60
-
-    if format == "discord" then
-        -- Discord: Simple format
-        local result = "**Riding Skills:**\n"
-        result = result .. "• Speed: " .. speed .. "/60\n"
-        result = result .. "• Stamina: " .. stamina .. "/60\n"
-        result = result .. "• Capacity: " .. capacity .. "/60\n"
-        return result .. "\n"
-    end
-
-    if not markdown then
-        -- Classic table format (matches old output)
-        local result = "## 🐎 Riding Skills\n\n"
-
-        local speedStatus = (speed >= 60) and "✅ Maxed" or string_format("%d/60", speed)
-        local staminaStatus = (stamina >= 60) and "✅ Maxed" or string_format("%d/60", stamina)
-        local capacityStatus = (capacity >= 60) and "✅ Maxed" or string_format("%d/60", capacity)
-
-        local headers = { "Skill", "Progress", "Status" }
-        local rows = {
-            { "Speed", string_format("%d / 60", speed), speedStatus },
-            { "Stamina", string_format("%d / 60", stamina), staminaStatus },
-            { "Capacity", string_format("%d / 60", capacity), capacityStatus },
-        }
-
-        local CreateStyledTable = markdown and markdown.CreateStyledTable or CM.utils.markdown.CreateStyledTable
-        local options = {
-            alignment = { "left", "left", "left" },
-            format = format,
-            coloredHeaders = true,
-        }
-        result = result .. CreateStyledTable(headers, rows, options)
-
-        if speed >= 60 and stamina >= 60 and capacity >= 60 then
-            result = result .. "\n✅ **All riding skills maxed!**\n\n"
-        else
-            result = result .. "\n"
-        end
-
-        return result
-    end
 
     -- ENHANCED: Progress bars (with nil checks)
     local progressBars = {}
@@ -266,137 +214,103 @@ local function GetQualitySymbol(quality)
 end
 
 -- Helper: Generate item list for a specific container
-local function GenerateItemList(items, containerName, format)
+local function GenerateItemList(items, containerName)
     if not items or #items == 0 then
         return ""
     end
 
     local result = ""
 
-    if format == "discord" then
-        result = result .. "**" .. containerName .. " Items:**\n"
-        for _, item in ipairs(items) do
-            local qualitySymbol = GetQualitySymbol(item.quality)
-            local stackText = item.stack > 1 and (" x" .. item.stack) or ""
-            result = result .. qualitySymbol .. " " .. item.name .. stackText .. "\n"
+    -- Group items by category (itemTypeName)
+    local categories = {}
+    
+    for _, item in ipairs(items) do
+        local category = item.itemTypeName or "Other"
+        if category == "" then
+            category = "Other"
         end
-        result = result .. "\n"
-    else
-        -- Group items by category (itemTypeName)
-        local categories = {}
+        if not categories[category] then
+            categories[category] = {}
+        end
+        table.insert(categories[category], item)
+    end
+
+    -- Sort categories alphabetically
+    local sortedCategories = {}
+    for category, categoryItems in pairs(categories) do
+        table.insert(sortedCategories, { name = category, items = categoryItems })
+    end
+    table.sort(sortedCategories, function(a, b)
+        return a.name:lower() < b.name:lower()
+    end)
+
+    result = result .. "<details>\n"
+    result = result
+        .. "<summary><strong>"
+        .. containerName
+        .. " Items</strong> ("
+        .. #items
+        .. " unique items)</summary>\n\n"
+
+    -- Generate a table for each category
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
+    local headers = { "Item", "Stack", "Quality" }
+    local options = {
+        alignment = { "left", "right", "left" },
+        coloredHeaders = true,
+    }
+
+    -- For craft bag, use multi-column layout for better space efficiency
+    -- Skip alphabetical sorting within categories for better performance
+    local useMultiColumn = (containerName == "Crafting Bag") and CreateResponsiveColumns
+    
+    if useMultiColumn and #sortedCategories > 1 then
+        -- Multi-column layout: collect all category tables first
+        local categoryTables = {}
         
-        for _, item in ipairs(items) do
-            local category = item.itemTypeName or "Other"
-            if category == "" then
-                category = "Other"
+        for _, categoryData in ipairs(sortedCategories) do
+            local categoryName = categoryData.name
+            local categoryItems = categoryData.items
+            
+            -- Build table for this category (no sorting for efficiency)
+            local rows = {}
+            for _, item in ipairs(categoryItems) do
+                local qualitySymbol = GetQualitySymbol(item.quality)
+                local stackText = item.stack > 1 and tostring(item.stack) or "1"
+                table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
             end
-            if not categories[category] then
-                categories[category] = {}
-            end
-            table.insert(categories[category], item)
+            
+            -- Create table with category header embedded
+            local categoryTable = "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
+            categoryTable = categoryTable .. CreateStyledTable(headers, rows, options)
+            table.insert(categoryTables, categoryTable)
         end
-
-        -- Sort categories alphabetically
-        local sortedCategories = {}
-        for category, categoryItems in pairs(categories) do
-            table.insert(sortedCategories, { name = category, items = categoryItems })
-        end
-        table.sort(sortedCategories, function(a, b)
-            return a.name:lower() < b.name:lower()
-        end)
-
-        result = result .. "<details>\n"
-        result = result
-            .. "<summary><strong>"
-            .. containerName
-            .. " Items</strong> ("
-            .. #items
-            .. " unique items)</summary>\n\n"
-
-        -- Generate a table for each category
-        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-        local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
-        local headers = { "Item", "Stack", "Quality" }
-        local options = {
-            alignment = { "left", "right", "left" },
-            format = format,
-            coloredHeaders = true,
-        }
-
-        -- For craft bag, use multi-column layout for better space efficiency
-        -- Skip alphabetical sorting within categories for better performance
-        local useMultiColumn = (containerName == "Crafting Bag") and CreateResponsiveColumns and format ~= "discord"
         
-        if useMultiColumn and #sortedCategories > 1 then
-            -- Multi-column layout: collect all category tables first
-            local categoryTables = {}
-            
-            for _, categoryData in ipairs(sortedCategories) do
-                local categoryName = categoryData.name
-                local categoryItems = categoryData.items
-                
-                -- Build table for this category (no sorting for efficiency)
-                local rows = {}
-                for _, item in ipairs(categoryItems) do
-                    local qualitySymbol = GetQualitySymbol(item.quality)
-                    local stackText = item.stack > 1 and tostring(item.stack) or "1"
-                    table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
-                end
-                
-                -- Create table with category header embedded
-                local categoryTable = "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
-                categoryTable = categoryTable .. CreateStyledTable(headers, rows, options)
-                table.insert(categoryTables, categoryTable)
-            end
-            
-            -- Use LayoutCalculator for optimal sizing
-            local LayoutCalculator = CM.utils.LayoutCalculator
-            local minWidth, gap
-            if LayoutCalculator then
-                minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(categoryTables, "250px", "20px")
-            else
-                minWidth, gap = "250px", "20px"
-            end
-            
-            -- Wrap all category tables in responsive columns
-            result = result .. CreateResponsiveColumns(categoryTables, minWidth, gap) .. "\n\n"
+        -- Use LayoutCalculator for optimal sizing
+        local LayoutCalculator = CM.utils.LayoutCalculator
+        local minWidth, gap
+        if LayoutCalculator then
+            minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(categoryTables, "250px", "20px")
         else
-            -- Single column layout (fallback or for non-craft-bag containers)
-            for _, categoryData in ipairs(sortedCategories) do
-                local categoryName = categoryData.name
-                local categoryItems = categoryData.items
-                
-                -- Sort items within category by name (only for single column)
-                table.sort(categoryItems, function(a, b)
-                    return a.name:lower() < b.name:lower()
-                end)
+            minWidth, gap = "250px", "20px"
+        end
+        
+        -- Wrap all category tables in responsive columns
+        result = result .. CreateResponsiveColumns(categoryTables, minWidth, gap) .. "\n\n"
+    else
+        -- Single column layout (fallback or for non-craft-bag containers)
+        for _, categoryData in ipairs(sortedCategories) do
+            local categoryName = categoryData.name
+            local categoryItems = categoryData.items
+            
+            -- Sort items within category by name (only for single column)
+            table.sort(categoryItems, function(a, b)
+                return a.name:lower() < b.name:lower()
+            end)
 
-                -- Ensure we have proper spacing before adding the category header
-                if result ~= "" then
-                    local lastChars = string.sub(result, -2, -1)
-                    if lastChars ~= "\n\n" then
-                        if lastChars:sub(-1, -1) ~= "\n" then
-                            result = result .. "\n\n"
-                        else
-                            result = result .. "\n"
-                        end
-                    end
-                end
-
-                -- Add category header
-                result = result .. "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
-
-                -- Build table for this category
-                local rows = {}
-                for _, item in ipairs(categoryItems) do
-                    local qualitySymbol = GetQualitySymbol(item.quality)
-                    local stackText = item.stack > 1 and tostring(item.stack) or "1"
-                    table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
-                end
-
-                result = result .. CreateStyledTable(headers, rows, options)
-                
-                -- Ensure table ends with proper newlines before next section
+            -- Ensure we have proper spacing before adding the category header
+            if result ~= "" then
                 local lastChars = string.sub(result, -2, -1)
                 if lastChars ~= "\n\n" then
                     if lastChars:sub(-1, -1) ~= "\n" then
@@ -406,144 +320,123 @@ local function GenerateItemList(items, containerName, format)
                     end
                 end
             end
-        end
 
-        result = result .. "</details>\n\n"
+            -- Add category header
+            result = result .. "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
+
+            -- Build table for this category
+            local rows = {}
+            for _, item in ipairs(categoryItems) do
+                local qualitySymbol = GetQualitySymbol(item.quality)
+                local stackText = item.stack > 1 and tostring(item.stack) or "1"
+                table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
+            end
+
+            result = result .. CreateStyledTable(headers, rows, options)
+            
+            -- Ensure table ends with proper newlines before next section
+            local lastChars = string.sub(result, -2, -1)
+            if lastChars ~= "\n\n" then
+                if lastChars:sub(-1, -1) ~= "\n" then
+                    result = result .. "\n\n"
+                else
+                    result = result .. "\n"
+                end
+            end
+        end
     end
+
+    result = result .. "</details>\n\n"
 
     return result
 end
 
-local function GenerateInventory(inventoryData, format)
+local function GenerateInventory(inventoryData)
     InitializeUtilities()
 
     -- Ensure we output something if enabled, even if data is missing
     if not inventoryData then
-        if format == "discord" then
-            return "**Inventory:**\n*No inventory data available*\n\n"
-        else
-            return "## 🎒 Inventory\n\n*No inventory data available*\n\n"
-        end
+        return "## 🎒 Inventory\n\n*No inventory data available*\n\n"
     end
 
     local result = ""
 
-    if format == "discord" then
-        result = result .. "**Inventory:**\n"
-        result = result
-            .. "• Backpack: "
-            .. inventoryData.backpackUsed
-            .. "/"
-            .. inventoryData.backpackMax
-            .. " ("
-            .. inventoryData.backpackPercent
-            .. "%)\n"
-        result = result
-            .. "• Bank: "
-            .. inventoryData.bankUsed
-            .. "/"
-            .. inventoryData.bankMax
-            .. " ("
-            .. inventoryData.bankPercent
-            .. "%)\n"
-        if inventoryData.hasCraftingBag then
-            result = result .. "• ✅ Crafting Bag (ESO Plus)\n"
-        end
-        result = result .. "\n"
+    result = result .. "## 🎒 Inventory\n\n"
 
-        -- Add detailed bag contents if available
-        if inventoryData.bagItems then
-            result = result .. GenerateItemList(inventoryData.bagItems, "Backpack", format)
-        end
+    -- Add attention warnings for nearly full storage
+    local warnings = {}
+    if inventoryData.backpackPercent and inventoryData.backpackPercent >= 90 then
+        table.insert(
+            warnings,
+            string_format("🎒 **Backpack nearly full** (%d%%) - Clear out items", inventoryData.backpackPercent)
+        )
+    end
+    if inventoryData.bankPercent and inventoryData.bankPercent >= 90 then
+        table.insert(
+            warnings,
+            string_format("🏦 **Bank nearly full** (%d%%) - Clear out items", inventoryData.bankPercent)
+        )
+    end
 
-        -- Add detailed bank contents if available
-        if inventoryData.bankItems then
-            result = result .. GenerateItemList(inventoryData.bankItems, "Bank", format)
-        end
+    if #warnings > 0 then
+        result = result .. table.concat(warnings, "  \n") .. "\n\n"
+    end
 
-        -- Add detailed crafting bag contents if available
-        if inventoryData.craftingBagItems then
-            result = result .. GenerateItemList(inventoryData.craftingBagItems, "Crafting Bag", format)
+    local headers = { "Storage", "Used", "Max", "Capacity" }
+    
+    -- Helper function to create capacity progress bar
+    local function FormatCapacity(percent)
+        if not percent then
+            return "-"
         end
-    else
-        result = result .. "## 🎒 Inventory\n\n"
+        local CreateProgressBar = CM.utils.CreateProgressBar
+        if CreateProgressBar then
+            return CreateProgressBar(percent, 10)
+        else
+            -- Fallback to percentage if progress bar not available
+            return tostring(percent) .. "%"
+        end
+    end
+    
+    local rows = {
+        {
+            "Backpack",
+            tostring(inventoryData.backpackUsed),
+            tostring(inventoryData.backpackMax),
+            FormatCapacity(inventoryData.backpackPercent),
+        },
+        {
+            "Bank",
+            tostring(inventoryData.bankUsed),
+            tostring(inventoryData.bankMax),
+            FormatCapacity(inventoryData.bankPercent),
+        },
+    }
 
-        -- Add attention warnings for nearly full storage
-        local warnings = {}
-        if inventoryData.backpackPercent and inventoryData.backpackPercent >= 90 then
-            table.insert(
-                warnings,
-                string_format("🎒 **Backpack nearly full** (%d%%) - Clear out items", inventoryData.backpackPercent)
-            )
-        end
-        if inventoryData.bankPercent and inventoryData.bankPercent >= 90 then
-            table.insert(
-                warnings,
-                string_format("🏦 **Bank nearly full** (%d%%) - Clear out items", inventoryData.bankPercent)
-            )
-        end
+    if inventoryData.hasCraftingBag then
+        table.insert(rows, { "Crafting Bag", "∞", "∞", "ESO Plus" })
+    end
 
-        if #warnings > 0 then
-            result = result .. table.concat(warnings, "  \n") .. "\n\n"
-        end
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    local options = {
+        alignment = { "left", "right", "right", "left" },
+        coloredHeaders = true,
+    }
+    result = result .. CreateStyledTable(headers, rows, options)
 
-        local headers = { "Storage", "Used", "Max", "Capacity" }
-        
-        -- Helper function to create capacity progress bar
-        local function FormatCapacity(percent)
-            if not percent then
-                return "-"
-            end
-            local CreateProgressBar = CM.utils.CreateProgressBar
-            if CreateProgressBar then
-                return CreateProgressBar(percent, 10)
-            else
-                -- Fallback to percentage if progress bar not available
-                return tostring(percent) .. "%"
-            end
-        end
-        
-        local rows = {
-            {
-                "Backpack",
-                tostring(inventoryData.backpackUsed),
-                tostring(inventoryData.backpackMax),
-                FormatCapacity(inventoryData.backpackPercent),
-            },
-            {
-                "Bank",
-                tostring(inventoryData.bankUsed),
-                tostring(inventoryData.bankMax),
-                FormatCapacity(inventoryData.bankPercent),
-            },
-        }
+    -- Add detailed bag contents if available
+    if inventoryData.bagItems then
+        result = result .. GenerateItemList(inventoryData.bagItems, "Backpack")
+    end
 
-        if inventoryData.hasCraftingBag then
-            table.insert(rows, { "Crafting Bag", "∞", "∞", "ESO Plus" })
-        end
+    -- Add detailed bank contents if available
+    if inventoryData.bankItems then
+        result = result .. GenerateItemList(inventoryData.bankItems, "Bank")
+    end
 
-        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-        local options = {
-            alignment = { "left", "right", "right", "left" },
-            format = format,
-            coloredHeaders = true,
-        }
-        result = result .. CreateStyledTable(headers, rows, options)
-
-        -- Add detailed bag contents if available
-        if inventoryData.bagItems then
-            result = result .. GenerateItemList(inventoryData.bagItems, "Backpack", format)
-        end
-
-        -- Add detailed bank contents if available
-        if inventoryData.bankItems then
-            result = result .. GenerateItemList(inventoryData.bankItems, "Bank", format)
-        end
-
-        -- Add detailed crafting bag contents if available
-        if inventoryData.craftingBagItems then
-            result = result .. GenerateItemList(inventoryData.craftingBagItems, "Crafting Bag", format)
-        end
+    -- Add detailed crafting bag contents if available
+    if inventoryData.craftingBagItems then
+        result = result .. GenerateItemList(inventoryData.craftingBagItems, "Crafting Bag")
     end
 
     return result
@@ -555,7 +448,7 @@ CM.generators.sections.GenerateInventory = GenerateInventory
 -- PVP
 -- =====================================================
 
-local function GeneratePvP(pvpData, format)
+local function GeneratePvP(pvpData)
     InitializeUtilities()
 
     if not pvpData then
@@ -564,35 +457,24 @@ local function GeneratePvP(pvpData, format)
 
     local result = ""
 
-    if format == "discord" then
-        result = result .. "**PvP:**\n"
-        result = result .. "• Alliance War Rank: " .. pvpData.rankName .. " (Rank " .. pvpData.rank .. ")\n"
-        if pvpData.campaignName and pvpData.campaignName ~= "None" then
-            local campaignText = CreateCampaignLink(pvpData.campaignName, format)
-            result = result .. "• Campaign: " .. campaignText .. "\n"
-        end
-        result = result .. "\n"
-    else
-        result = result .. "## ⚔️ PvP Information\n\n"
+    result = result .. "## ⚔️ PvP Information\n\n"
 
-        local headers = { "Category", "Value" }
-        local rows = {
-            { "Alliance War Rank", pvpData.rankName .. " (Rank " .. pvpData.rank .. ")" },
-        }
+    local headers = { "Category", "Value" }
+    local rows = {
+        { "Alliance War Rank", pvpData.rankName .. " (Rank " .. pvpData.rank .. ")" },
+    }
 
-        if pvpData.campaignName and pvpData.campaignName ~= "None" then
-            local campaignText = CreateCampaignLink(pvpData.campaignName, format)
-            table.insert(rows, { "Current Campaign", campaignText })
-        end
-
-        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-        local options = {
-            alignment = { "left", "left" },
-            format = format,
-            coloredHeaders = true,
-        }
-        result = result .. CreateStyledTable(headers, rows, options)
+    if pvpData.campaignName and pvpData.campaignName ~= "None" then
+        local campaignText = CreateCampaignLink(pvpData.campaignName)
+        table.insert(rows, { "Current Campaign", campaignText })
     end
+
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    local options = {
+        alignment = { "left", "left" },
+        coloredHeaders = true,
+    }
+    result = result .. CreateStyledTable(headers, rows, options)
 
     return result
 end
@@ -603,7 +485,7 @@ CM.generators.sections.GeneratePvP = GeneratePvP
 -- MERGED: CURRENCY, RESOURCES & INVENTORY
 -- =====================================================
 
-local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inventoryData, format, cpData)
+local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inventoryData, cpData)
     InitializeUtilities()
 
     -- Check if any of the components have data
@@ -616,19 +498,6 @@ local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inve
 
     local result = ""
 
-    if format == "discord" then
-        -- Discord: Simple format, combine all
-        if includeCurrency then
-            local currencyResult = GenerateCurrency(currencyData, format)
-            result = result .. currencyResult
-        end
-        if includeInventory then
-            local inventoryResult = GenerateInventory(inventoryData, format)
-            result = result .. inventoryResult
-        end
-        return result
-    end
-
     -- Non-Discord: Create merged section without headers (headers removed for Overview section)
     -- Add Currency title
     result = result .. '<a id="currency"></a>\n\n### Currency\n\n'
@@ -636,7 +505,7 @@ local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inve
     -- Currency & Resources subsection
     if includeCurrency then
         -- Get currency content without header
-        local currencyContent = GenerateCurrency(currencyData, format)
+        local currencyContent = GenerateCurrency(currencyData)
         -- Remove the header line (## 💰 Currency & Resources)
         currencyContent = currencyContent:gsub("^##%s+💰%s+Currency%s+&%s+Resources%s*\n%s*\n", "")
         result = result .. currencyContent
@@ -644,7 +513,7 @@ local function GenerateCurrencyResourcesInventory(currencyData, ridingData, inve
 
     -- Inventory subsection
     if includeInventory then
-        local inventoryContent = GenerateInventory(inventoryData, format)
+        local inventoryContent = GenerateInventory(inventoryData)
         -- Remove the header line (## 🎒 Inventory)
         inventoryContent = inventoryContent:gsub("^##%s+🎒%s+Inventory%s*\n%s*\n", "")
         result = result .. inventoryContent

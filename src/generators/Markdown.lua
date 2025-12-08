@@ -1,5 +1,5 @@
 -- CharacterMarkdown - Markdown Generation Engine
--- Generates markdown in GitHub style format
+-- Generates markdown in standard format (GitHub-compatible)
 
 local CM = CharacterMarkdown
 
@@ -149,7 +149,7 @@ end
 -- SECTION REGISTRY PATTERN
 -- =====================================================
 
--- Generate GitHub markdown anchor from section title text
+-- Generate standard markdown anchor from section title text
 -- GitHub anchors: lowercase, spaces to hyphens, remove emojis and special chars
 -- Must match the logic in GenerateDynamicTableOfContents
 local function GenerateAnchor(text)
@@ -205,7 +205,7 @@ end
 --     - condition: Boolean or function returning boolean
 --     - generator: Function that returns markdown string
 --     - dynamicTOC: Optional flag for special TOC handling
-local function GetSectionRegistry(format, settings, gen, data)
+local function GetSectionRegistry(settings, gen, data)
     -- Debug: Log settings at registry creation time (lazy evaluation)
     CM.DebugPrint("REGISTRY", function()
         return string.format(
@@ -222,7 +222,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             tocEntry = nil, -- Not in TOC
             condition = IsSettingEnabled(settings, "includeHeader", true),
             generator = function()
-                return gen.GenerateHeader(data.character, data.cp, format)
+                return gen.GenerateHeader(data.character, data.cp)
             end,
         },
 
@@ -273,11 +273,11 @@ local function GetSectionRegistry(format, settings, gen, data)
                 settingsWithData._collectedData = {
                     characterAttributes = data.characterAttributes
                 }
-                -- Call GenerateOverviewSection which includes the section header
-                return gen.GenerateOverviewSection(
+                -- Call GenerateQuickStats which includes the section header
+                return gen.GenerateQuickStats(
                     data.character,
                     data.stats,
-                    format,
+                    nil, -- format
                     data.equipment,
                     data.progression,
                     data.currency,
@@ -304,7 +304,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 and data.customNotes
                 and data.customNotes ~= "",
             generator = function()
-                return gen.GenerateCustomNotes(data.customNotes, format)
+                return gen.GenerateCustomNotes(data.customNotes, nil, data.equipment, data.skillBar)
             end,
         },
 
@@ -343,7 +343,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 if IsSettingEnabled(settings, "includeBasicCombatStats", true) then
                     CM.DebugPrint("STATS_GEN", "Generating Basic Combat Stats...")
                     if data.stats then
-                        local success, result = pcall(gen.GenerateCombatStats, data.stats, format, true) -- inline=true
+                        local success, result = pcall(gen.GenerateCombatStats, data.stats, true) -- inline=true
                         if success then
                             local statsOutput = result or ""
                             if statsOutput ~= "" then
@@ -358,7 +358,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 if IsSettingEnabled(settings, "includeAdvancedStats", true) then
                     CM.DebugPrint("STATS_GEN", "Generating Advanced Stats...")
                     if data.stats then
-                        local success, result = pcall(gen.GenerateAdvancedStats, data.stats, format)
+                        local success, result = pcall(gen.GenerateAdvancedStats, data.stats)
                         if success then
                             local advStatsOutput = result or ""
                             if advStatsOutput ~= "" then
@@ -372,7 +372,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 -- Generate Skill Bars (optional)
                 if IsSettingEnabled(settings, "includeSkillBars", true) then
                     local skillBarData = data.skillBar or {}
-                    local success, result = pcall(gen.GenerateSkillBarsOnly, skillBarData, format)
+                    local success, result = pcall(gen.GenerateSkillBarsOnly, skillBarData)
                     
                     if success then
                         output = output .. (result or "")
@@ -397,7 +397,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             condition = IsSettingEnabled(settings, "includeEquipment", true),
             generator = function()
                 local equipmentData = data.equipment or {}
-                local success, result = pcall(gen.GenerateEquipment, equipmentData, format, false)
+                local success, result = pcall(gen.GenerateEquipment, equipmentData, false)
                 if success then
                     return result or ""
                 else
@@ -428,7 +428,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 local markdown = ""
 
                 -- Show all Champion Points
-                local cpResult = gen.GenerateChampionPoints(data.cp, format)
+                local cpResult = gen.GenerateChampionPoints(data.cp)
                 markdown = markdown .. cpResult
 
                 -- Add Mermaid diagram if enabled
@@ -458,7 +458,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 local skillMorphsData = data.skillMorphs or {}
                 
                 -- Use the new consolidated generator
-                return gen.GenerateCharacterProgress(skillProgressionData, skillMorphsData, format)
+                return gen.GenerateCharacterProgress(skillProgressionData, skillMorphsData)
             end,
         },
 
@@ -485,7 +485,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 -- Use unified pvp structure: data.pvp.basic and data.pvp.stats
                 local pvpBasic = data.pvp and data.pvp.basic or nil
                 local pvpStats = data.pvp and data.pvp.stats or nil
-                return gen.GeneratePvPStats(pvpBasic, pvpStats, format, skillProgressionData, settings)
+                return gen.GeneratePvPStats(pvpBasic, pvpStats, skillProgressionData, settings)
             end,
         },
 
@@ -503,7 +503,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             },
             condition = IsSettingEnabled(settings, "includeCompanion", true),
             generator = function()
-                return gen.GenerateCompanion(data.companion, format)
+                return gen.GenerateCompanion(data.companion)
             end,
         },
 
@@ -565,7 +565,6 @@ local function GetSectionRegistry(format, settings, gen, data)
                 local lorebooksData = (data.worldProgress and data.worldProgress.lorebooks) or nil
                 return gen.GenerateCollectibles(
                     data.collectibles,
-                    format,
                     data.dlc,
                     lorebooksData,
                     data.titlesHousing,
@@ -588,7 +587,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             },
             condition = IsSettingEnabled(settings, "includeInventory", true),
             generator = function()
-                return gen.GenerateInventory(data.inventory, format)
+                return gen.GenerateInventory(data.inventory)
             end,
         },
 
@@ -617,7 +616,7 @@ local function GetSectionRegistry(format, settings, gen, data)
 
                 if showAllAchievements then
                     -- Show all achievements (full data with categories)
-                    markdown = markdown .. gen.GenerateAchievements(data.achievements, format)
+                    markdown = markdown .. gen.GenerateAchievements(data.achievements)
                 else
                     -- Filter to show only in-progress achievements
                     local inProgressData = {
@@ -625,7 +624,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                         inProgress = data.achievements.inProgress or {},
                         categories = data.achievements.categories, -- Include categories for consistency
                     }
-                    markdown = markdown .. gen.GenerateAchievements(inProgressData, format)
+                    markdown = markdown .. gen.GenerateAchievements(inProgressData)
                 end
 
                 return markdown
@@ -653,7 +652,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 end
 
                 -- Generate antiquities section
-                markdown = markdown .. gen.GenerateAntiquities(data.antiquities, format)
+                markdown = markdown .. gen.GenerateAntiquities(data.antiquities)
 
                 return markdown
             end,
@@ -754,7 +753,7 @@ local function GetSectionRegistry(format, settings, gen, data)
                 if IsSettingEnabled(settings, "includeUndauntedPledges", true) then
                     undauntedPledgesData = data.undauntedPledges
                 end
-                return gen.GenerateGuilds(data.guilds, format, undauntedPledgesData)
+                return gen.GenerateGuilds(data.guilds, undauntedPledgesData)
             end,
         },
 
@@ -771,7 +770,7 @@ local function GetSectionRegistry(format, settings, gen, data)
             tocEntry = nil, -- Not shown in TOC
             condition = IsSettingEnabled(settings, "includeBuffs", true),
             generator = function()
-                return gen.GenerateBuffs(data.buffs, format)
+                return gen.GenerateBuffs(data.buffs)
             end,
         },
 
@@ -792,8 +791,8 @@ end
 -- MAIN GENERATION FUNCTION
 -- =====================================================
 
-local function GenerateMarkdown(format)
-    format = format or "markdown"  -- Default to markdown (GitHub style)
+local function GenerateMarkdown()
+    -- Default to markdown (GitHub style)
 
     -- Reset error tracking
     ResetCollectionErrors()
@@ -878,8 +877,6 @@ local function GenerateMarkdown(format)
     -- Get section generators
     local gen = GetGenerators()
 
-    format = "markdown" -- Enforce markdown format (GitHub style)
-
     -- Generate markdown
     CM.DebugPrint("GENERATOR", function()
         return "Generating markdown..."
@@ -888,7 +885,7 @@ local function GenerateMarkdown(format)
     local markdown = ""
 
     -- Get section registry (pass flattened settings)
-    local sections = GetSectionRegistry(format, settings, gen, collectedData)
+    local sections = GetSectionRegistry(settings, gen, collectedData)
 
     -- Generate all sections based on registry
     -- Generate all sections based on registry
@@ -915,7 +912,7 @@ local function GenerateMarkdown(format)
                     CM.Error("GenerateDynamicTableOfContents function not found!")
                     -- Set result to empty to fall through
                 else
-                    local success, resultTOC = pcall(gen.GenerateDynamicTableOfContents, sections, format)
+                    local success, resultTOC = pcall(gen.GenerateDynamicTableOfContents, sections)
                     if success then
                         local resultLength = resultTOC and #resultTOC or 0
                         CM.DebugPrint("GENERATOR", string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength))
@@ -1054,7 +1051,7 @@ local function GenerateMarkdown(format)
 
     -- Footer (controlled by includeFooter setting)
     if IsSettingEnabled(settings, "includeFooter", true) then
-        local footerSuccess, footerResult = pcall(gen.GenerateFooter, format, string.len(markdown))
+        local footerSuccess, footerResult = pcall(gen.GenerateFooter, string.len(markdown))
         if footerSuccess then
             markdown = markdown .. footerResult
             CM.DebugPrint("GENERATOR", string.format("Footer added (%d chars)", #footerResult))

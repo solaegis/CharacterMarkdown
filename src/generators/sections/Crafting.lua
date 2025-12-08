@@ -142,7 +142,7 @@ end
 -- CRAFTING KNOWLEDGE
 -- =====================================================
 
-local function GenerateCrafting(craftingData, format)
+local function GenerateCrafting(craftingData)
     InitializeUtilities()
 
     local markdown = ""
@@ -151,36 +151,8 @@ local function GenerateCrafting(craftingData, format)
         return ""
     end
 
-    if format == "discord" then
-        -- Discord: Compact format
-        markdown = markdown .. "\n**Crafting Knowledge:**\n"
-
-        -- Motifs summary
-        local knownMotifs = 0
-        local totalMotifs = #craftingData.motifs
-        for _, motif in ipairs(craftingData.motifs) do
-            if motif.known then
-                knownMotifs = knownMotifs + 1
-            end
-        end
-
-        markdown = markdown .. "🎨 **Motifs:** " .. knownMotifs .. "/" .. totalMotifs .. " known\n"
-
-        -- Recipe counts
-        local totalRecipes = 0
-        for craftType, recipes in pairs(craftingData.recipes) do
-            totalRecipes = totalRecipes + #recipes
-        end
-
-        markdown = markdown .. "📜 **Recipes:** " .. totalRecipes .. " total\n"
-
-        -- Research summary
-        local totalResearchLines = 0
-        for craftType, lines in pairs(craftingData.research) do
-            totalResearchLines = totalResearchLines + #lines
-        end
-
-        markdown = markdown .. "🔬 **Research:** " .. totalResearchLines .. " lines\n"
+    if false then
+        -- Legacy Discord block removed
     else
         -- GitHub/VSCode: Detailed format with 3-column layout
         local anchorId = GenerateAnchor and GenerateAnchor("🔨 Crafting Knowledge") or "crafting-knowledge"

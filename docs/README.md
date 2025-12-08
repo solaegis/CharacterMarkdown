@@ -104,17 +104,17 @@ Control which information appears in your markdown:
 ## Output Formats
 
 ### Markdown Format (Default)
-**Best for**: GitHub README files, detailed documentation
+**Best for**: Documentation, GitHub README files, sharing on Discord/forums
 - Full tables with rich formatting
 - Collapsible sections
 - Comprehensive UESP links
 - Progress bars and emojis
 
 ### TONL Format
-**Best for**: Data processing, external tools
+**Best for**: Data analysis, external tools, build sharing
 - Structured data format (Tom's Obvious, Minimal Language)
-- Machine-readable export
-- Ideal for programmatic use
+- Machine-readable export with full data fidelity
+- Ideal for programmatic use and interoperability
 
 
 ---
@@ -215,8 +215,8 @@ Include this information:
 
 
 
-### For GitHub Documentation
-- Use GitHub format for full documentation
+### For Documentation (e.g. GitHub)
+- Use Markdown format for full capabilities
 - Add custom notes for build explanations
 - Include screenshots of your character
 

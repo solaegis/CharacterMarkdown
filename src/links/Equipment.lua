@@ -23,7 +23,7 @@ end
 CM.links.GenerateSetURL = GenerateSetURL
 
 -- Create markdown link for set
-local function CreateSetLink(setName, format)
+local function CreateSetLink(setName)
     if not setName or setName == "-" or setName == "" then
         return setName or "-"
     end
@@ -41,7 +41,7 @@ local function CreateSetLink(setName, format)
 
     local url = GenerateSetURL(setName)
 
-    if url and (format == "github" or format == "discord") then
+    if url then
         -- Only add " Set" suffix if it's not already there
         local displayName = setName
         if not displayName:match(" Set$") then

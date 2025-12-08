@@ -133,7 +133,7 @@ This document outlines the complete process of creating and displaying a markdow
 - **Called from**: `src/Commands.lua` after markdown generation
 - **Parameters**:
   - `markdown`: String or array of chunk objects
-  - `format`: Format name (github, vscode, discord, quick)
+  - `format`: Format name (markdown, tonl)
 
 ### 4.2 Pre-Display Setup
 - **Location**: `src/ui/Window.lua` - `CharacterMarkdown_ShowWindow()`

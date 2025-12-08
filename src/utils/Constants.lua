@@ -70,10 +70,8 @@ CM.constants.LIMITS = {
 -- =====================================================
 
 CM.constants.FORMATS = {
-    GITHUB = "github",
-    VSCODE = "vscode",
-    DISCORD = "discord",
-    QUICK = "quick",
+    MARKDOWN = "markdown",
+    TONL = "tonl",
 }
 
 -- =====================================================

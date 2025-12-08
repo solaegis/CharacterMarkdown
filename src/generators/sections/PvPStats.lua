@@ -49,8 +49,8 @@ local function GenerateRankProgression(progression, format)
 
     local percentText = string.format("%.1f%%", progression.progressPercent)
 
-    if GenerateProgressBar and format ~= "discord" then
-        local progressBar = GenerateProgressBar(progression.progressPercent, 10, "▰", "▱")
+    if GenerateProgressBar then
+        local progressBar = GenerateProgressBar(progression.progressPercent, 10)
         return string.format("%s to next grade %s %s", progressText, progressBar, percentText)
     else
         return string.format("%s to next grade (%s)", progressText, percentText)
@@ -84,7 +84,7 @@ end
 -- HELPER: GENERATE ALLIANCE WAR COLUMN
 -- =====================================================
 
-local function GenerateAllianceWarColumn(pvp, settings, format)
+local function GenerateAllianceWarColumn(pvp, settings)
     local markdown = ""
     local showProgression = settings.showPvPProgression or false
 
@@ -110,7 +110,7 @@ local function GenerateAllianceWarColumn(pvp, settings, format)
 
     -- Progression
     if showProgression and pvp.progression and pvp.progression.pointsToNext > 0 then
-        local progressText = GenerateRankProgression(pvp.progression, format)
+        local progressText = GenerateRankProgression(pvp.progression)
         if progressText ~= "" then
             table.insert(rows, { "Progress to Next", progressText })
             table.insert(rows, { "AP Needed", FormatNumber(pvp.progression.pointsToNext) })
@@ -125,7 +125,6 @@ local function GenerateAllianceWarColumn(pvp, settings, format)
     local CreateStyledTable = CM.utils.markdown.CreateStyledTable
     local options = {
         alignment = { "left", "left" },
-        format = format,
         coloredHeaders = true,
     }
     markdown = markdown .. CreateStyledTable(headers, rows, options)
@@ -137,7 +136,7 @@ end
 -- HELPER: GENERATE CAMPAIGN COLUMN
 -- =====================================================
 
-local function GenerateCampaignColumn(pvp, settings, format)
+local function GenerateCampaignColumn(pvp, settings)
     local markdown = ""
     local CreateCampaignLink = CM.links and CM.links.CreateCampaignLink
     local showCampaignRewards = settings.showCampaignRewards or false
@@ -156,7 +155,7 @@ local function GenerateCampaignColumn(pvp, settings, format)
     -- Campaign name
     local campaignLink = pvp.campaign.name
     if CreateCampaignLink then
-        campaignLink = CreateCampaignLink(pvp.campaign.name, format) or pvp.campaign.name
+        campaignLink = CreateCampaignLink(pvp.campaign.name) or pvp.campaign.name
     end
     if pvp.campaign.isActive then
         campaignLink = campaignLink .. " 🟢"
@@ -181,7 +180,6 @@ local function GenerateCampaignColumn(pvp, settings, format)
     local CreateStyledTable = CM.utils.markdown.CreateStyledTable
     local options = {
         alignment = { "left", "left" },
-        format = format,
         coloredHeaders = true,
     }
     markdown = markdown .. CreateStyledTable(headers, rows, options)
@@ -193,7 +191,7 @@ end
 -- HELPER: GENERATE LEADERBOARDS & BATTLEGROUNDS COLUMN
 -- =====================================================
 
-local function GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings, format)
+local function GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings)
     local markdown = ""
     local showLeaderboards = settings.showLeaderboards or false
     local showBattlegrounds = settings.showBattlegrounds or false
@@ -220,7 +218,6 @@ local function GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings,
         local CreateStyledTable = CM.utils.markdown.CreateStyledTable
         local options = {
             alignment = { "left", "left" },
-            format = format,
             coloredHeaders = true,
         }
         markdown = markdown .. CreateStyledTable(headers, rows, options)
@@ -250,7 +247,6 @@ local function GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings,
             local CreateStyledTable = CM.utils.markdown.CreateStyledTable
             local options = {
                 alignment = { "left", "right" },
-                format = format,
                 coloredHeaders = true,
             }
             markdown = markdown .. CreateStyledTable(headers, rows, options)
@@ -264,7 +260,7 @@ end
 -- HELPER: GENERATE ALLIANCE WAR SKILLS
 -- =====================================================
 
-local function GenerateAllianceWarSkills(skillProgressionData, format)
+local function GenerateAllianceWarSkills(skillProgressionData)
     if not skillProgressionData or #skillProgressionData == 0 then
         return ""
     end
@@ -308,7 +304,7 @@ local function GenerateAllianceWarSkills(skillProgressionData, format)
     if #maxedSkills > 0 then
         local maxedNames = {}
         for _, skill in ipairs(maxedSkills) do
-            local skillNameLinked = (CreateSkillLineLink and CreateSkillLineLink(skill.name, format)) or skill.name
+            local skillNameLinked = (CreateSkillLineLink and CreateSkillLineLink(skill.name)) or skill.name
             table.insert(maxedNames, "**" .. skillNameLinked .. "**")
         end
         markdown = markdown .. "#### ✅ Maxed\n"
@@ -319,7 +315,7 @@ local function GenerateAllianceWarSkills(skillProgressionData, format)
     if #inProgressSkills > 0 then
         markdown = markdown .. "#### 📈 In Progress\n"
         for _, skill in ipairs(inProgressSkills) do
-            local skillNameLinked = (CreateSkillLineLink and CreateSkillLineLink(skill.name, format)) or skill.name
+            local skillNameLinked = (CreateSkillLineLink and CreateSkillLineLink(skill.name)) or skill.name
             local progressPercent = skill.progress or 0
             local progressBar = GenerateProgressBar(progressPercent, 10)
             markdown = markdown
@@ -340,7 +336,7 @@ local function GenerateAllianceWarSkills(skillProgressionData, format)
     if #lowLevelSkills > 0 then
         markdown = markdown .. "#### ⚪ Early Progress\n"
         for _, skill in ipairs(lowLevelSkills) do
-            local skillNameLinked = (CreateSkillLineLink and CreateSkillLineLink(skill.name, format)) or skill.name
+            local skillNameLinked = (CreateSkillLineLink and CreateSkillLineLink(skill.name)) or skill.name
             local progressPercent = skill.progress or 0
             local progressBar = GenerateProgressBar(progressPercent, 10)
             markdown = markdown
@@ -377,14 +373,14 @@ local function GenerateAllianceWarSkills(skillProgressionData, format)
     if #allPassives > 0 then
         markdown = markdown .. "#### ✨ Passives\n"
         for _, passive in ipairs(allPassives) do
-            local passiveName = (CreateAbilityLink and CreateAbilityLink(passive.name, passive.abilityId, format))
+            local passiveName = (CreateAbilityLink and CreateAbilityLink(passive.name, passive.abilityId))
                 or passive.name
             local passiveStatus = passive.purchased and "✅" or "🔒"
             local rankInfo = ""
             if passive.currentRank and passive.maxRank and passive.maxRank > 1 then
                 rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
             end
-            local skillLineLink = (CreateSkillLineLink and CreateSkillLineLink(passive.skillLineName, format))
+            local skillLineLink = (CreateSkillLineLink and CreateSkillLineLink(passive.skillLineName))
                 or passive.skillLineName
             -- Build entire line as single string to prevent merging
             local line = string.format("- %s %s%s *(from %s)*", passiveStatus, passiveName, rankInfo, skillLineLink)
@@ -407,7 +403,7 @@ end
 -- MAIN GENERATOR
 -- =====================================================
 
-local function GeneratePvPStats(pvpData, pvpStatsData, format, skillProgressionData, settings)
+local function GeneratePvPStats(pvpData, pvpStatsData, skillProgressionData, settings)
     InitializeUtilities()
 
     local CreateCampaignLink = CM.links and CM.links.CreateCampaignLink
@@ -430,11 +426,19 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format, skillProgressionD
     end
 
     -- Require at least one data source for PvP stats
-    if showPvPStats and (not pvpStatsData or not pvpStatsData.pvp) then
+    if showPvPStats and (not pvpStatsData or not pvpStatsData.pvp) and not pvpData then
         showPvPStats = false
     end
 
-    local pvp = showPvPStats and pvpStatsData and pvpStatsData.pvp or nil
+    -- Fallback: Use basic pvp data (arg 1) if pvpStatsData (arg 2) is missing or incomplete
+    local pvp = nil
+    if showPvPStats then
+        if pvpStatsData and pvpStatsData.pvp then
+            pvp = pvpStatsData.pvp
+        elseif pvpData then
+            pvp = pvpData
+        end
+    end
     local leaderboards = showPvPStats and pvpStatsData and pvpStatsData.leaderboards or {}
     local battlegrounds = showPvPStats and pvpStatsData and pvpStatsData.battlegrounds or {}
 
@@ -448,188 +452,71 @@ local function GeneratePvPStats(pvpData, pvpStatsData, format, skillProgressionD
     local markdown = ""
 
     -- =====================================================
-    -- DISCORD FORMAT (Compact)
+    -- PvP Content
     -- =====================================================
-    if format == "discord" then
-        markdown = markdown .. "**⚔️ PvP:**\n\n"
+    -- Generate content first to check if we have anything to show
+    local pvpContent = ""
+    local skillsContent = ""
+    
+    -- PvP Stats section (if enabled)
+    if showPvPStats then
+        local pvpSection = ""
+        pvpSection = pvpSection .. "### PvP Profile\n\n"
 
-        -- Alliance War Skills section (if enabled)
-        if showAllianceWarSkills and skillProgressionData then
-            local allianceWarSkills = GenerateAllianceWarSkills(skillProgressionData, format)
-            if allianceWarSkills ~= "" then
-                markdown = markdown .. allianceWarSkills .. "\n"
-            end
-        end
+        -- Use 2-3 column layout for PvP areas
+        local CreateTwoColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateTwoColumnLayout
+        local CreateThreeColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateThreeColumnLayout
 
-        -- PvP Stats section (if enabled)
-        if not showPvPStats then
-            -- Only Alliance War skills, no PvP stats
-            return markdown
-        end
+        -- Generate columns
+        local column1 = GenerateAllianceWarColumn(pvp, settings)
+        local column2 = GenerateCampaignColumn(pvp, settings)
+        local column3 = GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings)
 
-        markdown = markdown .. "**PvP Profile:**\n\n"
-
-        -- Alliance War
-        if pvp.rankName and pvp.rankName ~= "" then
-            markdown = markdown .. "**Alliance War**\n"
-            markdown = markdown .. string.format("• Rank: %s", pvp.rankName)
-            if pvp.rank > 0 then
-                markdown = markdown .. string.format(" (Rank %d)", pvp.rank)
-            end
-            if pvp.rankPoints > 0 then
-                markdown = markdown .. string.format(" • %s AP", FormatNumber(pvp.rankPoints))
-            end
-            markdown = markdown .. "\n"
-
-            -- Progression
-            if showProgression and pvp.progression and pvp.progression.pointsToNext > 0 then
-                local progressText = GenerateRankProgression(pvp.progression, format)
-                if progressText ~= "" then
-                    markdown = markdown .. string.format("• Progress: %s\n", progressText)
-                end
-            end
-        end
-
-        -- Campaign
-        if pvp.campaign and pvp.campaign.name and pvp.campaign.name ~= "" then
-            markdown = markdown .. string.format("• Campaign: %s", pvp.campaign.name)
-            if pvp.campaign.isActive then
-                markdown = markdown .. " [Active]"
-            end
-            markdown = markdown .. "\n"
-
-            local ruleset = GenerateCampaignRuleset(pvp.campaign)
-            if ruleset ~= "" then
-                markdown = markdown .. string.format("  %s\n", ruleset)
-            end
-        end
-
-        -- Campaign Rewards
-        if showCampaignRewards and pvp.rewards and pvp.rewards.earnedTier > 0 then
-            markdown = markdown .. "\n**Campaign Standing**\n"
-            markdown = markdown .. string.format("• Reward Tier: %d/5\n", pvp.rewards.earnedTier)
-            if pvp.rewards.loyaltyStreak > 0 then
-                markdown = markdown .. string.format("• Loyalty: %d campaigns\n", pvp.rewards.loyaltyStreak)
-            end
-        end
-
-        -- Leaderboard
-        if showLeaderboards and leaderboards.playerPosition and leaderboards.playerPosition.found then
-            markdown = markdown .. string.format("• Rank: #%d\n", leaderboards.playerPosition.rank)
-        end
-
-        -- Battlegrounds
-        if showBattlegrounds and battlegrounds.leaderboards then
-            local bg = battlegrounds.leaderboards
-            if bg.deathmatch.rank > 0 or bg.flagGames.rank > 0 or bg.landGrab.rank > 0 then
-                markdown = markdown .. "\n**Battlegrounds**\n"
-                if bg.deathmatch.rank > 0 then
-                    markdown = markdown
-                        .. string.format(
-                            "• Deathmatch: #%d (%s pts)\n",
-                            bg.deathmatch.rank,
-                            FormatNumber(bg.deathmatch.score)
-                        )
-                end
-                if bg.flagGames.rank > 0 then
-                    markdown = markdown
-                        .. string.format(
-                            "• Flag Games: #%d (%s pts)\n",
-                            bg.flagGames.rank,
-                            FormatNumber(bg.flagGames.score)
-                        )
-                end
-                if bg.landGrab.rank > 0 then
-                    markdown = markdown
-                        .. string.format(
-                            "• Land Grab: #%d (%s pts)\n",
-                            bg.landGrab.rank,
-                            FormatNumber(bg.landGrab.score)
-                        )
-                end
-            end
-        end
-
-        -- Add Alliance War skills if available
-        local allianceWarSkills = GenerateAllianceWarSkills(skillProgressionData, format)
-        if allianceWarSkills ~= "" then
-            markdown = markdown .. "\n**Alliance War Skills**\n"
-            markdown = markdown .. allianceWarSkills
-        end
-
-        markdown = markdown .. "\n"
-
-    -- =====================================================
-    -- TABLE FORMAT (GitHub/VSCode) with multi-column layout
-    -- =====================================================
-    -- =====================================================
-    -- TABLE FORMAT (GitHub/VSCode) with multi-column layout
-    -- =====================================================
-    else
-        -- Generate content first to check if we have anything to show
-        local pvpContent = ""
-        local skillsContent = ""
-        
-        -- PvP Stats section (if enabled)
-        if showPvPStats then
-            local pvpSection = ""
-            pvpSection = pvpSection .. "### PvP Profile\n\n"
-
-            -- Use 2-3 column layout for PvP areas
-            local CreateTwoColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateTwoColumnLayout
-            local CreateThreeColumnLayout = CM.utils.markdown and CM.utils.markdown.CreateThreeColumnLayout
-
-            -- Generate columns
-            local column1 = GenerateAllianceWarColumn(pvp, settings, format)
-            local column2 = GenerateCampaignColumn(pvp, settings, format)
-            local column3 = GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings, format)
-
-            -- Only add if we have at least one column with content
-            if column1 ~= "" or column2 ~= "" or column3 ~= "" then
-                -- Use 3-column if we have content in the third column, otherwise 2-column
-                if CreateThreeColumnLayout and column3 ~= "" then
-                    pvpSection = pvpSection .. CreateThreeColumnLayout(column1, column2, column3)
-                elseif CreateTwoColumnLayout then
-                    pvpSection = pvpSection .. CreateTwoColumnLayout(column1, column2)
-                else
-                    -- Fallback to vertical layout
-                    pvpSection = pvpSection .. column1 .. "\n"
-                    pvpSection = pvpSection .. column2 .. "\n"
-                    if column3 ~= "" then
-                        pvpSection = pvpSection .. column3 .. "\n"
-                    end
-                end
-                pvpContent = pvpSection
-            end
-        end
-
-        -- Alliance War Skills section (if enabled)
-        if showAllianceWarSkills and skillProgressionData then
-            local allianceWarSkills = GenerateAllianceWarSkills(skillProgressionData, format)
-            if allianceWarSkills ~= "" then
-                skillsContent = allianceWarSkills .. "\n"
-            end
-        end
-
-        -- Only output the main header if we have content
-        if pvpContent ~= "" or skillsContent ~= "" then
-            markdown = markdown .. "## ⚔️ PvP\n\n"
-            
-            if pvpContent ~= "" then
-                markdown = markdown .. pvpContent
-            end
-            
-            if skillsContent ~= "" then
-                markdown = markdown .. skillsContent
-            end
-
-            -- Use CreateSeparator for consistent separator styling
-            local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-            if CreateSeparator then
-                markdown = markdown .. CreateSeparator("hr")
+        -- Only add if we have at least one column with content
+        if column1 ~= "" or column2 ~= "" or column3 ~= "" then
+            -- Use 3-column if we have content in the third column, otherwise 2-column
+            if CreateThreeColumnLayout and column3 ~= "" then
+                pvpSection = pvpSection .. CreateThreeColumnLayout(column1, column2, column3)
+            elseif CreateTwoColumnLayout then
+                pvpSection = pvpSection .. CreateTwoColumnLayout(column1, column2)
             else
-                markdown = markdown .. "---\n\n"
+                -- Fallback to vertical layout
+                pvpSection = pvpSection .. column1 .. "\n"
+                pvpSection = pvpSection .. column2 .. "\n"
+                if column3 ~= "" then
+                    pvpSection = pvpSection .. column3 .. "\n"
+                end
             end
+            pvpContent = pvpSection
+        end
+    end
+
+    -- Alliance War Skills section (if enabled)
+    if showAllianceWarSkills and skillProgressionData then
+        local allianceWarSkills = GenerateAllianceWarSkills(skillProgressionData)
+        if allianceWarSkills ~= "" then
+            skillsContent = allianceWarSkills .. "\n"
+        end
+    end
+
+    -- Only output the main header if we have content
+    if pvpContent ~= "" or skillsContent ~= "" then
+        markdown = markdown .. "## ⚔️ PvP\n\n"
+        
+        if pvpContent ~= "" then
+            markdown = markdown .. pvpContent
+        end
+        
+        if skillsContent ~= "" then
+            markdown = markdown .. skillsContent
+        end
+
+        -- Use CreateSeparator for consistent separator styling
+        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+        if CreateSeparator then
+            markdown = markdown .. CreateSeparator("hr")
+        else
+            markdown = markdown .. "---\n\n"
         end
     end
 

@@ -196,7 +196,7 @@ local string_format = CM.cached.string_format
 ```bash
 task install:live    # Copy to ESO
 # Launch ESO
-# Test all formats: /markdown github, /markdown discord, etc.
+# Test all formats: /markdown (default), /tonl, etc.
 # Test settings persistence: ESC → Settings → Add-Ons
 # /reloadui and verify settings saved
 ```

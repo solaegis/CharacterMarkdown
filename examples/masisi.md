@@ -4,7 +4,7 @@
 
 # Masisi (Dragon Master-at-Arms)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-791-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-792-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Imperial Dragonknight • Ebonheart Pact Alliance**
 
@@ -37,6 +37,8 @@
 
 ## 📋 Overview
 
+<a id="general"></a>
+
 ### General
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
@@ -45,23 +47,11 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Level** | 50 |
-| **Champion Points** | 791 |
+| **Champion Points** | 792 |
 | **Gender** | Male |
-| **Race** | Imperial |
-| **🪨 Mundus Stone** | The Steed |
-| **Age** | 19d 1h 6m |
-
-
-</div><div>
-
-| **Attribute** | **Value** |
-| --- | --- |
 | **Account** | @SOLAEGIS |
 | **ESO Plus** | ✅ Active |
-| **Class** | Dragonknight |
-| **Server** | NA Megaserver |
-| **Alliance** | Ebonheart Pact |
-| **Title** | Dragon Master-at-Arms |
+| **Age** | 19d 3h 14m |
 
 
 </div><div>
@@ -69,15 +59,26 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Attributes** | 🔵 0 / ❤️ 0 / ⚡ 64 |
-| **Location** | Alinor Outlaws Refuge (634) |
-| **Available Champion Points** | ⚒️ 9 - ⚔️ 60 - 💪 28 |
+| **Available Champion Points** | ⚒️ 9 - ⚔️ 60 - 💪 29 |
 | **🐴 Riding Skills** | 🐴 60 / 💪 60 / 🎒 60 ✅ |
 | **Skill Points** | 🎯 3 available - Ready to spend |
-| **🍖 Active Buffs** | Other: Major Prophecy, Major Savagery |
+| **Race** | [Imperial](https://en.uesp.net/wiki/Online:Imperial) |
+| **Server** | [NA Megaserver](https://en.uesp.net/wiki/Online:Megaservers) |
 
 
-</div>
-</div>
+</div><div>
+
+| **Attribute** | **Value** |
+| --- | --- |
+| **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
+| **Location** | [Summerset](https://en.uesp.net/wiki/Online:Summerset) (Alinor) |
+| **Alliance** | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **🪨 Mundus Stone** | [The Steed](https://en.uesp.net/wiki/Online:The_Steed_(Mundus_Stone)) |
+| **Title** | [Dragon Master-at-Arms](https://en.uesp.net/wiki/Online:Dragon_Master-at-Arms) |
+| **🍖 Active Buffs** | Other: [Major Prophecy](https://en.uesp.net/wiki/Online:Major_Prophecy), [Major Savagery](https://en.uesp.net/wiki/Online:Major_Savagery) |
+
+
+</div><div>
 
 <a id="currency"></a>
 
@@ -85,7 +86,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 9,389 |
+| 💰 **Gold** | 29,460 |
 | ⚔️ **Alliance Points** | 1,500 |
 | 🔮 **Tel Var** | 2,500 |
 | 💎 **Transmute Crystals** | 95 |
@@ -98,6 +99,9 @@
 | 👕 **Tokens** | 3 |
 | 📚 **Fortunes** | 0 |
 | 🔹 **Fragments** | 148 |
+
+</div>
+</div>
 
 ---
 
@@ -253,13 +257,13 @@ After all, *someone* has to supply the heroes with their gear.
 
 | **1** | **2** | **3** | **4** | **5** |
 | :---: | :---: | :---: | :---: | :---: |
-| Soul Trap | Inferno | Dragon Blood | Vigor | Dragon Leap |
+| [Soul Trap](https://en.uesp.net/wiki/Online:Soul_Trap) | [Inferno](https://en.uesp.net/wiki/Online:Inferno) | [Dragon Blood](https://en.uesp.net/wiki/Online:Dragon_Blood) | [Vigor](https://en.uesp.net/wiki/Online:Vigor) | [Dragon Leap](https://en.uesp.net/wiki/Online:Dragon_Leap) |
 
 ### 🔮 🔮 🔮 Back Bar (Backup)
 
 | **1** | **2** | **3** | **4** | **5** | **6** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| Volley | Vigor | Fiery Breath | Obsidian Shield | Molten Weapons | Magma Armor |
+| [Volley](https://en.uesp.net/wiki/Online:Volley) | [Vigor](https://en.uesp.net/wiki/Online:Vigor) | [Fiery Breath](https://en.uesp.net/wiki/Online:Fiery_Breath) | [Obsidian Shield](https://en.uesp.net/wiki/Online:Obsidian_Shield) | [Molten Weapons](https://en.uesp.net/wiki/Online:Molten_Weapons) | [Magma Armor](https://en.uesp.net/wiki/Online:Magma_Armor) |
 
 ---
 
@@ -269,26 +273,26 @@ After all, *someone* has to supply the heroes with their gear.
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟢 **Armor of the Seducer** | `5/5` ██████████ 100% *(+1 extra)* |
-| 🟢 **Night's Silence** | `5/5` ██████████ 100% *(+2 extra)* |
+| 🟢 **[Armor of the Seducer Set](https://en.uesp.net/wiki/Online:Armor_of_the_Seducer_Set)** | `5/5` ██████████ 100% *(+1 extra)* |
+| 🟢 **[Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set)** | `5/5` ██████████ 100% *(+2 extra)* |
 
 ### 📋 Equipment Details
 
 | **Slot** | **Item** | **Set** | **Quality** | **Trait** | **Type** | **Enchantment** |
 | --- | --- | --- | --- | --- | --- | --- |
-| ⛑️ **Head** | Helmet of Night's Silence | Night's Silence | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
-| 💎 **Neck** | Necklace of the Seducer | Armor of the Seducer | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
-| 🛡️ **Chest** | Jack of Night's Silence | Night's Silence | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
-| 👑 **Shoulders** | Arm Cops of Night's Silence | Night's Silence | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
-| ⚔️ **Main Hand** | Dagger of Night's Silence | Night's Silence | 👑 Legendary | Precise | None • ⚒️ Crafted | - |
-| 🛡️ **Off Hand** | Dagger of Night's Silence | Night's Silence | 👑 Legendary | Sharpened | None • ⚒️ Crafted | - |
-| ⚡ **Waist** | Belt of the Seducer | Armor of the Seducer | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
-| 👖 **Legs** | Guards of Night's Silence | Night's Silence | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
-| 👟 **Feet** | Boots of Night's Silence | Night's Silence | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
-| 💍 **Ring 1** | Ring of the Seducer | Armor of the Seducer | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
-| 💍 **Ring 2** | Ring of the Seducer | Armor of the Seducer | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
-| ✋ **Hands** | Bracers of the Seducer | Armor of the Seducer | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
-| 🔮 **Backup Main Hand** | Bow of the Seducer | Armor of the Seducer | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
+| ⛑️ **Head** | Helmet of Night's Silence | [Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set) | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
+| 💎 **Neck** | Necklace of the Seducer | [Armor of the Seducer Set](https://en.uesp.net/wiki/Online:Armor_of_the_Seducer_Set) | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
+| 🛡️ **Chest** | Jack of Night's Silence | [Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set) | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
+| 👑 **Shoulders** | Arm Cops of Night's Silence | [Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set) | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
+| ⚔️ **Main Hand** | Dagger of Night's Silence | [Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set) | 👑 Legendary | Precise | None • ⚒️ Crafted | - |
+| 🛡️ **Off Hand** | Dagger of Night's Silence | [Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set) | 👑 Legendary | Sharpened | None • ⚒️ Crafted | - |
+| ⚡ **Waist** | Belt of the Seducer | [Armor of the Seducer Set](https://en.uesp.net/wiki/Online:Armor_of_the_Seducer_Set) | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
+| 👖 **Legs** | Guards of Night's Silence | [Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set) | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
+| 👟 **Feet** | Boots of Night's Silence | [Night's Silence Set](https://en.uesp.net/wiki/Online:Night's_Silence_Set) | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
+| 💍 **Ring 1** | Ring of the Seducer | [Armor of the Seducer Set](https://en.uesp.net/wiki/Online:Armor_of_the_Seducer_Set) | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
+| 💍 **Ring 2** | Ring of the Seducer | [Armor of the Seducer Set](https://en.uesp.net/wiki/Online:Armor_of_the_Seducer_Set) | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
+| ✋ **Hands** | Bracers of the Seducer | [Armor of the Seducer Set](https://en.uesp.net/wiki/Online:Armor_of_the_Seducer_Set) | ⭐ Epic | Well-fitted | Medium • ⚒️ Crafted | - |
+| 🔮 **Backup Main Hand** | Bow of the Seducer | [Armor of the Seducer Set](https://en.uesp.net/wiki/Online:Armor_of_the_Seducer_Set) | ⭐ Epic | Infused | None • ⚒️ Crafted | - |
 
 ---
 
@@ -296,10 +300,10 @@ After all, *someone* has to supply the heroes with their gear.
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 791 | 694 | 97 |
+| 792 | 694 | 98 |
 
 
-> ✨ **Enlightened** - 184,679 XP bonus remaining
+> ✨ **Enlightened** - 352,785 XP bonus remaining
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
@@ -307,13 +311,13 @@ After all, *someone* has to supply the heroes with their gear.
 | **⚒️ Craft** | **Assigned Points** |
 | --- | ---: |
 | ███████████░ 96% | 255/264 points |
-| **Master Gatherer** | 30 points |
-| **Plentiful Harvest** | 10 points |
-| **Meticulous Disassembly** | 50 points |
-| **Inspiration Boost** | 45 points |
-| **Fortune's Favor** | 20 points |
-| **Gilded Fingers** | 50 points |
-| **Steed's Blessing** | 50 points |
+| **[Master Gatherer](https://en.uesp.net/wiki/Online:Master_Gatherer)** | 30 points |
+| **[Plentiful Harvest](https://en.uesp.net/wiki/Online:Plentiful_Harvest)** | 10 points |
+| **[Meticulous Disassembly](https://en.uesp.net/wiki/Online:Meticulous_Disassembly)** | 50 points |
+| **[Inspiration Boost](https://en.uesp.net/wiki/Online:Inspiration_Boost)** | 45 points |
+| **[Fortune's Favor](https://en.uesp.net/wiki/Online:Fortune's_Favor)** | 20 points |
+| **[Gilded Fingers](https://en.uesp.net/wiki/Online:Gilded_Fingers)** | 50 points |
+| **[Steed's Blessing](https://en.uesp.net/wiki/Online:Steed's_Blessing)** | 50 points |
 
 
 </div><div>
@@ -321,32 +325,32 @@ After all, *someone* has to supply the heroes with their gear.
 | **⚔️ Warfare** | **Assigned Points** |
 | --- | ---: |
 | █████████░░░ 77% | 204/264 points |
-| **Precision** | 20 points |
-| **Piercing** | 20 points |
-| **Deadly Aim** | 50 points |
-| **Wrathful Strikes** | 50 points |
-| **Quick Recovery** | 10 points |
-| **Ironclad** | 1 point |
-| **Preparation** | 10 points |
-| **Elemental Aegis** | 13 points |
-| **Hardy** | 20 points |
-| **Eldritch Insight** | 10 points |
+| **[Precision](https://en.uesp.net/wiki/Online:Precision)** | 20 points |
+| **[Piercing](https://en.uesp.net/wiki/Online:Piercing)** | 20 points |
+| **[Deadly Aim](https://en.uesp.net/wiki/Online:Deadly_Aim)** | 50 points |
+| **[Wrathful Strikes](https://en.uesp.net/wiki/Online:Wrathful_Strikes)** | 50 points |
+| **[Quick Recovery](https://en.uesp.net/wiki/Online:Quick_Recovery)** | 10 points |
+| **[Ironclad](https://en.uesp.net/wiki/Online:Ironclad)** | 1 point |
+| **[Preparation](https://en.uesp.net/wiki/Online:Preparation)** | 10 points |
+| **[Elemental Aegis](https://en.uesp.net/wiki/Online:Elemental_Aegis)** | 13 points |
+| **[Hardy](https://en.uesp.net/wiki/Online:Hardy)** | 20 points |
+| **[Eldritch Insight](https://en.uesp.net/wiki/Online:Eldritch_Insight)** | 10 points |
 
 
 </div><div>
 
 | **💪 Fitness** | **Assigned Points** |
 | --- | ---: |
-| ██████████░░ 89% | 235/263 points |
-| **Hero's Vigor** | 20 points |
-| **Shield Master** | 10 points |
-| **Bastion** | 40 points |
-| **Mystic Tenacity** | 10 points |
-| **Tireless Guardian** | 20 points |
-| **Tumbling** | 15 points |
-| **Rejuvenation** | 50 points |
-| **Fortified** | 20 points |
-| **Boundless Vitality** | 50 points |
+| ██████████░░ 89% | 235/264 points |
+| **[Hero's Vigor](https://en.uesp.net/wiki/Online:Hero's_Vigor)** | 20 points |
+| **[Shield Master](https://en.uesp.net/wiki/Online:Shield_Master)** | 10 points |
+| **[Bastion](https://en.uesp.net/wiki/Online:Bastion)** | 40 points |
+| **[Mystic Tenacity](https://en.uesp.net/wiki/Online:Mystic_Tenacity)** | 10 points |
+| **[Tireless Guardian](https://en.uesp.net/wiki/Online:Tireless_Guardian)** | 20 points |
+| **[Tumbling](https://en.uesp.net/wiki/Online:Tumbling)** | 15 points |
+| **[Rejuvenation](https://en.uesp.net/wiki/Online:Rejuvenation)** | 50 points |
+| **[Fortified](https://en.uesp.net/wiki/Online:Fortified)** | 20 points |
+| **[Boundless Vitality](https://en.uesp.net/wiki/Online:Boundless_Vitality)** | 50 points |
 
 
 </div>
@@ -473,7 +477,7 @@ graph TD
     F_HerosVigor --> F_MysticTenacity
     F_Tumbling --> F_MysticTenacity
 
-    FITNESS_AVAIL["💎 28 points available"]
+    FITNESS_AVAIL["💎 29 points available"]
     style FITNESS_AVAIL fill:#f0d4d4,stroke:#b87a7a,stroke-width:2px,stroke-dasharray:5 5,color:#b87a7a
 
   end
@@ -488,6 +492,13 @@ graph TD
     LEG_STARS["Star Types"]
     LEG_S1["⭐ Gold Border = Maxed Slottable"]
     LEG_S2["🔶 Orange Border = Independent Star"]
+
+```
+
+
+```mermaid
+
+
     LEG_S3["Standard Border = In Progress"]
 
     LEG_FILL["Progress Indicators"]
@@ -585,7 +596,6 @@ graph TD
 #### Draconic Power (Rank 50)
 
 ⚠️ **[Dragon Leap](https://en.uesp.net/wiki/Online:Dragon_Leap)** (Rank 4)
-
 
   <details>
   <summary>Other morph options</summary>
@@ -845,284 +855,62 @@ graph TD
 
 </details>
 
-### ✅ Maxed Skills (14)
+---
 
-<details>
-<summary>⚔️ Class (3 skill lines maxed)</summary>
+<a id="pvp"></a>
 
-- Ardent Flame
-  <details>
-  <summary>✨ Passives</summary>
+## ⚔️ PvP
 
-  - ✅ [Combustion](https://en.uesp.net/wiki/Online:Combustion) (Rank 2)
-  - ✅ [Warmth](https://en.uesp.net/wiki/Online:Warmth) (Rank 2)
-  - ✅ [Searing Heat](https://en.uesp.net/wiki/Online:Searing_Heat) (Rank 2)
-  - ✅ [World in Ruin](https://en.uesp.net/wiki/Online:World_in_Ruin) (Rank 2)
-
-  </details>
-- Draconic Power
-- Earthen Heart
-
-</details>
-
-<details>
-<summary>⚔️ Weapon (2 skill lines maxed)</summary>
-
-- One Hand and Shield
-- Destruction Staff
-
-</details>
-
-<details>
-<summary>🛡️ Armor (2 skill lines maxed)</summary>
-
-- Medium Armor
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Medium Armor Bonuses](https://en.uesp.net/wiki/Online:Medium_Armor_Bonuses)
-  - ✅ [Dexterity](https://en.uesp.net/wiki/Online:Dexterity) (Rank 3)
-  - ✅ [Wind Walker](https://en.uesp.net/wiki/Online:Wind_Walker) (Rank 2)
-  - ✅ [Improved Sneak](https://en.uesp.net/wiki/Online:Improved_Sneak) (Rank 2)
-  - ✅ [Agility](https://en.uesp.net/wiki/Online:Agility) (Rank 2)
-  - ✅ [Athletics](https://en.uesp.net/wiki/Online:Athletics) (Rank 2)
-
-  </details>
-- Heavy Armor
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Heavy Armor Bonuses](https://en.uesp.net/wiki/Online:Heavy_Armor_Bonuses)
-  - ✅ [Heavy Armor Penalties](https://en.uesp.net/wiki/Online:Heavy_Armor_Penalties)
-  - 🔒 [Resolve](https://en.uesp.net/wiki/Online:Resolve)
-  - 🔒 [Constitution](https://en.uesp.net/wiki/Online:Constitution)
-  - 🔒 [Juggernaut](https://en.uesp.net/wiki/Online:Juggernaut)
-  - 🔒 [Revitalize](https://en.uesp.net/wiki/Online:Revitalize)
-  - 🔒 [Rapid Mending](https://en.uesp.net/wiki/Online:Rapid_Mending)
-
-  </details>
-
-</details>
-
-<details>
-<summary>⭐ Racial (1 skill lines maxed)</summary>
-
-- Imperial Skills
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Diplomat](https://en.uesp.net/wiki/Online:Diplomat)
-  - ✅ [Tough](https://en.uesp.net/wiki/Online:Tough) (Rank 3)
-  - ✅ [Imperial Mettle](https://en.uesp.net/wiki/Online:Imperial_Mettle) (Rank 3)
-  - ✅ [Red Diamond](https://en.uesp.net/wiki/Online:Red_Diamond) (Rank 3)
-
-  </details>
-
-</details>
-
-<details>
-<summary>⚒️ Craft (6 skill lines maxed)</summary>
-
-- Blacksmithing
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Metalworking](https://en.uesp.net/wiki/Online:Metalworking) (Rank 10)
-  - 🔒 [Keen Eye: Ore](https://en.uesp.net/wiki/Online:Keen_Eye:_Ore)
-  - 🔒 [Miner Hireling](https://en.uesp.net/wiki/Online:Miner_Hireling)
-  - ✅ [Metal Extraction](https://en.uesp.net/wiki/Online:Metal_Extraction) (Rank 3)
-  - 🔒 [Metallurgy](https://en.uesp.net/wiki/Online:Metallurgy)
-  - ✅ [Temper Expertise](https://en.uesp.net/wiki/Online:Temper_Expertise) (Rank 3)
-
-  </details>
-- Clothing
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Tailoring](https://en.uesp.net/wiki/Online:Tailoring) (Rank 10)
-  - 🔒 [Keen Eye: Cloth](https://en.uesp.net/wiki/Online:Keen_Eye:_Cloth)
-  - 🔒 [Outfitter Hireling](https://en.uesp.net/wiki/Online:Outfitter_Hireling)
-  - ✅ [Unraveling](https://en.uesp.net/wiki/Online:Unraveling) (Rank 3)
-  - 🔒 [Stitching](https://en.uesp.net/wiki/Online:Stitching)
-  - ✅ [Tannin Expertise](https://en.uesp.net/wiki/Online:Tannin_Expertise) (Rank 3)
-
-  </details>
-- Enchanting
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Potency Improvement](https://en.uesp.net/wiki/Online:Potency_Improvement) (Rank 10)
-  - ✅ [Aspect Improvement](https://en.uesp.net/wiki/Online:Aspect_Improvement) (Rank 4)
-  - 🔒 [Keen Eye: Rune Stones](https://en.uesp.net/wiki/Online:Keen_Eye:_Rune_Stones)
-  - 🔒 [Enchanter Hireling](https://en.uesp.net/wiki/Online:Enchanter_Hireling)
-  - ✅ [Runestone Extraction](https://en.uesp.net/wiki/Online:Runestone_Extraction) (Rank 3)
-
-  </details>
-- Jewelry Crafting
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Engraver](https://en.uesp.net/wiki/Online:Engraver) (Rank 5)
-  - 🔒 [Keen Eye: Jewelry](https://en.uesp.net/wiki/Online:Keen_Eye:_Jewelry)
-  - ✅ [Jewelry Extraction](https://en.uesp.net/wiki/Online:Jewelry_Extraction) (Rank 3)
-  - 🔒 [Lapidary Research](https://en.uesp.net/wiki/Online:Lapidary_Research)
-  - ✅ [Platings Expertise](https://en.uesp.net/wiki/Online:Platings_Expertise) (Rank 3)
-
-  </details>
-- Provisioning
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Recipe Improvement](https://en.uesp.net/wiki/Online:Recipe_Improvement) (Rank 6)
-  - ✅ [Recipe Quality](https://en.uesp.net/wiki/Online:Recipe_Quality) (Rank 4)
-  - 🔒 [Gourmand](https://en.uesp.net/wiki/Online:Gourmand)
-  - 🔒 [Connoisseur](https://en.uesp.net/wiki/Online:Connoisseur)
-  - 🔒 [Chef](https://en.uesp.net/wiki/Online:Chef)
-  - 🔒 [Brewer](https://en.uesp.net/wiki/Online:Brewer)
-  - 🔒 [Forager Hireling](https://en.uesp.net/wiki/Online:Forager_Hireling)
-
-  </details>
-- Woodworking
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Woodworking](https://en.uesp.net/wiki/Online:Woodworking) (Rank 10)
-  - 🔒 [Keen Eye: Wood](https://en.uesp.net/wiki/Online:Keen_Eye:_Wood)
-  - 🔒 [Lumberjack Hireling](https://en.uesp.net/wiki/Online:Lumberjack_Hireling)
-  - ✅ [Wood Extraction](https://en.uesp.net/wiki/Online:Wood_Extraction) (Rank 3)
-  - 🔒 [Carpentry](https://en.uesp.net/wiki/Online:Carpentry)
-  - ✅ [Resin Expertise](https://en.uesp.net/wiki/Online:Resin_Expertise) (Rank 3)
-
-  </details>
-
-</details>
-
-### 📈 In-Progress Skills
-
-<details>
-<summary>⚔️ Weapon (3 skill lines in progress)</summary>
-
-- Two Handed: Rank 6 ░░░░░░░░░░ 0%
-- Dual Wield: Rank 46 ████████░░ 88%
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Slaughter](https://en.uesp.net/wiki/Online:Slaughter) (Rank 2)
-  - ✅ [Dual Wield Expert](https://en.uesp.net/wiki/Online:Dual_Wield_Expert) (Rank 2)
-  - ✅ [Controlled Fury](https://en.uesp.net/wiki/Online:Controlled_Fury) (Rank 2)
-  - 🔒 [Ruffian](https://en.uesp.net/wiki/Online:Ruffian)
-  - ✅ [Twin Blade and Blunt](https://en.uesp.net/wiki/Online:Twin_Blade_and_Blunt) (Rank 1)
-
-  </details>
-- Bow: Rank 46 ███░░░░░░░ 35%
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Vinedusk Training](https://en.uesp.net/wiki/Online:Vinedusk_Training) (Rank 2)
-  - 🔒 [Accuracy](https://en.uesp.net/wiki/Online:Accuracy)
-  - 🔒 [Ranger](https://en.uesp.net/wiki/Online:Ranger)
-  - ✅ [Hawk Eye](https://en.uesp.net/wiki/Online:Hawk_Eye) (Rank 1)
-  - ✅ [Hasty Retreat](https://en.uesp.net/wiki/Online:Hasty_Retreat) (Rank 1)
-
-  </details>
-
-</details>
-
-<details>
-<summary>🛡️ Armor (1 skill lines in progress)</summary>
-
-- Light Armor: Rank 42 ██░░░░░░░░ 20%
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Light Armor Bonuses](https://en.uesp.net/wiki/Online:Light_Armor_Bonuses)
-  - ✅ [Light Armor Penalties](https://en.uesp.net/wiki/Online:Light_Armor_Penalties)
-  - 🔒 [Grace](https://en.uesp.net/wiki/Online:Grace)
-  - 🔒 [Evocation](https://en.uesp.net/wiki/Online:Evocation)
-  - 🔒 [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding)
-  - 🔒 [Prodigy](https://en.uesp.net/wiki/Online:Prodigy)
-  - 🔒 [Concentration](https://en.uesp.net/wiki/Online:Concentration)
-
-  </details>
-
-</details>
-
-<details>
-<summary>🌍 World (2 skill lines in progress)</summary>
-
-- Legerdemain: Rank 20 ██████████ 100%
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Improved Hiding](https://en.uesp.net/wiki/Online:Improved_Hiding) (Rank 4)
-  - ✅ [Light Fingers](https://en.uesp.net/wiki/Online:Light_Fingers) (Rank 4)
-  - ✅ [Trafficker](https://en.uesp.net/wiki/Online:Trafficker) (Rank 4)
-  - ✅ [Locksmith](https://en.uesp.net/wiki/Online:Locksmith) (Rank 4)
-  - 🔒 [Kickback](https://en.uesp.net/wiki/Online:Kickback)
-
-  </details>
-- Soul Magic: Rank 4 ░░░░░░░░░░ 0%
-
-</details>
-
-<details>
-<summary>🏰 Guild (5 skill lines in progress)</summary>
-
-- Dark Brotherhood: Rank 2 ███████░░░ 70%
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Blade of Woe](https://en.uesp.net/wiki/Online:Blade_of_Woe)
-  - 🔒 [Scales of Pitiless Justice](https://en.uesp.net/wiki/Online:Scales_of_Pitiless_Justice)
-  - 🔒 [Padomaic Sprint](https://en.uesp.net/wiki/Online:Padomaic_Sprint)
-  - 🔒 [Shadowy Supplier](https://en.uesp.net/wiki/Online:Shadowy_Supplier)
-  - 🔒 [Shadow Rider](https://en.uesp.net/wiki/Online:Shadow_Rider)
-  - 🔒 [Spectral Assassin](https://en.uesp.net/wiki/Online:Spectral_Assassin)
-
-  </details>
-- Fighters Guild: Rank 8 ███████░░░ 77%
-- Mages Guild: Rank 8 █████░░░░░ 54%
-- Thieves Guild: Rank 2 ░░░░░░░░░░ 0%
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Finders Keepers](https://en.uesp.net/wiki/Online:Finders_Keepers)
-  - ✅ [Swiftly Forgotten](https://en.uesp.net/wiki/Online:Swiftly_Forgotten) (Rank 1)
-  - 🔒 [Haggling](https://en.uesp.net/wiki/Online:Haggling)
-  - 🔒 [Clemency](https://en.uesp.net/wiki/Online:Clemency)
-  - 🔒 [Timely Escape](https://en.uesp.net/wiki/Online:Timely_Escape)
-  - 🔒 [Veil of Shadows](https://en.uesp.net/wiki/Online:Veil_of_Shadows)
-
-  </details>
-- Undaunted: Rank 2 ██████░░░░ 65%
-
-</details>
-
-<details>
-<summary>⚔️ Alliance War (2 skill lines in progress)</summary>
-
-- Assault: Rank 2 █░░░░░░░░░ 10%
-- Support: Rank 2 █░░░░░░░░░ 10%
-
-</details>
-
-<details>
-<summary>⚒️ Craft (1 skill lines in progress)</summary>
-
-- Alchemy: Rank 29 ██░░░░░░░░ 21%
-  <details>
-  <summary>✨ Passives</summary>
-
-  - ✅ [Solvent Proficiency](https://en.uesp.net/wiki/Online:Solvent_Proficiency) (Rank 3)
-  - 🔒 [Keen Eye: Reagents](https://en.uesp.net/wiki/Online:Keen_Eye:_Reagents)
-  - ✅ [Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use) (Rank 1)
-  - ✅ [Chemistry](https://en.uesp.net/wiki/Online:Chemistry) (Rank 2)
-  - 🔒 [Laboratory Use](https://en.uesp.net/wiki/Online:Laboratory_Use)
-  - 🔒 [Snakeblood](https://en.uesp.net/wiki/Online:Snakeblood)
-
-  </details>
-
-</details>
+### PvP Profile
+
+#### Alliance War Status
+
+| **Category** | **Value** |
+| --- | --- |
+| Rank | Volunteer Grade 1 (Rank 1) |
+| Alliance Points | 1,500 |
+
+---
+
+<a id="companions"></a>
+
+## 👥 Companions
+
+### Available Companions
+
+- [Bastian Hallix](https://en.uesp.net/wiki/Online:Bastian_Hallix)
+- [Ember](https://en.uesp.net/wiki/Online:Ember)
+- [Isobel Veloise](https://en.uesp.net/wiki/Online:Isobel_Veloise)
+- [Mirri Elendis](https://en.uesp.net/wiki/Online:Mirri_Elendis)
+- [Tanlorin](https://en.uesp.net/wiki/Online:Tanlorin)
+- [Zerith-var](https://en.uesp.net/wiki/Online:Zerith-var)
+
+### Active Companion
+
+#### 🧙 [Tanlorin](https://en.uesp.net/wiki/Online:Tanlorin)
+
+#### Front Bar
+
+| **1** | **2** | **3** | **4** | **5** | **⚡** |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| [Internal Conflict](https://en.uesp.net/wiki/Online:Internal_Conflict) | [Volcanic Arms](https://en.uesp.net/wiki/Online:Volcanic_Arms) | [Shattered Spirit](https://en.uesp.net/wiki/Online:Shattered_Spirit) | [Igneous Armor](https://en.uesp.net/wiki/Online:Igneous_Armor) | [Kindle](https://en.uesp.net/wiki/Online:Kindle) | [Empty] |
+
+| **Slot** | **Item** | **Quality** | **Trait** |
+| --- | --- | --- | --- |
+| ⚔️ **Main Hand** | Companion's Lightning Staff (Level 1, ⭐ Epic) ⚠️ | ⭐ Epic | Aggressive |
+| ⛑️ **Head** | Companion's Helmet (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
+| 🛡️ **Chest** | Companion's Jack (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
+| 👑 **Shoulders** | Companion's Epaulets (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Augmented |
+| ✋ **Hands** | Companion's Bracers (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Augmented |
+| ⚡ **Waist** | Companion's Belt (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
+| 👖 **Legs** | Companion's Guards (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Aggressive |
+| 👟 **Feet** | Companion's Boots (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Soothing |
+
+> [!WARNING]
+> 👥 **Companion underleveled**: Tanlorin (Level 15/20) - Needs XP
+> 👥 **Companion outdated gear**: 8 pieces below level - Upgrade equipment
+> 👥 **Companion empty ability slots**: 1 - Assign abilities
+> 💔 **Companion rapport low**: Tanlorin (Unknown) - Build relationship
 
 ---
 
@@ -1137,9 +925,9 @@ graph TD
 | --- |
 | ██░░░░░░░░░░░░░░░░░░ 11% (3/26) |
 
-- Nuzhimeh the Merchant
-- Pirharri the Smuggler
-- Tythis Andromo, the Banker
+- [Nuzhimeh the Merchant](https://en.uesp.net/wiki/Online:Nuzhimeh_the_Merchant)
+- [Pirharri the Smuggler](https://en.uesp.net/wiki/Online:Pirharri_the_Smuggler)
+- [Tythis Andromo, the Banker](https://en.uesp.net/wiki/Online:Tythis_Andromo,_the_Banker)
 </details>
 
 <details>
@@ -1149,14 +937,14 @@ graph TD
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 2% (8/321) |
 
-- Ancient Dragon Body Marks
-- Body Imprint of the Psijic Order
-- Clockwork Apostle Body Imprints
-- Fire Cyclone Body Markings
-- Hagmatron's Body Markings
-- Morag Tong Body Tattoo
-- Regal Eagle Wing Body Tattoos
-- Serpent Scale Body Marking
+- [Ancient Dragon Body Marks](https://en.uesp.net/wiki/Online:Ancient_Dragon_Body_Marks)
+- [Body Imprint of the Psijic Order](https://en.uesp.net/wiki/Online:Body_Imprint_of_the_Psijic_Order)
+- [Clockwork Apostle Body Imprints](https://en.uesp.net/wiki/Online:Clockwork_Apostle_Body_Imprints)
+- [Fire Cyclone Body Markings](https://en.uesp.net/wiki/Online:Fire_Cyclone_Body_Markings)
+- [Hagmatron's Body Markings](https://en.uesp.net/wiki/Online:Hagmatron's_Body_Markings)
+- [Morag Tong Body Tattoo](https://en.uesp.net/wiki/Online:Morag_Tong_Body_Tattoo)
+- [Regal Eagle Wing Body Tattoos](https://en.uesp.net/wiki/Online:Regal_Eagle_Wing_Body_Tattoos)
+- [Serpent Scale Body Marking](https://en.uesp.net/wiki/Online:Serpent_Scale_Body_Marking)
 </details>
 
 <details>
@@ -1166,76 +954,52 @@ graph TD
 | --- |
 | ██░░░░░░░░░░░░░░░░░░ 14% (46/312) |
 
-- Austere Warden Outfit
-- Black Hand Robe
-- Bloodthorn Robes
-- Colovian Uniform
-- Courier Uniform
-- Court of Bedlam
-- Covenant Scout
-- Crown Dishdasha
-- Cyrod Patrician Formal Gown
-- Dark Seducer
-- Dunmer Cultural Garb
-- Forebear Dishdasha
-- Fort Amol Guard Armor
-- Frostedge Bandit Armor
-- Golden Saint
-- Grim Harvester
-- Hollow Moon Garb
-- Imperial Chancellor
-- Keeper's Garb
-- Lion Guard Knight
-- Mages Guild Formal Robes
-- Mages Guild Leggings Uniform
-- Mages Guild Research Robes
-- Mannimarco
-- Merchant Lord's Formal Regalia
-- Midnight Union Garb
-- Noble Clan-Chief
-- Nordic Bather's Towel
-- Phaer Mercenary Armor
-- Quendelunn Veiled Heritance Garb
-- Red Rook Armor
-- Regalia of the Scarlet Judge
-- Satakalaaam Imperial Armor
-- Sea Drake Garb
-- Sea Viper Armor
-- Servant's Outfit
-- Servant's Robes
-- Seventh Legion Armor
-- Shrouded Armor
-- Skald's Damask Jerkin
-- Steel Shrike Uniform
-- Stormfist Uniform
-- Thieves Guild Leathers
-- Upriver Striped Sash-Kilt
-- Vanguard Uniform
-- Vulkhel Guard Marine Armor
-</details>
-
-<details>
-<summary>🗺️ DLC & Chapter Access (15 accessible)</summary>
-
-- ✅ Cyrodiil
-- ✅ Reaper's March
-- ✅ Grahtwood
-- ✅ Stros M'Kai
-- ✅ Clockwork City
-- ✅ Northern Elsweyr
-- ✅ The Reach
-- ✅ The Shambles
-- ✅ Galen
-- ✅ Elenglynn
-- ✅ Gristmung Hold
-- ✅ High Isle
-- ✅ Galen
-- ✅ Necrom
-- ✅ Apocrypha
-
-**ESO Plus Active** - All DLCs and Chapters are accessible.
-
-
+- [Austere Warden Outfit](https://en.uesp.net/wiki/Online:Austere_Warden_Outfit)
+- [Black Hand Robe](https://en.uesp.net/wiki/Online:Black_Hand_Robe)
+- [Bloodthorn Robes](https://en.uesp.net/wiki/Online:Bloodthorn_Robes)
+- [Colovian Uniform](https://en.uesp.net/wiki/Online:Colovian_Uniform)
+- [Courier Uniform](https://en.uesp.net/wiki/Online:Courier_Uniform)
+- [Court of Bedlam](https://en.uesp.net/wiki/Online:Court_of_Bedlam)
+- [Covenant Scout](https://en.uesp.net/wiki/Online:Covenant_Scout)
+- [Crown Dishdasha](https://en.uesp.net/wiki/Online:Crown_Dishdasha)
+- [Cyrod Patrician Formal Gown](https://en.uesp.net/wiki/Online:Cyrod_Patrician_Formal_Gown)
+- [Dark Seducer](https://en.uesp.net/wiki/Online:Dark_Seducer)
+- [Dunmer Cultural Garb](https://en.uesp.net/wiki/Online:Dunmer_Cultural_Garb)
+- [Forebear Dishdasha](https://en.uesp.net/wiki/Online:Forebear_Dishdasha)
+- [Fort Amol Guard Armor](https://en.uesp.net/wiki/Online:Fort_Amol_Guard_Armor)
+- [Frostedge Bandit Armor](https://en.uesp.net/wiki/Online:Frostedge_Bandit_Armor)
+- [Golden Saint](https://en.uesp.net/wiki/Online:Golden_Saint)
+- [Grim Harvester](https://en.uesp.net/wiki/Online:Grim_Harvester)
+- [Hollow Moon Garb](https://en.uesp.net/wiki/Online:Hollow_Moon_Garb)
+- [Imperial Chancellor](https://en.uesp.net/wiki/Online:Imperial_Chancellor)
+- [Keeper's Garb](https://en.uesp.net/wiki/Online:Keeper's_Garb)
+- [Lion Guard Knight](https://en.uesp.net/wiki/Online:Lion_Guard_Knight)
+- [Mages Guild Formal Robes](https://en.uesp.net/wiki/Online:Mages_Guild_Formal_Robes)
+- [Mages Guild Leggings Uniform](https://en.uesp.net/wiki/Online:Mages_Guild_Leggings_Uniform)
+- [Mages Guild Research Robes](https://en.uesp.net/wiki/Online:Mages_Guild_Research_Robes)
+- [Mannimarco](https://en.uesp.net/wiki/Online:Mannimarco)
+- [Merchant Lord's Formal Regalia](https://en.uesp.net/wiki/Online:Merchant_Lord's_Formal_Regalia)
+- [Midnight Union Garb](https://en.uesp.net/wiki/Online:Midnight_Union_Garb)
+- [Noble Clan-Chief](https://en.uesp.net/wiki/Online:Noble_Clan-Chief)
+- [Nordic Bather's Towel](https://en.uesp.net/wiki/Online:Nordic_Bather's_Towel)
+- [Phaer Mercenary Armor](https://en.uesp.net/wiki/Online:Phaer_Mercenary_Armor)
+- [Quendelunn Veiled Heritance Garb](https://en.uesp.net/wiki/Online:Quendelunn_Veiled_Heritance_Garb)
+- [Red Rook Armor](https://en.uesp.net/wiki/Online:Red_Rook_Armor)
+- [Regalia of the Scarlet Judge](https://en.uesp.net/wiki/Online:Regalia_of_the_Scarlet_Judge)
+- [Satakalaaam Imperial Armor](https://en.uesp.net/wiki/Online:Satakalaaam_Imperial_Armor)
+- [Sea Drake Garb](https://en.uesp.net/wiki/Online:Sea_Drake_Garb)
+- [Sea Viper Armor](https://en.uesp.net/wiki/Online:Sea_Viper_Armor)
+- [Servant's Outfit](https://en.uesp.net/wiki/Online:Servant's_Outfit)
+- [Servant's Robes](https://en.uesp.net/wiki/Online:Servant's_Robes)
+- [Seventh Legion Armor](https://en.uesp.net/wiki/Online:Seventh_Legion_Armor)
+- [Shrouded Armor](https://en.uesp.net/wiki/Online:Shrouded_Armor)
+- [Skald's Damask Jerkin](https://en.uesp.net/wiki/Online:Skald's_Damask_Jerkin)
+- [Steel Shrike Uniform](https://en.uesp.net/wiki/Online:Steel_Shrike_Uniform)
+- [Stormfist Uniform](https://en.uesp.net/wiki/Online:Stormfist_Uniform)
+- [Thieves Guild Leathers](https://en.uesp.net/wiki/Online:Thieves_Guild_Leathers)
+- [Upriver Striped Sash-Kilt](https://en.uesp.net/wiki/Online:Upriver_Striped_Sash-Kilt)
+- [Vanguard Uniform](https://en.uesp.net/wiki/Online:Vanguard_Uniform)
+- [Vulkhel Guard Marine Armor](https://en.uesp.net/wiki/Online:Vulkhel_Guard_Marine_Armor)
 </details>
 
 <details>
@@ -1245,13 +1009,13 @@ graph TD
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 3% (7/225) |
 
-- Belly Laugh
-- Go Quietly
-- Kiss This
-- Marshmallow Toasty Treat
-- Showtime
-- Teatime
-- Wickerman Mishap
+- [Belly Laugh](https://en.uesp.net/wiki/Online:Belly_Laugh)
+- [Go Quietly](https://en.uesp.net/wiki/Online:Go_Quietly)
+- [Kiss This](https://en.uesp.net/wiki/Online:Kiss_This)
+- [Marshmallow Toasty Treat](https://en.uesp.net/wiki/Online:Marshmallow_Toasty_Treat)
+- [Showtime](https://en.uesp.net/wiki/Online:Showtime)
+- [Teatime](https://en.uesp.net/wiki/Online:Teatime)
+- [Wickerman Mishap](https://en.uesp.net/wiki/Online:Wickerman_Mishap)
 </details>
 
 <details>
@@ -1261,11 +1025,9 @@ graph TD
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 2% (3/135) |
 
-- Dremora Deceiver's Diadem
-- Eternal Hunger Coronal
-- Malign Ambitions Crown
-
-
+- [Dremora Deceiver's Diadem](https://en.uesp.net/wiki/Online:Dremora_Deceiver's_Diadem)
+- [Eternal Hunger Coronal](https://en.uesp.net/wiki/Online:Eternal_Hunger_Coronal)
+- [Malign Ambitions Crown](https://en.uesp.net/wiki/Online:Malign_Ambitions_Crown)
 </details>
 
 <details>
@@ -1285,26 +1047,28 @@ graph TD
 | --- |
 | ██░░░░░░░░░░░░░░░░░░ 12% (20/164) |
 
-- Arkthzand Anfractuosity Shroud
-- Ayleid Royal Crown
-- Brass Fortress Rebreather
-- Colovian Filigreed Hood
-- Colovian Fur Hood
-- Crown of Misrule
-- Firesong Obsidian Mask
-- Flamebrow Fire Veil
-- Helm of the Black Fin
-- Hide Your Helm
-- Inferno Facade
-- Madgod's Turban
-- Malefic Standing Collar Hood
-- Oblivion Explorer's Headwrap
-- Plumed Wide-Brim Acorn-Warder
-- Psijic Skullcap
-- Pumpkin Spectre Mask
-- Scarecrow Spectre Mask
-- Sideburn Skullcap
-- Werewolf Hunter Hat
+- [Arkthzand Anfractuosity Shroud](https://en.uesp.net/wiki/Online:Arkthzand_Anfractuosity_Shroud)
+- [Ayleid Royal Crown](https://en.uesp.net/wiki/Online:Ayleid_Royal_Crown)
+- [Brass Fortress Rebreather](https://en.uesp.net/wiki/Online:Brass_Fortress_Rebreather)
+- [Colovian Filigreed Hood](https://en.uesp.net/wiki/Online:Colovian_Filigreed_Hood)
+- [Colovian Fur Hood](https://en.uesp.net/wiki/Online:Colovian_Fur_Hood)
+- [Crown of Misrule](https://en.uesp.net/wiki/Online:Crown_of_Misrule)
+- [Firesong Obsidian Mask](https://en.uesp.net/wiki/Online:Firesong_Obsidian_Mask)
+- [Flamebrow Fire Veil](https://en.uesp.net/wiki/Online:Flamebrow_Fire_Veil)
+- [Helm of the Black Fin](https://en.uesp.net/wiki/Online:Helm_of_the_Black_Fin)
+
+
+- [Hide Your Helm](https://en.uesp.net/wiki/Online:Hide_Your_Helm)
+- [Inferno Facade](https://en.uesp.net/wiki/Online:Inferno_Facade)
+- [Madgod's Turban](https://en.uesp.net/wiki/Online:Madgod's_Turban)
+- [Malefic Standing Collar Hood](https://en.uesp.net/wiki/Online:Malefic_Standing_Collar_Hood)
+- [Oblivion Explorer's Headwrap](https://en.uesp.net/wiki/Online:Oblivion_Explorer's_Headwrap)
+- [Plumed Wide-Brim Acorn-Warder](https://en.uesp.net/wiki/Online:Plumed_Wide-Brim_Acorn-Warder)
+- [Psijic Skullcap](https://en.uesp.net/wiki/Online:Psijic_Skullcap)
+- [Pumpkin Spectre Mask](https://en.uesp.net/wiki/Online:Pumpkin_Spectre_Mask)
+- [Scarecrow Spectre Mask](https://en.uesp.net/wiki/Online:Scarecrow_Spectre_Mask)
+- [Sideburn Skullcap](https://en.uesp.net/wiki/Online:Sideburn_Skullcap)
+- [Werewolf Hunter Hat](https://en.uesp.net/wiki/Online:Werewolf_Hunter_Hat)
 </details>
 
 <details>
@@ -1314,33 +1078,17 @@ graph TD
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 2% (11/372) |
 
-- Abyssal Embrace Face Markings
-- Ancient Dragon Face Marks
-- Clockwork Apostle Face Imprints
-- Eagle Plume Face Tattoo
-- Face Imprint of the Psijic Order
-- Hagmatron's Face Markings
-- Inferno Ink Face Markings^n
-- Morag Tong Face Tattoo
-- Mystic Magicka Flow Face Tattoos
-- Scrying Eye Psijic Face Tattoo
-- Stonelore's Legend Face Paint
-</details>
-
-<details>
-<summary>🏠 Housing (5 of 116)</summary>
-
-| Progress |
-| --- |
-| ░░░░░░░░░░░░░░░░░░░░ 4% (5/116) |
-
-**Owned Houses:**
-• Mara's Kiss Public House
-• The Rosy Lion
-• The Ebony Flask Inn Room
-• Grand Psijic Villa
-• Sugar Bowl Suite
-
+- [Abyssal Embrace Face Markings](https://en.uesp.net/wiki/Online:Abyssal_Embrace_Face_Markings)
+- [Ancient Dragon Face Marks](https://en.uesp.net/wiki/Online:Ancient_Dragon_Face_Marks)
+- [Clockwork Apostle Face Imprints](https://en.uesp.net/wiki/Online:Clockwork_Apostle_Face_Imprints)
+- [Eagle Plume Face Tattoo](https://en.uesp.net/wiki/Online:Eagle_Plume_Face_Tattoo)
+- [Face Imprint of the Psijic Order](https://en.uesp.net/wiki/Online:Face_Imprint_of_the_Psijic_Order)
+- [Hagmatron's Face Markings](https://en.uesp.net/wiki/Online:Hagmatron's_Face_Markings)
+- [Inferno Ink Face Markings^n](https://en.uesp.net/wiki/Online:Inferno_Ink_Face_Markings^n)
+- [Morag Tong Face Tattoo](https://en.uesp.net/wiki/Online:Morag_Tong_Face_Tattoo)
+- [Mystic Magicka Flow Face Tattoos](https://en.uesp.net/wiki/Online:Mystic_Magicka_Flow_Face_Tattoos)
+- [Scrying Eye Psijic Face Tattoo](https://en.uesp.net/wiki/Online:Scrying_Eye_Psijic_Face_Tattoo)
+- [Stonelore's Legend Face Paint](https://en.uesp.net/wiki/Online:Stonelore's_Legend_Face_Paint)
 </details>
 
 <details>
@@ -1350,39 +1098,39 @@ graph TD
 | --- |
 | ███░░░░░░░░░░░░░░░░░ 16% (33/201) |
 
-- Almalexia's Enchanted Lantern
-- Battered Bear Trap
-- Blackfeather Court Whistle
-- Blade of the Blood Oath
-- Bonesnap Binding Stone
-- Breda's Bottomless Mead Mug
-- Cherry Blossom Branch
-- Clockwork Obscuros
-- Coin of Illusory Riches
-- Discourse Amaranthine
-- Dwarven Puzzle Orb
-- Fetish of Anger
-- Finvir's Trinket
-- Fire-Breather's Torches
-- Jubilee Cake 2017
-- Jubilee Cake 2018
-- Jubilee Cake 2020
-- Lena's Wand of Finding
-- Mud Ball Pouch
-- Murkmire Grave-Stake
-- Nanwen's Sword
-- Questionable Meat Sack
-- Red Revelry Bottle
-- Remnant of Meridia's Light
-- Scalecaller Rune of Levitation
-- Sea Sload Dorsal Fin
-- Sword-Swallower's Blade
-- The Pie of Misrule
-- Token of Root Sunder
-- Witch's Bonfire Dust
-- Witchmother's Whistle
-- Wyrd Elemental Plume
-- Yokudan Totem
+- [Almalexia's Enchanted Lantern](https://en.uesp.net/wiki/Online:Almalexia's_Enchanted_Lantern)
+- [Battered Bear Trap](https://en.uesp.net/wiki/Online:Battered_Bear_Trap)
+- [Blackfeather Court Whistle](https://en.uesp.net/wiki/Online:Blackfeather_Court_Whistle)
+- [Blade of the Blood Oath](https://en.uesp.net/wiki/Online:Blade_of_the_Blood_Oath)
+- [Bonesnap Binding Stone](https://en.uesp.net/wiki/Online:Bonesnap_Binding_Stone)
+- [Breda's Bottomless Mead Mug](https://en.uesp.net/wiki/Online:Breda's_Bottomless_Mead_Mug)
+- [Cherry Blossom Branch](https://en.uesp.net/wiki/Online:Cherry_Blossom_Branch)
+- [Clockwork Obscuros](https://en.uesp.net/wiki/Online:Clockwork_Obscuros)
+- [Coin of Illusory Riches](https://en.uesp.net/wiki/Online:Coin_of_Illusory_Riches)
+- [Discourse Amaranthine](https://en.uesp.net/wiki/Online:Discourse_Amaranthine)
+- [Dwarven Puzzle Orb](https://en.uesp.net/wiki/Online:Dwarven_Puzzle_Orb)
+- [Fetish of Anger](https://en.uesp.net/wiki/Online:Fetish_of_Anger)
+- [Finvir's Trinket](https://en.uesp.net/wiki/Online:Finvir's_Trinket)
+- [Fire-Breather's Torches](https://en.uesp.net/wiki/Online:Fire-Breather's_Torches)
+- [Jubilee Cake 2017](https://en.uesp.net/wiki/Online:Jubilee_Cake_2017)
+- [Jubilee Cake 2018](https://en.uesp.net/wiki/Online:Jubilee_Cake_2018)
+- [Jubilee Cake 2020](https://en.uesp.net/wiki/Online:Jubilee_Cake_2020)
+- [Lena's Wand of Finding](https://en.uesp.net/wiki/Online:Lena's_Wand_of_Finding)
+- [Mud Ball Pouch](https://en.uesp.net/wiki/Online:Mud_Ball_Pouch)
+- [Murkmire Grave-Stake](https://en.uesp.net/wiki/Online:Murkmire_Grave-Stake)
+- [Nanwen's Sword](https://en.uesp.net/wiki/Online:Nanwen's_Sword)
+- [Questionable Meat Sack](https://en.uesp.net/wiki/Online:Questionable_Meat_Sack)
+- [Red Revelry Bottle](https://en.uesp.net/wiki/Online:Red_Revelry_Bottle)
+- [Remnant of Meridia's Light](https://en.uesp.net/wiki/Online:Remnant_of_Meridia's_Light)
+- [Scalecaller Rune of Levitation](https://en.uesp.net/wiki/Online:Scalecaller_Rune_of_Levitation)
+- [Sea Sload Dorsal Fin](https://en.uesp.net/wiki/Online:Sea_Sload_Dorsal_Fin)
+- [Sword-Swallower's Blade](https://en.uesp.net/wiki/Online:Sword-Swallower's_Blade)
+- [The Pie of Misrule](https://en.uesp.net/wiki/Online:The_Pie_of_Misrule)
+- [Token of Root Sunder](https://en.uesp.net/wiki/Online:Token_of_Root_Sunder)
+- [Witch's Bonfire Dust](https://en.uesp.net/wiki/Online:Witch's_Bonfire_Dust)
+- [Witchmother's Whistle](https://en.uesp.net/wiki/Online:Witchmother's_Whistle)
+- [Wyrd Elemental Plume](https://en.uesp.net/wiki/Online:Wyrd_Elemental_Plume)
+- [Yokudan Totem](https://en.uesp.net/wiki/Online:Yokudan_Totem)
 </details>
 
 <details>
@@ -1392,20 +1140,20 @@ graph TD
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 2% (14/697) |
 
-- Dwarven War Horse
-- Flame Atronach Senche^n
-- Imperial Horse
-- Midnight Steed
-- Nightmare Senche
-- Nix-Ox War-Steed^n
-- Noweyr Steed
-- Psijic Escort Charger
-- Rahd-m'Athra
-- Senche-Leopard
-- Skulltooth Coastal Durzog
-- Sorrel Horse
-- Tessellated Guar
-- Wormwrithe Bear-Lizard
+- [Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)
+- [Flame Atronach Senche^n](https://en.uesp.net/wiki/Online:Flame_Atronach_Senche^n)
+- [Imperial Horse](https://en.uesp.net/wiki/Online:Imperial_Horse)
+- [Midnight Steed](https://en.uesp.net/wiki/Online:Midnight_Steed)
+- [Nightmare Senche](https://en.uesp.net/wiki/Online:Nightmare_Senche)
+- [Nix-Ox War-Steed^n](https://en.uesp.net/wiki/Online:Nix-Ox_War-Steed^n)
+- [Noweyr Steed](https://en.uesp.net/wiki/Online:Noweyr_Steed)
+- [Psijic Escort Charger](https://en.uesp.net/wiki/Online:Psijic_Escort_Charger)
+- [Rahd-m'Athra](https://en.uesp.net/wiki/Online:Rahd-m'Athra)
+- [Senche-Leopard](https://en.uesp.net/wiki/Online:Senche-Leopard)
+- [Skulltooth Coastal Durzog](https://en.uesp.net/wiki/Online:Skulltooth_Coastal_Durzog)
+- [Sorrel Horse](https://en.uesp.net/wiki/Online:Sorrel_Horse)
+- [Tessellated Guar](https://en.uesp.net/wiki/Online:Tessellated_Guar)
+- [Wormwrithe Bear-Lizard](https://en.uesp.net/wiki/Online:Wormwrithe_Bear-Lizard)
 </details>
 
 <details>
@@ -1415,7 +1163,7 @@ graph TD
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 3% (1/29) |
 
-- Assassin
+- [Assassin](https://en.uesp.net/wiki/Online:Assassin)
 </details>
 
 <details>
@@ -1425,43 +1173,43 @@ graph TD
 | --- |
 | █░░░░░░░░░░░░░░░░░░░ 5% (37/679) |
 
-- Abecean Ratter Cat
-- Alik'r Dune-Hound
-- Ambersheen Vale Fawn
-- Big-Eared Ginger Kitten^n
-- Blue Dragon Imp
-- Coldharbour Dremnaken Runt
-- Crimson Torchbug
-- Dozen-Banded Vvardvark^n
-- Dusky Fennec Fox^n
-- Dwarven Spider
-- Dwarven War Dog
-- Echalette
-- Golden Eagle
-- Green Dragon Imp
-- Grisly Banekin Mummy^N
-- Haunted House Cat^n
-- Hot Pepper Bantam Guar
-- Housecat
-- Imgakin Monkey
-- Infernium Dwarven Spiderling
-- Jackal
-- Long-Winged Bat^F
-- Nibenay Mudcrab
-- Noweyr Pony^n
-- Pocket Mammoth
-- Pocket Salamander^n
-- Psijic Mascot Bear Cub^n
-- Psijic Mascot Guar Calf^n
-- Psijic Mascot Pony^n
-- Scintillant Dovah-Fly^n
-- Spectral Mudcrab
-- Steam-Driven Brassilisk^n
-- Sylvan Nixad
-- Verdigris Haj Mota
-- Vermilion Scuttler
-- Viridescent Dragon Frog
-- Vvardvark^n
+- [Abecean Ratter Cat](https://en.uesp.net/wiki/Online:Abecean_Ratter_Cat)
+- [Alik'r Dune-Hound](https://en.uesp.net/wiki/Online:Alik'r_Dune-Hound)
+- [Ambersheen Vale Fawn](https://en.uesp.net/wiki/Online:Ambersheen_Vale_Fawn)
+- [Big-Eared Ginger Kitten^n](https://en.uesp.net/wiki/Online:Big-Eared_Ginger_Kitten^n)
+- [Blue Dragon Imp](https://en.uesp.net/wiki/Online:Blue_Dragon_Imp)
+- [Coldharbour Dremnaken Runt](https://en.uesp.net/wiki/Online:Coldharbour_Dremnaken_Runt)
+- [Crimson Torchbug](https://en.uesp.net/wiki/Online:Crimson_Torchbug)
+- [Dozen-Banded Vvardvark^n](https://en.uesp.net/wiki/Online:Dozen-Banded_Vvardvark^n)
+- [Dusky Fennec Fox^n](https://en.uesp.net/wiki/Online:Dusky_Fennec_Fox^n)
+- [Dwarven Spider](https://en.uesp.net/wiki/Online:Dwarven_Spider)
+- [Dwarven War Dog](https://en.uesp.net/wiki/Online:Dwarven_War_Dog)
+- [Echalette](https://en.uesp.net/wiki/Online:Echalette)
+- [Golden Eagle](https://en.uesp.net/wiki/Online:Golden_Eagle)
+- [Green Dragon Imp](https://en.uesp.net/wiki/Online:Green_Dragon_Imp)
+- [Grisly Banekin Mummy^N](https://en.uesp.net/wiki/Online:Grisly_Banekin_Mummy^N)
+- [Haunted House Cat^n](https://en.uesp.net/wiki/Online:Haunted_House_Cat^n)
+- [Hot Pepper Bantam Guar](https://en.uesp.net/wiki/Online:Hot_Pepper_Bantam_Guar)
+- [Housecat](https://en.uesp.net/wiki/Online:Housecat)
+- [Imgakin Monkey](https://en.uesp.net/wiki/Online:Imgakin_Monkey)
+- [Infernium Dwarven Spiderling](https://en.uesp.net/wiki/Online:Infernium_Dwarven_Spiderling)
+- [Jackal](https://en.uesp.net/wiki/Online:Jackal)
+- [Long-Winged Bat^F](https://en.uesp.net/wiki/Online:Long-Winged_Bat^F)
+- [Nibenay Mudcrab](https://en.uesp.net/wiki/Online:Nibenay_Mudcrab)
+- [Noweyr Pony^n](https://en.uesp.net/wiki/Online:Noweyr_Pony^n)
+- [Pocket Mammoth](https://en.uesp.net/wiki/Online:Pocket_Mammoth)
+- [Pocket Salamander^n](https://en.uesp.net/wiki/Online:Pocket_Salamander^n)
+- [Psijic Mascot Bear Cub^n](https://en.uesp.net/wiki/Online:Psijic_Mascot_Bear_Cub^n)
+- [Psijic Mascot Guar Calf^n](https://en.uesp.net/wiki/Online:Psijic_Mascot_Guar_Calf^n)
+- [Psijic Mascot Pony^n](https://en.uesp.net/wiki/Online:Psijic_Mascot_Pony^n)
+- [Scintillant Dovah-Fly^n](https://en.uesp.net/wiki/Online:Scintillant_Dovah-Fly^n)
+- [Spectral Mudcrab](https://en.uesp.net/wiki/Online:Spectral_Mudcrab)
+- [Steam-Driven Brassilisk^n](https://en.uesp.net/wiki/Online:Steam-Driven_Brassilisk^n)
+- [Sylvan Nixad](https://en.uesp.net/wiki/Online:Sylvan_Nixad)
+- [Verdigris Haj Mota](https://en.uesp.net/wiki/Online:Verdigris_Haj_Mota)
+- [Vermilion Scuttler](https://en.uesp.net/wiki/Online:Vermilion_Scuttler)
+- [Viridescent Dragon Frog](https://en.uesp.net/wiki/Online:Viridescent_Dragon_Frog)
+- [Vvardvark^n](https://en.uesp.net/wiki/Online:Vvardvark^n)
 </details>
 
 <details>
@@ -1471,7 +1219,7 @@ graph TD
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 2% (1/43) |
 
-- Skeleton
+- [Skeleton](https://en.uesp.net/wiki/Online:Skeleton)
 </details>
 
 <details>
@@ -1482,43 +1230,6 @@ graph TD
 | ░░░░░░░░░░░░░░░░░░░░ 0% (0/106) |
 
 *No skins owned*
-</details>
-
-<details>
-<summary>👑 Titles (26 of 26)</summary>
-
-| Progress |
-| --- |
-| ████████████████████ 100% (26/26) |
-
-**Owned Titles:**
-• Abyssal Champion
-• Assassin
-• Bane of the Gold Coast
-• Champion of Blackwood
-• Covenant Hero
-• Daedric Lord Slayer
-• Dark Executioner
-• Dragon Master-at-Arms
-• Emissary
-• Enemy of Coldharbour
-• Fighters Guild Victor
-• Grand Sorcerer
-• Light's Champion
-• Locksmith
-• Lord of Misrule
-• Magnanimous
-• Master Thief
-• Master Wizard
-• Monster Hunter
-• Mystic
-• Recruit
-• Silencer
-• Style Master
-• Sun's Dusk Reaper
-• Tyro
-• Volunteer
-
 </details>
 
 ---
@@ -1540,6 +1251,8 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
+| ⚪ ancestor silk epaulets | 1 | ⚪ |
+| ⚪ ancestor silk epaulets | 1 | ⚪ |
 | 🔵 Blackreach: Arkthzand Cavern Treasure Map | 1 | 🔵 |
 | 🔵 Blackreach: Greymoor Caverns Treasure Map I | 1 | 🔵 |
 | 🔵 Blackreach: Greymoor Caverns Treasure Map II | 1 | 🔵 |
@@ -1554,6 +1267,7 @@ graph TD
 | 🔵 Crown Repair Kit | 10 | 🔵 |
 | 🔵 Crown Soul Gem | 20 | 🔵 |
 | 🟣 Crown Tri-Restoration Potion | 4 | 🟣 |
+| 🟣 Crown Tri-Restoration Potion | 100 | 🟣 |
 | 🔵 Cyrodiil Treasure Map II | 1 | 🔵 |
 | 🔵 Cyrodiil Treasure Map IV | 1 | 🔵 |
 | 🔵 Cyrodiil Treasure Map IX | 1 | 🔵 |
@@ -1574,60 +1288,60 @@ graph TD
 | 🟣 Daedric War Spoils | 1 | 🟣 |
 | 🟣 Daedric War Spoils | 1 | 🟣 |
 | 🔵 Deadlands Treasure Map I | 1 | 🔵 |
+| 🟣 Exemplary Swift Ring | 1 | 🟣 |
 | 🟣 Fragment of Rulanyil | 1 | 🟣 |
 | 🟣 Fragment of the Crazed | 1 | 🟣 |
 | 🟣 Gold Coast Spellcaster Elixir | 100 | 🟣 |
 | 🟡 Gold Coast Trapping Poison | 100 | 🟡 |
-| 🟣 Gryphon's Helmet | 1 | 🟣 |
 | ⚪ Horn of Beasts | 1 | ⚪ |
 | 🟢 Litany of Blood | 1 | 🟢 |
-| 🟢 Locket of the Pariah | 1 | 🟢 |
-| ⚪ Lockpick | 2 | ⚪ |
 | ⚪ Lockpick | 200 | ⚪ |
+| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
+| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
+| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
+| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
+| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
+| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
 | 🟡 Master Blacksmithing Writ | 1 | 🟡 |
-| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
-| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
-| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
-| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
 | 🟡 Master Blacksmithing Writ | 1 | 🟡 |
-| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
-| 🟣 Master Blacksmithing Writ | 1 | 🟣 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
 | 🟣 Master Clothier Writ | 1 | 🟣 |
-| 🟡 Master Enchanting Writ | 1 | 🟡 |
 | 🟣 Master Enchanting Writ | 1 | 🟣 |
+| 🟡 Master Enchanting Writ | 1 | 🟡 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
-| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
-| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
 | 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
+| 🟣 Master Jewelry Crafter Writ | 1 | 🟣 |
+| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
+| 🔵 Master Jewelry Crafter Writ | 1 | 🔵 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
 | 🟣 Master Woodworking Writ | 1 | 🟣 |
-| ⚪ nightwood ice staff | 1 | ⚪ |
 | 🟣 Painting of Aldmeri Ruins, Refined | 1 | 🟣 |
-| ⚪ potion of Ravage Health | 2 | ⚪ |
+| ⚪ platinum necklace | 1 | ⚪ |
 | 🟢 Psijic Codex Transcription | 1 | 🟢 |
+| 🟢 Recipe: Bravil's Best Beet Risotto | 1 | 🟢 |
 | 🟣 Recipe: Psijic Ambrosia, Fragment IV | 1 | 🟣 |
 | 🟣 Recipe: Psijic Ambrosia, Fragment V | 1 | 🟣 |
-| ⚪ Roguish Stealth Draught | 10 | ⚪ |
+| 🟢 Recipe: Thrice-Baked Gorapple Pie | 1 | 🟢 |
+| ⚪ rubedite cuirass | 1 | ⚪ |
+| ⚪ rubedite girdle | 1 | ⚪ |
 | 🟡 Runebox: Colovian Filigreed Hood | 1 | 🟡 |
 | 🟡 Runebox: Colovian Filigreed Hood | 1 | 🟡 |
 | 🟡 Runebox: Colovian Fur Hood | 1 | 🟡 |
@@ -1636,28 +1350,25 @@ graph TD
 | 🟡 Runebox: Hagmatron's Body Marking | 1 | 🟡 |
 | 🟡 Runebox: Pumpkin Spectre Mask | 1 | 🟡 |
 | 🟡 Runebox: Scarecrow Spectre Mask | 1 | 🟡 |
-| 🟢 Soul Gem | 31 | 🟢 |
-| 🟢 Soul Gem | 200 | 🟢 |
-| 🟢 Superb Glyph of Potion Boost | 1 | 🟢 |
-| ⚪ Tomato Garlic Chutney | 12 | ⚪ |
-| ⚪ Truly Superb Glyph of Flame | 1 | ⚪ |
-| ⚪ Truly Superb Glyph of Frost | 1 | ⚪ |
-| ⚪ Truly Superb Glyph of Shock | 1 | ⚪ |
-| ⚪ Truly Superb Glyph of Stamina | 1 | ⚪ |
+| 🟢 Soul Gem | 100 | 🟢 |
+| ⚪ Soul Gem (Empty) | 4 | ⚪ |
+| 🔵 Southern Elsweyr Treasure Map II | 1 | 🔵 |
+| 🟢 Superb Glyph of Reduce Spell Cost | 1 | 🟢 |
+| 🟢 Superb Glyph of Stamina Recovery | 1 | 🟢 |
+| ⚪ Tomato Garlic Chutney | 13 | ⚪ |
 | 🟢 Undaunted Enclave Invitation | 1 | 🟢 |
 | 🔵 Unidentified Alchemist Survey Report | 2 | 🔵 |
-| 🔵 Unidentified Blacksmith Survey Report | 1 | 🔵 |
+| 🔵 Unidentified Blacksmith Survey Report | 2 | 🔵 |
 | 🔵 Unidentified Clothier Survey Report | 1 | 🔵 |
 | 🔵 Unidentified Enchanter Survey Report | 4 | 🔵 |
 | 🔵 Unidentified Jewelry Crafter Survey Report | 2 | 🔵 |
 | 🔵 Unidentified Woodworker Survey Report | 3 | 🔵 |
-| 🟣 Unknown Blacksmithing Writ | 1 | 🟣 |
+| 🟣 Unknown Blacksmithing Writ | 3 | 🟣 |
 | 🟣 Unknown Clothier Writ | 4 | 🟣 |
 | 🟣 Unknown Enchanting Writ | 3 | 🟣 |
 | 🟣 Unknown Jewelry Crafter Writ | 1 | 🟣 |
 | 🟣 Unknown Provisioning Writ | 4 | 🟣 |
 | 🟣 Unknown Woodworking Writ | 3 | 🟣 |
-| ⚪ voidsteel dagger | 1 | ⚪ |
 | 🔵 Western Skyrim Treasure Map I | 1 | 🔵 |
 | 🔵 Witches Festival Writ | 1 | 🔵 |
 | 🔵 Witches Festival Writ | 1 | 🔵 |
@@ -1680,19 +1391,18 @@ graph TD
 <details>
 <summary><strong>Bank Items</strong> (240 unique items)</summary>
 
+
 #### Other (240 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 ancestor silk gloves of Health | 1 | 🔵 |
-| 🟣 ancestor silk gloves of Magicka | 1 | 🟣 |
-| 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
-| 🔵 ancestor silk hat of Magicka | 1 | 🔵 |
 | 🟡 Attribute Respecification Scroll | 2 | 🟡 |
 | 🟡 Attunable Blacksmithing Station, Bound | 1 | 🟡 |
 | 🟡 Attunable Clothing Station, Bound | 1 | 🟡 |
 | 🟡 Attunable Woodworking Station, Bound | 1 | 🟡 |
 | 🟣 Axe of Agility | 1 | 🟣 |
+| 🔵 beech bow of Flame | 1 | 🔵 |
+| 🔵 beech restoration staff of Frost | 1 | 🔵 |
 | 🟣 Big-Eared Ginger Kitten's Tag | 1 | 🟣 |
 | 🔵 Bleakrock Treasure Map II | 1 | 🔵 |
 | 🔵 Blueprint: Argonian Bed, Woven | 1 | 🔵 |
@@ -1700,14 +1410,14 @@ graph TD
 | 🟣 Bonedust Pigment | 2 | 🟣 |
 | 🟢 Companion's Axe | 1 | 🟢 |
 | 🟢 Companion's Axe | 1 | 🟢 |
-| 🟢 Companion's Axe | 1 | 🟢 |
 | 🔵 Companion's Axe | 1 | 🔵 |
 | 🟢 Companion's Axe | 1 | 🟢 |
-| 🟢 Companion's Battle Axe | 1 | 🟢 |
+| 🟢 Companion's Axe | 1 | 🟢 |
 | 🔵 Companion's Battle Axe | 1 | 🔵 |
 | 🟢 Companion's Battle Axe | 1 | 🟢 |
-| 🟢 Companion's Boots | 1 | 🟢 |
+| 🟢 Companion's Battle Axe | 1 | 🟢 |
 | 🔵 Companion's Boots | 1 | 🔵 |
+| 🟢 Companion's Boots | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
@@ -1715,31 +1425,29 @@ graph TD
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🔵 Companion's Bracers | 1 | 🔵 |
 | 🟢 Companion's Bracers | 1 | 🟢 |
+| 🔵 Companion's Bracers | 1 | 🔵 |
 | 🟢 Companion's Bracers | 1 | 🟢 |
 | 🔵 Companion's Bracers | 1 | 🔵 |
 | 🔵 Companion's Breeches | 1 | 🔵 |
 | 🟢 Companion's Breeches | 1 | 🟢 |
-| 🟢 Companion's Breeches | 1 | 🟢 |
 | 🔵 Companion's Breeches | 1 | 🔵 |
-
-
+| 🟢 Companion's Breeches | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
-| 🔵 Companion's Dagger | 1 | 🔵 |
+| 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Dagger | 1 | 🟢 |
-| 🟢 Companion's Dagger | 1 | 🟢 |
+| 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
@@ -1751,80 +1459,83 @@ graph TD
 | 🟢 Companion's Jack | 1 | 🟢 |
 | 🟢 Companion's Jack | 1 | 🟢 |
 | 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
 | 🔵 Companion's Jack | 1 | 🔵 |
-| 🟢 Companion's Jerkin | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🔵 Companion's Jerkin | 1 | 🔵 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🔵 Companion's Jerkin | 1 | 🔵 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
-| 🔵 Companion's Lightning Staff | 1 | 🔵 |
+| 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🟢 Companion's Lightning Staff | 1 | 🟢 |
+| 🔵 Companion's Lightning Staff | 1 | 🔵 |
+| 🟢 Companion's Mace | 1 | 🟢 |
+| 🟢 Companion's Mace | 1 | 🟢 |
 | 🔵 Companion's Mace | 1 | 🔵 |
-| 🟢 Companion's Mace | 1 | 🟢 |
-| 🟢 Companion's Mace | 1 | 🟢 |
+| 🟢 Companion's Maul | 1 | 🟢 |
+| 🔵 Companion's Maul | 1 | 🔵 |
 | 🟢 Companion's Maul | 1 | 🟢 |
 | 🔵 Companion's Maul | 1 | 🔵 |
 | 🟢 Companion's Maul | 1 | 🟢 |
 | 🟢 Companion's Maul | 1 | 🟢 |
-| 🔵 Companion's Maul | 1 | 🔵 |
-| 🟢 Companion's Maul | 1 | 🟢 |
-| 🟢 Companion's Necklace | 1 | 🟢 |
 | 🟢 Companion's Necklace | 1 | 🟢 |
 | 🔵 Companion's Necklace | 1 | 🔵 |
+| 🟢 Companion's Necklace | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟣 Companion's Restoration Staff | 1 | 🟣 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Ring | 1 | 🔵 |
 | 🔵 Companion's Ring | 1 | 🔵 |
 | 🟢 Companion's Ring | 1 | 🟢 |
-| 🔵 Companion's Ring | 1 | 🔵 |
+| 🟢 Companion's Robe | 1 | 🟢 |
+| 🟢 Companion's Robe | 1 | 🟢 |
 | 🔵 Companion's Robe | 1 | 🔵 |
-| 🟢 Companion's Robe | 1 | 🟢 |
-| 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Sabatons | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
+| 🟢 Companion's Shield | 1 | 🟢 |
 | 🔵 Companion's Shield | 1 | 🔵 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🔵 Companion's Shield | 1 | 🔵 |
+| 🔵 Companion's Shield | 1 | 🔵 |
+| 🟢 Companion's Shield | 1 | 🟢 |
 | 🟣 Companion's Shield | 1 | 🟣 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🔵 Companion's Shield | 1 | 🔵 |
 | 🔵 Companion's Shield | 1 | 🔵 |
 | 🟢 Companion's Shoes | 1 | 🟢 |
 | 🔵 Companion's Shoes | 1 | 🔵 |
-| 🔵 Companion's Sword | 1 | 🔵 |
-| 🔵 Companion's Sword | 1 | 🔵 |
 | 🟢 Companion's Sword | 1 | 🟢 |
+| 🔵 Companion's Sword | 1 | 🔵 |
+| 🔵 Companion's Sword | 1 | 🔵 |
 | 🟣 Coral Haj Mota Decoy | 1 | 🟣 |
+| ⚪ cotton breeches | 1 | ⚪ |
+| 🔵 cotton gloves of Magicka | 1 | 🔵 |
+| 🔵 cotton sash of Health | 1 | 🔵 |
 | 🔵 Counterfeit Pardon Edict | 20 | 🔵 |
 | 🔵 Crackling Lodestone | 1 | 🔵 |
 | 🔵 Crafting Motif 1: High Elf Style | 1 | 🔵 |
@@ -1871,7 +1582,7 @@ graph TD
 | 🟡 Fortified Brass Gloves | 1 | 🟡 |
 | 🟡 Fortified Brass Sash | 1 | 🟡 |
 | 🟣 Glass Style Motif Fragment | 5 | 🟣 |
-| 🔵 Gloom-Graced axe | 1 | 🔵 |
+| 🔵 Gloom-Graced Restoration Staff | 1 | 🔵 |
 | 🔵 Gloves of Necropotence | 1 | 🔵 |
 | 🟡 Gold Coast Draining Poison | 100 | 🟡 |
 | 🟡 Gold Coast Experience Scroll | 15 | 🟡 |
@@ -1880,6 +1591,7 @@ graph TD
 | 🟡 Gold Coast Trapping Poison | 100 | 🟡 |
 | 🟣 Gold Coast Warrior Elixir | 100 | 🟣 |
 | 🔵 Grahtwood Treasure Map III | 1 | 🔵 |
+| 🔵 Gryphon's Bow | 1 | 🔵 |
 | 🟣 Harvested Soul Fragment | 1 | 🟣 |
 | 🟣 Harvested Soul Fragment | 1 | 🟣 |
 | 🔵 Hat of Necropotence | 1 | 🔵 |
@@ -1892,6 +1604,9 @@ graph TD
 | 🟣 Leniency Edict | 8 | 🟣 |
 | 🟡 Major Gold Coast Experience Scroll | 4 | 🟡 |
 | 🟡 Major Gold Coast Experience Scroll | 5 | 🟡 |
+| 🔵 orichalc battle axe of Shock | 1 | 🔵 |
+| 🔵 orichalc dagger of Flame | 1 | 🔵 |
+| 🔵 orichalc mace of Frost | 1 | 🔵 |
 | 🟢 Pattern: Argonian Baskets, Double | 1 | 🟢 |
 | 🟢 Pattern: Wood Elf Awning, Leather | 1 | 🟢 |
 | 🟣 Plague-Drenched Fabric | 1 | 🟣 |
@@ -1911,11 +1626,6 @@ graph TD
 | 🟢 Recipe: Sweet Sanguine Apples | 6 | 🟢 |
 | 🟢 Recipe: Tomato Soup | 2 | 🟢 |
 | 🟣 Ring of Endurance | 1 | 🟣 |
-| 🔵 rubedite battle axe of Flame | 1 | 🔵 |
-| ⚪ rubedite greatsword | 1 | ⚪ |
-| 🔵 rubedite maul of Frost | 1 | 🔵 |
-| 🔵 ruby ash bow of Shock | 1 | 🔵 |
-| 🔵 ruby ash lightning staff of Shock | 1 | 🔵 |
 | 🟣 Shard of Writhing Bone | 6 | 🟣 |
 | 🔵 Skeletal Marionette Parts | 1 | 🔵 |
 | 🟢 Spirit Stone | 1 | 🟢 |
@@ -1924,8 +1634,8 @@ graph TD
 | 🟡 Style Page: Jephrine Paladin Girdle | 1 | 🟡 |
 | 🔵 Unidentified Alchemist Survey Report | 1 | 🔵 |
 | 🟡 Wayshrine Navigation Chart | 1 | 🟡 |
-| 🟣 Writhing Haj Mota Scale | 9 | 🟣 |
 | 🟣 Writhing Haj Mota Scale | 25 | 🟣 |
+| 🟣 Writhing Haj Mota Scale | 9 | 🟣 |
 
 </details>
 
@@ -1939,15 +1649,15 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Almandine | 848 | ⚪ |
-| ⚪ Bloodstone | 954 | ⚪ |
-| ⚪ Diamond | 531 | ⚪ |
-| ⚪ Emerald | 486 | ⚪ |
+| ⚪ Almandine | 852 | ⚪ |
+| ⚪ Bloodstone | 957 | ⚪ |
+| ⚪ Diamond | 532 | ⚪ |
+| ⚪ Emerald | 490 | ⚪ |
 | ⚪ Fortified Nirncrux | 4 | ⚪ |
-| ⚪ Garnet | 538 | ⚪ |
-| ⚪ Quartz | 666 | ⚪ |
+| ⚪ Garnet | 540 | ⚪ |
+| ⚪ Quartz | 669 | ⚪ |
 | ⚪ Sapphire | 417 | ⚪ |
-| ⚪ Sardonyx | 948 | ⚪ |
+| ⚪ Sardonyx | 951 | ⚪ |
 
 
 </div><div>
@@ -1956,11 +1666,11 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 Denata | 1053 | 🔵 |
-| 🟢 Jejota | 2172 | 🟢 |
-| 🟡 Kuta | 181 | 🟡 |
-| 🟣 Rekuta | 651 | 🟣 |
-| ⚪ Ta | 3549 | ⚪ |
+| 🔵 Denata | 1056 | 🔵 |
+| 🟢 Jejota | 2182 | 🟢 |
+| 🟡 Kuta | 182 | 🟡 |
+| 🟣 Rekuta | 654 | 🟣 |
+| ⚪ Ta | 3555 | ⚪ |
 
 
 </div><div>
@@ -1969,22 +1679,22 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Dekeipa | 317 | ⚪ |
-| ⚪ Deni | 1069 | ⚪ |
-| ⚪ Denima | 330 | ⚪ |
-| ⚪ Deteri | 202 | ⚪ |
+| ⚪ Dekeipa | 319 | ⚪ |
+| ⚪ Deni | 1075 | ⚪ |
+| ⚪ Denima | 331 | ⚪ |
+| ⚪ Deteri | 203 | ⚪ |
 | ⚪ Hakeijo | 1 | ⚪ |
-| ⚪ Haoko | 228 | ⚪ |
-| ⚪ Kaderi | 207 | ⚪ |
-| ⚪ Kuoko | 243 | ⚪ |
-| ⚪ Makderi | 218 | ⚪ |
-| ⚪ Makko | 1070 | ⚪ |
+| ⚪ Haoko | 230 | ⚪ |
+| ⚪ Kaderi | 209 | ⚪ |
+| ⚪ Kuoko | 244 | ⚪ |
+| ⚪ Makderi | 220 | ⚪ |
+| ⚪ Makko | 1075 | ⚪ |
 | ⚪ Makkoma | 370 | ⚪ |
-| ⚪ Meip | 410 | ⚪ |
-| ⚪ Oko | 1117 | ⚪ |
-| ⚪ Okoma | 288 | ⚪ |
-| ⚪ Okori | 197 | ⚪ |
-| ⚪ Oru | 220 | ⚪ |
+| ⚪ Meip | 412 | ⚪ |
+| ⚪ Oko | 1118 | ⚪ |
+| ⚪ Okoma | 289 | ⚪ |
+| ⚪ Okori | 198 | ⚪ |
+| ⚪ Oru | 221 | ⚪ |
 | ⚪ Rakeipa | 408 | ⚪ |
 | ⚪ Taderi | 253 | ⚪ |
 
@@ -1995,14 +1705,14 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Alchemical Resin | 1328 | ⚪ |
-| ⚪ Bast | 505 | ⚪ |
-| ⚪ Clean Pelt | 587 | ⚪ |
+| ⚪ Alchemical Resin | 1340 | ⚪ |
+| ⚪ Bast | 507 | ⚪ |
+| ⚪ Clean Pelt | 588 | ⚪ |
 | ⚪ Decorative Wax | 732 | ⚪ |
-| ⚪ Heartwood | 723 | ⚪ |
-| ⚪ Mundane Rune | 1395 | ⚪ |
+| ⚪ Heartwood | 727 | ⚪ |
+| ⚪ Mundane Rune | 1402 | ⚪ |
 | ⚪ Ochre | 319 | ⚪ |
-| ⚪ Regulus | 481 | ⚪ |
+| ⚪ Regulus | 483 | ⚪ |
 
 
 </div><div>
@@ -2012,55 +1722,55 @@ graph TD
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Acai Berry | 990 | ⚪ |
-| ⚪ Apples | 1447 | ⚪ |
+| ⚪ Apples | 1460 | ⚪ |
 | ⚪ Bananas | 415 | ⚪ |
-| ⚪ Barley | 1009 | ⚪ |
-| ⚪ Beets | 275 | ⚪ |
-| 🟣 Bervez Juice | 53 | 🟣 |
-| ⚪ Bittergreen | 393 | ⚪ |
-| ⚪ Carrots | 240 | ⚪ |
-| ⚪ Cheese | 116 | ⚪ |
+| ⚪ Barley | 1018 | ⚪ |
+| ⚪ Beets | 285 | ⚪ |
+| 🟣 Bervez Juice | 55 | 🟣 |
+| ⚪ Bittergreen | 392 | ⚪ |
+| ⚪ Carrots | 250 | ⚪ |
+| ⚪ Cheese | 120 | ⚪ |
 | ⚪ Coffee | 880 | ⚪ |
 | ⚪ Comberry | 378 | ⚪ |
-| ⚪ Corn | 237 | ⚪ |
+| ⚪ Corn | 236 | ⚪ |
 | ⚪ Fish | 398 | ⚪ |
 | ⚪ Flour | 314 | ⚪ |
-| 🟣 Frost Mirriam | 38 | 🟣 |
+| 🟣 Frost Mirriam | 42 | 🟣 |
 | ⚪ Game | 191 | ⚪ |
-| ⚪ Garlic | 161 | ⚪ |
+| ⚪ Garlic | 160 | ⚪ |
 | ⚪ Ginger | 688 | ⚪ |
 | ⚪ Ginkgo | 848 | ⚪ |
-| ⚪ Ginseng | 930 | ⚪ |
+| ⚪ Ginseng | 940 | ⚪ |
 | ⚪ Greens | 401 | ⚪ |
 | ⚪ Guarana | 914 | ⚪ |
 | ⚪ Honey | 767 | ⚪ |
-| ⚪ Isinglass | 625 | ⚪ |
-| ⚪ Jasmine | 330 | ⚪ |
-| ⚪ Jazbay Grapes | 379 | ⚪ |
-| ⚪ Lemon | 761 | ⚪ |
+| ⚪ Isinglass | 626 | ⚪ |
+| ⚪ Jasmine | 332 | ⚪ |
+| ⚪ Jazbay Grapes | 380 | ⚪ |
+| ⚪ Lemon | 766 | ⚪ |
 | ⚪ Lotus | 428 | ⚪ |
 | ⚪ Melon | 575 | ⚪ |
-| ⚪ Metheglin | 755 | ⚪ |
-| ⚪ Millet | 351 | ⚪ |
-| ⚪ Mint | 370 | ⚪ |
+| ⚪ Metheglin | 754 | ⚪ |
+| ⚪ Millet | 353 | ⚪ |
+| ⚪ Mint | 371 | ⚪ |
 | ⚪ Potato | 200 | ⚪ |
-| ⚪ Poultry | 264 | ⚪ |
-| ⚪ Pumpkin | 481 | ⚪ |
+| ⚪ Poultry | 266 | ⚪ |
+| ⚪ Pumpkin | 491 | ⚪ |
 | ⚪ Radish | 170 | ⚪ |
 | ⚪ Red Meat | 199 | ⚪ |
 | ⚪ Rice | 1125 | ⚪ |
-| ⚪ Rose | 459 | ⚪ |
-| ⚪ Rye | 1213 | ⚪ |
+| ⚪ Rose | 460 | ⚪ |
+| ⚪ Rye | 1216 | ⚪ |
 | ⚪ Saltrice | 467 | ⚪ |
-| ⚪ Seasoning | 452 | ⚪ |
-| ⚪ Seaweed | 768 | ⚪ |
+| ⚪ Seasoning | 457 | ⚪ |
+| ⚪ Seaweed | 774 | ⚪ |
 | ⚪ Small Game | 183 | ⚪ |
 | ⚪ Surilie Grapes | 1162 | ⚪ |
 | ⚪ Tomato | 376 | ⚪ |
 | ⚪ Wheat | 1063 | ⚪ |
 | ⚪ White Meat | 191 | ⚪ |
 | ⚪ Yeast | 1118 | ⚪ |
-| ⚪ Yerba Mate | 760 | ⚪ |
+| ⚪ Yerba Mate | 770 | ⚪ |
 
 
 </div><div>
@@ -2069,7 +1779,7 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Luminous Ink | 21 | ⚪ |
+| ⚪ Luminous Ink | 30 | ⚪ |
 
 
 </div><div>
@@ -2079,7 +1789,7 @@ graph TD
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ antimony | 47 | ⚪ |
-| ⚪ Aurbic Amber | 12 | ⚪ |
+| ⚪ Aurbic Amber | 13 | ⚪ |
 | ⚪ cobalt | 33 | ⚪ |
 | ⚪ Titanium | 16 | ⚪ |
 | ⚪ zinc | 36 | ⚪ |
@@ -2091,12 +1801,12 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ crawlers, Foul Bait | 1324 | ⚪ |
+| ⚪ crawlers, Foul Bait | 1328 | ⚪ |
 | ⚪ fish roe, Foul Bait | 3 | ⚪ |
 | ⚪ guts, Lake Bait | 898 | ⚪ |
 | ⚪ insect parts, River Bait | 345 | ⚪ |
 | ⚪ shad, River Bait | 25 | ⚪ |
-| ⚪ worms, Saltwater Bait | 1337 | ⚪ |
+| ⚪ worms, Saltwater Bait | 1339 | ⚪ |
 
 
 </div><div>
@@ -2105,10 +1815,10 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Ancestor Silk | 3097 | ⚪ |
+| ⚪ Ancestor Silk | 3080 | ⚪ |
 | ⚪ Calcinium ingot | 250 | ⚪ |
 | ⚪ copper ounce | 1854 | ⚪ |
-| ⚪ cotton | 1674 | ⚪ |
+| ⚪ cotton | 1684 | ⚪ |
 | ⚪ dwarven ingot | 2242 | ⚪ |
 | ⚪ ebonthread | 745 | ⚪ |
 | ⚪ ebony ingot | 1319 | ⚪ |
@@ -2124,29 +1834,29 @@ graph TD
 | ⚪ Kresh Fiber | 122 | ⚪ |
 | ⚪ leather | 1364 | ⚪ |
 | ⚪ orichalcum ingot | 2422 | ⚪ |
-| ⚪ pewter ounce | 2541 | ⚪ |
-| ⚪ platinum ounce | 2026 | ⚪ |
+| ⚪ pewter ounce | 2544 | ⚪ |
+| ⚪ platinum ounce | 1989 | ⚪ |
 | ⚪ quicksilver ingot | 146 | ⚪ |
 | ⚪ rawhide | 2920 | ⚪ |
-| ⚪ Rubedite Ingot | 4478 | ⚪ |
-| ⚪ Rubedo Leather | 1420 | ⚪ |
+| ⚪ Rubedite Ingot | 4432 | ⚪ |
+| ⚪ Rubedo Leather | 1400 | ⚪ |
 | ⚪ sanded ash | 88 | ⚪ |
 | ⚪ sanded beech | 1837 | ⚪ |
 | ⚪ sanded birch | 124 | ⚪ |
 | ⚪ sanded hickory | 1898 | ⚪ |
 | ⚪ sanded mahogany | 1174 | ⚪ |
-| ⚪ sanded maple | 1322 | ⚪ |
+| ⚪ sanded maple | 1332 | ⚪ |
 | ⚪ sanded nightwood | 253 | ⚪ |
-| ⚪ sanded oak | 1672 | ⚪ |
-| ⚪ Sanded Ruby Ash | 2917 | ⚪ |
+| ⚪ sanded oak | 1682 | ⚪ |
+| ⚪ Sanded Ruby Ash | 2876 | ⚪ |
 | ⚪ sanded yew | 830 | ⚪ |
 | ⚪ Shadowhide | 710 | ⚪ |
-| ⚪ silver ounce | 328 | ⚪ |
+| ⚪ silver ounce | 331 | ⚪ |
 | ⚪ silverweave | 107 | ⚪ |
 | ⚪ spidersilk | 2087 | ⚪ |
-| ⚪ Steel ingot | 2064 | ⚪ |
+| ⚪ Steel ingot | 2074 | ⚪ |
 | ⚪ superb hide | 87 | ⚪ |
-| ⚪ thick leather | 1098 | ⚪ |
+| ⚪ thick leather | 1108 | ⚪ |
 | ⚪ topgrain hide | 60 | ⚪ |
 | ⚪ void cloth | 612 | ⚪ |
 | ⚪ voidstone ingot | 778 | ⚪ |
@@ -2159,9 +1869,9 @@ graph TD
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | 🟡 Chromium Plating | 26 | 🟡 |
-| 🔵 Iridium Plating | 288 | 🔵 |
+| 🔵 Iridium Plating | 292 | 🔵 |
 | 🟢 Terne Plating | 436 | 🟢 |
-| 🟣 Zircon Plating | 30 | 🟣 |
+| 🟣 Zircon Plating | 33 | 🟣 |
 
 
 </div><div>
@@ -2171,8 +1881,8 @@ graph TD
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Alkahest | 1872 | ⚪ |
-| ⚪ Gall | 934 | ⚪ |
-| ⚪ Grease | 2162 | ⚪ |
+| ⚪ Gall | 947 | ⚪ |
+| ⚪ Grease | 2166 | ⚪ |
 | ⚪ Ichor | 2234 | ⚪ |
 | ⚪ Night-Oil | 8 | ⚪ |
 | ⚪ Pitch-Bile | 157 | ⚪ |
@@ -2192,29 +1902,29 @@ graph TD
 | ⚪ Edora | 123 | ⚪ |
 | ⚪ Hade | 107 | ⚪ |
 | ⚪ Idode | 40 | ⚪ |
-| ⚪ Itade | 312 | ⚪ |
+| ⚪ Itade | 313 | ⚪ |
 | ⚪ Jaera | 133 | ⚪ |
 | ⚪ Jayde | 59 | ⚪ |
-| ⚪ Jehade | 233 | ⚪ |
+| ⚪ Jehade | 239 | ⚪ |
 | ⚪ Jejora | 82 | ⚪ |
-| ⚪ Jera | 150 | ⚪ |
-| ⚪ Jode | 171 | ⚪ |
-| ⚪ Jora | 309 | ⚪ |
+| ⚪ Jera | 155 | ⚪ |
+| ⚪ Jode | 172 | ⚪ |
+| ⚪ Jora | 310 | ⚪ |
 | ⚪ Kude | 65 | ⚪ |
 | ⚪ Kura | 47 | ⚪ |
 | ⚪ Notade | 189 | ⚪ |
 | ⚪ Ode | 57 | ⚪ |
-| ⚪ Odra | 108 | ⚪ |
+| ⚪ Odra | 113 | ⚪ |
 | ⚪ Pode | 5 | ⚪ |
-| ⚪ Pojode | 72 | ⚪ |
+| ⚪ Pojode | 73 | ⚪ |
 | ⚪ Pojora | 107 | ⚪ |
 | ⚪ Pora | 200 | ⚪ |
 | ⚪ Porade | 382 | ⚪ |
 | ⚪ Rede | 15 | ⚪ |
-| ⚪ Rejera | 364 | ⚪ |
+| ⚪ Rejera | 365 | ⚪ |
 | ⚪ Rekude | 84 | ⚪ |
 | ⚪ Rekura | 10 | ⚪ |
-| ⚪ Repora | 592 | ⚪ |
+| ⚪ Repora | 598 | ⚪ |
 | ⚪ Rera | 4 | ⚪ |
 | ⚪ Tade | 55 | ⚪ |
 
@@ -2225,7 +1935,7 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ cleansed water | 969 | ⚪ |
+| ⚪ cleansed water | 978 | ⚪ |
 | ⚪ clear water | 937 | ⚪ |
 | ⚪ cloud mist | 40 | ⚪ |
 | ⚪ filtered water | 545 | ⚪ |
@@ -2245,7 +1955,7 @@ graph TD
 | ⚪ Ashes of Remorse | 2 | ⚪ |
 | ⚪ Calcinium ore | 3 | ⚪ |
 | ⚪ Cassiterite Sand | 7 | ⚪ |
-| ⚪ Coarse Chalk | 8 | ⚪ |
+| ⚪ Coarse Chalk | 9 | ⚪ |
 | ⚪ copper dust | 16 | ⚪ |
 | ⚪ Dried Blood | 7 | ⚪ |
 | ⚪ dwarven ore | 11 | ⚪ |
@@ -2260,13 +1970,13 @@ graph TD
 | ⚪ iron hide scraps | 7 | ⚪ |
 | ⚪ iron ore | 49 | ⚪ |
 | ⚪ leather scraps | 14 | ⚪ |
-| ⚪ Malachite Shard | 13 | ⚪ |
-| ⚪ orichalcum ore | 35 | ⚪ |
+| ⚪ Malachite Shard | 15 | ⚪ |
+| ⚪ orichalcum ore | 41 | ⚪ |
 | ⚪ Oxblood Fungus Spore | 7 | ⚪ |
 | ⚪ pewter dust | 9 | ⚪ |
-| ⚪ platinum dust | 162 | ⚪ |
+| ⚪ platinum dust | 172 | ⚪ |
 | ⚪ Quicksilver ore | 8 | ⚪ |
-| ⚪ raw ancestor silk | 119 | ⚪ |
+| ⚪ raw ancestor silk | 175 | ⚪ |
 | ⚪ raw cotton | 5 | ⚪ |
 | ⚪ raw ebonthread | 5 | ⚪ |
 | ⚪ raw flax | 5 | ⚪ |
@@ -2282,10 +1992,10 @@ graph TD
 | ⚪ rough mahogany | 1 | ⚪ |
 | ⚪ rough maple | 27 | ⚪ |
 | ⚪ rough oak | 2 | ⚪ |
-| ⚪ rough ruby ash | 235 | ⚪ |
+| ⚪ rough ruby ash | 283 | ⚪ |
 | ⚪ rough yew | 8 | ⚪ |
-| ⚪ rubedite ore | 271 | ⚪ |
-| ⚪ rubedo hide scraps | 43 | ⚪ |
+| ⚪ rubedite ore | 301 | ⚪ |
+| ⚪ rubedo hide scraps | 44 | ⚪ |
 | ⚪ shadowhide scraps | 8 | ⚪ |
 | ⚪ silver dust | 7 | ⚪ |
 | ⚪ superb hide scraps | 6 | ⚪ |
@@ -2300,50 +2010,51 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Pulverized Antimony | 14 | ⚪ |
-| ⚪ Pulverized Aurbic Amber | 7 | ⚪ |
-| ⚪ Pulverized Cobalt | 16 | ⚪ |
+| ⚪ Pulverized Antimony | 15 | ⚪ |
+| ⚪ Pulverized Aurbic Amber | 9 | ⚪ |
+| ⚪ Pulverized Cobalt | 17 | ⚪ |
 | ⚪ Pulverized Slaughterstone | 2 | ⚪ |
 | ⚪ Pulverized Titanium | 10 | ⚪ |
-| ⚪ Pulverized Zinc | 10 | ⚪ |
+| ⚪ Pulverized Zinc | 14 | ⚪ |
 
 
 </div><div>
+
 
 #### Reagent (30 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | 🟢 Beetle Scuttle | 245 | 🟢 |
-| 🟢 blessed thistle | 566 | 🟢 |
-| 🟢 blue entoloma | 509 | 🟢 |
-| 🟢 bugloss | 775 | 🟢 |
-| 🟢 Butterfly Wing | 69 | 🟢 |
+| 🟢 blessed thistle | 569 | 🟢 |
+| 🟢 blue entoloma | 508 | 🟢 |
+| 🟢 bugloss | 778 | 🟢 |
+| 🟢 Butterfly Wing | 72 | 🟢 |
 | 🟢 Clam Gall | 10 | 🟢 |
-| 🟢 columbine | 541 | 🟢 |
-| 🟢 corn flower | 650 | 🟢 |
+| 🟢 columbine | 544 | 🟢 |
+| 🟢 corn flower | 652 | 🟢 |
 | 🟢 Dragon's Bile | 11 | 🟢 |
 | 🟢 Dragon's Blood | 6 | 🟢 |
-| 🟢 dragonthorn | 686 | 🟢 |
-| 🟢 emetic russula | 472 | 🟢 |
-| 🟢 Fleshfly Larva||Fleshfly Larvae | 463 | 🟢 |
+| 🟢 dragonthorn | 688 | 🟢 |
+| 🟢 emetic russula | 473 | 🟢 |
+| 🟢 Fleshfly Larva||Fleshfly Larvae | 465 | 🟢 |
 | 🟢 imp stool | 402 | 🟢 |
-| 🟢 lady's smock | 634 | 🟢 |
+| 🟢 lady's smock | 632 | 🟢 |
 | 🟢 luminous russula | 338 | 🟢 |
-| 🟢 mountain flower | 503 | 🟢 |
+| 🟢 mountain flower | 502 | 🟢 |
 | 🟢 Mudcrab Chitin | 43 | 🟢 |
 | 🟢 namira's rot | 364 | 🟢 |
-| 🟢 Nightshade | 424 | 🟢 |
-| 🟢 nirnroot | 434 | 🟢 |
+| 🟢 Nightshade | 426 | 🟢 |
+| 🟢 nirnroot | 439 | 🟢 |
 | 🟢 Powdered Mother of Pearl | 11 | 🟢 |
 | 🟢 Scrib Jelly | 271 | 🟢 |
 | 🟢 Spider Egg | 793 | 🟢 |
-| 🟢 stinkhorn | 419 | 🟢 |
+| 🟢 stinkhorn | 421 | 🟢 |
 | 🟢 Torchbug Thorax | 64 | 🟢 |
-| 🟢 violet coprinus | 347 | 🟢 |
-| 🟢 water hyacinth | 636 | 🟢 |
-| 🟢 white cap | 377 | 🟢 |
-| 🟢 wormwood | 631 | 🟢 |
+| 🟢 violet coprinus | 351 | 🟢 |
+| 🟢 water hyacinth | 637 | 🟢 |
+| 🟢 white cap | 382 | 🟢 |
+| 🟢 wormwood | 635 | 🟢 |
 
 
 </div><div>
@@ -2355,35 +2066,34 @@ graph TD
 | 🟣 mastic | 147 | 🟣 |
 | 🟢 pitch | 868 | 🟢 |
 | 🟡 rosin | 28 | 🟡 |
-| 🔵 turpen | 782 | 🔵 |
+| 🔵 turpen | 784 | 🔵 |
 
 
 </div><div>
-
 
 #### Style Material (73 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Adamantite | 895 | ⚪ |
+| ⚪ Adamantite | 894 | ⚪ |
 | ⚪ Amber Marble | 663 | ⚪ |
 | ⚪ Ancient Sandstone | 17 | ⚪ |
-| ⚪ Argentum | 1058 | ⚪ |
+| ⚪ Argentum | 1061 | ⚪ |
 | ⚪ Ash Canvas | 17 | ⚪ |
 | ⚪ Auric Tusk | 10 | ⚪ |
-| ⚪ Azure Plasm | 143 | ⚪ |
+| ⚪ Azure Plasm | 146 | ⚪ |
 | ⚪ Bat Oil | 1 | ⚪ |
 | ⚪ Black Beeswax | 229 | ⚪ |
 | ⚪ Boiled Carapace | 1 | ⚪ |
-| ⚪ Bone | 895 | ⚪ |
-| ⚪ Bronze | 619 | ⚪ |
+| ⚪ Bone | 894 | ⚪ |
+| ⚪ Bronze | 621 | ⚪ |
 | ⚪ Brooch of Fellowship | 39 | ⚪ |
 | ⚪ Cassiterite | 9 | ⚪ |
-| ⚪ Corundum | 895 | ⚪ |
+| ⚪ Corundum | 894 | ⚪ |
 | ⚪ Crocodile Leather | 1 | ⚪ |
 | 🟡 Crown Mimic Stone | 70 | 🟡 |
 | ⚪ Culanda Lacquer | 48 | ⚪ |
-| ⚪ Daedra Heart | 536 | ⚪ |
+| ⚪ Daedra Heart | 537 | ⚪ |
 | ⚪ Desecrated Grave Soil | 22 | ⚪ |
 | ⚪ Dragon Scute | 12 | ⚪ |
 | ⚪ Dragonthread | 42 | ⚪ |
@@ -2395,7 +2105,7 @@ graph TD
 | ⚪ Ferrous Salts | 17 | ⚪ |
 | ⚪ Fine Chalk | 80 | ⚪ |
 | ⚪ Firesong Skarn | 2 | ⚪ |
-| ⚪ flint | 895 | ⚪ |
+| ⚪ flint | 894 | ⚪ |
 | ⚪ Funerary Wrappings | 1 | ⚪ |
 | ⚪ Goldscale | 4 | ⚪ |
 | ⚪ Gryphon Plume | 1 | ⚪ |
@@ -2406,15 +2116,15 @@ graph TD
 | ⚪ Laurel | 84 | ⚪ |
 | ⚪ Lion Fang | 6 | ⚪ |
 | ⚪ Malachite | 82 | ⚪ |
-| ⚪ Manganese | 895 | ⚪ |
+| ⚪ Manganese | 893 | ⚪ |
 | ⚪ Marsh Nettle Sprig | 5 | ⚪ |
 | ⚪ Minotaur Bezoar | 5 | ⚪ |
-| ⚪ Molybdenum | 820 | ⚪ |
-| ⚪ Moonstone | 895 | ⚪ |
+| ⚪ Molybdenum | 821 | ⚪ |
+| ⚪ Moonstone | 894 | ⚪ |
 | ⚪ Nickel | 839 | ⚪ |
 | ⚪ Obsidian | 894 | ⚪ |
 | ⚪ Oxblood Fungus | 689 | ⚪ |
-| ⚪ Palladium | 737 | ⚪ |
+| ⚪ Palladium | 739 | ⚪ |
 | ⚪ Pearl Sand | 619 | ⚪ |
 | ⚪ Polished Scarab Elytra | 2 | ⚪ |
 | ⚪ Polished Shilling | 7 | ⚪ |
@@ -2425,15 +2135,15 @@ graph TD
 | ⚪ Sea Serpent Hide | 1 | ⚪ |
 | ⚪ Shimmering Sand | 8 | ⚪ |
 | ⚪ Star Sapphire | 72 | ⚪ |
-| ⚪ Starmetal | 894 | ⚪ |
+| ⚪ Starmetal | 893 | ⚪ |
 | ⚪ Stendarr Stamp | 2 | ⚪ |
 | ⚪ Tainted Blood | 64 | ⚪ |
 | ⚪ Tempered Brass | 11 | ⚪ |
-| ⚪ Tenebrous Cord | 99 | ⚪ |
+| ⚪ Tenebrous Cord | 101 | ⚪ |
 | ⚪ Tide-Born Feathers | 22 | ⚪ |
 | ⚪ Umbral Droplet | 1 | ⚪ |
 | ⚪ Vibrant Tumeric | 1 | ⚪ |
-| ⚪ Vitrified Malondo | 119 | ⚪ |
+| ⚪ Vitrified Malondo | 120 | ⚪ |
 | ⚪ Volcanic Viridian | 5 | ⚪ |
 | ⚪ Warrior's Heart Ashes | 25 | ⚪ |
 | ⚪ Wolfsbane Incense | 176 | ⚪ |
@@ -2446,9 +2156,9 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟡 dreugh wax | 27 | 🟡 |
-| 🟣 elegant lining | 258 | 🟣 |
-| 🔵 embroidery | 1269 | 🔵 |
+| 🟡 dreugh wax | 28 | 🟡 |
+| 🟣 elegant lining | 262 | 🟣 |
+| 🔵 embroidery | 1273 | 🔵 |
 | 🟢 hemming | 1221 | 🟢 |
 
 
@@ -2458,7 +2168,7 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 dwarven oil | 1040 | 🔵 |
+| 🔵 dwarven oil | 1050 | 🔵 |
 | 🟣 grain solvent | 197 | 🟣 |
 | 🟢 honing stone | 1132 | 🟢 |
 | 🟡 tempering alloy | 17 | 🟡 |
@@ -2470,14 +2180,14 @@ graph TD
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Amethyst | 693 | ⚪ |
-| ⚪ Carnelian | 205 | ⚪ |
-| ⚪ Chysolite | 450 | ⚪ |
+| ⚪ Amethyst | 694 | ⚪ |
+| ⚪ Carnelian | 206 | ⚪ |
+| ⚪ Chysolite | 452 | ⚪ |
 | ⚪ Citrine | 606 | ⚪ |
-| ⚪ Fire Opal | 390 | ⚪ |
+| ⚪ Fire Opal | 391 | ⚪ |
 | ⚪ Jade | 350 | ⚪ |
 | ⚪ Potent Nirncrux | 3 | ⚪ |
-| ⚪ Ruby | 385 | ⚪ |
+| ⚪ Ruby | 388 | ⚪ |
 | ⚪ Turquoise | 451 | ⚪ |
 
 
@@ -4222,20 +3932,21 @@ graph TD
 
 | **Guild Name** | **Rank** | **Members** | **Alliance** |
 | --- | --- | ---: | --- |
-| **Alphabet Mafia** | Member | 432 | Daggerfall Covenant |
-| **Pacrooti's Hirelings** | Member | 485 | Aldmeri Dominion |
-| **Paradox Raiding** | Member | 493 | Ebonheart Pact |
-| **Sew and Tell** | Member | 313 | Aldmeri Dominion |
-| **Swiftrunners** | Member | 58 | Aldmeri Dominion |
+| **Alphabet Mafia** | Member | 437 | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
+| **Pacrooti's Hirelings** | Member | 485 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
+| **Paradox Raiding** | Member | 500 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Sew and Tell** | Member | 313 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
+| **Swiftrunners** | Member | 58 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
 
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-108,498%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-112,907%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 12/06/2025 • Version: 2.2.3</sub>
+<sub>Generated on 12/08/2025 • Version: 2.2.4</sub>
 
 </div>
+

@@ -183,7 +183,7 @@ end
 ```lua
 -- links/Abilities.lua
 function CM.links.GetAbilityLink(name, format)
-    if format ~= "github" and format ~= "discord" then
+    if format ~= "markdown" then
         return name  -- No links in other formats
     end
     
@@ -306,10 +306,10 @@ Each module has single responsibility:
 
 Format-specific logic isolated in generators:
 ```lua
-if format == "github" then
+if format == "markdown" then
     -- Tables with full details
-elseif format == "discord" then
-    -- Compact, emoji-rich
+elseif format == "tonl" then
+    -- Structured data output
 end
 ```
 

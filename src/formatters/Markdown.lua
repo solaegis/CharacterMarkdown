@@ -1,5 +1,5 @@
 -- CharacterMarkdown - Markdown Formatter
--- Generates markdown output (GitHub-style markdown)
+-- Generates markdown output (Standard markdown)
 
 local CM = CharacterMarkdown
 

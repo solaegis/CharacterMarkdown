@@ -100,26 +100,21 @@ local SECTION_PATTERNS = {
         always = true, -- Always present
         patterns = {
             github = { "^# [^#\n]+", "##.*Character" },
-            discord = { "^# [^#\n]+", "**Character" },
             fallback = { "^# " },
         },
     },
     {
         name = "QuickStats",
-        formatSpecific = { "github", "vscode" }, -- Not in discord
         patterns = {
-            github = { "##.*Quick Stats", "> %[!NOTE%].*Health", "Level.*CP.*Alliance" },
-            vscode = { "##.*Quick Stats", "> %[!NOTE%].*Health", "Level.*CP.*Alliance" },
+            github = { "Quick Stats", "> %[!NOTE%].*Health", "Level.*CP.*Alliance" },
             fallback = { "Quick Stats", "Level.*CP" },
         },
     },
     {
         name = "AttentionNeeded",
-        formatSpecific = { "github", "vscode" }, -- Not in discord
         conditional = true, -- Only appears if there are warnings
         patterns = {
-            github = { "##.*⚠️.*Attention", "> %[!WARNING%]", "Attention Needed" },
-            vscode = { "##.*⚠️.*Attention", "> %[!WARNING%]", "Attention Needed" },
+            github = { "⚠️.*Attention", "> %[!WARNING%]", "Attention Needed" },
             fallback = { "Attention Needed", "> %[!WARNING%]" },
         },
     },
@@ -136,15 +131,13 @@ local SECTION_PATTERNS = {
         name = "RidingSkills",
         patterns = {
             github = { "##.*🐴.*Riding", "Riding Skills", "Speed.*Capacity.*Stamina" },
-            discord = { "**Riding:**", "🐴.*Speed" },
             fallback = { "Riding", "Speed" },
         },
     },
     {
         name = "Inventory",
         patterns = {
-            github = { "##.*🎒.*Inventory", "Inventory", "Backpack.*%d+/%d+" },
-            discord = { "**Inventory:**", "🎒.*Backpack" },
+            github = { "Inventory", "Backpack.*Bank" },
             fallback = { "Inventory", "Backpack" },
         },
     },
@@ -152,7 +145,6 @@ local SECTION_PATTERNS = {
         name = "PvP",
         patterns = {
             github = { "##.*⚔️.*PvP", "PvP Stats", "Campaign", "Rank" },
-            discord = { "**PvP:**", "⚔️.*Campaign" },
             fallback = { "PvP", "Campaign" },
         },
     },
@@ -160,7 +152,6 @@ local SECTION_PATTERNS = {
         name = "Collectibles",
         patterns = {
             github = { "##.*🎨.*Collectibles", "Collectibles", "Collectible" },
-            discord = { "**Collectibles:**", "🎨.*Collectible" },
             fallback = { "Collectibles" },
         },
     },
@@ -168,7 +159,6 @@ local SECTION_PATTERNS = {
         name = "Crafting",
         patterns = {
             github = { "##.*🔨.*Crafting", "Crafting", "Blacksmithing.*Enchanting" },
-            discord = { "**Crafting:**", "🔨.*Blacksmithing" },
             fallback = { "Crafting", "Blacksmithing" },
         },
     },
@@ -176,7 +166,6 @@ local SECTION_PATTERNS = {
         name = "Achievements",
         patterns = {
             github = { "##.*🏆.*Achievements", "Achievements", "Achievement Points" },
-            discord = { "**Achievements:**", "🏆.*Achievement" },
             fallback = { "Achievements" },
         },
     },
@@ -184,7 +173,6 @@ local SECTION_PATTERNS = {
         name = "Antiquities",
         patterns = {
             github = { "##.*🏺.*Antiquities", "Antiquities", "Antiquity" },
-            discord = { "**Antiquities:**", "🏺.*Antiquit" },
             fallback = { "Antiquities" },
         },
     },
@@ -192,7 +180,6 @@ local SECTION_PATTERNS = {
         name = "Quests",
         patterns = {
             github = { "##.*📜.*Quests", "Quests", "Quest.*Progress" },
-            discord = { "**Quests:**", "📜.*Quest" },
             fallback = { "Quests" },
         },
     },
@@ -201,7 +188,6 @@ local SECTION_PATTERNS = {
         disabledByDefault = true, -- Setting defaults to false (deprecated feature)
         patterns = {
             github = { "##.*⚙️.*Equipment", "Equipment Enhancement", "Enhancement.*Quality" },
-            discord = { "**Equipment Enhancement:**", "⚙️.*Enhancement" },
             fallback = { "Equipment Enhancement", "Enhancement" },
         },
     },
@@ -209,7 +195,6 @@ local SECTION_PATTERNS = {
         name = "World Progress",
         patterns = {
             github = { "##.*🗺️.*World", "World Progress", "Zone.*Progress" },
-            discord = { "**World Progress:**", "🗺️.*World" },
             fallback = { "World Progress", "Zone" },
         },
     },
@@ -217,7 +202,6 @@ local SECTION_PATTERNS = {
         name = "Titles & Housing",
         patterns = {
             github = { "##.*🏆.*Titles", "Titles & Housing", "Title.*Housing" },
-            discord = { "**Titles & Housing:**", "🏆.*Title" },
             fallback = { "Titles", "Housing" },
         },
     },
@@ -225,7 +209,6 @@ local SECTION_PATTERNS = {
         name = "Armory Builds",
         patterns = {
             github = { "##.*🎯.*Armory", "Armory Builds", "Armory" },
-            discord = { "**Armory Builds:**", "🎯.*Armory" },
             fallback = { "Armory" },
         },
     },
@@ -233,7 +216,6 @@ local SECTION_PATTERNS = {
         name = "Undaunted Pledges",
         patterns = {
             github = { "##.*⚔️.*Undaunted", "Undaunted Pledges", "Pledge" },
-            discord = { "**Undaunted Pledges:**", "⚔️.*Undaunted" },
             fallback = { "Undaunted", "Pledge" },
         },
     },
@@ -241,7 +223,6 @@ local SECTION_PATTERNS = {
         name = "Guilds",
         patterns = {
             github = { "##.*👥.*Guilds", "Guilds", "Guild.*Membership" },
-            discord = { "**Guilds:**", "👥.*Guild" },
             fallback = { "Guilds", "Guild" },
         },
     },
@@ -249,7 +230,6 @@ local SECTION_PATTERNS = {
         name = "Attributes",
         patterns = {
             github = { "##.*⚡.*Attributes", "Attributes", "Magicka.*Health.*Stamina" },
-            discord = { "**Attributes:**", "⚡.*Magicka" },
             fallback = { "Attributes", "Magicka" },
         },
     },
@@ -257,7 +237,6 @@ local SECTION_PATTERNS = {
         name = "Buffs",
         patterns = {
             github = { "##.*✨.*Buffs", "Buffs", "Active.*Buff" },
-            discord = { "**Buffs:**", "✨.*Buff" },
             fallback = { "Buffs", "Buff" },
         },
     },
@@ -266,7 +245,6 @@ local SECTION_PATTERNS = {
         conditional = true, -- Only appears if customNotes has content
         patterns = {
             github = { "##.*📝.*Build Notes", "<a id=\"build%-notes\"></a>", "Build Notes" },
-            discord = { "**Build Notes:**", "📝.*Notes" },
             fallback = { "Build Notes", "Custom Notes" },
         },
     },
@@ -275,23 +253,20 @@ local SECTION_PATTERNS = {
         conditional = true, -- Only appears if ESO Plus is NOT active
         patterns = {
             github = { "##.*🗺️.*DLC", "DLC & Chapter Access", "DLC Access" },
-            discord = { "**DLC Access:**", "DLC Access" },
             fallback = { "DLC", "Chapter" },
         },
     },
     {
         name = "Mundus",
-        formatSpecific = { "discord" }, -- Discord only
         patterns = {
-            discord = { "**Mundus:**", "Mundus" },
+            github = { "##.*🪨.*Mundus", "Mundus Stone" },
             fallback = { "Mundus" },
         },
     },
     {
         name = "ChampionPoints",
         patterns = {
-            github = { "##.*⭐.*Champion Points", "Champion Points", "Total.*Spent.*Available" },
-            discord = { "**Champion Points:**", "⭐.*Champion" },
+            github = { "Champion Points", "⚒️.*⚔️.*💪" },
             fallback = { "Champion Points", "CP.*Total" },
         },
     },
@@ -308,7 +283,6 @@ local SECTION_PATTERNS = {
         name = "SkillBars",
         patterns = {
             github = { "##.*🎮.*Skill Bars", "Skill Bars", "Bar.*Slot" },
-            discord = { "**Skill Bars:**", "🎮.*Skill" },
             fallback = { "Skill Bars", "Bar" },
         },
     },
@@ -316,7 +290,6 @@ local SECTION_PATTERNS = {
         name = "SkillMorphs",
         patterns = {
             github = { "##.*🔀.*Skill Morphs", "Skill Morphs", "Morph.*Choice" },
-            discord = { "**Skill Morphs:**", "🔀.*Morph" },
             fallback = { "Skill Morphs", "Morph" },
         },
     },
@@ -324,7 +297,6 @@ local SECTION_PATTERNS = {
         name = "CombatStats",
         patterns = {
             github = { "##.*📈.*Combat Statistics", "Combat Statistics", "Weapon.*Spell.*Power" },
-            discord = { "**Stats:**", "HP.*Mag.*Stam" },
             fallback = { "Combat", "Weapon Power" },
         },
     },
@@ -332,7 +304,6 @@ local SECTION_PATTERNS = {
         name = "Equipment",
         patterns = {
             github = { "##.*⚔️.*Equipment", "Equipment", "Head.*Chest.*Shoulders" },
-            discord = { "**Equipment:**", "⚔️.*Equipment" },
             fallback = { "Equipment", "Head" },
         },
     },
@@ -340,7 +311,6 @@ local SECTION_PATTERNS = {
         name = "Skills",
         patterns = {
             github = { "##.*📜.*Character Progress", "Character Progress", "Skill.*Line" },
-            discord = { "**Character Progress:**", "Character Progress" },
             fallback = { "Character Progress", "Skills" },
         },
     },
@@ -349,7 +319,6 @@ local SECTION_PATTERNS = {
         optional = true, -- Only if companion is active
         patterns = {
             github = { "##.*👥.*Companion", "##.*👤.*Companion", "Companions?", "Companion.*Rapport" },
-            discord = { "**Companion:**", "👥.*Companion", "👤.*Companion" },
             fallback = { "Companions?", "Rapport" },
         },
     },
@@ -358,7 +327,6 @@ local SECTION_PATTERNS = {
         always = true, -- Always present
         patterns = {
             github = { "Generated by CharacterMarkdown", "Total size", "CharacterMarkdown" },
-            discord = { "Generated by CharacterMarkdown", "Total size" },
             fallback = { "CharacterMarkdown", "Generated" },
         },
     },
@@ -440,15 +408,7 @@ local function ValidateSectionPresence(markdown, format, settings)
             local isEnabled = true
 
             -- Special handling for conditional sections
-            if sectionConfig.name == "QuickStats" or sectionConfig.name == "AttentionNeeded" then
-                -- These are format-specific and check setting
-                if format == "github" or format == "vscode" then
-                    local defaultValue = GetDefaultSetting(settingName)
-                    isEnabled = IsSettingEnabled(settings, settingName, defaultValue)
-                else
-                    isEnabled = false -- Not for this format
-                end
-            elseif sectionConfig.name == "CustomNotes" then
+            if sectionConfig.name == "CustomNotes" then
                 -- CustomNotes requires both setting AND content
                 local defaultValue = GetDefaultSetting("includeBuildNotes")
                 isEnabled = IsSettingEnabled(settings, "includeBuildNotes", defaultValue)

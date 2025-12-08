@@ -50,7 +50,7 @@ local function GenerateGeneral(
     local CreateResponsiveColumns = markdown and markdown.CreateResponsiveColumns
     
     -- Use multi-column styled tables if markdown utilities are available
-    if CreateStyledTable and CreateResponsiveColumns and format ~= "discord" then
+    if CreateStyledTable and CreateResponsiveColumns then
         local result = "### General\n\n"
         
         -- Collect all rows first, then distribute into three balanced tables
@@ -66,16 +66,16 @@ local function GenerateGeneral(
         -- Basic Identity (always present)
         table_insert(allRows, { "**Level**", tostring(charData.level or 1) })
         
-        local raceText = (CreateRaceLink and CreateRaceLink(charData.race, format)) or (charData.race or "Unknown")
-        local classText = (CreateClassLink and CreateClassLink(charData.class, format)) or (charData.class or "Unknown")
-        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance, format))
+        local raceText = (CreateRaceLink and CreateRaceLink(charData.race)) or (charData.race or "Unknown")
+        local classText = (CreateClassLink and CreateClassLink(charData.class)) or (charData.class or "Unknown")
+        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance))
             or (charData.alliance or "Unknown")
         
         table_insert(allRows, { "**Class**", classText })
         table_insert(allRows, { "**Race**", raceText })
         table_insert(allRows, { "**Alliance**", allianceText })
         
-        local serverText = (CreateServerLink and CreateServerLink(charData.server, format))
+        local serverText = (CreateServerLink and CreateServerLink(charData.server))
             or (charData.server or "Unknown")
         table_insert(allRows, { "**Server**", serverText })
         table_insert(allRows, { "**Account**", charData.account or "Unknown" })
@@ -207,7 +207,7 @@ local function GenerateGeneral(
                 title = charData.title
             end
             if title then
-                local titleText = (CreateTitleLink and CreateTitleLink(title, format)) or title
+                local titleText = (CreateTitleLink and CreateTitleLink(title)) or title
                 table_insert(allRows, { "**Title**", titleText })
             end
             
@@ -230,7 +230,7 @@ local function GenerateGeneral(
         -- Mundus Stone
         if mundusData and mundusData.active then
             local CreateMundusLink = CM.links and CM.links.CreateMundusLink
-            local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name, format)) or mundusData.name
+            local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name)) or mundusData.name
             table_insert(allRows, { "**🪨 Mundus Stone**", mundusText })
         end
         
@@ -240,17 +240,17 @@ local function GenerateGeneral(
             local buffLines = {}
             
             if buffsData.food then
-                local foodLink = (CreateBuffLink and CreateBuffLink(buffsData.food, format)) or buffsData.food
+                local foodLink = (CreateBuffLink and CreateBuffLink(buffsData.food)) or buffsData.food
                 table_insert(buffLines, "Food: " .. foodLink)
             end
             if buffsData.potion then
-                local potionLink = (CreateBuffLink and CreateBuffLink(buffsData.potion, format)) or buffsData.potion
+                local potionLink = (CreateBuffLink and CreateBuffLink(buffsData.potion)) or buffsData.potion
                 table_insert(buffLines, "Potion: " .. potionLink)
             end
             if buffsData.other and #buffsData.other > 0 then
                 local otherBuffs = {}
                 for _, buff in ipairs(buffsData.other) do
-                    local buffLink = (CreateBuffLink and CreateBuffLink(buff, format)) or buff
+                    local buffLink = (CreateBuffLink and CreateBuffLink(buff)) or buff
                     table_insert(otherBuffs, buffLink)
                 end
                 if #otherBuffs > 0 then
@@ -347,7 +347,7 @@ local function GenerateGeneral(
         local headers = { "Attribute", "Value" }
         local options = {
             alignment = { "left", "left" },
-            format = format,
+            format = nil,
             coloredHeaders = true,
         }
         
@@ -390,9 +390,13 @@ local function GenerateGeneral(
         local CreateClassLink = CM.links and CM.links.CreateClassLink
         local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
 
-        local raceText = (CreateRaceLink and CreateRaceLink(charData.race, format)) or (charData.race or "Unknown")
-        local classText = (CreateClassLink and CreateClassLink(charData.class, format)) or (charData.class or "Unknown")
-        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance, format))
+        local CreateRaceLink = CM.links and CM.links.CreateRaceLink
+        local CreateClassLink = CM.links and CM.links.CreateClassLink
+        local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
+
+        local raceText = (CreateRaceLink and CreateRaceLink(charData.race)) or (charData.race or "Unknown")
+        local classText = (CreateClassLink and CreateClassLink(charData.class)) or (charData.class or "Unknown")
+        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance))
             or (charData.alliance or "Unknown")
 
         result = result .. string_format("|| **Class** | %s |\n", classText)
@@ -400,7 +404,7 @@ local function GenerateGeneral(
         result = result .. string_format("|| **Alliance** | %s |\n", allianceText)
 
         local CreateServerLink = CM.links and CM.links.CreateServerLink
-        local serverText = (CreateServerLink and CreateServerLink(charData.server, format))
+        local serverText = (CreateServerLink and CreateServerLink(charData.server))
             or (charData.server or "Unknown")
         result = result .. string_format("|| **Server** | %s |\n", serverText)
         result = result .. string_format("|| **Account** | %s |\n", charData.account or "Unknown")
@@ -411,7 +415,7 @@ local function GenerateGeneral(
         
         if charData.title and charData.title ~= "" then
             local CreateTitleLink = CM.links and CM.links.CreateTitleLink
-            local titleText = (CreateTitleLink and CreateTitleLink(charData.title, format)) or charData.title
+            local titleText = (CreateTitleLink and CreateTitleLink(charData.title)) or charData.title
             result = result .. string_format("|| **Title** | %s |\n", titleText)
         end
         
@@ -542,7 +546,7 @@ local function GenerateGeneral(
 
         if mundusData and mundusData.active then
             local CreateMundusLink = CM.links and CM.links.CreateMundusLink
-            local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name, format)) or mundusData.name
+            local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name)) or mundusData.name
             result = result .. string_format("|| **🪨 Mundus Stone** | %s |\n", mundusText)
         end
 
@@ -551,17 +555,17 @@ local function GenerateGeneral(
             local buffLines = {}
 
             if buffsData.food then
-                local foodLink = (CreateBuffLink and CreateBuffLink(buffsData.food, format)) or buffsData.food
+                local foodLink = (CreateBuffLink and CreateBuffLink(buffsData.food)) or buffsData.food
                 table.insert(buffLines, "Food: " .. foodLink)
             end
             if buffsData.potion then
-                local potionLink = (CreateBuffLink and CreateBuffLink(buffsData.potion, format)) or buffsData.potion
+                local potionLink = (CreateBuffLink and CreateBuffLink(buffsData.potion)) or buffsData.potion
                 table.insert(buffLines, "Potion: " .. potionLink)
             end
             if buffsData.other and #buffsData.other > 0 then
                 local otherBuffs = {}
                 for _, buff in ipairs(buffsData.other) do
-                    local buffLink = (CreateBuffLink and CreateBuffLink(buff, format)) or buff
+                    local buffLink = (CreateBuffLink and CreateBuffLink(buff)) or buff
                     table.insert(otherBuffs, buffLink)
                 end
                 if #otherBuffs > 0 then
@@ -580,7 +584,7 @@ local function GenerateGeneral(
             local zoneIndex = locationData.zoneIndex or 0
 
             local CreateZoneLink = CM.links and CM.links.CreateZoneLink
-            local zoneLink = (CreateZoneLink and CreateZoneLink(zone, format)) or zone
+            local zoneLink = (CreateZoneLink and CreateZoneLink(zone)) or zone
 
             local locStr = zoneLink
             if subzone and subzone ~= "" then
@@ -599,9 +603,9 @@ local function GenerateGeneral(
         local CreateClassLink = CM.links and CM.links.CreateClassLink
         local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
 
-        local raceText = (CreateRaceLink and CreateRaceLink(charData.race, format)) or (charData.race or "Unknown")
-        local classText = (CreateClassLink and CreateClassLink(charData.class, format)) or (charData.class or "Unknown")
-        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance, format))
+        local raceText = (CreateRaceLink and CreateRaceLink(charData.race)) or (charData.race or "Unknown")
+        local classText = (CreateClassLink and CreateClassLink(charData.class)) or (charData.class or "Unknown")
+        local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance))
             or (charData.alliance or "Unknown")
 
         table.insert(lines, string_format("**Level:** %d", charData.level or 1))
@@ -610,7 +614,7 @@ local function GenerateGeneral(
         table.insert(lines, string_format("**Alliance:** %s", allianceText))
 
         local CreateServerLink = CM.links and CM.links.CreateServerLink
-        local serverText = (CreateServerLink and CreateServerLink(charData.server, format))
+        local serverText = (CreateServerLink and CreateServerLink(charData.server))
             or (charData.server or "Unknown")
         table.insert(lines, string_format("**Server:** %s", serverText))
         table.insert(lines, string_format("**Account:** %s", charData.account or "Unknown"))
@@ -640,7 +644,7 @@ local function GenerateGeneral(
             end
             if title then
                 local CreateTitleLink = CM.links and CM.links.CreateTitleLink
-                local titleText = (CreateTitleLink and CreateTitleLink(title, format)) or title
+                local titleText = (CreateTitleLink and CreateTitleLink(title)) or title
                 table.insert(lines, string_format("**Title:** %s", titleText))
             end
             
@@ -778,7 +782,7 @@ local function GenerateGeneral(
 
         if mundusData and mundusData.active then
             local CreateMundusLink = CM.links and CM.links.CreateMundusLink
-            local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name, format)) or mundusData.name
+            local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name)) or mundusData.name
             table.insert(lines, string_format("**Mundus Stone:** %s", mundusText))
         end
 
@@ -797,7 +801,7 @@ local function GenerateGeneral(
             if buffsData.other and #buffsData.other > 0 then
                 local otherBuffs = {}
                 for _, buff in ipairs(buffsData.other) do
-                    local buffLink = (CreateBuffLink and CreateBuffLink(buff, format)) or buff
+                    local buffLink = (CreateBuffLink and CreateBuffLink(buff)) or buff
                     table.insert(otherBuffs, buffLink)
                 end
                 if #otherBuffs > 0 then

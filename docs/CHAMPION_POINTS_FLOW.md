@@ -119,7 +119,7 @@ Markdown.lua (GenerateMarkdown)
    - `availableCP = cpData.available or (totalCP - spentCP)`
 
 6. **Format Output** (lines 504-630)
-   - **Discord format**: Simple text list
+   - **Compact format**: Simple text list
    - **Markdown format**: Table + discipline breakdowns
    - For each discipline:
      - Calculates `maxPerDiscipline` (lines 537-568)

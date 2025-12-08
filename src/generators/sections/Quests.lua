@@ -113,7 +113,7 @@ end
 -- QUEST SUMMARY GENERATOR
 -- =====================================================
 
-local function GenerateQuestSummary(questData, format)
+local function GenerateQuestSummary(questData)
     if not InitializeUtilities() then
         return ""
     end
@@ -128,29 +128,22 @@ local function GenerateQuestSummary(questData, format)
         string.format("Summary: active=%d, total=%d", summary.activeQuests or 0, summary.totalQuests or 0)
     )
 
-    if format == "discord" then
-        table_insert(parts, "**Quest Progress:**\n")
-        table_insert(parts, "Active: " .. CM.utils.FormatNumber(summary.activeQuests) .. " | ")
-        table_insert(parts, "Total: " .. CM.utils.FormatNumber(summary.totalQuests) .. " | ")
-        table_insert(parts, "Completed: " .. CM.utils.FormatNumber(summary.completedQuests) .. "\n")
-    else
-        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
-        table_insert(parts, string.format('<a id="%s"></a>\n\n', anchorId))
-        table_insert(parts, "## 📝 Quest Progress\n\n")
-        table_insert(parts, "| **Active Quests** | **Total Quests** | **Completed Quests** |\n")
-        table_insert(parts, "|------------------:|----------------:|---------------------:|\n")
-        table_insert(
-            parts,
-            "| "
-                .. CM.utils.FormatNumber(summary.activeQuests)
-                .. " | "
-                .. CM.utils.FormatNumber(summary.totalQuests)
-                .. " | "
-                .. CM.utils.FormatNumber(summary.completedQuests)
-                .. " |\n"
-        )
-        table_insert(parts, "\n")
-    end
+    local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
+    table_insert(parts, string.format('<a id="%s"></a>\n\n', anchorId))
+    table_insert(parts, "## 📝 Quest Progress\n\n")
+    table_insert(parts, "| **Active Quests** | **Total Quests** | **Completed Quests** |\n")
+    table_insert(parts, "|------------------:|----------------:|---------------------:|\n")
+    table_insert(
+        parts,
+        "| "
+            .. CM.utils.FormatNumber(summary.activeQuests)
+            .. " | "
+            .. CM.utils.FormatNumber(summary.totalQuests)
+            .. " | "
+            .. CM.utils.FormatNumber(summary.completedQuests)
+            .. " |\n"
+    )
+    table_insert(parts, "\n")
 
     return table_concat(parts)
 end
@@ -159,7 +152,7 @@ end
 -- QUEST CATEGORIES GENERATOR
 -- =====================================================
 
-local function GenerateQuestCategories(questData, format)
+local function GenerateQuestCategories(questData)
     if not InitializeUtilities() then
         return ""
     end
@@ -167,47 +160,34 @@ local function GenerateQuestCategories(questData, format)
     local parts = {}
     local categories = questData.categories
 
-    if format == "discord" then
-        table_insert(parts, "**Quest Categories:**\n")
+    table_insert(parts, "### 📊 Quest Categories\n\n")
+    table_insert(parts, "| Category | Active | Completed | Total |\n")
+    table_insert(parts, "|:---------|-------:|----------:|------:|\n")
 
-        -- Sort categories for deterministic output
-        for _, categoryName in ipairs(GetSortedKeys(categories)) do
-            local categoryData = categories[categoryName]
-            if categoryData.active > 0 then
-                local emoji = GetCategoryEmoji(categoryName)
-                table_insert(parts, emoji .. " **" .. categoryName .. "**: " .. categoryData.active .. " active\n")
-            end
+    -- Sort categories for deterministic output
+    for _, categoryName in ipairs(GetSortedKeys(categories)) do
+        local categoryData = categories[categoryName]
+        if categoryData.active > 0 or categoryData.completed > 0 then
+            local emoji = GetCategoryEmoji(categoryName)
+            local total = categoryData.active + categoryData.completed
+
+            table_insert(
+                parts,
+                "| "
+                    .. emoji
+                    .. " **"
+                    .. categoryName
+                    .. "** | "
+                    .. categoryData.active
+                    .. " | "
+                    .. categoryData.completed
+                    .. " | "
+                    .. total
+                    .. " |\n"
+            )
         end
-    else
-        table_insert(parts, "### 📊 Quest Categories\n\n")
-        table_insert(parts, "| Category | Active | Completed | Total |\n")
-        table_insert(parts, "|:---------|-------:|----------:|------:|\n")
-
-        -- Sort categories for deterministic output
-        for _, categoryName in ipairs(GetSortedKeys(categories)) do
-            local categoryData = categories[categoryName]
-            if categoryData.active > 0 or categoryData.completed > 0 then
-                local emoji = GetCategoryEmoji(categoryName)
-                local total = categoryData.active + categoryData.completed
-
-                table_insert(
-                    parts,
-                    "| "
-                        .. emoji
-                        .. " **"
-                        .. categoryName
-                        .. "** | "
-                        .. categoryData.active
-                        .. " | "
-                        .. categoryData.completed
-                        .. " | "
-                        .. total
-                        .. " |\n"
-                )
-            end
-        end
-        table_insert(parts, "\n")
     end
+    table_insert(parts, "\n")
 
     return table_concat(parts)
 end
@@ -216,7 +196,7 @@ end
 -- ACTIVE QUESTS GENERATOR
 -- =====================================================
 
-local function GenerateActiveQuests(questData, format)
+local function GenerateActiveQuests(questData)
     if not InitializeUtilities() then
         return ""
     end
@@ -231,97 +211,70 @@ local function GenerateActiveQuests(questData, format)
         end)
     end
 
-    if format == "discord" then
-        table_insert(parts, "**Active Quests:**\n")
-    else
-        table_insert(parts, "### 🔄 Active Quests\n\n")
-    end
+    table_insert(parts, "### 🔄 Active Quests\n\n")
 
     if #active == 0 then
         table_insert(parts, "*No active quests*\n\n")
         return table_concat(parts)
     end
 
-    if format == "discord" then
-        for _, quest in ipairs(active) do
-            local statusIcon = GetQuestStatusIcon(quest)
-            local progressText = GetProgressText(quest)
-            local typeEmoji = GetQuestTypeEmoji(quest.type)
-            table_insert(
-                parts,
-                statusIcon
-                    .. " **"
-                    .. quest.name
-                    .. "** ("
-                    .. quest.level
-                    .. ") - "
-                    .. typeEmoji
-                    .. " "
-                    .. quest.type
-                    .. " - "
-                    .. progressText
-                    .. "\n"
-            )
+    table_insert(parts, "| Quest | Level | Type | Progress | Zone |\n")
+    table_insert(parts, "|:------|------:|:-----|:---------|:-----|\n")
+
+    for _, quest in ipairs(active) do
+        local statusIcon = GetQuestStatusIcon(quest)
+        local progressText = GetProgressText(quest)
+        local typeEmoji = GetQuestTypeEmoji(quest.type)
+
+        -- Safely convert all quest fields to strings (handle boolean/nil)
+        local questName = ""
+        if quest.name then
+            if type(quest.name) == "string" then
+                questName = quest.name
+            else
+                questName = tostring(quest.name)
+            end
         end
-    else
-        table_insert(parts, "| Quest | Level | Type | Progress | Zone |\n")
-        table_insert(parts, "|:------|------:|:-----|:---------|:-----|\n")
-
-        for _, quest in ipairs(active) do
-            local statusIcon = GetQuestStatusIcon(quest)
-            local progressText = GetProgressText(quest)
-            local typeEmoji = GetQuestTypeEmoji(quest.type)
-
-            -- Safely convert all quest fields to strings (handle boolean/nil)
-            local questName = ""
-            if quest.name then
-                if type(quest.name) == "string" then
-                    questName = quest.name
-                else
-                    questName = tostring(quest.name)
-                end
+        
+        local questLevel = tostring(quest.level or "")
+        local questType = ""
+        if quest.type then
+            if type(quest.type) == "string" then
+                questType = quest.type
+            else
+                questType = tostring(quest.type)
             end
-            
-            local questLevel = tostring(quest.level or "")
-            local questType = ""
-            if quest.type then
-                if type(quest.type) == "string" then
-                    questType = quest.type
-                else
-                    questType = tostring(quest.type)
-                end
-            end
-            
-            local questZone = ""
-            if quest.zone then
-                if type(quest.zone) == "string" then
-                    questZone = quest.zone
-                else
-                    questZone = tostring(quest.zone)
-                end
-            end
-
-            table_insert(
-                parts,
-                "| "
-                    .. statusIcon
-                    .. " **"
-                    .. questName
-                    .. "** | "
-                    .. questLevel
-                    .. " | "
-                    .. typeEmoji
-                    .. " "
-                    .. questType
-                    .. " | "
-                    .. progressText
-                    .. " | "
-                    .. questZone
-                    .. " |\n"
-            )
         end
-        table_insert(parts, "\n")
+        
+        local questZone = ""
+        if quest.zone then
+            if type(quest.zone) == "string" then
+                questZone = quest.zone
+            else
+                questZone = tostring(quest.zone)
+            end
+        end
+
+        table_insert(
+            parts,
+            "| "
+                .. statusIcon
+                .. " **"
+                .. questName
+                .. "** | "
+                .. questLevel
+                .. " | "
+                .. typeEmoji
+                .. " "
+                .. questType
+                .. " | "
+                .. progressText
+                .. " | "
+                .. questZone
+                .. " |\n"
+        )
     end
+    table_insert(parts, "\n")
 
     return table_concat(parts)
 end
@@ -330,7 +283,7 @@ end
 -- ZONE QUESTS GENERATOR
 -- =====================================================
 
-local function GenerateZoneQuests(questData, format)
+local function GenerateZoneQuests(questData)
     if not InitializeUtilities() then
         return ""
     end
@@ -338,42 +291,30 @@ local function GenerateZoneQuests(questData, format)
     local parts = {}
     local zones = questData.zones
 
-    if format == "discord" then
-        table_insert(parts, "**Quests by Zone:**\n")
+    table_insert(parts, "### 🗺️ Quests by Zone\n\n")
+    table_insert(parts, "| Zone | Active | Completed | Total |\n")
+    table_insert(parts, "|:-----|-------:|----------:|------:|\n")
 
-        -- Sort zones for deterministic output
-        for _, zoneName in ipairs(GetSortedKeys(zones)) do
-            local zoneData = zones[zoneName]
-            if zoneData.active > 0 then
-                table_insert(parts, "🗺️ **" .. zoneName .. "**: " .. zoneData.active .. " active\n")
-            end
+    -- Sort zones for deterministic output
+    for _, zoneName in ipairs(GetSortedKeys(zones)) do
+        local zoneData = zones[zoneName]
+        if zoneData.active > 0 or zoneData.completed > 0 then
+            local total = zoneData.active + zoneData.completed
+            table_insert(
+                parts,
+                "| 🗺️ **"
+                    .. zoneName
+                    .. "** | "
+                    .. zoneData.active
+                    .. " | "
+                    .. zoneData.completed
+                    .. " | "
+                    .. total
+                    .. " |\n"
+            )
         end
-    else
-        table_insert(parts, "### 🗺️ Quests by Zone\n\n")
-        table_insert(parts, "| Zone | Active | Completed | Total |\n")
-        table_insert(parts, "|:-----|-------:|----------:|------:|\n")
-
-        -- Sort zones for deterministic output
-        for _, zoneName in ipairs(GetSortedKeys(zones)) do
-            local zoneData = zones[zoneName]
-            if zoneData.active > 0 or zoneData.completed > 0 then
-                local total = zoneData.active + zoneData.completed
-                table_insert(
-                    parts,
-                    "| 🗺️ **"
-                        .. zoneName
-                        .. "** | "
-                        .. zoneData.active
-                        .. " | "
-                        .. zoneData.completed
-                        .. " | "
-                        .. total
-                        .. " |\n"
-                )
-            end
-        end
-        table_insert(parts, "\n")
     end
+    table_insert(parts, "\n")
 
     return table_concat(parts)
 end
@@ -382,28 +323,17 @@ end
 -- MAIN QUEST GENERATOR
 -- =====================================================
 
-local function GenerateQuests(questData, format)
+local function GenerateQuests(questData)
     CM.DebugPrint("QUESTS", "=== GenerateQuests called ===")
-    CM.DebugPrint("QUESTS", string.format("Format: %s", tostring(format)))
 
     if not InitializeUtilities() then
         CM.Error("Quest generator failed to initialize utilities")
-        -- Return visible error message instead of empty string
-        if format == "discord" then
-            return "**📝 Quests:**\n*Error: Quest utilities not available*\n\n"
-        else
-            return "## 📝 Quests\n\n*Error: Quest utilities not available*\n\n---\n\n"
-        end
+        return "## 📝 Quests\n\n*Error: Quest utilities not available*\n\n---\n\n"
     end
 
     if not questData then
         CM.Error("GenerateQuests: questData is nil!")
-        -- Return visible message instead of empty string
-        if format == "discord" then
-            return "**📝 Quests:**\n*Error: Quest data not collected*\n\n"
-        else
-            return "## 📝 Quests\n\n*Error: Quest data not collected*\n\n---\n\n"
-        end
+        return "## 📝 Quests\n\n*Error: Quest data not collected*\n\n---\n\n"
     end
 
     CM.DebugPrint("QUESTS", "questData exists, checking structure...")
@@ -414,11 +344,7 @@ local function GenerateQuests(questData, format)
 
     if not questData.summary then
         CM.Error("GenerateQuests: questData.summary is nil!")
-        if format == "discord" then
-            return "**📝 Quests:**\n*Error: Quest summary missing*\n\n"
-        else
-            return "## 📝 Quests\n\n*Error: Quest summary missing*\n\n---\n\n"
-        end
+        return "## 📝 Quests\n\n*Error: Quest summary missing*\n\n---\n\n"
     end
 
     -- Get values safely for debug output
@@ -442,11 +368,7 @@ local function GenerateQuests(questData, format)
 
     if not hasQuests then
         CM.DebugPrint("QUESTS", "No quests found, generating empty section message")
-        if format == "discord" then
-            return "**📝 Quests:**\n*No active quests*\n\n"
-        else
-            return "## 📝 Quests\n\n*No active quests*\n\n---\n\n"
-        end
+        return "## 📝 Quests\n\n*No active quests*\n\n---\n\n"
     end
 
     CM.DebugPrint("QUESTS", "Generating quest sections...")
@@ -454,32 +376,30 @@ local function GenerateQuests(questData, format)
     local parts = {}
 
     -- Always show summary
-    table_insert(parts, GenerateQuestSummary(questData, format))
+    table_insert(parts, GenerateQuestSummary(questData))
 
     -- Show categories if detailed mode is enabled
     if questData.categories then
-        table_insert(parts, GenerateQuestCategories(questData, format))
+        table_insert(parts, GenerateQuestCategories(questData))
     end
 
     -- Show active quests
     if questData.active and #questData.active > 0 then
-        table_insert(parts, GenerateActiveQuests(questData, format))
+        table_insert(parts, GenerateActiveQuests(questData))
     end
 
     -- Show zone breakdown if detailed mode is enabled
     if questData.zones then
-        table_insert(parts, GenerateZoneQuests(questData, format))
+        table_insert(parts, GenerateZoneQuests(questData))
     end
 
-    -- Add section separator (except for discord)
-    if format ~= "discord" then
-        -- Use CreateSeparator for consistent separator styling
-        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-        if CreateSeparator then
-            table_insert(parts, CreateSeparator("hr"))
-        else
-            table_insert(parts, "---\n\n")
-        end
+    -- Add section separator
+    -- Use CreateSeparator for consistent separator styling
+    local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+    if CreateSeparator then
+        table_insert(parts, CreateSeparator("hr"))
+    else
+        table_insert(parts, "---\n\n")
     end
 
     local markdown = table_concat(parts)

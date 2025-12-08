@@ -41,7 +41,7 @@ end
 -- GENERATOR
 -- =====================================================
 
-local function GenerateCharacterProgress(progressionData, morphsData, format)
+local function GenerateCharacterProgress(progressionData, morphsData)
     -- Defensive checks for data validity
     if not progressionData or type(progressionData) ~= "table" then 
         CM.Warn("GenerateCharacterProgress: Invalid progressionData (type: " .. type(progressionData) .. ")")
@@ -115,7 +115,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                         
                         -- Create link if possible (using UESP link generator if available, otherwise just name)
                         local CreateSkillLink = CM.links and CM.links.CreateSkillLink
-                        local link = (CreateSkillLink and CreateSkillLink(morphName, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", morphName, morphName:gsub(" ", "_"))
+                        local link = (CreateSkillLink and CreateSkillLink(morphName)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", morphName, morphName:gsub(" ", "_"))
                         
                         table_insert(parts, string_format("%s **%s** (Rank %d)\n\n", icon, link, ability.currentRank))
                         
@@ -128,7 +128,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                              
                              for _, m in ipairs(ability.morphs) do
                                 if m.selected then
-                                    local mLink = (CreateSkillLink and CreateSkillLink(m.name, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", m.name, m.name:gsub(" ", "_"))
+                                    local mLink = (CreateSkillLink and CreateSkillLink(m.name)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", m.name, m.name:gsub(" ", "_"))
                                     table_insert(parts, string_format("  ✅ **Morph %d**: %s\n\n", m.morphSlot, mLink))
                                 end
                              end
@@ -139,7 +139,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                             table_insert(parts, "  <details>\n  <summary>Other morph options</summary>\n\n")
                             for _, m in ipairs(ability.morphs) do
                                 if not m.selected then
-                                    local mLink = (CreateSkillLink and CreateSkillLink(m.name, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", m.name, m.name:gsub(" ", "_"))
+                                    local mLink = (CreateSkillLink and CreateSkillLink(m.name)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", m.name, m.name:gsub(" ", "_"))
                                     table_insert(parts, string_format("  ⚪ **Morph %d**: %s\n", m.morphSlot, mLink))
                                 end
                             end
@@ -189,7 +189,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                 
                 for _, line in ipairs(lines) do
                     local CreateSkillLineLink = CM.links and CM.links.CreateSkillLineLink
-                    local link = (CreateSkillLineLink and CreateSkillLineLink(line.name, format)) or string_format("**[%s](https://en.uesp.net/wiki/Online:%s)**", line.name, line.name:gsub(" ", "_"))
+                    local link = (CreateSkillLineLink and CreateSkillLineLink(line.name)) or string_format("**[%s](https://en.uesp.net/wiki/Online:%s)**", line.name, line.name:gsub(" ", "_"))
                     
                     table_insert(parts, string_format("- %s\n", link))
                     
@@ -208,7 +208,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                                     local status = passive.purchased and "✅" or "🔒"
                                     local CreateSkillLink = CM.links and CM.links.CreateSkillLink
                                     local passiveName = tostring(passive.name)
-                                    local pLink = (CreateSkillLink and CreateSkillLink(passiveName, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", passiveName, passiveName:gsub(" ", "_"))
+                                    local pLink = (CreateSkillLink and CreateSkillLink(passiveName)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", passiveName, passiveName:gsub(" ", "_"))
                                     
                                     local rankStr = ""
                                     if passive.purchased and passive.rank and passive.rank > 0 then
@@ -266,7 +266,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                 
                 for _, line in ipairs(lines) do
                     local CreateSkillLineLink = CM.links and CM.links.CreateSkillLineLink
-                    local link = (CreateSkillLineLink and CreateSkillLineLink(line.name, format)) or string_format("**[%s](https://en.uesp.net/wiki/Online:%s)**", line.name, line.name:gsub(" ", "_"))
+                    local link = (CreateSkillLineLink and CreateSkillLineLink(line.name)) or string_format("**[%s](https://en.uesp.net/wiki/Online:%s)**", line.name, line.name:gsub(" ", "_"))
                     local bar = GenerateProgressBar(line.progress)
                     
                     table_insert(parts, string_format("- %s: Rank %d %s\n", link, line.rank, bar))
@@ -286,7 +286,7 @@ local function GenerateCharacterProgress(progressionData, morphsData, format)
                                     local status = passive.purchased and "✅" or "🔒"
                                     local CreateSkillLink = CM.links and CM.links.CreateSkillLink
                                     local passiveName = tostring(passive.name)
-                                    local pLink = (CreateSkillLink and CreateSkillLink(passiveName, format)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", passiveName, passiveName:gsub(" ", "_"))
+                                    local pLink = (CreateSkillLink and CreateSkillLink(passiveName)) or string_format("[%s](https://en.uesp.net/wiki/Online:%s)", passiveName, passiveName:gsub(" ", "_"))
                                     
                                     local rankStr = ""
                                     if passive.purchased and passive.rank and passive.rank > 0 then

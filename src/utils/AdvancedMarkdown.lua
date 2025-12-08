@@ -61,16 +61,14 @@ local CALLOUT_TYPES = {
     Create a GitHub-native callout box
     @param type string - "note", "tip", "important", "warning", "caution", "success", "danger"
     @param content string - The content to display in the callout
-    @param format string - Target format ("github", "vscode", "discord")
     @return string - Formatted callout
 ]]
-local function CreateCallout(type, content, format)
+local function CreateCallout(type, content)
     if not content or content == "" then
         return ""
     end
 
     local callout = CALLOUT_TYPES[type] or CALLOUT_TYPES.note
-    format = format or "github"
 
     -- Escape newlines in content for proper rendering
     -- Prefix all lines (including first) with "> "
@@ -80,13 +78,8 @@ local function CreateCallout(type, content, format)
         escaped_content = "> " .. escaped_content
     end
 
-    if format == "github" or format == "vscode" then
-        -- GitHub/VS Code native callout syntax
-        return string_format("> [!%s]\n%s\n\n", callout.tag, escaped_content)
-    else
-        -- Fallback: simple blockquote
-        return string_format("> %s %s\n\n", callout.emoji, escaped_content)
-    end
+    -- Always use GitHub-native callout syntax
+    return string_format("> [!%s]\n%s\n\n", callout.tag, escaped_content)
 end
 
 CM.utils.markdown.CreateCallout = CreateCallout
@@ -235,7 +228,7 @@ CM.utils.markdown.CreateCenteredBlock = CreateCenteredBlock
 
 --[[
     Create a 2-column layout using CSS Grid
-    Only works with GitHub/VSCode markdown (not Discord)
+    Works with GitHub markdown
     @param column1 string - Content for first column
     @param column2 string - Content for second column
     @param gap string - Gap between columns (default: "20px")
@@ -286,7 +279,7 @@ CM.utils.markdown.CreateTwoColumnLayout = CreateTwoColumnLayout
 
 --[[
     Create a 3-column layout using CSS Grid
-    Only works with GitHub/VSCode markdown (not Discord)
+    Works with GitHub markdown
     @param column1 string - Content for first column
     @param column2 string - Content for second column
     @param column3 string - Content for third column
@@ -340,7 +333,7 @@ CM.utils.markdown.CreateThreeColumnLayout = CreateThreeColumnLayout
 
 --[[
     Create an N-column responsive layout using CSS Grid with auto-fit
-    Only works with GitHub/VSCode markdown (not Discord)
+    Works with GitHub markdown
     @param columns table - Array of content strings for each column
     @param minColumnWidth string - Minimum column width (default: "300px")
     @param gap string - Gap between columns (default: "20px")
@@ -422,17 +415,18 @@ CM.utils.markdown.CreateResponsiveColumns = CreateResponsiveColumns
     @param current number - Current value
     @param max number - Maximum value
     @param width number - Character width of bar (default: 20)
-    @param style string - Bar style ("github", "vscode", "discord")
+    @param width number - Character width of bar (default: 20)
     @param label string - Optional label
     @return string - Text-based progress bar
 ]]
-local function CreateProgressBar(current, max, width, style, label)
+local function CreateProgressBar(current, max, width, label)
     if not current or not max or max == 0 then
         return ""
     end
 
     width = width or 20
-    style = style or "github"
+    -- Style ignored, always standard string rep
+
 
     local percentage = math.floor((current / max) * 100)
     local filled = math.floor((percentage / 100) * width)
@@ -534,7 +528,6 @@ CM.utils.markdown.GetQualityIndicator = GetQualityIndicator
     Create a compact grid list (for currencies, small stats)
     @param items table - Array of {emoji, label, value}
     @param columns number - Number of columns (default: 4)
-    @param format string - Target format
     @return string - HTML table or markdown list
 ]]
 -- Helper function to convert markdown links to HTML links
@@ -546,13 +539,12 @@ local function ConvertMarkdownLinksToHTML(text)
     return string_gsub(text, "%[(.-)%]%((.-)%)", '<a href="%2">%1</a>')
 end
 
-local function CreateCompactGrid(items, columns, format, align)
+local function CreateCompactGrid(items, columns, align)
     if not items or #items == 0 then
         return ""
     end
 
     columns = columns or 4
-    format = format or "github"
     align = align or "center" -- Default to center for backwards compatibility
 
 
@@ -623,8 +615,7 @@ CM.utils.markdown.CreateCompactGrid = CreateCompactGrid
     @param rows table - Array of row arrays
     @param options table|string - Options table or alignment array (for backward compatibility)
         - alignment: table of alignments per column ("left", "center", "right")
-        - format: string ("github", "vscode", "discord", "quick")
-        - coloredHeaders: boolean (default: true for vscode, false otherwise)
+        - coloredHeaders: boolean
     @return string - Markdown or HTML table
 ]]
 local function CreateStyledTable(headers, rows, options)
@@ -633,60 +624,40 @@ local function CreateStyledTable(headers, rows, options)
     end
 
     -- Handle backward compatibility: if options is array, treat as alignment
-    local alignment, format, coloredHeaders, tableWidth
+    local alignment, coloredHeaders, tableWidth
     if type(options) == "table" and options[1] ~= nil then
         -- Old-style: array of alignments
         alignment = options
-        format = "github"
         coloredHeaders = false
         tableWidth = nil
     elseif type(options) == "table" then
         -- New-style: options table
         alignment = options.alignment or {}
-        format = options.format or "github"
         coloredHeaders = options.coloredHeaders
         tableWidth = options.width or options.tableWidth
-        -- Auto-enable colored headers for vscode if not explicitly set
-        if coloredHeaders == nil and format == "vscode" then
-            coloredHeaders = true
-        end
     else
         -- No options provided
         alignment = {}
-        format = "github"
         coloredHeaders = false
         tableWidth = nil
     end
 
-    -- Bold all headers - use HTML for VSCode, markdown for others
+    -- Bold all headers - Always use markdown bold
     local boldHeaders = {}
-    local useHtmlBold = (format == "vscode" and coloredHeaders)
 
     for i, header in ipairs(headers) do
         -- Check if already bolded (markdown or HTML)
         local alreadyMarkdownBold = string.match(header, "^%*%*.*%*%*$")
         local alreadyHtmlBold = string.match(header, "^<strong>.*</strong>$")
 
-        if useHtmlBold then
-            -- Use HTML bolding for VSCode format
-            if alreadyHtmlBold then
-                boldHeaders[i] = header
-            elseif alreadyMarkdownBold then
-                -- Convert markdown bold to HTML bold
-                boldHeaders[i] = header:gsub("%*%*(.-)%*%*", "<strong>%1</strong>")
-            else
-                boldHeaders[i] = "<strong>" .. header .. "</strong>"
-            end
+        -- Use markdown bolding
+        if alreadyMarkdownBold then
+            boldHeaders[i] = header
+        elseif alreadyHtmlBold then
+            -- Convert HTML bold to markdown bold
+            boldHeaders[i] = header:gsub("<strong>(.-)</strong>", "**%1**")
         else
-            -- Use markdown bolding for other formats
-            if alreadyMarkdownBold then
-                boldHeaders[i] = header
-            elseif alreadyHtmlBold then
-                -- Convert HTML bold to markdown bold
-                boldHeaders[i] = header:gsub("<strong>(.-)</strong>", "**%1**")
-            else
-                boldHeaders[i] = "**" .. header .. "**"
-            end
+            boldHeaders[i] = "**" .. header .. "**"
         end
     end
 
@@ -846,68 +817,14 @@ local function CreateAttentionNeeded(warnings, format, headerTitle)
     headerTitle = headerTitle or "Attention Needed"
     format = format or "github"
 
-    -- GitHub format: Use [!WARNING] callout syntax
-    if format == "github" then
-        local result = "> [!WARNING]\n"
-        for _, warning in ipairs(warnings) do
-            -- Each line in a callout is separate (no need for two-space line breaks)
-            result = result .. "> " .. warning .. "\n"
-        end
-        result = result .. "\n"
-        return result
-    end
-
-    -- Parse warnings into two columns (split on first colon) for other formats
-    local rows = {}
-
+    -- Always use GitHub-native callout syntax for warnings
+    local result = "> [!WARNING]\n"
     for _, warning in ipairs(warnings) do
-        local leftCol, rightCol
-
-        -- Find first colon
-        local colonPos = string.find(warning, ":", 1, true)
-
-        if colonPos then
-            -- Split on colon
-            leftCol = string.sub(warning, 1, colonPos - 1)
-            rightCol = string.sub(warning, colonPos + 1)
-            -- Trim leading whitespace from right column
-            rightCol = string.gsub(rightCol, "^%s+", "")
-        else
-            -- No colon: put entire warning in left column
-            leftCol = warning
-            rightCol = ""
-        end
-
-        -- Note: CreateStyledTable will handle markdown-to-HTML bold conversion for VSCode format
-
-        table.insert(rows, { leftCol, rightCol })
+        -- Each line in a callout is separate (no need for two-space line breaks)
+        result = result .. "> " .. warning .. "\n"
     end
-
-    -- Use styled table for other formats (two columns)
-    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-    if CreateStyledTable then
-        -- Add ⚠️ emoji to header title for VSCode format
-        local displayTitle = headerTitle
-        if format == "vscode" then
-            displayTitle = "⚠️ " .. headerTitle
-        end
-        local headers = { displayTitle, "Fix" } -- Second header shows action needed
-        local options = {
-            alignment = { "left", "left" },
-            format = format,
-            coloredHeaders = true,
-        }
-        return CreateStyledTable(headers, rows, options)
-    else
-        -- Fallback to markdown table if CreateStyledTable not available
-        local lines = {}
-        table.insert(lines, "| " .. headerTitle .. " | |")
-        table.insert(lines, "| --- | --- |")
-        for _, row in ipairs(rows) do
-            table.insert(lines, "| " .. row[1] .. " | " .. row[2] .. " |")
-        end
-        return table_concat(lines, "\n") .. "\n\n"
-    end
+    result = result .. "\n"
+    return result
 end
 
 CM.utils.markdown.CreateAttentionNeeded = CreateAttentionNeeded
@@ -930,22 +847,11 @@ local function FormatText(text, styles, format)
     format = format or "github"
     local result = text
 
-    -- VSCode with colored headers uses HTML for better compatibility
-    local useHtml = (format == "vscode")
-
     for _, style in ipairs(styles) do
         if style == "bold" then
-            if useHtml then
-                result = "<strong>" .. result .. "</strong>"
-            else
-                result = "**" .. result .. "**"
-            end
+            result = "**" .. result .. "**"
         elseif style == "italic" then
-            if useHtml then
-                result = "<em>" .. result .. "</em>"
-            else
-                result = "*" .. result .. "*"
-            end
+            result = "*" .. result .. "*"
         elseif style == "code" then
             result = "`" .. result .. "`"
         elseif style == "strikethrough" then

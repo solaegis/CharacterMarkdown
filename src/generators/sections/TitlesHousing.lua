@@ -21,7 +21,7 @@ end
 -- TITLES
 -- =====================================================
 
-local function GenerateTitles(titlesData, format)
+local function GenerateTitles(titlesData)
     InitializeUtilities()
 
     local markdown = ""
@@ -77,62 +77,12 @@ local function GenerateTitles(titlesData, format)
         -- We have a title, show the section - continue below
     elseif totalAvailable == 0 and totalOwned == 0 then
         -- No titles data available at all
-        if format ~= "discord" then
-            markdown = markdown .. "### 👑 Titles\n\n"
-            markdown = markdown .. "*No titles available*\n\n"
-        end
+        markdown = markdown .. "### 👑 Titles\n\n"
+        markdown = markdown .. "*No titles available*\n\n"
         return markdown
     end
 
-    if format == "discord" then
-        if titlesData.current and titlesData.current ~= "" then
-            markdown = markdown .. "**Titles:**\n"
-            -- Check if this is a custom title (user-entered) - custom titles should never be linked
-            local isCustomTitle = false
-            if CM.charData and CM.charData.customTitle and CM.charData.customTitle ~= "" then
-                isCustomTitle = (titlesData.current == CM.charData.customTitle)
-            elseif
-                CharacterMarkdownData
-                and CharacterMarkdownData.customTitle
-                and CharacterMarkdownData.customTitle ~= ""
-            then
-                isCustomTitle = (titlesData.current == CharacterMarkdownData.customTitle)
-            end
-
-            local currentTitleText = titlesData.current
-            -- Only link if it's NOT a custom title (game titles can be linked, respecting enableAbilityLinks)
-            if not isCustomTitle then
-                currentTitleText = (CreateTitleLink and CreateTitleLink(titlesData.current, format))
-                    or titlesData.current
-            end
-            markdown = markdown .. "• Current: " .. currentTitleText .. "\n"
-
-            if totalAvailable > 0 then
-                markdown = markdown
-                    .. "• Owned: "
-                    .. totalOwned
-                    .. "/"
-                    .. totalAvailable
-                    .. " ("
-                    .. math.floor((totalOwned / totalAvailable) * 100)
-                    .. "%)\n"
-            end
-        else
-            if totalAvailable > 0 then
-                markdown = markdown
-                    .. "**Titles:** "
-                    .. totalOwned
-                    .. "/"
-                    .. totalAvailable
-                    .. " ("
-                    .. math.floor((totalOwned / totalAvailable) * 100)
-                    .. "%)\n"
-            else
-                markdown = markdown .. "**Titles:** *No titles available*\n"
-            end
-        end
-        markdown = markdown .. "\n"
-    else
+    if true then
         markdown = markdown .. "### 👑 Titles\n\n"
 
         -- Current Title removed - now shown in Overview section
@@ -165,7 +115,7 @@ local function GenerateTitles(titlesData, format)
             if #ownedTitles > 0 then
                 markdown = markdown .. "**Owned Titles:**\n"
                 for _, titleName in ipairs(ownedTitles) do
-                    local titleLink = (CreateTitleLink and CreateTitleLink(titleName, format)) or titleName
+                    local titleLink = (CreateTitleLink and CreateTitleLink(titleName)) or titleName
                     markdown = markdown .. "• " .. titleLink .. "\n"
                 end
                 markdown = markdown .. "\n"
@@ -191,7 +141,7 @@ end
 -- HOUSING
 -- =====================================================
 
-local function GenerateHousing(housingData, format)
+local function GenerateHousing(housingData)
     InitializeUtilities()
 
     local markdown = ""
@@ -210,39 +160,19 @@ local function GenerateHousing(housingData, format)
 
     if totalOwned == 0 then
         -- Show placeholder when section enabled but no housing
-        if format ~= "discord" then
+        if true then
             markdown = markdown .. "### 🏠 Housing\n\n"
             markdown = markdown .. "*No houses owned*\n\n"
         end
         return markdown
     end
 
-    if format == "discord" then
-        markdown = markdown .. "**Housing:** " .. totalOwned
-        
-        if totalAvailable > 0 then
-            markdown = markdown
-                .. "/"
-                .. totalAvailable
-                .. " ("
-                .. math.floor((totalOwned / totalAvailable) * 100)
-                .. "%)"
-        end
-        markdown = markdown .. "\n"
-
-        if housingData.primary and housingData.primary.name then
-            local primaryName = housingData.primary.name
-            local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName, format))
-                or primaryName
-            markdown = markdown .. "• Primary: " .. primaryLink .. "\n"
-        end
-        markdown = markdown .. "\n"
-    else
+    if true then
         markdown = markdown .. "### 🏠 Housing\n\n"
 
         if housingData.primary and housingData.primary.name then
             local primaryName = housingData.primary.name
-            local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName, format))
+            local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName))
                 or primaryName
             markdown = markdown .. "**Primary Residence:** " .. primaryLink .. "\n\n"
         end
@@ -278,7 +208,7 @@ local function GenerateHousing(housingData, format)
         if #ownedHouses > 0 then
             markdown = markdown .. "**Owned Houses:**\n"
             for _, houseName in ipairs(ownedHouses) do
-                local houseLink = (CreateHouseLink and CreateHouseLink(houseName, format)) or houseName
+                local houseLink = (CreateHouseLink and CreateHouseLink(houseName)) or houseName
                 markdown = markdown .. "• " .. houseLink .. "\n"
             end
             markdown = markdown .. "\n"
@@ -292,7 +222,7 @@ end
 -- HOUSING COLLECTIONS
 -- =====================================================
 
-local function GenerateHousingCollections(collectionsData, format)
+local function GenerateHousingCollections(collectionsData)
     InitializeUtilities()
 
     local markdown = ""
@@ -304,25 +234,14 @@ local function GenerateHousingCollections(collectionsData, format)
         or collectionsData.furniture.total == 0
     then
         -- Show placeholder when section enabled but no furniture
-        if format ~= "discord" then
+        if true then
             markdown = markdown .. "### 🪑 Housing Collections\n\n"
             markdown = markdown .. "*No furniture collections data available*\n\n"
         end
         return markdown
     end
 
-    if format == "discord" then
-        local furnitureProgress = math.floor((collectionsData.furniture.owned / collectionsData.furniture.total) * 100)
-        markdown = markdown
-            .. "**Furniture:** "
-            .. collectionsData.furniture.owned
-            .. "/"
-            .. collectionsData.furniture.total
-            .. " ("
-            .. furnitureProgress
-            .. "%)\n"
-        markdown = markdown .. "\n"
-    else
+    if true then
         markdown = markdown .. "### 🪑 Housing Collections\n\n"
 
         -- Furniture summary
@@ -374,14 +293,14 @@ end
 -- MAIN TITLES & HOUSING GENERATOR
 -- =====================================================
 
-local function GenerateTitlesHousing(titlesHousingData, format)
+local function GenerateTitlesHousing(titlesHousingData)
     InitializeUtilities()
 
     local markdown = ""
 
     if not titlesHousingData then
         -- Show placeholder when enabled but no data available
-        if format ~= "discord" then
+        if true then
             local anchorId = GenerateAnchor and GenerateAnchor("🏆 Titles & Housing") or "titles--housing"
             markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
             markdown = markdown .. "## 🏆 Titles & Housing\n\n"
@@ -391,7 +310,7 @@ local function GenerateTitlesHousing(titlesHousingData, format)
     end
 
     -- Always show the section when enabled (even if data is minimal/zero)
-    if format ~= "discord" then
+    if true then
         local anchorId = GenerateAnchor and GenerateAnchor("🏆 Titles & Housing") or "titles--housing"
         markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
         markdown = markdown .. "## 🏆 Titles & Housing\n\n"
@@ -403,13 +322,13 @@ local function GenerateTitlesHousing(titlesHousingData, format)
     local housingData = titlesHousingData and titlesHousingData.housing or {}
     local collectionsData = titlesHousingData and titlesHousingData.collections or {}
 
-    markdown = markdown .. GenerateTitles(titlesData, format)
-    markdown = markdown .. GenerateHousing(housingData, format)
+    markdown = markdown .. GenerateTitles(titlesData)
+    markdown = markdown .. GenerateHousing(housingData)
     -- Housing Collections removed per user request
-    -- markdown = markdown .. GenerateHousingCollections(collectionsData, format)
+    -- markdown = markdown .. GenerateHousingCollections(collectionsData)
 
     -- Add divider for GitHub/VSCode format
-    if format ~= "discord" then
+    if true then
         -- Use CreateSeparator for consistent separator styling
         local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
         if CreateSeparator then

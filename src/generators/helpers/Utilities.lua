@@ -51,10 +51,10 @@ end
 -- Generate section header with anchor
 -- @param name: Section name (e.g., "Champion Points")
 -- @param emoji: Optional emoji prefix (e.g., "⭐")
--- @param format: Output format ("github", "vscode", "discord", "quick")
+-- @param emoji: Optional emoji prefix (e.g., "⭐")
 -- @return: Formatted header string
-local function GenerateSectionHeader(name, emoji, format)
-    -- GitHub/VSCode format with anchor
+local function GenerateSectionHeader(name, emoji)
+    -- GitHub format with anchor
     local markdown = CM.utils and CM.utils.markdown
     local anchorId = markdown and markdown.GenerateAnchor and markdown.GenerateAnchor(name)
         or name:lower():gsub("[^%w]+", "-")
@@ -72,11 +72,10 @@ end
 
 -- Handle empty data case with consistent messaging
 -- @param message: Message to display when data is empty
--- @param format: Output format
 -- @param sectionName: Optional section name for header
 -- @param emoji: Optional emoji for header
 -- @return: Formatted empty state message
-local function HandleEmptyData(message, format, sectionName, emoji)
+local function HandleEmptyData(message, sectionName, emoji)
     local header = ""
     if sectionName then
         local markdown = CM.utils and CM.utils.markdown
@@ -95,9 +94,8 @@ local function HandleEmptyData(message, format, sectionName, emoji)
 end
 
 -- Format section footer (separator)
--- @param format: Output format
 -- @return: Footer separator string
-local function FormatSectionFooter(format)
+local function FormatSectionFooter()
     -- Use CreateSeparator for consistent separator styling
     local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
     if CreateSeparator then

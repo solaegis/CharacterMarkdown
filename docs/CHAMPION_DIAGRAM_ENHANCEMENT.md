@@ -111,5 +111,5 @@ The diagram should now show:
 
 - Cluster relationships are the most reliable prerequisite data from the API
 - For detailed unlock paths, use `CM.utils.GetSkillUnlockRequirements()` directly
-- Mermaid diagrams render in GitHub and VS Code viewers, but not in Discord
+- Mermaid diagrams render in GitHub and VS Code viewers
 

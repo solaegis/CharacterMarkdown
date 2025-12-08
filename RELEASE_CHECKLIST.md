@@ -263,10 +263,6 @@ task release           # or: task release:workflow
   ```lua
   -- In-game commands:
   /markdown test        # Run validation tests
-  /markdown github      # Test GitHub format
-  /markdown discord     # Test Discord format
-  /markdown vscode      # Test VS Code format
-  /markdown quick       # Test Quick format
   /markdown settings    # Open settings panel
   ```
   - ✅ Addon loads without errors
@@ -293,10 +289,6 @@ task release           # or: task release:workflow
   - ✅ Default settings work correctly
 
 - [ ] **Format Testing**
-  - ✅ GitHub format generates correctly
-  - ✅ VS Code format generates correctly
-  - ✅ Discord format is compact and readable
-  - ✅ Quick format provides summary
   - ✅ All formats copy correctly
 
 - [ ] **Feature Testing**

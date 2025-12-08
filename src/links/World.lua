@@ -17,7 +17,7 @@ end
 
 CM.links.GenerateRaceURL = GenerateRaceURL
 
-local function CreateRaceLink(raceName, format)
+local function CreateRaceLink(raceName)
     if not raceName or raceName == "" or raceName == "Unknown" then
         return raceName or "Unknown"
     end
@@ -30,7 +30,7 @@ local function CreateRaceLink(raceName, format)
     end
 
     local url = GenerateRaceURL(raceName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. raceName .. "](" .. url .. ")"
     else
         return raceName
@@ -53,7 +53,7 @@ end
 
 CM.links.GenerateClassURL = GenerateClassURL
 
-local function CreateClassLink(className, format)
+local function CreateClassLink(className)
     if not className or className == "" or className == "Unknown" then
         return className or "Unknown"
     end
@@ -66,7 +66,7 @@ local function CreateClassLink(className, format)
     end
 
     local url = GenerateClassURL(className)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. className .. "](" .. url .. ")"
     else
         return className
@@ -89,7 +89,7 @@ end
 
 CM.links.GenerateAllianceURL = GenerateAllianceURL
 
-local function CreateAllianceLink(allianceName, format)
+local function CreateAllianceLink(allianceName)
     if not allianceName or allianceName == "" or allianceName == "Unknown" then
         return allianceName or "Unknown"
     end
@@ -102,7 +102,7 @@ local function CreateAllianceLink(allianceName, format)
     end
 
     local url = GenerateAllianceURL(allianceName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. allianceName .. "](" .. url .. ")"
     else
         return allianceName
@@ -127,7 +127,7 @@ end
 
 CM.links.GenerateZoneURL = GenerateZoneURL
 
-local function CreateZoneLink(zoneName, format)
+local function CreateZoneLink(zoneName)
     if not zoneName or zoneName == "" or zoneName == "Unknown" then
         return zoneName or "Unknown"
     end
@@ -140,7 +140,7 @@ local function CreateZoneLink(zoneName, format)
     end
 
     local url = GenerateZoneURL(zoneName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. zoneName .. "](" .. url .. ")"
     else
         return zoneName
@@ -166,7 +166,7 @@ end
 
 CM.links.GenerateTitleURL = GenerateTitleURL
 
-local function CreateTitleLink(titleName, format)
+local function CreateTitleLink(titleName)
     if not titleName or titleName == "" or titleName == "Unknown" then
         return titleName or "Unknown"
     end
@@ -179,7 +179,7 @@ local function CreateTitleLink(titleName, format)
     end
 
     local url = GenerateTitleURL(titleName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. titleName .. "](" .. url .. ")"
     else
         return titleName
@@ -204,7 +204,7 @@ end
 
 CM.links.GenerateHouseURL = GenerateHouseURL
 
-local function CreateHouseLink(houseName, format)
+local function CreateHouseLink(houseName)
     if not houseName or houseName == "" or houseName == "Unknown" then
         return houseName or "Unknown"
     end
@@ -217,7 +217,7 @@ local function CreateHouseLink(houseName, format)
     end
 
     local url = GenerateHouseURL(houseName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. houseName .. "](" .. url .. ")"
     else
         return houseName
@@ -252,7 +252,7 @@ end
 
 CM.links.GenerateSkillLineURL = GenerateSkillLineURL
 
-local function CreateSkillLineLink(skillLineName, format)
+local function CreateSkillLineLink(skillLineName)
     if not skillLineName or skillLineName == "" then
         return skillLineName or ""
     end
@@ -265,7 +265,7 @@ local function CreateSkillLineLink(skillLineName, format)
     end
 
     local url = GenerateSkillLineURL(skillLineName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. skillLineName .. "](" .. url .. ")"
     else
         return skillLineName
@@ -288,7 +288,7 @@ end
 
 CM.links.GenerateServerURL = GenerateServerURL
 
-local function CreateServerLink(serverName, format)
+local function CreateServerLink(serverName)
     if not serverName or serverName == "" or serverName == "Unknown" then
         return serverName or "Unknown"
     end
@@ -301,7 +301,7 @@ local function CreateServerLink(serverName, format)
     end
 
     local url = GenerateServerURL(serverName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. serverName .. "](" .. url .. ")"
     else
         return serverName

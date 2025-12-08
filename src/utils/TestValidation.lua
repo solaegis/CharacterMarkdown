@@ -90,11 +90,7 @@ end
 local function ValidateCalloutSyntax(markdown, format)
     local testName = "Issue #2: Callout Syntax"
 
-    if format == "discord" then
-        -- Discord doesn't use callout syntax, skip
-        AddResult(testName, true, "Discord format - callout syntax not applicable", true)
-        return true
-    end
+
 
     -- Check for GitHub-native callout syntax: > [!NOTE]
     local noteCallout = string_find(markdown, "> %[!NOTE%]")
@@ -224,10 +220,7 @@ end
 local function ValidateEnlightenmentCallout(markdown, format)
     local testName = "Issue #4: Enlightenment Callout"
 
-    if format == "discord" then
-        AddResult(testName, true, "Discord format - callout syntax not applicable", true)
-        return true
-    end
+
 
     -- Check for TIP callout (correct) vs SUCCESS callout (wrong)
     local tipCallout = string_find(markdown, "> %[!TIP%].*[Ee]nlight")

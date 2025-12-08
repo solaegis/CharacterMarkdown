@@ -43,7 +43,7 @@ local function InitializeUtilities()
             CM.utils.CreateCPSkillLink = CM.links.CreateCPSkillLink
         else
             -- Fallback: return name as-is if links module not loaded
-            CM.utils.CreateCPSkillLink = function(name, format)
+            CM.utils.CreateCPSkillLink = function(name)
                 return name or ""
             end
         end
@@ -221,16 +221,12 @@ local function GetDisciplineSkills(discipline)
 end
 
 -- Format discipline summary (reduces duplication)
-local function FormatDisciplineSummary(discipline, format)
+local function FormatDisciplineSummary(discipline)
     local emoji = discipline.emoji or "⚔️"
     local name = discipline.name
     local total = CM.utils.FormatNumber(discipline.total)
 
-    if format == "discord" then
-        return string_format("%s **%s** (%s)\n", emoji, name, total)
-    else
-        return string_format("### %s %s (%s CP)\n\n", emoji, name, total)
-    end
+    return string_format("### %s %s (%s CP)\n\n", emoji, name, total)
 end
 
 -- =====================================================
@@ -295,19 +291,15 @@ end
 -- SLOTTABLE-ONLY CHAMPION POINTS GENERATOR
 -- =====================================================
 
-local function GenerateSlottableChampionPoints(cpData, format)
+local function GenerateSlottableChampionPoints(cpData)
     InitializeUtilities()
 
     local markdown = ""
 
-    if format == "discord" then
-        markdown = markdown .. "**Slottable Champion Points:**\n"
-    else
-        local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("⭐ Slottable Champion Points")
-            or "slottable-champion-points"
-        markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## ⭐ Slottable Champion Points\n\n"
-    end
+    local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("⭐ Slottable Champion Points")
+        or "slottable-champion-points"
+    markdown = markdown .. string_format('<a id="%s"></a>\n\n', anchorId)
+    markdown = markdown .. "## ⭐ Slottable Champion Points\n\n"
 
     local totalCP = cpData.total or 0
 
@@ -324,26 +316,17 @@ local function GenerateSlottableChampionPoints(cpData, format)
             if #slottableSkills > 0 then
                 hasSlottableSkills = true
 
-                if format == "discord" then
-                    markdown = markdown .. FormatDisciplineSummary(discipline, format)
-                    for _, skill in ipairs(slottableSkills) do
-                        local skillText = CM.utils.CreateCPSkillLink(skill.name, format)
-                        markdown = markdown .. "• " .. skillText .. ": " .. skill.points .. "\n"
-                    end
-                    markdown = markdown .. "\n"
-                else
-                    markdown = markdown .. FormatDisciplineSummary(discipline, format)
+                markdown = markdown .. FormatDisciplineSummary(discipline)
 
-                    for _, skill in ipairs(slottableSkills) do
-                        local maxSlottable = (cpData.analysis and cpData.analysis.maxSlottablePerDiscipline) or 3
-                        local status = GetSlottableStatus(skill, maxSlottable)
-                        local skillText = CM.utils.CreateCPSkillLink(skill.name, format)
-                        local pointText = GetPointText(skill.points)
-                        markdown = markdown
-                            .. string_format("- %s **%s**: %d %s\n", status, skillText, skill.points, pointText)
-                    end
-                    markdown = markdown .. "\n"
+                for _, skill in ipairs(slottableSkills) do
+                    local maxSlottable = (cpData.analysis and cpData.analysis.maxSlottablePerDiscipline) or 3
+                    local status = GetSlottableStatus(skill, maxSlottable)
+                    local skillText = CM.utils.CreateCPSkillLink(skill.name)
+                    local pointText = GetPointText(skill.points)
+                    markdown = markdown
+                        .. string_format("- %s **%s**: %d %s\n", status, skillText, skill.points, pointText)
                 end
+                markdown = markdown .. "\n"
             end
         end
     end
@@ -360,7 +343,7 @@ end
 -- =====================================================
 
 -- Generate a discipline as a table (for multi-column table layout)
-local function GenerateDisciplineTable(discipline, unassignedCP, format)
+local function GenerateDisciplineTable(discipline, unassignedCP)
     local disciplineSpent = discipline.spent or discipline.total or 0
     local maxPerDiscipline = discipline.cap or (disciplineSpent + (discipline.available or 0))
 
@@ -377,7 +360,7 @@ local function GenerateDisciplineTable(discipline, unassignedCP, format)
     local CreateStyledTable = CM.utils.markdown and CM.utils.markdown.CreateStyledTable
     if not CreateStyledTable then
         -- Fallback to old format if CreateStyledTable not available
-        return GenerateSingleDiscipline(discipline, unassignedCP, format)
+        return GenerateSingleDiscipline(discipline, unassignedCP)
     end
 
     local headers = { (discipline.emoji or "⚔️") .. " " .. discipline.name, "Assigned Points" }
@@ -435,14 +418,13 @@ local function GenerateDisciplineTable(discipline, unassignedCP, format)
 
     local options = {
         alignment = { "left", "right" },
-        format = format,
         coloredHeaders = true,
     }
 
     return CreateStyledTable(headers, rows, options)
 end
 
-local function GenerateSingleDiscipline(discipline, unassignedCP, format)
+local function GenerateSingleDiscipline(discipline, unassignedCP)
     local markdown = ""
     local disciplineSpent = discipline.spent or discipline.total or 0
     local maxPerDiscipline = discipline.cap or (disciplineSpent + (discipline.available or 0))
@@ -519,7 +501,7 @@ end
 -- MAIN CHAMPION POINTS GENERATOR (ENHANCED)
 -- =====================================================
 
-local function GenerateChampionPoints(cpData, format)
+local function GenerateChampionPoints(cpData)
     InitializeUtilities()
 
     local markdown = ""
@@ -531,26 +513,20 @@ local function GenerateChampionPoints(cpData, format)
     end
 
     local totalCP = cpData.total or 0
-    CM.DebugPrint("CP", string_format("GenerateChampionPoints: totalCP=%d, format=%s", totalCP, format or "nil"))
+    CM.DebugPrint("CP", string_format("GenerateChampionPoints: totalCP=%d", totalCP))
 
     -- Always generate header when section is enabled
-    if format == "discord" then
-        markdown = markdown .. "**Champion Points:**\n"
-    else
-        markdown = markdown .. "## ⭐ Champion Points\n\n"
-    end
+    markdown = markdown .. "## ⭐ Champion Points\n\n"
 
     -- If no CP data or CP system not unlocked, show message and return
     if totalCP < CP_CONSTANTS.MIN_CP_FOR_SYSTEM then
         markdown = markdown .. "*Champion Point system unlocks at Level 50*\n\n"
-        if format ~= "discord" then
-            -- Use CreateSeparator for consistent separator styling
-            local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-            if CreateSeparator then
-                markdown = markdown .. CreateSeparator("hr")
-            else
-                markdown = markdown .. "---\n\n"
-            end
+        -- Use CreateSeparator for consistent separator styling
+        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+        if CreateSeparator then
+            markdown = markdown .. CreateSeparator("hr")
+        else
+            markdown = markdown .. "---\n\n"
         end
         return markdown
     end
@@ -559,56 +535,36 @@ local function GenerateChampionPoints(cpData, format)
     -- Use API value for available CP if available, otherwise calculate
     local availableCP = cpData.available or (totalCP - spentCP)
 
-    if format == "discord" then
-        markdown = markdown .. "Total: " .. CM.utils.FormatNumber(totalCP) .. " | "
-        markdown = markdown .. "Spent: " .. CM.utils.FormatNumber(spentCP) .. " | "
-        markdown = markdown .. "Available: " .. CM.utils.FormatNumber(availableCP) .. "\n"
-
-        if cpData.disciplines and #cpData.disciplines > 0 then
-            for _, discipline in ipairs(cpData.disciplines) do
-                markdown = markdown .. FormatDisciplineSummary(discipline, format)
-                local skills, _ = GetDisciplineSkills(discipline)
-                if #skills > 0 then
-                    for _, skill in ipairs(skills) do
-                        local skillText = CM.utils.CreateCPSkillLink(skill.name, format)
-                        markdown = markdown .. "• " .. skillText .. ": " .. skill.points .. "\n"
-                    end
-                end
-                markdown = markdown .. "\n"
-            end
-        end
+    -- Use CreateStyledTable for consistent styling
+    local CreateStyledTable = CM.utils.markdown and CM.utils.markdown.CreateStyledTable
+    if CreateStyledTable then
+        local headers = { "Total", "Spent", "Available" }
+        local rows = {
+            {
+                CM.utils.FormatNumber(totalCP),
+                CM.utils.FormatNumber(spentCP),
+                CM.utils.FormatNumber(availableCP),
+            },
+        }
+        local options = {
+            alignment = { "center", "center", "center" },
+            coloredHeaders = true,
+        }
+        markdown = markdown .. CreateStyledTable(headers, rows, options)
     else
-        -- Use CreateStyledTable for consistent styling
-        local CreateStyledTable = CM.utils.markdown and CM.utils.markdown.CreateStyledTable
-        if CreateStyledTable then
-            local headers = { "Total", "Spent", "Available" }
-            local rows = {
-                {
-                    CM.utils.FormatNumber(totalCP),
-                    CM.utils.FormatNumber(spentCP),
-                    CM.utils.FormatNumber(availableCP),
-                },
-            }
-            local options = {
-                alignment = { "center", "center", "center" },
-                format = format,
-                coloredHeaders = true,
-            }
-            markdown = markdown .. CreateStyledTable(headers, rows, options)
-        else
-            -- Fallback to simple markdown table if CreateStyledTable not available
-            markdown = markdown .. "| **Total** | **Spent** | **Available** |\n"
-            markdown = markdown .. "|:---------:|:---------:|:-------------:|\n"
-            markdown = markdown
-                .. "| "
-                .. CM.utils.FormatNumber(totalCP)
-                .. " | "
-                .. CM.utils.FormatNumber(spentCP)
-                .. " | "
-                .. CM.utils.FormatNumber(availableCP)
-                .. " |\n"
-            markdown = markdown .. "\n"
-        end
+        -- Fallback to simple markdown table if CreateStyledTable not available
+        markdown = markdown .. "| **Total** | **Spent** | **Available** |\n"
+        markdown = markdown .. "|:---------:|:---------:|:-------------:|\n"
+        markdown = markdown
+            .. "| "
+            .. CM.utils.FormatNumber(totalCP)
+            .. " | "
+            .. CM.utils.FormatNumber(spentCP)
+            .. " | "
+            .. CM.utils.FormatNumber(availableCP)
+            .. " |\n"
+        markdown = markdown .. "\n"
+    end
 
         -- Display enlightenment status if available (API 101048+)
         if cpData.enlightenment and cpData.enlightenment.isEnlightened then
@@ -633,7 +589,7 @@ local function GenerateChampionPoints(cpData, format)
                 -- Generate each discipline as a table
                 local columns = {}
                 for _, discipline in ipairs(cpData.disciplines) do
-                    table.insert(columns, GenerateDisciplineTable(discipline, unassignedCP, format))
+                    table.insert(columns, GenerateDisciplineTable(discipline, unassignedCP))
                 end
 
                 -- Calculate optimal layout based on discipline tables
@@ -689,7 +645,7 @@ local function GenerateChampionPoints(cpData, format)
 
                         if hasSkills then
                             for _, skill in ipairs(skills) do
-                                local skillText = CM.utils.CreateCPSkillLink(skill.name, format)
+                                local skillText = CM.utils.CreateCPSkillLink(skill.name)
                                 local pointText = GetPointText(skill.points)
                                 local skillType = skill.type or (skill.isSlottable and "slottable" or "passive")
 
@@ -739,25 +695,19 @@ local function GenerateChampionPoints(cpData, format)
             markdown = markdown .. "*Champion Point discipline data not available*\n\n"
         end
 
-        if format ~= "discord" then
-            -- Use CreateSeparator for consistent separator styling
-            local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-            if CreateSeparator then
-                markdown = markdown .. CreateSeparator("hr")
-            else
-                markdown = markdown .. "---\n\n"
-            end
+        -- Use CreateSeparator for consistent separator styling
+        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+        if CreateSeparator then
+            markdown = markdown .. CreateSeparator("hr")
+        else
+            markdown = markdown .. "---\n\n"
         end
-    end
+
 
     -- Ensure we always return something (defensive check)
-    if markdown == "" or (format ~= "discord" and not markdown:match("## ⭐ Champion Points")) then
+    if markdown == "" or not markdown:match("## ⭐ Champion Points") then
         -- Fallback: return at least header
-        if format == "discord" then
-            return "**Champion Points:**\n*Data not available*\n\n"
-        else
-            return "## ⭐ Champion Points\n\n*Champion Point data not available*\n\n---\n\n"
-        end
+        return "## ⭐ Champion Points\n\n*Champion Point data not available*\n\n---\n\n"
     end
 
     return markdown

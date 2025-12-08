@@ -27,7 +27,7 @@ end
 
 CM.links.GenerateCompanionURL = GenerateCompanionURL
 
-local function CreateCompanionLink(companionName, format)
+local function CreateCompanionLink(companionName)
     if
         not companionName
         or companionName == ""
@@ -45,7 +45,7 @@ local function CreateCompanionLink(companionName, format)
     end
 
     local url = GenerateCompanionURL(companionName)
-    if url and (format == "github" or format == "discord") then
+    if url then
         return "[" .. companionName .. "](" .. url .. ")"
     else
         return companionName

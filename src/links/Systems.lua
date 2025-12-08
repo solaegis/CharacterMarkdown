@@ -17,7 +17,7 @@ end
 
 CM.links.GenerateMundusURL = GenerateMundusURL
 
-local function CreateMundusLink(mundusName, format)
+local function CreateMundusLink(mundusName)
     if not mundusName or mundusName == "" or mundusName == "Unknown" then
         return mundusName or "Unknown"
     end
@@ -30,7 +30,8 @@ local function CreateMundusLink(mundusName, format)
     end
 
     local url = GenerateMundusURL(mundusName)
-    if url and (format == "github" or format == "discord") then
+    local url = GenerateMundusURL(mundusName)
+    if url then
         return "[" .. mundusName .. "](" .. url .. ")"
     else
         return mundusName
@@ -54,7 +55,7 @@ end
 
 CM.links.GenerateCPSkillURL = GenerateCPSkillURL
 
-local function CreateCPSkillLink(skillName, format)
+local function CreateCPSkillLink(skillName)
     if not skillName or skillName == "" then
         return skillName or ""
     end
@@ -67,7 +68,8 @@ local function CreateCPSkillLink(skillName, format)
     end
 
     local url = GenerateCPSkillURL(skillName)
-    if url and (format == "github" or format == "discord") then
+    local url = GenerateCPSkillURL(skillName)
+    if url then
         return "[" .. skillName .. "](" .. url .. ")"
     else
         return skillName
@@ -90,7 +92,7 @@ end
 
 CM.links.GenerateCampaignURL = GenerateCampaignURL
 
-local function CreateCampaignLink(campaignName, format)
+local function CreateCampaignLink(campaignName)
     if not campaignName or campaignName == "" or campaignName == "None" then
         return campaignName or "None"
     end
@@ -103,7 +105,8 @@ local function CreateCampaignLink(campaignName, format)
     end
 
     local url = GenerateCampaignURL(campaignName)
-    if url and (format == "github" or format == "discord") then
+    local url = GenerateCampaignURL(campaignName)
+    if url then
         return "[" .. campaignName .. "](" .. url .. ")"
     else
         return campaignName
@@ -137,7 +140,7 @@ end
 
 CM.links.GenerateBuffURL = GenerateBuffURL
 
-local function CreateBuffLink(buffName, format)
+local function CreateBuffLink(buffName)
     if not buffName or buffName == "" then
         return buffName or ""
     end
@@ -150,7 +153,8 @@ local function CreateBuffLink(buffName, format)
     end
 
     local url = GenerateBuffURL(buffName)
-    if url and (format == "github" or format == "discord") then
+    local url = GenerateBuffURL(buffName)
+    if url then
         return "[" .. buffName .. "](" .. url .. ")"
     else
         return buffName
@@ -201,7 +205,7 @@ end
 
 CM.links.GenerateCurrencyURL = GenerateCurrencyURL
 
-local function CreateCurrencyLink(currencyName, format)
+local function CreateCurrencyLink(currencyName)
     if not currencyName or currencyName == "" then
         return currencyName or ""
     end
@@ -214,7 +218,8 @@ local function CreateCurrencyLink(currencyName, format)
     end
 
     local url = GenerateCurrencyURL(currencyName)
-    if url and (format == "github" or format == "discord") then
+    local url = GenerateCurrencyURL(currencyName)
+    if url then
         return "[" .. currencyName .. "](" .. url .. ")"
     else
         return currencyName
@@ -244,7 +249,7 @@ end
 
 CM.links.GenerateCollectibleURL = GenerateCollectibleURL
 
-local function CreateCollectibleLink(collectibleName, format)
+local function CreateCollectibleLink(collectibleName)
     if not collectibleName or collectibleName == "" then
         return collectibleName or ""
     end
@@ -257,7 +262,8 @@ local function CreateCollectibleLink(collectibleName, format)
     end
 
     local url = GenerateCollectibleURL(collectibleName)
-    if url and (format == "github" or format == "discord") then
+    local url = GenerateCollectibleURL(collectibleName)
+    if url then
         return "[" .. collectibleName .. "](" .. url .. ")"
     else
         return collectibleName
