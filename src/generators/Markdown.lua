@@ -429,13 +429,23 @@ local function GetSectionRegistry(settings, gen, data)
 
                 -- Show all Champion Points
                 local cpResult = gen.GenerateChampionPoints(data.cp)
-                markdown = markdown .. cpResult
 
                 -- Add Mermaid diagram if enabled
                 local diagramEnabled = IsSettingEnabled(currentSettings, "includeChampionDiagram", false)
                 if diagramEnabled then
+                    -- Strip the trailing separator from cpResult so the diagram connects visually
+                    -- Check for standard separator styles
+                    if cpResult:match("%-%-%-\n\n$") then
+                        cpResult = cpResult:gsub("%-%-%-\n\n$", "")
+                    elseif cpResult:match("<hr%s*/>\n\n$") then
+                        cpResult = cpResult:gsub("<hr%s*/>\n\n$", "")
+                    end
+                    
+                    markdown = markdown .. cpResult
                     local diagramResult = gen.GenerateChampionDiagram(data.cp)
                     markdown = markdown .. diagramResult
+                else
+                    markdown = markdown .. cpResult
                 end
 
                 return markdown
@@ -643,7 +653,7 @@ local function GetSectionRegistry(settings, gen, data)
             tocEntry = {
                 title = "🏺 Antiquities",
             },
-            condition = IsSettingEnabled(settings, "includeAntiquities", false),
+            condition = IsSettingEnabled(settings, "includeAntiquities", false) and data.antiquities and data.antiquities.summary and data.antiquities.summary.totalAntiquities > 0,
             generator = function()
                 local markdown = ""
 

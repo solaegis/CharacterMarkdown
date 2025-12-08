@@ -307,7 +307,7 @@ local function GenerateChampionDiagram(cpData)
     end
 
     CM.DebugPrint("CHAMPION_DIAGRAM", string.format("Processing %d disciplines", #cpData.disciplines))
-    local markdown = "## 🎯 Champion Points Visual\n\n"
+    local markdown = "### 🎯 Champion Points Visual\n\n"
 
     -- Organize skills by tree and type
     local treeSkills = {
@@ -477,7 +477,7 @@ local function GenerateChampionDiagram(cpData)
     markdown = markdown .. "```mermaid\n"
     markdown = markdown
         .. "%%{init: {\"theme\":\"base\", \"themeVariables\": { \"background\":\"transparent\",\"fontSize\":\"14px\",\"primaryColor\":\"#e8f4f0\",\"primaryTextColor\":\"#000\",\"primaryBorderColor\":\"#4a9d7f\",\"lineColor\":\"#999\",\"secondaryColor\":\"#f0f4f8\",\"tertiaryColor\":\"#faf0f0\"}, \"flowchart\": {\"curve\":\"basis\"}}}%%\n\n"
-    markdown = markdown .. "graph TD\n"
+    markdown = markdown .. "flowchart LR\n"
     markdown = markdown .. "  %% Champion Point Investment Visualization\n"
     markdown = markdown .. "  %% Enhanced readability with clear visual hierarchy\n\n"
 
@@ -712,6 +712,14 @@ local function GenerateChampionDiagram(cpData)
     markdown = markdown .. "  style subLEGEND fill:transparent,stroke:#999,stroke-width:3px\n"
 
     markdown = markdown .. "```\n\n"
+
+    -- Add separator at the end (as this becomes the end of the CP section)
+    local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
+    if CreateSeparator then
+        markdown = markdown .. CreateSeparator("hr")
+    else
+        markdown = markdown .. "---\n\n"
+    end
 
     return markdown
 end

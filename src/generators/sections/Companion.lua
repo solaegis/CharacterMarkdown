@@ -83,6 +83,10 @@ local function GenerateCompanion(companionData)
     end
 
     -- Extract active companion data
+    if not companionData or not companionData.active then
+        return markdown
+    end
+    
     local activeCompanion = companionData.active
     local companionName = activeCompanion.name or "Unknown"
     local companionLevel = activeCompanion.level or 0
