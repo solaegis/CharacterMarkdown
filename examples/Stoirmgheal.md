@@ -47,28 +47,27 @@
 | **Level** | 34 |
 | **Champion Points** | 792 |
 | **Gender** | Male |
-| **Age** | 1d 10h 1m |
 | **Account** | @SOLAEGIS |
 | **ESO Plus** | ✅ Active |
+| **Age** | 1d 10h 35m |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Attribute Points** | ⚠️ 1 unspent |
-| **Attributes** | 🔵 41 / ❤️ 0 / ⚡ 0 |
+| **Attributes** | 🔵 42 / ❤️ 0 / ⚡ 0 |
 | **Available Champion Points** | ⚒️ 2 - ⚔️ 7 - 💪 9 |
 | **Skill Points** | 🎯 9 available - Ready to spend |
 | **🐴 Riding Skills** | 🐴 17/60 / 💪 2/60 / 🎒 2/60 |
 | **Race** | [Breton](https://en.uesp.net/wiki/Online:Breton) |
+| **Class** | [Sorcerer](https://en.uesp.net/wiki/Online:Sorcerer) |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Class** | [Sorcerer](https://en.uesp.net/wiki/Online:Sorcerer) |
 | **Server** | [NA Megaserver](https://en.uesp.net/wiki/Online:Megaservers) |
 | **🪨 Mundus Stone** | [The Mage](https://en.uesp.net/wiki/Online:The_Mage_(Mundus_Stone)) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
@@ -84,7 +83,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 10,185 |
+| 💰 **Gold** | 10,085 |
 | ⚔️ **Alliance Points** | 18,959 |
 | 🔮 **Tel Var** | 5,000 |
 | 💎 **Transmute Crystals** | 95 |
@@ -92,7 +91,7 @@
 | 🎫 **Event Tickets** | 2 |
 | 👑 **Crowns** | 700 |
 | 💠 **Gems** | 173 |
-| 🏅 **Seals** | 13,200 |
+| 🏅 **Seals** | 13,210 |
 | 🗝️ **Keys** | 9 |
 | 👕 **Tokens** | 3 |
 | 📚 **Fortunes** | 0 |
@@ -118,10 +117,10 @@
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
 | 💚 **Resources** | Health | 26,213 |
-|  | Magicka | 32,290 |
+|  | Magicka | 32,424 |
 |  | Stamina | 16,958 |
-| ⚔️ **Offensive** | Weapon Power | 2,037 |
-|  | Spell Power | 2,037 |
+| ⚔️ **Offensive** | Weapon Power | 2,108 |
+|  | Spell Power | 2,108 |
 
 
 </div><div>
@@ -138,8 +137,8 @@
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🛡️ **Defensive** | Physical Resist | 8,370 (83.1%) |
-|  | Spell Resist | 14,772 (89.6%) |
+| 🛡️ **Defensive** | Physical Resist | 11,455 (87%) |
+|  | Spell Resist | 17,857 (91.3%) |
 | ♻️ **Recovery** | Health | 1,165 |
 |  | Magicka | 1,947 |
 |  | Stamina | 1,308 |
@@ -158,9 +157,9 @@
 
 | **Ability** | **Cost/Value** |
 |:---|---:|
-| ⚔️ **Light Attack** | 3,328 dmg |
-| ⚔️ **Heavy Attack** | 6,657 dmg |
-| ⚔️ **Bash** | 604 cost, 3,843 dmg |
+| ⚔️ **Light Attack** | 3,404 dmg |
+| ⚔️ **Heavy Attack** | 6,809 dmg |
+| ⚔️ **Bash** | 604 cost, 3,914 dmg |
 | 🛡️ **Block** | 2,040 cost, 50% mit, 40% spd |
 | 🔓 **Break Free** | 3,367 cost |
 | 🏃 **Dodge Roll** | 3,097 cost |
@@ -172,13 +171,13 @@
 
 | **Resistance** | **Value** |
 |:---|---:|
-| 🔥 **Flame** | 22.3% |
-| ⚡ **Shock** | 22.3% |
-| ❄️ **Frost** | 22.3% |
-| 🔮 **Magic** | 22.3% |
-| 🦠 **Disease** | 12.6% |
-| ☠️ **Poison** | 12.6% |
-| 🩸 **Bleed** | 12.6% |
+| 🔥 **Flame** | 27% |
+| ⚡ **Shock** | 27% |
+| ❄️ **Frost** | 27% |
+| 🔮 **Magic** | 27% |
+| 🦠 **Disease** | 17.3% |
+| ☠️ **Poison** | 17.3% |
+| 🩸 **Bleed** | 17.3% |
 
 </div>
 <div>
@@ -242,14 +241,14 @@
 | 💎 **Neck** | Necklace of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Healthy | None | Health Recovery Enchantment |
 | 🛡️ **Chest** | Prophet's Robes | [Prophet's Set](https://en.uesp.net/wiki/Online:Prophet's_Set) | 🔮 Superior | Training | Light | Maximum Magicka Enchantment |
 | 👑 **Shoulders** | Epaulets of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Training | Light | Maximum Magicka Enchantment |
-| ⚔️ **Main Hand** | beech lightning staff of Frost | - | ⚡ Fine | None | None | Frozen Weapon Enchantment |
+| ⚔️ **Main Hand** | beech lightning staff of Frost | - | 🔮 Superior | Defending | None | Frozen Weapon Enchantment |
 | ⚡ **Waist** | Sash of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Training | Light | Maximum Magicka Enchantment |
 | 👖 **Legs** | Vanus's Breeches | [Wisdom of Vanus Set](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Superior | Infused | Light | Maximum Magicka Enchantment |
 | 👟 **Feet** | Vanus's Shoes | [Wisdom of Vanus Set](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Superior | Divines | Light | Maximum Magicka Enchantment |
 | 💍 **Ring 1** | Ring of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Healthy | None | Health Recovery Enchantment |
 | 💍 **Ring 2** | Ring of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Healthy | None | Health Recovery Enchantment |
 | ✋ **Hands** | Vanus's Gloves | [Wisdom of Vanus Set](https://en.uesp.net/wiki/Online:Wisdom_of_Vanus_Set) | 🔮 Superior | Impenetrable | Light | Maximum Magicka Enchantment |
-| 🔮 **Backup Main Hand** | beech lightning staff of Flame | - | 🔮 Superior | Training | None | Fiery Weapon Enchantment |
+| 🔮 **Backup Main Hand** | beech lightning staff of Shock | - | 🔮 Superior | Infused | None | Charged Weapon Enchantment |
 
 ---
 
@@ -489,7 +488,7 @@ flowchart LR
 
   </details>
 
-#### Daedric Summoning (Rank 40)
+#### Daedric Summoning (Rank 41)
 
 ⚠️ **[Greater Storm Atronach](https://en.uesp.net/wiki/Online:Greater_Storm_Atronach)** (Rank 3)
 
@@ -525,7 +524,7 @@ flowchart LR
   </details>
 
 
-#### Storm Calling (Rank 36)
+#### Storm Calling (Rank 37)
 
 ⚠️ **[Energy Overload](https://en.uesp.net/wiki/Online:Energy_Overload)** (Rank 1)
 
@@ -572,7 +571,7 @@ flowchart LR
 
 ### ⚔️ Weapon (1 abilities with morph choices)
 
-#### Destruction Staff (Rank 35)
+#### Destruction Staff (Rank 36)
 
 ✅ **[Unstable Wall of Elements](https://en.uesp.net/wiki/Online:Unstable_Wall_of_Elements)** (Rank 3)
 
@@ -701,7 +700,7 @@ flowchart LR
 | 🛡️ **Off Hand** | Companion's Shield (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Vigorous |
 | ⛑️ **Head** | Companion's Helm (Level 1, ⚪ Normal) ⚠️ | ⚪ Normal | No Trait |
 | 🛡️ **Chest** | Companion's Cuirass (Level 1, ⚡ Fine) ⚠️ | ⚡ Fine | Quickened |
-| 👑 **Shoulders** | Companion's Pauldrons (Level 1, ⚡ Fine) ⚠️ | ⚡ Fine | Shattering |
+| 👑 **Shoulders** | Companion's Pauldrons (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Shattering |
 | ✋ **Hands** | Companion's Gauntlets (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Soothing |
 | ⚡ **Waist** | Companion's Girdle (Level 1, 🔮 Superior) ⚠️ | 🔮 Superior | Quickened |
 | 👖 **Legs** | Companion's Guards (Level 1, ⚡ Fine) ⚠️ | ⚡ Fine | Soothing |
@@ -979,9 +978,9 @@ flowchart LR
 - [Blue Dragon Imp](https://en.uesp.net/wiki/Online:Blue_Dragon_Imp)
 - [Coldharbour Dremnaken Runt](https://en.uesp.net/wiki/Online:Coldharbour_Dremnaken_Runt)
 - [Crimson Torchbug](https://en.uesp.net/wiki/Online:Crimson_Torchbug)
+
+
 - [Dozen-Banded Vvardvark^n](https://en.uesp.net/wiki/Online:Dozen-Banded_Vvardvark^n)
-
-
 - [Dusky Fennec Fox^n](https://en.uesp.net/wiki/Online:Dusky_Fennec_Fox^n)
 - [Dwarven Spider](https://en.uesp.net/wiki/Online:Dwarven_Spider)
 - [Dwarven War Dog](https://en.uesp.net/wiki/Online:Dwarven_War_Dog)
@@ -1041,32 +1040,28 @@ flowchart LR
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 94 | 122 | ███████░░░ 77% |
-| Bank | 240 | 480 | █████░░░░░ 50% |
+| Backpack | 91 | 122 | ███████░░░ 74% |
+| Bank | 239 | 480 | ████░░░░░░ 49% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (94 unique items)</summary>
+<summary><strong>Backpack Items</strong> (91 unique items)</summary>
 
-#### Other (94 items)
+#### Other (91 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | 🟡 "Room to Spare" Housing Brochure | 1 | 🟡 |
-| ⚪ beech restoration staff | 1 | ⚪ |
 | 🟡 Bound Crown Experience Scroll | 1 | 🟡 |
 | 🟣 Bound Crown Fortifying Meal | 1 | 🟣 |
 | 🟣 Bound Crown Refreshing Drink | 1 | 🟣 |
 | 🟣 Bound Crown Tri-Restoration Potion | 25 | 🟣 |
 | 🟣 Bound Gold Coast Swift Survivor Elixir | 25 | 🟣 |
 | 🟡 Bound Gold Coast Trapping Poison | 80 | 🟡 |
-| 🟢 Companion's Belt | 1 | 🟢 |
-| 🔵 Companion's Pauldrons | 1 | 🔵 |
-| ⚪ cotton sash | 1 | ⚪ |
-| 🔵 cotton shoes of Magicka | 1 | 🔵 |
+| 🟢 Companion's Pauldrons | 1 | 🟢 |
 | 🟣 Crown Tri-Restoration Potion | 75 | 🟣 |
 | ⚪ Crusty Bread | 3 | ⚪ |
-| ⚪ Daedra Husk | 4 | ⚪ |
+| ⚪ Daedra Husk | 2 | ⚪ |
 | 🟣 Daedric War Spoils | 1 | 🟣 |
 | 🟣 Daedric War Spoils | 1 | 🟣 |
 | 🟣 Daedric War Spoils | 1 | 🟣 |
@@ -1110,19 +1105,19 @@ flowchart LR
 | 🟡 Glorious Daedric War Spoils | 1 | 🟡 |
 | 🟡 Glorious Daedric War Spoils | 1 | 🟡 |
 | 🟡 Glorious Daedric War Spoils | 1 | 🟡 |
-| ⚪ leather belt | 1 | ⚪ |
+| 🟢 leather helmet of Magicka | 1 | 🟢 |
 | ⚪ Lockpick | 134 | ⚪ |
-| 🔵 Necklace of the Withered Hand | 1 | 🔵 |
-| 🔵 orichalc battle axe of Frost | 1 | 🔵 |
-| ⚪ orichalc girdle | 1 | ⚪ |
-| ⚪ orichalc maul | 1 | ⚪ |
-| ⚪ orichalc maul | 1 | ⚪ |
+| ⚪ moderate Glyph of Stamina | 1 | ⚪ |
+| 🔵 orichalc dagger of Flame | 1 | 🔵 |
+| 🔵 orichalc mace of Shock | 1 | 🔵 |
+| 🔵 orichalc maul of Flame | 1 | 🔵 |
+| 🟢 orichalc pauldron of Stamina | 1 | 🟢 |
 | 🟢 Psijic Codex Transcription | 1 | 🟢 |
 | ⚪ Radishes in Rice | 2 | ⚪ |
 | 🟢 Ring of the Order of Diagna | 1 | 🟢 |
 | 🟢 Roast Pig | 1 | 🟢 |
 | 🟢 Soul Gem | 193 | 🟢 |
-| ⚪ Soul Gem (Empty) | 10 | ⚪ |
+| ⚪ Soul Gem (Empty) | 13 | ⚪ |
 | 🔵 Summerset Daily Recompense | 1 | 🔵 |
 | 🔵 Summerset Daily Recompense | 1 | 🔵 |
 | 🔵 Summerset Daily Recompense | 1 | 🔵 |
@@ -1141,6 +1136,7 @@ flowchart LR
 | 🔵 Summerset Daily Recompense | 1 | 🔵 |
 | 🔵 Summerset Daily Recompense | 1 | 🔵 |
 | 🟢 Supply Pack | 1 | 🟢 |
+| 🔵 Sword-Singer's Ring | 1 | 🔵 |
 | ⚪ The Unraveling Staff | 1 | ⚪ |
 | 🔵 Transmutation Geode (25) | 1 | 🔵 |
 | 🔵 Unidentified Sithis' Touch Equipment | 1 | 🔵 |
@@ -1150,9 +1146,9 @@ flowchart LR
 </details>
 
 <details>
-<summary><strong>Bank Items</strong> (240 unique items)</summary>
+<summary><strong>Bank Items</strong> (239 unique items)</summary>
 
-#### Other (240 items)
+#### Other (239 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
@@ -1161,8 +1157,8 @@ flowchart LR
 | 🟡 Attunable Clothing Station, Bound | 1 | 🟡 |
 | 🟡 Attunable Woodworking Station, Bound | 1 | 🟡 |
 | 🟣 Axe of Agility | 1 | 🟣 |
-| 🔵 beech bow of Flame | 1 | 🔵 |
-| 🔵 beech restoration staff of Frost | 1 | 🔵 |
+| 🔵 beech lightning staff of Flame | 1 | 🔵 |
+| 🟢 beech lightning staff of Frost | 1 | 🟢 |
 | 🟣 Big-Eared Ginger Kitten's Tag | 1 | 🟣 |
 | 🔵 Bleakrock Treasure Map II | 1 | 🔵 |
 | 🔵 Blueprint: Argonian Bed, Woven | 1 | 🔵 |
@@ -1170,45 +1166,48 @@ flowchart LR
 | 🟣 Bonedust Pigment | 2 | 🟣 |
 | 🟢 Companion's Axe | 1 | 🟢 |
 | 🟢 Companion's Axe | 1 | 🟢 |
+| 🟢 Companion's Axe | 1 | 🟢 |
 | 🔵 Companion's Axe | 1 | 🔵 |
 | 🟢 Companion's Axe | 1 | 🟢 |
-| 🟢 Companion's Axe | 1 | 🟢 |
+| 🟢 Companion's Battle Axe | 1 | 🟢 |
 | 🔵 Companion's Battle Axe | 1 | 🔵 |
 | 🟢 Companion's Battle Axe | 1 | 🟢 |
-| 🟢 Companion's Battle Axe | 1 | 🟢 |
-| 🔵 Companion's Boots | 1 | 🔵 |
+| 🟢 Companion's Belt | 1 | 🟢 |
 | 🟢 Companion's Boots | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🔵 Companion's Bow | 1 | 🔵 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
+| 🟢 Companion's Boots | 1 | 🟢 |
+| 🔵 Companion's Boots | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
-| 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bracers | 1 | 🟢 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🔵 Companion's Bow | 1 | 🔵 |
 | 🔵 Companion's Bracers | 1 | 🔵 |
 | 🟢 Companion's Bracers | 1 | 🟢 |
 | 🔵 Companion's Bracers | 1 | 🔵 |
-| 🔵 Companion's Breeches | 1 | 🔵 |
+| 🟢 Companion's Bracers | 1 | 🟢 |
 | 🟢 Companion's Breeches | 1 | 🟢 |
 | 🔵 Companion's Breeches | 1 | 🔵 |
+| 🔵 Companion's Breeches | 1 | 🔵 |
 | 🟢 Companion's Breeches | 1 | 🟢 |
+| 🟢 Companion's Dagger | 1 | 🟢 |
+| 🔵 Companion's Dagger | 1 | 🔵 |
+| 🔵 Companion's Dagger | 1 | 🔵 |
+| 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Dagger | 1 | 🟢 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Dagger | 1 | 🟢 |
-| 🔵 Companion's Dagger | 1 | 🔵 |
-| 🟢 Companion's Dagger | 1 | 🟢 |
-| 🔵 Companion's Dagger | 1 | 🔵 |
-| 🔵 Companion's Dagger | 1 | 🔵 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
 | 🟢 Companion's Epaulets | 1 | 🟢 |
 | 🟣 Companion's Helm | 1 | 🟣 |
@@ -1217,85 +1216,83 @@ flowchart LR
 | 🟢 Companion's Ice Staff | 1 | 🟢 |
 | 🟢 Companion's Inferno Staff | 1 | 🟢 |
 | 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
-| 🟢 Companion's Jack | 1 | 🟢 |
 | 🔵 Companion's Jack | 1 | 🔵 |
 | 🟢 Companion's Jack | 1 | 🟢 |
 | 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jack | 1 | 🟢 |
+| 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🔵 Companion's Jerkin | 1 | 🔵 |
-| 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🔵 Companion's Jerkin | 1 | 🔵 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
 | 🟢 Companion's Jerkin | 1 | 🟢 |
-| 🟢 Companion's Lightning Staff | 1 | 🟢 |
 | 🔵 Companion's Lightning Staff | 1 | 🔵 |
+| 🟢 Companion's Lightning Staff | 1 | 🟢 |
 | 🟢 Companion's Mace | 1 | 🟢 |
 | 🟢 Companion's Mace | 1 | 🟢 |
 | 🔵 Companion's Mace | 1 | 🔵 |
-| 🟢 Companion's Maul | 1 | 🟢 |
+| 🔵 Companion's Maul | 1 | 🔵 |
 | 🔵 Companion's Maul | 1 | 🔵 |
 | 🟢 Companion's Maul | 1 | 🟢 |
-| 🔵 Companion's Maul | 1 | 🔵 |
 | 🟢 Companion's Maul | 1 | 🟢 |
 | 🟢 Companion's Maul | 1 | 🟢 |
+| 🟢 Companion's Maul | 1 | 🟢 |
+| 🟢 Companion's Necklace | 1 | 🟢 |
 | 🟢 Companion's Necklace | 1 | 🟢 |
 | 🔵 Companion's Necklace | 1 | 🔵 |
-| 🟢 Companion's Necklace | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟣 Companion's Restoration Staff | 1 | 🟣 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Ring | 1 | 🔵 |
-| 🔵 Companion's Ring | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Ring | 1 | 🟢 |
+| 🔵 Companion's Ring | 1 | 🔵 |
+| 🔵 Companion's Ring | 1 | 🔵 |
+| 🟢 Companion's Robe | 1 | 🟢 |
+| 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Robe | 1 | 🟢 |
 | 🔵 Companion's Robe | 1 | 🔵 |
-| 🟢 Companion's Robe | 1 | 🟢 |
-| 🟢 Companion's Robe | 1 | 🟢 |
 | 🟢 Companion's Sabatons | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
 | 🟢 Companion's Sash | 1 | 🟢 |
 | 🟢 Companion's Shield | 1 | 🟢 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🟢 Companion's Shield | 1 | 🟢 |
 | 🟣 Companion's Shield | 1 | 🟣 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🟢 Companion's Shield | 1 | 🟢 |
 | 🔵 Companion's Shield | 1 | 🔵 |
-| 🟢 Companion's Shoes | 1 | 🟢 |
+| 🔵 Companion's Shield | 1 | 🔵 |
+| 🔵 Companion's Shield | 1 | 🔵 |
+| 🔵 Companion's Shield | 1 | 🔵 |
 | 🔵 Companion's Shoes | 1 | 🔵 |
+| 🟢 Companion's Shoes | 1 | 🟢 |
+| 🔵 Companion's Sword | 1 | 🔵 |
 | 🟢 Companion's Sword | 1 | 🟢 |
 | 🔵 Companion's Sword | 1 | 🔵 |
-| 🔵 Companion's Sword | 1 | 🔵 |
 | 🟣 Coral Haj Mota Decoy | 1 | 🟣 |
-| ⚪ cotton breeches | 1 | ⚪ |
-| 🔵 cotton gloves of Magicka | 1 | 🔵 |
-| 🔵 cotton sash of Health | 1 | 🔵 |
+| ⚪ cotton gloves | 1 | ⚪ |
 | 🔵 Counterfeit Pardon Edict | 20 | 🔵 |
 | 🔵 Crackling Lodestone | 1 | 🔵 |
 | 🔵 Crafting Motif 1: High Elf Style | 1 | 🔵 |
@@ -1324,8 +1321,8 @@ flowchart LR
 | 🟣 Crafting Motif 63: Dremora Gloves | 4 | 🟣 |
 | 🟡 Crown Experience Scroll | 87 | 🟡 |
 | 🟣 Crown Fortifying Meal | 10 | 🟣 |
-| 🟡 Crown Lethal Poison | 919 | 🟡 |
 | 🟡 Crown Lethal Poison | 1000 | 🟡 |
+| 🟡 Crown Lethal Poison | 919 | 🟡 |
 | 🟡 Crown Mimic Stone | 6 | 🟡 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
@@ -1342,7 +1339,6 @@ flowchart LR
 | 🟡 Fortified Brass Gloves | 1 | 🟡 |
 | 🟡 Fortified Brass Sash | 1 | 🟡 |
 | 🟣 Glass Style Motif Fragment | 5 | 🟣 |
-| 🔵 Gloom-Graced Restoration Staff | 1 | 🔵 |
 | 🔵 Gloves of Necropotence | 1 | 🔵 |
 | 🟡 Gold Coast Draining Poison | 100 | 🟡 |
 | 🟡 Gold Coast Experience Scroll | 15 | 🟡 |
@@ -1351,7 +1347,6 @@ flowchart LR
 | 🟡 Gold Coast Trapping Poison | 100 | 🟡 |
 | 🟣 Gold Coast Warrior Elixir | 100 | 🟣 |
 | 🔵 Grahtwood Treasure Map III | 1 | 🔵 |
-| 🔵 Gryphon's Bow | 1 | 🔵 |
 | 🟣 Harvested Soul Fragment | 1 | 🟣 |
 | 🟣 Harvested Soul Fragment | 1 | 🟣 |
 | 🔵 Hat of Necropotence | 1 | 🔵 |
@@ -1362,11 +1357,8 @@ flowchart LR
 | ⚪ Keep Wall Masonry Repair Kit | 34 | ⚪ |
 | 🔵 Khenarthi's Roost Treasure Map IV | 1 | 🔵 |
 | 🟣 Leniency Edict | 8 | 🟣 |
-| 🟡 Major Gold Coast Experience Scroll | 4 | 🟡 |
 | 🟡 Major Gold Coast Experience Scroll | 5 | 🟡 |
-| 🔵 orichalc battle axe of Shock | 1 | 🔵 |
-| 🔵 orichalc dagger of Flame | 1 | 🔵 |
-| 🔵 orichalc mace of Frost | 1 | 🔵 |
+| 🟡 Major Gold Coast Experience Scroll | 4 | 🟡 |
 | 🟢 Pattern: Argonian Baskets, Double | 1 | 🟢 |
 | 🟢 Pattern: Wood Elf Awning, Leather | 1 | 🟢 |
 | 🟣 Plague-Drenched Fabric | 1 | 🟣 |
@@ -1386,16 +1378,19 @@ flowchart LR
 | 🟢 Recipe: Sweet Sanguine Apples | 6 | 🟢 |
 | 🟢 Recipe: Tomato Soup | 2 | 🟢 |
 | 🟣 Ring of Endurance | 1 | 🟣 |
+| 🟣 Ring of the Order of Diagna | 1 | 🟣 |
+| 🟢 Ring of the Withered Hand | 1 | 🟢 |
 | 🟣 Shard of Writhing Bone | 6 | 🟣 |
 | 🔵 Skeletal Marionette Parts | 1 | 🔵 |
 | 🟢 Spirit Stone | 1 | 🟢 |
 | 🟡 Style Page: Eltheric Revenant Sash | 1 | 🟡 |
 | 🟡 Style Page: Glenmoril Wyrd Breeches | 1 | 🟡 |
 | 🟡 Style Page: Jephrine Paladin Girdle | 1 | 🟡 |
+| 🔵 Sword-Singer's Ring | 1 | 🔵 |
 | 🔵 Unidentified Alchemist Survey Report | 1 | 🔵 |
 | 🟡 Wayshrine Navigation Chart | 1 | 🟡 |
-| 🟣 Writhing Haj Mota Scale | 25 | 🟣 |
 | 🟣 Writhing Haj Mota Scale | 9 | 🟣 |
+| 🟣 Writhing Haj Mota Scale | 25 | 🟣 |
 
 </details>
 
@@ -1409,13 +1404,13 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Almandine | 852 | ⚪ |
-| ⚪ Bloodstone | 957 | ⚪ |
+| ⚪ Almandine | 855 | ⚪ |
+| ⚪ Bloodstone | 959 | ⚪ |
 | ⚪ Diamond | 532 | ⚪ |
 | ⚪ Emerald | 490 | ⚪ |
 | ⚪ Fortified Nirncrux | 4 | ⚪ |
 | ⚪ Garnet | 540 | ⚪ |
-| ⚪ Quartz | 669 | ⚪ |
+| ⚪ Quartz | 671 | ⚪ |
 | ⚪ Sapphire | 417 | ⚪ |
 | ⚪ Sardonyx | 951 | ⚪ |
 
@@ -1427,10 +1422,10 @@ flowchart LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | 🔵 Denata | 1056 | 🔵 |
-| 🟢 Jejota | 2182 | 🟢 |
+| 🟢 Jejota | 2183 | 🟢 |
 | 🟡 Kuta | 182 | 🟡 |
 | 🟣 Rekuta | 654 | 🟣 |
-| ⚪ Ta | 3555 | ⚪ |
+| ⚪ Ta | 3556 | ⚪ |
 
 
 </div><div>
@@ -1441,7 +1436,7 @@ flowchart LR
 | --- | ---: | --- |
 | ⚪ Dekeipa | 319 | ⚪ |
 | ⚪ Deni | 1075 | ⚪ |
-| ⚪ Denima | 331 | ⚪ |
+| ⚪ Denima | 332 | ⚪ |
 | ⚪ Deteri | 203 | ⚪ |
 | ⚪ Hakeijo | 1 | ⚪ |
 | ⚪ Haoko | 230 | ⚪ |
@@ -1451,9 +1446,9 @@ flowchart LR
 | ⚪ Makko | 1075 | ⚪ |
 | ⚪ Makkoma | 370 | ⚪ |
 | ⚪ Meip | 412 | ⚪ |
-| ⚪ Oko | 1118 | ⚪ |
+| ⚪ Oko | 1119 | ⚪ |
 | ⚪ Okoma | 289 | ⚪ |
-| ⚪ Okori | 198 | ⚪ |
+| ⚪ Okori | 199 | ⚪ |
 | ⚪ Oru | 221 | ⚪ |
 | ⚪ Rakeipa | 408 | ⚪ |
 | ⚪ Taderi | 253 | ⚪ |
@@ -1469,7 +1464,7 @@ flowchart LR
 | ⚪ Bast | 507 | ⚪ |
 | ⚪ Clean Pelt | 588 | ⚪ |
 | ⚪ Decorative Wax | 732 | ⚪ |
-| ⚪ Heartwood | 727 |<!-- Chunk 4 (20365 bytes before padding) -->
+| ⚪ Heartwood | 727<!-- Chunk 4 (20365 bytes before padding) -->
 
 
 #### Ingredient (50 items)
@@ -1498,7 +1493,7 @@ flowchart LR
 | ⚪ Ginseng | 940 | ⚪ |
 | ⚪ Greens | 401 | ⚪ |
 | ⚪ Guarana | 914 | ⚪ |
-| ⚪ Honey | 767 | ⚪ |
+| ⚪ Honey | 768 | ⚪ |
 | ⚪ Isinglass | 626 | ⚪ |
 | ⚪ Jasmine | 332 | ⚪ |
 | ⚪ Jazbay Grapes | 380 | ⚪ |
@@ -1525,7 +1520,7 @@ flowchart LR
 | ⚪ Wheat | 1063 | ⚪ |
 | ⚪ White Meat | 191 | ⚪ |
 | ⚪ Yeast | 1118 | ⚪ |
-| ⚪ Yerba Mate | 770 | ⚪ |
+| ⚪ Yerba Mate | 772 | ⚪ |
 
 
 </div><div>
@@ -1556,12 +1551,12 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ crawlers, Foul Bait | 1330 | ⚪ |
+| ⚪ crawlers, Foul Bait | 1333 | ⚪ |
 | ⚪ fish roe, Foul Bait | 3 | ⚪ |
 | ⚪ guts, Lake Bait | 898 | ⚪ |
 | ⚪ insect parts, River Bait | 345 | ⚪ |
 | ⚪ shad, River Bait | 25 | ⚪ |
-| ⚪ worms, Saltwater Bait | 1342 | ⚪ |
+| ⚪ worms, Saltwater Bait | 1343 | ⚪ |
 
 
 </div><div>
@@ -1570,10 +1565,10 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Ancestor Silk | 3080 | ⚪ |
+| ⚪ Ancestor Silk | 3088 | ⚪ |
 | ⚪ Calcinium ingot | 250 | ⚪ |
-| ⚪ copper ounce | 1854 | ⚪ |
-| ⚪ cotton | 1684 | ⚪ |
+| ⚪ copper ounce | 1866 | ⚪ |
+| ⚪ cotton | 1692 | ⚪ |
 | ⚪ dwarven ingot | 2242 | ⚪ |
 | ⚪ ebonthread | 745 | ⚪ |
 | ⚪ ebony ingot | 1319 | ⚪ |
@@ -1587,16 +1582,16 @@ flowchart LR
 | ⚪ ironthread | 54 | ⚪ |
 | ⚪ jute | 838 | ⚪ |
 | ⚪ Kresh Fiber | 122 | ⚪ |
-| ⚪ leather | 1364 | ⚪ |
-| ⚪ orichalcum ingot | 2422 | ⚪ |
+| ⚪ leather | 1369 | ⚪ |
+| ⚪ orichalcum ingot | 2438 | ⚪ |
 | ⚪ pewter ounce | 2544 | ⚪ |
-| ⚪ platinum ounce | 1989 | ⚪ |
+| ⚪ platinum ounce | 1992 | ⚪ |
 | ⚪ quicksilver ingot | 146 | ⚪ |
 | ⚪ rawhide | 2920 | ⚪ |
-| ⚪ Rubedite Ingot | 4432 | ⚪ |
+| ⚪ Rubedite Ingot | 4438 | ⚪ |
 | ⚪ Rubedo Leather | 1400 | ⚪ |
 | ⚪ sanded ash | 88 | ⚪ |
-| ⚪ sanded beech | 1837 | ⚪ |
+| ⚪ sanded beech | 1847 | ⚪ |
 | ⚪ sanded birch | 124 | ⚪ |
 | ⚪ sanded hickory | 1898 | ⚪ |
 | ⚪ sanded mahogany | 1174 | ⚪ |
@@ -1624,9 +1619,9 @@ flowchart LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | 🟡 Chromium Plating | 26 | 🟡 |
-| 🔵 Iridium Plating | 292 | 🔵 |
+| 🔵 Iridium Plating | 298 | 🔵 |
 | 🟢 Terne Plating | 436 | 🟢 |
-| 🟣 Zircon Plating | 33 | 🟣 |
+| 🟣 Zircon Plating | 34 | 🟣 |
 
 
 </div><div>
@@ -1637,7 +1632,7 @@ flowchart LR
 | --- | ---: | --- |
 | ⚪ Alkahest | 1872 | ⚪ |
 | ⚪ Gall | 947 | ⚪ |
-| ⚪ Grease | 2166 | ⚪ |
+| ⚪ Grease | 2168 | ⚪ |
 | ⚪ Ichor | 2234 | ⚪ |
 | ⚪ Night-Oil | 8 | ⚪ |
 | ⚪ Pitch-Bile | 157 | ⚪ |
@@ -1654,7 +1649,7 @@ flowchart LR
 | --- | ---: | --- |
 | ⚪ Denara | 15 | ⚪ |
 | ⚪ Edode | 61 | ⚪ |
-| ⚪ Edora | 123 | ⚪ |
+| ⚪ Edora | 124 | ⚪ |
 | ⚪ Hade | 107 | ⚪ |
 | ⚪ Idode | 40 | ⚪ |
 | ⚪ Itade | 313 | ⚪ |
@@ -1740,7 +1735,7 @@ flowchart LR
 | ⚪ raw silverweed | 2 | ⚪ |
 | ⚪ raw spidersilk | 7 | ⚪ |
 | ⚪ raw void bloom | 2 | ⚪ |
-| ⚪ rawhide scraps | 27 | ⚪ |
+| ⚪ rawhide scraps | 29 | ⚪ |
 | ⚪ rough ash | 3 | ⚪ |
 | ⚪ rough beech | 15 | ⚪ |
 | ⚪ rough hickory | 19 | ⚪ |
@@ -1765,12 +1760,12 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Pulverized Antimony | 15 | ⚪ |
+| ⚪ Pulverized Antimony | 16 | ⚪ |
 | ⚪ Pulverized Aurbic Amber | 9 | ⚪ |
-| ⚪ Pulverized Cobalt | 17 | ⚪ |
+| ⚪ Pulverized Cobalt | 19 | ⚪ |
 | ⚪ Pulverized Slaughterstone | 2 | ⚪ |
 | ⚪ Pulverized Titanium | 10 | ⚪ |
-| ⚪ Pulverized Zinc | 14 | ⚪ |
+| ⚪ Pulverized Zinc | 18 | ⚪ |
 
 
 </div><div>
@@ -1817,10 +1812,10 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟣 mastic | 147 | 🟣 |
+| 🟣 mastic | 148 | 🟣 |
 | 🟢 pitch | 868 | 🟢 |
 | 🟡 rosin | 28 | 🟡 |
-| 🔵 turpen | 784 | 🔵 |
+| 🔵 turpen | 787 | 🔵 |
 
 
 </div><div>
@@ -1829,25 +1824,25 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Adamantite | 894 | ⚪ |
+| ⚪ Adamantite | 895 | ⚪ |
 | ⚪ Amber Marble | 663 | ⚪ |
 | ⚪ Ancient Sandstone | 17 | ⚪ |
-| ⚪ Argentum | 1061 | ⚪ |
+| ⚪ Argentum | 1062 | ⚪ |
 | ⚪ Ash Canvas | 17 | ⚪ |
 | ⚪ Auric Tusk | 10 | ⚪ |
-| ⚪ Azure Plasm | 147 | ⚪ |
+| ⚪ Azure Plasm | 149 | ⚪ |
 | ⚪ Bat Oil | 1 | ⚪ |
 | ⚪ Black Beeswax | 229 | ⚪ |
 | ⚪ Boiled Carapace | 1 | ⚪ |
-| ⚪ Bone | 894 | ⚪ |
+| ⚪ Bone | 896 | ⚪ |
 | ⚪ Bronze | 621 | ⚪ |
 | ⚪ Brooch of Fellowship | 39 | ⚪ |
 | ⚪ Cassiterite | 9 | ⚪ |
-| ⚪ Corundum | 894 | ⚪ |
+| ⚪ Corundum | 895 | ⚪ |
 | ⚪ Crocodile Leather | 1 | ⚪ |
 | 🟡 Crown Mimic Stone | 70 | 🟡 |
 | ⚪ Culanda Lacquer | 48 | ⚪ |
-| ⚪ Daedra Heart | 537 | ⚪ |
+| ⚪ Daedra Heart | 540 | ⚪ |
 | ⚪ Desecrated Grave Soil | 22 | ⚪ |
 | ⚪ Dragon Scute | 12 | ⚪ |
 | ⚪ Dragonthread | 42 | ⚪ |
@@ -1873,12 +1868,12 @@ flowchart LR
 | ⚪ Manganese | 893 | ⚪ |
 | ⚪ Marsh Nettle Sprig | 5 | ⚪ |
 | ⚪ Minotaur Bezoar | 5 | ⚪ |
-| ⚪ Molybdenum | 821 | ⚪ |
-| ⚪ Moonstone | 894 | ⚪ |
+| ⚪ Molybdenum | 824 | ⚪ |
+| ⚪ Moonstone | 895 | ⚪ |
 | ⚪ Nickel | 839 | ⚪ |
-| ⚪ Obsidian | 894 | ⚪ |
+| ⚪ Obsidian | 896 | ⚪ |
 | ⚪ Oxblood Fungus | 689 | ⚪ |
-| ⚪ Palladium | 739 | ⚪ |
+| ⚪ Palladium | 740 | ⚪ |
 | ⚪ Pearl Sand | 619 | ⚪ |
 | ⚪ Polished Scarab Elytra | 2 | ⚪ |
 | ⚪ Polished Shilling | 7 | ⚪ |
@@ -1889,11 +1884,11 @@ flowchart LR
 | ⚪ Sea Serpent Hide | 1 | ⚪ |
 | ⚪ Shimmering Sand | 8 | ⚪ |
 | ⚪ Star Sapphire | 72 | ⚪ |
-| ⚪ Starmetal | 893 | ⚪ |
+| ⚪ Starmetal | 899 | ⚪ |
 | ⚪ Stendarr Stamp | 2 | ⚪ |
 | ⚪ Tainted Blood | 64 | ⚪ |
 | ⚪ Tempered Brass | 11 | ⚪ |
-| ⚪ Tenebrous Cord | 101 | ⚪ |
+| ⚪ Tenebrous Cord | 102 | ⚪ |
 | ⚪ Tide-Born Feathers | 22 | ⚪ |
 | ⚪ Umbral Droplet | 1 | ⚪ |
 | ⚪ Vibrant Tumeric | 1 | ⚪ |
@@ -1912,7 +1907,7 @@ flowchart LR
 | --- | ---: | --- |
 | 🟡 dreugh wax | 28 | 🟡 |
 | 🟣 elegant lining | 262 | 🟣 |
-| 🔵 embroidery | 1273 | 🔵 |
+| 🔵 embroidery | 1279 | 🔵 |
 | 🟢 hemming | 1221 | 🟢 |
 
 
@@ -1922,7 +1917,7 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 dwarven oil | 1050 | 🔵 |
+| 🔵 dwarven oil | 1054 | 🔵 |
 | 🟣 grain solvent | 197 | 🟣 |
 | 🟢 honing stone | 1132 | 🟢 |
 | 🟡 tempering alloy | 17 | 🟡 |
@@ -1936,12 +1931,12 @@ flowchart LR
 | --- | ---: | --- |
 | ⚪ Amethyst | 694 | ⚪ |
 | ⚪ Carnelian | 206 | ⚪ |
-| ⚪ Chysolite | 452 | ⚪ |
-| ⚪ Citrine | 606 | ⚪ |
+| ⚪ Chysolite | 455 | ⚪ |
+| ⚪ Citrine | 608 | ⚪ |
 | ⚪ Fire Opal | 391 | ⚪ |
 | ⚪ Jade | 350 | ⚪ |
 | ⚪ Potent Nirncrux | 3 | ⚪ |
-| ⚪ Ruby | 388 | ⚪ |
+| ⚪ Ruby | 392 | ⚪ |
 | ⚪ Turquoise | 451 | ⚪ |
 
 
@@ -2397,675 +2392,515 @@ flowchart LR
 | Progress | ░░░░░░░░░░ 0% |
 
 
+#### Ingredient (50 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Acai Berry | 990 | ⚪ |
+| ⚪ Apples | 1460 | ⚪ |
+| ⚪ Bananas | 415 | ⚪ |
+| ⚪ Barley | 1018 | ⚪ |
+| ⚪ Beets | 285 | ⚪ |
+| 🟣 Bervez Juice | 55 | 🟣 |
+| ⚪ Bittergreen | 392 | ⚪ |
+| ⚪ Carrots | 250 | ⚪ |
+| ⚪ Cheese | 120 | ⚪ |
+| ⚪ Coffee | 880 | ⚪ |
+| ⚪ Comberry | 378 | ⚪ |
+| ⚪ Corn | 236 | ⚪ |
+| ⚪ Fish | 398 | ⚪ |
+| ⚪ Flour | 314 | ⚪ |
+| 🟣 Frost Mirriam | 42 | 🟣 |
+| ⚪ Game | 191 | ⚪ |
+| ⚪ Garlic | 160 | ⚪ |
+| ⚪ Ginger | 688 | ⚪ |
+| ⚪ Ginkgo | 848 | ⚪ |
+| ⚪ Ginseng | 940 | ⚪ |
+| ⚪ Greens | 401 | ⚪ |
+| ⚪ Guarana | 914 | ⚪ |
+| ⚪ Honey | 768 | ⚪ |
+| ⚪ Isinglass | 626 | ⚪ |
+| ⚪ Jasmine | 332 | ⚪ |
+| ⚪ Jazbay Grapes | 380 | ⚪ |
+| ⚪ Lemon | 766 | ⚪ |
+| ⚪ Lotus | 428 | ⚪ |
+| ⚪ Melon | 575 | ⚪ |
+| ⚪ Metheglin | 754 | ⚪ |
+| ⚪ Millet | 353 | ⚪ |
+| ⚪ Mint | 371 | ⚪ |
+| ⚪ Potato | 200 | ⚪ |
+| ⚪ Poultry | 266 | ⚪ |
+| ⚪ Pumpkin | 491 | ⚪ |
+| ⚪ Radish | 170 | ⚪ |
+| ⚪ Red Meat | 199 | ⚪ |
+| ⚪ Rice | 1125 | ⚪ |
+| ⚪ Rose | 460 | ⚪ |
+| ⚪ Rye | 1216 | ⚪ |
+| ⚪ Saltrice | 467 | ⚪ |
+| ⚪ Seasoning | 457 | ⚪ |
+| ⚪ Seaweed | 774 | ⚪ |
+| ⚪ Small Game | 183 | ⚪ |
+| ⚪ Surilie Grapes | 1162 | ⚪ |
+| ⚪ Tomato | 376 | ⚪ |
+| ⚪ Wheat | 1063 | ⚪ |
+| ⚪ White Meat | 191 | ⚪ |
+| ⚪ Yeast | 1118 | ⚪ |
+| ⚪ Yerba Mate | 772 | ⚪ |
+
+
+</div><div>
+
+#### Ink (1 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Luminous Ink | 30 | ⚪ |
+
+
+</div><div>
+
+#### Jewelry Trait (5 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ antimony | 47 | ⚪ |
+| ⚪ Aurbic Amber | 13 | ⚪ |
+| ⚪ cobalt | 33 | ⚪ |
+| ⚪ Titanium | 16 | ⚪ |
+| ⚪ zinc | 36 | ⚪ |
+
+
+</div><div>
+
+#### Lure (6 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ crawlers, Foul Bait | 1333 | ⚪ |
+| ⚪ fish roe, Foul Bait | 3 | ⚪ |
+| ⚪ guts, Lake Bait | 898 | ⚪ |
+| ⚪ insect parts, River Bait | 345 | ⚪ |
+| ⚪ shad, River Bait | 25 | ⚪ |
+| ⚪ worms, Saltwater Bait | 1343 | ⚪ |
+
+
+</div><div>
+
+#### Material (45 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Ancestor Silk | 3088 | ⚪ |
+| ⚪ Calcinium ingot | 250 | ⚪ |
+| ⚪ copper ounce | 1866 | ⚪ |
+| ⚪ cotton | 1692 | ⚪ |
+| ⚪ dwarven ingot | 2242 | ⚪ |
+| ⚪ ebonthread | 745 | ⚪ |
+| ⚪ ebony ingot | 1319 | ⚪ |
+| ⚪ electrum ounce | 145 | ⚪ |
+| ⚪ fell hide | 606 | ⚪ |
+| ⚪ flax | 1232 | ⚪ |
+| ⚪ Galatite ingot | 195 | ⚪ |
+| ⚪ hide | 883 | ⚪ |
+| ⚪ Iron Hide | 56 | ⚪ |
+| ⚪ Iron ingot | 937 | ⚪ |
+| ⚪ ironthread | 54 | ⚪ |
+| ⚪ jute | 838 | ⚪ |
+| ⚪ Kresh Fiber | 122 | ⚪ |
+| ⚪ leather | 1369 | ⚪ |
+| ⚪ orichalcum ingot | 2438 | ⚪ |
+| ⚪ pewter ounce | 2544 | ⚪ |
+| ⚪ platinum ounce | 1992 | ⚪ |
+| ⚪ quicksilver ingot | 146 | ⚪ |
+| ⚪ rawhide | 2920 | ⚪ |
+| ⚪ Rubedite Ingot | 4438 | ⚪ |
+| ⚪ Rubedo Leather | 1400 | ⚪ |
+| ⚪ sanded ash | 88 | ⚪ |
+| ⚪ sanded beech | 1847 | ⚪ |
+| ⚪ sanded birch | 124 | ⚪ |
+| ⚪ sanded hickory | 1898 | ⚪ |
+| ⚪ sanded mahogany | 1174 | ⚪ |
+| ⚪ sanded maple | 1332 | ⚪ |
+| ⚪ sanded nightwood | 253 | ⚪ |
+| ⚪ sanded oak | 1682 | ⚪ |
+| ⚪ Sanded Ruby Ash | 2876 | ⚪ |
+| ⚪ sanded yew | 830 | ⚪ |
+| ⚪ Shadowhide | 710 | ⚪ |
+| ⚪ silver ounce | 331 | ⚪ |
+| ⚪ silverweave | 107 | ⚪ |
+| ⚪ spidersilk | 2087 | ⚪ |
+| ⚪ Steel ingot | 2074 | ⚪ |
+| ⚪ superb hide | 87 | ⚪ |
+| ⚪ thick leather | 1108 | ⚪ |
+| ⚪ topgrain hide | 60 | ⚪ |
+| ⚪ void cloth | 612 | ⚪ |
+| ⚪ voidstone ingot | 778 | ⚪ |
+
+
+</div><div>
+
+#### Plating (4 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| 🟡 Chromium Plating | 26 | 🟡 |
+| 🔵 Iridium Plating | 298 | 🔵 |
+| 🟢 Terne Plating | 436 | 🟢 |
+| 🟣 Zircon Plating | 34 | 🟣 |
+
+
+</div><div>
+
+#### Poison Solvent (9 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Alkahest | 1872 | ⚪ |
+| ⚪ Gall | 947 | ⚪ |
+| ⚪ Grease | 2168 | ⚪ |
+| ⚪ Ichor | 2234 | ⚪ |
+| ⚪ Night-Oil | 8 | ⚪ |
+| ⚪ Pitch-Bile | 157 | ⚪ |
+| ⚪ Slime | 437 | ⚪ |
+| ⚪ Tarblack | 25 | ⚪ |
+| ⚪ Terebinthine | 1180 | ⚪ |
+
+
+</div><div>
+
+#### Potency Runestone (30 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Denara | 15 | ⚪ |
+| ⚪ Edode | 61 | ⚪ |
+| ⚪ Edora | 124 | ⚪ |
+| ⚪ Hade | 107 | ⚪ |
+| ⚪ Idode | 40 | ⚪ |
+| ⚪ Itade | 313 | ⚪ |
+| ⚪ Jaera | 133 | ⚪ |
+| ⚪ Jayde | 59 | ⚪ |
+| ⚪ Jehade | 239 | ⚪ |
+| ⚪ Jejora | 82 | ⚪ |
+| ⚪ Jera | 155 | ⚪ |
+| ⚪ Jode | 172 | ⚪ |
+| ⚪ Jora | 310 | ⚪ |
+| ⚪ Kude | 65 | ⚪ |
+| ⚪ Kura | 47 | ⚪ |
+| ⚪ Notade | 189 | ⚪ |
+| ⚪ Ode | 57 | ⚪ |
+| ⚪ Odra | 113 | ⚪ |
+| ⚪ Pode | 5 | ⚪ |
+| ⚪ Pojode | 73 | ⚪ |
+| ⚪ Pojora | 107 | ⚪ |
+| ⚪ Pora | 200 | ⚪ |
+| ⚪ Porade | 382 | ⚪ |
+| ⚪ Rede | 15 | ⚪ |
+| ⚪ Rejera | 365 | ⚪ |
+| ⚪ Rekude | 84 | ⚪ |
+| ⚪ Rekura | 10 | ⚪ |
+| ⚪ Repora | 598 | ⚪ |
+| ⚪ Rera | 4 | ⚪ |
+| ⚪ Tade | 55 | ⚪ |
+
+
+</div><div>
+
+#### Potion Solvent (9 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ cleansed water | 978 | ⚪ |
+| ⚪ clear water | 937 | ⚪ |
+| ⚪ cloud mist | 40 | ⚪ |
+| ⚪ filtered water | 545 | ⚪ |
+| ⚪ Lorkhan's Tears | 784 | ⚪ |
+| ⚪ natural water | 1022 | ⚪ |
+| ⚪ pristine water | 481 | ⚪ |
+| ⚪ purified water | 89 | ⚪ |
+| ⚪ Star Dew | 60 | ⚪ |
+
+
+</div><div>
+
+#### Raw Material (50 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Ashes of Remorse | 2 | ⚪ |
+| ⚪ Calcinium ore | 3 | ⚪ |
+| ⚪ Cassiterite Sand | 7 | ⚪ |
+| ⚪ Coarse Chalk | 9 | ⚪ |
+| ⚪ copper dust | 16 | ⚪ |
+| ⚪ Dried Blood | 7 | ⚪ |
+| ⚪ dwarven ore | 11 | ⚪ |
+| ⚪ Dwemer Scrap | 8 | ⚪ |
+| ⚪ ebony ore | 5 | ⚪ |
+| ⚪ electrum dust | 1 | ⚪ |
+| ⚪ fell hide scraps | 9 | ⚪ |
+| ⚪ Galatite ore | 5 | ⚪ |
+| ⚪ Grain of Pearl Sand | 4 | ⚪ |
+| ⚪ hide scraps | 2 | ⚪ |
+| ⚪ high iron ore | 4 | ⚪ |
+| ⚪ iron hide scraps | 7 | ⚪ |
+| ⚪ iron ore | 49 | ⚪ |
+| ⚪ leather scraps | 14 | ⚪ |
+| ⚪ Malachite Shard | 15 | ⚪ |
+| ⚪ orichalcum ore | 41 | ⚪ |
+| ⚪ Oxblood Fungus Spore | 7 | ⚪ |
+| ⚪ pewter dust | 9 | ⚪ |
+| ⚪ platinum dust | 172 | ⚪ |
+| ⚪ Quicksilver ore | 8 | ⚪ |
+| ⚪ raw ancestor silk | 175 | ⚪ |
+| ⚪ raw cotton | 5 | ⚪ |
+| ⚪ raw ebonthread | 5 | ⚪ |
+| ⚪ raw flax | 5 | ⚪ |
+| ⚪ raw jute | 17 | ⚪ |
+| ⚪ raw Kreshweed | 3 | ⚪ |
+| ⚪ raw silverweed | 2 | ⚪ |
+| ⚪ raw spidersilk | 7 | ⚪ |
+| ⚪ raw void bloom | 2 | ⚪ |
+| ⚪ rawhide scraps | 29 | ⚪ |
+| ⚪ rough ash | 3 | ⚪ |
+| ⚪ rough beech | 15 | ⚪ |
+| ⚪ rough hickory | 19 | ⚪ |
+| ⚪ rough mahogany | 1 | ⚪ |
+| ⚪ rough maple | 27 | ⚪ |
+| ⚪ rough oak | 2 | ⚪ |
+| ⚪ rough ruby ash | 283 | ⚪ |
+| ⚪ rough yew | 8 | ⚪ |
+| ⚪ rubedite ore | 301 | ⚪ |
+| ⚪ rubedo hide scraps | 44 | ⚪ |
+| ⚪ shadowhide scraps | 8 | ⚪ |
+| ⚪ silver dust | 7 | ⚪ |
+| ⚪ superb hide scraps | 6 | ⚪ |
+| ⚪ thick leather scraps | 37 | ⚪ |
+| ⚪ topgrain hide scraps | 2 | ⚪ |
+| ⚪ Viridian Dust | 7 | ⚪ |
+
+
+</div><div>
+
+#### Raw Trait (6 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Pulverized Antimony | 16 | ⚪ |
+| ⚪ Pulverized Aurbic Amber | 9 | ⚪ |
+| ⚪ Pulverized Cobalt | 19 | ⚪ |
+| ⚪ Pulverized Slaughterstone | 2 | ⚪ |
+| ⚪ Pulverized Titanium | 10 | ⚪ |
+| ⚪ Pulverized Zinc | 18 | ⚪ |
+
+
+</div><div>
+
+#### Reagent (30 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| 🟢 Beetle Scuttle | 245 | 🟢 |
+| 🟢 blessed thistle | 570 | 🟢 |
+| 🟢 blue entoloma | 508 | 🟢 |
+| 🟢 bugloss | 778 | 🟢 |
+| 🟢 Butterfly Wing | 72 | 🟢 |
+| 🟢 Clam Gall | 10 | 🟢 |
+| 🟢 columbine | 544 | 🟢 |
+| 🟢 corn flower | 652 | 🟢 |
+| 🟢 Dragon's Bile | 11 | 🟢 |
+| 🟢 Dragon's Blood | 6 | 🟢 |
+| 🟢 dragonthorn | 688 | 🟢 |
+| 🟢 emetic russula | 473 | 🟢 |
+| 🟢 Fleshfly Larva||Fleshfly Larvae | 465 | 🟢 |
+| 🟢 imp stool | 402 | 🟢 |
+| 🟢 lady's smock | 632 | 🟢 |
+| 🟢 luminous russula | 338 | 🟢 |
+| 🟢 mountain flower | 502 | 🟢 |
+| 🟢 Mudcrab Chitin | 43 | 🟢 |
+| 🟢 namira's rot | 364 | 🟢 |
+| 🟢 Nightshade | 426 | 🟢 |
+| 🟢 nirnroot | 439 | 🟢 |
+| 🟢 Powdered Mother of Pearl | 11 | 🟢 |
+| 🟢 Scrib Jelly | 271 | 🟢 |
+| 🟢 Spider Egg | 793 | 🟢 |
+| 🟢 stinkhorn | 421 | 🟢 |
+| 🟢 Torchbug Thorax | 64 | 🟢 |
+| 🟢 violet coprinus | 351 | 🟢 |
+| 🟢 water hyacinth | 637 | 🟢 |
+| 🟢 white cap | 382 | 🟢 |
+| 🟢 wormwood | 635 | 🟢 |
+
+
+</div><div>
+
+#### Resin (4 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| 🟣 mastic | 148 | 🟣 |
+| 🟢 pitch | 868 | 🟢 |
+| 🟡 rosin | 28 | 🟡 |
+| 🔵 turpen | 787 | 🔵 |
+
+
+</div><div>
+
+#### Style Material (73 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Adamantite | 895 | ⚪ |
+| ⚪ Amber Marble | 663 | ⚪ |
+| ⚪ Ancient Sandstone | 17 | ⚪ |
+| ⚪ Argentum | 1062 | ⚪ |
+| ⚪ Ash Canvas | 17 | ⚪ |
+| ⚪ Auric Tusk | 10 | ⚪ |
+| ⚪ Azure Plasm | 149 | ⚪ |
+| ⚪ Bat Oil | 1 | ⚪ |
+| ⚪ Black Beeswax | 229 | ⚪ |
+| ⚪ Boiled Carapace | 1 | ⚪ |
+| ⚪ Bone | 896 | ⚪ |
+| ⚪ Bronze | 621 | ⚪ |
+| ⚪ Brooch of Fellowship | 39 | ⚪ |
+| ⚪ Cassiterite | 9 | ⚪ |
+| ⚪ Corundum | 895 | ⚪ |
+| ⚪ Crocodile Leather | 1 | ⚪ |
+| 🟡 Crown Mimic Stone | 70 | 🟡 |
+| ⚪ Culanda Lacquer | 48 | ⚪ |
+| ⚪ Daedra Heart | 540 | ⚪ |
+| ⚪ Desecrated Grave Soil | 22 | ⚪ |
+| ⚪ Dragon Scute | 12 | ⚪ |
+| ⚪ Dragonthread | 42 | ⚪ |
+| ⚪ Dwemer Frame | 14 | ⚪ |
+| ⚪ Eagle Feather | 7 | ⚪ |
+| ⚪ Etched Bronze | 1 | ⚪ |
+| ⚪ Etched Molybdenum | 1 | ⚪ |
+| ⚪ Etched Nickel | 1 | ⚪ |
+| ⚪ Ferrous Salts | 17 | ⚪ |
+| ⚪ Fine Chalk | 80 | ⚪ |
+| ⚪ Firesong Skarn | 2 | ⚪ |
+| ⚪ flint | 894 | ⚪ |
+| ⚪ Funerary Wrappings | 1 | ⚪ |
+| ⚪ Goldscale | 4 | ⚪ |
+| ⚪ Gryphon Plume | 1 | ⚪ |
+| ⚪ Hackwing Plumage | 4 | ⚪ |
+| ⚪ Hawk Skull | 1 | ⚪ |
+| ⚪ High Isle Filigree | 5 | ⚪ |
+| ⚪ Ivory Brigade Clasp | 6 | ⚪ |
+| ⚪ Laurel | 84 | ⚪ |
+| ⚪ Lion Fang | 6 | ⚪ |
+| ⚪ Malachite | 82 | ⚪ |
+| ⚪ Manganese | 893 | ⚪ |
+| ⚪ Marsh Nettle Sprig | 5 | ⚪ |
+| ⚪ Minotaur Bezoar | 5 | ⚪ |
+| ⚪ Molybdenum | 824 | ⚪ |
+| ⚪ Moonstone | 895 | ⚪ |
+| ⚪ Nickel | 839 | ⚪ |
+| ⚪ Obsidian | 896 | ⚪ |
+| ⚪ Oxblood Fungus | 689 | ⚪ |
+| ⚪ Palladium | 740 | ⚪ |
+| ⚪ Pearl Sand | 619 | ⚪ |
+| ⚪ Polished Scarab Elytra | 2 | ⚪ |
+| ⚪ Polished Shilling | 7 | ⚪ |
+| ⚪ Potash | 4 | ⚪ |
+| ⚪ Pristine Shroud | 6 | ⚪ |
+| ⚪ Refined Bonemold Resin | 14 | ⚪ |
+| ⚪ Rogue's Soot | 22 | ⚪ |
+| ⚪ Sea Serpent Hide | 1 | ⚪ |
+| ⚪ Shimmering Sand | 8 | ⚪ |
+| ⚪ Star Sapphire | 72 | ⚪ |
+| ⚪ Starmetal | 899 | ⚪ |
+| ⚪ Stendarr Stamp | 2 | ⚪ |
+| ⚪ Tainted Blood | 64 | ⚪ |
+| ⚪ Tempered Brass | 11 | ⚪ |
+| ⚪ Tenebrous Cord | 102 | ⚪ |
+| ⚪ Tide-Born Feathers | 22 | ⚪ |
+| ⚪ Umbral Droplet | 1 | ⚪ |
+| ⚪ Vibrant Tumeric | 1 | ⚪ |
+| ⚪ Vitrified Malondo | 120 | ⚪ |
+| ⚪ Volcanic Viridian | 5 | ⚪ |
+| ⚪ Warrior's Heart Ashes | 25 | ⚪ |
+| ⚪ Wolfsbane Incense | 176 | ⚪ |
+| ⚪ Wrought Ferrofungus | 11 | ⚪ |
+
+
+</div><div>
+
+#### Tannin (4 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| 🟡 dreugh wax | 28 | 🟡 |
+| 🟣 elegant lining | 262 | 🟣 |
+| 🔵 embroidery | 1279 | 🔵 |
+| 🟢 hemming | 1221 | 🟢 |
+
+
+</div><div>
+
+#### Temper (4 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| 🔵 dwarven oil | 1054 | 🔵 |
+| 🟣 grain solvent | 197 | 🟣 |
+| 🟢 honing stone | 1132 | 🟢 |
+| 🟡 tempering alloy | 17 | 🟡 |
+
+
+</div><div>
+
+#### Weapon Trait (9 items)
+
+| **Item** | **Stack** | **Quality** |
+| --- | ---: | --- |
+| ⚪ Amethyst | 694 | ⚪ |
+| ⚪ Carnelian | 206 | ⚪ |
+| ⚪ Chysolite | 455 | ⚪ |
+| ⚪ Citrine | 608 | ⚪ |
+| ⚪ Fire Opal | 391 | ⚪ |
+| ⚪ Jade | 350 | ⚪ |
+| ⚪ Potent Nirncrux | 3 | ⚪ |
+| ⚪ Ruby | 392 | ⚪ |
+| ⚪ Turquoise | 451 | ⚪ |
+
+
 </div>
 </div>
 
 
 </details>
 
-<details>
-<summary><strong>🗺️ Exploration (2410/4700 pts)</strong></summary>
+---
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
+<a id="achievement-progress"></a>
 
-| **Aldmeri Dominion** | **Value** |
-| --- | ---: |
-| Points | 570/1040 |
-| Progress | █████░░░░░ 54% |
+## 🏆 Achievement Progress
 
+| **Total Achievements** | **Completed** | **Completion %** | **Points Earned** | **Total Points** |
+| ---: | ---: | ---: | ---: | ---: |
+| 444 | 71 | 17% | 12,735 | 72,540 |
 
-</div><div>
-
-| **Coldharbour** | **Value** |
-| --- | ---: |
-| Points | 5/175 |
-| Progress | ░░░░░░░░░░ 2% |
-
-
-</div><div>
-
-| **Craglorn** | **Value** |
-| --- | ---: |
-| Points | 165/385 |
-| Progress | ████░░░░░░ 42% |
-
-
-</div><div>
-
-| **Cyrodiil** | **Value** |
-| --- | ---: |
-| Points | 50/230 |
-| Progress | ██░░░░░░░░ 21% |
-
-
-</div><div>
-
-| **Daggerfall Covenant** | **Value** |
-| --- | ---: |
-| Points | 670/1055 |
-| Progress | ██████░░░░ 63% |
-
-
-</div><div>
-
-| **Dark Anchors** | **Value** |
-| --- | ---: |
-| Points | 300/410 |
-| Progress | ███████░░░ 73% |
-
-
-</div><div>
-
-| **Ebonheart Pact** | **Value** |
-| --- | ---: |
-| Points | 645/1050 |
-| Progress | ██████░░░░ 61% |
-
-
-</div><div>
-
-| **Fishing** | **Value** |
-| --- | ---: |
-| Points | 0/190 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
+### 📊 Achievement Categories
 
 <details>
-<summary><strong>🔧 Fallen Banners (0/1320 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **General** | **Value** |
-| --- | ---: |
-| Points | 0/280 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
+<summary><strong>🔧 Ascending Tide (5/1225 pts)</strong></summary>
 
 | **Veteran** | **Value** |
 | --- | ---: |
-| Points | 0/1040 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Feast of Shadows (0/1390 pts)</strong></summary>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/1140 |
+| Points | 0/1010 |
 | Progress | ░░░░░░░░░░ 0% |
 
 
 </details>
 
 <details>
-<summary><strong>🔧 Firesong (10/700 pts)</strong></summary>
+<summary><strong>🔧 Blackwood (300/1600 pts)</strong></summary>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
 | **Antiquities** | **Value** |
-| --- | ---: |
-| Points | 0/135 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 10/100 |
-| Progress | █░░░░░░░░░ 10% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 0/205 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Tales of Tribute** | **Value** |
-| --- | ---: |
-| Points | 0/40 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Flames of Ambition (0/945 pts)</strong></summary>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/790 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Gold Road (0/1700 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Antiquities** | **Value** |
-| --- | ---: |
-| Points | 0/110 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 0/465 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **General** | **Value** |
-| --- | ---: |
-| Points | 0/325 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Lucent Citadel** | **Value** |
-| --- | ---: |
-| Points | 0/400 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Mirrormoor Mosaics** | **Value** |
-| --- | ---: |
-| Points | 0/65 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 0/290 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Tales of Tribute** | **Value** |
-| --- | ---: |
-| Points | 0/45 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Greymoor (30/2085 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Antiquities** | **Value** |
-| --- | ---: |
-| Points | 30/485 |
-| Progress | ░░░░░░░░░░ 6% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 0/370 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Harrowstorms** | **Value** |
-| --- | ---: |
-| Points | 0/155 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Kyne's Aegis** | **Value** |
-| --- | ---: |
-| Points | 0/430 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 0/255 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Harrowstorm (5/945 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **General** | **Value** |
-| --- | ---: |
-| Points | 5/245 |
-| Progress | ░░░░░░░░░░ 2% |
-
-
-</div><div>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/700 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 High Isle (30/2320 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Antiquities** | **Value** |
-| --- | ---: |
-| Points | 0/140 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Companions** | **Value** |
-| --- | ---: |
-| Points | 0/120 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Dreadsail Reef** | **Value** |
-| --- | ---: |
-| Points | 0/370 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 5/390 |
-| Progress | ░░░░░░░░░░ 1% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 20/230 |
-| Progress | ░░░░░░░░░░ 8% |
-
-
-</div><div>
-
-| **Tales of Tribute** | **Value** |
-| --- | ---: |
-| Points | 0/685 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Volcanic Vents** | **Value** |
-| --- | ---: |
-| Points | 5/90 |
-| Progress | ░░░░░░░░░░ 5% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Holiday Events (340/1130 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Anniversary Jubilee** | **Value** |
-| --- | ---: |
-| Points | 0/140 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Hearts Week** | **Value** |
-| --- | ---: |
-| Points | 0/45 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Jester's Festival** | **Value** |
-| --- | ---: |
-| Points | 10/270 |
-| Progress | ░░░░░░░░░░ 3% |
-
-
-</div><div>
-
-| **New Life Festival** | **Value** |
-| --- | ---: |
-| Points | 165/190 |
-| Progress | ████████░░ 86% |
-
-
-</div><div>
-
-| **Whitestrake's Mayhem** | **Value** |
-| --- | ---: |
-| Points | 0/165 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Witches Festival** | **Value** |
-| --- | ---: |
-| Points | 165/320 |
-| Progress | █████░░░░░ 51% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Horns of the Reach (0/760 pts)</strong></summary>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/615 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</details>
-
-<details>
-<summary><strong>🏠 Housing (0/525 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Decorating** | **Value** |
-| --- | ---: |
-| Points | 0/150 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Property** | **Value** |
-| --- | ---: |
-| Points | 0/325 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Imperial City (105/1205 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Imperial City Prison** | **Value** |
-| --- | ---: |
-| Points | 0/300 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **White Gold Tower** | **Value** |
-| --- | ---: |
-| Points | 0/275 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Infinite Archive (0/1635 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 0/940 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **General** | **Value** |
-| --- | ---: |
-| Points | 0/650 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Tales of Tribute** | **Value** |
-| --- | ---: |
-| Points | 0/45 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Lost Depths (0/1325 pts)</strong></summary>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/1090 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Markarth (5/1335 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Antiquities** | **Value** |
-| --- | ---: |
-| Points | 0/130 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 5/115 |
-| Progress | ░░░░░░░░░░ 4% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 0/295 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Vateshran Hollows** | **Value** |
-| --- | ---: |
-| Points | 0/485 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Morrowind (135/1640 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 75/380 |
-| Progress | █░░░░░░░░░ 19% |
-
-
-</div><div>
-
-| **Halls of Fabrication** | **Value** |
-| --- | ---: |
-| Points | 0/525 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 60/255 |
-| Progress | ██░░░░░░░░ 23% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Murkmire (15/1050 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Blackrose Prison** | **Value** |
-| --- | ---: |
-| Points | 0/445 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 10/120 |
-| Progress | ░░░░░░░░░░ 8% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 0/240 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Necrom (0/1880 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Antiquities** | **Value** |
-| --- | ---: |
-| Points | 0/170 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Bastion Nymic** | **Value** |
 | --- | ---: |
 | Points | 0/125 |
 | Progress | ░░░░░░░░░░ 0% |
@@ -3075,197 +2910,31 @@ flowchart LR
 
 | **Companions** | **Value** |
 | --- | ---: |
-| Points | 0/120 |
-| Progress | ░░░░░░░░░░ 0% |
+| Points | 20/120 |
+| Progress | █░░░░░░░░░ 16% |
 
 
 </div><div>
 
 | **Exploration** | **Value** |
 | --- | ---: |
-| Points | 0/410 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 0/330 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Sanity's Edge** | **Value** |
-| --- | ---: |
-| Points | 0/380 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Tales of Tribute** | **Value** |
-| --- | ---: |
-| Points | 0/65 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Orsinium (255/1010 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 125/425 |
-| Progress | ██░░░░░░░░ 29% |
-
-
-</div><div>
-
-| **Maelstrom Arena** | **Value** |
-| --- | ---: |
-| Points | 0/115 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 75/170 |
-| Progress | ████░░░░░░ 44% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Player VS Player (110/1945 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Alliance War** | **Value** |
-| --- | ---: |
-| Points | 90/915 |
-| Progress | ░░░░░░░░░░ 9% |
-
-
-</div><div>
-
-| **Battlegrounds** | **Value** |
-| --- | ---: |
-| Points | 0/580 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Prologues (20/240 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Blackwood** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Deadlands** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Dragonhold** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Elsweyr** | **Value** |
-| --- | ---: |
-| Points | 0/85 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Galen** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Gold Road** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Greymoor** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **High Isle** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Markarth** | **Value** |
-| --- | ---: |
-| Points | 0/10 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Murkmire** | **Value** |
-| --- | ---: |
-| Points | 10/45 |
+| Points | 100/445 |
 | Progress | ██░░░░░░░░ 22% |
 
 
 </div><div>
 
-| **Necrom** | **Value** |
+| **Quests** | **Value** |
 | --- | ---: |
-| Points | 0/10 |
+| Points | 180/230 |
+| Progress | ███████░░░ 78% |
+
+
+</div><div>
+
+| **Rockgrove** | **Value** |
+| --- | ---: |
+| Points | 0/420 |
 | Progress | ░░░░░░░░░░ 0% |
 
 
@@ -3276,63 +2945,103 @@ flowchart LR
 </details>
 
 <details>
-<summary><strong>🔧 Quests (1230/2150 pts)</strong></summary>
+<summary><strong>📈 Character (2680/5325 pts)</strong></summary>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
-| **Aldmeri Dominion** | **Value** |
+| **Anniversary** | **Value** |
 | --- | ---: |
-| Points | 270/410 |
-| Progress | ██████░░░░ 65% |
-
-
-</div><div>
-
-| **Coldharbour** | **Value** |
-| --- | ---: |
-| Points | 20/95 |
-| Progress | ██░░░░░░░░ 21% |
-
-
-</div><div>
-
-| **Craglorn** | **Value** |
-| --- | ---: |
-| Points | 0/285 |
+| Points | 0/520 |
 | Progress | ░░░░░░░░░░ 0% |
 
 
 </div><div>
 
-| **Cyrodiil** | **Value** |
+| **Champion** | **Value** |
 | --- | ---: |
-| Points | 0/50 |
+| Points | 235/235 |
+| Progress | ██████████ 100% |
+
+
+</div><div>
+
+| **Class** | **Value** |
+| --- | ---: |
+| Points | 1075/1435 |
+| Progress | ███████░░░ 74% |
+
+
+</div><div>
+
+| **Companions** | **Value** |
+| --- | ---: |
+| Points | 40/220 |
+| Progress | █░░░░░░░░░ 18% |
+
+
+</div><div>
+
+| **Guilds** | **Value** |
+| --- | ---: |
+| Points | 280/520 |
+| Progress | █████░░░░░ 53% |
+
+
+</div><div>
+
+| **Justice** | **Value** |
+| --- | ---: |
+| Points | 340/420 |
+| Progress | ████████░░ 80% |
+
+
+</div><div>
+
+| **Scribing** | **Value** |
+| --- | ---: |
+| Points | 0/505 |
 | Progress | ░░░░░░░░░░ 0% |
 
 
 </div><div>
 
-| **Daggerfall Covenant** | **Value** |
+| **Skill Styling** | **Value** |
 | --- | ---: |
-| Points | 365/410 |
-| Progress | ████████░░ 89% |
+| Points | 0/105 |
+| Progress | ░░░░░░░░░░ 0% |
 
 
 </div><div>
 
-| **Ebonheart Pact** | **Value** |
+| **Skyshards** | **Value** |
 | --- | ---: |
-| Points | 365/430 |
-| Progress | ████████░░ 84% |
+| Points | 165/475 |
+| Progress | ███░░░░░░░ 34% |
 
 
 </div><div>
 
-| **Main Quest** | **Value** |
+| **Trophies** | **Value** |
 | --- | ---: |
-| Points | 100/160 |
-| Progress | ██████░░░░ 62% |
+| Points | 10/80 |
+| Progress | █░░░░░░░░░ 12% |
+
+
+</div><div>
+
+| **Vampire** | **Value** |
+| --- | ---: |
+| Points | 75/110 |
+| Progress | ██████░░░░ 68% |
+
+
+</div><div>
+
+| **Werewolf** | **Value** |
+| --- | ---: |
+| Points | 0/105 |
+| Progress | ░░░░░░░░░░ 0% |
 
 
 </div>
@@ -3342,14 +3051,330 @@ flowchart LR
 </details>
 
 <details>
-<summary><strong>🔧 Scalebreaker (5/845 pts)</strong></summary>
+<summary><strong>🔧 Clockwork City (70/960 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **Asylum Sanctorium** | **Value** |
+| --- | ---: |
+| Points | 0/425 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</div><div>
+
+| **Exploration** | **Value** |
+| --- | ---: |
+| Points | 55/85 |
+| Progress | ██████░░░░ 64% |
+
+
+</div><div>
+
+| **Quests** | **Value** |
+| --- | ---: |
+| Points | 0/215 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>⚒️ Crafting (2365/3400 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **Alchemy** | **Value** |
+| --- | ---: |
+| Points | 355/490 |
+| Progress | ███████░░░ 72% |
+
+
+</div><div>
+
+| **Blacksmithing** | **Value** |
+| --- | ---: |
+| Points | 215/230 |
+| Progress | █████████░ 93% |
+
+
+</div><div>
+
+| **Clothier** | **Value** |
+| --- | ---: |
+| Points | 245/260 |
+| Progress | █████████░ 94% |
+
+
+</div><div>
+
+| **Enchanting** | **Value** |
+| --- | ---: |
+| Points | 165/250 |
+| Progress | ██████░░░░ 66% |
+
+
+</div><div>
+
+| **Jewelry Crafting** | **Value** |
+| --- | ---: |
+| Points | 150/165 |
+| Progress | █████████░ 90% |
+
+
+</div><div>
+
+| **Outfitting** | **Value** |
+| --- | ---: |
+| Points | 15/95 |
+| Progress | █░░░░░░░░░ 15% |
+
+
+</div><div>
+
+| **Provisioning** | **Value** |
+| --- | ---: |
+| Points | 180/255 |
+| Progress | ███████░░░ 70% |
+
+
+</div><div>
+
+| **Woodworking** | **Value** |
+| --- | ---: |
+| Points | 215/230 |
+| Progress | █████████░ 93% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Dark Brotherhood (615/850 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **Exploration** | **Value** |
+| --- | ---: |
+| Points | 230/295 |
+| Progress | ███████░░░ 77% |
+
+
+</div><div>
+
+| **Quests** | **Value** |
+| --- | ---: |
+| Points | 180/180 |
+| Progress | ██████████ 100% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Deadlands (5/810 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **Antiquities** | **Value** |
+| --- | ---: |
+| Points | 0/105 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</div><div>
+
+| **Exploration** | **Value** |
+| --- | ---: |
+| Points | 5/160 |
+| Progress | ░░░░░░░░░░ 3% |
+
+
+</div><div>
+
+| **Quests** | **Value** |
+| --- | ---: |
+| Points | 0/225 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Dragon Bones (0/875 pts)</strong></summary>
+
+| **Veteran** | **Value** |
+| --- | ---: |
+| Points | 0/730 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Dragonhold (5/675 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **Exploration** | **Value** |
+| --- | ---: |
+| Points | 5/130 |
+| Progress | ░░░░░░░░░░ 3% |
+
+
+</div><div>
+
+| **Quests** | **Value** |
+| --- | ---: |
+| Points | 0/225 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>🏰 Dungeons (545/3740 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **Group Dungeons** | **Value** |
+| --- | ---: |
+| Points | 20/390 |
+| Progress | ░░░░░░░░░░ 5% |
+
+
+</div><div>
+
+| **Public Dungeons** | **Value** |
+| --- | ---: |
+| Points | 300/1910 |
+| Progress | █░░░░░░░░░ 15% |
+
+
+</div><div>
+
+| **Trials** | **Value** |
+| --- | ---: |
+| Points | 10/890 |
+| Progress | ░░░░░░░░░░ 1% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Elsweyr (80/1340 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **Exploration** | **Value** |
+| --- | ---: |
+| Points | 60/400 |
+| Progress | █░░░░░░░░░ 15% |
+
+
+</div><div>
+
+| **Quests** | **Value** |
+| --- | ---: |
+| Points | 15/270 |
+| Progress | ░░░░░░░░░░ 5% |
+
+
+</div><div>
+
+| **Sunspire** | **Value** |
+| --- | ---: |
+| Points | 0/400 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+| **Survivor Challenges** | **Value** |
+| --- | ---: |
+| Points | 0/1200 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Waking Flame (0/1145 pts)</strong></summary>
+
+| **Veteran** | **Value** |
+| --- | ---: |
+| Points | 0/890 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Wolfhunter (5/840 pts)</strong></summary>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
 | **General** | **Value** |
 | --- | ---: |
-| Points | 5/175 |
+| Points | 5/155 |
+| Progress | ░░░░░░░░░░ 3% |
+
+
+</div><div>
+
+| **Veteran** | **Value** |
+| --- | ---: |
+| Points | 0/685 |
+| Progress | ░░░░░░░░░░ 0% |
+
+
+</div>
+</div>
+
+
+</details>
+
+<details>
+<summary><strong>🔧 Wrathstone (5/870 pts)</strong></summary>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+<div>
+
+| **General** | **Value** |
+| --- | ---: |
+| Points | 5/185 |
 | Progress | ░░░░░░░░░░ 2% |
 
 
@@ -3357,7 +3382,7 @@ flowchart LR
 
 | **Veteran** | **Value** |
 | --- | ---: |
-| Points | 0/670 |
+| Points | 0/685 |
 | Progress | ░░░░░░░░░░ 0% |
 
 
@@ -3367,233 +3392,35 @@ flowchart LR
 
 </details>
 
-<details>
-<summary><strong>🔧 Scions of Ithelia (0/1340 pts)</strong></summary>
+### 🎉 Recent Achievements
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
+| **Achievement** | **Points** | **Category** |
+| --- | ---: | --- |
+| ✅ **Truly Legendary** | 0 | 🔧  |
 
-| **General** | **Value** |
-| --- | ---: |
-| Points | 0/240 |
-| Progress | ░░░░░░░░░░ 0% |
+---
 
+<a id="guild-membership"></a>
 
-</div><div>
+## 🏰 Guild Membership
 
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/1100 |
-| Progress | ░░░░░░░░░░ 0% |
+| **Guild Name** | **Rank** | **Members** | **Alliance** |
+| --- | --- | ---: | --- |
+| **Alphabet Mafia** | Member | 437 | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
+| **Pacrooti's Hirelings** | Member | 485 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
+| **Paradox Raiding** | Member | 500 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Sew and Tell** | Member | 313 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
+| **Swiftrunners** | Member | 58 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
 
+---
 
-</div>
-</div>
+<div align="center">
 
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-103,767%20chars-purple?style=flat>)
 
-</details>
+**⚔️ CharacterMarkdown by @solaegis**
 
-<details>
-<summary><strong>🔧 Scribes of Fate (0/1360 pts)</strong></summary>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/1110 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Seasons of the Worm Cult (35/1790 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Antiquities** | **Value** |
-| --- | ---: |
-| Points | 0/125 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 0/455 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Ossein Cage** | **Value** |
-| --- | ---: |
-| Points | 0/430 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 30/265 |
-| Progress | █░░░░░░░░░ 11% |
-
-
-</div><div>
-
-| **Siege Camps** | **Value** |
-| --- | ---: |
-| Points | 5/70 |
-| Progress | ░░░░░░░░░░ 7% |
-
+<sub>Generated on 12/08/2025 • Version: 2.2.4-1-gd5fe2fc</sub>
 
 </div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Shadows of the Hist (0/785 pts)</strong></summary>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/630 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Stonethorn (0/1055 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **General** | **Value** |
-| --- | ---: |
-| Points | 0/175 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Veteran** | **Value** |
-| --- | ---: |
-| Points | 0/880 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Summerset (740/1935 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Abyssal Geysers** | **Value** |
-| --- | ---: |
-| Points | 135/150 |
-| Progress | █████████░ 90% |
-
-
-</div><div>
-
-| **Cloudrest** | **Value** |
-| --- | ---: |
-| Points | 0/695 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 210/385 |
-| Progress | █████░░░░░ 54% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 325/340 |
-| Progress | █████████░ 95% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Thieves Guild (575/1305 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Exploration** | **Value** |
-| --- | ---: |
-| Points | 125/370 |
-| Progress | ███░░░░░░░ 33% |
-
-
-</div><div>
-
-| **Maw of Lorkhaj** | **Value** |
-| --- | ---: |
-| Points | 0/340 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Quests** | **Value** |
-| --- | ---: |
-| Points | 235/275 |
-| Progress | ████████░░ 85% |
-
-
-</div>
-</div>
-
-
-</details>
-
-<details>
-<summary><strong>🔧 Veteran Dungeons (0/4535 pts)</strong></summary>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-<div>
-
-| **Death Challenges** | **Value** |
-| --- | ---: |
-| Points | 0/1250 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Slayer Challenges** | **Value** |
-| --- | ---: |
-| Points | 0/480 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
-
-| **Speed Challenges** | **Value** |
-| --- | ---: |
-| Points | 0/1250 |
-| Progress | ░░░░░░░░░░ 0% |
-
-
-</div><div>
 
