@@ -22,6 +22,20 @@ local function CreateSetFunc(settingName)
     end
 end
 
+-- Helper function to ensure character data is initialized from perCharacterData
+local function EnsureCharacterData()
+    if CM.charData then
+        return true
+    end
+    -- Initialize from account-wide settings perCharacterData
+    local characterId = tostring(GetCurrentCharacterId())
+    if CharacterMarkdownSettings and CharacterMarkdownSettings.perCharacterData and CharacterMarkdownSettings.perCharacterData[characterId] then
+        CM.charData = CharacterMarkdownSettings.perCharacterData[characterId]
+        return true
+    end
+    return false
+end
+
 -- =====================================================
 -- PLAY STYLES LIST
 -- =====================================================
@@ -90,12 +104,7 @@ function CM.Settings.Panel:Initialize()
         return false
     end
 
-    -- Ensure character data is initialized
-    if not CM.charData and CharacterMarkdownData then
-        CM.charData = CharacterMarkdownData
-        CM.DebugPrint("SETTINGS", "Character data initialized in panel")
-    end
-
+    -- Ensure character data is initialized\n    EnsureCharacterData()\n
     local LAM = LibAddonMenu2
 
     -- Create settings panel
@@ -1380,9 +1389,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         tooltip = "Override your character's in-game title with a custom one.\nTitle is saved per-character and persists between sessions.\nLeave empty to use your character's current title.",
         getFunc = function()
             -- Ensure character data is initialized
-            if not CM.charData and CharacterMarkdownData then
-                CM.charData = CharacterMarkdownData
-            end
+            EnsureCharacterData()
             -- Ensure customTitle exists (initialize if nil)
             if CM.charData and CM.charData.customTitle == nil then
                 CM.charData.customTitle = ""
@@ -1391,9 +1398,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         end,
         setFunc = function(value)
             -- Ensure character data is initialized
-            if not CM.charData and CharacterMarkdownData then
-                CM.charData = CharacterMarkdownData
-            end
+            EnsureCharacterData()
 
             if not CM.charData then
                 CM.Error("Failed to save custom title - character data not available")
@@ -1405,8 +1410,8 @@ function CM.Settings.Panel:AddCustomNotes(options)
             local currentValue = CM.charData.customTitle or ""
 
             -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownData, returned by ZO_SavedVars:NewCharacterId
-            -- Modifying CM.charData automatically updates the parent CharacterMarkdownData structure
+            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
+            -- Modifying CM.charData automatically updates the parent structure
             CM.charData.customTitle = newValue
             CM.charData._lastModified = GetTimeStamp()
 
@@ -1431,9 +1436,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         choicesValues = PLAY_STYLE_VALUES,
         getFunc = function()
             -- Ensure character data is initialized
-            if not CM.charData and CharacterMarkdownData then
-                CM.charData = CharacterMarkdownData
-            end
+            EnsureCharacterData()
             -- Ensure playStyle exists (initialize if nil)
             if CM.charData and CM.charData.playStyle == nil then
                 CM.charData.playStyle = ""
@@ -1442,9 +1445,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         end,
         setFunc = function(value)
             -- Ensure character data is initialized
-            if not CM.charData and CharacterMarkdownData then
-                CM.charData = CharacterMarkdownData
-            end
+            EnsureCharacterData()
 
             if not CM.charData then
                 CM.Error("Failed to save play style - character data not available")
@@ -1456,8 +1457,8 @@ function CM.Settings.Panel:AddCustomNotes(options)
             local currentValue = CM.charData.playStyle or ""
 
             -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownData, returned by ZO_SavedVars:NewCharacterId
-            -- Modifying CM.charData automatically updates the parent CharacterMarkdownData structure
+            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
+            -- Modifying CM.charData automatically updates the parent structure
             CM.charData.playStyle = newValue
             CM.charData._lastModified = GetTimeStamp()
 
@@ -1478,9 +1479,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         tooltip = "Add custom notes (rotation, parse data, build description, etc.)\nNotes are saved per-character and persist between sessions.\n\nLimit: 1,900 characters (ESO SavedVariables restriction)",
         getFunc = function()
             -- Ensure character data is initialized
-            if not CM.charData and CharacterMarkdownData then
-                CM.charData = CharacterMarkdownData
-            end
+            EnsureCharacterData()
             -- Ensure customNotes exists (initialize if nil)
             if CM.charData and CM.charData.customNotes == nil then
                 CM.charData.customNotes = ""
@@ -1489,9 +1488,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         end,
         setFunc = function(value)
             -- Ensure character data is initialized
-            if not CM.charData and CharacterMarkdownData then
-                CM.charData = CharacterMarkdownData
-            end
+            EnsureCharacterData()
 
             if not CM.charData then
                 CM.Error("Failed to save build notes - character data not available")
@@ -1503,8 +1500,8 @@ function CM.Settings.Panel:AddCustomNotes(options)
             local currentValue = CM.charData.customNotes or ""
 
             -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownData, returned by ZO_SavedVars:NewCharacterId
-            -- Modifying CM.charData automatically updates the parent CharacterMarkdownData structure
+            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
+            -- Modifying CM.charData automatically updates the parent structure
             CM.charData.customNotes = newValue
             CM.charData._lastModified = GetTimeStamp()
 
