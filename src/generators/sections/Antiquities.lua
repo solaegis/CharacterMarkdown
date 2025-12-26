@@ -164,7 +164,7 @@ local function GenerateAntiquitySets(antiquityData)
     local settings = CM.GetSettings()
 
     -- Check if detailed view is enabled
-    if not settings.includeAntiquitiesDetailed then
+    if not settings.showAntiquitiesDetailed then
         return markdown
     end
 
@@ -228,7 +228,7 @@ local function GenerateAntiquities(antiquityData)
     end
 
     -- Generate detailed sets section if enabled
-    if settings.includeAntiquitiesDetailed and #antiquityData.sets > 0 then
+    if settings.showAntiquitiesDetailed and #antiquityData.sets > 0 then
         markdown = markdown .. GenerateAntiquitySets(antiquityData)
     end
 

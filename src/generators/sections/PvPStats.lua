@@ -140,7 +140,7 @@ local function GenerateCampaignColumn(pvp, settings)
     local markdown = ""
     local CreateCampaignLink = CM.links and CM.links.CreateCampaignLink
     local showCampaignRewards = settings.showCampaignRewards or false
-    local detailedPvP = settings.detailedPvP or false
+    local detailedPvP = settings.showDetailedPvP or false
 
     if not pvp.campaign or not pvp.campaign.name or pvp.campaign.name == "" then
         return markdown

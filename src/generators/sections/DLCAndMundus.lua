@@ -200,7 +200,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
     -- Check if we have detailed data enabled
     local hasDetailedData = collectiblesData.hasDetailedData
     local settings = CharacterMarkdownSettings or {}
-    local includeDetailed = settings.includeCollectiblesDetailed or false
+    local includeDetailed = settings.showCollectiblesDetailed or false
 
     -- Only show section if there's content to display
     -- Check if we should show anything

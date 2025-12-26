@@ -108,7 +108,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
     if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 2 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
         CharacterMarkdownSettings.includeQuests = true
-        CharacterMarkdownSettings.includeQuestsDetailed = true
+        CharacterMarkdownSettings.showQuestsDetailed = true
         CharacterMarkdownSettings.showAllQuests = true
         CharacterMarkdownSettings.settingsVersion = 2
         CM.Info("Quest tracking has been enabled in your settings!")
@@ -201,7 +201,7 @@ function CM.Settings.Initializer:InitializeFallback()
     if not CM.settings.settingsVersion or CM.settings.settingsVersion < 2 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
         CM.settings.includeQuests = true
-        CM.settings.includeQuestsDetailed = true
+        CM.settings.showQuestsDetailed = true
         CM.settings.showAllQuests = true
         CM.settings.settingsVersion = 2
         CM.Info("Quest tracking has been enabled in your settings!")

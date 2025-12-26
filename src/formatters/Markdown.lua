@@ -564,7 +564,7 @@ local function GetSectionRegistry(settings, gen, data)
                     markdown = markdown .. gen.GenerateQuests(data.quests, "markdown")
 
                     -- Show detailed categories if enabled
-                    if IsSettingEnabled(settings, "includeQuestsDetailed", false) then
+                    if IsSettingEnabled(settings, "showQuestsDetailed", false) then
                         -- Additional detailed content is handled in the main generator
                         -- This is intentionally empty as detailed content is processed elsewhere
                         -- No action needed here

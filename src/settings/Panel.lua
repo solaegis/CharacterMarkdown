@@ -371,20 +371,6 @@ function CM.Settings.Panel:AddCombatSection(options)
         default = true,
     })
 
-    -- Combat Stats (CollectCombatStatsData) - DEPRECATED, keeping for backwards compatibility
-    table.insert(controls, {
-        type = "checkbox",
-        name = "|c888888Include Combat Statistics (Legacy)|r",
-        tooltip = "|cFF6B6BDEPRECATED|r - This setting will be removed in a future version.\n\nUse 'Basic Combat Stats' and 'Advanced Stats' instead.\n\nThis setting is kept for backwards compatibility only.",
-        getFunc = function()
-            return CharacterMarkdownSettings.includeCombatStats
-        end,
-        setFunc = CreateSetFunc("includeCombatStats"),
-        width = "half",
-        default = true,
-        warning = "This setting is deprecated",
-    })
-
     -- Role (CollectRoleData)
     table.insert(controls, {
         type = "checkbox",
@@ -886,9 +872,9 @@ function CM.Settings.Panel:AddPvPSection(options)
         name = "    Detailed PvP Mode",
         tooltip = "Full comprehensive mode with campaign timing, underpop bonus, emperor info, and current match stats.",
         getFunc = function()
-            return CharacterMarkdownSettings.detailedPvP
+            return CharacterMarkdownSettings.showDetailedPvP
         end,
-        setFunc = CreateSetFunc("detailedPvP"),
+        setFunc = CreateSetFunc("showDetailedPvP"),
         width = "half",
         disabled = function()
             return not CharacterMarkdownSettings.includePvPStats
@@ -982,9 +968,9 @@ function CM.Settings.Panel:AddCollectiblesSection(options)
         name = "    Detailed Collectibles Lists",
         tooltip = "Show detailed lists of all owned collectibles (mounts, pets, costumes, emotes, mementos, skins, polymorphs, personalities) with progress bars and UESP links.\n(Can add 5000+ chars depending on collection size)",
         getFunc = function()
-            return CharacterMarkdownSettings.includeCollectiblesDetailed
+            return CharacterMarkdownSettings.showCollectiblesDetailed
         end,
-        setFunc = CreateSetFunc("includeCollectiblesDetailed"),
+        setFunc = CreateSetFunc("showCollectiblesDetailed"),
         disabled = function()
             return not CharacterMarkdownSettings.includeCollectibles
         end,
@@ -1106,9 +1092,9 @@ function CM.Settings.Panel:AddAntiquitiesSection(options)
         name = "    Detailed Antiquity Sets",
         tooltip = "Show detailed breakdown of antiquity sets with progress tracking.",
         getFunc = function()
-            return CharacterMarkdownSettings.includeAntiquitiesDetailed
+            return CharacterMarkdownSettings.showAntiquitiesDetailed
         end,
-        setFunc = CreateSetFunc("includeAntiquitiesDetailed"),
+        setFunc = CreateSetFunc("showAntiquitiesDetailed"),
         disabled = function()
             return not CharacterMarkdownSettings.includeAntiquities
         end,
@@ -1153,8 +1139,8 @@ function CM.Settings.Panel:AddQuestsSection(options)
         type = "checkbox",
         name = "    Detailed Quest Categories",
         tooltip = "Show quest breakdown by categories (Main Story, Guild Quests, DLC Quests, etc.) with zone tracking.",
-        getFunc = function() return CharacterMarkdownSettings.includeQuestsDetailed end,
-        setFunc = CreateSetFunc("includeQuestsDetailed"),
+        getFunc = function() return CharacterMarkdownSettings.showQuestsDetailed end,
+        setFunc = CreateSetFunc("showQuestsDetailed"),
         disabled = function() return not CharacterMarkdownSettings.includeQuests end,
         width = "half",
         default = false,
@@ -1612,7 +1598,6 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.includeDLCAccess = value
 
         -- COMBAT (Combat.lua collectors)
-        CharacterMarkdownSettings.includeCombatStats = value
         CharacterMarkdownSettings.includeBasicCombatStats = value
         CharacterMarkdownSettings.includeAdvancedStats = value
         CharacterMarkdownSettings.includeRole = value
@@ -1649,7 +1634,7 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.showCampaignRewards = value
         CharacterMarkdownSettings.showLeaderboards = value
         CharacterMarkdownSettings.showBattlegrounds = value
-        CharacterMarkdownSettings.detailedPvP = value
+        CharacterMarkdownSettings.showDetailedPvP = value
         CharacterMarkdownSettings.showAllianceWarSkills = value
 
         -- COMPANION (Companion.lua collectors)
@@ -1657,7 +1642,7 @@ function CM.Settings.Panel:AddActions(options)
 
         -- COLLECTIBLES (Collectibles.lua collectors)
         CharacterMarkdownSettings.includeCollectibles = value
-        CharacterMarkdownSettings.includeCollectiblesDetailed = value
+        CharacterMarkdownSettings.showCollectiblesDetailed = value
         CharacterMarkdownSettings.includeDLCAccess = value
         CharacterMarkdownSettings.includeHousing = value
 
@@ -1667,11 +1652,11 @@ function CM.Settings.Panel:AddActions(options)
 
         -- ANTIQUITIES (Antiquities.lua collectors)
         CharacterMarkdownSettings.includeAntiquities = value
-        CharacterMarkdownSettings.includeAntiquitiesDetailed = value
+        CharacterMarkdownSettings.showAntiquitiesDetailed = value
 
         -- QUESTS (Quests.lua collectors)
         -- CharacterMarkdownSettings.includeQuests = value  -- DISABLED
-        -- CharacterMarkdownSettings.includeQuestsDetailed = value  -- DISABLED
+        -- CharacterMarkdownSettings.showQuestsDetailed = value  -- DISABLED
         -- CharacterMarkdownSettings.showAllQuests = value  -- DISABLED
         CharacterMarkdownSettings.includeUndauntedPledges = value
 

@@ -478,7 +478,7 @@ local function GetSectionRegistry(settings, gen, data)
         -- PVP (PvP.lua collector) - Settings Panel Order: 8
         -- ========================================
         -- Uses: PvP.lua - CollectPvPData
-        -- Settings: includePvP, includePvPStats, showPvPProgression, showCampaignRewards, showLeaderboards, showBattlegrounds, detailedPvP, showAllianceWarSkills
+        -- Settings: includePvP, includePvPStats, showPvPProgression, showCampaignRewards, showLeaderboards, showBattlegrounds, showDetailedPvP, showAllianceWarSkills
 
         -- ⚔️ PvP Profile (includes Alliance War skills conditionally)
         {
@@ -522,7 +522,7 @@ local function GetSectionRegistry(settings, gen, data)
         -- COLLECTIBLES (Collectibles.lua collector) - Settings Panel Order: 10
         -- ========================================
         -- Uses: Collectibles.lua - CollectCollectiblesData, CollectDLCAccess, CollectHousingData
-        -- Settings: includeCollectibles, includeCollectiblesDetailed, includeDLCAccess, includeTitlesHousing
+        -- Settings: includeCollectibles, showCollectiblesDetailed, includeDLCAccess, includeTitlesHousing
 
         -- 🎨 Collectibles (includes Accessible Content, Titles & Housing as collapsible subsections)
         {
@@ -650,7 +650,7 @@ local function GetSectionRegistry(settings, gen, data)
         -- ANTIQUITIES (Antiquities.lua collector) - Settings Panel Order: 12
         -- ========================================
         -- Uses: Antiquities.lua - CollectAntiquitiesData
-        -- Settings: includeAntiquities, includeAntiquitiesDetailed
+        -- Settings: includeAntiquities, showAntiquitiesDetailed
 
         -- 🏺 Antiquities (standalone section)
         {
@@ -706,7 +706,7 @@ local function GetSectionRegistry(settings, gen, data)
                     markdown = markdown .. gen.GenerateQuests(data.quests, format)
 
                     -- Show detailed categories if enabled
-                    if IsSettingEnabled(settings, "includeQuestsDetailed", false) then
+                    if IsSettingEnabled(settings, "showQuestsDetailed", false) then
                         -- Additional detailed content is handled in the main generator
                         -- This is intentionally empty as detailed content is processed elsewhere
                         -- No action needed here

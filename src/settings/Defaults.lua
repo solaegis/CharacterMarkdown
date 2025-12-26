@@ -41,7 +41,6 @@ function CM.Settings.Defaults:GetAll()
         includeSkills = true,
         includeSkillMorphs = false, -- Show all morphable skills with choices
         includeEquipment = true,
-        includeCombatStats = true,
         includeCompanion = true,
         includeBuffs = true,
         includeAttributes = true,
@@ -69,21 +68,21 @@ function CM.Settings.Defaults:GetAll()
         showCraftingBagContents = false, -- Show detailed list of items in crafting bag (ESO Plus only)
         includePvP = false,
         includeCollectibles = true,
-        includeCollectiblesDetailed = false, -- Show full lists vs counts
+        showCollectiblesDetailed = false, -- Show full lists vs counts
         includeCrafting = false,
         includeAchievements = false, -- Achievement tracking with category breakdown (opt-in for detail level)
         showAllAchievements = true, -- Show all achievements vs in-progress only
         includeAntiquities = false, -- Antiquities tracking (opt-in, not all players use this content)
-        includeAntiquitiesDetailed = false, -- Detailed antiquity sets breakdown
+        showAntiquitiesDetailed = false, -- Detailed antiquity sets breakdown
         -- includeQuests = true,  -- Quest tracking (Phase 6) - DISABLED
         -- includeQuestsDetailed = true,  -- Detailed quest categories - DISABLED
         -- showAllQuests = true,  -- Show all quests vs active only - DISABLED
         includeQuests = false, -- Quest tracking disabled temporarily
-        includeQuestsDetailed = false,
+        showQuestsDetailed = false,
         showAllQuests = false,
         includeEquipmentEnhancement = false, -- Equipment analysis (Phase 7)
-        includeEquipmentAnalysis = false, -- Detailed equipment analysis
-        includeEquipmentRecommendations = false, -- Optimization recommendations
+        showEquipmentAnalysis = false, -- Detailed equipment analysis
+        showEquipmentRecommendations = false, -- Optimization recommendations
         includeWorldProgress = false, -- World progress tracking
         includeTitlesHousing = false, -- Titles and housing
         includeHousing = false, -- Housing information (owned houses, primary residence)
@@ -100,7 +99,7 @@ function CM.Settings.Defaults:GetAll()
         showCampaignRewards = false, -- Display reward tier and loyalty streak
         showLeaderboards = false, -- Include leaderboard ranking (requires API query)
         showBattlegrounds = false, -- Include BG leaderboard stats
-        detailedPvP = false, -- Full comprehensive mode with all PvP details
+        showDetailedPvP = false, -- Full comprehensive mode with all PvP details
         showAllianceWarSkills = false, -- Show Alliance War skill lines (Assault/Support/Emperor) - useful for PvE builds
 
         -- ====================================

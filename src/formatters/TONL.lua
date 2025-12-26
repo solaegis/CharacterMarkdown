@@ -111,7 +111,7 @@ local function GenerateTONL()
                 and SafeCollect("CollectSkillMorphsData", CM.collectors.CollectSkillMorphsData)
             or nil,
 
-        stats = IsSettingEnabled(settings, "includeCombatStats", true)
+        stats = IsSettingEnabled(settings, "includeBasicCombatStats", true)
                 and SafeCollect("CollectCombatStatsData", CM.collectors.CollectCombatStatsData)
             or nil,
 
