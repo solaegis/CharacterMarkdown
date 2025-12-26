@@ -50,7 +50,7 @@
 | **Gender** | Male |
 | **Account** | @SOLAEGIS |
 | **ESO Plus** | ✅ Active |
-| **Age** | 5d 17h 37m |
+| **Age** | 5d 17h 42m |
 
 
 </div><div>
@@ -70,8 +70,8 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
+| **Location** | [Deshaan](https://en.uesp.net/wiki/Online:Deshaan) (Silent Mire) |
 | **Title** | [Shadow Sorcerer](https://en.uesp.net/wiki/Online:Shadow_Sorcerer) |
-| **Location** | [Deshaan](https://en.uesp.net/wiki/Online:Deshaan) (Tal'Deic Fortress) |
 | **🪨 Mundus Stone** | [The Shadow](https://en.uesp.net/wiki/Online:The_Shadow_(Mundus_Stone)) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
 | **🍖 Active Buffs** | Other: [Minor Protection](https://en.uesp.net/wiki/Online:Minor_Protection) |
@@ -85,7 +85,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 11,619 |
+| 💰 **Gold** | 11,957 |
 | ⚔️ **Alliance Points** | 0 |
 | 🔮 **Tel Var** | 0 |
 | 💎 **Transmute Crystals** | 105 |
@@ -196,7 +196,7 @@ He hunts the perfect synthesis: Shacklebreaker chains that bind his hybrid natur
 | 🔓 **Break Free** | 5,400 cost |
 | 🏃 **Dodge Roll** | 2,849 cost |
 | 🐾 **Sneak** | 18 cost, 0% spd |
-| 🏃‍♂️ **Sprint** | 100 cost, 0% spd |
+| 🏃‍♂️ **Sprint** | 424 cost, 0% spd |
 
 </div>
 <div>
@@ -935,14 +935,14 @@ flowchart LR
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 50 | 180 | ██░░░░░░░░ 27% |
+| Backpack | 51 | 180 | ██░░░░░░░░ 28% |
 | Bank | 240 | 480 | █████░░░░░ 50% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (50 unique items)</summary>
+<summary><strong>Backpack Items</strong> (51 unique items)</summary>
 
-#### Other (50 items)
+#### Other (51 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
@@ -980,6 +980,7 @@ flowchart LR
 | 🟢 Recipe: Baked Potato | 1 | 🟢 |
 | 🟢 Recipe: Grape Preserves | 1 | 🟢 |
 | 🟢 Recipe: Lotus Tea | 1 | 🟢 |
+| 🟢 Redoran Cuisses | 1 | 🟢 |
 | 🟢 Ring of a Mother's Sorrow | 1 | 🟢 |
 | ⚪ Roguish Escape Draught | 5 | ⚪ |
 | ⚪ Rubedite battle axe | 1 | ⚪ |
@@ -1649,7 +1650,7 @@ flowchart LR
 | 🟢 emetic russula | 489 | 🟢 |
 | 🟢 Fleshfly Larva||Fleshfly Larvae | 477 | 🟢 |
 | 🟢 imp stool | 422 | 🟢 |
-| 🟢 lady's smock | 639 | 🟢 |
+| 🟢 lady's smock | 640 | 🟢 |
 | 🟢 luminous russula | 348 | 🟢 |
 | 🟢 mountain flower | 510 | 🟢 |
 | 🟢 Mudcrab Chitin | 46 | 🟢 |
@@ -3558,11 +3559,11 @@ flowchart LR
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-100,978%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-101,008%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 12/26/2025 • Version: 2.2.4-24-g23c95d4</sub>
+<sub>Generated on 12/26/2025 • Version: 2.2.4-25-gb13863f</sub>
 
 </div>
 

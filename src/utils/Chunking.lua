@@ -4606,10 +4606,12 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
         -- Prepend Mermaid header if needed
         if prependMermaidHeader then
-            -- CRITICAL: Check if chunkContent already starts with the header content
-            -- This can happen when the chunk starts right after ``` and includes init/flowchart
-            -- If so, we only prepend ```mermaid (the opening fence)
+            -- CRITICAL: Check if chunkContent already starts with the header content or its own mermaid block
+            -- This can happen when:
+            -- 1. Chunk starts right after ``` and includes init/flowchart from the same block
+            -- 2. Chunk starts with a NEW mermaid block (e.g., a separate diagram follows)
             local trimmedContent = chunkContent:match("^%s*(.-)") or ""
+            local startsWithMermaidFence = trimmedContent:match("^```mermaid")
             local startsWithInit = trimmedContent:match("^%%{init:")
             local startsWithFlowchart = trimmedContent:match("^flowchart") 
                                      or trimmedContent:match("^graph%s")
@@ -4621,8 +4623,11 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                      or trimmedContent:match("^pie")
                                      or trimmedContent:match("^journey")
             
-            if startsWithInit or startsWithFlowchart then
-                -- Chunk already has the header content, only prepend the opening fence
+            if startsWithMermaidFence then
+                -- Chunk already starts with its own mermaid block, don't prepend anything
+                CM.DebugPrint("CHUNKING", "Chunk starts with new mermaid fence, skipping header prepend")
+            elseif startsWithInit or startsWithFlowchart then
+                -- Chunk has header content but needs the opening fence
                 chunkContent = "```mermaid\n" .. chunkContent
                 CM.DebugPrint("CHUNKING", "Chunk already contains mermaid header, only prepending fence")
             else
@@ -4631,6 +4636,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
             prependMermaidHeader = nil
         end
+
 
 
         -- Add HTML comment marker at START of chunk (safe, won't be truncated, ignored by renderers)
