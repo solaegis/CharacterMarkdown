@@ -65,7 +65,7 @@ CharacterMarkdown/
 │   │       │   ├── GearTable.lua    # Equipment details
 │   │       │   └── Skills.lua       # Skill progression
 │   │       ├── Combat.lua
-│   │       ├── Content.lua
+│   │       ├── Crafting.lua
 │   │       ├── Economy.lua
 │   │       ├── Companion.lua
 │   │       └── Footer.lua
