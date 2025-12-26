@@ -1212,15 +1212,19 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
     local editboxLimit = CHUNKING.EDITBOX_LIMIT
     local copyLimit = CHUNKING.COPY_LIMIT or (editboxLimit - 300)
 
-    -- Calculate overhead for padding + HTML marker
+    -- Calculate overhead for padding + HTML marker + potential mermaid header
     -- When disabled: only account for marker, no padding
     -- When enabled: account for both marker and padding
     local markerSize = 60 -- Reserve space for HTML comment marker "<!-- Chunk N (XXXXX bytes before padding) -->\n\n"
+    -- Reserve space for potential mermaid header (continuation chunks may need this)
+    -- Header can include: "```mermaid\n" + "%%{init:...}%%\n" + empty line + "flowchart LR\n"
+    local mermaidHeaderReserve = 350 -- Conservative estimate for large init configs
     local paddingSize = 0 -- Default: no padding
     if not CHUNKING.DISABLE_PADDING then
         paddingSize = (CHUNKING.SPACE_PADDING_SIZE or 500) -- newlines for padding
     end
-    local totalOverhead = markerSize + paddingSize -- Total bytes to reserve
+    local totalOverhead = markerSize + paddingSize + mermaidHeaderReserve -- Total bytes to reserve
+
 
     if markdownLength <= maxDataChars then
         return { { content = markdown } }
