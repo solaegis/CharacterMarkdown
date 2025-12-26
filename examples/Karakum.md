@@ -50,7 +50,7 @@
 | **Gender** | Male |
 | **Account** | @SOLAEGIS |
 | **ESO Plus** | ✅ Active |
-| **Age** | 5d 17h 29m |
+| **Age** | 5d 17h 37m |
 
 
 </div><div>
@@ -71,8 +71,8 @@
 | --- | --- |
 | **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
 | **Title** | [Shadow Sorcerer](https://en.uesp.net/wiki/Online:Shadow_Sorcerer) |
+| **Location** | [Deshaan](https://en.uesp.net/wiki/Online:Deshaan) (Tal'Deic Fortress) |
 | **🪨 Mundus Stone** | [The Shadow](https://en.uesp.net/wiki/Online:The_Shadow_(Mundus_Stone)) |
-| **Location** | [Deshaan](https://en.uesp.net/wiki/Online:Deshaan) (Triple Circle Mine) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
 | **🍖 Active Buffs** | Other: [Minor Protection](https://en.uesp.net/wiki/Online:Minor_Protection) |
 
@@ -196,7 +196,7 @@ He hunts the perfect synthesis: Shacklebreaker chains that bind his hybrid natur
 | 🔓 **Break Free** | 5,400 cost |
 | 🏃 **Dodge Roll** | 2,849 cost |
 | 🐾 **Sneak** | 18 cost, 0% spd |
-| 🏃‍♂️ **Sprint** | 424 cost, 0% spd |
+| 🏃‍♂️ **Sprint** | 100 cost, 0% spd |
 
 </div>
 <div>
@@ -472,23 +472,30 @@ flowchart LR
   style subFITNESS fill:transparent,stroke:#b87a7a,stroke-width:3px
 
   %% ========================================
-  %% LEGEND
+  %% END OF MAIN DIAGRAM
   %% ========================================
+
+```
+
+```mermaid
+
+```
+
+
+```mermaid
+%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"12px","primaryColor":"#f0f0f0","primaryTextColor":"#333","primaryBorderColor":"#999","lineColor":"#999"}}}%%
+
+flowchart LR
+
+%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"12px","primaryColor":"#f0f0f0","primaryTextColor":"#333","primaryBorderColor":"#999","lineColor":"#999"}}}%%
+
+flowchart LR
 
   subgraph subLEGEND["📖 LEGEND & VISUAL GUIDE"]
 
     LEG_STARS["Star Types"]
     LEG_S1["⭐ Gold Border = Maxed Slottable"]
     LEG_S2["🔶 Orange Border = Independent Star"]
-
-```
-
-
-```mermaid
-%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%
-
-flowchart LR
-
     LEG_S3["Standard Border = In Progress"]
 
     LEG_FILL["Progress Indicators"]
@@ -886,12 +893,12 @@ flowchart LR
 - [Pocket Mammoth](https://en.uesp.net/wiki/Online:Pocket_Mammoth)
 - [Pocket Salamander^n](https://en.uesp.net/wiki/Online:Pocket_Salamander^n)
 - [Psijic Mascot Bear Cub^n](https://en.uesp.net/wiki/Online:Psijic_Mascot_Bear_Cub^n)
+
+
 - [Psijic Mascot Guar Calf^n](https://en.uesp.net/wiki/Online:Psijic_Mascot_Guar_Calf^n)
 - [Psijic Mascot Pony^n](https://en.uesp.net/wiki/Online:Psijic_Mascot_Pony^n)
 - [Scintillant Dovah-Fly^n](https://en.uesp.net/wiki/Online:Scintillant_Dovah-Fly^n)
 - [Spectral Mudcrab](https://en.uesp.net/wiki/Online:Spectral_Mudcrab)
-
-
 - [Steam-Driven Brassilisk^n](https://en.uesp.net/wiki/Online:Steam-Driven_Brassilisk^n)
 - [Sylvan Nixad](https://en.uesp.net/wiki/Online:Sylvan_Nixad)
 - [Verdigris Haj Mota](https://en.uesp.net/wiki/Online:Verdigris_Haj_Mota)
@@ -928,14 +935,14 @@ flowchart LR
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 46 | 180 | ██░░░░░░░░ 25% |
+| Backpack | 50 | 180 | ██░░░░░░░░ 27% |
 | Bank | 240 | 480 | █████░░░░░ 50% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (46 unique items)</summary>
+<summary><strong>Backpack Items</strong> (50 unique items)</summary>
 
-#### Other (46 items)
+#### Other (50 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
@@ -962,17 +969,20 @@ flowchart LR
 | 🟢 Design: Grapes, Wax | 1 | 🟢 |
 | ⚪ Disposable Juggling Knives | 10 | ⚪ |
 | ⚪ Disposable Swallower's Sword | 10 | ⚪ |
+| ⚪ Ectoplasm | 1 | ⚪ |
 | ⚪ Elemental Essence | 2 | ⚪ |
 | ⚪ Essence of Magicka | 9 | ⚪ |
 | ⚪ Essence of stamina | 5 | ⚪ |
 | ⚪ Foul Hide | 7 | ⚪ |
 | ⚪ Heart of the Indrik | 1 | ⚪ |
 | ⚪ Heart's Day Rose Tea | 1 | ⚪ |
-| ⚪ Lockpick | 42 | ⚪ |
+| ⚪ Lockpick | 43 | ⚪ |
+| 🟢 Recipe: Baked Potato | 1 | 🟢 |
 | 🟢 Recipe: Grape Preserves | 1 | 🟢 |
 | 🟢 Recipe: Lotus Tea | 1 | 🟢 |
 | 🟢 Ring of a Mother's Sorrow | 1 | 🟢 |
 | ⚪ Roguish Escape Draught | 5 | ⚪ |
+| ⚪ Rubedite battle axe | 1 | ⚪ |
 | ⚪ rubedite gauntlets | 1 | ⚪ |
 | ⚪ rubedite greatsword | 1 | ⚪ |
 | 🔵 Rubedite pauldron of Magicka | 1 | 🔵 |
@@ -982,6 +992,7 @@ flowchart LR
 | 🟢 ruby ash lightning staff of Frost | 1 | 🟢 |
 | ⚪ ruby ash shield | 1 | ⚪ |
 | 🔵 ruby ash shield of Magicka | 1 | 🔵 |
+| ⚪ shadowspun sash | 1 | ⚪ |
 | 🟢 Soul Gem | 23 | 🟢 |
 | ⚪ Truly Superb Glyph of Health | 1 | ⚪ |
 | 🟢 Undaunted Enclave Invitation | 1 | 🟢 |
@@ -1269,7 +1280,7 @@ flowchart LR
 | 🟢 Jejota | 2245 | 🟢 |
 | 🟡 Kuta | 196 | 🟡 |
 | 🟣 Rekuta | 669 | 🟣 |
-| ⚪ Ta | 3658 | ⚪ |
+| ⚪ Ta | 3659 | ⚪ |
 
 
 </div><div>
@@ -1290,7 +1301,7 @@ flowchart LR
 | ⚪ Makko | 1114 | ⚪ |
 | ⚪ Makkoma | 381 | ⚪ |
 | ⚪ Meip | 424 | ⚪ |
-| ⚪ Oko | 1147 | ⚪ |
+| ⚪ Oko | 1148 | ⚪ |
 | ⚪ Okoma | 306 | ⚪ |
 | ⚪ Okori | 210 | ⚪ |
 | ⚪ Oru | 229 | ⚪ |
@@ -1309,9 +1320,9 @@ flowchart LR
 | ⚪ Clean Pelt | 603 | ⚪ |
 | ⚪ Decorative Wax | 759 | ⚪ |
 | ⚪ Heartwood | 803 | ⚪ |
-| ⚪ Mundane Rune | 1489 | ⚪ |
+| ⚪ Mundane Rune | 1490 | ⚪ |
 | ⚪ Ochre | 346 | ⚪ |
-| ⚪ Regulus | 506 | ⚪ |
+| ⚪ Regulus | 511 | ⚪ |
 
 
 </div><div>
@@ -1409,6 +1420,7 @@ flowchart LR
 
 
 </div><div>
+
 
 #### Material (45 items)
 
@@ -1572,8 +1584,8 @@ flowchart LR
 | ⚪ Malachite Shard | 51 | ⚪ |
 | ⚪ orichalcum ore | 41 | ⚪ |
 | ⚪ Oxblood Fungus Spore | 9 | ⚪ |
-| ⚪ pewter dust | 80 | ⚪ |
-| ⚪ platinum dust | 352 | ⚪ |
+| ⚪ pewter dust | 83 | ⚪ |
+| ⚪ platinum dust | 355 | ⚪ |
 | ⚪ Quicksilver ore | 8 | ⚪ |
 | ⚪ raw ancestor silk | 618 | ⚪ |
 | ⚪ raw cotton | 5 | ⚪ |
@@ -1591,7 +1603,7 @@ flowchart LR
 | ⚪ rough mahogany | 1 | ⚪ |
 | ⚪ rough maple | 27 | ⚪ |
 | ⚪ rough oak | 2 | ⚪ |
-| ⚪ rough ruby ash | 674 | ⚪ |
+| ⚪ rough ruby ash | 684 | ⚪ |
 | ⚪ rough yew | 8 | ⚪ |
 | ⚪ rubedite ore | 610 | ⚪ |
 | ⚪ rubedo hide scraps | 147 | ⚪ |
@@ -1650,7 +1662,7 @@ flowchart LR
 | 🟢 stinkhorn | 443 | 🟢 |
 | 🟢 Torchbug Thorax | 64 | 🟢 |
 | 🟢 violet coprinus | 364 | 🟢 |
-| 🟢 water hyacinth | 661 | 🟢 |
+| 🟢 water hyacinth | 662 | 🟢 |
 | 🟢 white cap | 392 | 🟢 |
 | 🟢 wormwood | 650 | 🟢 |
 
@@ -1721,7 +1733,7 @@ flowchart LR
 | ⚪ Marsh Nettle Sprig | 5 | ⚪ |
 | ⚪ Minotaur Bezoar | 5 | ⚪ |
 | ⚪ Molybdenum | 861 | ⚪ |
-| ⚪ Moonstone | 907 | ⚪ |
+| ⚪ Moonstone | 908 | ⚪ |
 | ⚪ Nickel | 849 | ⚪ |
 | ⚪ Obliviate Lacquer | 1 | ⚪ |
 | ⚪ Obsidian | 905 | ⚪ |
@@ -2367,6 +2379,7 @@ flowchart LR
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
+
 
 | **Antiquities** | **Value** |
 | --- | ---: |
@@ -3530,6 +3543,7 @@ flowchart LR
 
 <a id="guild-membership"></a>
 
+
 ## 🏰 Guild Membership
 
 | **Guild Name** | **Rank** | **Members** | **Alliance** |
@@ -3544,11 +3558,11 @@ flowchart LR
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-100,600%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-100,978%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 12/26/2025 • Version: 2.2.4-23-gaa1ec9a</sub>
+<sub>Generated on 12/26/2025 • Version: 2.2.4-24-g23c95d4</sub>
 
 </div>
 
