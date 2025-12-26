@@ -10,7 +10,7 @@ vars:
   MANIFEST_FILE: CharacterMarkdown.addon
   BUILD_DIR: build
   DIST_DIR: dist
-  VERSION: "@version@"
+  VERSION: "@project-version@"
   ESO_LIVE_ADDONS: $HOME/Documents/Elder Scrolls Online/live/AddOns
   ESO_PTS_ADDONS: $HOME/Documents/Elder Scrolls Online/pts/AddOns
 
