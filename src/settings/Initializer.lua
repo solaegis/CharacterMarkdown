@@ -1,4 +1,4 @@
--- CharacterMarkdown v2.1.1 - Settings Initializer
+-- CharacterMarkdown v@project-version@ - Settings Initializer
 -- Handles settings initialization with proper SavedVariables (ESO Guideline Compliant)
 -- Author: solaegis
 -- Enhanced with ZO_SavedVars, profiles, and import/export

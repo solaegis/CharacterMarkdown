@@ -1,4 +1,4 @@
--- CharacterMarkdown v2.1.1 - Settings Panel
+-- CharacterMarkdown v@project-version@ - Settings Panel
 -- LibAddonMenu UI registration and panel controls (FIXED)
 -- Author: solaegis
 -- Following CraftStore pattern for proper persistence
