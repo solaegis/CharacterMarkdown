@@ -93,10 +93,15 @@ src/generators/sections/Antiquities.lua
 src/generators/sections/Economy.lua
 src/generators/sections/Character.lua
 src/generators/sections/Overview.lua
+
+## Equipment & Skills (Refactored)
+src/generators/sections/equipment/Helpers.lua
+src/generators/sections/equipment/SkillBars.lua
+src/generators/sections/equipment/SkillMorphs.lua
+src/generators/sections/equipment/GearTable.lua
+src/generators/sections/equipment/Skills.lua
 src/generators/sections/Equipment.lua
--- src/generators/sections/EquipmentEnhancement.lua  -- DISABLED: moved to DISABLED/
-src/generators/sections/SkillMorphs.lua
-src/generators/sections/CharacterProgress.lua
+
 src/generators/sections/Combat.lua
 src/generators/sections/Crafting.lua
 src/generators/sections/DLCAndMundus.lua
