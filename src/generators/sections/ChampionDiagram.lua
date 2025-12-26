@@ -696,8 +696,27 @@ local function GenerateChampionDiagram(cpData)
 
     -- Add simplified legend matching the example format
     markdown = markdown .. "  %% ========================================\n"
-    markdown = markdown .. "  %% LEGEND\n"
+    markdown = markdown .. "  %% END OF MAIN DIAGRAM\n"
     markdown = markdown .. "  %% ========================================\n\n"
+
+    -- Close the main mermaid block
+    markdown = markdown .. "```\n\n"
+
+    -- Start a SEPARATE mermaid block for the legend
+    -- This prevents chunking from splitting the legend subgraph
+    markdown = markdown .. "```mermaid\n"
+    markdown = markdown .. "%%{init: {"
+    markdown = markdown .. '"theme":"base", '
+    markdown = markdown .. '"themeVariables": { '
+    markdown = markdown .. '"background":"transparent",'
+    markdown = markdown .. '"fontSize":"12px",'
+    markdown = markdown .. '"primaryColor":"#f0f0f0",'
+    markdown = markdown .. '"primaryTextColor":"#333",'
+    markdown = markdown .. '"primaryBorderColor":"#999",'
+    markdown = markdown .. '"lineColor":"#999"'
+    markdown = markdown .. "}"
+    markdown = markdown .. "}}%%\n\n"
+    markdown = markdown .. "flowchart LR\n\n"
 
     -- Parent legend subgraph
     markdown = markdown .. '  subgraph subLEGEND["📖 LEGEND & VISUAL GUIDE"]\n'
@@ -740,7 +759,9 @@ local function GenerateChampionDiagram(cpData)
     markdown = markdown .. "  end\n"
     markdown = markdown .. "  style subLEGEND fill:transparent,stroke:#999,stroke-width:3px\n"
 
+    -- Close the legend mermaid block
     markdown = markdown .. "```\n\n"
+
 
     -- Add separator at the end (as this becomes the end of the CP section)
     local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator

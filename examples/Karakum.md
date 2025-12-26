@@ -4,7 +4,7 @@
 
 # Karakum (Shadow Sorcerer)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-833-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-834-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Redguard Dragonknight • Daggerfall Covenant Alliance**
 
@@ -46,11 +46,11 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Level** | 50 |
-| **Champion Points** | 833 |
+| **Champion Points** | 834 |
 | **Gender** | Male |
 | **Account** | @SOLAEGIS |
 | **ESO Plus** | ✅ Active |
-| **Age** | 5d 16h 58m |
+| **Age** | 5d 17h 29m |
 
 
 </div><div>
@@ -58,9 +58,9 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Attributes** | 🔵 30 / ❤️ 0 / ⚡ 34 |
-| **Available Champion Points** | ⚒️ 0 - ⚔️ 1 - 💪 0 |
+| **Available Champion Points** | ⚒️ 0 - ⚔️ 1 - 💪 1 |
 | **🐴 Riding Skills** | 🐴 60 / 💪 60 / 🎒 60 ✅ |
-| **Skill Points** | 🎯 15 available - Ready to spend |
+| **Skill Points** | 🎯 16 available - Ready to spend |
 | **Race** | [Redguard](https://en.uesp.net/wiki/Online:Redguard) |
 | **Server** | [NA Megaserver](https://en.uesp.net/wiki/Online:Megaservers) |
 
@@ -70,11 +70,11 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
-| **Location** | [Glenumbra](https://en.uesp.net/wiki/Online:Glenumbra) (Silumm) |
 | **Title** | [Shadow Sorcerer](https://en.uesp.net/wiki/Online:Shadow_Sorcerer) |
 | **🪨 Mundus Stone** | [The Shadow](https://en.uesp.net/wiki/Online:The_Shadow_(Mundus_Stone)) |
+| **Location** | [Deshaan](https://en.uesp.net/wiki/Online:Deshaan) (Triple Circle Mine) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **🍖 Active Buffs** | Other: [Increase Max Magicka](https://en.uesp.net/wiki/Online:Increase_Max_Magicka), [Minor Protection](https://en.uesp.net/wiki/Online:Minor_Protection) |
+| **🍖 Active Buffs** | Other: [Minor Protection](https://en.uesp.net/wiki/Online:Minor_Protection) |
 
 
 </div><div>
@@ -85,12 +85,12 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 10,870 |
+| 💰 **Gold** | 11,619 |
 | ⚔️ **Alliance Points** | 0 |
 | 🔮 **Tel Var** | 0 |
 | 💎 **Transmute Crystals** | 105 |
 | 📜 **Writs** | 0 |
-| 🎫 **Event Tickets** | 5 |
+| 🎫 **Event Tickets** | 2 |
 | 👑 **Crowns** | 700 |
 | 💠 **Gems** | 184 |
 | 🏅 **Seals** | 13,925 |
@@ -149,7 +149,7 @@ He hunts the perfect synthesis: Shacklebreaker chains that bind his hybrid natur
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
 | 💚 **Resources** | Health | 19,362 |
-|  | Magicka | 24,213 |
+|  | Magicka | 18,893 |
 |  | Stamina | 24,498 |
 | ⚔️ **Offensive** | Weapon Power | 2,361 |
 |  | Spell Power | 2,361 |
@@ -261,8 +261,8 @@ He hunts the perfect synthesis: Shacklebreaker chains that bind his hybrid natur
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟠 **[Twin Sisters Set](https://en.uesp.net/wiki/Online:Twin_Sisters_Set)** | `3/5` ██████░░░░ 60% |
 | 🟢 **[Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set)** | `5/5` ██████████ 100% |
+| 🟠 **[Twin Sisters Set](https://en.uesp.net/wiki/Online:Twin_Sisters_Set)** | `3/5` ██████░░░░ 60% |
 
 ### 📋 Equipment Details
 
@@ -288,7 +288,7 @@ He hunts the perfect synthesis: Shacklebreaker chains that bind his hybrid natur
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 833 | 832 | 1 |
+| 834 | 832 | 2 |
 
 
 > ✨ **Enlightened** - 0 XP bonus remaining
@@ -330,7 +330,7 @@ He hunts the perfect synthesis: Shacklebreaker chains that bind his hybrid natur
 
 | **💪 Fitness** | **Assigned Points** |
 | --- | ---: |
-| ████████████ 100% | 277/277 points |
+| ███████████░ 99% | 277/278 points |
 | **[Sprinter](https://en.uesp.net/wiki/Online:Sprinter)** | 10 points |
 | **[Hasty](https://en.uesp.net/wiki/Online:Hasty)** | 16 points |
 | **[Celerity](https://en.uesp.net/wiki/Online:Celerity)** | 50 points |
@@ -465,7 +465,7 @@ flowchart LR
     F_HerosVigor --> F_Hasty
     F_MysticTenacity --> F_HerosVigor
 
-    FITNESS_AVAIL["💎 0 points available"]
+    FITNESS_AVAIL["💎 1 points available"]
     style FITNESS_AVAIL fill:#f0d4d4,stroke:#b87a7a,stroke-width:2px,stroke-dasharray:5 5,color:#b87a7a
 
   end
@@ -479,14 +479,16 @@ flowchart LR
 
     LEG_STARS["Star Types"]
     LEG_S1["⭐ Gold Border = Maxed Slottable"]
+    LEG_S2["🔶 Orange Border = Independent Star"]
 
 ```
 
 
 ```mermaid
+%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%
 
+flowchart LR
 
-    LEG_S2["🔶 Orange Border = Independent Star"]
     LEG_S3["Standard Border = In Progress"]
 
     LEG_FILL["Progress Indicators"]
@@ -888,14 +890,14 @@ flowchart LR
 - [Psijic Mascot Pony^n](https://en.uesp.net/wiki/Online:Psijic_Mascot_Pony^n)
 - [Scintillant Dovah-Fly^n](https://en.uesp.net/wiki/Online:Scintillant_Dovah-Fly^n)
 - [Spectral Mudcrab](https://en.uesp.net/wiki/Online:Spectral_Mudcrab)
+
+
 - [Steam-Driven Brassilisk^n](https://en.uesp.net/wiki/Online:Steam-Driven_Brassilisk^n)
 - [Sylvan Nixad](https://en.uesp.net/wiki/Online:Sylvan_Nixad)
 - [Verdigris Haj Mota](https://en.uesp.net/wiki/Online:Verdigris_Haj_Mota)
 - [Vermilion Scuttler](https://en.uesp.net/wiki/Online:Vermilion_Scuttler)
 - [Viridescent Dragon Frog](https://en.uesp.net/wiki/Online:Viridescent_Dragon_Frog)
 - [Vvardvark^n](https://en.uesp.net/wiki/Online:Vvardvark^n)
-
-
 </details>
 
 <details>
@@ -926,25 +928,27 @@ flowchart LR
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 30 | 180 | █░░░░░░░░░ 16% |
+| Backpack | 46 | 180 | ██░░░░░░░░ 25% |
 | Bank | 240 | 480 | █████░░░░░ 50% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (30 unique items)</summary>
+<summary><strong>Backpack Items</strong> (46 unique items)</summary>
 
-#### Other (30 items)
+#### Other (46 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
+| ⚪ ancestor silk breeches | 1 | ⚪ |
 | 🔵 ancestor silk gloves of Health | 1 | 🔵 |
-| 🟢 ancestor silk shoes of Stamina | 1 | 🟢 |
+| 🔵 Ancestor Silk sash of Health | 1 | 🔵 |
 | 🟡 Bound Crown Experience Scroll | 1 | 🟡 |
 | 🟣 Bound Crown Fortifying Meal | 1 | 🟣 |
 | 🟡 Bound Gold Coast Trapping Poison | 64 | 🟡 |
 | 🟣 Bound Gold Coast Warrior Elixir | 25 | 🟣 |
 | 🟡 Bound Skill Respecification Scroll | 1 | 🟡 |
 | ⚪ Bravil's Best Beet Risotto | 1 | ⚪ |
+| ⚪ Cloudy Damage Health Poison IX | 4 | ⚪ |
 | ⚪ Cloudy Gradual Ravage Health Poison IX | 4 | ⚪ |
 | 🔵 Counterfeit Pardon Edict | 17 | 🔵 |
 | 🔵 Crown Repair Kit | 9 | 🔵 |
@@ -952,20 +956,34 @@ flowchart LR
 | ⚪ Crusty Bread | 3 | ⚪ |
 | ⚪ Cyrodiil Assault Crate | 1 | ⚪ |
 | ⚪ Cyrodiil Defense Crate | 1 | ⚪ |
+| ⚪ Daedra Husk | 3 | ⚪ |
 | 🟡 Darkening: Dark of the Moons | 1 | 🟡 |
 | 🔵 Deep Winter Charity Writ | 1 | 🔵 |
+| 🟢 Design: Grapes, Wax | 1 | 🟢 |
 | ⚪ Disposable Juggling Knives | 10 | ⚪ |
 | ⚪ Disposable Swallower's Sword | 10 | ⚪ |
+| ⚪ Elemental Essence | 2 | ⚪ |
 | ⚪ Essence of Magicka | 9 | ⚪ |
 | ⚪ Essence of stamina | 5 | ⚪ |
+| ⚪ Foul Hide | 7 | ⚪ |
 | ⚪ Heart of the Indrik | 1 | ⚪ |
 | ⚪ Heart's Day Rose Tea | 1 | ⚪ |
 | ⚪ Lockpick | 42 | ⚪ |
 | 🟢 Recipe: Grape Preserves | 1 | 🟢 |
+| 🟢 Recipe: Lotus Tea | 1 | 🟢 |
+| 🟢 Ring of a Mother's Sorrow | 1 | 🟢 |
 | ⚪ Roguish Escape Draught | 5 | ⚪ |
-| 🟢 rubedite axe of Frost | 1 | 🟢 |
-| 🟢 Sash of the Psijic Order | 1 | 🟢 |
-| 🟢 Soul Gem | 24 | 🟢 |
+| ⚪ rubedite gauntlets | 1 | ⚪ |
+| ⚪ rubedite greatsword | 1 | ⚪ |
+| 🔵 Rubedite pauldron of Magicka | 1 | 🔵 |
+| 🟢 rubedo leather boots of Stamina | 1 | 🟢 |
+| ⚪ ruby ash ice staff | 1 | ⚪ |
+| 🔵 ruby ash inferno staff of Shock | 1 | 🔵 |
+| 🟢 ruby ash lightning staff of Frost | 1 | 🟢 |
+| ⚪ ruby ash shield | 1 | ⚪ |
+| 🔵 ruby ash shield of Magicka | 1 | 🔵 |
+| 🟢 Soul Gem | 23 | 🟢 |
+| ⚪ Truly Superb Glyph of Health | 1 | ⚪ |
 | 🟢 Undaunted Enclave Invitation | 1 | 🟢 |
 
 </details>
@@ -1247,7 +1265,7 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 Denata | 1099 | 🔵 |
+| 🔵 Denata | 1100 | 🔵 |
 | 🟢 Jejota | 2245 | 🟢 |
 | 🟡 Kuta | 196 | 🟡 |
 | 🟣 Rekuta | 669 | 🟣 |
@@ -1261,7 +1279,7 @@ flowchart LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Dekeipa | 327 | ⚪ |
-| ⚪ Deni | 1119 | ⚪ |
+| ⚪ Deni | 1120 | ⚪ |
 | ⚪ Denima | 341 | ⚪ |
 | ⚪ Deteri | 211 | ⚪ |
 | ⚪ Hakeijo | 1 | ⚪ |
@@ -1286,13 +1304,13 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Alchemical Resin | 1429 | ⚪ |
+| ⚪ Alchemical Resin | 1430 | ⚪ |
 | ⚪ Bast | 536 | ⚪ |
-| ⚪ Clean Pelt | 601 | ⚪ |
+| ⚪ Clean Pelt | 603 | ⚪ |
 | ⚪ Decorative Wax | 759 | ⚪ |
-| ⚪ Heartwood | 801 | ⚪ |
+| ⚪ Heartwood | 803 | ⚪ |
 | ⚪ Mundane Rune | 1489 | ⚪ |
-| ⚪ Ochre | 345 | ⚪ |
+| ⚪ Ochre | 346 | ⚪ |
 | ⚪ Regulus | 506 | ⚪ |
 
 
@@ -1311,7 +1329,7 @@ flowchart LR
 | ⚪ Bittergreen | 405 | ⚪ |
 | ⚪ Carrots | 254 | ⚪ |
 | ⚪ Cheese | 116 | ⚪ |
-| ⚪ Coffee | 932 | ⚪ |
+| ⚪ Coffee | 934 | ⚪ |
 | ⚪ Comberry | 387 | ⚪ |
 | ⚪ Corn | 245 | ⚪ |
 | ⚪ Fish | 395 | ⚪ |
@@ -1328,7 +1346,7 @@ flowchart LR
 | ⚪ Isinglass | 662 | ⚪ |
 | ⚪ Jasmine | 344 | ⚪ |
 | ⚪ Jazbay Grapes | 412 | ⚪ |
-| ⚪ Lemon | 801 | ⚪ |
+| ⚪ Lemon | 802 | ⚪ |
 | ⚪ Lotus | 447 | ⚪ |
 | ⚪ Melon | 600 | ⚪ |
 | ⚪ Metheglin | 787 | ⚪ |
@@ -1343,8 +1361,8 @@ flowchart LR
 | ⚪ Rose | 466 | ⚪ |
 | ⚪ Rye | 1251 | ⚪ |
 | ⚪ Saltrice | 496 | ⚪ |
-| ⚪ Seasoning | 474 | ⚪ |
-| ⚪ Seaweed | 813 | ⚪ |
+| ⚪ Seasoning | 475 | ⚪ |
+| ⚪ Seaweed | 814 | ⚪ |
 | ⚪ Small Game | 221 | ⚪ |
 | ⚪ Surilie Grapes | 1207 | ⚪ |
 | ⚪ Tomato | 413 | ⚪ |
@@ -1385,7 +1403,7 @@ flowchart LR
 | ⚪ crawlers, Foul Bait | 1431 | ⚪ |
 | ⚪ fish roe, Foul Bait | 3 | ⚪ |
 | ⚪ guts, Lake Bait | 918 | ⚪ |
-| ⚪ insect parts, River Bait | 357 | ⚪ |
+| ⚪ insect parts, River Bait | 358 | ⚪ |
 | ⚪ shad, River Bait | 25 | ⚪ |
 | ⚪ worms, Saltwater Bait | 1440 | ⚪ |
 
@@ -1461,10 +1479,10 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Alkahest | 1909 | ⚪ |
+| ⚪ Alkahest | 1911 | ⚪ |
 | ⚪ Gall | 1021 | ⚪ |
-| ⚪ Grease | 2210 | ⚪ |
-| ⚪ Ichor | 2296 | ⚪ |
+| ⚪ Grease | 2214 | ⚪ |
+| ⚪ Ichor | 2308 | ⚪ |
 | ⚪ Night-Oil | 8 | ⚪ |
 | ⚪ Pitch-Bile | 157 | ⚪ |
 | ⚪ Slime | 437 | ⚪ |
@@ -1521,7 +1539,7 @@ flowchart LR
 | ⚪ cloud mist | 40 | ⚪ |
 | ⚪ filtered water | 548 | ⚪ |
 | ⚪ Lorkhan's Tears | 829 | ⚪ |
-| ⚪ natural water | 1041 | ⚪ |
+| ⚪ natural water | 1044 | ⚪ |
 | ⚪ pristine water | 481 | ⚪ |
 | ⚪ purified water | 89 | ⚪ |
 | ⚪ Star Dew | 60 | ⚪ |
@@ -1551,13 +1569,13 @@ flowchart LR
 | ⚪ iron hide scraps | 7 | ⚪ |
 | ⚪ iron ore | 49 | ⚪ |
 | ⚪ leather scraps | 14 | ⚪ |
-| ⚪ Malachite Shard | 50 | ⚪ |
+| ⚪ Malachite Shard | 51 | ⚪ |
 | ⚪ orichalcum ore | 41 | ⚪ |
 | ⚪ Oxblood Fungus Spore | 9 | ⚪ |
 | ⚪ pewter dust | 80 | ⚪ |
-| ⚪ platinum dust | 349 | ⚪ |
+| ⚪ platinum dust | 352 | ⚪ |
 | ⚪ Quicksilver ore | 8 | ⚪ |
-| ⚪ raw ancestor silk | 615 | ⚪ |
+| ⚪ raw ancestor silk | 618 | ⚪ |
 | ⚪ raw cotton | 5 | ⚪ |
 | ⚪ raw ebonthread | 5 | ⚪ |
 | ⚪ raw flax | 5 | ⚪ |
@@ -1566,17 +1584,17 @@ flowchart LR
 | ⚪ raw silverweed | 2 | ⚪ |
 | ⚪ raw spidersilk | 56 | ⚪ |
 | ⚪ raw void bloom | 2 | ⚪ |
-| ⚪ rawhide scraps | 131 | ⚪ |
+| ⚪ rawhide scraps | 136 | ⚪ |
 | ⚪ rough ash | 3 | ⚪ |
 | ⚪ rough beech | 25 | ⚪ |
 | ⚪ rough hickory | 75 | ⚪ |
 | ⚪ rough mahogany | 1 | ⚪ |
 | ⚪ rough maple | 27 | ⚪ |
 | ⚪ rough oak | 2 | ⚪ |
-| ⚪ rough ruby ash | 668 | ⚪ |
+| ⚪ rough ruby ash | 674 | ⚪ |
 | ⚪ rough yew | 8 | ⚪ |
-| ⚪ rubedite ore | 604 | ⚪ |
-| ⚪ rubedo hide scraps | 140 | ⚪ |
+| ⚪ rubedite ore | 610 | ⚪ |
+| ⚪ rubedo hide scraps | 147 | ⚪ |
 | ⚪ shadowhide scraps | 8 | ⚪ |
 | ⚪ silver dust | 7 | ⚪ |
 | ⚪ superb hide scraps | 6 | ⚪ |
@@ -1608,18 +1626,18 @@ flowchart LR
 | 🟢 Beetle Scuttle | 249 | 🟢 |
 | 🟢 blessed thistle | 614 | 🟢 |
 | 🟢 blue entoloma | 524 | 🟢 |
-| 🟢 bugloss | 799 | 🟢 |
+| 🟢 bugloss | 800 | 🟢 |
 | 🟢 Butterfly Wing | 80 | 🟢 |
 | 🟢 Clam Gall | 10 | 🟢 |
 | 🟢 columbine | 570 | 🟢 |
-| 🟢 corn flower | 692 | 🟢 |
+| 🟢 corn flower | 693 | 🟢 |
 | 🟢 Dragon's Bile | 12 | 🟢 |
 | 🟢 Dragon's Blood | 6 | 🟢 |
 | 🟢 dragonthorn | 718 | 🟢 |
 | 🟢 emetic russula | 489 | 🟢 |
 | 🟢 Fleshfly Larva||Fleshfly Larvae | 477 | 🟢 |
 | 🟢 imp stool | 422 | 🟢 |
-| 🟢 lady's smock | 638 | 🟢 |
+| 🟢 lady's smock | 639 | 🟢 |
 | 🟢 luminous russula | 348 | 🟢 |
 | 🟢 mountain flower | 510 | 🟢 |
 | 🟢 Mudcrab Chitin | 46 | 🟢 |
@@ -1629,10 +1647,10 @@ flowchart LR
 | 🟢 Powdered Mother of Pearl | 11 | 🟢 |
 | 🟢 Scrib Jelly | 274 | 🟢 |
 | 🟢 Spider Egg | 799 | 🟢 |
-| 🟢 stinkhorn | 441 | 🟢 |
+| 🟢 stinkhorn | 443 | 🟢 |
 | 🟢 Torchbug Thorax | 64 | 🟢 |
 | 🟢 violet coprinus | 364 | 🟢 |
-| 🟢 water hyacinth | 660 | 🟢 |
+| 🟢 water hyacinth | 661 | 🟢 |
 | 🟢 white cap | 392 | 🟢 |
 | 🟢 wormwood | 650 | 🟢 |
 
@@ -1699,7 +1717,7 @@ flowchart LR
 | ⚪ Laurel | 84 | ⚪ |
 | ⚪ Lion Fang | 6 | ⚪ |
 | ⚪ Malachite | 82 | ⚪ |
-| ⚪ Manganese | 904 | ⚪ |
+| ⚪ Manganese | 905 | ⚪ |
 | ⚪ Marsh Nettle Sprig | 5 | ⚪ |
 | ⚪ Minotaur Bezoar | 5 | ⚪ |
 | ⚪ Molybdenum | 861 | ⚪ |
@@ -1708,7 +1726,7 @@ flowchart LR
 | ⚪ Obliviate Lacquer | 1 | ⚪ |
 | ⚪ Obsidian | 905 | ⚪ |
 | ⚪ Oxblood Fungus | 710 | ⚪ |
-| ⚪ Palladium | 788 | ⚪ |
+| ⚪ Palladium | 789 | ⚪ |
 | ⚪ Pearl Sand | 646 | ⚪ |
 | ⚪ Polished Scarab Elytra | 2 | ⚪ |
 | ⚪ Polished Shilling | 7 | ⚪ |
@@ -1719,7 +1737,7 @@ flowchart LR
 | ⚪ Sea Serpent Hide | 1 | ⚪ |
 | ⚪ Shimmering Sand | 8 | ⚪ |
 | ⚪ Star Sapphire | 72 | ⚪ |
-| ⚪ Starmetal | 904 | ⚪ |
+| ⚪ Starmetal | 905 | ⚪ |
 | ⚪ Stendarr Stamp | 2 | ⚪ |
 | ⚪ Tainted Blood | 64 | ⚪ |
 | ⚪ Tempered Brass | 12 | ⚪ |
@@ -3526,10 +3544,11 @@ flowchart LR
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-100,005%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-100,600%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 12/26/2025 • Version: 2.2.4-21-g4d062e4</sub>
+<sub>Generated on 12/26/2025 • Version: 2.2.4-23-gaa1ec9a</sub>
 
 </div>
+
