@@ -355,7 +355,7 @@ local function GenerateCompanion(companionData)
             -- Fallback to blockquote if function not available
             markdown = markdown .. "> [!WARNING]\n"
             for _, warning in ipairs(warnings) do
-                markdown = markdown .. "> " .. warning .. "  \n"
+                markdown = markdown .. "> - " .. warning .. "\n"
             end
             markdown = markdown .. "\n"
         end

@@ -18,13 +18,20 @@ CharacterMarkdown/
 ├── CharacterMarkdown.xml     # UI definition
 ├── src/
 │   ├── Core.lua             # Namespace & debug system
-│   ├── Commands.lua         # /markdown command
+│   ├── Commands.lua         # /markdown command (orchestrator)
 │   ├── Events.lua           # Event management
 │   ├── Init.lua             # Final validation
+│   │
+│   ├── commands/            # Command submodules
+│   │   ├── Debug.lua        # Debug/diagnostic commands
+│   │   ├── Settings.lua     # Settings management commands
+│   │   └── Test.lua         # Test/validation commands
 │   │
 │   ├── utils/               # Helper functions
 │   │   ├── Formatters.lua   # Text formatting
 │   │   ├── Quality.lua      # Item quality utilities
+│   │   ├── Markdown.lua     # Markdown utilities
+│   │   ├── AdvancedMarkdown.lua # Advanced styling
 │   │   └── Stats.lua        # Stat calculations
 │   │
 │   ├── links/               # UESP URL generation
@@ -50,7 +57,13 @@ CharacterMarkdown/
 │   │   │   └── Utilities.lua
 │   │   └── sections/        # Individual sections
 │   │       ├── Character.lua
-│   │       ├── Equipment.lua
+│   │       ├── Equipment.lua    # Orchestrator for equipment modules
+│   │       ├── equipment/       # Equipment submodules
+│   │       │   ├── Helpers.lua      # Shared utilities
+│   │       │   ├── SkillBars.lua    # Skill bar tables
+│   │       │   ├── SkillMorphs.lua  # Morph selection
+│   │       │   ├── GearTable.lua    # Equipment details
+│   │       │   └── Skills.lua       # Skill progression
 │   │       ├── Combat.lua
 │   │       ├── Content.lua
 │   │       ├── Economy.lua
@@ -65,10 +78,16 @@ CharacterMarkdown/
 │   └── ui/
 │       └── Window.lua       # Display window
 │
-└── scripts/                 # Build tools
-    ├── validate-manifest.lua
-    ├── validate-zip.sh
-    └── update-api-version.sh
+├── scripts/                 # Build tools
+│   ├── validate-manifest.lua
+│   ├── validate-zip.sh
+│   └── update-api-version.sh
+│
+└── taskfiles/               # Modular task definitions
+    ├── Dev.yaml             # Development tasks
+    ├── Build.yaml           # Build & package tasks
+    ├── Release.yaml         # Release workflow tasks
+    └── Install.yaml         # ESO installation tasks
 ```
 
 ---

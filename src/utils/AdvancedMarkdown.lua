@@ -814,10 +814,10 @@ local function CreateAttentionNeeded(warnings, format, headerTitle)
     format = format or "github"
 
     -- Always use GitHub-native callout syntax for warnings
+    -- Use bullet points for proper list rendering inside the callout
     local result = "> [!WARNING]\n"
     for _, warning in ipairs(warnings) do
-        -- Each line in a callout is separate (no need for two-space line breaks)
-        result = result .. "> " .. warning .. "\n"
+        result = result .. "> - " .. warning .. "\n"
     end
     result = result .. "\n"
     return result

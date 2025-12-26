@@ -1,0 +1,125 @@
+version: "3"
+
+# Build Tasks - Taskfile Module
+# Included from main Taskfile.yaml
+
+tasks:
+  # =============================================================================
+  # BUILD & PACKAGE
+  # =============================================================================
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - |
+        echo "🧹 Cleaning build artifacts..."
+        rm -rf {{.BUILD_DIR}}
+        rm -rf {{.DIST_DIR}}
+        rm -f {{.ADDON_NAME}}-*.zip
+        echo "✅ Clean complete"
+    silent: true
+
+  release:
+    desc: Build release ZIP artifact with full validation
+    deps: [clean, dev:test]
+    cmds:
+      - |
+        echo "📦 Building {{.ADDON_NAME}} release..."
+
+        echo "🔍 Running pre-build validation..."
+        chmod +x scripts/pre-build-check.sh
+        ./scripts/pre-build-check.sh || (echo "❌ Pre-build validation failed." && exit 1)
+
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+          echo "   Using tag version: ${VERSION}"
+        else
+          VERSION=$(git rev-parse --short HEAD)
+          echo "   Using commit SHA: ${VERSION}"
+        fi
+
+        mkdir -p {{.BUILD_DIR}}/{{.ADDON_NAME}}
+        mkdir -p {{.DIST_DIR}}
+
+        echo "📋 Copying files..."
+        chmod +x scripts/build-copy.sh
+        ./scripts/build-copy.sh . {{.BUILD_DIR}}/{{.ADDON_NAME}}
+      - |
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+
+        ./scripts/replace-version.sh "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "$VERSION"
+        cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
+        echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
+      - |
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+
+        chmod +x scripts/validate-zip.sh
+        scripts/validate-zip.sh "{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
+
+  fast:
+    desc: Build without tests (fast local iteration)
+    deps: [clean]
+    cmds:
+      - |
+        echo "📦 Building {{.ADDON_NAME}} (fast mode)..."
+
+        chmod +x scripts/pre-build-check.sh
+        ./scripts/pre-build-check.sh || (echo "❌ Pre-build validation failed." && exit 1)
+
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+
+        mkdir -p {{.BUILD_DIR}}/{{.ADDON_NAME}}
+        mkdir -p {{.DIST_DIR}}
+
+        chmod +x scripts/build-copy.sh
+        ./scripts/build-copy.sh . {{.BUILD_DIR}}/{{.ADDON_NAME}}
+      - |
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+
+        ./scripts/replace-version.sh "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "$VERSION"
+        cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
+        echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
+
+  esoui:
+    desc: Create ESOUI-compatible package (same as build:release)
+    deps: [release]
+    cmds:
+      - echo "✅ ESOUI package ready"
+    silent: true
+
+  verify:
+    desc: Verify package meets ESOUI requirements
+    cmds:
+      - echo "✅ Verifying ESOUI package requirements..."
+      - |
+        if [ ! -f "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" ]; then
+          echo "❌ Package not found. Run: task build:release"
+          exit 1
+        fi
+      - echo "  ✓ Package exists"
+      - |
+        SIZE=$(stat -f%z "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" 2>/dev/null || stat -c%s "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip")
+        SIZE_MB=$((SIZE / 1024 / 1024))
+        if [ $SIZE_MB -gt 10 ]; then
+          echo "  ⚠️  Warning: Package >10MB (${SIZE_MB}MB)"
+        else
+          echo "  ✓ Package size OK (${SIZE_MB}MB)"
+        fi
+      - echo "  ✓ Ready for ESOUI/Minion upload"
+    silent: true

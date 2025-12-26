@@ -1,0 +1,204 @@
+version: "3"
+
+# Development Tasks - Taskfile Module
+# Included from main Taskfile.yaml
+
+tasks:
+  # =============================================================================
+  # DEVELOPMENT WORKFLOW
+  # =============================================================================
+
+  start:
+    desc: Start development mode (symlink + watch)
+    cmds:
+      - task: install:dev
+      - echo ""
+      - echo "🔥 Development mode active!"
+      - echo "  - Edit files in this directory"
+      - echo "  - Use /reloadui in ESO to test changes"
+      - echo "  - Press Ctrl+C to stop watching"
+      - echo ""
+      - task: dev:watch
+    silent: true
+
+  watch:
+    desc: Watch for file changes (requires fswatch)
+    cmds:
+      - |
+        if ! command -v fswatch &> /dev/null; then
+          echo "⚠️  fswatch not installed. Install with: brew install fswatch"
+          exit 1
+        fi
+        echo "👀 Watching for changes..."
+        fswatch -o {{.SRC_DIR}}/ | while read; do
+          echo "[$(date +%H:%M:%S)] Files changed - use /reloadui in ESO"
+        done
+    silent: true
+
+  lint:
+    desc: Run Luacheck on all Lua files
+    cmds:
+      - |
+        echo "🔍 Running Luacheck..."
+        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --ignore 212 || true
+      - echo "✅ Lint passed"
+    silent: true
+
+  lint:fix:
+    desc: Auto-fix Luacheck issues where possible
+    cmds:
+      - |
+        echo "🔧 Auto-fixing Luacheck issues..."
+        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --ignore 212 --fix || true
+      - echo "✅ Auto-fix complete"
+    silent: true
+
+  format:
+    desc: Format Lua code with StyLua
+    cmds:
+      - |
+        echo "✨ Formatting Lua code with StyLua..."
+        if command -v stylua &>/dev/null; then
+          stylua --config-path .stylua.toml {{.SRC_DIR}}
+          echo "✅ Code formatted successfully"
+        else
+          echo "❌ StyLua not found. Install with: cargo install stylua"
+          echo "   Or: brew install stylua"
+          exit 1
+        fi
+    silent: true
+
+  format:check:
+    desc: Check if Lua code is formatted correctly (without modifying)
+    cmds:
+      - |
+        echo "🔍 Checking Lua code formatting..."
+        if command -v stylua &>/dev/null; then
+          stylua --config-path .stylua.toml --check {{.SRC_DIR}}
+          echo "✅ Code formatting is correct"
+        else
+          echo "❌ StyLua not found. Install with: cargo install stylua"
+          echo "   Or: brew install stylua"
+          exit 1
+        fi
+    silent: true
+
+  validate:
+    desc: Validate addon manifest and project structure
+    cmds:
+      - echo "✅ Validating project..."
+      - task: dev:validate:files
+      - task: dev:validate:manifest
+      - task: dev:validate:syntax
+      - echo "✅ All validations passed"
+    silent: true
+
+  validate:files:
+    desc: Check that all required files exist
+    cmds:
+      - echo "  Checking required files..."
+      - |
+        for file in {{.MANIFEST_FILE}} README.md LICENSE; do
+          if [ ! -f "$file" ]; then
+            echo "  ✗ Missing required file: $file"
+            exit 1
+          fi
+        done
+        if [ ! -d "{{.SRC_DIR}}" ]; then
+          echo "  ✗ Missing required directory: {{.SRC_DIR}}"
+          exit 1
+        fi
+      - echo "    ✓ All required files present"
+    silent: true
+
+  validate:manifest:
+    desc: Validate addon manifest file
+    cmds:
+      - echo "  Validating manifest..."
+      - |
+        if ! grep -q "^## Title:" {{.MANIFEST_FILE}}; then
+          echo "  ✗ Missing Title in manifest"
+          exit 1
+        fi
+        if ! grep -q "^## Version:" {{.MANIFEST_FILE}}; then
+          echo "  ✗ Missing Version in manifest"
+          exit 1
+        fi
+        if ! grep -q "^## APIVersion:" {{.MANIFEST_FILE}}; then
+          echo "  ✗ Missing APIVersion in manifest"
+          exit 1
+        fi
+        echo "    ✓ Manifest valid"
+    silent: true
+
+  validate:syntax:
+    desc: Check Lua syntax with LuaJIT
+    cmds:
+      - echo "  Checking Lua syntax..."
+      - |
+        find {{.SRC_DIR}} -name "*.lua" -type f | while read file; do
+          luajit -bl "$file" > /dev/null || (echo "  ✗ Lua syntax errors in $file" && exit 1)
+        done
+      - echo "    ✓ All Lua files syntax valid"
+    silent: true
+
+  validate:changelog:
+    desc: Validate CHANGELOG.md has version entries
+    cmds:
+      - echo "  Checking CHANGELOG.md..."
+      - |
+        if [ ! -f "CHANGELOG.md" ]; then
+          echo "  ✗ CHANGELOG.md not found"
+          exit 1
+        fi
+        if ! grep -q "^## \[.*\]" CHANGELOG.md; then
+          echo "  ✗ CHANGELOG.md has no version entries"
+          exit 1
+        fi
+        if grep -q "^## \[Unreleased\]" CHANGELOG.md; then
+          echo "    ⚠️  CHANGELOG.md has [Unreleased] section"
+        fi
+        echo "    ✓ CHANGELOG.md is valid"
+    silent: true
+
+  validate:readme:
+    desc: Validate README.md version badges match manifest
+    cmds:
+      - echo "  Checking README.md badges..."
+      - |
+        if [ ! -f "README.md" ]; then
+          echo "  ✗ README.md not found"
+          exit 1
+        fi
+        MANIFEST_API=$(grep "^## APIVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
+        if grep -q "badge/ESO_API-${MANIFEST_API}-" README.md; then
+          echo "    ✓ API version badge matches manifest (${MANIFEST_API})"
+        else
+          echo "    ⚠️  API version badge may not match manifest"
+        fi
+        echo "    ✓ README.md validation complete"
+    silent: true
+
+  validate:all:
+    desc: Run all validation checks
+    deps: [validate, validate:changelog, validate:readme]
+    cmds:
+      - echo "✅ All validations passed"
+    silent: true
+
+  test:
+    desc: Run all tests (lint + validate)
+    deps: [lint, validate]
+    cmds:
+      - echo "✅ All tests passed"
+    silent: true
+
+  backup:
+    desc: Create backup of current addon
+    cmds:
+      - |
+        BACKUP_NAME="backup-{{.ADDON_NAME}}-$(date +%Y%m%d-%H%M%S).tar.gz"
+        echo "💾 Creating backup: $BACKUP_NAME"
+        tar czf "$BACKUP_NAME" {{.MANIFEST_FILE}} README.md LICENSE {{.SRC_DIR}}/
+        echo "✅ Backup created: $BACKUP_NAME"
+    silent: true

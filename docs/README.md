@@ -235,4 +235,4 @@ Include this information:
 **Need more help?** 
 - Check the [Development Guide](DEVELOPMENT.md) for technical details
 - Review the [Testing Guide](TESTING_COMMAND.md) for validation procedures
-- [Report an issue](https://github.com/yourusername/CharacterMarkdown/issues)
+- [Report an issue](https://github.com/solaegis/CharacterMarkdown/issues)

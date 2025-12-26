@@ -1,0 +1,14 @@
+version: "3"
+
+# Examples Tasks - Taskfile Module
+# Included from main Taskfile.yaml
+
+tasks:
+  trim:
+    desc: Trim unnecessary newlines in example files
+    cmds:
+      - |
+        echo "🔪 Trimming example markdown files..."
+        python3 scripts/trim.py examples/*.md || true
+      - echo "✅ Examples trimmed"
+    silent: true

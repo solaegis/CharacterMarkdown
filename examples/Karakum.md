@@ -4,7 +4,7 @@
 
 # Karakum (Dark Executioner)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-832-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-833-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Redguard Dragonknight • Daggerfall Covenant Alliance**
 
@@ -45,11 +45,11 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Level** | 50 |
-| **Champion Points** | 832 |
+| **Champion Points** | 833 |
 | **Gender** | Male |
-| **Age** | 5d 15h 9m |
 | **Account** | @SOLAEGIS |
 | **ESO Plus** | ✅ Active |
+| **Age** | 5d 15h 32m |
 
 
 </div><div>
@@ -57,22 +57,23 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Attributes** | 🔵 30 / ❤️ 0 / ⚡ 34 |
+| **Available Champion Points** | ⚒️ 0 - ⚔️ 1 - 💪 0 |
 | **🐴 Riding Skills** | 🐴 60 / 💪 60 / 🎒 60 ✅ |
-| **Skill Points** | 🎯 13 available - Ready to spend |
+| **Skill Points** | 🎯 14 available - Ready to spend |
 | **Race** | [Redguard](https://en.uesp.net/wiki/Online:Redguard) |
 | **Server** | [NA Megaserver](https://en.uesp.net/wiki/Online:Megaservers) |
-| **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
+| **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
 | **Title** | [Dark Executioner](https://en.uesp.net/wiki/Online:Dark_Executioner) |
 | **🪨 Mundus Stone** | [The Shadow](https://en.uesp.net/wiki/Online:The_Shadow_(Mundus_Stone)) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **Location** | [Anvil Outlaws Refuge](https://en.uesp.net/wiki/Online:Anvil_Outlaws_Refuge) (461) |
-| **🍖 Active Buffs** | Other: [Increase Max Stamina](https://en.uesp.net/wiki/Online:Increase_Max_Stamina), [Minor Protection](https://en.uesp.net/wiki/Online:Minor_Protection) |
+| **Location** | [Rivenspire](https://en.uesp.net/wiki/Online:Rivenspire) (Shornhelm Wayshrine) |
+| **🍖 Active Buffs** | Other: [Increase Max Stamina](https://en.uesp.net/wiki/Online:Increase_Max_Stamina), [Minor Protection](https://en.uesp.net/wiki/Online:Minor_Protection), [Major Savagery](https://en.uesp.net/wiki/Online:Major_Savagery), [Major Prophecy](https://en.uesp.net/wiki/Online:Major_Prophecy) |
 
 
 </div><div>
@@ -83,7 +84,7 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 10,552 |
+| 💰 **Gold** | 11,021 |
 | ⚔️ **Alliance Points** | 0 |
 | 🔮 **Tel Var** | 0 |
 | 💎 **Transmute Crystals** | 105 |
@@ -116,19 +117,19 @@
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 💚 **Resources** | Health | 20,218 |
-|  | Magicka | 19,614 |
-|  | Stamina | 27,316 |
-| ⚔️ **Offensive** | Weapon Power | 2,361 |
-|  | Spell Power | 2,361 |
+| 💚 **Resources** | Health | 19,767 |
+|  | Magicka | 18,910 |
+|  | Stamina | 29,835 |
+| ⚔️ **Offensive** | Weapon Power | 2,797 |
+|  | Spell Power | 2,797 |
 
 
 </div><div>
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🎯 **Critical** | Weapon Crit | 2,501 (11.4%) |
-|  | Spell Crit | 2,501 (11.4%) |
+| 🎯 **Critical** | Weapon Crit | 6,268 (28.6%) |
+|  | Spell Crit | 6,268 (28.6%) |
 | ⚔️ **Penetration** | Physical | 700 |
 |  | Spell | 700 |
 
@@ -137,11 +138,11 @@
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🛡️ **Defensive** | Physical Resist | 18,530 (88.1%) |
-|  | Spell Resist | 18,530 (88.1%) |
-| ♻️ **Recovery** | Health | 1,202 |
+| 🛡️ **Defensive** | Physical Resist | 15,466 (86%) |
+|  | Spell Resist | 15,466 (86%) |
+| ♻️ **Recovery** | Health | 830 |
 |  | Magicka | 1,042 |
-|  | Stamina | 1,058 |
+|  | Stamina | 1,226 |
 
 
 </div>
@@ -157,27 +158,27 @@
 
 | **Ability** | **Cost/Value** |
 |:---|---:|
-| ⚔️ **Light Attack** | 3,453 dmg |
-| ⚔️ **Heavy Attack** | 6,907 dmg |
-| ⚔️ **Bash** | 704 cost, 5,270 dmg |
+| ⚔️ **Light Attack** | 3,990 dmg |
+| ⚔️ **Heavy Attack** | 7,980 dmg |
+| ⚔️ **Bash** | 704 cost, 5,974 dmg |
 | 🛡️ **Block** | 1,285 cost, 50% mit, 40% spd |
 | 🔓 **Break Free** | 5,400 cost |
-| 🏃 **Dodge Roll** | 2,621 cost |
+| 🏃 **Dodge Roll** | 2,735 cost |
 | 🐾 **Sneak** | 18 cost, 0% spd |
-| 🏃‍♂️ **Sprint** | 392 cost, 0% spd |
+| 🏃‍♂️ **Sprint** | 408 cost, 0% spd |
 
 </div>
 <div>
 
 | **Resistance** | **Value** |
 |:---|---:|
-| 🔥 **Flame** | 28% |
-| ⚡ **Shock** | 28% |
-| ❄️ **Frost** | 28% |
-| 🔮 **Magic** | 28% |
-| 🦠 **Disease** | 28% |
-| ☠️ **Poison** | 28% |
-| 🩸 **Bleed** | 28% |
+| 🔥 **Flame** | 23.4% |
+| ⚡ **Shock** | 23.4% |
+| ❄️ **Frost** | 23.4% |
+| 🔮 **Magic** | 23.4% |
+| 🦠 **Disease** | 23.4% |
+| ☠️ **Poison** | 23.4% |
+| 🩸 **Bleed** | 23.4% |
 
 </div>
 <div>
@@ -185,15 +186,15 @@
 | **Damage Type** | **Bonus** |
 |:---|---:|
 | 💥 **Critical Damage** | 81% |
-| ⚔️ **Physical** | 12% |
-| 🔥 **Flame** | 12% |
-| ⚡ **Shock** | 12% |
+| ⚔️ **Physical** | 6% |
+| 🔥 **Flame** | 6% |
+| ⚡ **Shock** | 6% |
 | ❄️ **Frost** | 0 |
-| 🔮 **Magic** | 12% |
-| 🦠 **Disease** | 12% |
-| ☠️ **Poison** | 12% |
-| 🩸 **Bleed** | 12% |
-| 🌌 **Oblivion** | 12% |
+| 🔮 **Magic** | 6% |
+| 🦠 **Disease** | 6% |
+| ☠️ **Poison** | 6% |
+| 🩸 **Bleed** | 6% |
+| 🌌 **Oblivion** | 6% |
 
 </div>
 <div>
@@ -219,7 +220,7 @@
 
 | **1** | **2** | **3** | **4** | **5** | **6** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| [Unstable Wall of Storms](https://en.uesp.net/wiki/Online:Unstable_Wall_of_Storms) | [Structured Entropy](https://en.uesp.net/wiki/Online:Structured_Entropy) | [Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap) | [Crystal Fragments](https://en.uesp.net/wiki/Online:Crystal_Fragments) | [Volatile Armor](https://en.uesp.net/wiki/Online:Volatile_Armor) | [Ferocious Leap](https://en.uesp.net/wiki/Online:Ferocious_Leap) |
+| [Unstable Wall of Elements](https://en.uesp.net/wiki/Online:Unstable_Wall_of_Elements) | [Structured Entropy](https://en.uesp.net/wiki/Online:Structured_Entropy) | [Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap) | [Crystal Fragments](https://en.uesp.net/wiki/Online:Crystal_Fragments) | [Volatile Armor](https://en.uesp.net/wiki/Online:Volatile_Armor) | [Ferocious Leap](https://en.uesp.net/wiki/Online:Ferocious_Leap) |
 
 ---
 
@@ -229,21 +230,21 @@
 
 | **Set** | **Progress** |
 | --- | --- |
-| ⚪ **[Gryphon's Ferocity Set](https://en.uesp.net/wiki/Online:Gryphon's_Ferocity_Set)** | `1/5` ██░░░░░░░░ 20% |
 | 🟠 **[Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set)** | `3/5` ██████░░░░ 60% |
+| 🟠 **[Twin Sisters Set](https://en.uesp.net/wiki/Online:Twin_Sisters_Set)** | `3/5` ██████░░░░ 60% |
 
 ### 📋 Equipment Details
 
 | **Slot** | **Item** | **Set** | **Quality** | **Trait** | **Type** | **Enchantment** |
 | --- | --- | --- | --- | --- | --- | --- |
-| ⛑️ **Head** | Gryphon's Helmet | [Gryphon's Ferocity Set](https://en.uesp.net/wiki/Online:Gryphon's_Ferocity_Set) | ⭐ Epic | Divines | Medium | Maximum Stamina Enchantment |
+| ⛑️ **Head** | Helmet of the Twin Sisters | [Twin Sisters Set](https://en.uesp.net/wiki/Online:Twin_Sisters_Set) | 🔮 Superior | Training | Medium | Maximum Stamina Enchantment |
 | 💎 **Neck** | Necklace of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Arcane | None | Magicka Recovery Enchantment |
-| 🛡️ **Chest** | rubedo leather jack of Health | - | 🔮 Superior | Well-fitted | Medium | Maximum Health Enchantment |
+| 🛡️ **Chest** | Jack of the Twin Sisters | [Twin Sisters Set](https://en.uesp.net/wiki/Online:Twin_Sisters_Set) | 🔮 Superior | Training | Medium | Maximum Stamina Enchantment |
 | 👑 **Shoulders** | rubedo leather arm cops of Stamina | - | 🔮 Superior | Well-fitted | Medium | Maximum Stamina Enchantment |
 | ⚔️ **Main Hand** | rubedite dagger of Flame | - | 🔮 Superior | Precise | None | Fiery Weapon Enchantment |
 | 🛡️ **Off Hand** | rubedite dagger of Shock | - | 🔮 Superior | Precise | None | Charged Weapon Enchantment |
 | ⚡ **Waist** | rubedite girdle of Health | - | ⚡ Fine | Well-fitted | Heavy | Maximum Health Enchantment |
-| 👖 **Legs** | Rubedo Leather guards of Magicka | - | ⚡ Fine | Impenetrable | Medium | Maximum Magicka Enchantment |
+| 👖 **Legs** | Guards of the Twin Sisters | [Twin Sisters Set](https://en.uesp.net/wiki/Online:Twin_Sisters_Set) | 🔮 Superior | Training | Medium | Maximum Stamina Enchantment |
 | 👟 **Feet** | rubedo leather boots of Stamina | - | 🔮 Superior | Well-fitted | Medium | Maximum Stamina Enchantment |
 | 💍 **Ring 1** | Ring of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | ⭐ Epic | Arcane | None | Magicka Recovery Enchantment |
 | 💍 **Ring 2** | Ring of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | ⭐ Epic | Robust | None | Stamina Recovery Enchantment |
@@ -256,7 +257,7 @@
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 832 | 832 | 0 |
+| 833 | 832 | 1 |
 
 
 > ✨ **Enlightened** - 0 XP bonus remaining
@@ -283,7 +284,7 @@
 
 | **⚔️ Warfare** | **Assigned Points** |
 | --- | ---: |
-| ████████████ 100% | 277/277 points |
+| ███████████░ 99% | 277/278 points |
 | **[Precision](https://en.uesp.net/wiki/Online:Precision)** | 20 points |
 | **[Fighting Finesse](https://en.uesp.net/wiki/Online:Fighting_Finesse)** | 50 points |
 | **[Piercing](https://en.uesp.net/wiki/Online:Piercing)** | 20 points |
@@ -394,7 +395,7 @@ flowchart LR
     W_EldritchInsight --> W_Piercing
     W_TirelessDiscipline --> W_Piercing
 
-    WARFARE_AVAIL["💎 0 points available"]
+    WARFARE_AVAIL["💎 1 points available"]
     style WARFARE_AVAIL fill:#d4e4f0,stroke:#5b7fb8,stroke-width:2px,stroke-dasharray:5 5,color:#5b7fb8
 
   end
@@ -482,230 +483,16 @@ flowchart LR
 
 | **Maxed Skill Lines** | **In Progress** | **Early Progress** | **Abilities with Morphs** | **Overall Completion** |
 | ---: | ---: | ---: | ---: | ---: |
-| 5 | 21 | 1 | 18 | 18% |
+| 0 | 0 | 0 | 0 | 0% |
 
 
 <details>
-<summary>🌿 Skill Morphs (18 abilities with morph choices)</summary>
+<summary>🌿 Detailed Skill Morphs</summary>
 
-### ⚔️ Class (7 abilities with morph choices)
+*No morphable abilities found.*
 
-#### Draconic Power (Rank 50)
+---
 
-⚠️ **[Ferocious Leap](https://en.uesp.net/wiki/Online:Ferocious_Leap)** (Rank 4)
-
-  ✅ **Morph 2**: [Ferocious Leap](https://en.uesp.net/wiki/Online:Ferocious_Leap)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Take Flight](https://en.uesp.net/wiki/Online:Take_Flight)
-
-  </details>
-
-✅ **[Volatile Armor](https://en.uesp.net/wiki/Online:Volatile_Armor)** (Rank 4)
-
-  ✅ **Morph 2**: [Volatile Armor](https://en.uesp.net/wiki/Online:Volatile_Armor)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Hardened Armor](https://en.uesp.net/wiki/Online:Hardened_Armor)
-
-  </details>
-
-🔒 **[Dark Talons](https://en.uesp.net/wiki/Online:Dark_Talons)** (Rank 4)
-
-  <details>
-
-
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Burning Talons](https://en.uesp.net/wiki/Online:Burning_Talons)
-  ⚪ **Morph 2**: [Choking Talons](https://en.uesp.net/wiki/Online:Choking_Talons)
-
-  </details>
-
-🔒 **[Dragon Blood](https://en.uesp.net/wiki/Online:Dragon_Blood)** (Rank 4)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Green Dragon Blood](https://en.uesp.net/wiki/Online:Green_Dragon_Blood)
-  ⚪ **Morph 2**: [Coagulating Blood](https://en.uesp.net/wiki/Online:Coagulating_Blood)
-
-  </details>
-
-#### Shadow (Rank 25)
-
-✅ **[Blur](https://en.uesp.net/wiki/Online:Blur)** (Rank 4)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Mirage](https://en.uesp.net/wiki/Online:Mirage)
-  ⚪ **Morph 2**: [Phantasmal Escape](https://en.uesp.net/wiki/Online:Phantasmal_Escape)
-
-  </details>
-
-✅ **[Shadowy Disguise](https://en.uesp.net/wiki/Online:Shadowy_Disguise)** (Rank 1)
-
-  ✅ **Morph 1**: [Shadowy Disguise](https://en.uesp.net/wiki/Online:Shadowy_Disguise)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: [Dark Cloak](https://en.uesp.net/wiki/Online:Dark_Cloak)
-
-  </details>
-
-#### Dark Magic (Rank 32)
-
-✅ **[Crystal Fragments](https://en.uesp.net/wiki/Online:Crystal_Fragments)** (Rank 4)
-
-  ✅ **Morph 2**: [Crystal Fragments](https://en.uesp.net/wiki/Online:Crystal_Fragments)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Crystal Weapon](https://en.uesp.net/wiki/Online:Crystal_Weapon)
-
-  </details>
-
-### ⚔️ Weapon (7 abilities with morph choices)
-
-#### Two Handed (Rank 49)
-
-🔒 **[Uppercut](https://en.uesp.net/wiki/Online:Uppercut)** (Rank 4)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Dizzying Swing](https://en.uesp.net/wiki/Online:Dizzying_Swing)
-  ⚪ **Morph 2**: [Wrecking Blow](https://en.uesp.net/wiki/Online:Wrecking_Blow)
-
-  </details>
-
-🔒 **[Critical Charge](https://en.uesp.net/wiki/Online:Critical_Charge)** (Rank 4)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Stampede](https://en.uesp.net/wiki/Online:Stampede)
-  ⚪ **Morph 2**: [Critical Rush](https://en.uesp.net/wiki/Online:Critical_Rush)
-
-  </details>
-
-🔒 **[Reverse Slash](https://en.uesp.net/wiki/Online:Reverse_Slash)** (Rank 4)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Reverse Slice](https://en.uesp.net/wiki/Online:Reverse_Slice)
-  ⚪ **Morph 2**: [Executioner](https://en.uesp.net/wiki/Online:Executioner)
-
-  </details>
-
-#### One Hand and Shield (Rank 36)
-
-🔒 **[Low Slash](https://en.uesp.net/wiki/Online:Low_Slash)** (Rank 4)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Deep Slash](https://en.uesp.net/wiki/Online:Deep_Slash)
-  ⚪ **Morph 2**: [Heroic Slash](https://en.uesp.net/wiki/Online:Heroic_Slash)
-
-  </details>
-
-🔒 **[Shield Charge](https://en.uesp.net/wiki/Online:Shield_Charge)** (Rank 4)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Shielded Assault](https://en.uesp.net/wiki/Online:Shielded_Assault)
-  ⚪ **Morph 2**: [Invasion](https://en.uesp.net/wiki/Online:Invasion)
-
-  </details>
-
-#### Dual Wield (Rank 32)
-
-✅ **[Rapid Strikes](https://en.uesp.net/wiki/Online:Rapid_Strikes)** (Rank 3)
-
-  ✅ **Morph 1**: [Rapid Strikes](https://en.uesp.net/wiki/Online:Rapid_Strikes)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: [Bloodthirst](https://en.uesp.net/wiki/Online:Bloodthirst)
-
-  </details>
-
-#### Destruction Staff (Rank 42)
-
-✅ **[Unstable Wall of Elements](https://en.uesp.net/wiki/Online:Unstable_Wall_of_Elements)** (Rank 4)
-
-  ✅ **Morph 1**: [Unstable Wall of Elements](https://en.uesp.net/wiki/Online:Unstable_Wall_of_Elements)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 2**: [Elemental Blockade](https://en.uesp.net/wiki/Online:Elemental_Blockade)
-
-  </details>
-
-### 🌍 World (1 abilities with morph choices)
-
-#### Soul Magic (Rank 2)
-
-✅ **[Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap)** (Rank 4)
-
-  ✅ **Morph 2**: [Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Soul Splitting Trap](https://en.uesp.net/wiki/Online:Soul_Splitting_Trap)
-
-  </details>
-
-### 🏰 Guild (3 abilities with morph choices)
-
-#### Fighters Guild (Rank 10)
-
-⚠️ **[Dawnbreaker](https://en.uesp.net/wiki/Online:Dawnbreaker)** (Rank 1)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Flawless Dawnbreaker](https://en.uesp.net/wiki/Online:Flawless_Dawnbreaker)
-  ⚪ **Morph 2**: [Dawnbreaker of Smiting](https://en.uesp.net/wiki/Online:Dawnbreaker_of_Smiting)
-
-  </details>
-
-✅ **[Camouflaged Hunter](https://en.uesp.net/wiki/Online:Camouflaged_Hunter)** (Rank 1)
-
-  ✅ **Morph 2**: [Camouflaged Hunter](https://en.uesp.net/wiki/Online:Camouflaged_Hunter)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Evil Hunter](https://en.uesp.net/wiki/Online:Evil_Hunter)
-
-  </details>
-
-#### Mages Guild (Rank 6)
-
-✅ **[Structured Entropy](https://en.uesp.net/wiki/Online:Structured_Entropy)** (Rank 3)
-
-  ✅ **Morph 2**: [Structured Entropy](https://en.uesp.net/wiki/Online:Structured_Entropy)
-
-  <details>
-  <summary>Other morph options</summary>
-
-  ⚪ **Morph 1**: [Degeneration](https://en.uesp.net/wiki/Online:Degeneration)
-
-  </details>
 
 </details>
 
@@ -739,6 +526,7 @@ flowchart LR
 - [Sharp-as-Night](https://en.uesp.net/wiki/Online:Sharp-as-Night)
 - [Tanlorin](https://en.uesp.net/wiki/Online:Tanlorin)
 - [Zerith-var](https://en.uesp.net/wiki/Online:Zerith-var)
+
 
 ### Active Companion
 
@@ -997,7 +785,6 @@ flowchart LR
 | --- |
 | ░░░░░░░░░░░░░░░░░░░░ 2% (14/697) |
 
-
 - [Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)
 - [Flame Atronach Senche^n](https://en.uesp.net/wiki/Online:Flame_Atronach_Senche^n)
 - [Imperial Horse](https://en.uesp.net/wiki/Online:Imperial_Horse)
@@ -1100,27 +887,26 @@ flowchart LR
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 34 | 180 | █░░░░░░░░░ 18% |
-| Bank | 226 | 480 | ████░░░░░░ 47% |
+| Backpack | 36 | 180 | ██░░░░░░░░ 20% |
+| Bank | 234 | 480 | ████░░░░░░ 48% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (34 unique items)</summary>
+<summary><strong>Backpack Items</strong> (36 unique items)</summary>
 
-#### Other (34 items)
+
+#### Other (36 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🔵 ancestor silk hat of Stamina | 1 | 🔵 |
 | 🟡 Bound Crown Experience Scroll | 1 | 🟡 |
 | 🟣 Bound Crown Fortifying Meal | 1 | 🟣 |
 | 🟡 Bound Gold Coast Trapping Poison | 64 | 🟡 |
 | 🟣 Bound Gold Coast Warrior Elixir | 25 | 🟣 |
 | 🟡 Bound Skill Respecification Scroll | 1 | 🟡 |
 | ⚪ Bravil's Best Beet Risotto | 1 | ⚪ |
-| 🔵 Clockwork City Treasure Map II | 1 | 🔵 |
+| ⚪ Coarse Chalk | 8 | ⚪ |
 | 🔵 Counterfeit Pardon Edict | 17 | 🔵 |
-| 🟣 Crafting Motif 34: Assassins League Axes | 1 | 🟣 |
 | 🔵 Crown Repair Kit | 9 | 🔵 |
 | 🟣 Crown Tri-Restoration Potion | 100 | 🟣 |
 | ⚪ Crusty Bread | 3 | ⚪ |
@@ -1131,30 +917,35 @@ flowchart LR
 | ⚪ Disposable Juggling Knives | 10 | ⚪ |
 | ⚪ Disposable Swallower's Sword | 10 | ⚪ |
 | ⚪ Essence of Magicka | 9 | ⚪ |
+| ⚪ Essence of stamina | 5 | ⚪ |
+| 🔵 Gold Coast Daily Contract Recompense | 1 | 🔵 |
+| 🔵 Greatsword of the Twin Sisters | 1 | 🔵 |
+| 🟣 Gryphon's Helmet | 1 | 🟣 |
 | ⚪ Heart of the Indrik | 1 | ⚪ |
 | ⚪ Heart's Day Rose Tea | 1 | ⚪ |
+| ⚪ Large Stolen Shipment | 1 | ⚪ |
 | ⚪ Lockpick | 29 | ⚪ |
-| 🟢 Pattern: Common Basket, Closed | 1 | 🟢 |
-| 🟢 Recipe: Mint Chai | 1 | 🟢 |
-| 🟢 Recipe: Nut Brown Ale | 1 | 🟢 |
-| 🟣 Ring of Flanking | 1 | 🟣 |
+| ⚪ Lockpick | 10 | ⚪ |
+| 🟢 Restoration Staff of Flanking | 1 | 🟢 |
 | ⚪ Roguish Escape Draught | 5 | ⚪ |
-| ⚪ rubedite gauntlets | 1 | ⚪ |
-| 🔵 rubedite helm of Health | 1 | 🔵 |
-| 🟢 Sithis' Arm Cops | 1 | 🟢 |
-| 🟢 Soul Gem | 18 | 🟢 |
-| ⚪ Soul Gem (Empty) | 2 | ⚪ |
+| 🟢 Rubedo Leather guards of Magicka | 1 | 🟢 |
+| 🔵 rubedo leather jack of Health | 1 | 🔵 |
+| 🟢 ruby ash bow of Frost | 1 | 🟢 |
+| 🔵 Shadowfen Treasure Map II | 1 | 🔵 |
+| 🟢 Soul Gem | 20 | 🟢 |
+| ⚪ Soul Gem (Empty) | 1 | ⚪ |
 | 🟢 Undaunted Enclave Invitation | 1 | 🟢 |
 
 </details>
 
 <details>
-<summary><strong>Bank Items</strong> (226 unique items)</summary>
+<summary><strong>Bank Items</strong> (234 unique items)</summary>
 
-#### Other (226 items)
+#### Other (234 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
+| 🔵 ancestor silk hat of Stamina | 1 | 🔵 |
 | 🟡 Attribute Respecification Scroll | 2 | 🟡 |
 | 🟡 Attunable Blacksmithing Station, Bound | 1 | 🟡 |
 | 🟡 Attunable Clothing Station, Bound | 1 | 🟡 |
@@ -1168,79 +959,80 @@ flowchart LR
 | 🟢 Blueprint: Dark Elf Streetpost, Banners | 1 | 🟢 |
 | 🟢 Blueprint: Redguard Banner, Post | 1 | 🟢 |
 | 🟣 Bonedust Pigment | 2 | 🟣 |
-| 🔵 Companion's Axe | 1 | 🔵 |
-| 🟢 Companion's Axe | 1 | 🟢 |
-| 🔵 Companion's Axe | 1 | 🔵 |
-| 🟢 Companion's Axe | 1 | 🟢 |
+| 🔵 Clockwork City Treasure Map II | 1 | 🔵 |
 | 🟢 Companion's Axe | 1 | 🟢 |
 | 🟢 Companion's Axe | 1 | 🟢 |
 | 🔵 Companion's Axe | 1 | 🔵 |
 | 🟢 Companion's Axe | 1 | 🟢 |
+| 🔵 Companion's Axe | 1 | 🔵 |
+| 🔵 Companion's Axe | 1 | 🔵 |
+| 🟢 Companion's Axe | 1 | 🟢 |
+| 🟢 Companion's Axe | 1 | 🟢 |
+| 🟢 Companion's Battle Axe | 1 | 🟢 |
 | 🟢 Companion's Battle Axe | 1 | 🟢 |
 | 🔵 Companion's Battle Axe | 1 | 🔵 |
-| 🟢 Companion's Battle Axe | 1 | 🟢 |
-| 🟢 Companion's Belt | 1 | 🟢 |
 | 🔵 Companion's Belt | 1 | 🔵 |
-| 🟢 Companion's Boots | 1 | 🟢 |
+| 🟢 Companion's Belt | 1 | 🟢 |
 | 🟢 Companion's Boots | 1 | 🟢 |
 | 🔵 Companion's Boots | 1 | 🔵 |
 | 🟢 Companion's Boots | 1 | 🟢 |
-| 🔵 Companion's Bow | 1 | 🔵 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
-| 🟢 Companion's Bow | 1 | 🟢 |
+| 🟢 Companion's Boots | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🟢 Companion's Bow | 1 | 🟢 |
 | 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Bow | 1 | 🟢 |
+| 🟢 Companion's Bow | 1 | 🟢 |
+| 🔵 Companion's Bow | 1 | 🔵 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
 | 🟢 Companion's Pauldrons | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🔵 Companion's Restoration Staff | 1 | 🔵 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟣 Companion's Restoration Staff | 1 | 🟣 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
+| 🔵 Companion's Restoration Staff | 1 | 🔵 |
 | 🟢 Companion's Ring | 1 | 🟢 |
 | 🟢 Companion's Ring | 1 | 🟢 |
 | 🟢 Companion's Ring | 1 | 🟢 |
 | 🟢 Companion's Ring | 1 | 🟢 |
 | 🟢 Companion's Sabatons | 1 | 🟢 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🟢 Companion's Shield | 1 | 🟢 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🔵 Companion's Shield | 1 | 🔵 |
-| 🟢 Companion's Shield | 1 | 🟢 |
 | 🔵 Companion's Shield | 1 | 🔵 |
 | 🟣 Companion's Shield | 1 | 🟣 |
-| 🔵 Companion's Sword | 1 | 🔵 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🔵 Companion's Shield | 1 | 🔵 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🔵 Companion's Shield | 1 | 🔵 |
+| 🟢 Companion's Shield | 1 | 🟢 |
+| 🔵 Companion's Shield | 1 | 🔵 |
 | 🟢 Companion's Sword | 1 | 🟢 |
+| 🔵 Companion's Sword | 1 | 🔵 |
 | 🔵 Companion's Sword | 1 | 🔵 |
 | 🟣 Coral Haj Mota Decoy | 1 | 🟣 |
 | 🔵 Crackling Lodestone | 1 | 🔵 |
@@ -1248,7 +1040,7 @@ flowchart LR
 | 🔵 Crafting Motif 4: Nord Style | 2 | 🔵 |
 | 🟣 Crafting Motif 12: Barbaric Style | 2 | 🟣 |
 | 🟣 Crafting Motif 15: Dwemer Axes | 1 | 🟣 |
-| 🟣 Crafting Motif 34: Assassins League Axes | 3 | 🟣 |
+| 🟣 Crafting Motif 34: Assassins League Axes | 4 | 🟣 |
 | 🟣 Crafting Motif 39: Minotaur Bows | 1 | 🟣 |
 | 🟣 Crafting Motif 40: Order Hour Axes | 2 | 🟣 |
 | 🟣 Crafting Motif 40: Order Hour Belts | 2 | 🟣 |
@@ -1275,8 +1067,8 @@ flowchart LR
 | 🟣 Crafting Motif 63: Dremora Gloves | 4 | 🟣 |
 | 🟡 Crown Experience Scroll | 87 | 🟡 |
 | 🟣 Crown Fortifying Meal | 10 | 🟣 |
-| 🟡 Crown Lethal Poison | 919 | 🟡 |
 | 🟡 Crown Lethal Poison | 1000 | 🟡 |
+| 🟡 Crown Lethal Poison | 919 | 🟡 |
 | 🟡 Crown Mimic Stone | 6 | 🟡 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
@@ -1321,11 +1113,13 @@ flowchart LR
 | ⚪ Keep Wall Masonry Repair Kit | 34 | ⚪ |
 | 🟣 Leniency Edict | 13 | 🟣 |
 | 🟣 Letter from Tanlorin | 1 | 🟣 |
-| 🟡 Major Gold Coast Experience Scroll | 4 | 🟡 |
 | 🟡 Major Gold Coast Experience Scroll | 7 | 🟡 |
+| 🟡 Major Gold Coast Experience Scroll | 4 | 🟡 |
 | 🟣 Necklace of Morihaus | 1 | 🟣 |
 | 🟣 Painting of Sinkhole, Refined | 1 | 🟣 |
+| 🟢 Pattern: Common Basket, Closed | 1 | 🟢 |
 | 🟢 Pattern: Wood Elf Awning, Leather | 1 | 🟢 |
+| 🔵 Pauldron of Morihaus | 1 | 🔵 |
 | 🟣 Plague-Drenched Fabric | 1 | 🟣 |
 | 🟡 Pledge of Mara | 1 | 🟡 |
 | 🟣 Psijic Glowglobe's Meteoric Glass | 1 | 🟣 |
@@ -1348,6 +1142,7 @@ flowchart LR
 | 🟢 Recipe: Melon Jelly | 1 | 🟢 |
 | 🔵 Recipe: Melon-Baked Parmesan Pork | 1 | 🔵 |
 | 🔵 Recipe: Mistral Banana-Bunny Hash | 1 | 🔵 |
+| 🟢 Recipe: Nut Brown Ale | 1 | 🟢 |
 | 🟣 Recipe: Psijic Ambrosia, Fragment IV | 1 | 🟣 |
 | 🟣 Recipe: Psijic Ambrosia, Fragment V | 1 | 🟣 |
 | 🟢 Recipe: Rabbit Millet Pilaf | 1 | 🟢 |
@@ -1361,6 +1156,9 @@ flowchart LR
 | 🟣 Recipe: Witchmother's Party Punch | 1 | 🟣 |
 | 🔵 Ring of Bahraha's Curse | 1 | 🔵 |
 | 🟣 Ring of Endurance | 1 | 🟣 |
+| 🟣 Ring of Flanking | 1 | 🟣 |
+| ⚪ rubedite gauntlets | 1 | ⚪ |
+| 🔵 rubedite helm of Health | 1 | 🔵 |
 | 🟣 Sacrificial Heart | 2 | 🟣 |
 | 🟢 Saplings, Burnt Tall | 2 | 🟢 |
 | 🔵 Shadowfen Treasure Map I | 1 | 🔵 |
@@ -1684,14 +1482,15 @@ flowchart LR
 | ⚪ clear water | 953 | ⚪ |
 | ⚪ cloud mist | 40 | ⚪ |
 | ⚪ filtered water | 548 | ⚪ |
-| ⚪ Lorkhan's Tears | 822 | ⚪ |
-| ⚪ natural water | 1037 | ⚪ |
+| ⚪ Lorkhan's Tears | 825 | ⚪ |
+| ⚪ natural water | 1039 | ⚪ |
 | ⚪ pristine water | 481 | ⚪ |
 | ⚪ purified water | 89 | ⚪ |
 | ⚪ Star Dew | 60 | ⚪ |
 
 
 </div><div>
+
 
 #### Raw Material (50 items)
 
@@ -1715,7 +1514,7 @@ flowchart LR
 | ⚪ iron hide scraps | 7 | ⚪ |
 | ⚪ iron ore | 49 | ⚪ |
 | ⚪ leather scraps | 14 | ⚪ |
-| ⚪ Malachite Shard | 49 | ⚪ |
+| ⚪ Malachite Shard | 50 | ⚪ |
 | ⚪ orichalcum ore | 41 | ⚪ |
 | ⚪ Oxblood Fungus Spore | 9 | ⚪ |
 | ⚪ pewter dust | 80 | ⚪ |
@@ -1871,9 +1670,9 @@ flowchart LR
 | ⚪ Nickel | 847 | ⚪ |
 | ⚪ Obliviate Lacquer | 1 | ⚪ |
 | ⚪ Obsidian | 903 | ⚪ |
-| ⚪ Oxblood Fungus | 709 | ⚪ |
+| ⚪ Oxblood Fungus | 710 | ⚪ |
 | ⚪ Palladium | 788 | ⚪ |
-| ⚪ Pearl Sand | 644 | ⚪ |
+| ⚪ Pearl Sand | 645 | ⚪ |
 | ⚪ Polished Scarab Elytra | 2 | ⚪ |
 | ⚪ Polished Shilling | 7 | ⚪ |
 | ⚪ Potash | 5 | ⚪ |
@@ -3690,10 +3489,11 @@ flowchart LR
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-103,485%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-97,957%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 12/26/2025 • Version: 2.2.4-5-g96a9059</sub>
+<sub>Generated on 12/26/2025 • Version: 2.2.4-7-g9ef4f16</sub>
 
 </div>
+

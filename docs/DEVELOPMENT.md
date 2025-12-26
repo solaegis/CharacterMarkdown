@@ -16,7 +16,7 @@ This installs: LuaJIT, LuaRocks, Luacheck, StyLua, pre-commit
 ### Initialize Project
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/CharacterMarkdown.git
+git clone https://github.com/solaegis/CharacterMarkdown.git
 cd CharacterMarkdown
 
 # Install pre-commit hooks
@@ -101,22 +101,33 @@ GitHub Actions automatically:
 CharacterMarkdown/
 ├── src/
 │   ├── Core.lua              # Namespace initialization
-│   ├── Commands.lua          # /markdown command
+│   ├── Commands.lua          # /markdown command orchestrator
+│   ├── commands/             # Command submodules
+│   │   ├── Debug.lua         # Debug/diagnostic commands
+│   │   ├── Settings.lua      # Settings import/export
+│   │   └── Test.lua          # Validation tests
 │   ├── Events.lua            # Event handlers
 │   ├── Init.lua              # Final validation
 │   ├── collectors/           # Data collection
-│   │   ├── Character.lua     # Basic identity, DLC
-│   │   ├── Combat.lua        # Stats, attributes
-│   │   ├── Equipment.lua     # Worn gear, sets
-│   │   ├── Skills.lua        # Skill bars, progression
-│   │   └── ...
 │   ├── generators/
 │   │   ├── Markdown.lua      # Main orchestrator
-│   │   └── sections/         # Individual sections
+│   │   └── sections/
+│   │       ├── equipment/    # Equipment submodules
+│   │       │   ├── Helpers.lua
+│   │       │   ├── SkillBars.lua
+│   │       │   ├── SkillMorphs.lua
+│   │       │   ├── GearTable.lua
+│   │       │   └── Skills.lua
+│   │       └── ...           # Other section generators
 │   ├── links/                # UESP URL generation
 │   ├── settings/             # LibAddonMenu integration
 │   ├── ui/                   # Window handler
 │   └── utils/                # Helper functions
+├── taskfiles/                # Modular Taskfile includes
+│   ├── Dev.yaml              # Development tasks
+│   ├── Build.yaml            # Build & package tasks
+│   ├── Install.yaml          # ESO installation tasks
+│   └── Release.yaml          # Release workflow tasks
 ├── scripts/                  # Build/validation
 └── docs/                     # Documentation
 ```

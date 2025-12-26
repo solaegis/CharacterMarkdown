@@ -1,0 +1,166 @@
+version: "3"
+
+# Release Tasks - Taskfile Module
+# Included from main Taskfile.yaml
+
+tasks:
+  # =============================================================================
+  # RELEASE WORKFLOW
+  # =============================================================================
+
+  check:
+    desc: Run comprehensive pre-release validation
+    cmds:
+      - |
+        echo "🚀 Running pre-release validation..."
+        if [ -f "scripts/pre-release-check.sh" ]; then
+          chmod +x scripts/pre-release-check.sh
+          ./scripts/pre-release-check.sh
+        else
+          echo "❌ scripts/pre-release-check.sh not found"
+          exit 1
+        fi
+    silent: true
+
+  checklist:
+    desc: Display interactive release checklist
+    cmds:
+      - |
+        echo "📋 CharacterMarkdown - Release Checklist"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "1. CODE QUALITY"
+        echo "   task release:check    - Run all checks"
+        echo "   task lint             - Luacheck validation"
+        echo ""
+        echo "2. VERSION MANAGEMENT"
+        echo "   task version:bump -- patch"
+        echo ""
+        echo "3. BUILD & PACKAGE"
+        echo "   task build            - Build release ZIP"
+        echo ""
+        echo "4. GIT & RELEASE"
+        echo "   task release:tag      - Create and push tag"
+    silent: true
+
+  prepare:
+    desc: Prepare for release (validate and show next steps)
+    cmds:
+      - echo "🚀 Preparing release..."
+      - task: dev:test
+      - |
+        echo ""
+        echo "📋 Next steps:"
+        echo "  1. Update CHANGELOG.md"
+        echo "  2. Commit: git commit -am 'Release vX.X.X'"
+        echo "  3. Tag: git tag vX.X.X"
+        echo "  4. Push: git push origin main --tags"
+    silent: true
+
+  tag:
+    desc: "Create and push release tag - Usage: task release:tag -- 2.2.0"
+    cmds:
+      - |
+        if [ -n "{{.CLI_ARGS}}" ]; then
+          VERSION="{{.CLI_ARGS}}"
+        else
+          VERSION="{{.VERSION}}"
+        fi
+
+        if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+          echo "❌ Version must be semantic format (e.g., 2.2.0)"
+          exit 1
+        fi
+
+        echo "📋 Creating release tag v${VERSION}"
+        read -p "Create tag v${VERSION}? (y/N): " CONFIRM
+        if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
+          git tag -a "v${VERSION}" -m "Release v${VERSION}"
+          echo "✅ Tag created: v${VERSION}"
+          read -p "Push tag to origin? (y/N): " PUSH
+          if [ "$PUSH" = "y" ] || [ "$PUSH" = "Y" ]; then
+            git push origin main --tags
+            echo "✅ Tag pushed"
+          fi
+        fi
+    silent: true
+
+  github:
+    desc: Create GitHub release (requires gh CLI)
+    deps: [build:release]
+    cmds:
+      - |
+        echo "🚀 Creating GitHub release v{{.VERSION}}..."
+        gh release create "v{{.VERSION}}" "{{.DIST_DIR}}/{{.ADDON_NAME}}-{{.VERSION}}.zip" \
+          --title "v{{.VERSION}}" \
+          --notes-file CHANGELOG.md
+        echo "✅ GitHub release created"
+    silent: true
+
+  # =============================================================================
+  # VERSION MANAGEMENT
+  # =============================================================================
+
+  version:show:
+    desc: Show current version info
+    cmds:
+      - |
+        echo "📦 {{.ADDON_NAME}}"
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+          echo "   Version (Tag): ${VERSION}"
+        else
+          VERSION=$(git rev-parse --short HEAD)
+          echo "   Version (Commit): ${VERSION}"
+        fi
+        if grep -q "^## APIVersion:" {{.MANIFEST_FILE}}; then
+          API_VERSION=$(grep "^## APIVersion:" {{.MANIFEST_FILE}} | awk '{print $3}')
+          echo "   API Version: ${API_VERSION}"
+        fi
+    silent: true
+
+  version:bump:
+    desc: "Bump version - Usage: task version:bump -- <major|minor|patch>"
+    vars:
+      BUMP_TYPE: '{{.CLI_ARGS | default "patch"}}'
+    cmds:
+      - |
+        echo "🔄 Bumping {{.BUMP_TYPE}} version..."
+        CURRENT="{{.VERSION}}"
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+
+        case "{{.BUMP_TYPE}}" in
+          major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+          minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+          *) PATCH=$((PATCH + 1)) ;;
+        esac
+
+        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+        echo "  $CURRENT → $NEW_VERSION"
+
+        DATE=$(date +%Y-%m-%d)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          sed -i '' "s/## \[Unreleased\]/## [Unreleased]\n\n## [$NEW_VERSION] - $DATE/" CHANGELOG.md
+        else
+          sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$NEW_VERSION] - $DATE/" CHANGELOG.md
+        fi
+
+        echo "✅ Version bumped to $NEW_VERSION"
+    silent: true
+
+  version:api:
+    desc: "Update ESO API version - Usage: task version:api -- <VERSION>"
+    vars:
+      API_VERSION: '{{.CLI_ARGS | default ""}}'
+    cmds:
+      - |
+        if [ -z "{{.API_VERSION}}" ]; then
+          echo "❌ API version required"
+          echo "Usage: task version:api -- <VERSION>"
+          exit 1
+        fi
+      - |
+        echo "🔄 Updating API version to: {{.API_VERSION}}"
+        chmod +x scripts/update-api-version.sh
+        ./scripts/update-api-version.sh "{{.API_VERSION}}"
+    silent: true

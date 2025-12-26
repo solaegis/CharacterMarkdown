@@ -1,0 +1,96 @@
+version: "3"
+
+# Install Tasks - Taskfile Module
+# Included from main Taskfile.yaml
+
+tasks:
+  # =============================================================================
+  # ESO INSTALLATION
+  # =============================================================================
+
+  live:
+    desc: Install addon to ESO Live client (copy)
+    cmds:
+      - |
+        echo "📥 Installing {{.ADDON_NAME}} to ESO Live..."
+
+        if git describe --tags --exact-match HEAD >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --exact-match HEAD | sed 's/^v//')
+        elif git describe --tags >/dev/null 2>&1; then
+          VERSION=$(git describe --tags | sed 's/^v//')
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+        echo "   Using version: ${VERSION}"
+
+        mkdir -p "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+
+        cp {{.MANIFEST_FILE}} "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+
+        if [ -d "assets" ]; then
+          cp -r assets/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/assets/"
+          echo "  ✓ Copied assets/"
+        fi
+
+        cp -r {{.SRC_DIR}}/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+        echo "  ✓ Copied {{.SRC_DIR}}/"
+
+        [ -f "README.md" ] && cp README.md "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/" && echo "  ✓ Copied README.md"
+        [ -f "LICENSE" ] && cp LICENSE "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/" && echo "  ✓ Copied LICENSE"
+
+        echo "🔄 Injecting version ${VERSION}..."
+        ./scripts/replace-version.sh "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}" "$VERSION"
+
+        echo "✅ Installed to {{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+    silent: true
+
+  pts:
+    desc: Install addon to ESO PTS client (copy)
+    cmds:
+      - |
+        echo "📥 Installing {{.ADDON_NAME}} to ESO PTS..."
+        mkdir -p "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+
+        cp {{.MANIFEST_FILE}} "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+        cp -r {{.SRC_DIR}}/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
+
+        echo "✅ Installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"
+    silent: true
+
+  dev:
+    desc: Create symlink for development (changes apply immediately)
+    cmds:
+      - |
+        echo "🔗 Creating development symlink..."
+
+        if [ -L "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}" ]; then
+          echo "  ✓ Symlink already exists"
+        elif [ -d "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}" ]; then
+          echo "  ⚠️  Directory exists. Remove first: rm -rf '{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}'"
+          exit 1
+        else
+          ln -s "$(pwd)" "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+          echo "  ✓ Symlink created"
+        fi
+
+        echo "✅ Development mode active (symlink to $(pwd))"
+    silent: true
+
+  uninstall:
+    desc: Remove addon from ESO
+    cmds:
+      - |
+        echo "🗑️  Removing {{.ADDON_NAME}} from ESO..."
+
+        if [ -L "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}" ]; then
+          rm "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+          echo "  ✓ Removed symlink"
+        elif [ -d "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}" ]; then
+          rm -rf "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}"
+          echo "  ✓ Removed directory"
+        else
+          echo "  ℹ️  Addon not installed"
+        fi
+
+        echo "✅ Uninstall complete"
+    silent: true
