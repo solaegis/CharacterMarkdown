@@ -907,42 +907,77 @@ local function IsInsideCodeBlock(markdown, pos)
 
     return nil
 end
-
--- Helper function to get the Mermaid header (e.g., "graph TD") from a block
+-- Helper function to get the Mermaid header (e.g., "graph TD" or "flowchart LR") from a block
+-- This function handles blocks with %%{init:...}%% comments and empty lines before the directive
 local function GetMermaidHeader(markdown, blockStart)
     -- blockStart is the newline before ```
     -- So ``` starts at blockStart + 1
+    local markdownLen = string.len(markdown)
+    
     -- Find the end of the line containing ```mermaid
     local lineEnd = string.find(markdown, "\n", blockStart + 1)
     if not lineEnd then
-        return "graph TD"
-    end -- Should not happen
+        return "flowchart LR" -- Default fallback
+    end
 
     local firstLine = string.sub(markdown, blockStart + 1, lineEnd - 1)
-    -- Check if header is on the same line: ```mermaid graph TD
+    -- Check if header is on the same line: ```mermaid flowchart LR
     local sameLineHeader = firstLine:match("```mermaid%s+(.+)")
     if sameLineHeader then
         return sameLineHeader
     end
 
-    -- Header is on the next line
-    local secondLineStart = lineEnd + 1
-    local secondLineEnd = string.find(markdown, "\n", secondLineStart)
-    if not secondLineEnd then
-        return "graph TD"
-    end
-
-    local secondLine = string.sub(markdown, secondLineStart, secondLineEnd - 1)
-    -- If second line is empty or comment, try next line (simple heuristic)
-    if secondLine:match("^%s*$") or secondLine:match("^%%") then
-        local thirdLineStart = secondLineEnd + 1
-        local thirdLineEnd = string.find(markdown, "\n", thirdLineStart)
-        if thirdLineEnd then
-            return string.sub(markdown, thirdLineStart, thirdLineEnd - 1)
+    -- Header is on a subsequent line - search up to 10 lines for a diagram directive
+    -- (handles %%{init:...}%% comments and empty lines before the flowchart/graph directive)
+    local currentLineStart = lineEnd + 1
+    local headerLines = {} -- Collect init comments and directives
+    
+    for _ = 1, 10 do -- Search up to 10 lines
+        if currentLineStart > markdownLen then
+            break
         end
+        
+        local currentLineEnd = string.find(markdown, "\n", currentLineStart)
+        if not currentLineEnd then
+            currentLineEnd = markdownLen + 1
+        end
+        
+        local line = string.sub(markdown, currentLineStart, currentLineEnd - 1)
+        local trimmedLine = line:match("^%s*(.-)%s*$") or ""
+        
+        -- Check if this line is a diagram directive (flowchart, graph, sequenceDiagram, etc.)
+        if trimmedLine:match("^flowchart") or 
+           trimmedLine:match("^graph%s") or 
+           trimmedLine:match("^sequenceDiagram") or
+           trimmedLine:match("^gantt") or
+           trimmedLine:match("^classDiagram") or
+           trimmedLine:match("^stateDiagram") or
+           trimmedLine:match("^erDiagram") or
+           trimmedLine:match("^pie") or
+           trimmedLine:match("^journey") then
+            -- Found the diagram directive - collect everything before it plus the directive
+            table.insert(headerLines, line)
+            return table.concat(headerLines, "\n")
+        elseif trimmedLine:match("^%%") then
+            -- This is a mermaid comment (like %%{init:...}%%) - include it
+            table.insert(headerLines, line)
+        elseif trimmedLine == "" then
+            -- Empty line - include it but keep searching
+            table.insert(headerLines, line)
+        else
+            -- Unrecognized line - stop searching and return what we have plus this line
+            table.insert(headerLines, line)
+            return table.concat(headerLines, "\n")
+        end
+        
+        currentLineStart = currentLineEnd + 1
     end
 
-    return secondLine
+    -- Fallback if no directive found
+    if #headerLines > 0 then
+        return table.concat(headerLines, "\n")
+    end
+    return "flowchart LR"
 end
 
 local function FindSafeNewline(markdown, startPos, endPos)
