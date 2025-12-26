@@ -129,7 +129,7 @@ task release           # or: task release:workflow
   - **Cursor AI**: Use [`@docs/prompts/changelog_entry_prompt.md`](docs/prompts/changelog_entry_prompt.md) to generate properly formatted entries
     ```
     @docs/prompts/changelog_entry_prompt.md
-    Generate CHANGELOG entry for v2.2.0 from recent changes
+    Generate CHANGELOG entry for v@project-version@ from recent changes
     ```
 
 - [ ] **README.md Badges**
@@ -339,7 +339,7 @@ task release           # or: task release:workflow
 - [ ] **Tag Creation**
   ```bash
   # Interactive with specific version (recommended):
-  task release:tag -- 2.2.0       # Prompts before push
+  task release:tag -- @project-version@       # Prompts before push
   
   # Or use default version from Taskfile:
   task release:tag
@@ -351,7 +351,7 @@ task release           # or: task release:workflow
   # Verify tag:
   git tag -l "v*"
   ```
-  - ✅ Tag name: `v<version>` (e.g., `v2.2.0`)
+  - ✅ Tag name: `v<version>` (e.g., `v@project-version@`)
   - ✅ Version in semantic format (X.Y.Z)
   - ✅ Tag message includes version
   - ✅ Tag points to correct commit
@@ -496,7 +496,7 @@ task build
 # 5. Commit and tag
 git add .
 task git:commit -- "Release v<version>"
-task release:tag -- 2.2.0     # Interactive with version (prompts before push)
+task release:tag -- @project-version@     # Interactive with version (prompts before push)
 
 # 6. Monitor GitHub Actions
 # Check Actions tab for automated release
