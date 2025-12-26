@@ -18,7 +18,7 @@ tasks:
       - echo "  - Use /reloadui in ESO to test changes"
       - echo "  - Press Ctrl+C to stop watching"
       - echo ""
-      - task: dev:watch
+      - task: watch
     silent: true
 
   watch:
@@ -87,9 +87,9 @@ tasks:
     desc: Validate addon manifest and project structure
     cmds:
       - echo "✅ Validating project..."
-      - task: dev:validate:files
-      - task: dev:validate:manifest
-      - task: dev:validate:syntax
+      - task: validate:files
+      - task: validate:manifest
+      - task: validate:syntax
       - echo "✅ All validations passed"
     silent: true
 

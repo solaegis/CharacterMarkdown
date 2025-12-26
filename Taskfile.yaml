@@ -1,11 +1,18 @@
 version: "3"
 
 # ==============================================================================
-# CharacterMarkdown Modular Taskfile
+# Global Variables
 # ==============================================================================
-# This Taskfile is organized into logical components located in taskfiles/
-# Use 'task --list' to see all available tasks.
-# ==============================================================================
+
+vars:
+  ADDON_NAME: CharacterMarkdown
+  SRC_DIR: src
+  MANIFEST_FILE: CharacterMarkdown.addon
+  BUILD_DIR: build
+  DIST_DIR: dist
+  VERSION: 2.1.2
+  ESO_LIVE_ADDONS: $HOME/Documents/Elder Scrolls Online/live/AddOns
+  ESO_PTS_ADDONS: $HOME/Documents/Elder Scrolls Online/pts/AddOns
 
 includes:
   dev:
@@ -39,6 +46,11 @@ tasks:
     cmds:
       - task dev:lint
 
+  lint:fix:
+    desc: Alias for dev:lint:fix
+    cmds:
+      - task dev:lint:fix
+
   format:
     desc: Alias for dev:format
     cmds:
@@ -50,9 +62,9 @@ tasks:
       - task dev:test
 
   validate:
-    desc: Alias for dev:validate
+    desc: Alias for dev:validate:all
     cmds:
-      - task dev:validate
+      - task dev:validate:all
 
   build:
     desc: Alias for build:release
