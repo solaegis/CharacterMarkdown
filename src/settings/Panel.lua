@@ -1127,8 +1127,8 @@ function CM.Settings.Panel:AddQuestsSection(options)
     --[[ QUEST SECTION DISABLED TEMPORARILY - Issues being investigated
     table.insert(controls, {
         type = "checkbox",
-        name = "Include Quest Tracking",
-        tooltip = "Show active quests, progress tracking, and quest categorization.",
+        name = "[BETA] Include Quest Tracking",
+        tooltip = "|cFFD700EXPERIMENTAL|r: Quest tracking is under active development.\n\nShow active quests, progress tracking, and quest categorization.",
         getFunc = function() return CharacterMarkdownSettings.includeQuests end,
         setFunc = CreateSetFunc("includeQuests"),
         width = "half",
@@ -1161,8 +1161,8 @@ function CM.Settings.Panel:AddQuestsSection(options)
     -- Undaunted Pledges (CollectUndauntedPledgesData)
     table.insert(controls, {
         type = "checkbox",
-        name = "Include Undaunted Pledges",
-        tooltip = "Show active Undaunted pledges from quest journal.",
+        name = "[BETA] Include Undaunted Pledges",
+        tooltip = "|cFFD700EXPERIMENTAL|r: Undaunted tracking is under active development.\n\nShow active Undaunted pledges from quest journal.",
         getFunc = function()
             return CharacterMarkdownSettings.includeUndauntedPledges
         end,
@@ -1173,7 +1173,7 @@ function CM.Settings.Panel:AddQuestsSection(options)
 
     table.insert(options, {
         type = "submenu",
-        name = "Quests",
+        name = "Quests [BETA]",
         tooltip = "Quest tracking and Undaunted pledges.",
         controls = controls,
     })
@@ -1195,8 +1195,8 @@ function CM.Settings.Panel:AddArmoryBuildsSection(options)
     -- Armory Builds (CollectArmoryBuildsData)
     table.insert(controls, {
         type = "checkbox",
-        name = "Include Armory Builds",
-        tooltip = "Show saved armory builds and configurations.",
+        name = "[BETA] Include Armory Builds",
+        tooltip = "|cFFD700EXPERIMENTAL|r: Armory export is under active development.\n\nShow saved armory builds and configurations.",
         getFunc = function()
             return CharacterMarkdownSettings.includeArmoryBuilds
         end,
@@ -1207,7 +1207,7 @@ function CM.Settings.Panel:AddArmoryBuildsSection(options)
 
     table.insert(options, {
         type = "submenu",
-        name = "Armory Builds",
+        name = "Armory Builds [BETA]",
         tooltip = "Saved armory builds and configurations.",
         controls = controls,
     })
