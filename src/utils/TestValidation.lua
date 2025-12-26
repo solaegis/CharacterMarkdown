@@ -90,8 +90,6 @@ end
 local function ValidateCalloutSyntax(markdown, format)
     local testName = "Issue #2: Callout Syntax"
 
-
-
     -- Check for GitHub-native callout syntax: > [!NOTE]
     local noteCallout = string_find(markdown, "> %[!NOTE%]")
     local tipCallout = string_find(markdown, "> %[!TIP%]")
@@ -219,8 +217,6 @@ end
 
 local function ValidateEnlightenmentCallout(markdown, format)
     local testName = "Issue #4: Enlightenment Callout"
-
-
 
     -- Check for TIP callout (correct) vs SUCCESS callout (wrong)
     local tipCallout = string_find(markdown, "> %[!TIP%].*[Ee]nlight")
@@ -692,7 +688,9 @@ local function PrintTestReport()
 
     -- Final summary message
     if #results.failed == 0 then
-        CM.Info(string_format("|c00FF00All tests passed! (%d passed, %d warnings)|r", #results.passed, #results.warnings))
+        CM.Info(
+            string_format("|c00FF00All tests passed! (%d passed, %d warnings)|r", #results.passed, #results.warnings)
+        )
     else
         CM.Info(
             string_format(

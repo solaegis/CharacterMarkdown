@@ -14,20 +14,20 @@ local api = CM.api.pvp
 -- gender: Optional parameter - should be passed from collector level
 --        Defaults to 1 (Female) if not provided (for backward compatibility)
 function api.GetRank(gender)
-    gender = gender or 1  -- Default to 1 (Female) if not provided
+    gender = gender or 1 -- Default to 1 (Female) if not provided
     local rank = CM.SafeCall(GetUnitAvARank, "player") or 0
     local subRank = 0
     local rankName = "Recruit"
     local points = CM.SafeCall(GetUnitAvARankPoints, "player") or 0
-    
+
     if rank > 0 then
         rankName = CM.SafeCall(GetAvARankName, gender, rank) or rankName
     end
-    
+
     return {
         rank = rank,
         name = rankName,
-        points = points
+        points = points,
     }
 end
 
@@ -36,9 +36,9 @@ function api.GetCampaign()
     if not campaignId or campaignId == 0 then
         return { name = "None", id = 0 }
     end
-    
+
     local name = CM.SafeCall(GetCampaignName, campaignId)
-    
+
     -- Emperor status check
     local hasEmperor = CM.SafeCall(DoesCampaignHaveEmperor, campaignId)
     local empInfo = nil
@@ -47,15 +47,15 @@ function api.GetCampaign()
         empInfo = {
             name = characterName,
             account = displayName,
-            alliance = alliance
+            alliance = alliance,
         }
     end
-    
+
     return {
         id = campaignId,
         name = name or "Unknown",
         hasEmperor = hasEmperor,
-        emperor = empInfo
+        emperor = empInfo,
     }
 end
 
@@ -65,7 +65,7 @@ function api.GetBattlegroundInfo()
     -- We'll return basic state here
     local isInBG = CM.SafeCall(IsActiveWorldBattleground)
     return {
-        isActive = isInBG
+        isActive = isInBG,
     }
 end
 

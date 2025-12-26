@@ -381,7 +381,7 @@ local function CreateResponsiveColumns(columns, minColumnWidth, gap)
         if type(safeContent) ~= "string" then
             safeContent = tostring(safeContent)
         end
-        
+
         table.insert(parts, "<div>\n\n")
         table.insert(parts, safeContent)
         table.insert(parts, "\n\n</div>")
@@ -390,7 +390,7 @@ local function CreateResponsiveColumns(columns, minColumnWidth, gap)
     table.insert(parts, "\n</div>\n\n")
 
     local result = table_concat(parts, "")
-    
+
     -- Validate that result contains proper HTML structure
     if result and result ~= "" then
         return result
@@ -426,7 +426,6 @@ local function CreateProgressBar(current, max, width, label)
 
     width = width or 20
     -- Style ignored, always standard string rep
-
 
     local percentage = math.floor((current / max) * 100)
     local filled = math.floor((percentage / 100) * width)
@@ -547,7 +546,6 @@ local function CreateCompactGrid(items, columns, align)
     columns = columns or 4
     align = align or "center" -- Default to center for backwards compatibility
 
-
     -- Use native markdown table instead of HTML table
     -- Format: Simple table with emoji, value, and label in each cell (single line)
     local rows = {}
@@ -660,8 +658,6 @@ local function CreateStyledTable(headers, rows, options)
             boldHeaders[i] = "**" .. header .. "**"
         end
     end
-
-
 
     -- Standard Markdown table (for all other cases)
     local lines = {}

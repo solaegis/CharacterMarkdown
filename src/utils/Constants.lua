@@ -133,7 +133,7 @@ CM.constants.SKILL_TYPE_NAMES = {
     [6] = "Alliance War",
     [7] = "Racial",
     [8] = "Craft",
-    [9] = "Champion"
+    [9] = "Champion",
 }
 
 -- Skill Type Emojis for Markdown Generation
@@ -210,15 +210,15 @@ CM.constants.CLASS_SKILL_LINES = {
 }
 
 -- Order for displaying skill types
-CM.constants.SKILL_TYPE_ORDER = { 
-    "Class", 
-    "Weapon", 
-    "Armor", 
-    "World", 
-    "Guild", 
-    "Alliance War", 
-    "Racial", 
-    "Craft" 
+CM.constants.SKILL_TYPE_ORDER = {
+    "Class",
+    "Weapon",
+    "Armor",
+    "World",
+    "Guild",
+    "Alliance War",
+    "Racial",
+    "Craft",
 }
 
 -- =====================================================
@@ -227,7 +227,7 @@ CM.constants.SKILL_TYPE_ORDER = {
 
 CM.constants.BAR_NAMES = {
     PRIMARY = "⚔️ Front Bar (Main Hand)",
-    BACKUP = "🔮 Back Bar (Backup)"
+    BACKUP = "🔮 Back Bar (Backup)",
 }
 
 CM.DebugPrint("UTILS", "Constants module loaded")

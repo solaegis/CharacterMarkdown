@@ -202,5 +202,4 @@ end
 
 CM.utils.StripColorCodes = StripColorCodes
 
-
 CM.DebugPrint("UTILS", "Formatters module loaded")

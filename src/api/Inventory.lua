@@ -37,9 +37,9 @@ function api.GetAllCurrencies()
         undauntedKeys = api.GetCurrency(CURT_UNDAUNTED_KEYS, CURRENCY_LOCATION_ACCOUNT),
         outfitTokens = api.GetCurrency(CURT_STYLE_STONES, CURRENCY_LOCATION_ACCOUNT),
         archivalFortunes = api.GetCurrency(CURT_ARCHIVAL_FORTUNES, CURRENCY_LOCATION_ACCOUNT),
-        imperialFragments = api.GetCurrency(CURT_IMPERIAL_FRAGMENTS, CURRENCY_LOCATION_ACCOUNT)
+        imperialFragments = api.GetCurrency(CURT_IMPERIAL_FRAGMENTS, CURRENCY_LOCATION_ACCOUNT),
     }
-    
+
     return currencies
 end
 
@@ -49,7 +49,7 @@ function api.GetBagStats(bagId)
     return {
         size = size,
         used = used,
-        free = size - used
+        free = size - used,
     }
 end
 

@@ -16,7 +16,9 @@ function api.GetNow()
 end
 
 function api.FormatDate(timestamp)
-    if not timestamp or timestamp == 0 then return "" end
+    if not timestamp or timestamp == 0 then
+        return ""
+    end
     return CM.SafeCall(GetDateStringFromTimestamp, timestamp) or ""
 end
 

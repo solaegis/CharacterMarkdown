@@ -21,50 +21,52 @@ local ChampionPointsGraph = {}
 local function createGraph(nodes)
     local graph = {
         nodes = nodes,
-        _byId = {}
+        _byId = {},
     }
-    
+
     -- Build ID index
     for name, node in pairs(nodes) do
         graph._byId[node.id] = node
     end
-    
+
     -- Build adjacency lists (dependents)
     for name, node in pairs(nodes) do
         node.dependents = {}
     end
-    
+
     for name, node in pairs(nodes) do
         for _, prereq in ipairs(node.prerequisites) do
             local prereqNode = nodes[prereq.star]
             if prereqNode then
                 prereqNode.dependents[#prereqNode.dependents + 1] = {
                     star = name,
-                    min_points = prereq.min_points
+                    min_points = prereq.min_points,
                 }
             end
         end
     end
-    
+
     function graph:getNode(name)
         return self.nodes[name]
     end
-    
+
     function graph:getNodeById(id)
         return self._byId[id]
     end
-    
+
     function graph:getNeighbors(name)
         local node = self.nodes[name]
-        if not node then return nil end
-        
+        if not node then
+            return nil
+        end
+
         local neighbors = {}
         -- Add prerequisites
         for _, prereq in ipairs(node.prerequisites) do
             neighbors[#neighbors + 1] = {
                 star = prereq.star,
                 direction = "prerequisite",
-                min_points = prereq.min_points
+                min_points = prereq.min_points,
             }
         end
         -- Add dependents
@@ -72,12 +74,12 @@ local function createGraph(nodes)
             neighbors[#neighbors + 1] = {
                 star = dep.star,
                 direction = "dependent",
-                min_points = dep.min_points
+                min_points = dep.min_points,
             }
         end
         return neighbors
     end
-    
+
     function graph:getRoots()
         local roots = {}
         for name, node in pairs(self.nodes) do
@@ -87,20 +89,20 @@ local function createGraph(nodes)
         end
         return roots
     end
-    
+
     function graph:walkPath(fromName, toName)
         -- BFS pathfinding (ignores point requirements)
         local visited = {}
-        local queue = {{name = fromName, path = {fromName}}}
+        local queue = { { name = fromName, path = { fromName } } }
         visited[fromName] = true
-        
+
         while #queue > 0 do
             local current = table.remove(queue, 1)
-            
+
             if current.name == toName then
                 return current.path
             end
-            
+
             local neighbors = self:getNeighbors(current.name)
             if neighbors then
                 for _, neighbor in ipairs(neighbors) do
@@ -111,27 +113,31 @@ local function createGraph(nodes)
                             newPath[i] = p
                         end
                         newPath[#newPath + 1] = neighbor.star
-                        queue[#queue + 1] = {name = neighbor.star, path = newPath}
+                        queue[#queue + 1] = { name = neighbor.star, path = newPath }
                     end
                 end
             end
         end
-        
+
         return nil -- No path found
     end
-    
+
     function graph:getPrerequisiteChain(name)
         -- Returns all prerequisites needed to unlock a node (topologically sorted)
         local node = self.nodes[name]
-        if not node then return nil end
-        
+        if not node then
+            return nil
+        end
+
         local chain = {}
         local visited = {}
-        
+
         local function visit(nodeName)
-            if visited[nodeName] then return end
+            if visited[nodeName] then
+                return
+            end
             visited[nodeName] = true
-            
+
             local n = self.nodes[nodeName]
             if n then
                 for _, prereq in ipairs(n.prerequisites) do
@@ -140,7 +146,7 @@ local function createGraph(nodes)
                 if nodeName ~= name then
                     chain[#chain + 1] = {
                         star = nodeName,
-                        min_points = 0
+                        min_points = 0,
                     }
                     -- Find the min_points required by the dependent
                     for _, p in ipairs(n.dependents) do
@@ -155,7 +161,7 @@ local function createGraph(nodes)
                 end
             end
         end
-        
+
         for _, prereq in ipairs(node.prerequisites) do
             visit(prereq.star)
             -- Add direct prerequisites with their required points
@@ -168,13 +174,13 @@ local function createGraph(nodes)
                 end
             end
             if not found then
-                chain[#chain + 1] = {star = prereq.star, min_points = prereq.min_points}
+                chain[#chain + 1] = { star = prereq.star, min_points = prereq.min_points }
             end
         end
-        
+
         return chain
     end
-    
+
     return graph
 end
 
@@ -192,7 +198,7 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {},
-        notes = "This slotted passive removes 1000 gold from your bounty once per day when you commit a crime that adds bounty, provided you are level 50 or higher and your bounty is at least 1000 gold."
+        notes = "This slotted passive removes 1000 gold from your bounty once per day when you commit a crime that adds bounty, provided you are level 50 or higher and your bounty is at least 1000 gold.",
     },
     ["Discipline Artisan"] = {
         id = 279,
@@ -202,7 +208,7 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {},
-        notes = "It increases experience gain for currently active skills and their skill lines by 3% per stage, up to 15% at maximum."
+        notes = "It increases experience gain for currently active skills and their skill lines by 3% per stage, up to 15% at maximum.",
     },
     ["Fade Away"] = {
         id = 84,
@@ -212,10 +218,10 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Cutpurse's Art", min_points = 25},
-            {star = "Meticulous Disassembly", min_points = 50}
+            { star = "Cutpurse's Art", min_points = 25 },
+            { star = "Meticulous Disassembly", min_points = 50 },
         },
-        notes = "Escaping from a guard removes 25% of your current heat, though it does not affect bounty."
+        notes = "Escaping from a guard removes 25% of your current heat, though it does not affect bounty.",
     },
     ["Out of Sight"] = {
         id = 68,
@@ -225,9 +231,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 30,
         prerequisites = {
-            {star = "Friends in Low Places", min_points = 25}
+            { star = "Friends in Low Places", min_points = 25 },
         },
-        notes = ""
+        notes = "",
     },
     ["Shadowstrike"] = {
         id = 80,
@@ -237,9 +243,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 75,
         max_points = 75,
         prerequisites = {
-            {star = "Infamous", min_points = 25}
+            { star = "Infamous", min_points = 25 },
         },
-        notes = "Killing an enemy with Blade of Woe grants invisibility for 5 seconds after a brief delay."
+        notes = "Killing an enemy with Blade of Woe grants invisibility for 5 seconds after a brief delay.",
     },
     ["Cutpurse's Art"] = {
         id = 90,
@@ -249,9 +255,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Shadowstrike", min_points = 75}
+            { star = "Shadowstrike", min_points = 75 },
         },
-        notes = "Increases the chance to obtain higher-quality loot when pickpocketing NPCs."
+        notes = "Increases the chance to obtain higher-quality loot when pickpocketing NPCs.",
     },
     ["Master Gatherer"] = {
         id = 78,
@@ -261,11 +267,11 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 15,
         max_points = 75,
         prerequisites = {
-            {star = "Treasure Hunter", min_points = 25},
-            {star = "Fade Away", min_points = 50},
-            {star = "Meticulous Disassembly", min_points = 50}
+            { star = "Treasure Hunter", min_points = 25 },
+            { star = "Fade Away", min_points = 50 },
+            { star = "Meticulous Disassembly", min_points = 50 },
         },
-        notes = "Reduces harvesting time from resource nodes by 10% per stage, up to 50% at maximum."
+        notes = "Reduces harvesting time from resource nodes by 10% per stage, up to 50% at maximum.",
     },
     ["Treasure Hunter"] = {
         id = 79,
@@ -275,10 +281,10 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Meticulous Disassembly", min_points = 50},
-            {star = "Steadfast Enchantment", min_points = 10}
+            { star = "Meticulous Disassembly", min_points = 50 },
+            { star = "Steadfast Enchantment", min_points = 10 },
         },
-        notes = "Increases the quality of items found in treasure chests by one tier."
+        notes = "Increases the quality of items found in treasure chests by one tier.",
     },
     ["Angler's Instincts"] = {
         id = 89,
@@ -288,9 +294,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Liquid Efficiency", min_points = 50}
+            { star = "Liquid Efficiency", min_points = 50 },
         },
-        notes = "Increases the chance of catching higher-quality fish."
+        notes = "Increases the chance of catching higher-quality fish.",
     },
     ["Steadfast Enchantment"] = {
         id = 75,
@@ -300,9 +306,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Wanderer", min_points = 10}
+            { star = "Wanderer", min_points = 10 },
         },
-        notes = "Weapon enchantments have a 10% chance per stage to not consume a charge when activated."
+        notes = "Weapon enchantments have a 10% chance per stage to not consume a charge when activated.",
     },
     ["Reel Technique"] = {
         id = 88,
@@ -312,9 +318,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Angler's Instincts", min_points = 25}
+            { star = "Angler's Instincts", min_points = 25 },
         },
-        notes = ""
+        notes = "",
     },
     ["Rationer"] = {
         id = 85,
@@ -324,9 +330,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 30,
         prerequisites = {
-            {star = "Steadfast Enchantment", min_points = 10}
+            { star = "Steadfast Enchantment", min_points = 10 },
         },
-        notes = "Adds 10 minutes to the duration of any food or drink that increases character stats per stage."
+        notes = "Adds 10 minutes to the duration of any food or drink that increases character stats per stage.",
     },
     ["War Mount"] = {
         id = 82,
@@ -336,10 +342,10 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 75,
         max_points = 75,
         prerequisites = {
-            {star = "Gifted Rider", min_points = 10},
-            {star = "Plentiful Harvest", min_points = 10}
+            { star = "Gifted Rider", min_points = 10 },
+            { star = "Plentiful Harvest", min_points = 10 },
         },
-        notes = "Removes all mount Stamina costs when outside of combat."
+        notes = "Removes all mount Stamina costs when outside of combat.",
     },
     ["Liquid Efficiency"] = {
         id = 86,
@@ -349,9 +355,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Rationer", min_points = 10}
+            { star = "Rationer", min_points = 10 },
         },
-        notes = "Using a potion or poison grants a 10% chance to not consume it."
+        notes = "Using a potion or poison grants a 10% chance to not consume it.",
     },
     ["Gifted Rider"] = {
         id = 92,
@@ -361,9 +367,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Master Gatherer", min_points = 15}
+            { star = "Master Gatherer", min_points = 15 },
         },
-        notes = ""
+        notes = "",
     },
     ["Homemaker"] = {
         id = 91,
@@ -373,9 +379,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Reel Technique", min_points = 50}
+            { star = "Reel Technique", min_points = 50 },
         },
-        notes = "Grants a 10% chance to find a second furnishing plan."
+        notes = "Grants a 10% chance to find a second furnishing plan.",
     },
     ["Steed's Blessing"] = {
         id = 66,
@@ -385,7 +391,7 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {},
-        notes = "Increases out-of-combat movement speed by 0.4% per stage, up to 20% at maximum."
+        notes = "Increases out-of-combat movement speed by 0.4% per stage, up to 20% at maximum.",
     },
     ["Wanderer"] = {
         id = 70,
@@ -395,9 +401,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Fortune's Favor", min_points = 10}
+            { star = "Fortune's Favor", min_points = 10 },
         },
-        notes = "Reduces the cost of Wayshrine usage by 10% per stage, up to 50% at maximum."
+        notes = "Reduces the cost of Wayshrine usage by 10% per stage, up to 50% at maximum.",
     },
     ["Sustaining Shadows"] = {
         id = 65,
@@ -407,7 +413,7 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {},
-        notes = "Reduces the cost of Sneak by 1% per stage, up to 50% at maximum."
+        notes = "Reduces the cost of Sneak by 1% per stage, up to 50% at maximum.",
     },
     ["Plentiful Harvest"] = {
         id = 81,
@@ -417,9 +423,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Master Gatherer", min_points = 15}
+            { star = "Master Gatherer", min_points = 15 },
         },
-        notes = "Grants a 10% chance per stage to double the yield from normal resource nodes."
+        notes = "Grants a 10% chance per stage to double the yield from normal resource nodes.",
     },
     ["Meticulous Disassembly"] = {
         id = 83,
@@ -429,9 +435,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Inspiration Boost", min_points = 15}
+            { star = "Inspiration Boost", min_points = 15 },
         },
-        notes = "Improves extraction chances for crafting ingredients from deconstructed gear."
+        notes = "Improves extraction chances for crafting ingredients from deconstructed gear.",
     },
     ["Inspiration Boost"] = {
         id = 72,
@@ -441,9 +447,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 15,
         max_points = 45,
         prerequisites = {
-            {star = "Fortune's Favor", min_points = 10}
+            { star = "Fortune's Favor", min_points = 10 },
         },
-        notes = "Increases crafting inspiration gained by 10% per stage, up to 30% at 45 points."
+        notes = "Increases crafting inspiration gained by 10% per stage, up to 30% at 45 points.",
     },
     ["Fortune's Favor"] = {
         id = 71,
@@ -453,9 +459,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Gilded Fingers", min_points = 0}
+            { star = "Gilded Fingers", min_points = 0 },
         },
-        notes = "Increases gold found in treasure chests and safeboxes by 10% per stage."
+        notes = "Increases gold found in treasure chests and safeboxes by 10% per stage.",
     },
     ["Infamous"] = {
         id = 77,
@@ -465,9 +471,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Fleet Phantom", min_points = 8}
+            { star = "Fleet Phantom", min_points = 8 },
         },
-        notes = "Increases the value of fenced items by 25%."
+        notes = "Increases the value of fenced items by 25%.",
     },
     ["Fleet Phantom"] = {
         id = 67,
@@ -477,9 +483,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 8,
         max_points = 40,
         prerequisites = {
-            {star = "Friends in Low Places", min_points = 25}
+            { star = "Friends in Low Places", min_points = 25 },
         },
-        notes = "Reduces the Movement Speed penalty of Sneak by 5% per stage."
+        notes = "Reduces the Movement Speed penalty of Sneak by 5% per stage.",
     },
     ["Gilded Fingers"] = {
         id = 74,
@@ -489,7 +495,7 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {},
-        notes = "Increases gold gained from all sources by 2% per stage, up to 10% at maximum."
+        notes = "Increases gold gained from all sources by 2% per stage, up to 10% at maximum.",
     },
     ["Breakfall"] = {
         id = 69,
@@ -499,9 +505,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Wanderer", min_points = 10}
+            { star = "Wanderer", min_points = 10 },
         },
-        notes = "Reduces fall damage by 10% per stage, up to 50% at maximum."
+        notes = "Reduces fall damage by 10% per stage, up to 50% at maximum.",
     },
     ["Soul Reservoir"] = {
         id = 87,
@@ -511,9 +517,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 30,
         max_points = 30,
         prerequisites = {
-            {star = "Breakfall", min_points = 10}
+            { star = "Breakfall", min_points = 10 },
         },
-        notes = "When resurrecting yourself or another player, gain a 33% chance to not consume a soul gem."
+        notes = "When resurrecting yourself or another player, gain a 33% chance to not consume a soul gem.",
     },
     ["Professional Upkeep"] = {
         id = 1,
@@ -523,8 +529,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {},
-        notes = "Reduces the cost of repairing armor by 1% per stage, up to 50% at maximum."
-    }
+        notes = "Reduces the cost of repairing armor by 1% per stage, up to 50% at maximum.",
+    },
 })
 
 -- Continue with warfare and fitness constellations...

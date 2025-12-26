@@ -8,31 +8,32 @@ CM.utils = CM.utils or {}
 -- Detect OS based on saved variables path structure
 local function DetectOperatingSystem(forceRedetect)
     local settings = CM.GetSettings()
-    
+
     -- Check if already detected and saved (unless forcing re-detection)
     if not forceRedetect and settings and settings.detectedOS and settings.detectedOS ~= "unknown" then
         return settings.detectedOS
     end
-    
+
     -- Try to auto-detect based on filesystem path
     local detectedOS = "unknown"
-    
+
     -- GetAddOnSavedVariablesDirectory() returns paths like:
     -- Mac:     /Users/username/Documents/Elder Scrolls Online/live/SavedVariables/
     -- Windows: C:\Users\username\Documents\Elder Scrolls Online\live\SavedVariables\
     local svPath = GetAddOnSavedVariablesDirectory and GetAddOnSavedVariablesDirectory()
-    
+
     if svPath then
         -- Mac paths start with / and use forward slashes
         -- Check if path starts with / (Unix/Mac style) or contains /Users/ with forward slashes
         local startsWithSlash = string.sub(svPath, 1, 1) == "/"
         local hasMacUsersPath = string.find(svPath, "/Users/", 1, true) ~= nil
         local hasMacDocumentsPath = string.find(svPath, "/Documents/", 1, true) ~= nil
-        
+
         -- Windows paths typically start with C:\ or use backslashes
-        local startsWithWindowsDrive = string.find(svPath, "^[A-Z]:\\", 1, false) ~= nil  -- Pattern mode for drive letter
-        local hasWindowsBackslashes = string.find(svPath, "\\Users\\", 1, true) ~= nil or string.find(svPath, "\\Documents\\", 1, true) ~= nil
-        
+        local startsWithWindowsDrive = string.find(svPath, "^[A-Z]:\\", 1, false) ~= nil -- Pattern mode for drive letter
+        local hasWindowsBackslashes = string.find(svPath, "\\Users\\", 1, true) ~= nil
+            or string.find(svPath, "\\Documents\\", 1, true) ~= nil
+
         -- Prioritize Mac detection - check Mac patterns first
         if startsWithSlash or hasMacUsersPath or hasMacDocumentsPath then
             detectedOS = "mac"
@@ -43,7 +44,7 @@ local function DetectOperatingSystem(forceRedetect)
             -- or backslashes (more likely Windows)
             local hasForwardSlashes = string.find(svPath, "/", 1, true) ~= nil
             local hasBackslashes = string.find(svPath, "\\", 1, true) ~= nil
-            
+
             if hasForwardSlashes and not hasBackslashes then
                 detectedOS = "mac"
             elseif hasBackslashes and not hasForwardSlashes then
@@ -59,12 +60,12 @@ local function DetectOperatingSystem(forceRedetect)
         detectedOS = "unknown"
         CM.DebugPrint("PLATFORM", "GetAddOnSavedVariablesDirectory not available")
     end
-    
+
     -- Save the detected OS
     if settings then
         local previousOS = settings.detectedOS
         settings.detectedOS = detectedOS
-        
+
         -- Only log if OS changed or detection failed
         if previousOS and previousOS ~= "unknown" and previousOS ~= detectedOS then
             CM.DebugPrint("PLATFORM", string.format("OS changed: %s -> %s", previousOS, detectedOS))
@@ -72,14 +73,14 @@ local function DetectOperatingSystem(forceRedetect)
             CM.DebugPrint("PLATFORM", "OS detection failed")
         end
     end
-    
+
     return detectedOS
 end
 
 -- Get keyboard shortcut text for current OS
 local function GetShortcutText(action)
     local os = DetectOperatingSystem()
-    
+
     if action == "select_all" then
         if os == "mac" then
             return "Cmd+A"
@@ -105,7 +106,7 @@ local function GetShortcutText(action)
             return "Ctrl+A then Ctrl+C"
         end
     end
-    
+
     return ""
 end
 
@@ -115,14 +116,14 @@ local function SetOperatingSystem(os)
         CM.Error("Invalid OS. Use 'windows' or 'mac'")
         return false
     end
-    
+
     local settings = CM.GetSettings()
     if settings then
         settings.detectedOS = os
         CM.Info("OS set to: " .. os)
         return true
     end
-    
+
     return false
 end
 
@@ -144,4 +145,3 @@ CM.utils.Platform = {
     SetOperatingSystem = SetOperatingSystem,
     ResetOperatingSystem = ResetOperatingSystem,
 }
-

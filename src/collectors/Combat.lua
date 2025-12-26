@@ -16,7 +16,7 @@ local function CollectCombatStatsData()
     local stamina = CM.api.combat.GetStat(STAT_STAMINA_MAX)
     local powerStats = CM.api.combat.GetPowerStats()
     local regenStats = CM.api.combat.GetRegenStats()
-    
+
     local stats = {}
 
     -- ===== RESOURCES =====
@@ -58,9 +58,9 @@ local function CollectCombatStatsData()
     stats.healthRecovery = regenStats.health or 0
     stats.magickaRecovery = regenStats.magicka or 0
     stats.staminaRecovery = regenStats.stamina or 0
-    
+
     -- ===== COMPUTED FIELDS =====
-    
+
     -- Effective Health (health with mitigation)
     local effectiveHealthPhysical = stats.health
     local effectiveHealthSpell = stats.health
@@ -73,31 +73,31 @@ local function CollectCombatStatsData()
     stats.effectiveHealth = {
         physical = math.floor(effectiveHealthPhysical),
         spell = math.floor(effectiveHealthSpell),
-        average = math.floor((effectiveHealthPhysical + effectiveHealthSpell) / 2)
+        average = math.floor((effectiveHealthPhysical + effectiveHealthSpell) / 2),
     }
-    
+
     -- Resource Ratios
     local totalResources = stats.health + stats.magicka + stats.stamina
     if totalResources > 0 then
         stats.resourceRatios = {
             health = math.floor((stats.health / totalResources) * 100),
             magicka = math.floor((stats.magicka / totalResources) * 100),
-            stamina = math.floor((stats.stamina / totalResources) * 100)
+            stamina = math.floor((stats.stamina / totalResources) * 100),
         }
     else
         stats.resourceRatios = {
             health = 0,
             magicka = 0,
-            stamina = 0
+            stamina = 0,
         }
     end
-    
+
     -- DPS Estimates (rough calculations based on power and crit)
     -- These are rough estimates, not exact DPS
     local weaponDPS = stats.weaponPower
     local spellDPS = stats.spellPower
     if stats.weaponCritChance > 0 then
-        weaponDPS = weaponDPS * (1 + (stats.weaponCritChance / 100) * 0.5)  -- Assume 50% crit damage bonus
+        weaponDPS = weaponDPS * (1 + (stats.weaponCritChance / 100) * 0.5) -- Assume 50% crit damage bonus
     end
     if stats.spellCritChance > 0 then
         spellDPS = spellDPS * (1 + (stats.spellCritChance / 100) * 0.5)
@@ -105,7 +105,7 @@ local function CollectCombatStatsData()
     stats.dpsEstimates = {
         weapon = math.floor(weaponDPS),
         spell = math.floor(spellDPS),
-        average = math.floor((weaponDPS + spellDPS) / 2)
+        average = math.floor((weaponDPS + spellDPS) / 2),
     }
 
     -- Advanced Stats
@@ -116,40 +116,42 @@ local function CollectCombatStatsData()
     local utilityStats = CM.api.combat.GetUtilityStats()
 
     -- DERIVED CALCULATIONS (Fallback for missing API constants)
-    
+
     -- 0. Light & Heavy Attack Damage
     -- Formulas from docs/formulas.md:
     -- Light Attack: (Max Resource * 0.04) + (Damage * 1.0)
     -- Heavy Attack: (Max Resource * 0.08) + (Damage * 2.0)
     -- Logic: Use higher of Stamina/WeaponDmg or Magicka/SpellDmg
-    
+
     local stamLA = (stats.stamina * 0.04) + stats.weaponPower
     local magLA = (stats.magicka * 0.04) + stats.spellPower
     coreStats.lightAttackDamage = math_floor(math.max(stamLA, magLA))
-    
+
     local stamHA = (stats.stamina * 0.08) + (stats.weaponPower * 2.0)
     local magHA = (stats.magicka * 0.08) + (stats.spellPower * 2.0)
     coreStats.heavyAttackDamage = math_floor(math.max(stamHA, magHA))
 
     -- 1. Bash Damage: (Max Stamina * 0.1065) + Weapon Power
-    if (not coreStats.bashDamage or coreStats.bashDamage == 0) then
+    if not coreStats.bashDamage or coreStats.bashDamage == 0 then
         coreStats.bashDamage = math_floor((stats.stamina * 0.1065) + stats.weaponPower)
     end
-    
+
     -- 2. Block Mitigation & Speed
-    if (not coreStats.blockMitigation or coreStats.blockMitigation == 0) then
+    if not coreStats.blockMitigation or coreStats.blockMitigation == 0 then
         coreStats.blockMitigation = 50 -- Base 50%
     end
-    if (not coreStats.blockSpeed or coreStats.blockSpeed == 0) then
+    if not coreStats.blockSpeed or coreStats.blockSpeed == 0 then
         coreStats.blockSpeed = 40 -- Base 40%
     end
 
     -- 3. Resistance Mapping & Percentage Calculation
     -- Formula: Mitigation % = Resistance / 660
     -- Matches screenshot: ~10.5k resist / 660 = ~16.0%
-    
+
     local function CalculateMitigationPercent(resistValue)
-        if not resistValue or resistValue <= 0 then return 0 end
+        if not resistValue or resistValue <= 0 then
+            return 0
+        end
         local percent = resistValue / 660
         return math_floor(percent * 10) / 10 -- Round to 1 decimal
     end
@@ -157,7 +159,7 @@ local function CollectCombatStatsData()
     -- Map specific resistances if 0
     local physRes = stats.physicalResist
     local spellRes = stats.spellResist
-    
+
     local function EnsureResist(val, fallback)
         return (val and val > 0) and val or fallback
     end
@@ -172,7 +174,7 @@ local function CollectCombatStatsData()
         bleed = { value = EnsureResist(resistances.bleed, physRes), percent = 0 },
         physical = { value = physRes, percent = 0 },
         spell = { value = spellRes, percent = 0 },
-        critical = { value = resistances.critical, percent = 0 }
+        critical = { value = resistances.critical, percent = 0 },
     }
 
     -- Calculate percentages for all
@@ -181,9 +183,9 @@ local function CollectCombatStatsData()
             v.percent = CalculateMitigationPercent(v.value)
         end
     end
-    
+
     -- 4. Critical Damage Default
-    if (not damageBonuses.criticalDamage or damageBonuses.criticalDamage == 0) then
+    if not damageBonuses.criticalDamage or damageBonuses.criticalDamage == 0 then
         damageBonuses.criticalDamage = 50 -- Base is 50% (1.5x)
     end
 
@@ -192,7 +194,7 @@ local function CollectCombatStatsData()
         resistances = enhancedResistances,
         damage = damageBonuses,
         healing = healingBonuses,
-        utility = utilityStats
+        utility = utilityStats,
     }
 
     return stats
@@ -207,13 +209,13 @@ CM.collectors.CollectCombatStatsData = CollectCombatStatsData
 local function CollectRoleData()
     -- Use API layer for role data
     local apiRole = CM.api.combat.GetRole()
-    
+
     local role = {}
-    
+
     -- Transform API data to expected format (backward compatibility)
     role.selected = apiRole.name or "None"
     role.emoji = apiRole.emoji or "❓"
-    
+
     return role
 end
 
@@ -330,4 +332,3 @@ end
 CM.collectors.CollectMundusData = CollectMundusData
 
 CM.DebugPrint("COLLECTOR", "Combat collector module loaded")
-

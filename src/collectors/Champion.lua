@@ -100,14 +100,14 @@ local function CollectChampionPointData()
     -- Use API layer granular functions (composition moved to collector level)
     local cpPoints = CM.api.champion.GetPoints()
     local numDisciplines = CM.SafeCall(GetNumChampionDisciplines) or 3
-    
+
     local data = {
         total = 0,
         spent = 0,
         available = 0,
         disciplines = {},
         enlightenment = nil, -- Will be populated from API
-        pendingPoints = 0,   -- Uncommitted changes
+        pendingPoints = 0, -- Uncommitted changes
         analysis = {
             slottableSkills = 0,
             passiveSkills = 0,
@@ -119,12 +119,12 @@ local function CollectChampionPointData()
     -- Get total CP earned (account-wide) from API
     data.total = cpPoints.total or 0
     data.available = cpPoints.unspent
-    
+
     -- Get enlightenment info (API 101048+)
     if CM.api.champion.GetEnlightenmentInfo then
         data.enlightenment = CM.api.champion.GetEnlightenmentInfo()
     end
-    
+
     -- Get pending (uncommitted) CP changes
     if CM.api.champion.GetPendingPoints then
         data.pendingPoints = CM.api.champion.GetPendingPoints()
@@ -144,11 +144,11 @@ local function CollectChampionPointData()
     -- Calculate CP Caps per discipline (Rotation: Green/Craft -> Blue/Warfare -> Red/Fitness)
     local basePerDiscipline = math.floor(data.total / 3)
     local remainder = data.total % 3
-    
+
     local caps = {
         [3] = basePerDiscipline + (remainder >= 1 and 1 or 0), -- Craft (Green)
         [1] = basePerDiscipline + (remainder >= 2 and 1 or 0), -- Warfare (Blue)
-        [2] = basePerDiscipline,                               -- Fitness (Red)
+        [2] = basePerDiscipline, -- Fitness (Red)
     }
 
     -- Process disciplines from API
@@ -166,13 +166,13 @@ local function CollectChampionPointData()
                 local disciplineName = apiDiscipline.name or "Unknown"
                 local emoji, displayName = GetDisciplineInfo(disciplineId)
                 local disciplineTypeConstant = GetDisciplineTypeConstant(disciplineId)
-                
+
                 -- Get assigned points (API value - often unreliable/lagging)
                 local apiAssigned = apiDiscipline.spent or 0
                 if apiAssigned == 0 then
                     apiAssigned = GetDisciplineSpentPoints(disciplineId, disciplineTypeConstant)
                 end
-                
+
                 -- Determine Cap for this discipline
                 local disciplineCap = caps[disciplineId] or basePerDiscipline
 
@@ -183,10 +183,10 @@ local function CollectChampionPointData()
                     skills = {},
                     allStars = {},
                     assigned = apiAssigned, -- Keep API value for reference
-                    cap = disciplineCap,    -- Calculated Cap
-                    spent = 0,              -- Will be calculated from skills
-                    available = 0,          -- Will be calculated (Cap - Spent)
-                    total = 0,              -- Legacy: Will be set to Spent
+                    cap = disciplineCap, -- Calculated Cap
+                    spent = 0, -- Will be calculated from skills
+                    available = 0, -- Will be calculated (Cap - Spent)
+                    total = 0, -- Legacy: Will be set to Spent
                     slottable = 0,
                     passive = 0,
                     slottableSkills = {},
@@ -243,12 +243,12 @@ local function CollectChampionPointData()
 
                 -- Calculate discipline total (Spent) from skills
                 local calculatedSpent = disciplineData.slottable + disciplineData.passive
-                
+
                 -- Update discipline data with calculated values
                 disciplineData.spent = calculatedSpent
                 disciplineData.total = calculatedSpent -- Legacy compatibility
                 disciplineData.available = math.max(0, disciplineData.cap - calculatedSpent)
-                
+
                 totalSpent = totalSpent + calculatedSpent
 
                 table.insert(disciplines, disciplineData)
@@ -266,12 +266,12 @@ local function CollectChampionPointData()
         elseif data.total >= 400 then
             investmentLevel = "medium"
         end
-        
+
         -- Calculate discipline balance metrics
         local disciplineTotals = {}
         local maxDisciplineTotal = 0
         local minDisciplineTotal = math.huge
-        
+
         for _, disc in ipairs(disciplines) do
             local total = disc.total or 0
             disciplineTotals[disc.name] = total
@@ -282,7 +282,7 @@ local function CollectChampionPointData()
                 minDisciplineTotal = total
             end
         end
-        
+
         local disciplineBalance = "balanced"
         local balanceVariance = maxDisciplineTotal - minDisciplineTotal
         if balanceVariance > 200 then
@@ -290,17 +290,20 @@ local function CollectChampionPointData()
         elseif balanceVariance > 100 then
             disciplineBalance = "moderate"
         end
-        
+
         -- Investment recommendations
         local recommendations = {}
         if data.total < CP_CONSTANTS.MIN_CP_FOR_SYSTEM then
             table.insert(recommendations, "Continue earning CP to unlock the Champion Point system (10 CP required)")
         end
-        
+
         if disciplineBalance == "unbalanced" then
-            table.insert(recommendations, "Consider balancing CP investment across disciplines for better overall performance")
+            table.insert(
+                recommendations,
+                "Consider balancing CP investment across disciplines for better overall performance"
+            )
         end
-        
+
         if slottableCount < data.analysis.maxSlottablePerDiscipline * 3 then
             table.insert(recommendations, "Consider investing in more slottable skills for increased build flexibility")
         end
@@ -326,15 +329,18 @@ local function CollectChampionPointData()
         data.analysis.disciplineBalance = allocations.disciplineBalance
         data.analysis.balanceVariance = allocations.balanceVariance
         data.analysis.recommendations = allocations.recommendations or {}
-        
+
         -- Recalculate available if needed
         if data.available == nil or data.available < 0 then
             data.available = data.total - data.spent
         end
-        
+
         -- Add recommendation for unspent CP if available
         if data.available > 50 then
-            table.insert(data.analysis.recommendations, string.format("You have %d unspent CP available - consider allocating them", data.available))
+            table.insert(
+                data.analysis.recommendations,
+                string.format("You have %d unspent CP available - consider allocating them", data.available)
+            )
         end
     else
         -- Fallback: use API data directly
@@ -350,4 +356,3 @@ end
 CM.collectors.CollectChampionPointData = CollectChampionPointData
 
 CM.DebugPrint("COLLECTOR", "Champion collector module loaded")
-

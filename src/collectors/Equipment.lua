@@ -200,7 +200,7 @@ local function CollectEquipmentData()
                 name = itemName,
                 setName = (hasSet and setName) and setName or "-",
                 quality = CM.utils.GetQualityColor(quality),
-                qualityNumeric = quality or 0,  -- Store numeric quality for calculations
+                qualityNumeric = quality or 0, -- Store numeric quality for calculations
                 qualityEmoji = CM.utils.GetQualityEmoji(quality),
                 trait = traitName,
                 isEmpty = false,
@@ -223,9 +223,9 @@ local function CollectEquipmentData()
             })
         end
     end
-    
+
     -- ===== COMPUTED FIELDS =====
-    
+
     -- Set Bonus Analysis
     local setCounts = {}
     for _, setData in ipairs(equipment.sets) do
@@ -234,7 +234,7 @@ local function CollectEquipmentData()
             setCounts[setName] = setData.count or 0
         end
     end
-    
+
     local activeSetBonuses = {}
     for setName, count in pairs(setCounts) do
         if count >= 2 then
@@ -244,13 +244,13 @@ local function CollectEquipmentData()
                 has2Piece = count >= 2,
                 has3Piece = count >= 3,
                 has4Piece = count >= 4,
-                has5Piece = count >= 5
+                has5Piece = count >= 5,
             })
         end
     end
-    
+
     equipment.setBonuses = activeSetBonuses
-    
+
     -- Trait Distribution
     local traitCounts = {}
     for _, item in ipairs(equipment.items) do
@@ -258,7 +258,7 @@ local function CollectEquipmentData()
         traitCounts[traitName] = (traitCounts[traitName] or 0) + 1
     end
     equipment.traitDistribution = traitCounts
-    
+
     -- Gear Score (rough calculation based on quality and level)
     local gearScore = 0
     local itemCount = 0
@@ -273,7 +273,7 @@ local function CollectEquipmentData()
                 qualityNum = tonumber(item.qualityNumeric) or 0
             end
         end
-        
+
         local levelValue = 0
         if item.requiredLevel ~= nil then
             if type(item.requiredLevel) == "number" then
@@ -282,11 +282,11 @@ local function CollectEquipmentData()
                 levelValue = tonumber(item.requiredLevel) or 0
             end
         end
-        
+
         -- Calculate gear score if we have valid values
         if qualityNum >= 0 and levelValue >= 0 then
             -- Quality: 0-4 (white to gold), Level: 1-50
-            local qualityMultiplier = qualityNum + 1  -- 1-5
+            local qualityMultiplier = qualityNum + 1 -- 1-5
             gearScore = gearScore + (qualityMultiplier * levelValue)
             itemCount = itemCount + 1
         end
@@ -299,4 +299,3 @@ end
 CM.collectors.CollectEquipmentData = CollectEquipmentData
 
 CM.DebugPrint("COLLECTOR", "Equipment collector module loaded")
-

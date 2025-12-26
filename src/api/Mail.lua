@@ -16,32 +16,34 @@ function api.GetNumMail()
 end
 
 function api.GetMailInfo(mailId)
-    if not mailId then return nil end
-    
+    if not mailId then
+        return nil
+    end
+
     local sender = CM.SafeCall(GetMailSender, mailId)
     local subject = CM.SafeCall(GetMailSubject, mailId)
     local readStatus = CM.SafeCall(IsMailRead, mailId)
     local attachmentStatus = CM.SafeCall(HasMailAttachments, mailId)
     local attachmentCount = 0
-    
+
     if attachmentStatus then
         attachmentCount = CM.SafeCall(GetMailAttachmentCount, mailId) or 0
     end
-    
+
     return {
         id = mailId,
         sender = sender or "Unknown",
         subject = subject or "",
         isRead = readStatus or false,
         hasAttachments = attachmentStatus or false,
-        attachmentCount = attachmentCount
+        attachmentCount = attachmentCount,
     }
 end
 
 function api.GetAllMail()
     local numMail = api.GetNumMail()
     local mailList = {}
-    
+
     for i = 1, numMail do
         local mailId = CM.SafeCall(GetMailId, i)
         if mailId then
@@ -51,11 +53,8 @@ function api.GetAllMail()
             end
         end
     end
-    
+
     return mailList
 end
 
 CM.DebugPrint("API", "Mail API module loaded")
-
-
-

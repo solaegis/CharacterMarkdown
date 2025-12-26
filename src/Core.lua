@@ -4,7 +4,7 @@
 -- Memory Management: This module implements efficient memory practices.
 -- See docs/MEMORY_MANAGEMENT.md for detailed information on:
 --   - Settings cache lifecycle and invalidation
---   - Event handler cleanup patterns  
+--   - Event handler cleanup patterns
 --   - Garbage collection strategies
 --   - String building optimizations
 
@@ -414,8 +414,6 @@ function CM.CreateLink(text, linkType, format)
     local url = "https://en.uesp.net/wiki/Online:" .. urlText
     return "[" .. text .. "](" .. url .. ")"
 end
-
-
 
 if logger then
     logger:Info("LibDebugLogger initialized for CharacterMarkdown")

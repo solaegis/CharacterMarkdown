@@ -35,10 +35,11 @@ function api.GetAddOnMetadata(name, field)
 end
 
 function api.Print(msg)
-    if d then d(msg) end
+    if d then
+        d(msg)
+    end
 end
 
 -- Composition functions moved to collector level
 
 CM.DebugPrint("API", "System API module loaded")
-

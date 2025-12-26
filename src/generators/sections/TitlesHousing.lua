@@ -33,12 +33,10 @@ local function GenerateTitles(titlesData)
     end
 
     -- Extract summary data
-    local totalOwned = (titlesData.summary and titlesData.summary.totalOwned) 
-        or (titlesData.owned and #titlesData.owned) 
+    local totalOwned = (titlesData.summary and titlesData.summary.totalOwned)
+        or (titlesData.owned and #titlesData.owned)
         or 0
-    local totalAvailable = (titlesData.summary and titlesData.summary.totalAvailable) 
-        or titlesData.total 
-        or 0
+    local totalAvailable = (titlesData.summary and titlesData.summary.totalAvailable) or titlesData.total or 0
 
     -- Fallback: Try to get title from character data if collector failed
     if not titlesData.current or titlesData.current == "" then
@@ -151,12 +149,10 @@ local function GenerateHousing(housingData)
     end
 
     -- Extract summary data
-    local totalOwned = (housingData.summary and housingData.summary.totalOwned) 
-        or (housingData.owned and #housingData.owned) 
+    local totalOwned = (housingData.summary and housingData.summary.totalOwned)
+        or (housingData.owned and #housingData.owned)
         or 0
-    local totalAvailable = (housingData.summary and housingData.summary.totalAvailable) 
-        or housingData.total 
-        or 0
+    local totalAvailable = (housingData.summary and housingData.summary.totalAvailable) or housingData.total or 0
 
     if totalOwned == 0 then
         -- Show placeholder when section enabled but no housing
@@ -172,8 +168,7 @@ local function GenerateHousing(housingData)
 
         if housingData.primary and housingData.primary.name then
             local primaryName = housingData.primary.name
-            local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName))
-                or primaryName
+            local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName)) or primaryName
             markdown = markdown .. "**Primary Residence:** " .. primaryLink .. "\n\n"
         end
 

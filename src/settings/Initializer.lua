@@ -96,7 +96,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
             end
         end
     end
-    
+
     -- Ensure perCharacterData exists even if it was never created
     if not CM.settings.perCharacterData then
         CM.settings.perCharacterData = {}
@@ -118,7 +118,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
     -- If settingsVersion is less than 3, migrate includeCharacterStats to new settings
     if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 3 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
-        
+
         -- If the old setting existed and was enabled, enable both new settings
         -- If it didn't exist or was disabled, use defaults (true)
         local oldSetting = CharacterMarkdownSettings.includeCharacterStats
@@ -138,9 +138,11 @@ function CM.Settings.Initializer:TryZOSavedVars()
             CharacterMarkdownSettings.includeAdvancedStats = false
             CM.DebugPrint("SETTINGS", "Old includeCharacterStats was false, disabling both new stats")
         end
-        
+
         CharacterMarkdownSettings.settingsVersion = 3
-        CM.Info("Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats.")
+        CM.Info(
+            "Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats."
+        )
     end
 
     -- zo_savedvars_available = true -- luacheck: ignore
@@ -187,7 +189,7 @@ function CM.Settings.Initializer:InitializeFallback()
             end
         end
     end
-    
+
     -- Ensure perCharacterData exists even if it was never created
     if not CM.settings.perCharacterData then
         CM.settings.perCharacterData = {}
@@ -209,7 +211,7 @@ function CM.Settings.Initializer:InitializeFallback()
     -- If settingsVersion is less than 3, migrate includeCharacterStats to new settings
     if not CM.settings.settingsVersion or CM.settings.settingsVersion < 3 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
-        
+
         -- If the old setting existed and was enabled, enable both new settings
         -- If it didn't exist or was disabled, use defaults (true)
         local oldSetting = CM.settings.includeCharacterStats
@@ -229,9 +231,11 @@ function CM.Settings.Initializer:InitializeFallback()
             CM.settings.includeAdvancedStats = false
             CM.DebugPrint("SETTINGS", "Old includeCharacterStats was false, disabling both new stats")
         end
-        
+
         CM.settings.settingsVersion = 3
-        CM.Info("Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats.")
+        CM.Info(
+            "Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats."
+        )
     end
 
     CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")
@@ -244,29 +248,32 @@ end
 function CM.Settings.Initializer:InitializeCharacterData()
     -- Store per-character data INSIDE the account-wide CharacterMarkdownSettings
     -- This is more reliable than per-character SavedVariables
-    
+
     local characterId = tostring(GetCurrentCharacterId())
     local accountName = GetDisplayName()
-    
+
     -- Ensure the per-character storage exists in settings
     if not CM.settings.perCharacterData then
         CM.settings.perCharacterData = {}
         CM.DebugPrint("SETTINGS", "Created perCharacterData table (was nil)")
     end
-    
+
     -- Check if character entry exists and log what we found
     local existingData = CM.settings.perCharacterData[characterId]
     if existingData then
-        CM.DebugPrint("SETTINGS", string.format(
-            "Found existing data for character %s: customNotes=%d bytes, playStyle=%s",
-            characterId,
-            existingData.customNotes and #existingData.customNotes or 0,
-            tostring(existingData.playStyle or "nil")
-        ))
+        CM.DebugPrint(
+            "SETTINGS",
+            string.format(
+                "Found existing data for character %s: customNotes=%d bytes, playStyle=%s",
+                characterId,
+                existingData.customNotes and #existingData.customNotes or 0,
+                tostring(existingData.playStyle or "nil")
+            )
+        )
     else
         CM.DebugPrint("SETTINGS", "No existing data found for character " .. characterId .. ", creating new entry")
     end
-    
+
     -- Ensure this character has an entry (only create if truly doesn't exist)
     if not CM.settings.perCharacterData[characterId] then
         CM.settings.perCharacterData[characterId] = {
@@ -279,21 +286,24 @@ function CM.Settings.Initializer:InitializeCharacterData()
             _accountName = accountName,
         }
     end
-    
+
     -- Point CM.charData to this character's data
     CM.charData = CM.settings.perCharacterData[characterId]
-    
+
     -- Ensure all required fields exist (migration-safe for existing characters)
-    CM.DebugPrint("SETTINGS", string.format(
-        "Before field checks - customNotes: %s (type: %s), customTitle: %s (type: %s), playStyle: %s (type: %s)",
-        tostring(CM.charData.customNotes),
-        type(CM.charData.customNotes),
-        tostring(CM.charData.customTitle),
-        type(CM.charData.customTitle),
-        tostring(CM.charData.playStyle),
-        type(CM.charData.playStyle)
-    ))
-    
+    CM.DebugPrint(
+        "SETTINGS",
+        string.format(
+            "Before field checks - customNotes: %s (type: %s), customTitle: %s (type: %s), playStyle: %s (type: %s)",
+            tostring(CM.charData.customNotes),
+            type(CM.charData.customNotes),
+            tostring(CM.charData.customTitle),
+            type(CM.charData.customTitle),
+            tostring(CM.charData.playStyle),
+            type(CM.charData.playStyle)
+        )
+    )
+
     if not CM.charData.customNotes then
         CM.DebugPrint("SETTINGS", "customNotes was nil/false, initializing to empty string")
         CM.charData.customNotes = ""
@@ -306,12 +316,12 @@ function CM.Settings.Initializer:InitializeCharacterData()
         CM.DebugPrint("SETTINGS", "playStyle was nil/false, initializing to empty string")
         CM.charData.playStyle = ""
     end
-    
+
     -- Update metadata
     CM.charData._lastModified = GetTimeStamp()
     CM.charData._characterName = GetUnitName("player")
     CM.charData._accountName = accountName
-    
+
     CM.DebugPrint(
         "SETTINGS",
         "✓ Character data initialized (notes: " .. string.len(CM.charData.customNotes) .. " bytes)"
@@ -700,7 +710,7 @@ function CM.Settings.Initializer:ResetToDefaults()
     CM.Info("Resetting all settings to defaults...")
 
     local defaults = CM.Settings.Defaults:GetAll()
-    
+
     -- CRITICAL: Preserve only text fields (customNotes, customTitle, playStyle) for current character
     -- These are user-entered data that must NEVER be reset
     local characterId = tostring(GetCurrentCharacterId())
@@ -720,7 +730,7 @@ function CM.Settings.Initializer:ResetToDefaults()
             CM.settings[key] = value
         end
     end
-    
+
     -- Restore only the text fields for current character (preserve customNotes, customTitle, playStyle)
     if preservedTextFields then
         -- Ensure perCharacterData structure exists

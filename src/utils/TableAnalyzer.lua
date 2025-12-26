@@ -27,7 +27,7 @@ local function EstimateTableWidth(tableMarkdown)
     end
 
     local maxWidth = 0
-    
+
     -- Find longest line in the table
     for line in string_gmatch(tableMarkdown, "[^\r\n]+") do
         -- Skip HTML tags (for VSCode format)
@@ -54,10 +54,10 @@ local function CountTableRows(tableMarkdown)
 
     local rowCount = 0
     local lineNum = 0
-    
+
     for line in string_gmatch(tableMarkdown, "[^\r\n]+") do
         lineNum = lineNum + 1
-        
+
         -- Skip empty lines, HTML tags, headers
         if string_match(line, "^%s*|") then
             -- Skip first line (header) and second line (separator)
@@ -89,7 +89,7 @@ local function ExtractTableHeaders(tableMarkdown)
     for line in string_gmatch(tableMarkdown, "[^\r\n]+") do
         if string_match(line, "^%s*|") then
             local headers = {}
-            
+
             -- Split by | and extract headers
             for header in string_gmatch(line, "|([^|]+)") do
                 -- Trim whitespace and remove markdown formatting
@@ -97,12 +97,12 @@ local function ExtractTableHeaders(tableMarkdown)
                 header = string_gsub(header, "%*%*(.-)%*%*", "%1") -- Remove **bold**
                 header = string_gsub(header, "%*(.-)%*", "%1") -- Remove *italic*
                 header = string_gsub(header, "<strong>(.-)</strong>", "%1") -- Remove HTML bold
-                
+
                 if header ~= "" then
                     table_insert(headers, header)
                 end
             end
-            
+
             return headers
         end
     end
@@ -131,7 +131,7 @@ local function AnalyzeTable(tableMarkdown)
     local width = EstimateTableWidth(tableMarkdown)
     local rows = CountTableRows(tableMarkdown)
     local headers = ExtractTableHeaders(tableMarkdown)
-    
+
     return {
         width = width,
         rows = rows,
@@ -169,12 +169,12 @@ local function AnalyzeTables(tableArray)
     local totalRows = 0
     local maxWidth = 0
     local minWidth = 999999
-    
+
     -- Analyze each table
     for i, tableMarkdown in ipairs(tableArray) do
         local metadata = AnalyzeTable(tableMarkdown)
         table_insert(tables, metadata)
-        
+
         if not metadata.isEmpty then
             table_insert(widths, metadata.width)
             totalRows = totalRows + metadata.rows
@@ -216,4 +216,3 @@ CM.utils.TableAnalyzer.AnalyzeTables = AnalyzeTables
 CM.DebugPrint("UTILS", "TableAnalyzer module loaded with table metadata extraction functions")
 
 -- Functions are already exported to CM.utils.TableAnalyzer above
-

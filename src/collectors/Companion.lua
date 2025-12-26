@@ -7,32 +7,32 @@ local function CollectCompanionData()
     -- Use API layer granular functions (composition at collector level)
     local companions = CM.api.companion.GetAllCompanions()
     local hasActive = CM.api.companion.HasActiveCompanion()
-    
+
     local data = {}
-    
+
     -- Transform API data to expected format
     data.companions = {}
     for _, comp in ipairs(companions.list or {}) do
         if comp.unlocked then
             table.insert(data.companions, {
                 name = comp.name,
-                id = comp.id
+                id = comp.id,
             })
         end
     end
-    
+
     data.hasActive = hasActive or false
-    
+
     -- Active companion details (cross-API composition)
     if data.hasActive then
         -- Try multiple approaches to get companion name
         local name = nil
         local level = 0
-        
+
         -- Approach 1: Try GetUnitName("companion") - unit API
         name = CM.SafeCall(GetUnitName, "companion")
         level = CM.SafeCall(GetUnitLevel, "companion") or 0
-        
+
         -- Approach 2: If unit API fails, try to find active companion from list
         -- (This is a fallback - ideally we'd have GetActiveCompanionId())
         if not name or name == "" then
@@ -48,30 +48,32 @@ local function CollectCompanionData()
                 end
             end
         end
-        
+
         -- Final fallback
         if not name or name == "" then
             name = "Unknown Companion"
-            CM.Error("Companion: Failed to get companion name. GetUnitName('companion') returned nil/empty and couldn't find active companion in list.")
+            CM.Error(
+                "Companion: Failed to get companion name. GetUnitName('companion') returned nil/empty and couldn't find active companion in list."
+            )
         end
-        
+
         data.active = {
             name = name,
-            level = level
+            level = level,
         }
         data.skills = CM.api.companion.GetCompanionSkills()
         data.equipment = CM.api.companion.GetCompanionEquipment()
-        
+
         -- Get rapport level (API 101048+)
         if CM.api.companion.GetCompanionRapport then
             data.rapport = CM.api.companion.GetCompanionRapport()
         end
-        
+
         -- Get outfit info (API 101048+)
         if CM.api.companion.GetCompanionOutfit then
             data.outfit = CM.api.companion.GetCompanionOutfit()
         end
-        
+
         -- Add computed summary for active companion
         data.summary = {
             totalCompanions = companions.list and #companions.list or 0,
@@ -79,7 +81,7 @@ local function CollectCompanionData()
             activeLevel = data.active.level or 0,
             skillCount = data.skills and #data.skills or 0,
             equipmentCount = data.equipment and #data.equipment or 0,
-            rapportLevel = data.rapport and data.rapport.description or nil
+            rapportLevel = data.rapport and data.rapport.description or nil,
         }
     else
         data.active = nil
@@ -87,14 +89,13 @@ local function CollectCompanionData()
         data.equipment = nil
         data.summary = {
             totalCompanions = companions.list and #companions.list or 0,
-            hasActive = false
+            hasActive = false,
         }
     end
-    
+
     return data
 end
 
 CM.collectors.CollectCompanionData = CollectCompanionData
 
 CM.DebugPrint("COLLECTOR", "Companion collector module loaded")
-

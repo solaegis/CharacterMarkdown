@@ -11,10 +11,10 @@ local CM = CharacterMarkdown
 local function GetQualityColor(quality)
     local colors = {
         [ITEM_QUALITY_TRASH] = "Trash",
-        [ITEM_QUALITY_NORMAL] = "Normal",      -- White
-        [ITEM_QUALITY_MAGIC] = "Fine",         -- Green
-        [ITEM_QUALITY_ARCANE] = "Superior",    -- Blue
-        [ITEM_QUALITY_ARTIFACT] = "Epic",      -- Purple
+        [ITEM_QUALITY_NORMAL] = "Normal", -- White
+        [ITEM_QUALITY_MAGIC] = "Fine", -- Green
+        [ITEM_QUALITY_ARCANE] = "Superior", -- Blue
+        [ITEM_QUALITY_ARTIFACT] = "Epic", -- Purple
         [ITEM_QUALITY_LEGENDARY] = "Legendary", -- Gold
     }
     return colors[quality] or "Unknown"
@@ -32,16 +32,16 @@ local function GetQualityConstantFromString(qualityString)
     local stringLower = qualityString:lower()
     local mapping = {
         -- ESO standard names (primary)
-        normal = ITEM_QUALITY_NORMAL,      -- White
-        fine = ITEM_QUALITY_MAGIC,          -- Green
-        superior = ITEM_QUALITY_ARCANE,     -- Blue
-        epic = ITEM_QUALITY_ARTIFACT,        -- Purple
+        normal = ITEM_QUALITY_NORMAL, -- White
+        fine = ITEM_QUALITY_MAGIC, -- Green
+        superior = ITEM_QUALITY_ARCANE, -- Blue
+        epic = ITEM_QUALITY_ARTIFACT, -- Purple
         legendary = ITEM_QUALITY_LEGENDARY, -- Gold
         -- Old names (aliases for backward compatibility)
         trash = ITEM_QUALITY_TRASH,
-        magic = ITEM_QUALITY_MAGIC,         -- Alias for Fine
-        arcane = ITEM_QUALITY_ARCANE,       -- Alias for Superior
-        artifact = ITEM_QUALITY_ARTIFACT,   -- Alias for Epic
+        magic = ITEM_QUALITY_MAGIC, -- Alias for Fine
+        arcane = ITEM_QUALITY_ARCANE, -- Alias for Superior
+        artifact = ITEM_QUALITY_ARTIFACT, -- Alias for Epic
     }
 
     return mapping[stringLower] or ITEM_QUALITY_NORMAL

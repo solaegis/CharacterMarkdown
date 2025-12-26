@@ -16,7 +16,7 @@ function api.GetPoints()
     local total = CM.SafeCall(GetTotalAchievementPoints) or 0
     return {
         earned = earned,
-        total = total
+        total = total,
     }
 end
 
@@ -25,14 +25,15 @@ function api.GetNumCategories()
 end
 
 function api.GetCategoryInfo(catIndex)
-    local success, name, numSubCats, numAch, earned, total, hidesPoints = CM.SafeCallMulti(GetAchievementCategoryInfo, catIndex)
+    local success, name, numSubCats, numAch, earned, total, hidesPoints =
+        CM.SafeCallMulti(GetAchievementCategoryInfo, catIndex)
 
     return {
         name = name,
         earned = earned,
         total = total,
         numSubCategories = numSubCats,
-        numAchievements = numAch
+        numAchievements = numAch,
     }
 end
 
@@ -42,7 +43,7 @@ function api.GetSubCategoryInfo(catIndex, subCatIndex)
         name = name,
         earned = earned,
         total = total,
-        numAchievements = numAch
+        numAchievements = numAch,
     }
 end
 
@@ -57,7 +58,7 @@ function api.GetRecent()
                     id = id,
                     name = name,
                     date = date,
-                    time = time
+                    time = time,
                 })
             end
         end

@@ -15,7 +15,7 @@ local function CollectCharacterData()
     local levelInfo = CM.api.character.GetLevel()
     local locationInfo = CM.api.character.GetLocation()
     local titleInfo = CM.api.titles.GetCurrentTitle()
-    
+
     -- Get alliance name using alliance API (cross-domain composition)
     local allianceName = "Unknown"
     if allianceInfo.id then
@@ -24,20 +24,20 @@ local function CollectCharacterData()
             allianceName = zo_strformat("<<1>>", name)
         end
     end
-    
+
     -- Combat API (for attributes)
     local attributes = CM.api.combat.GetAttributes()
-    
+
     -- Collectibles API (for ESO Plus)
     local esoPlus = CM.api.collectibles.IsESOPlus()
-    
+
     -- Time API (for timestamp)
     local timestamp = CM.api.time.GetNow()
     local dateStr = CM.api.time.FormatDate(timestamp)
-    
+
     -- Progression API (for age)
     local secondsPlayed = CM.api.progression.GetAge()
-    
+
     -- Champion API (for CP)
     local cpPoints = CM.api.champion.GetPoints()
 
@@ -79,37 +79,37 @@ local function CollectCharacterData()
         local days = math.floor(secondsPlayed / 86400)
         local hours = math.floor((secondsPlayed % 86400) / 3600)
         local minutes = math.floor((secondsPlayed % 3600) / 60)
-        
+
         local ageParts = {}
         if days > 0 then
             table.insert(ageParts, string.format("%dd", days))
         end
-        if hours > 0 or days > 0 then  -- Show hours if we have days
+        if hours > 0 or days > 0 then -- Show hours if we have days
             table.insert(ageParts, string.format("%dh", hours))
         end
-        if minutes > 0 or (days == 0 and hours == 0) then  -- Always show minutes if no days/hours
+        if minutes > 0 or (days == 0 and hours == 0) then -- Always show minutes if no days/hours
             table.insert(ageParts, string.format("%dm", minutes))
         end
-        
+
         local playedTime = table.concat(ageParts, " ")
         data.age = playedTime
-        
+
         -- Add computed fields for age
-        local hoursPlayed = math.floor(secondsPlayed / 3600)  -- 3600 seconds per hour
+        local hoursPlayed = math.floor(secondsPlayed / 3600) -- 3600 seconds per hour
         data.ageMetrics = {
             seconds = secondsPlayed,
             hours = hoursPlayed,
             days = days,
-            formatted = playedTime
+            formatted = playedTime,
         }
     else
         data.age = nil
         data.ageMetrics = nil
     end
-    
+
     -- Add computed CP efficiency metric (CP per day played)
     if data.ageMetrics and data.ageMetrics.days > 0 and data.cp > 0 then
-        data.cpEfficiency = math.floor((data.cp / data.ageMetrics.days) * 10) / 10  -- CP per day, 1 decimal place
+        data.cpEfficiency = math.floor((data.cp / data.ageMetrics.days) * 10) / 10 -- CP per day, 1 decimal place
     else
         data.cpEfficiency = nil
     end
@@ -126,13 +126,13 @@ CM.collectors.CollectCharacterData = CollectCharacterData
 
 local function CollectLocationData()
     local locationInfo = CM.api.character.GetLocation()
-    
+
     return {
         zone = locationInfo.zone or "Unknown",
         subzone = locationInfo.subzone or "",
         world = locationInfo.world or "Unknown",
         zoneIndex = locationInfo.zoneIndex,
-        zoneId = locationInfo.zoneId
+        zoneId = locationInfo.zoneId,
     }
 end
 
@@ -147,17 +147,17 @@ local function CollectTitlesData()
     local currentTitle = CM.api.titles.GetCurrentTitle()
     local allTitles = CM.api.titles.GetAllTitles()
     local numTitles = CM.api.titles.GetNumTitles()
-    
+
     local data = {
         current = currentTitle or "",
         owned = {},
         summary = {
             totalOwned = 0,
             totalAvailable = numTitles or 0,
-            completionPercent = 0
-        }
+            completionPercent = 0,
+        },
     }
-    
+
     -- Ensure totalAvailable is at least equal to owned count (fix for API returning 0)
     -- Note: GetNumTitles returns owned titles, so totalAvailable is effectively totalOwned
     -- There is no API to get "total titles in game" easily
@@ -171,30 +171,30 @@ local function CollectTitlesData()
         end
         data.summary.totalAvailable = count
     end
-    
+
     -- Process owned titles
     if allTitles then
         for _, title in ipairs(allTitles) do
             if title.owned then
                 table.insert(data.owned, {
                     id = title.id,
-                    name = title.name or "Unknown"
+                    name = title.name or "Unknown",
                 })
             end
         end
         data.summary.totalOwned = #data.owned
     end
-    
+
     -- Calculate completion percentage
     if data.summary.totalAvailable > 0 then
         data.summary.completionPercent = math.floor((data.summary.totalOwned / data.summary.totalAvailable) * 100)
     end
-    
+
     -- Sort owned titles alphabetically
     table.sort(data.owned, function(a, b)
         return (a.name or "") < (b.name or "")
     end)
-    
+
     return data
 end
 
@@ -206,7 +206,7 @@ CM.collectors.CollectTitlesData = CollectTitlesData
 
 local function CollectAttributesData()
     CM.DebugPrint("COLLECTOR", "Collecting character attributes data...")
-    
+
     -- Use API layer granular functions (composition at collector level)
     local nameInfo = CM.api.character.GetName()
     local genderInfo = CM.api.character.GetGender()
@@ -216,7 +216,7 @@ local function CollectAttributesData()
     local levelInfo = CM.api.character.GetLevel()
     local locationInfo = CM.api.character.GetLocation()
     local titleInfo = CM.api.titles.GetCurrentTitle()
-    
+
     -- Get alliance name using alliance API (cross-domain composition)
     local allianceName = "Unknown"
     if allianceInfo.id then
@@ -225,16 +225,16 @@ local function CollectAttributesData()
             allianceName = zo_strformat("<<1>>", name)
         end
     end
-    
+
     -- Combat API (for attributes)
     local attributes = CM.api.combat.GetAttributes()
-    
+
     -- Collectibles API (for ESO Plus)
     local esoPlus = CM.api.collectibles.IsESOPlus()
-    
+
     -- Progression API (for age)
     local secondsPlayed = CM.api.progression.GetAge()
-    
+
     -- Time API (for age formatting)
     local age = nil
     local ageMetrics = nil
@@ -243,45 +243,46 @@ local function CollectAttributesData()
         local days = math.floor(secondsPlayed / 86400)
         local hours = math.floor((secondsPlayed % 86400) / 3600)
         local minutes = math.floor((secondsPlayed % 3600) / 60)
-        
+
         local ageParts = {}
         if days > 0 then
             table.insert(ageParts, string.format("%dd", days))
         end
-        if hours > 0 or days > 0 then  -- Show hours if we have days
+        if hours > 0 or days > 0 then -- Show hours if we have days
             table.insert(ageParts, string.format("%dh", hours))
         end
-        if minutes > 0 or (days == 0 and hours == 0) then  -- Always show minutes if no days/hours
+        if minutes > 0 or (days == 0 and hours == 0) then -- Always show minutes if no days/hours
             table.insert(ageParts, string.format("%dm", minutes))
         end
-        
+
         age = table.concat(ageParts, " ")
-        
+
         -- Add computed fields for age
-        local hoursPlayed = math.floor(secondsPlayed / 3600)  -- 3600 seconds per hour
+        local hoursPlayed = math.floor(secondsPlayed / 3600) -- 3600 seconds per hour
         ageMetrics = {
             seconds = secondsPlayed,
             hours = hoursPlayed,
             days = days,
-            formatted = age
+            formatted = age,
         }
     end
-    
+
     -- Champion API (for CP)
     local cpPoints = CM.api.champion.GetPoints()
-    
+
     -- Skills API (for skill points)
     local skillPoints = CM.api.skills.GetSkillPoints()
-    
+
     -- Mundus Stone (from Combat collector)
-    local mundusData = CM.collectors.CollectMundusData and CM.collectors.CollectMundusData() or { active = false, name = nil }
-    
+    local mundusData = CM.collectors.CollectMundusData and CM.collectors.CollectMundusData()
+        or { active = false, name = nil }
+
     -- Active Buffs (from Combat collector)
     local buffsData = CM.collectors.CollectActiveBuffs and CM.collectors.CollectActiveBuffs() or {}
-    
+
     -- Riding Skills (from Progression collector)
     local ridingData = CM.collectors.CollectRidingSkillsData and CM.collectors.CollectRidingSkillsData() or {}
-    
+
     -- Transform API data to expected format
     local data = {
         -- Basic identity
@@ -292,7 +293,7 @@ local function CollectAttributesData()
         alliance = allianceName,
         server = locationInfo.world or "Unknown",
         account = nameInfo.displayName or "Unknown",
-        
+
         -- Progression
         cp = cpPoints.total or 0,
         skillPoints = skillPoints.unspent or 0,
@@ -301,33 +302,33 @@ local function CollectAttributesData()
             health = attributes.health or 0,
             stamina = attributes.stamina or 0,
         },
-        
+
         -- Character info
         title = titleInfo or "",
         age = age,
         ageMetrics = ageMetrics,
         esoPlus = esoPlus or false,
-        
+
         -- Location
         location = {
             zone = locationInfo.zone or "Unknown",
             subzone = locationInfo.subzone or "",
             world = locationInfo.world or "Unknown",
         },
-        
+
         -- Mundus Stone
         mundus = {
             active = mundusData.active or false,
             name = mundusData.name or nil,
         },
-        
+
         -- Active Buffs
         buffs = {
             food = buffsData.food or nil,
             potion = buffsData.potion or nil,
             other = buffsData.other or {},
         },
-        
+
         -- Riding Skills
         riding = {
             speed = ridingData.speed or 0,
@@ -336,7 +337,7 @@ local function CollectAttributesData()
             maxedOut = ridingData.maxedOut or false,
         },
     }
-    
+
     CM.DebugPrint("COLLECTOR", "Character attributes data collected")
     return data
 end
@@ -349,22 +350,22 @@ CM.collectors.CollectAttributesData = CollectAttributesData
 
 local function CollectCharacterStatsData()
     CM.DebugPrint("COLLECTOR", "Collecting character stats data...")
-    
+
     -- Use Combat API to get all stats
     local health = CM.api.combat.GetStat(STAT_HEALTH_MAX)
     local magicka = CM.api.combat.GetStat(STAT_MAGICKA_MAX)
     local stamina = CM.api.combat.GetStat(STAT_STAMINA_MAX)
     local powerStats = CM.api.combat.GetPowerStats()
     local regenStats = CM.api.combat.GetRegenStats()
-    
+
     local math_floor = math.floor
-    
+
     -- Calculate crit chance percentages (ESO formula: Rating / 219 = % at CP 160+)
     local weaponCritRating = powerStats.physical and powerStats.physical.crit or 0
     local spellCritRating = powerStats.spell and powerStats.spell.crit or 0
     local weaponCritChance = weaponCritRating > 0 and math_floor((weaponCritRating / 219) * 10) / 10 or 0
     local spellCritChance = spellCritRating > 0 and math_floor((spellCritRating / 219) * 10) / 10 or 0
-    
+
     -- Calculate mitigation percentage (ESO formula: Resist / (Resist + 50 * Level))
     local playerLevel = CM.api.character.GetLevel().level or 50
     local resistDivisor = 50 * playerLevel
@@ -373,43 +374,42 @@ local function CollectCharacterStatsData()
     local physicalMitigation = physicalResist > 0
             and math_floor((physicalResist / (physicalResist + resistDivisor)) * 1000) / 10
         or 0
-    local spellMitigation = spellResist > 0
-            and math_floor((spellResist / (spellResist + resistDivisor)) * 1000) / 10
+    local spellMitigation = spellResist > 0 and math_floor((spellResist / (spellResist + resistDivisor)) * 1000) / 10
         or 0
-    
+
     -- Return flat structure for backward compatibility
     local data = {
         -- Resources (flat structure)
         health = health or 0,
         magicka = magicka or 0,
         stamina = stamina or 0,
-        
+
         -- Power
         weaponPower = powerStats.physical and powerStats.physical.power or 0,
         spellPower = powerStats.spell and powerStats.spell.power or 0,
-        
+
         -- Critical
         weaponCritRating = weaponCritRating,
         weaponCritChance = weaponCritChance,
         spellCritRating = spellCritRating,
         spellCritChance = spellCritChance,
-        
+
         -- Penetration
         physicalPenetration = powerStats.physical and powerStats.physical.penetration or 0,
         spellPenetration = powerStats.spell and powerStats.spell.penetration or 0,
-        
+
         -- Resistance
         physicalResist = physicalResist,
         physicalMitigation = physicalMitigation,
         spellResist = spellResist,
         spellMitigation = spellMitigation,
-        
+
         -- Recovery
         healthRecovery = regenStats.health or 0,
         magickaRecovery = regenStats.magicka or 0,
         staminaRecovery = regenStats.stamina or 0,
     }
-    
+
     CM.DebugPrint("COLLECTOR", "Character stats data collected")
     return data
 end
@@ -417,4 +417,3 @@ end
 CM.collectors.CollectCharacterStatsData = CollectCharacterStatsData
 
 CM.DebugPrint("COLLECTOR", "Character collector module loaded")
-

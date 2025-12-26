@@ -40,11 +40,11 @@ local function GenerateCombatStats(statsData, inline)
         markdown = markdown .. "## 📈 Combat Statistics\n\n"
     else
         markdown = markdown .. '\n<a id="character-stats"></a>\n\n### Character Stats\n\n'
-        
+
         -- For inline mode, use 3-column layout if markdown utilities are available
         local CreateStyledTable = CM.utils.markdown and CM.utils.markdown.CreateStyledTable
         local CreateResponsiveColumns = CM.utils.markdown and CM.utils.markdown.CreateResponsiveColumns
-        
+
         if CreateStyledTable and CreateResponsiveColumns then
             -- COLUMN 1: Resources & Offensive
             local col1_headers = { "Category", "Stat", "Value" }
@@ -55,53 +55,66 @@ local function GenerateCombatStats(statsData, inline)
                 { "⚔️ **Offensive**", "Weapon Power", FormatNumber(statsData.weaponPower or 0) },
                 { "", "Spell Power", FormatNumber(statsData.spellPower or 0) },
             }
-            
+
             local options1 = {
                 alignment = { "left", "left", "right" },
                 coloredHeaders = true,
             }
             local column1 = CreateStyledTable(col1_headers, col1_rows, options1)
-            
+
             -- COLUMN 2: Critical & Penetration
             local col2_headers = { "Category", "Stat", "Value" }
             local col2_rows = {
-                { "🎯 **Critical**", "Weapon Crit", FormatNumber(statsData.weaponCritRating or 0) .. " (" .. (statsData.weaponCritChance or 0) .. "%)" },
-                { "", "Spell Crit", FormatNumber(statsData.spellCritRating or 0) .. " (" .. (statsData.spellCritChance or 0) .. "%)" },
+                {
+                    "🎯 **Critical**",
+                    "Weapon Crit",
+                    FormatNumber(statsData.weaponCritRating or 0) .. " (" .. (statsData.weaponCritChance or 0) .. "%)",
+                },
+                {
+                    "",
+                    "Spell Crit",
+                    FormatNumber(statsData.spellCritRating or 0) .. " (" .. (statsData.spellCritChance or 0) .. "%)",
+                },
                 { "⚔️ **Penetration**", "Physical", FormatNumber(statsData.physicalPenetration or 0) },
                 { "", "Spell", FormatNumber(statsData.spellPenetration or 0) },
             }
-            
+
             local options2 = {
                 alignment = { "left", "left", "right" },
                 coloredHeaders = true,
             }
             local column2 = CreateStyledTable(col2_headers, col2_rows, options2)
-            
+
             -- COLUMN 3: Defensive & Recovery
             local col3_headers = { "Category", "Stat", "Value" }
             local col3_rows = {
-                { "🛡️ **Defensive**", "Physical Resist", FormatNumber(statsData.physicalResist or 0) .. " (" .. (statsData.physicalMitigation or 0) .. "%)" },
-                { "", "Spell Resist", FormatNumber(statsData.spellResist or 0) .. " (" .. (statsData.spellMitigation or 0) .. "%)" },
+                {
+                    "🛡️ **Defensive**",
+                    "Physical Resist",
+                    FormatNumber(statsData.physicalResist or 0) .. " (" .. (statsData.physicalMitigation or 0) .. "%)",
+                },
+                {
+                    "",
+                    "Spell Resist",
+                    FormatNumber(statsData.spellResist or 0) .. " (" .. (statsData.spellMitigation or 0) .. "%)",
+                },
                 { "♻️ **Recovery**", "Health", FormatNumber(statsData.healthRecovery or 0) },
                 { "", "Magicka", FormatNumber(statsData.magickaRecovery or 0) },
                 { "", "Stamina", FormatNumber(statsData.staminaRecovery or 0) },
             }
-            
+
             local options3 = {
                 alignment = { "left", "left", "right" },
                 coloredHeaders = true,
             }
             local column3 = CreateStyledTable(col3_headers, col3_rows, options3)
-            
+
             -- Create responsive 3-column layout
             local LayoutCalculator = CM.utils.LayoutCalculator
             local minWidth, gap
             if LayoutCalculator then
-                minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(
-                    { column1, column2, column3 },
-                    "250px",
-                    "20px"
-                )
+                minWidth, gap =
+                    LayoutCalculator.GetLayoutParamsWithFallback({ column1, column2, column3 }, "250px", "20px")
             else
                 minWidth = "250px"
                 gap = "20px"
@@ -275,7 +288,7 @@ end
 
 local function GenerateAdvancedStats(statsData)
     InitializeUtilities()
-    
+
     if not statsData or not statsData.advanced then
         return ""
     end
@@ -295,21 +308,30 @@ local function GenerateAdvancedStats(statsData)
 
     -- Helper for damage/healing bonuses
     local function fmtBonus(bonus)
-        if not bonus then return "0" end
+        if not bonus then
+            return "0"
+        end
         local flat = bonus.flat or 0
         local percent = bonus.percent or 0
-        
-        if flat == 0 and percent == 0 then return "0" end
-        if flat == 0 then return percent .. "%" end
-        if percent == 0 then return fmt(flat) end
+
+        if flat == 0 and percent == 0 then
+            return "0"
+        end
+        if flat == 0 then
+            return percent .. "%"
+        end
+        if percent == 0 then
+            return fmt(flat)
+        end
         return string.format("%s (+%s%%)", fmt(flat), percent)
     end
 
-    markdown = markdown .. "\n<a id=\"advanced-stats\"></a>\n\n### Advanced Stats\n\n"
-    
+    markdown = markdown .. '\n<a id="advanced-stats"></a>\n\n### Advanced Stats\n\n'
+
     -- Grid Layout Start
-    markdown = markdown .. "<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;\">\n"
-    
+    markdown = markdown
+        .. '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">\n'
+
     -- Column 1: Core Abilities
     markdown = markdown .. "<div>\n\n"
     markdown = markdown .. "| **Ability** | **Cost/Value** |\n"
@@ -318,28 +340,42 @@ local function GenerateAdvancedStats(statsData)
         local core = advanced.core
         markdown = markdown .. "| ⚔️ **Light Attack** | " .. fmt(core.lightAttackDamage) .. " dmg |\n"
         markdown = markdown .. "| ⚔️ **Heavy Attack** | " .. fmt(core.heavyAttackDamage) .. " dmg |\n"
-        
+
         local bashStr = ""
-        if core.bashCost > 0 then bashStr = fmt(core.bashCost) .. " cost, " end
+        if core.bashCost > 0 then
+            bashStr = fmt(core.bashCost) .. " cost, "
+        end
         markdown = markdown .. "| ⚔️ **Bash** | " .. bashStr .. fmt(core.bashDamage) .. " dmg |\n"
-        
+
         local blockStr = ""
-        if core.blockCost > 0 then blockStr = fmt(core.blockCost) .. " cost, " end
-        markdown = markdown .. "| 🛡️ **Block** | " .. blockStr .. fmtPct(core.blockMitigation) .. " mit, " .. fmtPct(core.blockSpeed) .. " spd |\n"
-        
+        if core.blockCost > 0 then
+            blockStr = fmt(core.blockCost) .. " cost, "
+        end
+        markdown = markdown
+            .. "| 🛡️ **Block** | "
+            .. blockStr
+            .. fmtPct(core.blockMitigation)
+            .. " mit, "
+            .. fmtPct(core.blockSpeed)
+            .. " spd |\n"
+
         if core.breakFreeCost > 0 then
             markdown = markdown .. "| 🔓 **Break Free** | " .. fmt(core.breakFreeCost) .. " cost |\n"
         end
         if core.dodgeRollCost > 0 then
             markdown = markdown .. "| 🏃 **Dodge Roll** | " .. fmt(core.dodgeRollCost) .. " cost |\n"
         end
-        
+
         local sneakStr = ""
-        if core.sneakCost > 0 then sneakStr = fmt(core.sneakCost) .. " cost, " end
+        if core.sneakCost > 0 then
+            sneakStr = fmt(core.sneakCost) .. " cost, "
+        end
         markdown = markdown .. "| 🐾 **Sneak** | " .. sneakStr .. fmtPct(core.sneakSpeed) .. " spd |\n"
-        
+
         local sprintStr = ""
-        if core.sprintCost > 0 then sprintStr = fmt(core.sprintCost) .. " cost, " end
+        if core.sprintCost > 0 then
+            sprintStr = fmt(core.sprintCost) .. " cost, "
+        end
         markdown = markdown .. "| 🏃‍♂️ **Sprint** | " .. sprintStr .. fmtPct(core.sprintSpeed) .. " spd |\n"
     end
     markdown = markdown .. "\n</div>\n"
@@ -358,7 +394,7 @@ local function GenerateAdvancedStats(statsData)
                 return fmt(res[key]) -- Fallback for old data structure
             end
         end
-        
+
         markdown = markdown .. "| 🔥 **Flame** | " .. getResVal("flame") .. " |\n"
         markdown = markdown .. "| ⚡ **Shock** | " .. getResVal("shock") .. " |\n"
         markdown = markdown .. "| ❄️ **Frost** | " .. getResVal("frost") .. " |\n"
@@ -402,7 +438,7 @@ local function GenerateAdvancedStats(statsData)
 
     -- Grid Layout End
     markdown = markdown .. "</div>\n\n"
-    
+
     return markdown
 end
 
@@ -424,20 +460,26 @@ local function GenerateCharacterStats(statsData)
         CM.Warn("GenerateCharacterStats: statsData is nil")
         return ""
     end
-    
+
     CM.DebugPrint("STATS_GEN", "GenerateCharacterStats called")
-    
+
     local result = ""
-    
+
     -- Generate Combat Stats (inline=true for table-only output)
     local combatStats = GenerateCombatStats(statsData, true)
     CM.DebugPrint("STATS_GEN", string.format("Combat stats generated: %d chars", #combatStats))
     result = result .. combatStats
-    
+
     -- Generate Advanced Stats
     local advancedStats = GenerateAdvancedStats(statsData)
-    CM.DebugPrint("STATS_GEN", string.format("Advanced stats generated: %d chars, has advanced: %s", 
-        #advancedStats, tostring(statsData.advanced ~= nil)))
+    CM.DebugPrint(
+        "STATS_GEN",
+        string.format(
+            "Advanced stats generated: %d chars, has advanced: %s",
+            #advancedStats,
+            tostring(statsData.advanced ~= nil)
+        )
+    )
     result = result .. advancedStats
 
     CM.DebugPrint("STATS_GEN", string.format("Total GenerateCharacterStats output: %d chars", #result))

@@ -18,24 +18,28 @@ end
 function api.GetItemInfo(bagId, slotIndex)
     -- Returns detailed info about item in slot
     local link = api.GetItemLink(bagId, slotIndex)
-    if not link or link == "" then return nil end
-    
-    local success_info, icon, stack, _, _, _, equipType, itemStyleId, quality = CM.SafeCallMulti(GetItemInfo, bagId, slotIndex)
+    if not link or link == "" then
+        return nil
+    end
+
+    local success_info, icon, stack, _, _, _, equipType, itemStyleId, quality =
+        CM.SafeCallMulti(GetItemInfo, bagId, slotIndex)
     local name = CM.SafeCall(GetItemName, bagId, slotIndex)
-    
+
     -- Trait
     local traitType = CM.SafeCall(GetItemTrait, bagId, slotIndex)
     local traitName = "None"
     if traitType and traitType > 0 then
         traitName = CM.SafeCall(GetString, "SI_ITEMTRAITTYPE", traitType)
     end
-    
+
     -- Set Info
-    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId = CM.SafeCallMulti(GetItemLinkSetInfo, link, false)
-    
+    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId =
+        CM.SafeCallMulti(GetItemLinkSetInfo, link, false)
+
     -- Enchant
     local success_enchant, hasEnchant, enchantName, enchantDesc = CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
-    
+
     return {
         name = name or "Unknown",
         link = link,
@@ -43,40 +47,45 @@ function api.GetItemInfo(bagId, slotIndex)
         quality = quality,
         trait = {
             id = traitType,
-            name = traitName
+            name = traitName,
         },
         set = {
             hasSet = hasSet,
             name = setName,
             id = setId,
             count = numEquipped,
-            max = maxEquipped
+            max = maxEquipped,
         },
         enchant = {
             hasEnchant = hasEnchant,
-            name = enchantName
-        }
+            name = enchantName,
+        },
     }
 end
 
 function api.GetSetBonuses(itemLink)
-    if not itemLink or itemLink == "" then return {} end
-    
-    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId = CM.SafeCallMulti(GetItemLinkSetInfo, itemLink, false)
-    
-    if not success or not hasSet then return {} end
-    
+    if not itemLink or itemLink == "" then
+        return {}
+    end
+
+    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId =
+        CM.SafeCallMulti(GetItemLinkSetInfo, itemLink, false)
+
+    if not success or not hasSet then
+        return {}
+    end
+
     local bonuses = {}
     for i = 1, numBonuses do
         local success_bonus, numRequired, description = CM.SafeCallMulti(GetItemLinkSetBonusInfo, itemLink, false, i)
         if success_bonus and description and description ~= "" then
             table.insert(bonuses, {
                 numRequired = numRequired,
-                description = description
+                description = description,
             })
         end
     end
-    
+
     return bonuses
 end
 

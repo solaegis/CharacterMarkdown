@@ -457,7 +457,7 @@ local function GeneratePvPStats(pvpData, pvpStatsData, skillProgressionData, set
     -- Generate content first to check if we have anything to show
     local pvpContent = ""
     local skillsContent = ""
-    
+
     -- PvP Stats section (if enabled)
     if showPvPStats then
         local pvpSection = ""
@@ -502,11 +502,11 @@ local function GeneratePvPStats(pvpData, pvpStatsData, skillProgressionData, set
     -- Only output the main header if we have content
     if pvpContent ~= "" or skillsContent ~= "" then
         markdown = markdown .. "## ⚔️ PvP\n\n"
-        
+
         if pvpContent ~= "" then
             markdown = markdown .. pvpContent
         end
-        
+
         if skillsContent ~= "" then
             markdown = markdown .. skillsContent
         end

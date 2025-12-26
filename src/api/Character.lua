@@ -57,28 +57,33 @@ end
 ---@return table {id=number, name=string}
 function api.GetRace()
     local raceId = CM.SafeCall(GetUnitRaceId, "player")
-    
+
     -- Use GetRaceName() as documented in API_REFERENCE.md
     local raceName = CM.SafeCall(GetRaceName, GENDER_MALE, raceId)
-    
+
     -- Fallback to lookup table if API fails
     if (not raceName or raceName == "") and RACE_NAMES[raceId] then
         raceName = RACE_NAMES[raceId]
     end
-    
+
     -- Format the name if we got one
     if raceName and raceName ~= "" then
         raceName = zo_strformat("<<1>>", raceName)
     end
-    
+
     if not raceName or raceName == "" then
-        CM.Error(string.format("GetRace: Failed to get race name for raceId=%s. Tried GetRaceName() and lookup table", tostring(raceId)))
+        CM.Error(
+            string.format(
+                "GetRace: Failed to get race name for raceId=%s. Tried GetRaceName() and lookup table",
+                tostring(raceId)
+            )
+        )
         return {
             id = raceId,
             name = "Unknown",
         }
     end
-    
+
     return {
         id = raceId,
         name = raceName,
@@ -89,7 +94,7 @@ end
 ---@return table {id=number, name=string}
 function api.GetClass()
     local classId = CM.SafeCall(GetUnitClassId, "player")
-    
+
     if not classId or classId == 0 then
         CM.Error("GetClass: GetUnitClassId('player') returned nil or 0")
         return {
@@ -97,28 +102,33 @@ function api.GetClass()
             name = "Unknown",
         }
     end
-    
+
     -- Use GetClassName() as documented in API_REFERENCE.md
     local className = CM.SafeCall(GetClassName, GENDER_MALE, classId)
-    
+
     -- Fallback to lookup table if API fails
     if (not className or className == "") and CLASS_NAMES[classId] then
         className = CLASS_NAMES[classId]
     end
-    
+
     -- Format the name if we got one
     if className and className ~= "" then
         className = zo_strformat("<<1>>", className)
     end
-    
+
     if not className or className == "" then
-        CM.Error(string.format("GetClass: Failed to get class name for classId=%s. Tried GetClassName() and lookup table", tostring(classId)))
+        CM.Error(
+            string.format(
+                "GetClass: Failed to get class name for classId=%s. Tried GetClassName() and lookup table",
+                tostring(classId)
+            )
+        )
         return {
             id = classId,
             name = "Unknown",
         }
     end
-    
+
     return {
         id = classId,
         name = className,

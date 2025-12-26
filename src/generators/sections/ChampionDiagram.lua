@@ -13,124 +13,148 @@ local STAR_MAP = {
     -- CRAFT CONSTELLATION
     ["Friends in Low Places"] = { tree = "Craft", type = "slottable", prerequisites = {} },
     ["Discipline Artisan"] = { tree = "Craft", type = "passive", prerequisites = {} },
-    ["Fade Away"] = { tree = "Craft", type = "slottable", prerequisites = {"Cutpurse's Art", "Meticulous Disassembly"} },
-    ["Out of Sight"] = { tree = "Craft", type = "passive", prerequisites = {"Friends in Low Places"} },
-    ["Shadowstrike"] = { tree = "Craft", type = "slottable", prerequisites = {"Infamous"} },
-    ["Cutpurse's Art"] = { tree = "Craft", type = "passive", prerequisites = {"Shadowstrike"} },
-    ["Master Gatherer"] = { tree = "Craft", type = "slottable", prerequisites = {"Treasure Hunter", "Fade Away", "Meticulous Disassembly"} },
-    ["Treasure Hunter"] = { tree = "Craft", type = "passive", prerequisites = {"Meticulous Disassembly", "Steadfast Enchantment"} },
-    ["Angler's Instincts"] = { tree = "Craft", type = "slottable", prerequisites = {"Liquid Efficiency"} },
-    ["Steadfast Enchantment"] = { tree = "Craft", type = "passive", prerequisites = {"Wanderer"} },
-    ["Reel Technique"] = { tree = "Craft", type = "slottable", prerequisites = {"Angler's Instincts"} },
-    ["Rationer"] = { tree = "Craft", type = "passive", prerequisites = {"Steadfast Enchantment"} },
-    ["War Mount"] = { tree = "Craft", type = "slottable", prerequisites = {"Gifted Rider", "Plentiful Harvest"} },
-    ["Liquid Efficiency"] = { tree = "Craft", type = "passive", prerequisites = {"Rationer"} },
-    ["Gifted Rider"] = { tree = "Craft", type = "slottable", prerequisites = {"Master Gatherer"} },
-    ["Homemaker"] = { tree = "Craft", type = "passive", prerequisites = {"Reel Technique"} },
+    ["Fade Away"] = {
+        tree = "Craft",
+        type = "slottable",
+        prerequisites = { "Cutpurse's Art", "Meticulous Disassembly" },
+    },
+    ["Out of Sight"] = { tree = "Craft", type = "passive", prerequisites = { "Friends in Low Places" } },
+    ["Shadowstrike"] = { tree = "Craft", type = "slottable", prerequisites = { "Infamous" } },
+    ["Cutpurse's Art"] = { tree = "Craft", type = "passive", prerequisites = { "Shadowstrike" } },
+    ["Master Gatherer"] = {
+        tree = "Craft",
+        type = "slottable",
+        prerequisites = { "Treasure Hunter", "Fade Away", "Meticulous Disassembly" },
+    },
+    ["Treasure Hunter"] = {
+        tree = "Craft",
+        type = "passive",
+        prerequisites = { "Meticulous Disassembly", "Steadfast Enchantment" },
+    },
+    ["Angler's Instincts"] = { tree = "Craft", type = "slottable", prerequisites = { "Liquid Efficiency" } },
+    ["Steadfast Enchantment"] = { tree = "Craft", type = "passive", prerequisites = { "Wanderer" } },
+    ["Reel Technique"] = { tree = "Craft", type = "slottable", prerequisites = { "Angler's Instincts" } },
+    ["Rationer"] = { tree = "Craft", type = "passive", prerequisites = { "Steadfast Enchantment" } },
+    ["War Mount"] = { tree = "Craft", type = "slottable", prerequisites = { "Gifted Rider", "Plentiful Harvest" } },
+    ["Liquid Efficiency"] = { tree = "Craft", type = "passive", prerequisites = { "Rationer" } },
+    ["Gifted Rider"] = { tree = "Craft", type = "slottable", prerequisites = { "Master Gatherer" } },
+    ["Homemaker"] = { tree = "Craft", type = "passive", prerequisites = { "Reel Technique" } },
     ["Steed's Blessing"] = { tree = "Craft", type = "slottable", prerequisites = {} },
-    ["Wanderer"] = { tree = "Craft", type = "passive", prerequisites = {"Fortune's Favor"} },
+    ["Wanderer"] = { tree = "Craft", type = "passive", prerequisites = { "Fortune's Favor" } },
     ["Sustaining Shadows"] = { tree = "Craft", type = "slottable", prerequisites = {} },
-    ["Plentiful Harvest"] = { tree = "Craft", type = "passive", prerequisites = {"Master Gatherer"} },
-    ["Meticulous Disassembly"] = { tree = "Craft", type = "passive", prerequisites = {"Inspiration Boost"} },
-    ["Inspiration Boost"] = { tree = "Craft", type = "passive", prerequisites = {"Fortune's Favor"} },
-    ["Fortune's Favor"] = { tree = "Craft", type = "passive", prerequisites = {"Gilded Fingers"} },
-    ["Infamous"] = { tree = "Craft", type = "passive", prerequisites = {"Fleet Phantom"} },
-    ["Fleet Phantom"] = { tree = "Craft", type = "passive", prerequisites = {"Friends in Low Places"} },
+    ["Plentiful Harvest"] = { tree = "Craft", type = "passive", prerequisites = { "Master Gatherer" } },
+    ["Meticulous Disassembly"] = { tree = "Craft", type = "passive", prerequisites = { "Inspiration Boost" } },
+    ["Inspiration Boost"] = { tree = "Craft", type = "passive", prerequisites = { "Fortune's Favor" } },
+    ["Fortune's Favor"] = { tree = "Craft", type = "passive", prerequisites = { "Gilded Fingers" } },
+    ["Infamous"] = { tree = "Craft", type = "passive", prerequisites = { "Fleet Phantom" } },
+    ["Fleet Phantom"] = { tree = "Craft", type = "passive", prerequisites = { "Friends in Low Places" } },
     ["Gilded Fingers"] = { tree = "Craft", type = "passive", prerequisites = {} },
-    ["Breakfall"] = { tree = "Craft", type = "passive", prerequisites = {"Wanderer"} },
-    ["Soul Reservoir"] = { tree = "Craft", type = "passive", prerequisites = {"Breakfall"} },
+    ["Breakfall"] = { tree = "Craft", type = "passive", prerequisites = { "Wanderer" } },
+    ["Soul Reservoir"] = { tree = "Craft", type = "passive", prerequisites = { "Breakfall" } },
     ["Professional Upkeep"] = { tree = "Craft", type = "passive", prerequisites = {} },
 
     -- WARFARE CONSTELLATION
-    ["Fighting Finesse"] = { tree = "Warfare", type = "slottable", prerequisites = {"Precision"} },
-    ["From the Brink"] = { tree = "Warfare", type = "slottable", prerequisites = {"Blessed"} },
-    ["Enlivening Overflow"] = { tree = "Warfare", type = "slottable", prerequisites = {"Blessed"} },
-    ["Hope Infusion"] = { tree = "Warfare", type = "slottable", prerequisites = {"Blessed"} },
-    ["Salve of Renewal"] = { tree = "Warfare", type = "slottable", prerequisites = {"Blessed"} },
-    ["Soothing Tide"] = { tree = "Warfare", type = "slottable", prerequisites = {"Blessed"} },
-    ["Rejuvenator"] = { tree = "Warfare", type = "slottable", prerequisites = {"Soothing Tide"} },
+    ["Fighting Finesse"] = { tree = "Warfare", type = "slottable", prerequisites = { "Precision" } },
+    ["From the Brink"] = { tree = "Warfare", type = "slottable", prerequisites = { "Blessed" } },
+    ["Enlivening Overflow"] = { tree = "Warfare", type = "slottable", prerequisites = { "Blessed" } },
+    ["Hope Infusion"] = { tree = "Warfare", type = "slottable", prerequisites = { "Blessed" } },
+    ["Salve of Renewal"] = { tree = "Warfare", type = "slottable", prerequisites = { "Blessed" } },
+    ["Soothing Tide"] = { tree = "Warfare", type = "slottable", prerequisites = { "Blessed" } },
+    ["Rejuvenator"] = { tree = "Warfare", type = "slottable", prerequisites = { "Soothing Tide" } },
     ["Foresight"] = { tree = "Warfare", type = "slottable", prerequisites = {} },
-    ["Cleansing Revival"] = { tree = "Warfare", type = "slottable", prerequisites = {"Focused Mending"} },
-    ["Focused Mending"] = { tree = "Warfare", type = "slottable", prerequisites = {"Blessed"} },
-    ["Swift Renewal"] = { tree = "Warfare", type = "slottable", prerequisites = {"Blessed"} },
-    ["Exploiter"] = { tree = "Warfare", type = "slottable", prerequisites = {"Piercing"} },
-    ["Force of Nature"] = { tree = "Warfare", type = "slottable", prerequisites = {"Piercing"} },
-    ["Master-at-Arms"] = { tree = "Warfare", type = "slottable", prerequisites = {"Piercing"} },
-    ["Weapons Expert"] = { tree = "Warfare", type = "slottable", prerequisites = {"Piercing"} },
-    ["Deadly Aim"] = { tree = "Warfare", type = "slottable", prerequisites = {"Piercing"} },
-    ["Biting Aura"] = { tree = "Warfare", type = "slottable", prerequisites = {"Piercing"} },
-    ["Thaumaturge"] = { tree = "Warfare", type = "slottable", prerequisites = {"Piercing"} },
-    ["Reaving Blows"] = { tree = "Warfare", type = "slottable", prerequisites = {"Precision"} },
-    ["Wrathful Strikes"] = { tree = "Warfare", type = "slottable", prerequisites = {"Precision"} },
-    ["Occult Overload"] = { tree = "Warfare", type = "slottable", prerequisites = {"Precision"} },
-    ["Backstabber"] = { tree = "Warfare", type = "slottable", prerequisites = {"Precision"} },
-    ["Ironclad"] = { tree = "Warfare", type = "slottable", prerequisites = {"Quick Recovery"} },
-    ["Resilience"] = { tree = "Warfare", type = "slottable", prerequisites = {"Quick Recovery"} },
-    ["Enduring Resolve"] = { tree = "Warfare", type = "slottable", prerequisites = {"Quick Recovery"} },
-    ["Reinforced"] = { tree = "Warfare", type = "slottable", prerequisites = {"Riposte", "Bulwark"} },
-    ["Riposte"] = { tree = "Warfare", type = "slottable", prerequisites = {"Duelist's Rebuff"} },
-    ["Bulwark"] = { tree = "Warfare", type = "slottable", prerequisites = {"Unassailable"} },
-    ["Last Stand"] = { tree = "Warfare", type = "slottable", prerequisites = {"Riposte", "Reinforced", "Cutting Defense"} },
-    ["Cutting Defense"] = { tree = "Warfare", type = "slottable", prerequisites = {"Riposte", "Reinforced"} },
+    ["Cleansing Revival"] = { tree = "Warfare", type = "slottable", prerequisites = { "Focused Mending" } },
+    ["Focused Mending"] = { tree = "Warfare", type = "slottable", prerequisites = { "Blessed" } },
+    ["Swift Renewal"] = { tree = "Warfare", type = "slottable", prerequisites = { "Blessed" } },
+    ["Exploiter"] = { tree = "Warfare", type = "slottable", prerequisites = { "Piercing" } },
+    ["Force of Nature"] = { tree = "Warfare", type = "slottable", prerequisites = { "Piercing" } },
+    ["Master-at-Arms"] = { tree = "Warfare", type = "slottable", prerequisites = { "Piercing" } },
+    ["Weapons Expert"] = { tree = "Warfare", type = "slottable", prerequisites = { "Piercing" } },
+    ["Deadly Aim"] = { tree = "Warfare", type = "slottable", prerequisites = { "Piercing" } },
+    ["Biting Aura"] = { tree = "Warfare", type = "slottable", prerequisites = { "Piercing" } },
+    ["Thaumaturge"] = { tree = "Warfare", type = "slottable", prerequisites = { "Piercing" } },
+    ["Reaving Blows"] = { tree = "Warfare", type = "slottable", prerequisites = { "Precision" } },
+    ["Wrathful Strikes"] = { tree = "Warfare", type = "slottable", prerequisites = { "Precision" } },
+    ["Occult Overload"] = { tree = "Warfare", type = "slottable", prerequisites = { "Precision" } },
+    ["Backstabber"] = { tree = "Warfare", type = "slottable", prerequisites = { "Precision" } },
+    ["Ironclad"] = { tree = "Warfare", type = "slottable", prerequisites = { "Quick Recovery" } },
+    ["Resilience"] = { tree = "Warfare", type = "slottable", prerequisites = { "Quick Recovery" } },
+    ["Enduring Resolve"] = { tree = "Warfare", type = "slottable", prerequisites = { "Quick Recovery" } },
+    ["Reinforced"] = { tree = "Warfare", type = "slottable", prerequisites = { "Riposte", "Bulwark" } },
+    ["Riposte"] = { tree = "Warfare", type = "slottable", prerequisites = { "Duelist's Rebuff" } },
+    ["Bulwark"] = { tree = "Warfare", type = "slottable", prerequisites = { "Unassailable" } },
+    ["Last Stand"] = {
+        tree = "Warfare",
+        type = "slottable",
+        prerequisites = { "Riposte", "Reinforced", "Cutting Defense" },
+    },
+    ["Cutting Defense"] = { tree = "Warfare", type = "slottable", prerequisites = { "Riposte", "Reinforced" } },
     ["Precision"] = { tree = "Warfare", type = "passive", prerequisites = {} },
-    ["Blessed"] = { tree = "Warfare", type = "passive", prerequisites = {"Precision", "Eldritch Insight"} },
-    ["Piercing"] = { tree = "Warfare", type = "passive", prerequisites = {"Precision", "Eldritch Insight", "Tireless Discipline"} },
-    ["Flawless Ritual"] = { tree = "Warfare", type = "passive", prerequisites = {"Piercing"} },
-    ["War Mage"] = { tree = "Warfare", type = "passive", prerequisites = {"Flawless Ritual"} },
-    ["Battle Mastery"] = { tree = "Warfare", type = "passive", prerequisites = {"Piercing"} },
-    ["Mighty"] = { tree = "Warfare", type = "passive", prerequisites = {"Battle Mastery"} },
+    ["Blessed"] = { tree = "Warfare", type = "passive", prerequisites = { "Precision", "Eldritch Insight" } },
+    ["Piercing"] = {
+        tree = "Warfare",
+        type = "passive",
+        prerequisites = { "Precision", "Eldritch Insight", "Tireless Discipline" },
+    },
+    ["Flawless Ritual"] = { tree = "Warfare", type = "passive", prerequisites = { "Piercing" } },
+    ["War Mage"] = { tree = "Warfare", type = "passive", prerequisites = { "Flawless Ritual" } },
+    ["Battle Mastery"] = { tree = "Warfare", type = "passive", prerequisites = { "Piercing" } },
+    ["Mighty"] = { tree = "Warfare", type = "passive", prerequisites = { "Battle Mastery" } },
     ["Tireless Discipline"] = { tree = "Warfare", type = "passive", prerequisites = {} },
-    ["Quick Recovery"] = { tree = "Warfare", type = "passive", prerequisites = {"Eldritch Insight"} },
-    ["Preparation"] = { tree = "Warfare", type = "passive", prerequisites = {"Quick Recovery"} },
-    ["Elemental Aegis"] = { tree = "Warfare", type = "passive", prerequisites = {"Preparation"} },
-    ["Hardy"] = { tree = "Warfare", type = "passive", prerequisites = {"Preparation"} },
+    ["Quick Recovery"] = { tree = "Warfare", type = "passive", prerequisites = { "Eldritch Insight" } },
+    ["Preparation"] = { tree = "Warfare", type = "passive", prerequisites = { "Quick Recovery" } },
+    ["Elemental Aegis"] = { tree = "Warfare", type = "passive", prerequisites = { "Preparation" } },
+    ["Hardy"] = { tree = "Warfare", type = "passive", prerequisites = { "Preparation" } },
     ["Eldritch Insight"] = { tree = "Warfare", type = "passive", prerequisites = {} },
-    ["Duelist's Rebuff"] = { tree = "Warfare", type = "slottable", prerequisites = {"Eldritch Insight"} },
-    ["Unassailable"] = { tree = "Warfare", type = "slottable", prerequisites = {"Quick Recovery"} },
+    ["Duelist's Rebuff"] = { tree = "Warfare", type = "slottable", prerequisites = { "Eldritch Insight" } },
+    ["Unassailable"] = { tree = "Warfare", type = "slottable", prerequisites = { "Quick Recovery" } },
     ["Endless Endurance"] = { tree = "Warfare", type = "slottable", prerequisites = {} },
     ["Untamed Aggression"] = { tree = "Warfare", type = "slottable", prerequisites = {} },
     ["Arcane Supremacy"] = { tree = "Warfare", type = "slottable", prerequisites = {} },
 
     -- FITNESS CONSTELLATION
-    ["Thrill of the Hunt"] = { tree = "Fitness", type = "slottable", prerequisites = {"Hasty"} },
-    ["Celerity"] = { tree = "Fitness", type = "slottable", prerequisites = {"Hasty"} },
-    ["Refreshing Stride"] = { tree = "Fitness", type = "slottable", prerequisites = {"Hasty"} },
-    ["Shield Master"] = { tree = "Fitness", type = "slottable", prerequisites = {"Hero's Vigor"} },
-    ["Bastion"] = { tree = "Fitness", type = "slottable", prerequisites = {"Shield Master"} },
-    ["Survival Instincts"] = { tree = "Fitness", type = "slottable", prerequisites = {"Mystic Tenacity"} },
-    ["Spirit Mastery"] = { tree = "Fitness", type = "slottable", prerequisites = {"Tempered Soul"} },
-    ["Arcane Alacrity"] = { tree = "Fitness", type = "slottable", prerequisites = {"Bastion"} },
-    ["Bloody Renewal"] = { tree = "Fitness", type = "slottable", prerequisites = {"Hero's Vigor"} },
-    ["Strategic Reserve"] = { tree = "Fitness", type = "slottable", prerequisites = {"Hero's Vigor"} },
-    ["Sustained by Suffering"] = { tree = "Fitness", type = "slottable", prerequisites = {"Mystic Tenacity"} },
-    ["Pain's Refuge"] = { tree = "Fitness", type = "slottable", prerequisites = {"Mystic Tenacity"} },
-    ["Relentlessness"] = { tree = "Fitness", type = "slottable", prerequisites = {"Mystic Tenacity"} },
-    ["Siphoning Spells"] = { tree = "Fitness", type = "slottable", prerequisites = {"Hero's Vigor"} },
-    ["Rousing Speed"] = { tree = "Fitness", type = "slottable", prerequisites = {"Sprinter"} },
-    ["Soothing Shield"] = { tree = "Fitness", type = "slottable", prerequisites = {"Nimble Protector"} },
-    ["Bracing Anchor"] = { tree = "Fitness", type = "slottable", prerequisites = {"Nimble Protector"} },
-    ["Ward Master"] = { tree = "Fitness", type = "slottable", prerequisites = {"Nimble Protector"} },
-    ["On Guard"] = { tree = "Fitness", type = "slottable", prerequisites = {"Tireless Guardian"} },
-    ["Expert Evasion"] = { tree = "Fitness", type = "slottable", prerequisites = {"Tumbling"} },
-    ["Slippery"] = { tree = "Fitness", type = "slottable", prerequisites = {"Defiance"} },
-    ["Unchained"] = { tree = "Fitness", type = "slottable", prerequisites = {"Slippery"} },
-    ["Juggernaut"] = { tree = "Fitness", type = "slottable", prerequisites = {"Defiance"} },
-    ["Peace of Mind"] = { tree = "Fitness", type = "slottable", prerequisites = {"Defiance"} },
-    ["Hardened"] = { tree = "Fitness", type = "slottable", prerequisites = {"Defiance"} },
+    ["Thrill of the Hunt"] = { tree = "Fitness", type = "slottable", prerequisites = { "Hasty" } },
+    ["Celerity"] = { tree = "Fitness", type = "slottable", prerequisites = { "Hasty" } },
+    ["Refreshing Stride"] = { tree = "Fitness", type = "slottable", prerequisites = { "Hasty" } },
+    ["Shield Master"] = { tree = "Fitness", type = "slottable", prerequisites = { "Hero's Vigor" } },
+    ["Bastion"] = { tree = "Fitness", type = "slottable", prerequisites = { "Shield Master" } },
+    ["Survival Instincts"] = { tree = "Fitness", type = "slottable", prerequisites = { "Mystic Tenacity" } },
+    ["Spirit Mastery"] = { tree = "Fitness", type = "slottable", prerequisites = { "Tempered Soul" } },
+    ["Arcane Alacrity"] = { tree = "Fitness", type = "slottable", prerequisites = { "Bastion" } },
+    ["Bloody Renewal"] = { tree = "Fitness", type = "slottable", prerequisites = { "Hero's Vigor" } },
+    ["Strategic Reserve"] = { tree = "Fitness", type = "slottable", prerequisites = { "Hero's Vigor" } },
+    ["Sustained by Suffering"] = { tree = "Fitness", type = "slottable", prerequisites = { "Mystic Tenacity" } },
+    ["Pain's Refuge"] = { tree = "Fitness", type = "slottable", prerequisites = { "Mystic Tenacity" } },
+    ["Relentlessness"] = { tree = "Fitness", type = "slottable", prerequisites = { "Mystic Tenacity" } },
+    ["Siphoning Spells"] = { tree = "Fitness", type = "slottable", prerequisites = { "Hero's Vigor" } },
+    ["Rousing Speed"] = { tree = "Fitness", type = "slottable", prerequisites = { "Sprinter" } },
+    ["Soothing Shield"] = { tree = "Fitness", type = "slottable", prerequisites = { "Nimble Protector" } },
+    ["Bracing Anchor"] = { tree = "Fitness", type = "slottable", prerequisites = { "Nimble Protector" } },
+    ["Ward Master"] = { tree = "Fitness", type = "slottable", prerequisites = { "Nimble Protector" } },
+    ["On Guard"] = { tree = "Fitness", type = "slottable", prerequisites = { "Tireless Guardian" } },
+    ["Expert Evasion"] = { tree = "Fitness", type = "slottable", prerequisites = { "Tumbling" } },
+    ["Slippery"] = { tree = "Fitness", type = "slottable", prerequisites = { "Defiance" } },
+    ["Unchained"] = { tree = "Fitness", type = "slottable", prerequisites = { "Slippery" } },
+    ["Juggernaut"] = { tree = "Fitness", type = "slottable", prerequisites = { "Defiance" } },
+    ["Peace of Mind"] = { tree = "Fitness", type = "slottable", prerequisites = { "Defiance" } },
+    ["Hardened"] = { tree = "Fitness", type = "slottable", prerequisites = { "Defiance" } },
     ["Rejuvenation"] = { tree = "Fitness", type = "slottable", prerequisites = {} },
     ["Fortified"] = { tree = "Fitness", type = "slottable", prerequisites = {} },
     ["Boundless Vitality"] = { tree = "Fitness", type = "slottable", prerequisites = {} },
     ["Sprinter"] = { tree = "Fitness", type = "passive", prerequisites = {} },
-    ["Hasty"] = { tree = "Fitness", type = "passive", prerequisites = {"Sprinter", "Hero's Vigor"} },
-    ["Hero's Vigor"] = { tree = "Fitness", type = "passive", prerequisites = {"Mystic Tenacity"} },
-    ["Tempered Soul"] = { tree = "Fitness", type = "passive", prerequisites = {"Piercing Gaze", "Survival Instincts"} },
-    ["Piercing Gaze"] = { tree = "Fitness", type = "passive", prerequisites = {"Hero's Vigor"} },
-    ["Mystic Tenacity"] = { tree = "Fitness", type = "passive", prerequisites = {"Hero's Vigor", "Tumbling"} },
-    ["Tireless Guardian"] = { tree = "Fitness", type = "passive", prerequisites = {"Hasty"} },
-    ["Savage Defense"] = { tree = "Fitness", type = "passive", prerequisites = {"Tireless Guardian"} },
-    ["Bashing Brutality"] = { tree = "Fitness", type = "passive", prerequisites = {"Tireless Guardian"} },
-    ["Nimble Protector"] = { tree = "Fitness", type = "passive", prerequisites = {"Tireless Guardian"} },
-    ["Fortification"] = { tree = "Fitness", type = "passive", prerequisites = {"Tireless Guardian"} },
+    ["Hasty"] = { tree = "Fitness", type = "passive", prerequisites = { "Sprinter", "Hero's Vigor" } },
+    ["Hero's Vigor"] = { tree = "Fitness", type = "passive", prerequisites = { "Mystic Tenacity" } },
+    ["Tempered Soul"] = {
+        tree = "Fitness",
+        type = "passive",
+        prerequisites = { "Piercing Gaze", "Survival Instincts" },
+    },
+    ["Piercing Gaze"] = { tree = "Fitness", type = "passive", prerequisites = { "Hero's Vigor" } },
+    ["Mystic Tenacity"] = { tree = "Fitness", type = "passive", prerequisites = { "Hero's Vigor", "Tumbling" } },
+    ["Tireless Guardian"] = { tree = "Fitness", type = "passive", prerequisites = { "Hasty" } },
+    ["Savage Defense"] = { tree = "Fitness", type = "passive", prerequisites = { "Tireless Guardian" } },
+    ["Bashing Brutality"] = { tree = "Fitness", type = "passive", prerequisites = { "Tireless Guardian" } },
+    ["Nimble Protector"] = { tree = "Fitness", type = "passive", prerequisites = { "Tireless Guardian" } },
+    ["Fortification"] = { tree = "Fitness", type = "passive", prerequisites = { "Tireless Guardian" } },
     ["Tumbling"] = { tree = "Fitness", type = "passive", prerequisites = {} },
     ["Defiance"] = { tree = "Fitness", type = "passive", prerequisites = {} },
 }
@@ -372,7 +396,7 @@ local function GenerateChampionDiagram(cpData)
                         tree = starData.tree,
                         type = starData.type,
                         prerequisites = starData.prerequisites,
-                        node = string.format("%s_%s", starData.tree:sub(1, 1), skill.name:gsub("[^%w]", ""))
+                        node = string.format("%s_%s", starData.tree:sub(1, 1), skill.name:gsub("[^%w]", "")),
                     }
                 end
 
@@ -476,7 +500,7 @@ local function GenerateChampionDiagram(cpData)
     -- Generate diagram with new cleaner format
     markdown = markdown .. "```mermaid\n"
     markdown = markdown
-        .. "%%{init: {\"theme\":\"base\", \"themeVariables\": { \"background\":\"transparent\",\"fontSize\":\"14px\",\"primaryColor\":\"#e8f4f0\",\"primaryTextColor\":\"#000\",\"primaryBorderColor\":\"#4a9d7f\",\"lineColor\":\"#999\",\"secondaryColor\":\"#f0f4f8\",\"tertiaryColor\":\"#faf0f0\"}, \"flowchart\": {\"curve\":\"basis\"}}}%%\n\n"
+        .. '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%\n\n'
     markdown = markdown .. "flowchart LR\n"
     markdown = markdown .. "  %% Champion Point Investment Visualization\n"
     markdown = markdown .. "  %% Enhanced readability with clear visual hierarchy\n\n"
@@ -542,22 +566,23 @@ local function GenerateChampionDiagram(cpData)
             for _, entry in ipairs(categories.passive) do
                 table.insert(treeSkills[treeName].all, entry)
             end
-            
-            -- Sort all skills by points for consistent rendering order if needed, 
+
+            -- Sort all skills by points for consistent rendering order if needed,
             -- but for connections we just need the nodes to exist.
-            
+
             -- Render all nodes
             for _, entry in ipairs(treeSkills[treeName].all) do
                 local skill = entry.skill
                 local starData = entry.starData
                 local nodeId = starData.node
                 local points = skill.points
-                local maxPoints = (skill.maxPoints and skill.maxPoints > 0) and skill.maxPoints or GetMaxPoints(skill.name)
+                local maxPoints = (skill.maxPoints and skill.maxPoints > 0) and skill.maxPoints
+                    or GetMaxPoints(skill.name)
                 local indicator = GetPointIndicator(points, maxPoints)
                 local percentage = math.floor((points / maxPoints) * 100)
                 local isMaxed = points >= maxPoints
                 local maxedText = isMaxed and " | MAXED" or string.format(" | %s %d%%", indicator, percentage)
-                
+
                 local label = string.format(
                     "%s%s<br/>%d/%d pts%s",
                     isMaxed and "⭐ " or "",
@@ -566,37 +591,37 @@ local function GenerateChampionDiagram(cpData)
                     maxPoints,
                     maxedText
                 )
-                
-                markdown = markdown .. '    ' .. nodeId .. '["' .. label .. '"]\n'
-                
+
+                markdown = markdown .. "    " .. nodeId .. '["' .. label .. '"]\n'
+
                 -- Style the node
                 local nodeColor = GetStrongNodeColor(treeName)
                 local strokeWidth = "2px"
                 local strokeColor = nodeColor
-                
+
                 if starData.type == "slottable" then
                     strokeWidth = isMaxed and "4px" or "3px"
                     strokeColor = isMaxed and "#ffd700" or nodeColor
                 end
-                
+
                 markdown = markdown
-                    .. '    style '
+                    .. "    style "
                     .. nodeId
-                    .. ' fill:'
+                    .. " fill:"
                     .. nodeColor
-                    .. ',stroke:'
+                    .. ",stroke:"
                     .. strokeColor
-                    .. ',stroke-width:'
+                    .. ",stroke-width:"
                     .. strokeWidth
-                    .. ',color:#fff\n'
+                    .. ",color:#fff\n"
             end
-            
+
             -- Render Connections
             markdown = markdown .. "\n    %% Connections\n"
             for _, entry in ipairs(treeSkills[treeName].all) do
                 local starData = entry.starData
                 local nodeId = starData.node
-                
+
                 if starData.prerequisites then
                     for _, prereqName in ipairs(starData.prerequisites) do
                         -- Find the node ID for the prerequisite
@@ -604,7 +629,7 @@ local function GenerateChampionDiagram(cpData)
                         -- If it doesn't have points, we might not have rendered it.
                         -- However, logic dictates if a child has points, the parent MUST have points (usually).
                         -- But we only render nodes that are in `treeSkills`.
-                        
+
                         local prereqNodeId = nil
                         -- Search in the current tree's skills
                         for _, pEntry in ipairs(treeSkills[treeName].all) do
@@ -613,9 +638,9 @@ local function GenerateChampionDiagram(cpData)
                                 break
                             end
                         end
-                        
+
                         if prereqNodeId then
-                            markdown = markdown .. '    ' .. prereqNodeId .. ' --> ' .. nodeId .. '\n'
+                            markdown = markdown .. "    " .. prereqNodeId .. " --> " .. nodeId .. "\n"
                         end
                     end
                 end
@@ -625,8 +650,12 @@ local function GenerateChampionDiagram(cpData)
             local disciplineAvailable = discipline and discipline.available or 0
             markdown = markdown .. "\n"
             markdown = markdown
-                .. '    ' .. treeName:upper() .. '_AVAIL["💎 ' .. disciplineAvailable .. ' points available"]\n'
-            
+                .. "    "
+                .. treeName:upper()
+                .. '_AVAIL["💎 '
+                .. disciplineAvailable
+                .. ' points available"]\n'
+
             -- Style available node
             local availBgColor = {
                 Craft = "#d4e8df",
@@ -639,20 +668,20 @@ local function GenerateChampionDiagram(cpData)
                 Warfare = "#5b7fb8",
                 Fitness = "#b87a7a",
             }
-            
+
             markdown = markdown
-                .. '    style '
+                .. "    style "
                 .. treeName:upper()
-                .. '_AVAIL fill:'
+                .. "_AVAIL fill:"
                 .. availBgColorValue
-                .. ',stroke:'
+                .. ",stroke:"
                 .. availTextColor[treeName]
-                .. ',stroke-width:2px,stroke-dasharray:5 5,color:'
+                .. ",stroke-width:2px,stroke-dasharray:5 5,color:"
                 .. availTextColor[treeName]
-                .. '\n\n'
+                .. "\n\n"
 
             markdown = markdown .. "  end\n"
-            
+
             -- Add subgraph background styling
             local subgraphBgColor = GetSubgraphBackgroundColor(treeName)
             markdown = markdown
@@ -691,21 +720,21 @@ local function GenerateChampionDiagram(cpData)
     markdown = markdown .. "    \n"
 
     -- Connections for visual organization
-    markdown = markdown .. '    LEG_STARS --> LEG_S1 & LEG_S2 & LEG_S3\n'
-    markdown = markdown .. '    LEG_FILL --> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5\n\n'
+    markdown = markdown .. "    LEG_STARS --> LEG_S1 & LEG_S2 & LEG_S3\n"
+    markdown = markdown .. "    LEG_FILL --> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5\n\n"
 
     -- Styling for legend elements
     -- Title nodes are transparent with bright text, example nodes have fills with dark text
-    markdown = markdown .. '    style LEG_STARS fill:transparent,stroke:none,color:#ccc\n'
-    markdown = markdown .. '    style LEG_FILL fill:transparent,stroke:none,color:#ccc\n'
-    markdown = markdown .. '    style LEG_S1 fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333\n'
-    markdown = markdown .. '    style LEG_S2 fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333\n'
-    markdown = markdown .. '    style LEG_S3 fill:#fff,stroke:#999,stroke-width:2px,color:#333\n'
-    markdown = markdown .. '    style LEG_F1 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n'
-    markdown = markdown .. '    style LEG_F2 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n'
-    markdown = markdown .. '    style LEG_F3 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n'
-    markdown = markdown .. '    style LEG_F4 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n'
-    markdown = markdown .. '    style LEG_F5 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n'
+    markdown = markdown .. "    style LEG_STARS fill:transparent,stroke:none,color:#ccc\n"
+    markdown = markdown .. "    style LEG_FILL fill:transparent,stroke:none,color:#ccc\n"
+    markdown = markdown .. "    style LEG_S1 fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333\n"
+    markdown = markdown .. "    style LEG_S2 fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333\n"
+    markdown = markdown .. "    style LEG_S3 fill:#fff,stroke:#999,stroke-width:2px,color:#333\n"
+    markdown = markdown .. "    style LEG_F1 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
+    markdown = markdown .. "    style LEG_F2 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
+    markdown = markdown .. "    style LEG_F3 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
+    markdown = markdown .. "    style LEG_F4 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
+    markdown = markdown .. "    style LEG_F5 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
 
     -- Close legend subgraph
     markdown = markdown .. "  end\n"

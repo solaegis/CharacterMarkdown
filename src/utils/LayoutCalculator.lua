@@ -104,7 +104,7 @@ local function CalculateOptimalLayout(tableArray, options)
     -- Start with item count divided by a reasonable factor
     local itemCount = #tableArray
     local idealColumns = 1
-    
+
     if itemCount >= 12 then
         idealColumns = 4
     elseif itemCount >= 6 then
@@ -119,9 +119,9 @@ local function CalculateOptimalLayout(tableArray, options)
     -- STEP 4: Adjust minWidth for visual balance
     -- If there's high width variance, increase minWidth to prevent extreme differences
     local widthRatio = stats.minWidth > 0 and (stats.minWidth / stats.maxWidth) or 0
-    
+
     local adjustedWidth = baselineWidth
-    
+
     if widthRatio < balanceThreshold then
         -- High variance detected - use median to balance
         -- Blend between median and max to prevent too-narrow columns
@@ -189,7 +189,7 @@ local function GetLayoutParamsWithFallback(tableArray, fallbackMinWidth, fallbac
 
     -- Try to calculate
     local success, layout = pcall(CalculateOptimalLayout, tableArray, options)
-    
+
     if success and layout and layout.minWidth then
         return layout.minWidth, layout.gap
     else
@@ -210,4 +210,3 @@ CM.utils.LayoutCalculator.GetLayoutParamsWithFallback = GetLayoutParamsWithFallb
 CM.DebugPrint("UTILS", "LayoutCalculator module loaded with smart column layout calculation")
 
 -- Functions are already exported to CM.utils.LayoutCalculator above
-

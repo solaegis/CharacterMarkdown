@@ -17,7 +17,7 @@ function CM.Settings.Defaults:GetAll()
         -- SYSTEM SETTINGS
         -- ====================================
         detectedOS = "unknown", -- Auto-detected OS: "windows", "mac", or "unknown"
-        
+
         -- ====================================
         -- FORMATTER SETTINGS
         -- ====================================
@@ -108,7 +108,7 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         enableAbilityLinks = true, -- Add UESP wiki links to abilities (no size impact, major UX improvement)
         enableSetLinks = true, -- Add UESP wiki links to armor sets (no size impact, major UX improvement)
-        
+
         -- ====================================
         -- PER-CHARACTER DATA STORAGE
         -- ====================================

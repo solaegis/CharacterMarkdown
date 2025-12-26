@@ -24,9 +24,9 @@ local function EscapeString(str)
     if not str then
         return ""
     end
-    
+
     str = tostring(str)
-    
+
     -- Escape backslashes first
     str = str:gsub("\\", "\\\\")
     -- Escape newlines
@@ -37,7 +37,7 @@ local function EscapeString(str)
     str = str:gsub("\t", "\\t")
     -- Escape quotes
     str = str:gsub('"', '\\"')
-    
+
     return str
 end
 
@@ -46,25 +46,25 @@ local function IsUniformObjectArray(arr)
     if not arr or #arr == 0 then
         return false
     end
-    
+
     -- Get keys from first object
     local firstKeys = {}
     local firstItem = arr[1]
     if type(firstItem) ~= "table" then
         return false
     end
-    
+
     for k, _ in pairs(firstItem) do
         firstKeys[k] = true
     end
-    
+
     -- Check if all items have the same keys
     for i = 2, #arr do
         local item = arr[i]
         if type(item) ~= "table" then
             return false
         end
-        
+
         -- Check all keys match
         local keyCount = 0
         for k, _ in pairs(item) do
@@ -73,18 +73,18 @@ local function IsUniformObjectArray(arr)
             end
             keyCount = keyCount + 1
         end
-        
+
         -- Check key count matches
         local firstKeyCount = 0
         for _ in pairs(firstKeys) do
             firstKeyCount = firstKeyCount + 1
         end
-        
+
         if keyCount ~= firstKeyCount then
             return false
         end
     end
-    
+
     return true, firstKeys
 end
 
@@ -93,9 +93,9 @@ local function EncodeValue(value, indent, visited)
     indent = indent or 0
     visited = visited or {}
     local indentStr = string_rep("  ", indent)
-    
+
     local valueType = type(value)
-    
+
     if valueType == "nil" then
         return "null"
     elseif valueType == "boolean" then
@@ -111,18 +111,18 @@ local function EncodeValue(value, indent, visited)
             for line in (value .. "\n"):gmatch("(.-)\n") do
                 table_insert(lines, line)
             end
-            
+
             -- If the original string didn't end with a newline, the last element is correct.
             -- If it DID end with a newline, we get an extra empty string at the end.
             -- e.g. "A\nB" -> "A\nB\n" -> {"A", "B"} (Correct)
             -- e.g. "A\n" -> "A\n\n" -> {"A", ""} (Preserves trailing newline as empty line)
             -- e.g. "A\n\nB" -> "A\n\nB\n" -> {"A", "", "B"} (Correct)
-            
-            -- However, if the last line is empty, it might be an artifact of our split method 
+
+            -- However, if the last line is empty, it might be an artifact of our split method
             -- combined with a trailing newline in the input.
             -- For TONL, we generally want to preserve the exact structure.
             -- "Line 1\n" -> ["Line 1", ""] seems correct if we want to preserve the trailing newline.
-            
+
             -- Recursively encode as array
             return EncodeValue(lines, indent, visited)
         else
@@ -139,12 +139,12 @@ local function EncodeValue(value, indent, visited)
             return '"[circular reference]"'
         end
         visited[value] = true
-        
+
         -- Check if it's an array (sequential numeric indices starting at 1)
         local isArray = true
         local maxIndex = 0
         local keyCount = 0
-        
+
         for k, v in pairs(value) do
             keyCount = keyCount + 1
             if type(k) == "number" and k >= 1 and k == math.floor(k) then
@@ -155,7 +155,7 @@ local function EncodeValue(value, indent, visited)
                 isArray = false
             end
         end
-        
+
         -- Only treat as array if all keys are sequential 1..n
         if isArray and keyCount > 0 then
             for i = 1, maxIndex do
@@ -167,23 +167,23 @@ local function EncodeValue(value, indent, visited)
         else
             isArray = false
         end
-        
+
         if isArray then
             -- Check if array contains uniform objects (can use tabular format)
             local isUniform, keys = IsUniformObjectArray(value)
-            
+
             if isUniform and #value > 1 then
                 -- Tabular format: declare fields once, then list values
                 local lines = {}
                 table_insert(lines, string_format("%s[", indentStr))
-                
+
                 -- Header row with field names
                 local fieldNames = {}
                 for k, _ in pairs(keys) do
                     table_insert(fieldNames, k)
                 end
                 table.sort(fieldNames) -- Sort for consistency
-                
+
                 local headerLine = indentStr .. "  "
                 local headerParts = {}
                 for _, fieldName in ipairs(fieldNames) do
@@ -191,7 +191,7 @@ local function EncodeValue(value, indent, visited)
                 end
                 headerLine = headerLine .. table_concat(headerParts, " ")
                 table_insert(lines, headerLine)
-                
+
                 -- Data rows
                 for i, item in ipairs(value) do
                     local rowParts = {}
@@ -203,14 +203,14 @@ local function EncodeValue(value, indent, visited)
                     local rowLine = indentStr .. "  " .. table_concat(rowParts, " ")
                     table_insert(lines, rowLine)
                 end
-                
+
                 table_insert(lines, string_format("%s]", indentStr))
                 return table_concat(lines, "\n")
             else
                 -- Regular array format
                 local lines = {}
                 table_insert(lines, string_format("%s[", indentStr))
-                
+
                 for i, item in ipairs(value) do
                     local encoded = EncodeValue(item, indent + 1, visited)
                     local isLast = (i == #value)
@@ -230,7 +230,7 @@ local function EncodeValue(value, indent, visited)
                                     break
                                 end
                             end
-                            
+
                             if allSimple and #value <= 5 then
                                 -- Inline format
                                 local inlineParts = {}
@@ -243,7 +243,7 @@ local function EncodeValue(value, indent, visited)
                         table_insert(lines, line)
                     end
                 end
-                
+
                 table_insert(lines, string_format("%s]", indentStr))
                 return table_concat(lines, "\n")
             end
@@ -251,7 +251,7 @@ local function EncodeValue(value, indent, visited)
             -- Object format (key-value pairs)
             local lines = {}
             local isFirst = true
-            
+
             -- Sort keys for consistent output
             local sortedKeys = {}
             for k, _ in pairs(value) do
@@ -271,12 +271,14 @@ local function EncodeValue(value, indent, visited)
                     return tostring(a) < tostring(b)
                 end
             end)
-            
+
             for _, k in ipairs(sortedKeys) do
                 local v = value[k]
-                local keyStr = type(k) == "string" and (k:match("^[%a_][%a%d_]*$") and k or string_format('"%s"', EscapeString(k))) or tostring(k)
+                local keyStr = type(k) == "string"
+                        and (k:match("^[%a_][%a%d_]*$") and k or string_format('"%s"', EscapeString(k)))
+                    or tostring(k)
                 local encodedValue = EncodeValue(v, indent + 1, visited)
-                
+
                 if encodedValue:match("\n") then
                     -- Multi-line value
                     if not isFirst then
@@ -290,11 +292,11 @@ local function EncodeValue(value, indent, visited)
                 end
                 isFirst = false
             end
-            
+
             if #lines == 0 then
                 return "{}"
             end
-            
+
             return table_concat(lines, "\n")
         end
     else
@@ -307,7 +309,7 @@ local function Encode(data)
     if data == nil then
         return "null"
     end
-    
+
     return EncodeValue(data, 0, {})
 end
 
@@ -322,4 +324,3 @@ CM.DebugPrint("UTILS", "TONL module loaded")
 return {
     Encode = Encode,
 }
-

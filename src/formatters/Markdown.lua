@@ -117,7 +117,8 @@ end
 -- Returns true only if setting is explicitly true, false otherwise
 local function IsSettingEnabled(settings, settingName, defaultValue)
     if not settings then
-        CM.DebugPrint("SETTINGS",
+        CM.DebugPrint(
+            "SETTINGS",
             string.format(
                 "IsSettingEnabled: settings table is nil for '%s', using default: %s",
                 settingName,
@@ -129,7 +130,8 @@ local function IsSettingEnabled(settings, settingName, defaultValue)
     local value = settings[settingName]
     -- Settings should never be nil (CM.GetSettings() ensures this), but handle it defensively
     if value == nil then
-        CM.DebugPrint("SETTINGS",
+        CM.DebugPrint(
+            "SETTINGS",
             string.format(
                 "IsSettingEnabled: '%s' is nil (should never happen!), using default: %s",
                 settingName,
@@ -250,7 +252,7 @@ local function GetSectionRegistry(settings, gen, data)
                     settingsWithData[k] = v
                 end
                 settingsWithData._collectedData = {
-                    characterAttributes = data.characterAttributes
+                    characterAttributes = data.characterAttributes,
                 }
                 return gen.GenerateQuickStats(
                     data.character,
@@ -337,7 +339,7 @@ local function GetSectionRegistry(settings, gen, data)
                 -- CM.Warn("Formatter: About to call GenerateCharacterProgress")
                 -- CM.Warn("Formatter: skillProgressionData type = " .. type(skillProgressionData))
                 -- CM.Warn("Formatter: skillMorphsData type = " .. type(skillMorphsData))
-                
+
                 -- Check if data has expected structure
                 if type(skillProgressionData) == "table" then
                     -- CM.Warn("Formatter: skillProgressionData.summary = " .. tostring(skillProgressionData.summary))
@@ -348,7 +350,8 @@ local function GetSectionRegistry(settings, gen, data)
                 end
 
                 if gen.GenerateCharacterProgress then
-                    local success, result = pcall(gen.GenerateCharacterProgress, skillProgressionData, skillMorphsData, "markdown")
+                    local success, result =
+                        pcall(gen.GenerateCharacterProgress, skillProgressionData, skillMorphsData, "markdown")
                     if success then
                         return result
                     else
@@ -720,7 +723,10 @@ local function GenerateMarkdown()
                 local success, result = pcall(gen.GenerateDynamicTableOfContents, sections, "markdown")
                 if success then
                     local resultLength = result and #result or 0
-                    CM.DebugPrint("FORMATTER", string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength))
+                    CM.DebugPrint(
+                        "FORMATTER",
+                        string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength)
+                    )
                     if resultLength == 0 then
                         CM.DebugPrint("FORMATTER", "Dynamic TOC returned empty string!")
                     end
@@ -857,28 +863,28 @@ local function GenerateMarkdown()
             CM.DebugPrint("FORMATTER", function()
                 return string.format("Split into %d chunks using Chunking utility", #chunks)
             end)
-            
+
             -- Clear references to help GC before returning
             collectedData = nil
             settings = nil
             gen = nil
             sections = nil
             completeMarkdown = nil
-            
+
             -- Hint to Lua GC that now is a good time to collect
             -- (Large markdown generation can create significant temporary string garbage)
             collectgarbage("step", 1000)
-            
+
             return chunks
         else
             CM.Error("Chunking utility not available - markdown may be truncated!")
-            
+
             -- Clear references even on error path
             collectedData = nil
             settings = nil
             gen = nil
             sections = nil
-            
+
             return completeMarkdown
         end
     end
@@ -889,11 +895,11 @@ local function GenerateMarkdown()
     settings = nil
     gen = nil
     sections = nil
-    
+
     -- Hint to Lua GC that now is a good time to collect
     -- (Large markdown generation can create significant temporary string garbage)
     collectgarbage("step", 1000)
-    
+
     return completeMarkdown
 end
 
@@ -903,4 +909,3 @@ end
 
 CM.formatters = CM.formatters or {}
 CM.formatters.GenerateMarkdown = GenerateMarkdown
-

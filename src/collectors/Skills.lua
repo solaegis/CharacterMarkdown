@@ -12,42 +12,42 @@ local function CollectSkillBarData()
     local skillPoints = CM.api.skills.GetSkillPoints()
     local primaryBar = CM.api.skills.GetActionBar(HOTBAR_CATEGORY_PRIMARY)
     local backupBar = CM.api.skills.GetActionBar(HOTBAR_CATEGORY_BACKUP)
-    
+
     local bars = {}
-    
+
     local barConfigs = {
         { id = 0, name = CM.Constants.BAR_NAMES.PRIMARY, hotbarCategory = HOTBAR_CATEGORY_PRIMARY, apiKey = "primary" },
         { id = 1, name = CM.Constants.BAR_NAMES.BACKUP, hotbarCategory = HOTBAR_CATEGORY_BACKUP, apiKey = "backup" },
     }
-    
+
     for _, config in ipairs(barConfigs) do
         local apiBar = (config.apiKey == "primary") and primaryBar or backupBar
         local bar = {
             id = config.id,
             name = config.name,
-            abilities = {}
+            abilities = {},
         }
-        
+
         if apiBar then
             for _, ability in ipairs(apiBar) do
                 if ability and ability.id and ability.id > 0 then
                     table.insert(bar.abilities, {
                         name = ability.name or "Empty",
                         id = ability.id,
-                        isUltimate = ability.isUltimate or false
+                        isUltimate = ability.isUltimate or false,
                     })
                 end
             end
         end
-        
+
         table.insert(bars, bar)
     end
-    
+
     local data = {
         bars = bars,
-        points = skillPoints
+        points = skillPoints,
     }
-    
+
     -- Add computed fields
     local totalAbilities = 0
     local ultimateCount = 0
@@ -61,13 +61,13 @@ local function CollectSkillBarData()
             end
         end
     end
-    
+
     data.summary = {
         totalAbilities = totalAbilities,
         ultimateCount = ultimateCount,
-        regularAbilities = totalAbilities - ultimateCount
+        regularAbilities = totalAbilities - ultimateCount,
     }
-    
+
     return data
 end
 
@@ -80,7 +80,7 @@ CM.collectors.CollectSkillBarData = CollectSkillBarData
 local function CollectSkillProgressionData()
     -- Use API layer granular functions (composition at collector level)
     local skillLines = CM.api.skills.GetSkillLines()
-    
+
     local data = {
         lines = skillLines,
         summary = {
@@ -91,26 +91,32 @@ local function CollectSkillProgressionData()
             maxedCount = 0,
             inProgressCount = 0,
             earlyProgressCount = 0,
-            completionPercent = 0
-        }
+            completionPercent = 0,
+        },
     }
-    
+
     -- Helper to check if a line is maxed
-    -- Logic: If nextXP is 0, it usually means max rank. 
+    -- Logic: If nextXP is 0, it usually means max rank.
     -- Also check common max ranks (50 for most, 10 for guilds/world, etc)
     local function IsMaxed(line)
-        if line.xp and line.xp.max == 0 then return true end
+        if line.xp and line.xp.max == 0 then
+            return true
+        end
         -- Fallback for when XP info might be weird but rank is clearly high
-        if line.rank == 50 then return true end
+        if line.rank == 50 then
+            return true
+        end
         -- Guilds/World often max at 10
-        if (line.rank == 10) and (line.xp.max == 0 or line.xp.current >= line.xp.max) then return true end
+        if (line.rank == 10) and (line.xp.max == 0 or line.xp.current >= line.xp.max) then
+            return true
+        end
         return false
     end
 
     -- Calculate summary statistics and categorize
     if skillLines then
         data.summary.totalLines = #skillLines
-        
+
         local loopCount = 0
         for _, line in ipairs(skillLines) do
             loopCount = loopCount + 1
@@ -119,7 +125,7 @@ local function CollectSkillProgressionData()
             local min = line.xp.min or 0
             local max = line.xp.max or 0
             local progress = 0
-            
+
             if max > 0 and max > min then
                 progress = math.floor(((current - min) / (max - min)) * 100)
             elseif IsMaxed(line) then
@@ -151,18 +157,18 @@ local function CollectSkillProgressionData()
                     data.summary.totalMorphs = data.summary.totalMorphs + 1
                 end
             end
-            
+
             -- Count passives
             local passives = CM.api.skills.GetSkillPassives(line.type, line.index)
             data.summary.totalPassives = data.summary.totalPassives + #passives
         end
-        
+
         -- Calculate overall completion
         if data.summary.totalLines > 0 then
             data.summary.completionPercent = math.floor((data.summary.maxedCount / data.summary.totalLines) * 100)
         end
     end
-    
+
     return data
 end
 
@@ -177,15 +183,15 @@ local function CollectSkillMorphsData()
     -- Get player class from Character API to pass to Skills API
     local characterInfo = CM.api.character.GetClass()
     local playerClass = characterInfo and characterInfo.name or "Unknown"
-    
+
     -- Use internal API function for morphs (composition at collector level)
     local morphsData = CM.api.skills._GetMorphsData(playerClass) or {}
-    
+
     -- Add computed fields for morph analysis
     local totalMorphs = 0
     local chosenMorphs = 0
     local availableMorphs = 0
-    
+
     for _, skillType in ipairs(morphsData) do
         if skillType.skillLines then
             for _, line in ipairs(skillType.skillLines) do
@@ -203,7 +209,7 @@ local function CollectSkillMorphsData()
             end
         end
     end
-    
+
     local data = {
         class = playerClass,
         skillTypes = morphsData,
@@ -211,19 +217,18 @@ local function CollectSkillMorphsData()
             totalMorphs = totalMorphs,
             chosenMorphs = chosenMorphs,
             availableMorphs = availableMorphs,
-            completionPercent = totalMorphs > 0 and math.floor((chosenMorphs / totalMorphs) * 100) or 0
-        }
+            completionPercent = totalMorphs > 0 and math.floor((chosenMorphs / totalMorphs) * 100) or 0,
+        },
     }
-    
+
     -- Debug output
     if CM.DebugPrint then
         CM.DebugPrint("SKILL_MORPHS", string.format("Collected %d skill types with morphs", #morphsData))
     end
-    
+
     return data
 end
 
 CM.collectors.CollectSkillMorphsData = CollectSkillMorphsData
 
 CM.DebugPrint("COLLECTOR", "Skills collector module loaded")
-

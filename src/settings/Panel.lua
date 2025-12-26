@@ -115,40 +115,49 @@ function CM.Settings.Panel:Initialize()
         -- We handle ALL reset logic here to ensure text fields are preserved
         defaultsFunc = function()
             CM.DebugPrint("SETTINGS", "Defaults button clicked - preserving text fields")
-            
+
             -- CRITICAL: Preserve text fields BEFORE any reset happens
             -- Get current character ID
             local characterId = tostring(GetCurrentCharacterId())
             local preservedTextFields = nil
-            
+
             -- Preserve text fields from current character
-            if CharacterMarkdownSettings and CharacterMarkdownSettings.perCharacterData and CharacterMarkdownSettings.perCharacterData[characterId] then
+            if
+                CharacterMarkdownSettings
+                and CharacterMarkdownSettings.perCharacterData
+                and CharacterMarkdownSettings.perCharacterData[characterId]
+            then
                 preservedTextFields = {
                     customNotes = CharacterMarkdownSettings.perCharacterData[characterId].customNotes or "",
                     customTitle = CharacterMarkdownSettings.perCharacterData[characterId].customTitle or "",
                     playStyle = CharacterMarkdownSettings.perCharacterData[characterId].playStyle or "",
                 }
-                CM.DebugPrint("SETTINGS", string.format("Preserved text fields for character %s: notes=%d chars, title='%s', playStyle='%s'", 
-                    characterId, 
-                    string.len(preservedTextFields.customNotes or ""),
-                    preservedTextFields.customTitle or "",
-                    preservedTextFields.playStyle or ""))
+                CM.DebugPrint(
+                    "SETTINGS",
+                    string.format(
+                        "Preserved text fields for character %s: notes=%d chars, title='%s', playStyle='%s'",
+                        characterId,
+                        string.len(preservedTextFields.customNotes or ""),
+                        preservedTextFields.customTitle or "",
+                        preservedTextFields.playStyle or ""
+                    )
+                )
             else
                 CM.DebugPrint("SETTINGS", "No text fields to preserve for character " .. characterId)
             end
-            
+
             -- Apply defaults manually to ensure text fields are preserved correctly
             -- We don't call ResetToDefaults() here because we've already preserved the text fields
             -- and want to ensure they're restored after the reset
             local defaults = CM.Settings and CM.Settings.Defaults and CM.Settings.Defaults:GetAll() or {}
-            
+
             -- Apply defaults, excluding perCharacterData
             for key, value in pairs(defaults) do
                 if key ~= "perCharacterData" and key:sub(1, 1) ~= "_" then
                     CharacterMarkdownSettings[key] = value
                 end
             end
-            
+
             -- Restore only the text fields for current character
             if preservedTextFields then
                 if not CharacterMarkdownSettings.perCharacterData then
@@ -162,20 +171,20 @@ function CM.Settings.Panel:Initialize()
                 CharacterMarkdownSettings.perCharacterData[characterId].playStyle = preservedTextFields.playStyle
                 CM.DebugPrint("SETTINGS", "Restored text fields after reset")
             end
-            
+
             -- Update other reset-related fields
             CharacterMarkdownSettings.settingsVersion = 1
             CharacterMarkdownSettings.activeProfile = "Custom"
             CharacterMarkdownSettings._lastModified = GetTimeStamp()
-            
+
             -- Sync formatter to core (REMOVED)
             -- if CharacterMarkdownSettings.currentFormatter then
             --     CM.currentFormatter = CharacterMarkdownSettings.currentFormatter
             -- end
-            
+
             CM.InvalidateSettingsCache()
             CM.Info("Settings reset to defaults (text fields preserved)")
-            
+
             -- CRITICAL: Force refresh the panel to update the UI with preserved values
             -- This ensures the text fields show the preserved values after reset
             zo_callLater(function()
@@ -211,10 +220,10 @@ function CM.Settings.Panel:Initialize()
             end
         end
     end
-    
+
     -- Try to resize immediately after registration
     zo_callLater(ResizeBuildNotesEditbox, 500)
-    
+
     -- Also register callback for when panel is shown/refreshed
     -- Fix for crash in LAM.util.RegisterForRefreshIfNeeded (replaced with standard callback)
     CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
@@ -242,7 +251,7 @@ function CM.Settings.Panel:BuildOptionsData()
     self:AddCustomNotes(options) -- Character-Specific Settings
 
     self:AddLayoutSection(options) -- Layout options (Header/Footer/TOC)
-    
+
     -- Collector-based sections (organized by collector module)
     self:AddCharacterSection(options) -- Character.lua collectors
     self:AddCombatSection(options) -- Combat.lua collectors
@@ -260,7 +269,7 @@ function CM.Settings.Panel:BuildOptionsData()
     self:AddArmoryBuildsSection(options) -- ArmoryBuilds.lua collectors
     self:AddCraftingSection(options) -- Crafting.lua collectors
     self:AddSocialSection(options) -- Social.lua collectors (Guilds, Mail)
-    
+
     self:AddLinkSettings(options)
     self:AddSupportSection(options) -- LAST: Support section
 
@@ -329,7 +338,7 @@ end
 
 function CM.Settings.Panel:AddCombatSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Combat statistics, role, active buffs, and attributes.",
@@ -414,7 +423,7 @@ function CM.Settings.Panel:AddCombatSection(options)
         width = "half",
         default = true,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Combat",
@@ -429,7 +438,7 @@ end
 
 function CM.Settings.Panel:AddCharacterSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Character identity, location, and titles.",
@@ -461,7 +470,7 @@ function CM.Settings.Panel:AddCharacterSection(options)
         width = "half",
         default = false,
     })
-    
+
     -- Character Attributes (CollectAttributesData)
     table.insert(controls, {
         type = "checkbox",
@@ -474,7 +483,7 @@ function CM.Settings.Panel:AddCharacterSection(options)
         width = "half",
         default = true,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Character",
@@ -489,7 +498,7 @@ end
 
 function CM.Settings.Panel:AddChampionSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Champion Point allocation and discipline breakdown.",
@@ -524,7 +533,7 @@ function CM.Settings.Panel:AddChampionSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Champion Points",
@@ -539,7 +548,7 @@ end
 
 function CM.Settings.Panel:AddSkillsSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Skill bars, skill progression, and skill morphs.",
@@ -587,7 +596,7 @@ function CM.Settings.Panel:AddSkillsSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Skills",
@@ -602,7 +611,7 @@ end
 
 function CM.Settings.Panel:AddEquipmentSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Equipped items and armor sets.",
@@ -621,7 +630,7 @@ function CM.Settings.Panel:AddEquipmentSection(options)
         width = "half",
         default = true,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Equipment",
@@ -636,7 +645,7 @@ end
 
 function CM.Settings.Panel:AddInventorySection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Inventory space, currency, and item lists.",
@@ -716,7 +725,7 @@ function CM.Settings.Panel:AddInventorySection(options)
         width = "half",
         default = true,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Inventory",
@@ -731,7 +740,7 @@ end
 
 function CM.Settings.Panel:AddProgressionSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Character progression metrics and riding skills.",
@@ -763,7 +772,7 @@ function CM.Settings.Panel:AddProgressionSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Progression",
@@ -778,7 +787,7 @@ end
 
 function CM.Settings.Panel:AddPvPSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "PvP statistics, progression, and Alliance War skills.",
@@ -899,7 +908,7 @@ function CM.Settings.Panel:AddPvPSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "PvP",
@@ -914,7 +923,7 @@ end
 
 function CM.Settings.Panel:AddCompanionSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Active companion information.",
@@ -933,7 +942,7 @@ function CM.Settings.Panel:AddCompanionSection(options)
         width = "half",
         default = true,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Companion",
@@ -948,7 +957,7 @@ end
 
 function CM.Settings.Panel:AddCollectiblesSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Mounts, pets, costumes, collectible items, DLC access, and housing.",
@@ -1008,7 +1017,7 @@ function CM.Settings.Panel:AddCollectiblesSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Collectibles",
@@ -1023,7 +1032,7 @@ end
 
 function CM.Settings.Panel:AddAchievementsSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Achievement tracking and progress.",
@@ -1057,7 +1066,7 @@ function CM.Settings.Panel:AddAchievementsSection(options)
         width = "half",
         default = true,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Achievements",
@@ -1072,7 +1081,7 @@ end
 
 function CM.Settings.Panel:AddAntiquitiesSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Antiquities progress, active leads, and discovered antiquities.",
@@ -1106,7 +1115,7 @@ function CM.Settings.Panel:AddAntiquitiesSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Antiquities",
@@ -1121,7 +1130,7 @@ end
 
 function CM.Settings.Panel:AddQuestsSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Quest tracking and Undaunted pledges.",
@@ -1175,7 +1184,7 @@ function CM.Settings.Panel:AddQuestsSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Quests",
@@ -1190,7 +1199,7 @@ end
 
 function CM.Settings.Panel:AddArmoryBuildsSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Saved armory builds and configurations.",
@@ -1209,7 +1218,7 @@ function CM.Settings.Panel:AddArmoryBuildsSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Armory Builds",
@@ -1224,7 +1233,7 @@ end
 
 function CM.Settings.Panel:AddCraftingSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Crafting knowledge, research, and styles.",
@@ -1243,7 +1252,7 @@ function CM.Settings.Panel:AddCraftingSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Crafting",
@@ -1258,7 +1267,7 @@ end
 
 function CM.Settings.Panel:AddSocialSection(options)
     local controls = {}
-    
+
     table.insert(controls, {
         type = "description",
         text = "Guild membership and mail information.",
@@ -1290,7 +1299,7 @@ function CM.Settings.Panel:AddSocialSection(options)
         width = "half",
         default = false,
     })
-    
+
     table.insert(options, {
         type = "submenu",
         name = "Social",
@@ -1298,7 +1307,6 @@ function CM.Settings.Panel:AddSocialSection(options)
         controls = controls,
     })
 end
-
 
 -- =====================================================
 -- LINK SETTINGS
@@ -1350,16 +1358,16 @@ function CM.Settings.Panel:AddCustomNotes(options)
     if LibCustomIcons and LibCustomIcons.GetStatic and GetDisplayName then
         local displayName = GetDisplayName()
         local iconPath = LibCustomIcons.GetStatic(displayName)
-        
+
         if iconPath then
             table.insert(options, {
                 type = "texture",
                 image = iconPath,
                 width = "full",
-                height = 64, 
-                tooltip = "This icon is provided by LibCustomIcons addon"
+                height = 64,
+                tooltip = "This icon is provided by LibCustomIcons addon",
             })
-            
+
             table.insert(options, {
                 type = "description",
                 text = "|c6BCF7EYou have a custom icon!|r This icon will appear in your character header.",
@@ -1520,7 +1528,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
             else
                 CM.DebugPrint("SETTINGS", "Build notes refreshed (" .. string.len(newValue) .. " bytes)")
             end
-            
+
             -- Update character counter if it exists
             if CM._buildNotesCounterLabel then
                 local charCount = string.len(newValue)
@@ -1536,7 +1544,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
         -- NOTE: No default value - this is user-entered data that must never be reset
         reference = "CharacterMarkdown_BuildNotesEditBox",
     })
-    
+
     -- Character counter label
     table.insert(options, {
         type = "description",

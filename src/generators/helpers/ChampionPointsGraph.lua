@@ -19,50 +19,52 @@ local ChampionPointsGraph = {}
 local function createGraph(nodes)
     local graph = {
         nodes = nodes,
-        _byId = {}
+        _byId = {},
     }
-    
+
     -- Build ID index
     for name, node in pairs(nodes) do
         graph._byId[node.id] = node
     end
-    
+
     -- Build adjacency lists (dependents)
     for name, node in pairs(nodes) do
         node.dependents = {}
     end
-    
+
     for name, node in pairs(nodes) do
         for _, prereq in ipairs(node.prerequisites) do
             local prereqNode = nodes[prereq.star]
             if prereqNode then
                 prereqNode.dependents[#prereqNode.dependents + 1] = {
                     star = name,
-                    min_points = prereq.min_points
+                    min_points = prereq.min_points,
                 }
             end
         end
     end
-    
+
     function graph:getNode(name)
         return self.nodes[name]
     end
-    
+
     function graph:getNodeById(id)
         return self._byId[id]
     end
-    
+
     function graph:getNeighbors(name)
         local node = self.nodes[name]
-        if not node then return nil end
-        
+        if not node then
+            return nil
+        end
+
         local neighbors = {}
         -- Add prerequisites
         for _, prereq in ipairs(node.prerequisites) do
             neighbors[#neighbors + 1] = {
                 star = prereq.star,
                 direction = "prerequisite",
-                min_points = prereq.min_points
+                min_points = prereq.min_points,
             }
         end
         -- Add dependents
@@ -70,12 +72,12 @@ local function createGraph(nodes)
             neighbors[#neighbors + 1] = {
                 star = dep.star,
                 direction = "dependent",
-                min_points = dep.min_points
+                min_points = dep.min_points,
             }
         end
         return neighbors
     end
-    
+
     function graph:getRoots()
         local roots = {}
         for name, node in pairs(self.nodes) do
@@ -85,20 +87,20 @@ local function createGraph(nodes)
         end
         return roots
     end
-    
+
     function graph:walkPath(fromName, toName)
         -- BFS pathfinding (ignores point requirements)
         local visited = {}
-        local queue = {{name = fromName, path = {fromName}}}
+        local queue = { { name = fromName, path = { fromName } } }
         visited[fromName] = true
-        
+
         while #queue > 0 do
             local current = table.remove(queue, 1)
-            
+
             if current.name == toName then
                 return current.path
             end
-            
+
             local neighbors = self:getNeighbors(current.name)
             if neighbors then
                 for _, neighbor in ipairs(neighbors) do
@@ -109,27 +111,31 @@ local function createGraph(nodes)
                             newPath[i] = p
                         end
                         newPath[#newPath + 1] = neighbor.star
-                        queue[#queue + 1] = {name = neighbor.star, path = newPath}
+                        queue[#queue + 1] = { name = neighbor.star, path = newPath }
                     end
                 end
             end
         end
-        
+
         return nil -- No path found
     end
-    
+
     function graph:getPrerequisiteChain(name)
         -- Returns all prerequisites needed to unlock a node (topologically sorted)
         local node = self.nodes[name]
-        if not node then return nil end
-        
+        if not node then
+            return nil
+        end
+
         local chain = {}
         local visited = {}
-        
+
         local function visit(nodeName)
-            if visited[nodeName] then return end
+            if visited[nodeName] then
+                return
+            end
             visited[nodeName] = true
-            
+
             local n = self.nodes[nodeName]
             if n then
                 for _, prereq in ipairs(n.prerequisites) do
@@ -138,7 +144,7 @@ local function createGraph(nodes)
                 if nodeName ~= name then
                     chain[#chain + 1] = {
                         star = nodeName,
-                        min_points = 0
+                        min_points = 0,
                     }
                     -- Find the min_points required by the dependent
                     for _, p in ipairs(n.dependents) do
@@ -153,7 +159,7 @@ local function createGraph(nodes)
                 end
             end
         end
-        
+
         for _, prereq in ipairs(node.prerequisites) do
             visit(prereq.star)
             -- Add direct prerequisites with their required points
@@ -166,13 +172,13 @@ local function createGraph(nodes)
                 end
             end
             if not found then
-                chain[#chain + 1] = {star = prereq.star, min_points = prereq.min_points}
+                chain[#chain + 1] = { star = prereq.star, min_points = prereq.min_points }
             end
         end
-        
+
         return chain
     end
-    
+
     return graph
 end
 
@@ -188,7 +194,7 @@ ChampionPointsGraph.craft = createGraph({
         stages = 1,
         points_per_stage = 25,
         max_points = 25,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Discipline Artisan"] = {
         id = 279,
@@ -197,7 +203,7 @@ ChampionPointsGraph.craft = createGraph({
         stages = 5,
         points_per_stage = 10,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Fade Away"] = {
         id = 84,
@@ -207,9 +213,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Cutpurse's Art", min_points = 25},
-            {star = "Meticulous Disassembly", min_points = 50}
-        }
+            { star = "Cutpurse's Art", min_points = 25 },
+            { star = "Meticulous Disassembly", min_points = 50 },
+        },
     },
     ["Out of Sight"] = {
         id = 68,
@@ -219,8 +225,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 30,
         prerequisites = {
-            {star = "Friends in Low Places", min_points = 25}
-        }
+            { star = "Friends in Low Places", min_points = 25 },
+        },
     },
     ["Shadowstrike"] = {
         id = 80,
@@ -230,8 +236,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 75,
         max_points = 75,
         prerequisites = {
-            {star = "Fade Away", min_points = 50}
-        }
+            { star = "Fade Away", min_points = 50 },
+        },
     },
     ["Cutpurse's Art"] = {
         id = 90,
@@ -241,8 +247,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Shadowstrike", min_points = 75}
-        }
+            { star = "Shadowstrike", min_points = 75 },
+        },
     },
     ["Master Gatherer"] = {
         id = 78,
@@ -252,10 +258,10 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 15,
         max_points = 75,
         prerequisites = {
-            {star = "Treasure Hunter", min_points = 25},
-            {star = "Fade Away", min_points = 50},
-            {star = "Meticulous Disassembly", min_points = 50}
-        }
+            { star = "Treasure Hunter", min_points = 25 },
+            { star = "Fade Away", min_points = 50 },
+            { star = "Meticulous Disassembly", min_points = 50 },
+        },
     },
     ["Treasure Hunter"] = {
         id = 79,
@@ -265,9 +271,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Meticulous Disassembly", min_points = 50},
-            {star = "Steadfast Enchantment", min_points = 10}
-        }
+            { star = "Meticulous Disassembly", min_points = 50 },
+            { star = "Steadfast Enchantment", min_points = 10 },
+        },
     },
     ["Angler's Instincts"] = {
         id = 89,
@@ -277,8 +283,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Liquid Efficiency", min_points = 50}
-        }
+            { star = "Liquid Efficiency", min_points = 50 },
+        },
     },
     ["Steadfast Enchantment"] = {
         id = 75,
@@ -288,8 +294,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Wanderer", min_points = 10}
-        }
+            { star = "Wanderer", min_points = 10 },
+        },
     },
     ["Reel Technique"] = {
         id = 88,
@@ -299,8 +305,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Angler's Instincts", min_points = 25}
-        }
+            { star = "Angler's Instincts", min_points = 25 },
+        },
     },
     ["Rationer"] = {
         id = 85,
@@ -310,8 +316,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 30,
         prerequisites = {
-            {star = "Steadfast Enchantment", min_points = 10}
-        }
+            { star = "Steadfast Enchantment", min_points = 10 },
+        },
     },
     ["War Mount"] = {
         id = 82,
@@ -321,9 +327,9 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 75,
         max_points = 75,
         prerequisites = {
-            {star = "Gifted Rider", min_points = 10},
-            {star = "Plentiful Harvest", min_points = 10}
-        }
+            { star = "Gifted Rider", min_points = 10 },
+            { star = "Plentiful Harvest", min_points = 10 },
+        },
     },
     ["Liquid Efficiency"] = {
         id = 86,
@@ -333,8 +339,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Rationer", min_points = 10}
-        }
+            { star = "Rationer", min_points = 10 },
+        },
     },
     ["Gifted Rider"] = {
         id = 92,
@@ -344,8 +350,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Master Gatherer", min_points = 15}
-        }
+            { star = "Master Gatherer", min_points = 15 },
+        },
     },
     ["Homemaker"] = {
         id = 91,
@@ -355,8 +361,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Reel Technique", min_points = 50}
-        }
+            { star = "Reel Technique", min_points = 50 },
+        },
     },
     ["Steed's Blessing"] = {
         id = 66,
@@ -365,7 +371,7 @@ ChampionPointsGraph.craft = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Wanderer"] = {
         id = 70,
@@ -375,8 +381,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Fortune's Favor", min_points = 10}
-        }
+            { star = "Fortune's Favor", min_points = 10 },
+        },
     },
     ["Sustaining Shadows"] = {
         id = 65,
@@ -385,7 +391,7 @@ ChampionPointsGraph.craft = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Plentiful Harvest"] = {
         id = 81,
@@ -395,8 +401,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Master Gatherer", min_points = 15}
-        }
+            { star = "Master Gatherer", min_points = 15 },
+        },
     },
     ["Meticulous Disassembly"] = {
         id = 83,
@@ -406,8 +412,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Inspiration Boost", min_points = 15}
-        }
+            { star = "Inspiration Boost", min_points = 15 },
+        },
     },
     ["Inspiration Boost"] = {
         id = 72,
@@ -417,8 +423,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 15,
         max_points = 45,
         prerequisites = {
-            {star = "Fortune's Favor", min_points = 10}
-        }
+            { star = "Fortune's Favor", min_points = 10 },
+        },
     },
     ["Fortune's Favor"] = {
         id = 71,
@@ -428,8 +434,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Gilded Fingers", min_points = 10}
-        }
+            { star = "Gilded Fingers", min_points = 10 },
+        },
     },
     ["Infamous"] = {
         id = 77,
@@ -439,8 +445,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 25,
         max_points = 25,
         prerequisites = {
-            {star = "Fleet Phantom", min_points = 8}
-        }
+            { star = "Fleet Phantom", min_points = 8 },
+        },
     },
     ["Fleet Phantom"] = {
         id = 67,
@@ -450,8 +456,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 8,
         max_points = 40,
         prerequisites = {
-            {star = "Friends in Low Places", min_points = 25}
-        }
+            { star = "Friends in Low Places", min_points = 25 },
+        },
     },
     ["Gilded Fingers"] = {
         id = 74,
@@ -460,7 +466,7 @@ ChampionPointsGraph.craft = createGraph({
         stages = 5,
         points_per_stage = 10,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Breakfall"] = {
         id = 69,
@@ -470,8 +476,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Wanderer", min_points = 10}
-        }
+            { star = "Wanderer", min_points = 10 },
+        },
     },
     ["Soul Reservoir"] = {
         id = 87,
@@ -481,8 +487,8 @@ ChampionPointsGraph.craft = createGraph({
         points_per_stage = 30,
         max_points = 30,
         prerequisites = {
-            {star = "Breakfall", min_points = 10}
-        }
+            { star = "Breakfall", min_points = 10 },
+        },
     },
     ["Professional Upkeep"] = {
         id = 1,
@@ -491,8 +497,8 @@ ChampionPointsGraph.craft = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
-    }
+        prerequisites = {},
+    },
 })
 
 --------------------------------------------------------------------------------
@@ -508,8 +514,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Precision", min_points = 10}
-        }
+            { star = "Precision", min_points = 10 },
+        },
     },
     ["From the Brink"] = {
         id = 262,
@@ -519,8 +525,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Blessed", min_points = 10}
-        }
+            { star = "Blessed", min_points = 10 },
+        },
     },
     ["Enlivening Overflow"] = {
         id = 263,
@@ -530,8 +536,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Blessed", min_points = 10}
-        }
+            { star = "Blessed", min_points = 10 },
+        },
     },
     ["Hope Infusion"] = {
         id = 261,
@@ -541,8 +547,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Blessed", min_points = 10}
-        }
+            { star = "Blessed", min_points = 10 },
+        },
     },
     ["Salve of Renewal"] = {
         id = 260,
@@ -552,8 +558,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Blessed", min_points = 10}
-        }
+            { star = "Blessed", min_points = 10 },
+        },
     },
     ["Soothing Tide"] = {
         id = 24,
@@ -563,8 +569,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Blessed", min_points = 10}
-        }
+            { star = "Blessed", min_points = 10 },
+        },
     },
     ["Rejuvenator"] = {
         id = 9,
@@ -574,8 +580,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Soothing Tide", min_points = 10}
-        }
+            { star = "Soothing Tide", min_points = 10 },
+        },
     },
     ["Foresight"] = {
         id = 163,
@@ -584,7 +590,7 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 1,
         points_per_stage = 50,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Cleansing Revival"] = {
         id = 29,
@@ -594,8 +600,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 50,
         max_points = 50,
         prerequisites = {
-            {star = "Focused Mending", min_points = 10}
-        }
+            { star = "Focused Mending", min_points = 10 },
+        },
     },
     ["Focused Mending"] = {
         id = 26,
@@ -605,8 +611,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Blessed", min_points = 10}
-        }
+            { star = "Blessed", min_points = 10 },
+        },
     },
     ["Swift Renewal"] = {
         id = 28,
@@ -616,8 +622,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Blessed", min_points = 10}
-        }
+            { star = "Blessed", min_points = 10 },
+        },
     },
     ["Exploiter"] = {
         id = 277,
@@ -627,8 +633,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Force of Nature"] = {
         id = 276,
@@ -638,8 +644,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Master-at-Arms"] = {
         id = 264,
@@ -649,8 +655,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Weapons Expert"] = {
         id = 259,
@@ -660,8 +666,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Deadly Aim"] = {
         id = 25,
@@ -671,8 +677,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Biting Aura"] = {
         id = 23,
@@ -682,8 +688,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Thaumaturge"] = {
         id = 27,
@@ -693,8 +699,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Reaving Blows"] = {
         id = 30,
@@ -704,8 +710,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Precision", min_points = 10}
-        }
+            { star = "Precision", min_points = 10 },
+        },
     },
     ["Wrathful Strikes"] = {
         id = 8,
@@ -715,8 +721,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Precision", min_points = 10}
-        }
+            { star = "Precision", min_points = 10 },
+        },
     },
     ["Occult Overload"] = {
         id = 32,
@@ -726,8 +732,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Precision", min_points = 10}
-        }
+            { star = "Precision", min_points = 10 },
+        },
     },
     ["Backstabber"] = {
         id = 31,
@@ -737,8 +743,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Precision", min_points = 10}
-        }
+            { star = "Precision", min_points = 10 },
+        },
     },
     ["Ironclad"] = {
         id = 265,
@@ -748,8 +754,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Quick Recovery", min_points = 10}
-        }
+            { star = "Quick Recovery", min_points = 10 },
+        },
     },
     ["Resilience"] = {
         id = 13,
@@ -759,8 +765,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Quick Recovery", min_points = 10}
-        }
+            { star = "Quick Recovery", min_points = 10 },
+        },
     },
     ["Enduring Resolve"] = {
         id = 136,
@@ -770,8 +776,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Quick Recovery", min_points = 10}
-        }
+            { star = "Quick Recovery", min_points = 10 },
+        },
     },
     ["Reinforced"] = {
         id = 160,
@@ -781,9 +787,9 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Riposte", min_points = 1},
-            {star = "Bulwark", min_points = 1}
-        }
+            { star = "Riposte", min_points = 1 },
+            { star = "Bulwark", min_points = 1 },
+        },
     },
     ["Riposte"] = {
         id = 162,
@@ -793,8 +799,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Duelist's Rebuff", min_points = 1}
-        }
+            { star = "Duelist's Rebuff", min_points = 1 },
+        },
     },
     ["Bulwark"] = {
         id = 159,
@@ -804,8 +810,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Unyielding", min_points = 25}
-        }
+            { star = "Unyielding", min_points = 25 },
+        },
     },
     ["Last Stand"] = {
         id = 161,
@@ -815,10 +821,10 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Riposte", min_points = 1},
-            {star = "Reinforced", min_points = 1},
-            {star = "Cutting Defense", min_points = 1}
-        }
+            { star = "Riposte", min_points = 1 },
+            { star = "Reinforced", min_points = 1 },
+            { star = "Cutting Defense", min_points = 1 },
+        },
     },
     ["Cutting Defense"] = {
         id = 33,
@@ -828,9 +834,9 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Riposte", min_points = 1},
-            {star = "Reinforced", min_points = 1}
-        }
+            { star = "Riposte", min_points = 1 },
+            { star = "Reinforced", min_points = 1 },
+        },
     },
     ["Precision"] = {
         id = 11,
@@ -839,7 +845,7 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 2,
         points_per_stage = 10,
         max_points = 20,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Blessed"] = {
         id = 108,
@@ -849,9 +855,9 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Precision", min_points = 10},
-            {star = "Eldritch Insight", min_points = 10}
-        }
+            { star = "Precision", min_points = 10 },
+            { star = "Eldritch Insight", min_points = 10 },
+        },
     },
     ["Piercing"] = {
         id = 10,
@@ -861,10 +867,10 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Precision", min_points = 10},
-            {star = "Eldritch Insight", min_points = 10},
-            {star = "Tireless Discipline", min_points = 10}
-        }
+            { star = "Precision", min_points = 10 },
+            { star = "Eldritch Insight", min_points = 10 },
+            { star = "Tireless Discipline", min_points = 10 },
+        },
     },
     ["Flawless Ritual"] = {
         id = 17,
@@ -874,8 +880,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 20,
         max_points = 40,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["War Mage"] = {
         id = 21,
@@ -885,8 +891,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 30,
         prerequisites = {
-            {star = "Flawless Ritual", min_points = 10}
-        }
+            { star = "Flawless Ritual", min_points = 10 },
+        },
     },
     ["Battle Mastery"] = {
         id = 18,
@@ -896,8 +902,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 20,
         max_points = 40,
         prerequisites = {
-            {star = "Piercing", min_points = 10}
-        }
+            { star = "Piercing", min_points = 10 },
+        },
     },
     ["Mighty"] = {
         id = 22,
@@ -907,8 +913,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 1,
         max_points = 30,
         prerequisites = {
-            {star = "Battle Mastery", min_points = 20}
-        }
+            { star = "Battle Mastery", min_points = 20 },
+        },
     },
     ["Tireless Discipline"] = {
         id = 6,
@@ -917,7 +923,7 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 2,
         points_per_stage = 20,
         max_points = 40,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Quick Recovery"] = {
         id = 20,
@@ -927,8 +933,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Eldritch Insight", min_points = 10}
-        }
+            { star = "Eldritch Insight", min_points = 10 },
+        },
     },
     ["Preparation"] = {
         id = 14,
@@ -938,8 +944,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Quick Recovery", min_points = 10}
-        }
+            { star = "Quick Recovery", min_points = 10 },
+        },
     },
     ["Elemental Aegis"] = {
         id = 15,
@@ -949,8 +955,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Preparation", min_points = 10}
-        }
+            { star = "Preparation", min_points = 10 },
+        },
     },
     ["Hardy"] = {
         id = 16,
@@ -960,8 +966,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Preparation", min_points = 10}
-        }
+            { star = "Preparation", min_points = 10 },
+        },
     },
     ["Eldritch Insight"] = {
         id = 99,
@@ -970,7 +976,7 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 2,
         points_per_stage = 10,
         max_points = 20,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Duelist's Rebuff"] = {
         id = 134,
@@ -980,8 +986,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Eldritch Insight", min_points = 10}
-        }
+            { star = "Eldritch Insight", min_points = 10 },
+        },
     },
     ["Unassailable"] = {
         id = 133,
@@ -991,8 +997,8 @@ ChampionPointsGraph.warfare = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Quick Recovery", min_points = 10}
-        }
+            { star = "Quick Recovery", min_points = 10 },
+        },
     },
     ["Endless Endurance"] = {
         id = 5,
@@ -1001,7 +1007,7 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Untamed Aggression"] = {
         id = 4,
@@ -1010,7 +1016,7 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Arcane Supremacy"] = {
         id = 3,
@@ -1019,7 +1025,7 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     -- Missing node referenced by Bulwark
     ["Unyielding"] = {
@@ -1029,8 +1035,8 @@ ChampionPointsGraph.warfare = createGraph({
         stages = 1,
         points_per_stage = 25,
         max_points = 25,
-        prerequisites = {}
-    }
+        prerequisites = {},
+    },
 })
 
 --------------------------------------------------------------------------------
@@ -1046,8 +1052,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Hasty", min_points = 10}
-        }
+            { star = "Hasty", min_points = 10 },
+        },
     },
     ["Celerity"] = {
         id = 270,
@@ -1057,8 +1063,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Hasty", min_points = 10}
-        }
+            { star = "Hasty", min_points = 10 },
+        },
     },
     ["Refreshing Stride"] = {
         id = 271,
@@ -1068,8 +1074,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Hasty", min_points = 10}
-        }
+            { star = "Hasty", min_points = 10 },
+        },
     },
     ["Shield Master"] = {
         id = 63,
@@ -1079,8 +1085,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Hero's Vigor", min_points = 10}
-        }
+            { star = "Hero's Vigor", min_points = 10 },
+        },
     },
     ["Bastion"] = {
         id = 46,
@@ -1090,8 +1096,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Shield Master", min_points = 10}
-        }
+            { star = "Shield Master", min_points = 10 },
+        },
     },
     ["Survival Instincts"] = {
         id = 57,
@@ -1101,8 +1107,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Mystic Tenacity", min_points = 10}
-        }
+            { star = "Mystic Tenacity", min_points = 10 },
+        },
     },
     ["Spirit Mastery"] = {
         id = 56,
@@ -1112,8 +1118,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Tempered Soul", min_points = 25}
-        }
+            { star = "Tempered Soul", min_points = 25 },
+        },
     },
     ["Arcane Alacrity"] = {
         id = 61,
@@ -1123,8 +1129,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Bastion", min_points = 10}
-        }
+            { star = "Bastion", min_points = 10 },
+        },
     },
     ["Bloody Renewal"] = {
         id = 48,
@@ -1134,8 +1140,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Hero's Vigor", min_points = 10}
-        }
+            { star = "Hero's Vigor", min_points = 10 },
+        },
     },
     ["Strategic Reserve"] = {
         id = 49,
@@ -1145,8 +1151,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Hero's Vigor", min_points = 10}
-        }
+            { star = "Hero's Vigor", min_points = 10 },
+        },
     },
     ["Relentlessness"] = {
         id = 274,
@@ -1156,8 +1162,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Mystic Tenacity", min_points = 10}
-        }
+            { star = "Mystic Tenacity", min_points = 10 },
+        },
     },
     ["Pain's Refuge"] = {
         id = 275,
@@ -1167,8 +1173,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Mystic Tenacity", min_points = 10}
-        }
+            { star = "Mystic Tenacity", min_points = 10 },
+        },
     },
     ["Sustained by Suffering"] = {
         id = 273,
@@ -1178,8 +1184,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Mystic Tenacity", min_points = 10}
-        }
+            { star = "Mystic Tenacity", min_points = 10 },
+        },
     },
     ["Siphoning Spells"] = {
         id = 47,
@@ -1189,8 +1195,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Hero's Vigor", min_points = 10}
-        }
+            { star = "Hero's Vigor", min_points = 10 },
+        },
     },
     ["Rousing Speed"] = {
         id = 62,
@@ -1200,8 +1206,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Sprinter", min_points = 10}
-        }
+            { star = "Sprinter", min_points = 10 },
+        },
     },
     ["Soothing Shield"] = {
         id = 268,
@@ -1211,8 +1217,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Nimble Protector", min_points = 3}
-        }
+            { star = "Nimble Protector", min_points = 3 },
+        },
     },
     ["Bracing Anchor"] = {
         id = 267,
@@ -1222,8 +1228,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Nimble Protector", min_points = 3}
-        }
+            { star = "Nimble Protector", min_points = 3 },
+        },
     },
     ["Ward Master"] = {
         id = 266,
@@ -1233,8 +1239,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Nimble Protector", min_points = 3}
-        }
+            { star = "Nimble Protector", min_points = 3 },
+        },
     },
     ["On Guard"] = {
         id = 60,
@@ -1244,8 +1250,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Tireless Guardian", min_points = 10}
-        }
+            { star = "Tireless Guardian", min_points = 10 },
+        },
     },
     ["Expert Evasion"] = {
         id = 51,
@@ -1255,8 +1261,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Tumbling", min_points = 10}
-        }
+            { star = "Tumbling", min_points = 10 },
+        },
     },
     ["Slippery"] = {
         id = 52,
@@ -1266,8 +1272,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Defiance", min_points = 10}
-        }
+            { star = "Defiance", min_points = 10 },
+        },
     },
     ["Unchained"] = {
         id = 64,
@@ -1277,8 +1283,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 1,
         max_points = 50,
         prerequisites = {
-            {star = "Slippery", min_points = 10}
-        }
+            { star = "Slippery", min_points = 10 },
+        },
     },
     ["Juggernaut"] = {
         id = 59,
@@ -1288,8 +1294,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Defiance", min_points = 10}
-        }
+            { star = "Defiance", min_points = 10 },
+        },
     },
     ["Peace of Mind"] = {
         id = 54,
@@ -1299,8 +1305,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Defiance", min_points = 10}
-        }
+            { star = "Defiance", min_points = 10 },
+        },
     },
     ["Hardened"] = {
         id = 55,
@@ -1310,8 +1316,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 50,
         prerequisites = {
-            {star = "Defiance", min_points = 10}
-        }
+            { star = "Defiance", min_points = 10 },
+        },
     },
     ["Rejuvenation"] = {
         id = 35,
@@ -1320,7 +1326,7 @@ ChampionPointsGraph.fitness = createGraph({
         stages = 5,
         points_per_stage = 10,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Fortified"] = {
         id = 34,
@@ -1329,7 +1335,7 @@ ChampionPointsGraph.fitness = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Boundless Vitality"] = {
         id = 2,
@@ -1338,7 +1344,7 @@ ChampionPointsGraph.fitness = createGraph({
         stages = 50,
         points_per_stage = 1,
         max_points = 50,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Sprinter"] = {
         id = 38,
@@ -1347,7 +1353,7 @@ ChampionPointsGraph.fitness = createGraph({
         stages = 2,
         points_per_stage = 10,
         max_points = 20,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Hasty"] = {
         id = 42,
@@ -1357,9 +1363,9 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 8,
         max_points = 16,
         prerequisites = {
-            {star = "Sprinter", min_points = 10},
-            {star = "Hero's Vigor", min_points = 10}
-        }
+            { star = "Sprinter", min_points = 10 },
+            { star = "Hero's Vigor", min_points = 10 },
+        },
     },
     ["Hero's Vigor"] = {
         id = 113,
@@ -1369,8 +1375,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Mystic Tenacity", min_points = 10}
-        }
+            { star = "Mystic Tenacity", min_points = 10 },
+        },
     },
     ["Tempered Soul"] = {
         id = 58,
@@ -1380,9 +1386,9 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 25,
         max_points = 50,
         prerequisites = {
-            {star = "Piercing Gaze", min_points = 10},
-            {star = "Survival Instincts", min_points = 10}
-        }
+            { star = "Piercing Gaze", min_points = 10 },
+            { star = "Survival Instincts", min_points = 10 },
+        },
     },
     ["Piercing Gaze"] = {
         id = 45,
@@ -1392,8 +1398,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 30,
         prerequisites = {
-            {star = "Hero's Vigor", min_points = 10}
-        }
+            { star = "Hero's Vigor", min_points = 10 },
+        },
     },
     ["Mystic Tenacity"] = {
         id = 53,
@@ -1403,9 +1409,9 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Hero's Vigor", min_points = 10},
-            {star = "Tumbling", min_points = 10}
-        }
+            { star = "Hero's Vigor", min_points = 10 },
+            { star = "Tumbling", min_points = 10 },
+        },
     },
     ["Tireless Guardian"] = {
         id = 39,
@@ -1415,8 +1421,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Hasty", min_points = 10}
-        }
+            { star = "Hasty", min_points = 10 },
+        },
     },
     ["Savage Defense"] = {
         id = 40,
@@ -1426,8 +1432,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 15,
         max_points = 30,
         prerequisites = {
-            {star = "Tireless Guardian", min_points = 10}
-        }
+            { star = "Tireless Guardian", min_points = 10 },
+        },
     },
     ["Bashing Brutality"] = {
         id = 50,
@@ -1437,8 +1443,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 10,
         max_points = 20,
         prerequisites = {
-            {star = "Tireless Guardian", min_points = 10}
-        }
+            { star = "Tireless Guardian", min_points = 10 },
+        },
     },
     ["Nimble Protector"] = {
         id = 44,
@@ -1448,8 +1454,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 3,
         max_points = 6,
         prerequisites = {
-            {star = "Tireless Guardian", min_points = 10}
-        }
+            { star = "Tireless Guardian", min_points = 10 },
+        },
     },
     ["Fortification"] = {
         id = 43,
@@ -1459,8 +1465,8 @@ ChampionPointsGraph.fitness = createGraph({
         points_per_stage = 15,
         max_points = 20,
         prerequisites = {
-            {star = "Tireless Guardian", min_points = 10}
-        }
+            { star = "Tireless Guardian", min_points = 10 },
+        },
     },
     ["Tumbling"] = {
         id = 37,
@@ -1469,7 +1475,7 @@ ChampionPointsGraph.fitness = createGraph({
         stages = 2,
         points_per_stage = 15,
         max_points = 30,
-        prerequisites = {}
+        prerequisites = {},
     },
     ["Defiance"] = {
         id = 128,
@@ -1478,8 +1484,8 @@ ChampionPointsGraph.fitness = createGraph({
         stages = 2,
         points_per_stage = 10,
         max_points = 20,
-        prerequisites = {}
-    }
+        prerequisites = {},
+    },
 })
 
 --------------------------------------------------------------------------------
@@ -1506,7 +1512,7 @@ local THEMES = {
         slottedFill = "#2d5016",
         slottedStroke = "#9acd32",
         unslottedFill = "#1a3009",
-        unslottedStroke = "#4a7c23"
+        unslottedStroke = "#4a7c23",
     },
     warfare = {
         name = "Warfare",
@@ -1526,7 +1532,7 @@ local THEMES = {
         slottedFill = "#6b1e1e",
         slottedStroke = "#e74c3c",
         unslottedFill = "#400d0d",
-        unslottedStroke = "#c0392b"
+        unslottedStroke = "#c0392b",
     },
     fitness = {
         name = "Fitness",
@@ -1546,46 +1552,64 @@ local THEMES = {
         slottedFill = "#1e4d6b",
         slottedStroke = "#5dade2",
         unslottedFill = "#0d2840",
-        unslottedStroke = "#3498db"
-    }
+        unslottedStroke = "#3498db",
+    },
 }
 
 -- Category groupings for each constellation
 local CATEGORIES = {
     craft = {
-        {name = "STEALTH", emoji = "🗡️", title = "STEALTH & THIEVERY", stars = {76, 68, 67, 77, 80, 90, 84}},
-        {name = "GATHER", emoji = "🌿", title = "GATHERING & CRAFTING", stars = {279, 78, 79, 81, 83, 72}},
-        {name = "FISH", emoji = "🎣", title = "FISHING", stars = {89, 88}},
-        {name = "CONSUME", emoji = "🧪", title = "CONSUMABLES", stars = {85, 86, 91}},
-        {name = "MOUNT", emoji = "🐎", title = "MOUNT & MOVEMENT", stars = {82, 92, 66, 70, 65}},
-        {name = "UTILITY", emoji = "⚡", title = "UTILITY", stars = {75, 71, 74, 69, 87, 1}}
+        { name = "STEALTH", emoji = "🗡️", title = "STEALTH & THIEVERY", stars = { 76, 68, 67, 77, 80, 90, 84 } },
+        { name = "GATHER", emoji = "🌿", title = "GATHERING & CRAFTING", stars = { 279, 78, 79, 81, 83, 72 } },
+        { name = "FISH", emoji = "🎣", title = "FISHING", stars = { 89, 88 } },
+        { name = "CONSUME", emoji = "🧪", title = "CONSUMABLES", stars = { 85, 86, 91 } },
+        { name = "MOUNT", emoji = "🐎", title = "MOUNT & MOVEMENT", stars = { 82, 92, 66, 70, 65 } },
+        { name = "UTILITY", emoji = "⚡", title = "UTILITY", stars = { 75, 71, 74, 69, 87, 1 } },
     },
     warfare = {
-        {name = "OFFENSE", emoji = "⚔️", title = "DIRECT DAMAGE", stars = {11, 12, 30, 8, 32, 31}},
-        {name = "WEAPON", emoji = "🗡️", title = "WEAPON MASTERY", stars = {10, 277, 276, 264, 259, 25, 23, 27}},
-        {name = "MAGIC_DMG", emoji = "✨", title = "MAGIC DAMAGE", stars = {17, 21, 18, 22}},
-        {name = "HEALING", emoji = "💚", title = "HEALING", stars = {108, 262, 263, 261, 260, 24, 9, 163, 29, 26, 28}},
-        {name = "DEFENSE", emoji = "🛡️", title = "DAMAGE MITIGATION", stars = {99, 20, 265, 13, 136, 14, 15, 16}},
-        {name = "SUSTAIN", emoji = "⚡", title = "RESOURCE SUSTAIN", stars = {6, 5, 4, 3}},
-        {name = "BLOCK", emoji = "🔰", title = "BLOCK & RIPOSTE", stars = {134, 133, 162, 159, 160, 161, 33}}
+        { name = "OFFENSE", emoji = "⚔️", title = "DIRECT DAMAGE", stars = { 11, 12, 30, 8, 32, 31 } },
+        {
+            name = "WEAPON",
+            emoji = "🗡️",
+            title = "WEAPON MASTERY",
+            stars = { 10, 277, 276, 264, 259, 25, 23, 27 },
+        },
+        { name = "MAGIC_DMG", emoji = "✨", title = "MAGIC DAMAGE", stars = { 17, 21, 18, 22 } },
+        {
+            name = "HEALING",
+            emoji = "💚",
+            title = "HEALING",
+            stars = { 108, 262, 263, 261, 260, 24, 9, 163, 29, 26, 28 },
+        },
+        {
+            name = "DEFENSE",
+            emoji = "🛡️",
+            title = "DAMAGE MITIGATION",
+            stars = { 99, 20, 265, 13, 136, 14, 15, 16 },
+        },
+        { name = "SUSTAIN", emoji = "⚡", title = "RESOURCE SUSTAIN", stars = { 6, 5, 4, 3 } },
+        { name = "BLOCK", emoji = "🔰", title = "BLOCK & RIPOSTE", stars = { 134, 133, 162, 159, 160, 161, 33 } },
     },
     fitness = {
-        {name = "RECOVERY", emoji = "💧", title = "RECOVERY", stars = {35, 34, 2}},
-        {name = "SPEED", emoji = "⚡", title = "SPEED & MOBILITY", stars = {38, 42, 272, 270, 271, 62}},
-        {name = "SHIELD", emoji = "🛡️", title = "SHIELD & BLOCK", stars = {113, 63, 46, 50}},
-        {name = "MAGIC", emoji = "✨", title = "MAGIC SUSTAIN", stars = {58, 56, 61, 47, 45}},
-        {name = "HEALTH", emoji = "❤️", title = "HEALTH & SURVIVAL", stars = {48, 49, 53, 57, 274, 275, 273}},
-        {name = "DEFENSE", emoji = "🔰", title = "DEFENSIVE", stars = {39, 40, 60, 44, 43, 268, 267, 266}},
-        {name = "EVASION", emoji = "💨", title = "EVASION & CC", stars = {37, 51, 128, 52, 64, 59, 54, 55}}
-    }
+        { name = "RECOVERY", emoji = "💧", title = "RECOVERY", stars = { 35, 34, 2 } },
+        { name = "SPEED", emoji = "⚡", title = "SPEED & MOBILITY", stars = { 38, 42, 272, 270, 271, 62 } },
+        { name = "SHIELD", emoji = "🛡️", title = "SHIELD & BLOCK", stars = { 113, 63, 46, 50 } },
+        { name = "MAGIC", emoji = "✨", title = "MAGIC SUSTAIN", stars = { 58, 56, 61, 47, 45 } },
+        { name = "HEALTH", emoji = "❤️", title = "HEALTH & SURVIVAL", stars = { 48, 49, 53, 57, 274, 275, 273 } },
+        { name = "DEFENSE", emoji = "🔰", title = "DEFENSIVE", stars = { 39, 40, 60, 44, 43, 268, 267, 266 } },
+        { name = "EVASION", emoji = "💨", title = "EVASION & CC", stars = { 37, 51, 128, 52, 64, 59, 54, 55 } },
+    },
 }
 
 -- Generate theme configuration block
 local function generateThemeConfig(constellationName)
     local theme = THEMES[constellationName]
-    if not theme then return "" end
-    
-    return string.format([[%%{init: {
+    if not theme then
+        return ""
+    end
+
+    return string.format(
+        [[%%{init: {
   'theme': 'base',
   'themeVariables': {
     'primaryColor': '%s',
@@ -1607,18 +1631,33 @@ local function generateThemeConfig(constellationName)
     'rankSpacing': 60,
     'padding': 15
   }
-}}%%]], 
-        theme.primaryColor, theme.primaryTextColor, theme.primaryBorderColor,
-        theme.lineColor, theme.secondaryColor, theme.tertiaryColor,
-        theme.background, theme.mainBkg, theme.nodeBorder,
-        theme.clusterBkg, theme.titleColor, theme.edgeLabelBackground)
+}}%%]],
+        theme.primaryColor,
+        theme.primaryTextColor,
+        theme.primaryBorderColor,
+        theme.lineColor,
+        theme.secondaryColor,
+        theme.tertiaryColor,
+        theme.background,
+        theme.mainBkg,
+        theme.nodeBorder,
+        theme.clusterBkg,
+        theme.titleColor,
+        theme.edgeLabelBackground
+    )
 end
 
 -- Generate node definition
 local function generateNodeDefinition(star, pointsAllocated, isSlottable)
     local icon = (pointsAllocated and pointsAllocated > 0) and "✅" or (isSlottable and "🔲" or "✅")
-    local label = string.format('%s %s<br/><small>%dstg × %dpts = %d max</small>',
-        icon, star.name, star.stages, star.points_per_stage, star.max_points)
+    local label = string.format(
+        "%s %s<br/><small>%dstg × %dpts = %d max</small>",
+        icon,
+        star.name,
+        star.stages,
+        star.points_per_stage,
+        star.max_points
+    )
     return string.format('    %d["%s"]', star.id, label)
 end
 
@@ -1626,26 +1665,26 @@ end
 local function generateSubgraph(category, constellation, characterPoints)
     local lines = {}
     table.insert(lines, string.format('    subgraph %s["%s %s"]', category.name, category.emoji, category.title))
-    table.insert(lines, '        direction TB')
-    
+    table.insert(lines, "        direction TB")
+
     -- Generate nodes for this category
     for _, starId in ipairs(category.stars) do
         local star = constellation._byId[starId]
         if star then
             local points = characterPoints and characterPoints[star.name] or 0
-            table.insert(lines, '    ' .. generateNodeDefinition(star, points, star.slottable))
+            table.insert(lines, "    " .. generateNodeDefinition(star, points, star.slottable))
         end
     end
-    
-    table.insert(lines, '    end')
-    return table.concat(lines, '\n')
+
+    table.insert(lines, "    end")
+    return table.concat(lines, "\n")
 end
 
 -- Generate all connections
 local function generateConnections(constellation)
     local lines = {}
     local processed = {}
-    
+
     for name, node in pairs(constellation.nodes) do
         for _, prereq in ipairs(node.prerequisites) do
             local prereqNode = constellation.nodes[prereq.star]
@@ -1653,32 +1692,39 @@ local function generateConnections(constellation)
                 local key = prereqNode.id .. "-" .. node.id
                 if not processed[key] then
                     processed[key] = true
-                    table.insert(lines, string.format('    %d -->|"%d"| %d',
-                        prereqNode.id, prereq.min_points, node.id))
+                    table.insert(lines, string.format('    %d -->|"%d"| %d', prereqNode.id, prereq.min_points, node.id))
                 end
             end
         end
     end
-    
-    return table.concat(lines, '\n')
+
+    return table.concat(lines, "\n")
 end
 
 -- Generate styling classes
 local function generateStyling(constellationName, constellation, characterPoints)
     local theme = THEMES[constellationName]
     local lines = {}
-    
+
     -- Define classes
-    table.insert(lines, string.format([[    %% Class styling
+    table.insert(
+        lines,
+        string.format(
+            [[    %% Class styling
     classDef slotted fill:%s,stroke:%s,stroke-width:3px,color:#fff
     classDef unslotted fill:%s,stroke:%s,stroke-width:2px,color:%s]],
-        theme.slottedFill, theme.slottedStroke,
-        theme.unslottedFill, theme.unslottedStroke, theme.titleColor))
-    
+            theme.slottedFill,
+            theme.slottedStroke,
+            theme.unslottedFill,
+            theme.unslottedStroke,
+            theme.titleColor
+        )
+    )
+
     -- Classify nodes
     local slottedIds = {}
     local unslottedIds = {}
-    
+
     for name, node in pairs(constellation.nodes) do
         local points = characterPoints and characterPoints[name] or 0
         if node.slottable then
@@ -1695,15 +1741,15 @@ local function generateStyling(constellationName, constellation, characterPoints
             end
         end
     end
-    
+
     if #slottedIds > 0 then
-        table.insert(lines, '    class ' .. table.concat(slottedIds, ',') .. ' slotted')
+        table.insert(lines, "    class " .. table.concat(slottedIds, ",") .. " slotted")
     end
     if #unslottedIds > 0 then
-        table.insert(lines, '    class ' .. table.concat(unslottedIds, ',') .. ' unslotted')
+        table.insert(lines, "    class " .. table.concat(unslottedIds, ",") .. " unslotted")
     end
-    
-    return table.concat(lines, '\n')
+
+    return table.concat(lines, "\n")
 end
 
 -- Main function to generate Mermaid diagram
@@ -1719,42 +1765,42 @@ function ChampionPointsGraph.generateMermaidDiagram(constellationName, character
         Returns:
             string: Complete Mermaid flowchart diagram
     ]]
-    
+
     local constellation = ChampionPointsGraph[constellationName]
     if not constellation then
         return "-- Error: Invalid constellation name: " .. tostring(constellationName)
     end
-    
+
     characterPoints = characterPoints or {}
-    
+
     local diagram = {}
-    
+
     -- Theme configuration
     table.insert(diagram, generateThemeConfig(constellationName))
-    table.insert(diagram, '')
-    
+    table.insert(diagram, "")
+
     -- Flowchart declaration
-    table.insert(diagram, 'flowchart LR')
-    
+    table.insert(diagram, "flowchart LR")
+
     -- Generate subgraphs
     local categories = CATEGORIES[constellationName]
     if categories then
         for _, category in ipairs(categories) do
             table.insert(diagram, generateSubgraph(category, constellation, characterPoints))
-            table.insert(diagram, '')
+            table.insert(diagram, "")
         end
     end
-    
+
     -- Generate connections
-    table.insert(diagram, '    %% Connections')
+    table.insert(diagram, "    %% Connections")
     table.insert(diagram, generateConnections(constellation))
-    table.insert(diagram, '')
-    
+    table.insert(diagram, "")
+
     -- Generate styling
     table.insert(diagram, generateStyling(constellationName, constellation, characterPoints))
-    table.insert(diagram, '')
-    
-    return table.concat(diagram, '\n')
+    table.insert(diagram, "")
+
+    return table.concat(diagram, "\n")
 end
 
 --------------------------------------------------------------------------------
@@ -1762,4 +1808,3 @@ end
 --------------------------------------------------------------------------------
 
 return ChampionPointsGraph
-

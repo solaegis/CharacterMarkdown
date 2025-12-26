@@ -5,25 +5,39 @@
 CharacterMarkdown = {
     api = {
         combat = {},
-        character = {}
+        character = {},
     },
     collectors = {},
     generators = {
-        sections = {}
+        sections = {},
     },
     utils = {
-        FormatNumber = function(n) return tostring(n) end,
+        FormatNumber = function(n)
+            return tostring(n)
+        end,
         markdown = {
-            CreateSeparator = function() return "\n---\n\n" end,
-            GenerateAnchor = function(s) return s:lower():gsub(" ", "-") end
-        }
+            CreateSeparator = function()
+                return "\n---\n\n"
+            end,
+            GenerateAnchor = function(s)
+                return s:lower():gsub(" ", "-")
+            end,
+        },
     },
     links = {
-        CreateBuffLink = function() return "" end
+        CreateBuffLink = function()
+            return ""
+        end,
     },
-    Warn = function(msg) print("WARN: " .. msg) end,
-    DebugPrint = function(ctx, msg) print("DEBUG [" .. ctx .. "]: " .. (type(msg) == "function" and msg() or msg)) end,
-    Error = function(msg) print("ERROR: " .. msg) end
+    Warn = function(msg)
+        print("WARN: " .. msg)
+    end,
+    DebugPrint = function(ctx, msg)
+        print("DEBUG [" .. ctx .. "]: " .. (type(msg) == "function" and msg() or msg))
+    end,
+    Error = function(msg)
+        print("ERROR: " .. msg)
+    end,
 }
 
 CM = CharacterMarkdown
@@ -35,9 +49,15 @@ STAT_STAMINA_MAX = 3
 
 -- Mock API functions
 CM.api.combat.GetStat = function(statId)
-    if statId == STAT_HEALTH_MAX then return 20000 end
-    if statId == STAT_MAGICKA_MAX then return 15000 end
-    if statId == STAT_STAMINA_MAX then return 15000 end
+    if statId == STAT_HEALTH_MAX then
+        return 20000
+    end
+    if statId == STAT_MAGICKA_MAX then
+        return 15000
+    end
+    if statId == STAT_STAMINA_MAX then
+        return 15000
+    end
     return 0
 end
 
@@ -45,7 +65,7 @@ CM.api.combat.GetPowerStats = function()
     return {
         physical = { power = 3000, crit = 2190, penetration = 1000 },
         spell = { power = 3000, crit = 2190, penetration = 1000 },
-        resistance = { physical = 10000, spell = 10000 }
+        resistance = { physical = 10000, spell = 10000 },
     }
 end
 
@@ -71,14 +91,20 @@ CM.api.combat.GetCoreAbilityStats = function()
         sneakCost = 100,
         sneakSpeed = 0,
         sprintCost = 100,
-        sprintSpeed = 0
+        sprintSpeed = 0,
     }
 end
 
 CM.api.combat.GetResistances = function()
     return {
-        flame = 10000, shock = 10000, frost = 10000, magic = 10000,
-        disease = 10000, poison = 10000, bleed = 10000, critical = 0
+        flame = 10000,
+        shock = 10000,
+        frost = 10000,
+        magic = 10000,
+        disease = 10000,
+        poison = 10000,
+        bleed = 10000,
+        critical = 0,
     }
 end
 
@@ -93,7 +119,7 @@ CM.api.combat.GetDamageBonuses = function()
         disease = { flat = 0, percent = 5 },
         poison = { flat = 0, percent = 5 },
         bleed = { flat = 0, percent = 5 },
-        oblivion = { flat = 0, percent = 0 }
+        oblivion = { flat = 0, percent = 0 },
     }
 end
 
@@ -101,7 +127,7 @@ CM.api.combat.GetHealingBonuses = function()
     return {
         healingDone = { flat = 0, percent = 10 },
         healingTaken = { flat = 0, percent = 5 },
-        criticalHealing = 50
+        criticalHealing = 50,
     }
 end
 

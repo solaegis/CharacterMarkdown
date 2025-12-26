@@ -244,7 +244,7 @@ local SECTION_PATTERNS = {
         name = "CustomNotes",
         conditional = true, -- Only appears if customNotes has content
         patterns = {
-            github = { "##.*📝.*Build Notes", "<a id=\"build%-notes\"></a>", "Build Notes" },
+            github = { "##.*📝.*Build Notes", '<a id="build%-notes"></a>', "Build Notes" },
             fallback = { "Build Notes", "Custom Notes" },
         },
     },
@@ -533,7 +533,9 @@ local function PrintSectionTestReport()
 
     local passRate = results.total > 0 and (math.floor((#results.passed / results.total) * 100)) or 0
     local passColor = (#results.failed == 0) and "|c00FF00" or "|cFFAA00"
-    CM.Info(string_format("%sPass Rate: %d%% (%d/%d sections found)|r", passColor, passRate, #results.passed, results.total))
+    CM.Info(
+        string_format("%sPass Rate: %d%% (%d/%d sections found)|r", passColor, passRate, #results.passed, results.total)
+    )
 end
 
 -- =====================================================

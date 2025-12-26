@@ -7,11 +7,11 @@ local function CollectAchievementsData()
     -- Use API layer granular functions (composition at collector level)
     local points = CM.api.achievements.GetPoints()
     local recent = CM.api.achievements.GetRecent()
-    
+
     -- Collect category data
     local categories = {}
     local numCategories = CM.api.achievements.GetNumCategories()
-    
+
     for i = 1, numCategories do
         local info = CM.api.achievements.GetCategoryInfo(i)
         if info and info.name then
@@ -24,7 +24,9 @@ local function CollectAchievementsData()
                             name = subInfo.name,
                             earned = subInfo.earned or 0,
                             total = subInfo.total or 0,
-                            percent = (subInfo.total and subInfo.total > 0) and math.floor((subInfo.earned / subInfo.total) * 100) or 0
+                            percent = (subInfo.total and subInfo.total > 0)
+                                    and math.floor((subInfo.earned / subInfo.total) * 100)
+                                or 0,
                         })
                     end
                 end
@@ -36,24 +38,24 @@ local function CollectAchievementsData()
                 total = info.total or 0,
                 percent = (info.total and info.total > 0) and math.floor((info.earned / info.total) * 100) or 0,
                 numAchievements = info.numAchievements or 0,
-                subcategories = subcategories
+                subcategories = subcategories,
             })
         end
     end
-    
+
     local achievements = {}
-    
+
     -- Transform API data to expected format (backward compatibility)
     achievements.points = points.earned or 0
     achievements.total = points.total or 0
     achievements.recent = recent or {}
     achievements.categories = categories
-    
+
     -- Add computed fields
     -- Calculate total and completed achievements from categories
     local totalAchievements = 0
     local completedAchievements = 0
-    
+
     for _, cat in ipairs(categories) do
         totalAchievements = totalAchievements + (cat.numAchievements or 0)
         -- Estimate completed based on percentage since we don't have exact count per category in this structure
@@ -66,20 +68,20 @@ local function CollectAchievementsData()
 
     -- Add computed fields
     achievements.summary = {
-        completionPercent = achievements.total > 0 and math.floor((achievements.points / achievements.total) * 100) or 0,
+        completionPercent = achievements.total > 0 and math.floor((achievements.points / achievements.total) * 100)
+            or 0,
         recentCount = recent and #recent or 0,
         categoryCount = #categories,
         -- Fields expected by generator:
         totalAchievements = totalAchievements,
         completedAchievements = completedAchievements,
         earnedPoints = achievements.points,
-        totalPoints = achievements.total
+        totalPoints = achievements.total,
     }
-    
+
     return achievements
 end
 
 CM.collectors.CollectAchievementsData = CollectAchievementsData
 
 CM.DebugPrint("COLLECTOR", "Achievements collector module loaded")
-

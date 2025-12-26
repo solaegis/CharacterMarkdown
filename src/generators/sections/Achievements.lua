@@ -112,38 +112,38 @@ local function GenerateAchievementSummary(achievementData, format)
     local summary = achievementData.summary
 
     -- Pivot table: metrics as columns, values as rows
-        local headers = { "Metric", "Value" }
-        local rows = {
-            { "Total Achievements", CM.utils.FormatNumber(summary.totalAchievements) },
-            { "Completed", CM.utils.FormatNumber(summary.completedAchievements) },
-            { "Completion %", summary.completionPercent .. "%" },
-            { "Points Earned", CM.utils.FormatNumber(summary.earnedPoints) },
-            { "Total Points", CM.utils.FormatNumber(summary.totalPoints) },
-        }
+    local headers = { "Metric", "Value" }
+    local rows = {
+        { "Total Achievements", CM.utils.FormatNumber(summary.totalAchievements) },
+        { "Completed", CM.utils.FormatNumber(summary.completedAchievements) },
+        { "Completion %", summary.completionPercent .. "%" },
+        { "Points Earned", CM.utils.FormatNumber(summary.earnedPoints) },
+        { "Total Points", CM.utils.FormatNumber(summary.totalPoints) },
+    }
 
-        -- Transpose: convert rows to columns (without Metric/Value column)
-        local transposedHeaders = {}
-        local transposedRows = {}
+    -- Transpose: convert rows to columns (without Metric/Value column)
+    local transposedHeaders = {}
+    local transposedRows = {}
 
-        -- Headers: metric names only (no "Metric" column)
-        for _, row in ipairs(rows) do
-            table.insert(transposedHeaders, row[1])
-        end
+    -- Headers: metric names only (no "Metric" column)
+    for _, row in ipairs(rows) do
+        table.insert(transposedHeaders, row[1])
+    end
 
-        -- Row: values only (no "Value" column)
-        local valueRow = {}
-        for _, row in ipairs(rows) do
-            table.insert(valueRow, row[2])
-        end
-        table.insert(transposedRows, valueRow)
+    -- Row: values only (no "Value" column)
+    local valueRow = {}
+    for _, row in ipairs(rows) do
+        table.insert(valueRow, row[2])
+    end
+    table.insert(transposedRows, valueRow)
 
-        local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-        local options = {
-            alignment = { "right", "right", "right", "right", "right" },
-            format = format,
-            coloredHeaders = true,
-        }
-        markdown = markdown .. CreateStyledTable(transposedHeaders, transposedRows, options)
+    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+    local options = {
+        alignment = { "right", "right", "right", "right", "right" },
+        format = format,
+        coloredHeaders = true,
+    }
+    markdown = markdown .. CreateStyledTable(transposedHeaders, transposedRows, options)
 
     return markdown
 end
@@ -195,31 +195,40 @@ local function GenerateAchievementCategories(achievementData, format)
     for _, categoryData in ipairs(sortedCategories) do
         local categoryName = categoryData.name or "Unknown"
         local emoji = GetCategoryEmoji(categoryName)
-        
+
         -- Category Header (Collapsible)
         markdown = markdown .. "<details>\n"
-        markdown = markdown .. "<summary><strong>" .. emoji .. " " .. categoryName .. " (" .. categoryData.earned .. "/" .. categoryData.total .. " pts)</strong></summary>\n\n"
-        
+        markdown = markdown
+            .. "<summary><strong>"
+            .. emoji
+            .. " "
+            .. categoryName
+            .. " ("
+            .. categoryData.earned
+            .. "/"
+            .. categoryData.total
+            .. " pts)</strong></summary>\n\n"
+
         local subcategoryTables = {}
-        
+
         -- Check for subcategories
         if categoryData.subcategories and #categoryData.subcategories > 0 then
             -- Sort subcategories alphabetically
             table.sort(categoryData.subcategories, function(a, b)
                 return string.lower(a.name or "") < string.lower(b.name or "")
             end)
-            
+
             for _, sub in ipairs(categoryData.subcategories) do
                 local subName = sub.name or "Unknown"
                 local subPercent = sub.percent or 0
                 local subBar = CM.utils.GenerateProgressBar(subPercent, 10)
-                
+
                 local headers = { subName, "Value" }
                 local rows = {
                     { "Points", (sub.earned or 0) .. "/" .. (sub.total or 0) },
-                    { "Progress", subBar .. " " .. subPercent .. "%" }
+                    { "Progress", subBar .. " " .. subPercent .. "%" },
                 }
-                
+
                 local tableContent = ""
                 if CreateStyledTable then
                     local options = {
@@ -236,24 +245,22 @@ local function GenerateAchievementCategories(achievementData, format)
                     end
                     tableContent = table.concat(parts, "\n") .. "\n\n"
                 end
-                
+
                 table.insert(subcategoryTables, tableContent)
             end
         else
             -- Fallback: Create a single table for the category itself if no subcategories
-            local percent = categoryData.total > 0
-                    and math.floor((categoryData.earned / categoryData.total) * 100)
-                or 0
+            local percent = categoryData.total > 0 and math.floor((categoryData.earned / categoryData.total) * 100) or 0
             local progressBar = CM.utils.GenerateProgressBar(percent, 10)
-            
+
             local headers = { "Metric", "Value" }
             local rows = {
                 { "Completed", tostring(categoryData.earned) },
                 { "Total", tostring(categoryData.total) },
                 { "Points", tostring(categoryData.points or 0) },
-                { "Progress", progressBar .. " " .. percent .. "%" }
+                { "Progress", progressBar .. " " .. percent .. "%" },
             }
-            
+
             local tableContent = ""
             if CreateStyledTable then
                 local options = {
@@ -272,18 +279,14 @@ local function GenerateAchievementCategories(achievementData, format)
             end
             table.insert(subcategoryTables, tableContent)
         end
-        
+
         -- Layout subcategory tables
         if CreateResponsiveColumns and #subcategoryTables > 0 then
             -- Calculate optimal layout
             local LayoutCalculator = CM.utils.LayoutCalculator
             local minWidth, gap
             if LayoutCalculator then
-                minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(
-                    subcategoryTables,
-                    "250px",
-                    "20px"
-                )
+                minWidth, gap = LayoutCalculator.GetLayoutParamsWithFallback(subcategoryTables, "250px", "20px")
             else
                 minWidth = "250px"
                 gap = "20px"
@@ -295,7 +298,7 @@ local function GenerateAchievementCategories(achievementData, format)
                 markdown = markdown .. tableContent
             end
         end
-        
+
         markdown = markdown .. "\n</details>\n\n"
     end
 
@@ -326,7 +329,7 @@ local function GenerateInProgressAchievements(achievementData, format)
         if not categories[category] then
             categories[category] = {}
         end
-        
+
         -- Group by subcategory within category
         local subcategory = achievement.subcategory or "General"
         if not categories[category][subcategory] then
@@ -355,12 +358,12 @@ local function GenerateInProgressAchievements(achievementData, format)
     if CreateStyledTable then
         -- Create one table per subcategory, grouped by category
         local allTables = {}
-        
+
         -- Process categories in order (no alphabetical sorting for better density)
         for _, category in ipairs(categoryOrder) do
             local subcategories = categories[category]
             local categoryEmoji = GetCategoryEmoji(category)
-            
+
             -- Get subcategories and sort them alphabetically
             local subcategoryOrder = {}
             for subcategory, _ in pairs(subcategories) do
@@ -369,7 +372,7 @@ local function GenerateInProgressAchievements(achievementData, format)
             table.sort(subcategoryOrder, function(a, b)
                 return string.lower(a or "") < string.lower(b or "")
             end)
-            
+
             -- Create one table per subcategory
             for _, subcategory in ipairs(subcategoryOrder) do
                 local achievements = subcategories[subcategory]
@@ -378,53 +381,59 @@ local function GenerateInProgressAchievements(achievementData, format)
                     table.sort(achievements, function(a, b)
                         return (a.name or "") < (b.name or "")
                     end)
-                    
+
                     local headers = { "Achievement", "Progress", "Points" }
                     local rows = {}
-                    
+
                     for _, achievement in ipairs(achievements) do
                         local statusIcon = GetAchievementStatusIcon(achievement)
                         local progressText = GetProgressText(achievement)
-                        
+
                         -- Safely convert achievement.name to string (handle boolean/nil)
                         local achievementName = ""
                         if achievement.name then
                             if type(achievement.name) == "string" then
                                 achievementName = achievement.name
                             else
-                                CM.DebugPrint("ACHIEVEMENTS", string.format(
-                                    "Invalid achievement name in in-progress: name=%s (type=%s), id=%s",
-                                    tostring(achievement.name),
-                                    type(achievement.name),
-                                    tostring(achievement.id)
-                                ))
+                                CM.DebugPrint(
+                                    "ACHIEVEMENTS",
+                                    string.format(
+                                        "Invalid achievement name in in-progress: name=%s (type=%s), id=%s",
+                                        tostring(achievement.name),
+                                        type(achievement.name),
+                                        tostring(achievement.id)
+                                    )
+                                )
                                 achievementName = tostring(achievement.name)
                             end
                         else
-                            CM.DebugPrint("ACHIEVEMENTS", string.format(
-                                "Missing achievement name in in-progress: id=%s",
-                                tostring(achievement.id)
-                            ))
+                            CM.DebugPrint(
+                                "ACHIEVEMENTS",
+                                string.format(
+                                    "Missing achievement name in in-progress: id=%s",
+                                    tostring(achievement.id)
+                                )
+                            )
                         end
-                        
+
                         table.insert(rows, {
                             statusIcon .. " **" .. achievementName .. "**",
                             progressText,
                             tostring(achievement.points or 0),
                         })
                     end
-                    
+
                     local options = {
                         alignment = { "left", "left", "right" },
                         format = format,
                         coloredHeaders = true,
                     }
-                    
+
                     -- Ensure category and subcategory are valid strings
                     local safeCategory = category or "Miscellaneous"
                     local safeSubcategory = subcategory or "General"
                     local safeCategoryEmoji = categoryEmoji or "🔧"
-                    
+
                     -- Create table with category as header and subcategory in title
                     local tableMarkdown = "#### " .. safeCategoryEmoji .. " " .. safeCategory .. "\n\n"
                     tableMarkdown = tableMarkdown .. "##### " .. safeSubcategory .. "\n\n"
@@ -434,11 +443,10 @@ local function GenerateInProgressAchievements(achievementData, format)
                         table.insert(allTables, tableMarkdown)
                     else
                         -- Fallback: log error and skip this table
-                        CM.DebugPrint("ERROR", string.format(
-                            "Failed to create styled table for %s > %s",
-                            safeCategory,
-                            safeSubcategory
-                        ))
+                        CM.DebugPrint(
+                            "ERROR",
+                            string.format("Failed to create styled table for %s > %s", safeCategory, safeSubcategory)
+                        )
                     end
                 end
             end
@@ -454,7 +462,7 @@ local function GenerateInProgressAchievements(achievementData, format)
                     table.insert(validTables, tableContent)
                 end
             end
-            
+
             if #validTables > 1 then
                 -- Calculate optimal layout based on table content
                 local LayoutCalculator = CM.utils.LayoutCalculator
@@ -486,7 +494,7 @@ local function GenerateInProgressAchievements(achievementData, format)
         for _, category in ipairs(categoryOrder) do
             local subcategories = categories[category]
             local categoryEmoji = GetCategoryEmoji(category)
-            
+
             -- Get subcategories and sort them alphabetically
             local subcategoryOrder = {}
             for subcategory, _ in pairs(subcategories) do
@@ -495,7 +503,7 @@ local function GenerateInProgressAchievements(achievementData, format)
             table.sort(subcategoryOrder, function(a, b)
                 return string.lower(a or "") < string.lower(b or "")
             end)
-            
+
             -- Create one table per subcategory
             for _, subcategory in ipairs(subcategoryOrder) do
                 local achievements = subcategories[subcategory]
@@ -504,37 +512,43 @@ local function GenerateInProgressAchievements(achievementData, format)
                     table.sort(achievements, function(a, b)
                         return (a.name or "") < (b.name or "")
                     end)
-                    
+
                     markdown = markdown .. "#### " .. categoryEmoji .. " " .. category .. "\n\n"
                     markdown = markdown .. "##### " .. subcategory .. "\n\n"
                     markdown = markdown .. "| Achievement | Progress | Points |\n"
                     markdown = markdown .. "|:-----------|:---------|------:|\n"
-                    
+
                     for _, achievement in ipairs(achievements) do
                         local statusIcon = GetAchievementStatusIcon(achievement)
                         local progressText = GetProgressText(achievement)
-                        
+
                         -- Safely convert achievement.name to string (handle boolean/nil)
                         local achievementName = ""
                         if achievement.name then
                             if type(achievement.name) == "string" then
                                 achievementName = achievement.name
                             else
-                                CM.DebugPrint("ACHIEVEMENTS", string.format(
-                                    "Invalid achievement name in in-progress fallback: name=%s (type=%s), id=%s",
-                                    tostring(achievement.name),
-                                    type(achievement.name),
-                                    tostring(achievement.id)
-                                ))
+                                CM.DebugPrint(
+                                    "ACHIEVEMENTS",
+                                    string.format(
+                                        "Invalid achievement name in in-progress fallback: name=%s (type=%s), id=%s",
+                                        tostring(achievement.name),
+                                        type(achievement.name),
+                                        tostring(achievement.id)
+                                    )
+                                )
                                 achievementName = tostring(achievement.name)
                             end
                         else
-                            CM.DebugPrint("ACHIEVEMENTS", string.format(
-                                "Missing achievement name in in-progress fallback: id=%s",
-                                tostring(achievement.id)
-                            ))
+                            CM.DebugPrint(
+                                "ACHIEVEMENTS",
+                                string.format(
+                                    "Missing achievement name in in-progress fallback: id=%s",
+                                    tostring(achievement.id)
+                                )
+                            )
                         end
-                        
+
                         local row = "| "
                             .. statusIcon
                             .. " **"
@@ -582,17 +596,20 @@ local function GenerateRecentAchievements(achievementData, format)
         for _, achievement in ipairs(recent) do
             -- Skip invalid achievement entries (debug log them but don't display)
             if not achievement.name or type(achievement.name) ~= "string" or achievement.name == "" then
-                CM.DebugPrint("ACHIEVEMENTS", string.format(
-                    "Skipping invalid achievement entry: name=%s (type=%s), id=%s, points=%s",
-                    tostring(achievement.name),
-                    type(achievement.name),
-                    tostring(achievement.id),
-                    tostring(achievement.points)
-                ))
+                CM.DebugPrint(
+                    "ACHIEVEMENTS",
+                    string.format(
+                        "Skipping invalid achievement entry: name=%s (type=%s), id=%s, points=%s",
+                        tostring(achievement.name),
+                        type(achievement.name),
+                        tostring(achievement.id),
+                        tostring(achievement.points)
+                    )
+                )
                 -- Skip this achievement - don't add to rows
             else
                 local achievementName = achievement.name
-                
+
                 -- Safely get category (handle nil/boolean)
                 local category = ""
                 if achievement.category then
@@ -602,7 +619,7 @@ local function GenerateRecentAchievements(achievementData, format)
                         category = tostring(achievement.category)
                     end
                 end
-                
+
                 local categoryEmoji = GetCategoryEmoji(category)
                 table.insert(rows, {
                     "✅ **" .. achievementName .. "**",
@@ -626,26 +643,29 @@ local function GenerateRecentAchievements(achievementData, format)
         for _, achievement in ipairs(recent) do
             -- Skip invalid achievement entries (debug log them but don't display)
             if not achievement.name or type(achievement.name) ~= "string" or achievement.name == "" then
-                CM.DebugPrint("ACHIEVEMENTS", string.format(
-                    "Skipping invalid achievement in recent fallback: name=%s (type=%s), id=%s",
-                    tostring(achievement.name),
-                    type(achievement.name),
-                    tostring(achievement.id)
-                ))
+                CM.DebugPrint(
+                    "ACHIEVEMENTS",
+                    string.format(
+                        "Skipping invalid achievement in recent fallback: name=%s (type=%s), id=%s",
+                        tostring(achievement.name),
+                        type(achievement.name),
+                        tostring(achievement.id)
+                    )
+                )
                 -- Skip this achievement - continue to next
             else
                 -- Safely convert achievement.name and category to strings
                 local achievementName = achievement.name
-            
-            local category = ""
-            if achievement.category then
-                if type(achievement.category) == "string" then
-                    category = achievement.category
-                else
-                    category = tostring(achievement.category)
+
+                local category = ""
+                if achievement.category then
+                    if type(achievement.category) == "string" then
+                        category = achievement.category
+                    else
+                        category = tostring(achievement.category)
+                    end
                 end
-            end
-            
+
                 local categoryEmoji = GetCategoryEmoji(category)
                 local row = "| ✅ **"
                     .. achievementName
@@ -659,7 +679,7 @@ local function GenerateRecentAchievements(achievementData, format)
                 row = row:gsub("%s+$", "") .. "\n"
                 markdown = markdown .. row
             end
-            end
+        end
         markdown = markdown .. "\n"
     end
 
@@ -730,7 +750,11 @@ local function GenerateAchievements(achievementData, format)
     markdown = markdown .. GenerateAchievementCategories(achievementData, format)
 
     -- Show in-progress achievements (if field exists and has items)
-    if achievementData.inProgress and type(achievementData.inProgress) == "table" and #achievementData.inProgress > 0 then
+    if
+        achievementData.inProgress
+        and type(achievementData.inProgress) == "table"
+        and #achievementData.inProgress > 0
+    then
         markdown = markdown .. GenerateInProgressAchievements(achievementData, format)
     end
 

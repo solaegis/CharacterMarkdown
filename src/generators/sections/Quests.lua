@@ -235,7 +235,7 @@ local function GenerateActiveQuests(questData)
                 questName = tostring(quest.name)
             end
         end
-        
+
         local questLevel = tostring(quest.level or "")
         local questType = ""
         if quest.type then
@@ -245,7 +245,7 @@ local function GenerateActiveQuests(questData)
                 questType = tostring(quest.type)
             end
         end
-        
+
         local questZone = ""
         if quest.zone then
             if type(quest.zone) == "string" then
@@ -348,7 +348,9 @@ local function GenerateQuests(questData)
     end
 
     -- Get values safely for debug output
-    local activeQuestsDebug = (questData.summary and questData.summary.activeQuests) or (questData.summary and questData.summary.activeCount) or "nil"
+    local activeQuestsDebug = (questData.summary and questData.summary.activeQuests)
+        or (questData.summary and questData.summary.activeCount)
+        or "nil"
     local totalQuestsDebug = (questData.summary and questData.summary.totalQuests) or "nil"
     CM.DebugPrint(
         "QUESTS",
@@ -362,7 +364,9 @@ local function GenerateQuests(questData)
 
     -- Check if there are any quests at all
     -- Handle nil values safely
-    local activeQuests = (questData.summary and questData.summary.activeQuests) or (questData.summary and questData.summary.activeCount) or 0
+    local activeQuests = (questData.summary and questData.summary.activeQuests)
+        or (questData.summary and questData.summary.activeCount)
+        or 0
     local totalQuests = (questData.summary and questData.summary.totalQuests) or 0
     local hasQuests = activeQuests > 0 or totalQuests > 0
 

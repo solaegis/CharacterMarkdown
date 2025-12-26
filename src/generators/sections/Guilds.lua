@@ -120,7 +120,7 @@ local function GenerateGuilds(guildsData, undauntedPledgesData)
                         allianceName = guild.alliance
                     end
                 end
-                
+
                 local allianceText = allianceName
                 if allianceName ~= "Cross-Alliance" and allianceName ~= "Unknown" and allianceName ~= "" then
                     allianceText = (CreateAllianceLink and CreateAllianceLink(allianceName)) or allianceName

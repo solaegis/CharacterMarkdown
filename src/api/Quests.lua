@@ -14,9 +14,10 @@ local api = CM.api.quests
 function api.GetJournalInfo()
     local numQuests = CM.SafeCall(GetNumJournalQuests) or 0
     local quests = {}
-    
+
     for i = 1, numQuests do
-        local success, name, bgText, stepText, stepType, override, completed, tracked, level = CM.SafeCallMulti(GetJournalQuestInfo, i)
+        local success, name, bgText, stepText, stepType, override, completed, tracked, level =
+            CM.SafeCallMulti(GetJournalQuestInfo, i)
         if success and name and type(name) == "string" then
             table.insert(quests, {
                 index = i,
@@ -24,11 +25,11 @@ function api.GetJournalInfo()
                 level = level,
                 stepText = stepText,
                 isTracked = tracked,
-                isCompleted = completed
+                isCompleted = completed,
             })
         end
     end
-    
+
     return quests
 end
 
@@ -38,22 +39,22 @@ function api.GetZoneCompletion(zoneIndex)
     if not zoneIndex then
         return {
             zoneIndex = nil,
-            percent = 0
+            percent = 0,
         }
     end
-    
+
     local completionPercent = 0
-    
+
     if zoneIndex then
         -- Some API versions support GetZoneCompletionStatus
         if GetZoneCompletionStatus then
-             completionPercent = CM.SafeCall(GetZoneCompletionStatus, zoneIndex) or 0
+            completionPercent = CM.SafeCall(GetZoneCompletionStatus, zoneIndex) or 0
         end
     end
-    
+
     return {
         zoneIndex = zoneIndex,
-        percent = completionPercent
+        percent = completionPercent,
     }
 end
 

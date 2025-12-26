@@ -25,7 +25,7 @@ function api.GetEnlightenment()
     local cap = CM.SafeCall(GetEnlightenedPoolCap) or 0
     return {
         current = pool,
-        max = cap
+        max = cap,
     }
 end
 

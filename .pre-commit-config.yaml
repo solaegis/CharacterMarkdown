@@ -74,10 +74,10 @@ repos:
     hooks:
       # Validate ESO addon manifest
       - id: validate-manifest
-        name: Validate CharacterMarkdown.txt manifest
+        name: Validate CharacterMarkdown.addon manifest
         entry: lua5.1 scripts/validate-manifest.lua
         language: system
-        files: ^CharacterMarkdown\.txt$
+        files: ^CharacterMarkdown\.addon$
         pass_filenames: true
         # BLOCK on failures
         fail_fast: true

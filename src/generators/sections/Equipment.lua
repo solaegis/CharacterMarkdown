@@ -16,16 +16,18 @@ local function InitializeUtilities()
             or function(name, id)
                 return name or ""
             end
-        CreateSetLink = (CM.links and CM.links.CreateSetLink) or function(name)
-            return name or ""
-        end
+        CreateSetLink = (CM.links and CM.links.CreateSetLink)
+            or function(name)
+                return name or ""
+            end
         CreateSkillLineLink = (CM.links and CM.links.CreateSkillLineLink)
             or function(name)
                 return name or ""
             end
-        FormatNumber = (CM.utils and CM.utils.FormatNumber) or function(num)
-            return tostring(num or 0)
-        end
+        FormatNumber = (CM.utils and CM.utils.FormatNumber)
+            or function(num)
+                return tostring(num or 0)
+            end
         GenerateProgressBar = (CM.generators and CM.generators.helpers and CM.generators.helpers.GenerateProgressBar)
             or function(percent, width)
                 return ""
@@ -73,7 +75,6 @@ local GenerateSkillMorphs
 -- =====================================================
 
 local function GenerateSkillBarsOnly(skillBarData)
-
     -- Safe initialization
     local success, err = pcall(InitializeUtilities)
     if not success then
@@ -85,9 +86,9 @@ local function GenerateSkillBarsOnly(skillBarData)
         CM.DebugPrint("EQUIPMENT", "GenerateSkillBarsOnly: No skill bar data provided")
         return "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n"
     end
-    
+
     -- Check if bars exist and have content
-    local bars = skillBarData.bars or skillBarData  -- Support both {bars=[...]} and direct array
+    local bars = skillBarData.bars or skillBarData -- Support both {bars=[...]} and direct array
     if not bars or type(bars) ~= "table" or #bars == 0 then
         CM.DebugPrint("EQUIPMENT", "GenerateSkillBarsOnly: No bars in skill bar data")
         return "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n"
@@ -164,8 +165,7 @@ local function GenerateSkillBarsOnly(skillBarData)
                     if hasUltimate then
                         local ultimateText = ""
                         if CreateAbilityLink then
-                            local success_ult, ultText =
-                                pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
+                            local success_ult, ultText = pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
                             if success_ult and ultText then
                                 ultimateText = ultText
                             else
@@ -217,8 +217,7 @@ local function GenerateSkillBarsOnly(skillBarData)
                     if hasUltimate then
                         local ultimateText = ""
                         if CreateAbilityLink then
-                            local success_ult, ultText =
-                                pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
+                            local success_ult, ultText = pcall(CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
                             if success_ult and ultText then
                                 ultimateText = ultText
                             else
@@ -289,408 +288,397 @@ local function GenerateSkillBars(skillBarData, skillMorphsData, skillProgression
 
     output = output .. "## ⚔️ Combat Arsenal\n\n"
 
-        -- Determine weapon types from bar names for better labels
-        -- Using widely-supported emojis (🗡️ may not render, using ⚔️ instead)
-        local barLabels = {
-            { emoji = "⚔️", suffix = "" }, -- Changed from 🗡️ for better compatibility
-            { emoji = "🔮", suffix = "" },
-        }
+    -- Determine weapon types from bar names for better labels
+    -- Using widely-supported emojis (🗡️ may not render, using ⚔️ instead)
+    local barLabels = {
+        { emoji = "⚔️", suffix = "" }, -- Changed from 🗡️ for better compatibility
+        { emoji = "🔮", suffix = "" },
+    }
 
-        -- Try to detect weapon types from bar names
-        for barIdx, bar in ipairs(skillBarData) do
-            local barName = bar.name or ""
-            if barName:find("Backup") or barName:find("Back Bar") then
-                barLabels[barIdx].suffix = " (Backup)"
-            elseif barName:find("Main") or barName:find("Front") then
-                barLabels[barIdx].suffix = " (Main Hand)"
-            end
+    -- Try to detect weapon types from bar names
+    for barIdx, bar in ipairs(skillBarData) do
+        local barName = bar.name or ""
+        if barName:find("Backup") or barName:find("Back Bar") then
+            barLabels[barIdx].suffix = " (Backup)"
+        elseif barName:find("Main") or barName:find("Front") then
+            barLabels[barIdx].suffix = " (Main Hand)"
         end
+    end
 
-        for barIdx, bar in ipairs(skillBarData) do
-            if bar and type(bar) == "table" then
-                local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
-                local barName = bar.name or "Unknown Bar"
-                output = output .. "### " .. label.emoji .. " " .. barName .. "\n\n"
+    for barIdx, bar in ipairs(skillBarData) do
+        if bar and type(bar) == "table" then
+            local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
+            local barName = bar.name or "Unknown Bar"
+            output = output .. "### " .. label.emoji .. " " .. barName .. "\n\n"
 
-                -- Safely get abilities array
-                local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
-                local hasUltimate = bar.ultimate and bar.ultimate ~= ""
+            -- Safely get abilities array
+            local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
+            local hasUltimate = bar.ultimate and bar.ultimate ~= ""
 
-                -- Abilities table (horizontal format) using CreateStyledTable
-                if #abilities > 0 or hasUltimate then
-                    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
-                    if not CreateStyledTable then
-                        -- Fallback to manual table if CreateStyledTable not available
-                        local headerRow = "|"
-                        local separatorRow = "|"
-                        for i = 1, #abilities do
-                            headerRow = headerRow .. " " .. i .. " |"
-                            separatorRow = separatorRow .. ":--|"
-                        end
-                        if hasUltimate then
-                            headerRow = headerRow .. " ⚡ |"
-                            separatorRow = separatorRow .. ":--|"
-                        end
-                        output = output .. headerRow .. "\n"
-                        output = output .. separatorRow .. "\n"
-
-                        local abilitiesRow = "|"
-                        for _, ability in ipairs(abilities) do
-                            if ability and type(ability) == "table" then
-                                local abilityName = ability.name or "Unknown"
-                                local abilityId = ability.id
-                                local abilityText = ""
-                                if CreateAbilityLink then
-                                    local success_ab, abText = pcall(CreateAbilityLink, abilityName, abilityId)
-                                    if success_ab and abText then
-                                        abilityText = abText
-                                    else
-                                        abilityText = abilityName
-                                    end
-                                else
-                                    abilityText = abilityName
-                                end
-                                abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
-                            else
-                                abilitiesRow = abilitiesRow .. " - |"
-                            end
-                        end
-                        -- Add ultimate in 6th column if present
-                        if hasUltimate then
-                            local ultimateId = bar.ultimateId
-                            local ultimateText = ""
-                            if CreateAbilityLink then
-                                local success_ult, ultText =
-                                    pcall(CreateAbilityLink, bar.ultimate or "", ultimateId)
-                                if success_ult and ultText then
-                                    ultimateText = ultText
-                                else
-                                    ultimateText = bar.ultimate or "[Empty]"
-                                end
-                            else
-                                ultimateText = bar.ultimate or "[Empty]"
-                            end
-                            abilitiesRow = abilitiesRow .. " " .. ultimateText .. " |"
-                        end
-                        output = output .. abilitiesRow .. "\n\n"
-                    else
-                        -- Build headers and row data
-                        local headers = {}
-                        local rowData = {}
-
-                        -- Add ability column headers (1-5)
-                        for i = 1, #abilities do
-                            table.insert(headers, tostring(i))
-                        end
-
-                        -- Add ultimate column header
-                        if hasUltimate then
-                            table.insert(headers, "⚡")
-                        end
-
-                        -- Build row data
-                        for _, ability in ipairs(abilities) do
-                            if ability and type(ability) == "table" then
-                                local abilityName = ability.name or "Unknown"
-                                local abilityId = ability.id
-                                local abilityText = ""
-                                if CreateAbilityLink then
-                                    local success_ab, abText = pcall(CreateAbilityLink, abilityName, abilityId, format)
-                                    if success_ab and abText then
-                                        abilityText = abText
-                                    else
-                                        abilityText = abilityName
-                                    end
-                                else
-                                    abilityText = abilityName
-                                end
-                                table.insert(rowData, abilityText)
-                            else
-                                table.insert(rowData, "-")
-                            end
-                        end
-
-                        -- Add ultimate to row data
-                        if hasUltimate then
-                            local ultimateId = bar.ultimateId
-                            local ultimateText = ""
-                            if CreateAbilityLink then
-                                local success_ult, ultText =
-                                    pcall(CreateAbilityLink, bar.ultimate or "", ultimateId, format)
-                                if success_ult and ultText then
-                                    ultimateText = ultText
-                                else
-                                    ultimateText = bar.ultimate or "[Empty]"
-                                end
-                            else
-                                ultimateText = bar.ultimate or "[Empty]"
-                            end
-                            table.insert(rowData, ultimateText)
-                        end
-
-                        -- Generate table with styled headers
-                        local alignment = {}
-                        for i = 1, #headers do
-                            table.insert(alignment, "center")
-                        end
-                        local options = {
-                            alignment = alignment,
-                            coloredHeaders = true,
-                            width = "100%",
-                        }
-                        output = output .. CreateStyledTable(headers, { rowData }, options)
+            -- Abilities table (horizontal format) using CreateStyledTable
+            if #abilities > 0 or hasUltimate then
+                local CreateStyledTable = CM.utils.markdown.CreateStyledTable
+                if not CreateStyledTable then
+                    -- Fallback to manual table if CreateStyledTable not available
+                    local headerRow = "|"
+                    local separatorRow = "|"
+                    for i = 1, #abilities do
+                        headerRow = headerRow .. " " .. i .. " |"
+                        separatorRow = separatorRow .. ":--|"
                     end
-                end
-            else
-                CM.DebugPrint("GENERATOR", "GenerateSkillBars: bar at index " .. tostring(barIdx) .. " is nil or not a table, skipping")
-            end
-        end
+                    if hasUltimate then
+                        headerRow = headerRow .. " ⚡ |"
+                        separatorRow = separatorRow .. ":--|"
+                    end
+                    output = output .. headerRow .. "\n"
+                    output = output .. separatorRow .. "\n"
 
-        -- Ensure we always have at least the header and separator
-        if output == "## ⚔️ Combat Arsenal\n\n" then
-            output = output .. "*No skill bars configured*\n\n"
-        end
-
-        -- Add Equipment & Active Sets (non-collapsible) before Character Progress sections
-        if equipmentData then
-            CM.Info("→ Including Equipment & Active Sets in Combat Arsenal")
-            CM.DebugPrint(
-                "EQUIPMENT",
-                string.format("GenerateSkillBars: equipmentData exists, type=%s", type(equipmentData))
-            )
-            if equipmentData.sets then
-                CM.DebugPrint("EQUIPMENT", string.format("equipmentData.sets count: %d", #equipmentData.sets))
-            end
-            if equipmentData.items then
-                CM.DebugPrint("EQUIPMENT", string.format("equipmentData.items count: %d", #equipmentData.items))
-            end
-
-            -- Pass true for noWrapper parameter to skip collapsible wrapping
-            local success_equip, equipmentContent = pcall(GenerateEquipment, equipmentData, true)
-
-            CM.DebugPrint(
-                "EQUIPMENT",
-                string.format(
-                    "GenerateEquipment result: success=%s, content length=%d",
-                    tostring(success_equip),
-                    equipmentContent and #equipmentContent or 0
-                )
-            )
-
-            if success_equip and equipmentContent and equipmentContent ~= "" then
-                -- Equipment content is already formatted without wrapper, just add it
-                CM.Info(string.format("  ✓ Equipment content added: %d chars", #equipmentContent))
-                output = output .. equipmentContent
-            else
-                CM.Error("GenerateSkillBars: Failed to generate Equipment content")
-                CM.Error(string.format("  success=%s, content=%s", tostring(success_equip), tostring(equipmentContent)))
-                -- Add placeholder so user knows equipment failed
-                output = output
-                    .. '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n'
-            end
-        else
-            CM.DebugPrint("GENERATOR",
-                string.format(
-                    "GenerateSkillBars: Skipping Equipment - equipmentData=%s",
-                    tostring(equipmentData ~= nil)
-                )
-            )
-        end
-
-        -- Use CreateSeparator for consistent separator styling
-        local CreateSeparator = markdown and markdown.CreateSeparator
-        if CreateSeparator then
-            output = output .. CreateSeparator("hr")
-        else
-            output = output .. "---\n\n"
-        end
-
-        -- Add Skill Morphs as collapsible subsection
-        if skillMorphsData and type(skillMorphsData) == "table" and (#skillMorphsData > 0 or next(skillMorphsData)) then
-            local success, skillMorphsContent = pcall(GenerateSkillMorphs, skillMorphsData)
-            if success and skillMorphsContent and type(skillMorphsContent) == "string" then
-                -- Remove the header from Skill Morphs content
-                skillMorphsContent = skillMorphsContent:gsub("^##%s+🌿%s+Skill%s+Morphs%s*\n%s*\n", "")
-                -- Remove trailing separator
-                skillMorphsContent = skillMorphsContent:gsub("%-%-%-%s*\n%s*\n%s*$", "")
-
-                if skillMorphsContent ~= "" then
-                    if CreateCollapsible then
-                        local success2, collapsibleContent =
-                            pcall(CreateCollapsible, "Skill Morphs", skillMorphsContent, "🌿", false)
-                        if success2 and collapsibleContent then
-                            output = output .. collapsibleContent
+                    local abilitiesRow = "|"
+                    for _, ability in ipairs(abilities) do
+                        if ability and type(ability) == "table" then
+                            local abilityName = ability.name or "Unknown"
+                            local abilityId = ability.id
+                            local abilityText = ""
+                            if CreateAbilityLink then
+                                local success_ab, abText = pcall(CreateAbilityLink, abilityName, abilityId)
+                                if success_ab and abText then
+                                    abilityText = abText
+                                else
+                                    abilityText = abilityName
+                                end
+                            else
+                                abilityText = abilityName
+                            end
+                            abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
                         else
-                            output = output .. "### 🌿 Skill Morphs\n\n" .. skillMorphsContent .. "\n\n"
+                            abilitiesRow = abilitiesRow .. " - |"
                         end
+                    end
+                    -- Add ultimate in 6th column if present
+                    if hasUltimate then
+                        local ultimateId = bar.ultimateId
+                        local ultimateText = ""
+                        if CreateAbilityLink then
+                            local success_ult, ultText = pcall(CreateAbilityLink, bar.ultimate or "", ultimateId)
+                            if success_ult and ultText then
+                                ultimateText = ultText
+                            else
+                                ultimateText = bar.ultimate or "[Empty]"
+                            end
+                        else
+                            ultimateText = bar.ultimate or "[Empty]"
+                        end
+                        abilitiesRow = abilitiesRow .. " " .. ultimateText .. " |"
+                    end
+                    output = output .. abilitiesRow .. "\n\n"
+                else
+                    -- Build headers and row data
+                    local headers = {}
+                    local rowData = {}
+
+                    -- Add ability column headers (1-5)
+                    for i = 1, #abilities do
+                        table.insert(headers, tostring(i))
+                    end
+
+                    -- Add ultimate column header
+                    if hasUltimate then
+                        table.insert(headers, "⚡")
+                    end
+
+                    -- Build row data
+                    for _, ability in ipairs(abilities) do
+                        if ability and type(ability) == "table" then
+                            local abilityName = ability.name or "Unknown"
+                            local abilityId = ability.id
+                            local abilityText = ""
+                            if CreateAbilityLink then
+                                local success_ab, abText = pcall(CreateAbilityLink, abilityName, abilityId, format)
+                                if success_ab and abText then
+                                    abilityText = abText
+                                else
+                                    abilityText = abilityName
+                                end
+                            else
+                                abilityText = abilityName
+                            end
+                            table.insert(rowData, abilityText)
+                        else
+                            table.insert(rowData, "-")
+                        end
+                    end
+
+                    -- Add ultimate to row data
+                    if hasUltimate then
+                        local ultimateId = bar.ultimateId
+                        local ultimateText = ""
+                        if CreateAbilityLink then
+                            local success_ult, ultText =
+                                pcall(CreateAbilityLink, bar.ultimate or "", ultimateId, format)
+                            if success_ult and ultText then
+                                ultimateText = ultText
+                            else
+                                ultimateText = bar.ultimate or "[Empty]"
+                            end
+                        else
+                            ultimateText = bar.ultimate or "[Empty]"
+                        end
+                        table.insert(rowData, ultimateText)
+                    end
+
+                    -- Generate table with styled headers
+                    local alignment = {}
+                    for i = 1, #headers do
+                        table.insert(alignment, "center")
+                    end
+                    local options = {
+                        alignment = alignment,
+                        coloredHeaders = true,
+                        width = "100%",
+                    }
+                    output = output .. CreateStyledTable(headers, { rowData }, options)
+                end
+            end
+        else
+            CM.DebugPrint(
+                "GENERATOR",
+                "GenerateSkillBars: bar at index " .. tostring(barIdx) .. " is nil or not a table, skipping"
+            )
+        end
+    end
+
+    -- Ensure we always have at least the header and separator
+    if output == "## ⚔️ Combat Arsenal\n\n" then
+        output = output .. "*No skill bars configured*\n\n"
+    end
+
+    -- Add Equipment & Active Sets (non-collapsible) before Character Progress sections
+    if equipmentData then
+        CM.Info("→ Including Equipment & Active Sets in Combat Arsenal")
+        CM.DebugPrint(
+            "EQUIPMENT",
+            string.format("GenerateSkillBars: equipmentData exists, type=%s", type(equipmentData))
+        )
+        if equipmentData.sets then
+            CM.DebugPrint("EQUIPMENT", string.format("equipmentData.sets count: %d", #equipmentData.sets))
+        end
+        if equipmentData.items then
+            CM.DebugPrint("EQUIPMENT", string.format("equipmentData.items count: %d", #equipmentData.items))
+        end
+
+        -- Pass true for noWrapper parameter to skip collapsible wrapping
+        local success_equip, equipmentContent = pcall(GenerateEquipment, equipmentData, true)
+
+        CM.DebugPrint(
+            "EQUIPMENT",
+            string.format(
+                "GenerateEquipment result: success=%s, content length=%d",
+                tostring(success_equip),
+                equipmentContent and #equipmentContent or 0
+            )
+        )
+
+        if success_equip and equipmentContent and equipmentContent ~= "" then
+            -- Equipment content is already formatted without wrapper, just add it
+            CM.Info(string.format("  ✓ Equipment content added: %d chars", #equipmentContent))
+            output = output .. equipmentContent
+        else
+            CM.Error("GenerateSkillBars: Failed to generate Equipment content")
+            CM.Error(string.format("  success=%s, content=%s", tostring(success_equip), tostring(equipmentContent)))
+            -- Add placeholder so user knows equipment failed
+            output = output
+                .. '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n'
+        end
+    else
+        CM.DebugPrint(
+            "GENERATOR",
+            string.format("GenerateSkillBars: Skipping Equipment - equipmentData=%s", tostring(equipmentData ~= nil))
+        )
+    end
+
+    -- Use CreateSeparator for consistent separator styling
+    local CreateSeparator = markdown and markdown.CreateSeparator
+    if CreateSeparator then
+        output = output .. CreateSeparator("hr")
+    else
+        output = output .. "---\n\n"
+    end
+
+    -- Add Skill Morphs as collapsible subsection
+    if skillMorphsData and type(skillMorphsData) == "table" and (#skillMorphsData > 0 or next(skillMorphsData)) then
+        local success, skillMorphsContent = pcall(GenerateSkillMorphs, skillMorphsData)
+        if success and skillMorphsContent and type(skillMorphsContent) == "string" then
+            -- Remove the header from Skill Morphs content
+            skillMorphsContent = skillMorphsContent:gsub("^##%s+🌿%s+Skill%s+Morphs%s*\n%s*\n", "")
+            -- Remove trailing separator
+            skillMorphsContent = skillMorphsContent:gsub("%-%-%-%s*\n%s*\n%s*$", "")
+
+            if skillMorphsContent ~= "" then
+                if CreateCollapsible then
+                    local success2, collapsibleContent =
+                        pcall(CreateCollapsible, "Skill Morphs", skillMorphsContent, "🌿", false)
+                    if success2 and collapsibleContent then
+                        output = output .. collapsibleContent
                     else
                         output = output .. "### 🌿 Skill Morphs\n\n" .. skillMorphsContent .. "\n\n"
                     end
+                else
+                    output = output .. "### 🌿 Skill Morphs\n\n" .. skillMorphsContent .. "\n\n"
                 end
-            else
-                CM.DebugPrint("EQUIPMENT", "GenerateSkillBars: Failed to generate Skill Morphs content")
             end
+        else
+            CM.DebugPrint("EQUIPMENT", "GenerateSkillBars: Failed to generate Skill Morphs content")
         end
+    end
 
-        -- Add Character Progress categories as collapsible subsections
-        if skillProgressionData and #skillProgressionData > 0 then
-            -- Add Character Progress section header (H2)
-            output = output .. "## 📜 Character Progress\n\n"
+    -- Add Character Progress categories as collapsible subsections
+    if skillProgressionData and #skillProgressionData > 0 then
+        -- Add Character Progress section header (H2)
+        output = output .. "## 📜 Character Progress\n\n"
 
-            for _, category in ipairs(skillProgressionData) do
-                if category.skills and #category.skills > 0 then
-                    -- Generate content for this category only
-                    local categoryContent = ""
-                    local categoryEmoji = category.emoji or "⚔️"
+        for _, category in ipairs(skillProgressionData) do
+            if category.skills and #category.skills > 0 then
+                -- Generate content for this category only
+                local categoryContent = ""
+                local categoryEmoji = category.emoji or "⚔️"
 
-                    -- Group skills by status
-                    local maxedSkills = {}
-                    local inProgressSkills = {}
-                    local lowLevelSkills = {}
+                -- Group skills by status
+                local maxedSkills = {}
+                local inProgressSkills = {}
+                local lowLevelSkills = {}
 
-                    for _, skill in ipairs(category.skills) do
-                        if skill.isRacial or skill.maxed or (skill.rank and skill.rank >= 50) then
-                            table.insert(maxedSkills, skill)
-                        elseif skill.rank and skill.rank >= 20 then
-                            table.insert(inProgressSkills, skill)
-                        else
-                            table.insert(lowLevelSkills, skill)
+                for _, skill in ipairs(category.skills) do
+                    if skill.isRacial or skill.maxed or (skill.rank and skill.rank >= 50) then
+                        table.insert(maxedSkills, skill)
+                    elseif skill.rank and skill.rank >= 20 then
+                        table.insert(inProgressSkills, skill)
+                    else
+                        table.insert(lowLevelSkills, skill)
+                    end
+                end
+
+                -- Show maxed skills first (compact)
+                if #maxedSkills > 0 then
+                    local maxedNames = {}
+                    for _, skill in ipairs(maxedSkills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name)
+                        table.insert(maxedNames, "**" .. skillNameLinked .. "**")
+                    end
+                    categoryContent = categoryContent .. "#### ✅ Maxed\n"
+                    categoryContent = categoryContent .. table.concat(maxedNames, ", ") .. "\n\n"
+                end
+
+                -- Show in-progress skills with progress bars
+                if #inProgressSkills > 0 then
+                    categoryContent = categoryContent .. "#### 📈 In Progress\n"
+                    for _, skill in ipairs(inProgressSkills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name)
+                        local progressPercent = skill.progress or 0
+                        local progressBar = GenerateProgressBar(progressPercent, 10)
+                        categoryContent = categoryContent
+                            .. "- **"
+                            .. skillNameLinked
+                            .. "**: Rank "
+                            .. (skill.rank or 0)
+                            .. " "
+                            .. progressBar
+                            .. " "
+                            .. progressPercent
+                            .. "%\n"
+                    end
+                    categoryContent = categoryContent .. "\n"
+                end
+
+                -- Show low-level skills
+                if #lowLevelSkills > 0 then
+                    categoryContent = categoryContent .. "#### ⚪ Early Progress\n"
+                    for _, skill in ipairs(lowLevelSkills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name)
+                        local progressPercent = skill.progress or 0
+                        local progressBar = GenerateProgressBar(progressPercent, 10)
+                        categoryContent = categoryContent
+                            .. "- **"
+                            .. skillNameLinked
+                            .. "**: Rank "
+                            .. (skill.rank or 0)
+                            .. " "
+                            .. progressBar
+                            .. " "
+                            .. progressPercent
+                            .. "%\n"
+                    end
+                    categoryContent = categoryContent .. "\n"
+                end
+
+                -- Show passives for all skills in this category
+                local allPassives = {}
+                for _, skill in ipairs(category.skills or {}) do
+                    if skill.passives and #skill.passives > 0 then
+                        for _, passive in ipairs(skill.passives) do
+                            table.insert(allPassives, {
+                                name = passive.name,
+                                abilityId = passive.abilityId,
+                                purchased = passive.purchased,
+                                currentRank = passive.currentRank,
+                                maxRank = passive.maxRank,
+                                skillLineName = skill.name,
+                            })
                         end
                     end
+                end
 
-                    -- Show maxed skills first (compact)
-                    if #maxedSkills > 0 then
-                        local maxedNames = {}
-                        for _, skill in ipairs(maxedSkills) do
-                            local skillNameLinked = CreateSkillLineLink(skill.name)
-                            table.insert(maxedNames, "**" .. skillNameLinked .. "**")
-                        end
-                        categoryContent = categoryContent .. "#### ✅ Maxed\n"
-                        categoryContent = categoryContent .. table.concat(maxedNames, ", ") .. "\n\n"
-                    end
+                if #allPassives > 0 then
+                    categoryContent = categoryContent .. "#### ✨ Passives\n"
+                    for _, passive in ipairs(allPassives) do
+                        local sanitizedName = tostring(passive.name or "Unknown")
+                        sanitizedName = sanitizedName:gsub("[\r\n\t]", "")
+                        sanitizedName = sanitizedName:gsub("^%s+", ""):gsub("%s+$", "")
+                        sanitizedName = sanitizedName:gsub("%s+", " ")
 
-                    -- Show in-progress skills with progress bars
-                    if #inProgressSkills > 0 then
-                        categoryContent = categoryContent .. "#### 📈 In Progress\n"
-                        for _, skill in ipairs(inProgressSkills) do
-                            local skillNameLinked = CreateSkillLineLink(skill.name)
-                            local progressPercent = skill.progress or 0
-                            local progressBar = GenerateProgressBar(progressPercent, 10)
-                            categoryContent = categoryContent
-                                .. "- **"
-                                .. skillNameLinked
-                                .. "**: Rank "
-                                .. (skill.rank or 0)
-                                .. " "
-                                .. progressBar
-                                .. " "
-                                .. progressPercent
-                                .. "%\n"
-                        end
-                        categoryContent = categoryContent .. "\n"
-                    end
-
-                    -- Show low-level skills
-                    if #lowLevelSkills > 0 then
-                        categoryContent = categoryContent .. "#### ⚪ Early Progress\n"
-                        for _, skill in ipairs(lowLevelSkills) do
-                            local skillNameLinked = CreateSkillLineLink(skill.name)
-                            local progressPercent = skill.progress or 0
-                            local progressBar = GenerateProgressBar(progressPercent, 10)
-                            categoryContent = categoryContent
-                                .. "- **"
-                                .. skillNameLinked
-                                .. "**: Rank "
-                                .. (skill.rank or 0)
-                                .. " "
-                                .. progressBar
-                                .. " "
-                                .. progressPercent
-                                .. "%\n"
-                        end
-                        categoryContent = categoryContent .. "\n"
-                    end
-
-                    -- Show passives for all skills in this category
-                    local allPassives = {}
-                    for _, skill in ipairs(category.skills or {}) do
-                        if skill.passives and #skill.passives > 0 then
-                            for _, passive in ipairs(skill.passives) do
-                                table.insert(allPassives, {
-                                    name = passive.name,
-                                    abilityId = passive.abilityId,
-                                    purchased = passive.purchased,
-                                    currentRank = passive.currentRank,
-                                    maxRank = passive.maxRank,
-                                    skillLineName = skill.name,
-                                })
-                            end
-                        end
-                    end
-
-                    if #allPassives > 0 then
-                        categoryContent = categoryContent .. "#### ✨ Passives\n"
-                        for _, passive in ipairs(allPassives) do
-                            local sanitizedName = tostring(passive.name or "Unknown")
-                            sanitizedName = sanitizedName:gsub("[\r\n\t]", "")
-                            sanitizedName = sanitizedName:gsub("^%s+", ""):gsub("%s+$", "")
-                            sanitizedName = sanitizedName:gsub("%s+", " ")
-
-                            local passiveName = CreateAbilityLink(sanitizedName, passive.abilityId)
-                            if passiveName and passiveName ~= "" then
-                                passiveName = passiveName:gsub("[\r\n\t]", "")
-                                if
-                                    not passiveName:find("%[.*%]%(")
-                                    or not passiveName:find("%)$")
-                                    or not passiveName:find("https://en.uesp.net/wiki/Online:")
-                                then
-                                    passiveName = sanitizedName
-                                end
-                            else
+                        local passiveName = CreateAbilityLink(sanitizedName, passive.abilityId)
+                        if passiveName and passiveName ~= "" then
+                            passiveName = passiveName:gsub("[\r\n\t]", "")
+                            if
+                                not passiveName:find("%[.*%]%(")
+                                or not passiveName:find("%)$")
+                                or not passiveName:find("https://en.uesp.net/wiki/Online:")
+                            then
                                 passiveName = sanitizedName
                             end
-
-                            local passiveStatus = passive.purchased and "✅" or "🔒"
-                            local rankInfo = ""
-                            if passive.currentRank and passive.maxRank and passive.maxRank > 1 then
-                                rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
-                            end
-                            local skillLineLink = CreateSkillLineLink(passive.skillLineName)
-                            -- Safety check: ensure skillLineLink is never nil or empty
-                            if not skillLineLink or skillLineLink == "" then
-                                skillLineLink = passive.skillLineName or "Unknown"
-                            end
-                            -- Sanitize skillLineLink to prevent truncation issues
-                            skillLineLink =
-                                tostring(skillLineLink):gsub("[\r\n\t]", ""):gsub("^%s+", ""):gsub("%s+$", "")
-                            categoryContent = categoryContent
-                                .. string.format(
-                                    "- %s %s%s *(from %s)*\n",
-                                    passiveStatus,
-                                    passiveName,
-                                    rankInfo,
-                                    skillLineLink
-                                )
+                        else
+                            passiveName = sanitizedName
                         end
-                        categoryContent = categoryContent .. "\n"
-                    end
 
-                    if categoryContent ~= "" then
-                        if CreateCollapsible then
-                            local success3, collapsibleContent2 =
-                                pcall(CreateCollapsible, category.name, categoryContent, categoryEmoji, false)
-                            if success3 and collapsibleContent2 then
-                                output = output .. collapsibleContent2
-                            else
-                                output = output
-                                    .. "### "
-                                    .. categoryEmoji
-                                    .. " "
-                                    .. category.name
-                                    .. "\n\n"
-                                    .. categoryContent
-                                    .. "\n\n"
-                            end
+                        local passiveStatus = passive.purchased and "✅" or "🔒"
+                        local rankInfo = ""
+                        if passive.currentRank and passive.maxRank and passive.maxRank > 1 then
+                            rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
+                        end
+                        local skillLineLink = CreateSkillLineLink(passive.skillLineName)
+                        -- Safety check: ensure skillLineLink is never nil or empty
+                        if not skillLineLink or skillLineLink == "" then
+                            skillLineLink = passive.skillLineName or "Unknown"
+                        end
+                        -- Sanitize skillLineLink to prevent truncation issues
+                        skillLineLink = tostring(skillLineLink):gsub("[\r\n\t]", ""):gsub("^%s+", ""):gsub("%s+$", "")
+                        categoryContent = categoryContent
+                            .. string.format(
+                                "- %s %s%s *(from %s)*\n",
+                                passiveStatus,
+                                passiveName,
+                                rankInfo,
+                                skillLineLink
+                            )
+                    end
+                    categoryContent = categoryContent .. "\n"
+                end
+
+                if categoryContent ~= "" then
+                    if CreateCollapsible then
+                        local success3, collapsibleContent2 =
+                            pcall(CreateCollapsible, category.name, categoryContent, categoryEmoji, false)
+                        if success3 and collapsibleContent2 then
+                            output = output .. collapsibleContent2
                         else
                             output = output
                                 .. "### "
@@ -701,11 +689,20 @@ local function GenerateSkillBars(skillBarData, skillMorphsData, skillProgression
                                 .. categoryContent
                                 .. "\n\n"
                         end
+                    else
+                        output = output
+                            .. "### "
+                            .. categoryEmoji
+                            .. " "
+                            .. category.name
+                            .. "\n\n"
+                            .. categoryContent
+                            .. "\n\n"
                     end
                 end
             end
         end
-
+    end
 
     -- Defensive check: ensure we never return empty string or nil
     -- Also check for whitespace-only content
@@ -1093,12 +1090,8 @@ GenerateEquipment = function(equipmentData, noWrapper)
 
                         local progressText = ""
                         if markdown and markdown.CreateProgressBar then
-                            local success_pb, progressBar = pcall(
-                                markdown.CreateProgressBar,
-                                math.min(set.count or 0, maxPieces),
-                                maxPieces,
-                                10
-                            )
+                            local success_pb, progressBar =
+                                pcall(markdown.CreateProgressBar, math.min(set.count or 0, maxPieces), maxPieces, 10)
                             if success_pb and progressBar then
                                 if set.count > maxPieces then
                                     progressText = string.format(
@@ -1341,12 +1334,24 @@ GenerateEquipment = function(equipmentData, noWrapper)
         CM.Error("GenerateEquipment: Internal function failed with error: " .. errorMsg)
         CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData type: " .. type(equipmentData))
         if equipmentData and type(equipmentData) == "table" then
-            CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData.sets exists: " .. tostring(equipmentData.sets ~= nil))
-            CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData.items exists: " .. tostring(equipmentData.items ~= nil))
+            CM.DebugPrint(
+                "GENERATOR",
+                "GenerateEquipment: equipmentData.sets exists: " .. tostring(equipmentData.sets ~= nil)
+            )
+            CM.DebugPrint(
+                "GENERATOR",
+                "GenerateEquipment: equipmentData.items exists: " .. tostring(equipmentData.items ~= nil)
+            )
         end
         if equipmentData and type(equipmentData) == "table" then
-            CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData.sets exists: " .. tostring(equipmentData.sets ~= nil))
-            CM.DebugPrint("GENERATOR", "GenerateEquipment: equipmentData.items exists: " .. tostring(equipmentData.items ~= nil))
+            CM.DebugPrint(
+                "GENERATOR",
+                "GenerateEquipment: equipmentData.sets exists: " .. tostring(equipmentData.sets ~= nil)
+            )
+            CM.DebugPrint(
+                "GENERATOR",
+                "GenerateEquipment: equipmentData.items exists: " .. tostring(equipmentData.items ~= nil)
+            )
         end
         return '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n'
     end
@@ -1396,7 +1401,7 @@ local function GenerateProgressSummary(skillProgressionData, skillMorphsData)
 
     -- Create summary table using CreateStyledTable (pivot format - horizontal)
     local output = "### Progress Overview\n\n"
-    
+
     local CreateStyledTable = CM.utils.markdown and CM.utils.markdown.CreateStyledTable
     if CreateStyledTable then
         -- Pivot table: stats as column headers, values in a single row
@@ -1416,24 +1421,28 @@ local function GenerateProgressSummary(skillProgressionData, skillMorphsData)
                 string.format("%d%%", overallCompletion),
             },
         }
-        
+
         local options = {
             alignment = { "right", "right", "right", "right", "right" },
             coloredHeaders = true,
         }
-        
+
         output = output .. CreateStyledTable(headers, rows, options)
     else
         -- Fallback to simple markdown table if CreateStyledTable not available (pivot format)
-        output = output .. "| Maxed Skill Lines | In Progress | Early Progress | Abilities with Morphs | Overall Completion |\n"
-        output = output .. "|:-----------------|:-----------|:--------------|:---------------------|:------------------|\n"
-        output = output .. string.format("| %d | %d | %d | %d | %d%% |\n",
-            maxedSkillLines,
-            inProgressSkillLines,
-            earlyProgressSkillLines,
-            totalAbilitiesWithMorphs,
-            overallCompletion
-        )
+        output = output
+            .. "| Maxed Skill Lines | In Progress | Early Progress | Abilities with Morphs | Overall Completion |\n"
+        output = output
+            .. "|:-----------------|:-----------|:--------------|:---------------------|:------------------|\n"
+        output = output
+            .. string.format(
+                "| %d | %d | %d | %d | %d%% |\n",
+                maxedSkillLines,
+                inProgressSkillLines,
+                earlyProgressSkillLines,
+                totalAbilitiesWithMorphs,
+                overallCompletion
+            )
         output = output .. "\n"
     end
 
@@ -1465,7 +1474,7 @@ local function GenerateSkills(skillData, skillMorphsData)
     if summaryTable and summaryTable ~= "" then
         output = output .. summaryTable .. "\n\n"
     end
-    
+
     -- Iterate through categories
     for _, category in ipairs(filteredSkillData) do
         if category.skills and #category.skills > 0 then
@@ -1542,248 +1551,248 @@ local function GenerateSkills(skillData, skillMorphsData)
             -- Generate output organized by status
             -- Helper function to generate passives list
 
-        local function GeneratePassivesList(skills)
-            local allPassives = {}
-            for _, skill in ipairs(skills or {}) do
-                if skill.passives and #skill.passives > 0 then
-                    for _, passive in ipairs(skill.passives) do
-                        table.insert(allPassives, {
-                            name = passive.name,
-                            abilityId = passive.abilityId,
-                            purchased = passive.purchased,
-                            currentRank = passive.currentRank,
-                            maxRank = passive.maxRank,
-                            skillLineName = skill.name,
-                        })
+            local function GeneratePassivesList(skills)
+                local allPassives = {}
+                for _, skill in ipairs(skills or {}) do
+                    if skill.passives and #skill.passives > 0 then
+                        for _, passive in ipairs(skill.passives) do
+                            table.insert(allPassives, {
+                                name = passive.name,
+                                abilityId = passive.abilityId,
+                                purchased = passive.purchased,
+                                currentRank = passive.currentRank,
+                                maxRank = passive.maxRank,
+                                skillLineName = skill.name,
+                            })
+                        end
                     end
                 end
-            end
 
-            if #allPassives == 0 then
-                return ""
-            end
+                if #allPassives == 0 then
+                    return ""
+                end
 
-            local passivesContent = ""
-            for _, passive in ipairs(allPassives) do
-                local sanitizedName = tostring(passive.name or "Unknown")
-                sanitizedName = sanitizedName:gsub("[\r\n\t]", "")
-                sanitizedName = sanitizedName:gsub("^%s+", ""):gsub("%s+$", "")
-                sanitizedName = sanitizedName:gsub("%s+", " ")
+                local passivesContent = ""
+                for _, passive in ipairs(allPassives) do
+                    local sanitizedName = tostring(passive.name or "Unknown")
+                    sanitizedName = sanitizedName:gsub("[\r\n\t]", "")
+                    sanitizedName = sanitizedName:gsub("^%s+", ""):gsub("%s+$", "")
+                    sanitizedName = sanitizedName:gsub("%s+", " ")
 
-                local passiveName = CreateAbilityLink(sanitizedName, passive.abilityId)
-                if passiveName and passiveName ~= "" then
-                    passiveName = passiveName:gsub("[\r\n\t]", "")
-                    if
-                        not passiveName:find("%[.*%]%(")
-                        or not passiveName:find("%)$")
-                        or not passiveName:find("https://en.uesp.net/wiki/Online:")
-                    then
+                    local passiveName = CreateAbilityLink(sanitizedName, passive.abilityId)
+                    if passiveName and passiveName ~= "" then
+                        passiveName = passiveName:gsub("[\r\n\t]", "")
+                        if
+                            not passiveName:find("%[.*%]%(")
+                            or not passiveName:find("%)$")
+                            or not passiveName:find("https://en.uesp.net/wiki/Online:")
+                        then
+                            passiveName = sanitizedName
+                        end
+                    else
                         passiveName = sanitizedName
                     end
-                else
-                    passiveName = sanitizedName
+
+                    local passiveStatus = passive.purchased and "✅" or "🔒"
+                    local rankInfo = ""
+                    if passive.currentRank and passive.maxRank and passive.maxRank > 1 then
+                        rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
+                    end
+                    local skillLineLink = CreateSkillLineLink(passive.skillLineName)
+                    if not skillLineLink or skillLineLink == "" then
+                        skillLineLink = passive.skillLineName or "Unknown"
+                    end
+                    skillLineLink = tostring(skillLineLink):gsub("[\r\n\t]", ""):gsub("^%s+", ""):gsub("%s+$", "")
+                    passivesContent = passivesContent
+                        .. string.format("- %s %s%s *(from %s)*\n", passiveStatus, passiveName, rankInfo, skillLineLink)
                 end
 
-                local passiveStatus = passive.purchased and "✅" or "🔒"
-                local rankInfo = ""
-                if passive.currentRank and passive.maxRank and passive.maxRank > 1 then
-                    rankInfo = string.format(" (%d/%d)", passive.currentRank or 0, passive.maxRank)
-                end
-                local skillLineLink = CreateSkillLineLink(passive.skillLineName)
-                if not skillLineLink or skillLineLink == "" then
-                    skillLineLink = passive.skillLineName or "Unknown"
-                end
-                skillLineLink = tostring(skillLineLink):gsub("[\r\n\t]", ""):gsub("^%s+", ""):gsub("%s+$", "")
-                passivesContent = passivesContent
-                    .. string.format("- %s %s%s *(from %s)*\n", passiveStatus, passiveName, rankInfo, skillLineLink)
+                return passivesContent
             end
 
-            return passivesContent
-        end
-
-        -- Generate Maxed Skills section
-        local hasMaxed = false
-        for categoryName, categoryData in pairs(statusGroups.maxed) do
-            hasMaxed = true
-            break
-        end
-
-        if hasMaxed then
-            output = output .. "### ✅ Maxed Skills\n\n"
-
-            -- Group by category
+            -- Generate Maxed Skills section
+            local hasMaxed = false
             for categoryName, categoryData in pairs(statusGroups.maxed) do
-                local maxedNames = {}
-                for _, skill in ipairs(categoryData.skills) do
-                    local skillNameLinked = CreateSkillLineLink(skill.name)
-                    table.insert(maxedNames, "**" .. skillNameLinked .. "**")
-                end
-
-                local categoryCount = #categoryData.skills
-                local summaryText = string.format(
-                    "%s %s (%d skill line%s maxed)",
-                    categoryData.emoji,
-                    categoryData.name,
-                    categoryCount,
-                    categoryCount > 1 and "s" or ""
-                )
-
-                -- Create collapsible section for this category
-                local categoryContent = table.concat(maxedNames, ", ") .. "\n\n"
-
-                -- Add passives in collapsible subsection
-                local passivesContent = GeneratePassivesList(categoryData.skills)
-                if passivesContent ~= "" then
-                    categoryContent = categoryContent .. "<details>\n"
-                    categoryContent = categoryContent .. "<summary>✨ Passives</summary>\n\n"
-                    categoryContent = categoryContent .. passivesContent
-                    categoryContent = categoryContent .. "</details>\n\n"
-                end
-
-                output = output .. "<details>\n"
-                output = output .. "<summary>" .. summaryText .. "</summary>\n\n"
-                output = output .. categoryContent
-                output = output .. "</details>\n\n"
+                hasMaxed = true
+                break
             end
-        end
 
-        -- Generate In-Progress Skills section
-        local hasInProgress = false
-        for categoryName, categoryData in pairs(statusGroups.inProgress) do
-            hasInProgress = true
-            break
-        end
+            if hasMaxed then
+                output = output .. "### ✅ Maxed Skills\n\n"
 
-        if hasInProgress then
-            output = output .. "### 📈 In-Progress Skills\n\n"
+                -- Group by category
+                for categoryName, categoryData in pairs(statusGroups.maxed) do
+                    local maxedNames = {}
+                    for _, skill in ipairs(categoryData.skills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name)
+                        table.insert(maxedNames, "**" .. skillNameLinked .. "**")
+                    end
 
+                    local categoryCount = #categoryData.skills
+                    local summaryText = string.format(
+                        "%s %s (%d skill line%s maxed)",
+                        categoryData.emoji,
+                        categoryData.name,
+                        categoryCount,
+                        categoryCount > 1 and "s" or ""
+                    )
+
+                    -- Create collapsible section for this category
+                    local categoryContent = table.concat(maxedNames, ", ") .. "\n\n"
+
+                    -- Add passives in collapsible subsection
+                    local passivesContent = GeneratePassivesList(categoryData.skills)
+                    if passivesContent ~= "" then
+                        categoryContent = categoryContent .. "<details>\n"
+                        categoryContent = categoryContent .. "<summary>✨ Passives</summary>\n\n"
+                        categoryContent = categoryContent .. passivesContent
+                        categoryContent = categoryContent .. "</details>\n\n"
+                    end
+
+                    output = output .. "<details>\n"
+                    output = output .. "<summary>" .. summaryText .. "</summary>\n\n"
+                    output = output .. categoryContent
+                    output = output .. "</details>\n\n"
+                end
+            end
+
+            -- Generate In-Progress Skills section
+            local hasInProgress = false
             for categoryName, categoryData in pairs(statusGroups.inProgress) do
-                local categoryContent = ""
-                for _, skill in ipairs(categoryData.skills) do
-                    local skillNameLinked = CreateSkillLineLink(skill.name)
-                    local progressPercent = skill.progress or 0
-                    local progressBar = GenerateProgressBar(progressPercent, 10)
-                    categoryContent = categoryContent
-                        .. string.format(
-                            "- **%s**: Rank %d %s %d%%\n",
-                            skillNameLinked,
-                            skill.rank or 0,
-                            progressBar,
-                            progressPercent
-                        )
-                end
-                categoryContent = categoryContent .. "\n"
-
-                -- Add passives in collapsible subsection
-                local passivesContent = GeneratePassivesList(categoryData.skills)
-                if passivesContent ~= "" then
-                    categoryContent = categoryContent .. "<details>\n"
-                    categoryContent = categoryContent .. "<summary>✨ Passives</summary>\n\n"
-                    categoryContent = categoryContent .. passivesContent
-                    categoryContent = categoryContent .. "</details>\n\n"
-                end
-
-                local categoryCount = #categoryData.skills
-                local summaryText = string.format(
-                    "%s %s (%d skill line%s in progress)",
-                    categoryData.emoji,
-                    categoryData.name,
-                    categoryCount,
-                    categoryCount > 1 and "s" or ""
-                )
-
-                output = output .. "<details>\n"
-                output = output .. "<summary>" .. summaryText .. "</summary>\n\n"
-                output = output .. categoryContent
-                output = output .. "</details>\n\n"
+                hasInProgress = true
+                break
             end
-        end
 
-        -- Generate Early Progress Skills section
-        local hasEarlyProgress = false
-        for categoryName, categoryData in pairs(statusGroups.earlyProgress) do
-            hasEarlyProgress = true
-            break
-        end
+            if hasInProgress then
+                output = output .. "### 📈 In-Progress Skills\n\n"
 
-        if hasEarlyProgress then
-            output = output .. "### ⚪ Early Progress Skills\n\n"
+                for categoryName, categoryData in pairs(statusGroups.inProgress) do
+                    local categoryContent = ""
+                    for _, skill in ipairs(categoryData.skills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name)
+                        local progressPercent = skill.progress or 0
+                        local progressBar = GenerateProgressBar(progressPercent, 10)
+                        categoryContent = categoryContent
+                            .. string.format(
+                                "- **%s**: Rank %d %s %d%%\n",
+                                skillNameLinked,
+                                skill.rank or 0,
+                                progressBar,
+                                progressPercent
+                            )
+                    end
+                    categoryContent = categoryContent .. "\n"
 
+                    -- Add passives in collapsible subsection
+                    local passivesContent = GeneratePassivesList(categoryData.skills)
+                    if passivesContent ~= "" then
+                        categoryContent = categoryContent .. "<details>\n"
+                        categoryContent = categoryContent .. "<summary>✨ Passives</summary>\n\n"
+                        categoryContent = categoryContent .. passivesContent
+                        categoryContent = categoryContent .. "</details>\n\n"
+                    end
+
+                    local categoryCount = #categoryData.skills
+                    local summaryText = string.format(
+                        "%s %s (%d skill line%s in progress)",
+                        categoryData.emoji,
+                        categoryData.name,
+                        categoryCount,
+                        categoryCount > 1 and "s" or ""
+                    )
+
+                    output = output .. "<details>\n"
+                    output = output .. "<summary>" .. summaryText .. "</summary>\n\n"
+                    output = output .. categoryContent
+                    output = output .. "</details>\n\n"
+                end
+            end
+
+            -- Generate Early Progress Skills section
+            local hasEarlyProgress = false
             for categoryName, categoryData in pairs(statusGroups.earlyProgress) do
-                local categoryContent = ""
-                for _, skill in ipairs(categoryData.skills) do
-                    local skillNameLinked = CreateSkillLineLink(skill.name)
-                    local progressPercent = skill.progress or 0
-                    local progressBar = GenerateProgressBar(progressPercent, 10)
-                    categoryContent = categoryContent
-                        .. string.format(
-                            "- **%s**: Rank %d %s %d%%\n",
-                            skillNameLinked,
-                            skill.rank or 0,
-                            progressBar,
-                            progressPercent
-                        )
+                hasEarlyProgress = true
+                break
+            end
+
+            if hasEarlyProgress then
+                output = output .. "### ⚪ Early Progress Skills\n\n"
+
+                for categoryName, categoryData in pairs(statusGroups.earlyProgress) do
+                    local categoryContent = ""
+                    for _, skill in ipairs(categoryData.skills) do
+                        local skillNameLinked = CreateSkillLineLink(skill.name)
+                        local progressPercent = skill.progress or 0
+                        local progressBar = GenerateProgressBar(progressPercent, 10)
+                        categoryContent = categoryContent
+                            .. string.format(
+                                "- **%s**: Rank %d %s %d%%\n",
+                                skillNameLinked,
+                                skill.rank or 0,
+                                progressBar,
+                                progressPercent
+                            )
+                    end
+                    categoryContent = categoryContent .. "\n"
+
+                    -- Add passives in collapsible subsection
+                    local passivesContent = GeneratePassivesList(categoryData.skills)
+                    if passivesContent ~= "" then
+                        categoryContent = categoryContent .. "<details>\n"
+                        categoryContent = categoryContent .. "<summary>✨ Passives</summary>\n\n"
+                        categoryContent = categoryContent .. passivesContent
+                        categoryContent = categoryContent .. "</details>\n\n"
+                    end
+
+                    local categoryCount = #categoryData.skills
+                    local summaryText = string.format(
+                        "%s %s (%d skill line%s)",
+                        categoryData.emoji,
+                        categoryData.name,
+                        categoryCount,
+                        categoryCount > 1 and "s" or ""
+                    )
+
+                    output = output .. "<details>\n"
+                    output = output .. "<summary>" .. summaryText .. "</summary>\n\n"
+                    output = output .. categoryContent
+                    output = output .. "</details>\n\n"
                 end
-                categoryContent = categoryContent .. "\n"
-
-                -- Add passives in collapsible subsection
-                local passivesContent = GeneratePassivesList(categoryData.skills)
-                if passivesContent ~= "" then
-                    categoryContent = categoryContent .. "<details>\n"
-                    categoryContent = categoryContent .. "<summary>✨ Passives</summary>\n\n"
-                    categoryContent = categoryContent .. passivesContent
-                    categoryContent = categoryContent .. "</details>\n\n"
-                end
-
-                local categoryCount = #categoryData.skills
-                local summaryText = string.format(
-                    "%s %s (%d skill line%s)",
-                    categoryData.emoji,
-                    categoryData.name,
-                    categoryCount,
-                    categoryCount > 1 and "s" or ""
-                )
-
-                output = output .. "<details>\n"
-                output = output .. "<summary>" .. summaryText .. "</summary>\n\n"
-                output = output .. categoryContent
-                output = output .. "</details>\n\n"
             end
         end
-    end
 
-    return output
-end
-
--- =====================================================
--- SKILL MORPHS (keeping existing implementation)
--- =====================================================
-
-GenerateSkillMorphs = function(skillMorphsData)
-    InitializeUtilities()
-
-    local output = ""
-
-    if not skillMorphsData or #skillMorphsData == 0 then
-        output = output .. "## 🌿 Skill Morphs\n\n"
-        output = output .. "*No morphable abilities found.*\n\n"
-        -- Use CreateSeparator for consistent separator styling
-        local CreateSeparator = markdown and markdown.CreateSeparator
-        if CreateSeparator then
-            output = output .. CreateSeparator("hr")
-        else
-            output = output .. "---\n\n"
-        end
         return output
     end
 
-    output = output .. "## 🌿 Skill Morphs\n\n"
+    -- =====================================================
+    -- SKILL MORPHS (keeping existing implementation)
+    -- =====================================================
 
-    for _, skillType in ipairs(skillMorphsData) do
-        local totalAbilities = 0
-        for _, skillLine in ipairs(skillType.skillLines) do
-            totalAbilities = totalAbilities + #skillLine.abilities
+    GenerateSkillMorphs = function(skillMorphsData)
+        InitializeUtilities()
+
+        local output = ""
+
+        if not skillMorphsData or #skillMorphsData == 0 then
+            output = output .. "## 🌿 Skill Morphs\n\n"
+            output = output .. "*No morphable abilities found.*\n\n"
+            -- Use CreateSeparator for consistent separator styling
+            local CreateSeparator = markdown and markdown.CreateSeparator
+            if CreateSeparator then
+                output = output .. CreateSeparator("hr")
+            else
+                output = output .. "---\n\n"
+            end
+            return output
         end
+
+        output = output .. "## 🌿 Skill Morphs\n\n"
+
+        for _, skillType in ipairs(skillMorphsData) do
+            local totalAbilities = 0
+            for _, skillLine in ipairs(skillType.skillLines) do
+                totalAbilities = totalAbilities + #skillLine.abilities
+            end
 
             -- Show skill type header directly (not collapsible)
             output = output

@@ -119,7 +119,10 @@ src/generators/Markdown.lua
 src/formatters/Markdown.lua
 src/formatters/TONL.lua
 
-## Command system and events (depend on generators)
+## Command system (refactored into modular components)
+src/commands/Debug.lua
+src/commands/Settings.lua
+src/commands/Test.lua
 src/Commands.lua
 src/Events.lua
 

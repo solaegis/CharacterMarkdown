@@ -15,18 +15,18 @@ local function CollectProgressionData()
     local championPoints = CM.api.champion.GetPoints()
     local buffData = CM.api.combat.GetBuffs()
     local enlightenment = CM.api.progression.GetEnlightenment()
-    
+
     local progression = {}
 
     -- Skill points from API
     progression.skillPoints = skillPoints.unspent or 0
     progression.unspentSkillPoints = progression.skillPoints
     progression.totalSkillPoints = skillPoints.total or 0
-    
+
     -- Attribute points from API
     progression.attributePoints = attributes.unspent or 0
     progression.unspentAttributePoints = progression.attributePoints
-    
+
     -- Achievement points from API
     progression.achievementPoints = achievementPoints.earned or 0
     progression.totalAchievements = achievementPoints.total or 0
@@ -57,16 +57,18 @@ local function CollectProgressionData()
         current = pool,
         max = cap,
         percent = (cap > 0) and math.floor((pool / cap) * 100) or 0,
-        efficiency = cap > 0 and math.floor((pool / cap) * 100) or 0,  -- Same as percent, but named for clarity
-        remaining = cap - pool
+        efficiency = cap > 0 and math.floor((pool / cap) * 100) or 0, -- Same as percent, but named for clarity
+        remaining = cap - pool,
     }
-    
+
     -- Add computed progression rate metrics
     -- These are rough estimates based on available data
     progression.metrics = {
-        skillPointEfficiency = progression.totalSkillPoints > 0 and math.floor((progression.skillPoints / progression.totalSkillPoints) * 100) or 0,
+        skillPointEfficiency = progression.totalSkillPoints > 0 and math.floor(
+            (progression.skillPoints / progression.totalSkillPoints) * 100
+        ) or 0,
         achievementProgress = progression.achievementPercent,
-        enlightenmentProgress = progression.enlightenment.percent
+        enlightenmentProgress = progression.enlightenment.percent,
     }
 
     return progression
@@ -81,7 +83,9 @@ CM.collectors.CollectProgressionData = CollectProgressionData
 local function CollectRidingSkillsData()
     -- Use API layer granular functions (composition at collector level)
     local riding = CM.api.progression.GetRidingSkills()
-    local maxedOut = (riding.capacity == riding.maxCapacity) and (riding.stamina == riding.maxStamina) and (riding.speed == riding.maxSpeed)
+    local maxedOut = (riding.capacity == riding.maxCapacity)
+        and (riding.stamina == riding.maxStamina)
+        and (riding.speed == riding.maxSpeed)
     riding.maxedOut = maxedOut
     return riding
 end
@@ -89,4 +93,3 @@ end
 CM.collectors.CollectRidingSkillsData = CollectRidingSkillsData
 
 CM.DebugPrint("COLLECTOR", "Progression collector module loaded")
-

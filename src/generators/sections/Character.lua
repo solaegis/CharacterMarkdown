@@ -98,7 +98,7 @@ local function GenerateHeader(charData, format)
     else
         header = header .. "---\n\n"
     end
-    
+
     -- Check for Custom Icon via LibCustomIcons
     if LibCustomIcons and LibCustomIcons.GetStatic and GetDisplayName then
         local displayName = GetDisplayName()
@@ -170,17 +170,26 @@ local function GenerateQuickStats(
             if settings and settings._collectedData and settings._collectedData.characterAttributes then
                 attributesData = settings._collectedData.characterAttributes
             end
-            generalSection = GenerateGeneral(charData, progressionData, locationData, buffsData, mundusData, format, ridingData, attributesData, cpData, settings)
+            generalSection = GenerateGeneral(
+                charData,
+                progressionData,
+                locationData,
+                buffsData,
+                mundusData,
+                format,
+                ridingData,
+                attributesData,
+                cpData,
+                settings
+            )
         end
     end
-
-
 
     local currencySection = ""
     if IsSettingEnabled("includeCurrency", true) and currencyData then
         local markdown = CM.utils and CM.utils.markdown
         local CreateStyledTable = markdown and markdown.CreateStyledTable
-        
+
         -- Define all currency types with their emojis and labels
         local currencyItems = {
             { key = "gold", label = "Gold", emoji = "💰" },
@@ -201,13 +210,13 @@ local function GenerateQuickStats(
         if CreateStyledTable then
             -- Use styled table
             local currencyRows = {}
-            
+
             for _, item in ipairs(currencyItems) do
                 local value = currencyData[item.key]
                 -- Always include all currencies to match Economy section
                 table_insert(currencyRows, { item.emoji .. " **" .. item.label .. "**", safeFormat(value or 0) })
             end
-            
+
             -- Currency section is always created since Gold is always included
             local headers = { "Attribute", "Value" }
             local options = {
@@ -220,33 +229,37 @@ local function GenerateQuickStats(
         else
             -- Fallback to simple table format
             local currencyRowsParts = {}
-            
+
             for _, item in ipairs(currencyItems) do
                 local value = currencyData[item.key]
                 -- Always include all currencies
-                table.insert(currencyRowsParts, string_format("|| %s **%s** | %s |\n", item.emoji, item.label, safeFormat(value or 0)))
+                table.insert(
+                    currencyRowsParts,
+                    string_format("|| %s **%s** | %s |\n", item.emoji, item.label, safeFormat(value or 0))
+                )
             end
             local currencyRows = table.concat(currencyRowsParts)
 
             -- Currency section is always created since Gold is always included
-            currencySection = string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
+            currencySection =
+                string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
         end
     end
 
     local result = "## 📋 Overview\n\n"
-    
+
     -- Check if General section uses styled tables (has grid layout)
-    local generalHasGrid = generalSection ~= "" and string.find(generalSection, "<div style=\"display: grid;")
+    local generalHasGrid = generalSection ~= "" and string.find(generalSection, '<div style="display: grid;')
     -- Currency uses styled tables if it doesn't start with the fallback format (|| pipes)
     -- and doesn't have a grid wrapper (meaning it's a styled table ready to be added to grid)
-    local currencyHasStyledTable = currencySection ~= "" and 
-        not string.find(currencySection, "^### Currency\n\n||") and
-        not string.find(currencySection, "<div style=")
-    
+    local currencyHasStyledTable = currencySection ~= ""
+        and not string.find(currencySection, "^### Currency\n\n||")
+        and not string.find(currencySection, "<div style=")
+
     if generalHasGrid and currencyHasStyledTable then
         -- Both use styled tables - combine into single grid
         -- Extract General's grid content (everything INSIDE the grid div, not the grid div itself)
-        local gridStartPos = string.find(generalSection, "<div style=\"display: grid;")
+        local gridStartPos = string.find(generalSection, '<div style="display: grid;')
         if gridStartPos then
             -- Find the opening <div> tag end (after the style attribute)
             local gridDivEnd = string.find(generalSection, ">", gridStartPos)
@@ -255,7 +268,7 @@ local function GenerateQuickStats(
                 local divDepth = 1
                 local gridClosePos = nil
                 local searchStart = gridDivEnd + 1
-                
+
                 for i = searchStart, string.len(generalSection) do
                     -- Check for opening div tag
                     if string.sub(generalSection, i, i + 3) == "<div" then
@@ -268,33 +281,34 @@ local function GenerateQuickStats(
                     elseif string.sub(generalSection, i, i + 5) == "</div>" then
                         divDepth = divDepth - 1
                         if divDepth == 0 then
-                            gridClosePos = i  -- Position of </div>
+                            gridClosePos = i -- Position of </div>
                             break
                         end
                     end
                 end
-                
+
                 if gridClosePos then
                     -- Extract only the content INSIDE the grid (between > and </div>)
                     local generalGridContent = string.sub(generalSection, gridDivEnd + 1, gridClosePos - 1)
                     -- Trim any leading/trailing whitespace
                     generalGridContent = string.gsub(generalGridContent, "^%s+", "")
                     generalGridContent = string.gsub(generalGridContent, "%s+$", "")
-                    
+
                     -- Extract Currency content (remove header)
                     local currencyContent = string.gsub(currencySection, "^### Currency\n\n", "")
-                    
+
                     -- Combine into single grid
                     result = result .. '<a id="general"></a>\n\n'
-                    result = result .. '### General\n\n'
-                    result = result .. '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">\n'
+                    result = result .. "### General\n\n"
+                    result = result
+                        .. '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">\n'
                     result = result .. generalGridContent
-                    result = result .. '<div>\n\n'
+                    result = result .. "<div>\n\n"
                     result = result .. '<a id="currency"></a>\n\n'
-                    result = result .. '### Currency\n\n'
+                    result = result .. "### Currency\n\n"
                     result = result .. currencyContent
-                    result = result .. '</div>\n'
-                    result = result .. '</div>\n\n'
+                    result = result .. "</div>\n"
+                    result = result .. "</div>\n\n"
                 else
                     -- Fallback: couldn't find grid closing tag
                     if generalSection ~= "" then
@@ -331,8 +345,6 @@ local function GenerateQuickStats(
             result = result .. '<a id="currency"></a>\n\n' .. currencySection
         end
     end
-    
-
 
     return result
 end
@@ -345,7 +357,6 @@ CM.generators.sections.GenerateQuickStats = GenerateQuickStats
 
 -- FIX #5: Enhanced attention needed with more warnings
 local function GenerateAttentionNeeded(progressionData, inventoryData, ridingData, companionData, currencyData, format)
-
     -- Enhanced visuals are now always enabled (baseline)
     local warnings = {}
 

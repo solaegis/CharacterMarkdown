@@ -229,19 +229,19 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
     if not hasContent and titlesHousingData then
         local titlesData = titlesHousingData.titles or {}
         local housingData = titlesHousingData.housing or {}
-        
+
         -- Check titles (support both old and new structure)
-        local hasTitles = (titlesData.total and titlesData.total > 0) 
+        local hasTitles = (titlesData.total and titlesData.total > 0)
             or (titlesData.summary and titlesData.summary.totalAvailable and titlesData.summary.totalAvailable > 0)
             or (titlesData.owned and #titlesData.owned > 0)
             or (titlesData.current and titlesData.current ~= "") -- Check for current title
-            
+
         -- Check housing (support both old and new structure)
         local hasHousing = (housingData.total and housingData.total > 0)
             or (housingData.summary and housingData.summary.totalOwned and housingData.summary.totalOwned > 0)
             or (housingData.owned and #housingData.owned > 0)
             or (housingData.primary and housingData.primary.name) -- Check for primary house
-            
+
         if hasTitles or hasHousing then
             hasContent = true
         end
@@ -249,20 +249,24 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
 
     -- Check if DLC would add content
     if not hasContent and dlcData and settings.includeDLCAccess then
-         if (dlcData.accessible and #dlcData.accessible > 0) or 
-            (dlcData.locked and #dlcData.locked > 0) or 
-            dlcData.hasESOPlus then
+        if
+            (dlcData.accessible and #dlcData.accessible > 0)
+            or (dlcData.locked and #dlcData.locked > 0)
+            or dlcData.hasESOPlus
+        then
             hasContent = true
-         end
+        end
     end
 
     -- Check if DLC would add content
     if not hasContent and dlcData and settings.includeDLCAccess then
-         if (dlcData.accessible and #dlcData.accessible > 0) or 
-            (dlcData.locked and #dlcData.locked > 0) or 
-            dlcData.hasESOPlus then
+        if
+            (dlcData.accessible and #dlcData.accessible > 0)
+            or (dlcData.locked and #dlcData.locked > 0)
+            or dlcData.hasESOPlus
+        then
             hasContent = true
-         end
+        end
     end
 
     -- Only create section if we have content to show
@@ -282,13 +286,13 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
     if includeDLCAccess == nil then
         includeDLCAccess = false -- Default to false per Defaults.lua
     end
-    
+
     if dlcData and includeDLCAccess then
         local dlcContent = GenerateDLCAsCollectible(dlcData)
         if dlcContent ~= "" then
             table.insert(sections, {
                 sortKey = "DLC & Chapter Access",
-                content = dlcContent
+                content = dlcContent,
             })
         end
     end
@@ -309,7 +313,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
         { key = "pets", name = "Pets", emoji = "🐾" },
         { key = "piercings", name = "Piercings", emoji = "💍" },
         { key = "polymorphs", name = "Polymorphs", emoji = "✨" },
-        { key = "skins", name = "Skins", emoji = "🎭" }
+        { key = "skins", name = "Skins", emoji = "🎭" },
     }
 
     local collections = collectiblesData.collections or {}
@@ -319,9 +323,9 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
         if collection and collection.total and collection.total > 0 then
             local owned = collection.count or 0
             local total = collection.total or 0
-            
+
             local sectionContent = ""
-            
+
             -- Collapsible section header
             sectionContent = sectionContent .. "<details>\n"
             sectionContent = sectionContent
@@ -366,8 +370,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
                     -- Use fullName for links (UESP uses full names), display name for text
                     local linkName = collectible.fullName or collectible.name
                     local displayName = collectible.name
-                    local collectibleLink = (CreateCollectibleLink and CreateCollectibleLink(linkName))
-                        or displayName
+                    local collectibleLink = (CreateCollectibleLink and CreateCollectibleLink(linkName)) or displayName
                     sectionContent = sectionContent .. "- " .. collectibleLink
                     -- Add rarity if available
                     if collectible.quality then
@@ -380,10 +383,10 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
             end
 
             sectionContent = sectionContent .. "</details>\n\n"
-            
+
             table.insert(sections, {
                 sortKey = cat.name,
-                content = sectionContent
+                content = sectionContent,
             })
         end
     end
@@ -397,7 +400,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
             if lorebooksContent ~= "" then
                 table.insert(sections, {
                     sortKey = "Lorebooks",
-                    content = lorebooksContent
+                    content = lorebooksContent,
                 })
             end
         end
@@ -413,11 +416,11 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
 
             -- Generate Titles section (collapsible)
             -- Check for total (legacy), summary.totalAvailable (new), or owned list (new)
-            local hasTitles = (titlesData.total and titlesData.total > 0) 
+            local hasTitles = (titlesData.total and titlesData.total > 0)
                 or (titlesData.summary and titlesData.summary.totalAvailable and titlesData.summary.totalAvailable > 0)
                 or (titlesData.list and #titlesData.list > 0)
                 or (titlesData.owned and #titlesData.owned > 0)
-                
+
             if titlesData and hasTitles then
                 local titlesContent = GenerateTitles(titlesData)
                 -- Remove header if present (will be in summary)
@@ -437,13 +440,18 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
 
                     local sectionContent = ""
                     sectionContent = sectionContent .. "<details>\n"
-                    sectionContent = sectionContent .. "<summary>👑 Titles (" .. owned .. " of " .. total .. ")</summary>\n\n"
+                    sectionContent = sectionContent
+                        .. "<summary>👑 Titles ("
+                        .. owned
+                        .. " of "
+                        .. total
+                        .. ")</summary>\n\n"
                     sectionContent = sectionContent .. titlesContent
                     sectionContent = sectionContent .. "</details>\n\n"
-                    
+
                     table.insert(sections, {
                         sortKey = "Titles",
-                        content = sectionContent
+                        content = sectionContent,
                     })
                 end
             end
@@ -453,7 +461,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
             local hasHousing = (housingData.total and housingData.total > 0)
                 or (housingData.summary and housingData.summary.totalAvailable and housingData.summary.totalAvailable > 0)
                 or (housingData.owned and #housingData.owned > 0)
-                
+
             if housingData and hasHousing then
                 local housingContent = GenerateHousing(housingData)
                 -- Remove header if present (will be in summary)
@@ -478,21 +486,21 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
                         .. ")</summary>\n\n"
                     sectionContent = sectionContent .. housingContent
                     sectionContent = sectionContent .. "</details>\n\n"
-                    
+
                     table.insert(sections, {
                         sortKey = "Housing",
-                        content = sectionContent
+                        content = sectionContent,
                     })
                 end
             end
         end
     end
-    
+
     -- Sort all sections alphabetically by sortKey
     table.sort(sections, function(a, b)
         return a.sortKey:lower() < b.sortKey:lower()
     end)
-    
+
     -- Concatenate sorted sections
     for _, section in ipairs(sections) do
         markdown = markdown .. section.content

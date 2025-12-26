@@ -7,7 +7,7 @@ local string_format = string.format
 -- Helper function to collect items from crafting bag using proper API
 local function CollectCraftBagItems()
     local items = {}
-    
+
     -- Craft bag uses BAG_VIRTUAL but requires special iteration
     if ZO_IterateBagSlots then
         CM.DebugPrint("INVENTORY", "Using ZO_IterateBagSlots for craft bag iteration")
@@ -16,7 +16,7 @@ local function CollectCraftBagItems()
             if itemLink and itemLink ~= "" then
                 local itemName = CM.SafeCall(GetItemName, BAG_VIRTUAL, slotIndex) or "Unknown"
                 itemName = itemName:gsub("%^%w+$", "") -- Strip superscript markers
-                
+
                 local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
                     pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
                 if not success then
@@ -24,7 +24,7 @@ local function CollectCraftBagItems()
                     stack = 1
                     quality = 0
                 end
-                
+
                 local itemType = CM.SafeCall(GetItemType, BAG_VIRTUAL, slotIndex)
                 local itemTypeName = ""
                 if itemType then
@@ -33,7 +33,7 @@ local function CollectCraftBagItems()
                         itemTypeName = typeName
                     end
                 end
-                
+
                 table.insert(items, {
                     name = itemName,
                     stack = stack or 1,
@@ -54,7 +54,7 @@ local function CollectCraftBagItems()
                 if itemLink and itemLink ~= "" then
                     local itemName = CM.SafeCall(GetItemName, BAG_VIRTUAL, slotIndex) or "Unknown"
                     itemName = itemName:gsub("%^%w+$", "")
-                    
+
                     local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
                         pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
                     if not success then
@@ -62,7 +62,7 @@ local function CollectCraftBagItems()
                         stack = 1
                         quality = 0
                     end
-                    
+
                     local itemType = CM.SafeCall(GetItemType, BAG_VIRTUAL, slotIndex)
                     local itemTypeName = ""
                     if itemType then
@@ -71,7 +71,7 @@ local function CollectCraftBagItems()
                             itemTypeName = typeName
                         end
                     end
-                    
+
                     table.insert(items, {
                         name = itemName,
                         stack = stack or 1,
@@ -84,12 +84,12 @@ local function CollectCraftBagItems()
             end
         end
     end
-    
+
     -- Sort by name (case-insensitive)
     table.sort(items, function(a, b)
         return a.name:lower() < b.name:lower()
     end)
-    
+
     return items
 end
 
@@ -97,13 +97,13 @@ end
 local function CollectBagItems(bagId)
     local items = {}
     local numSlots = CM.SafeCall(GetBagSize, bagId) or 0
-    
+
     for slotIndex = 0, numSlots - 1 do
         local itemLink = CM.SafeCall(GetItemLink, bagId, slotIndex)
         if itemLink and itemLink ~= "" then
             local itemName = CM.SafeCall(GetItemName, bagId, slotIndex) or "Unknown"
             itemName = itemName:gsub("%^%w+$", "") -- Strip superscript markers
-            
+
             local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
                 pcall(GetItemInfo, bagId, slotIndex)
             if not success then
@@ -111,7 +111,7 @@ local function CollectBagItems(bagId)
                 stack = 1
                 quality = 0
             end
-            
+
             table.insert(items, {
                 name = itemName,
                 stack = stack or 1,
@@ -120,12 +120,12 @@ local function CollectBagItems(bagId)
             })
         end
     end
-    
+
     -- Sort by name (case-insensitive)
     table.sort(items, function(a, b)
         return a.name:lower() < b.name:lower()
     end)
-    
+
     return items
 end
 
@@ -137,26 +137,26 @@ local function CollectInventoryData()
     -- Use API layer granular functions (composition at collector level)
     local backpackStats = CM.api.inventory.GetBagStats(BAG_BACKPACK)
     local hasCraftBag = CM.api.inventory.GetCraftBagAccess()
-    
+
     local inventory = {}
-    
+
     -- Transform API data to expected format (backward compatibility)
     inventory.backpackUsed = backpackStats.used or 0
     inventory.backpackMax = backpackStats.size or 0
     inventory.backpackPercent = inventory.backpackMax > 0
             and math.floor((inventory.backpackUsed / inventory.backpackMax) * 100)
         or 0
-    
+
     -- Collect bag items if requested
     local settings = CM.GetSettings()
     if settings and settings.showBagContents then
         inventory.bagItems = CollectBagItems(BAG_BACKPACK)
     end
-    
+
     -- Bank data with better error handling
     local bankUsedSuccess, bankUsedResult = pcall(GetNumBagUsedSlots, BAG_BANK)
     local bankMaxSuccess, bankMaxResult = pcall(GetBagSize, BAG_BANK)
-    
+
     if bankUsedSuccess and bankMaxSuccess then
         inventory.bankUsed = bankUsedResult or 0
         inventory.bankMax = bankMaxResult or 0
@@ -166,41 +166,50 @@ local function CollectInventoryData()
         inventory.bankMax = 0
         CM.DebugPrint("INVENTORY", string_format("Warning: Bank API unavailable"))
     end
-    
+
     -- ESO Plus doubles bank capacity
     local hasESOPlus = CM.api.collectibles.IsESOPlus()
-    
+
     if inventory.bankMax < inventory.bankUsed then
         if hasESOPlus and inventory.bankMax > 0 then
             local originalMax = inventory.bankMax
             inventory.bankMax = inventory.bankMax * 2
-            CM.DebugPrint("INVENTORY", string_format("Bank: API returned %d, doubled to %d for ESO Plus", originalMax, inventory.bankMax))
+            CM.DebugPrint(
+                "INVENTORY",
+                string_format("Bank: API returned %d, doubled to %d for ESO Plus", originalMax, inventory.bankMax)
+            )
         else
             inventory.bankMax = inventory.bankUsed
         end
     elseif hasESOPlus and inventory.bankMax == 240 and inventory.bankUsed > 0 then
         local originalMax = inventory.bankMax
         inventory.bankMax = inventory.bankMax * 2
-        CM.DebugPrint("INVENTORY", string_format("Bank: ESO Plus active, doubled base size from %d to %d", originalMax, inventory.bankMax))
+        CM.DebugPrint(
+            "INVENTORY",
+            string_format("Bank: ESO Plus active, doubled base size from %d to %d", originalMax, inventory.bankMax)
+        )
     end
-    
+
     inventory.bankPercent = inventory.bankMax > 0 and math.floor((inventory.bankUsed / inventory.bankMax) * 100) or 0
-    
+
     -- Collect bank items if requested
     if settings and settings.showBankContents and bankMaxSuccess then
         inventory.bankItems = CollectBagItems(BAG_BANK)
     end
-    
+
     -- Craft bag access
     inventory.hasCraftingBag = hasCraftBag or false
-    
+
     -- Collect crafting bag items if requested
     if settings and settings.showCraftingBagContents then
         if inventory.hasCraftingBag then
             CM.DebugPrint("INVENTORY", "Attempting to collect crafting bag items (ESO Plus active)...")
             inventory.craftingBagItems = CollectCraftBagItems()
             if #inventory.craftingBagItems > 0 then
-                CM.DebugPrint("INVENTORY", string_format("Crafting bag: collected %d items", #inventory.craftingBagItems))
+                CM.DebugPrint(
+                    "INVENTORY",
+                    string_format("Crafting bag: collected %d items", #inventory.craftingBagItems)
+                )
             else
                 CM.DebugPrint("INVENTORY", "Crafting bag: no items found")
                 inventory.craftingBagItems = {}
@@ -209,15 +218,17 @@ local function CollectInventoryData()
             CM.DebugPrint("INVENTORY", "Crafting bag: setting enabled but player does not have ESO Plus")
         end
     end
-    
+
     -- Add computed efficiency metrics
     inventory.efficiency = {
         backpackUsage = inventory.backpackPercent,
         bankUsage = inventory.bankPercent,
-        backpackEfficiency = inventory.backpackMax > 0 and math.floor((inventory.backpackUsed / inventory.backpackMax) * 100) or 0,
-        bankEfficiency = inventory.bankMax > 0 and math.floor((inventory.bankUsed / inventory.bankMax) * 100) or 0
+        backpackEfficiency = inventory.backpackMax > 0 and math.floor(
+            (inventory.backpackUsed / inventory.backpackMax) * 100
+        ) or 0,
+        bankEfficiency = inventory.bankMax > 0 and math.floor((inventory.bankUsed / inventory.bankMax) * 100) or 0,
     }
-    
+
     return inventory
 end
 
@@ -266,4 +277,3 @@ end
 CM.collectors.CollectSoulGemData = CollectSoulGemData
 
 CM.DebugPrint("COLLECTOR", "Inventory collector module loaded")
-

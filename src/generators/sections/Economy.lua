@@ -44,9 +44,15 @@ local function GenerateCurrency(currencyData)
         { label = "💰 **Gold**", value = FormatValue(currencyData.gold) },
         { label = "⚔️ **Alliance Points**", value = FormatValue(currencyData.ap) },
         { label = "🔮 **Tel Var**", value = FormatValue(currencyData.telvar) },
-        { label = "💎 **Transmute Crystals**", value = FormatValue(currencyData.transmute, currencyData.transmuteMax) },
+        {
+            label = "💎 **Transmute Crystals**",
+            value = FormatValue(currencyData.transmute, currencyData.transmuteMax),
+        },
         { label = "📜 **Writs**", value = FormatValue(currencyData.vouchers) },
-        { label = "🎫 **Event Tickets**", value = FormatValue(currencyData.eventTickets, currencyData.eventTicketsMax) },
+        {
+            label = "🎫 **Event Tickets**",
+            value = FormatValue(currencyData.eventTickets, currencyData.eventTicketsMax),
+        },
         { label = "👑 **Crowns**", value = FormatValue(currencyData.crowns) },
         { label = "💠 **Gems**", value = FormatValue(currencyData.gems) },
         { label = "🏅 **Seals**", value = FormatValue(currencyData.seals) },
@@ -223,7 +229,7 @@ local function GenerateItemList(items, containerName)
 
     -- Group items by category (itemTypeName)
     local categories = {}
-    
+
     for _, item in ipairs(items) do
         local category = item.itemTypeName or "Other"
         if category == "" then
@@ -264,15 +270,15 @@ local function GenerateItemList(items, containerName)
     -- For craft bag, use multi-column layout for better space efficiency
     -- Skip alphabetical sorting within categories for better performance
     local useMultiColumn = (containerName == "Crafting Bag") and CreateResponsiveColumns
-    
+
     if useMultiColumn and #sortedCategories > 1 then
         -- Multi-column layout: collect all category tables first
         local categoryTables = {}
-        
+
         for _, categoryData in ipairs(sortedCategories) do
             local categoryName = categoryData.name
             local categoryItems = categoryData.items
-            
+
             -- Build table for this category (no sorting for efficiency)
             local rows = {}
             for _, item in ipairs(categoryItems) do
@@ -280,13 +286,13 @@ local function GenerateItemList(items, containerName)
                 local stackText = item.stack > 1 and tostring(item.stack) or "1"
                 table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
             end
-            
+
             -- Create table with category header embedded
             local categoryTable = "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
             categoryTable = categoryTable .. CreateStyledTable(headers, rows, options)
             table.insert(categoryTables, categoryTable)
         end
-        
+
         -- Use LayoutCalculator for optimal sizing
         local LayoutCalculator = CM.utils.LayoutCalculator
         local minWidth, gap
@@ -295,7 +301,7 @@ local function GenerateItemList(items, containerName)
         else
             minWidth, gap = "250px", "20px"
         end
-        
+
         -- Wrap all category tables in responsive columns
         result = result .. CreateResponsiveColumns(categoryTables, minWidth, gap) .. "\n\n"
     else
@@ -303,7 +309,7 @@ local function GenerateItemList(items, containerName)
         for _, categoryData in ipairs(sortedCategories) do
             local categoryName = categoryData.name
             local categoryItems = categoryData.items
-            
+
             -- Sort items within category by name (only for single column)
             table.sort(categoryItems, function(a, b)
                 return a.name:lower() < b.name:lower()
@@ -333,7 +339,7 @@ local function GenerateItemList(items, containerName)
             end
 
             result = result .. CreateStyledTable(headers, rows, options)
-            
+
             -- Ensure table ends with proper newlines before next section
             local lastChars = string.sub(result, -2, -1)
             if lastChars ~= "\n\n" then
@@ -383,7 +389,7 @@ local function GenerateInventory(inventoryData)
     end
 
     local headers = { "Storage", "Used", "Max", "Capacity" }
-    
+
     -- Helper function to create capacity progress bar
     local function FormatCapacity(percent)
         if not percent then
@@ -397,7 +403,7 @@ local function GenerateInventory(inventoryData)
             return tostring(percent) .. "%"
         end
     end
-    
+
     local rows = {
         {
             "Backpack",

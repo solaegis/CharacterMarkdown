@@ -22,9 +22,10 @@ local function GenerateLegend()
     end
 
     InitializeUtilities()
-    
-    local CreateStyledTable = markdown and markdown.CreateStyledTable or (CM.utils.markdown and CM.utils.markdown.CreateStyledTable)
-    
+
+    local CreateStyledTable = markdown and markdown.CreateStyledTable
+        or (CM.utils.markdown and CM.utils.markdown.CreateStyledTable)
+
     -- Section Icons table
     local sectionIconsTable = ""
     if CreateStyledTable then
@@ -58,9 +59,10 @@ local function GenerateLegend()
         sectionIconsTable = CreateStyledTable(sectionHeaders, sectionRows, sectionOptions)
     else
         -- Fallback
-        sectionIconsTable = "| Icon | Meaning |\n|:-----|:--------|\n| 📋 | Overview & Summary |\n| 💰 | Currency, Resources & Inventory |\n| ⚔️ | PvP & Combat |\n| 🎨 | Collectibles |\n| 🏆 | Achievements & Titles |\n| ⚡ | Equipment Enhancement |\n| 🌍 | World Progress |\n| 🏰 | Guilds, Armory & Undaunted |\n| 🗺️ | DLC & Chapter Access |\n| 🎯 | Champion Points |\n| 🎯 | Attributes & Analysis |\n| 🍖 | Active Buffs |\n| 📈 | Progression & Statistics |\n| 🌿 | Skill Morphs |\n| 📜 | Character Progress |\n| 👥 | Companion |\n| ⚒️ | Craft Discipline |\n| 💪 | Fitness Discipline |\n| ⚔️ | Warfare Discipline |\n"
+        sectionIconsTable =
+            "| Icon | Meaning |\n|:-----|:--------|\n| 📋 | Overview & Summary |\n| 💰 | Currency, Resources & Inventory |\n| ⚔️ | PvP & Combat |\n| 🎨 | Collectibles |\n| 🏆 | Achievements & Titles |\n| ⚡ | Equipment Enhancement |\n| 🌍 | World Progress |\n| 🏰 | Guilds, Armory & Undaunted |\n| 🗺️ | DLC & Chapter Access |\n| 🎯 | Champion Points |\n| 🎯 | Attributes & Analysis |\n| 🍖 | Active Buffs |\n| 📈 | Progression & Statistics |\n| 🌿 | Skill Morphs |\n| 📜 | Character Progress |\n| 👥 | Companion |\n| ⚒️ | Craft Discipline |\n| 💪 | Fitness Discipline |\n| ⚔️ | Warfare Discipline |\n"
     end
-    
+
     -- Status Indicators table
     local statusTable = ""
     if CreateStyledTable then
@@ -84,9 +86,10 @@ local function GenerateLegend()
         statusTable = CreateStyledTable(statusHeaders, statusRows, statusOptions)
     else
         -- Fallback
-        statusTable = "| Icon | Meaning |\n|:-----|:--------|\n| ✅ | Complete, Maxed, Good Status |\n| ⚠️ | Warning, Needs Attention |\n| 🔴 | Critical, High Priority |\n| 🟡 | Medium Priority, Gold Quality |\n| 🟢 | Low Priority, Green Quality |\n| 🟣 | Purple Quality |\n| 🟠 | Orange Quality |\n| ⚪ | White Quality, Not Started |\n| 🔄 | In Progress, Active |\n"
+        statusTable =
+            "| Icon | Meaning |\n|:-----|:--------|\n| ✅ | Complete, Maxed, Good Status |\n| ⚠️ | Warning, Needs Attention |\n| 🔴 | Critical, High Priority |\n| 🟡 | Medium Priority, Gold Quality |\n| 🟢 | Low Priority, Green Quality |\n| 🟣 | Purple Quality |\n| 🟠 | Orange Quality |\n| ⚪ | White Quality, Not Started |\n| 🔄 | In Progress, Active |\n"
     end
-    
+
     -- Champion Points table
     local cpTable = ""
     if CreateStyledTable then
@@ -104,9 +107,10 @@ local function GenerateLegend()
         cpTable = CreateStyledTable(cpHeaders, cpRows, cpOptions)
     else
         -- Fallback
-        cpTable = "| Icon | Meaning |\n|:-----|:--------|\n| ⭐ | Slotted Slottable Star (Active) |\n| ☆ | Unslotted Slottable Star (Has Points, Not Active) |\n| 🔒 | Passive Skill (No Slotting Required) |\n"
+        cpTable =
+            "| Icon | Meaning |\n|:-----|:--------|\n| ⭐ | Slotted Slottable Star (Active) |\n| ☆ | Unslotted Slottable Star (Has Points, Not Active) |\n| 🔒 | Passive Skill (No Slotting Required) |\n"
     end
-    
+
     -- Attributes table
     local attrTable = ""
     if CreateStyledTable then
@@ -124,9 +128,10 @@ local function GenerateLegend()
         attrTable = CreateStyledTable(attrHeaders, attrRows, attrOptions)
     else
         -- Fallback
-        attrTable = "| Icon | Meaning |\n|:-----|:--------|\n| 🔵 | Magicka |\n| ❤️ | Health |\n| ⚡ | Stamina |\n"
+        attrTable =
+            "| Icon | Meaning |\n|:-----|:--------|\n| 🔵 | Magicka |\n| ❤️ | Health |\n| ⚡ | Stamina |\n"
     end
-    
+
     -- Investment Levels table
     local investTable = ""
     if CreateStyledTable then
@@ -146,7 +151,8 @@ local function GenerateLegend()
         investTable = CreateStyledTable(investHeaders, investRows, investOptions)
     else
         -- Fallback
-        investTable = "| Icon | Meaning |\n|:-----|:--------|\n| 🔥 | Very High (1500+ CP) |\n| ⭐ | High (1200+ CP) |\n| 💪 | Medium-High (800+ CP) |\n| 📈 | Medium (400+ CP) |\n| 🌱 | Low (<400 CP) |\n"
+        investTable =
+            "| Icon | Meaning |\n|:-----|:--------|\n| 🔥 | Very High (1500+ CP) |\n| ⭐ | High (1200+ CP) |\n| 💪 | Medium-High (800+ CP) |\n| 📈 | Medium (400+ CP) |\n| 🌱 | Low (<400 CP) |\n"
     end
 
     return string_format(
