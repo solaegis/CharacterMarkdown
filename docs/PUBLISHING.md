@@ -13,7 +13,7 @@
 # Build release
 task build
 
-# Output: dist/CharacterMarkdown-2.1.0.zip
+# Output: dist/CharacterMarkdown-@project-version@.zip
 ```
 
 Upload at: https://www.esoui.com/downloads/upload-update.php
@@ -21,7 +21,7 @@ Upload at: https://www.esoui.com/downloads/upload-update.php
 **Form Fields:**
 - **Name**: CharacterMarkdown
 - **Category**: Character Advancement
-- **Version**: 2.1.0
+- **Version**: @project-version@
 - **Game Version**: 11.0.0 (current ESO version)
 - **Description**: Brief description with features
 - **File**: Upload ZIP
@@ -74,8 +74,8 @@ task install:live
 
 # 4. Commit and tag
 git add .
-git commit -m "Release v2.1.2"
-git tag v2.1.2
+git commit -m "Release v@project-version@"
+git tag v@project-version@
 git push origin main --tags
 ```
 
@@ -231,7 +231,7 @@ task build   # Build and validate ZIP
 task version:bump -- patch
 # Fix issue
 git commit -am "fix: critical bug description"
-git tag v2.1.2
+git tag v@project-version@
 git push origin main --tags
 ```
 

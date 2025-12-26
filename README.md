@@ -2,7 +2,7 @@
 
 [![API](https://img.shields.io/badge/ESO_API-101048-green.svg)](https://www.esoui.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.2.0-orange.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-@project-version@-orange.svg)](CHANGELOG.md)
 
 **Export comprehensive ESO character data in beautiful Markdown or structured TONL format** with clickable UESP links for abilities, sets, races, classes, zones, and more.
 
@@ -128,8 +128,8 @@ MIT License - see [LICENSE](LICENSE)
 ## 🔗 Links
 
 - **[ESOUI Download](https://www.esoui.com/downloads/info4279-CharacterMarkdown.html)**
-- **[GitHub Repository](https://github.com/yourusername/CharacterMarkdown)**
-- **[Issue Tracker](https://github.com/yourusername/CharacterMarkdown/issues)**
+- **[GitHub Repository](https://github.com/solaegis/CharacterMarkdown)**
+- **[Issue Tracker](https://github.com/solaegis/CharacterMarkdown/issues)**
 - **[UESP Wiki](https://en.uesp.net/wiki/Online:Main_Page)**
 
 ## 🙏 Credits & Attributions
