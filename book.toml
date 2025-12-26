@@ -2,6 +2,7 @@
 title = "CharacterMarkdown Documentation"
 description = "Complete documentation for the CharacterMarkdown ESO addon"
 authors = ["CharacterMarkdown Contributors"]
+version = "@project-version@"
 language = "en"
 
 
@@ -17,9 +18,9 @@ build-dir = "book"
 [output.html]
 default-theme = "navy"
 preferred-dark-theme = "navy"
-git-repository-url = "https://github.com/yourusername/CharacterMarkdown"
+git-repository-url = "https://github.com/solaegis/CharacterMarkdown"
 git-repository-icon = "fa-github"
-edit-url-template = "https://github.com/yourusername/CharacterMarkdown/edit/main/{path}"
+edit-url-template = "https://github.com/solaegis/CharacterMarkdown/edit/main/{path}"
 
 # Search configuration
 [output.html.search]
