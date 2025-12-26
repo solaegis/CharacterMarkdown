@@ -205,7 +205,7 @@ Include this information:
 - Screenshots (if helpful)
 
 #### Support Channels
-- **GitHub Issues**: [Report bugs](https://github.com/yourusername/CharacterMarkdown/issues)
+- **GitHub Issues**: [Report bugs](https://github.com/solaegis/CharacterMarkdown/issues)
 - **ESOUI Comments**: [Addon page](https://www.esoui.com/downloads/info4279-CharacterMarkdown.html)
 - **Discord**: ESO Addon Development community
 

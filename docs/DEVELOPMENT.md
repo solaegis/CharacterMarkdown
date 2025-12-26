@@ -83,8 +83,8 @@ task install:live      # Install to ESO
 ### 3. Release
 ```bash
 git add .
-git commit -m "Release v2.1.2"
-git tag v2.1.2
+git commit -m "Release v@project-version@"
+git tag v@project-version@
 git push origin main --tags
 ```
 
