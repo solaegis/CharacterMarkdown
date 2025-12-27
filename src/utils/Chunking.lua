@@ -4679,10 +4679,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- Adding artificial close would create an empty block
             local distanceFromStart = chunkEnd - mStart
             if distanceFromStart < 500 then
-                 -- CRITICAL: Also skip padding for this chunk - we're inside mermaid header area
-                 skipPadding = true
                  CM.DebugPrint("CHUNKING", string.format(
-                    "Chunk ends %d chars after mermaid block start - too close, skipping artificial close AND padding",
+                    "Chunk ends %d chars after mermaid block start - too close, skipping artificial close",
                     distanceFromStart
                 ))
             else
@@ -4724,9 +4722,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
         end
 
-        -- Add padding only if enabled AND not inside mermaid header area
-        local skipPadding = skipPadding or false
-        if not CHUNKING.DISABLE_PADDING and not skipPadding then
+        -- Add padding only if enabled
+        if not CHUNKING.DISABLE_PADDING then
             -- CRITICAL: Use NEWLINES as padding (not spaces or HTML comments)
             -- Newlines are safe if truncated, work in any markdown context, and are invisible in rendered output
             -- Normalize trailing newlines to single newline, then add padding newlines
