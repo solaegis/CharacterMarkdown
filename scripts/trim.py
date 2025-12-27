@@ -54,6 +54,56 @@ def is_section_separator(line: str) -> bool:
     return stripped == '---'
 
 
+def trim_mermaid_blocks(content: str) -> str:
+    """
+    Trim excessive blank lines inside mermaid code blocks.
+    
+    Mermaid blocks can have padding newlines from chunking that should be reduced.
+    This function reduces 3+ consecutive blank lines to 2 inside mermaid blocks only.
+    """
+    lines = content.splitlines()
+    result = []
+    
+    in_mermaid = False
+    consecutive_blanks = 0
+    
+    for line in lines:
+        stripped = line.strip()
+        
+        # Check for mermaid block start
+        if stripped.startswith('```mermaid'):
+            in_mermaid = True
+            consecutive_blanks = 0
+            result.append(line)
+            continue
+        
+        # Check for code block end (while in mermaid)
+        if in_mermaid and stripped == '```':
+            in_mermaid = False
+            # Remove trailing blanks before closing fence
+            while result and result[-1].strip() == '':
+                result.pop()
+            result.append(line)
+            consecutive_blanks = 0
+            continue
+        
+        # Inside mermaid block: limit consecutive blanks
+        if in_mermaid:
+            if stripped == '':
+                consecutive_blanks += 1
+                # Allow max 2 consecutive blank lines
+                if consecutive_blanks <= 2:
+                    result.append(line)
+            else:
+                consecutive_blanks = 0
+                result.append(line)
+        else:
+            # Outside mermaid: pass through unchanged
+            result.append(line)
+    
+    return '\n'.join(result)
+
+
 def trim_markdown(content: str) -> str:
     """
     Trim unnecessary newlines from markdown content.
@@ -67,7 +117,11 @@ def trim_markdown(content: str) -> str:
     - Remove chunk markers
     - Ensure single newline at EOF
     - Preserve Build Notes section exactly as-is
+    - Trim excessive blank lines inside mermaid blocks
     """
+    # Pre-pass: trim mermaid block blank lines
+    content = trim_mermaid_blocks(content)
+    
     lines = content.splitlines()
     result = []
     
