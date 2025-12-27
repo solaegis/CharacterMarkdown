@@ -21,8 +21,9 @@ tasks:
 
   release:
     desc: Build release ZIP artifact with full validation
-    deps: [clean, dev:test]
+    deps: [clean]
     cmds:
+      - task dev:test
       - |
         echo "📦 Building {{.ADDON_NAME}} release..."
 
