@@ -492,7 +492,6 @@ graph TD
     LEG_STARS["Star Types"]
     LEG_S1["⭐ Gold Border = Maxed Slottable"]
     LEG_S2["🔶 Orange Border = Independent Star"]
-
 ```
 
 
