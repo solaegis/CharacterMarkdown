@@ -25,6 +25,7 @@
 .task
 Taskfile.yml
 Taskfile.yaml
+taskfiles
 .pre-commit-config.yaml
 .luacheckrc
 .stylua.toml
