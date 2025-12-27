@@ -2,7 +2,7 @@
 title = "CharacterMarkdown Documentation"
 description = "Complete documentation for the CharacterMarkdown ESO addon"
 authors = ["CharacterMarkdown Contributors"]
-version = "@project-version@"
+
 language = "en"
 
 
@@ -19,7 +19,7 @@ build-dir = "book"
 default-theme = "navy"
 preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/solaegis/CharacterMarkdown"
-git-repository-icon = "fa-github"
+
 edit-url-template = "https://github.com/solaegis/CharacterMarkdown/edit/main/{path}"
 
 # Search configuration
@@ -38,7 +38,7 @@ heading-split-level = 3
 [output.html.playground]
 editable = false
 copyable = true
-copyable-hidden = false
+
 line-numbers = false
 runnable = false
 
@@ -49,4 +49,5 @@ runnable = false
 # For GitHub Actions, the preprocessor will be installed in the workflow
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
+optional = true
 
