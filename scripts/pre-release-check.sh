@@ -88,11 +88,11 @@ validate_syntax() {
         return 1
     fi
     
-    if task validate:syntax > /dev/null 2>&1; then
+    if task dev:validate:syntax > /dev/null 2>&1; then
         print_success "Syntax validation passed"
         return 0
     else
-        print_error "Syntax validation failed - run 'task validate:syntax' for details"
+        print_error "Syntax validation failed - run 'task dev:validate:syntax' for details"
         return 1
     fi
 }
@@ -151,11 +151,11 @@ validate_files() {
         return 1
     fi
     
-    if task validate:files > /dev/null 2>&1; then
+    if task dev:validate:files > /dev/null 2>&1; then
         print_success "File structure validation passed"
         return 0
     else
-        print_error "File structure validation failed - run 'task validate:files' for details"
+        print_error "File structure validation failed - run 'task dev:validate:files' for details"
         return 1
     fi
 }
