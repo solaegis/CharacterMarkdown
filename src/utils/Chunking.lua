@@ -4604,30 +4604,47 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             prependNewlineToChunk = false
         end
 
+        -- Track if we stripped the fence, so we don't try to close the block again later
+        -- Also track if we should skip the mermaid close logic entirely
+        local strippedFence = false
+        local skipMermaidClose = false
+
         -- Prepend Mermaid header if needed
         if prependMermaidHeader then
             -- CRITICAL: Check if chunkContent already starts with the header content or its own mermaid block
             -- This can happen when:
             -- 1. Chunk starts right after ``` and includes init/flowchart from the same block
             -- 2. Chunk starts with a NEW mermaid block (e.g., a separate diagram follows)
-            local trimmedContent = chunkContent:match("^%s*(.-)") or ""
-            local startsWithMermaidFence = trimmedContent:match("^```mermaid")
-            local startsWithInit = trimmedContent:match("^%%{init:")
-            local startsWithFlowchart = trimmedContent:match("^flowchart") 
-                                     or trimmedContent:match("^graph%s")
-                                     or trimmedContent:match("^sequenceDiagram")
-                                     or trimmedContent:match("^gantt")
-                                     or trimmedContent:match("^classDiagram")
-                                     or trimmedContent:match("^stateDiagram")
-                                     or trimmedContent:match("^erDiagram")
-                                     or trimmedContent:match("^pie")
-                                     or trimmedContent:match("^journey")
+            -- Use patterns that skip leading whitespace directly on chunkContent to avoid string copy
+            local startsWithMermaidFence = chunkContent:match("^%s*```mermaid")
+            local startsWithInit = chunkContent:match("^%s*%%%%{init:")
+            local startsWithFlowchart = chunkContent:match("^%s*flowchart") 
+                                     or chunkContent:match("^%s*graph%s")
+                                     or chunkContent:match("^%s*sequenceDiagram")
+                                     or chunkContent:match("^%s*gantt")
+                                     or chunkContent:match("^%s*classDiagram")
+                                     or chunkContent:match("^%s*stateDiagram")
+                                     or chunkContent:match("^%s*erDiagram")
+                                     or chunkContent:match("^%s*pie")
+                                     or chunkContent:match("^%s*journey")
             
             if startsWithMermaidFence then
                 -- Chunk already starts with its own mermaid block, don't prepend anything
-                CM.DebugPrint("CHUNKING", "Chunk starts with new mermaid fence, skipping header prepend")
+                -- ALSO skip the mermaid close logic - we're not continuing a block, we're starting a new one
+                skipMermaidClose = true
+                CM.DebugPrint("CHUNKING", "Chunk starts with new mermaid fence, skipping header prepend AND mermaid close logic")
+            elseif chunkContent:match("^%s*```") then
+                -- Chunk starts with a closing fence. Since we are in 'prependMermaidHeader' mode, 
+                -- this is the closing fence of the PREVIOUS split block.
+                -- We already closed the previous chunk artificially, so this fence is redundant.
+                -- STRIP it to prevent creating an empty code block.
+                chunkContent = chunkContent:gsub("^%s*```%s*", "", 1)
+                strippedFence = true
+                CM.DebugPrint("CHUNKING", "Stripped redundant closing fence from start of chunk")
             elseif startsWithInit or startsWithFlowchart then
                 -- Chunk has header content but needs the opening fence
+                -- ALSO set skipMermaidClose - we're continuing a properly opened block
+                skipMermaidClose = true
                 chunkContent = "```mermaid\n" .. chunkContent
                 CM.DebugPrint("CHUNKING", "Chunk already contains mermaid header, only prepending fence")
             else
@@ -4651,56 +4668,58 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         local inMermaid, mStart, mEnd = IsInsideMermaidBlock(markdown, chunkEnd)
         -- Only if we are strictly inside (chunkEnd < mEnd)
         -- Note: mEnd might be the end of the block ```
-        if inMermaid and chunkEnd < mEnd then
+        -- Skip if we stripped a fence or if we're starting a new mermaid block
+        if inMermaid and chunkEnd < mEnd and not strippedFence and not skipMermaidClose then
             -- Check if we are really inside the block (not just at the end)
             -- If chunkEnd points to the newline before ```, we are effectively at the end?
             -- IsInsideMermaidBlock returns blockEnd as position AFTER ```
+            
+            -- CRITICAL: Also check if we're right at the START of the block (within the header area)
+            -- If chunkEnd is within ~500 chars of mStart, the block just opened and has no content yet
+            -- Adding artificial close would create an empty block
+            local distanceFromStart = chunkEnd - mStart
+            if distanceFromStart < 500 then
+                 CM.DebugPrint("CHUNKING", string.format(
+                    "Chunk ends %d chars after mermaid block start - too close, skipping artificial close",
+                    distanceFromStart
+                ))
+            else
+                -- If chunkEnd is inside, append closing backticks
+                chunkContent = chunkContent .. "\n```\n"
 
-            -- If chunkEnd is inside, append closing backticks
-            chunkContent = chunkContent .. "\n```\n"
+                -- Prepare header for next chunk
+                -- We need to find the start of the MAIN mermaid block to get the header
+                -- mStart might be a subgraph start. We need the block start.
+                -- Search backwards from mStart for ```mermaid
+                local blockStart = mStart
+                local searchLimit = math.max(1, mStart - 50000)
+                -- If mStart is subgraph, search back. If mStart is ```mermaid, we are good.
+                local checkStr = string.sub(markdown, math.max(1, mStart), math.min(markdownLength, mStart + 20))
+                if checkStr:match("subgraph") then
+                    -- We are in a subgraph, need to find main block start
+                end
 
-            -- Prepare header for next chunk
-            -- We need to find the start of the MAIN mermaid block to get the header
-            -- mStart might be a subgraph start. We need the block start.
-            -- Search backwards from mStart for ```mermaid
-            local blockStart = mStart
-            local searchLimit = math.max(1, mStart - 50000)
-            -- If mStart is subgraph, search back. If mStart is ```mermaid, we are good.
-            local checkStr = string.sub(markdown, math.max(1, mStart), math.min(markdownLength, mStart + 20))
-            if checkStr:match("subgraph") then
-                -- We are in a subgraph, need to find main block start
-                -- This is expensive but necessary if we split inside subgraph (fallback case)
-                -- Or if we split at top level but IsInsideMermaidBlock returns top level range
-
-                -- Wait, if we are at top level, mStart IS the block start (or close to it).
-                -- IsInsideMermaidBlock returns `mermaidStart` which is `i - 9` (start of ```mermaid).
-                -- So checkStr should match ```mermaid.
-            end
-
-            -- If we are in a subgraph, we might have trouble finding the header easily if we don't search back.
-            -- But let's assume for now we split at top level or close enough.
-            -- If we can't find ```mermaid at mStart, we search back.
-
-            if not string.sub(markdown, mStart, mStart + 10):match("```mermaid") then
-                -- Search back for ```mermaid
-                for k = mStart, searchLimit, -1 do
-                    if string.sub(markdown, k, k + 9) == "```mermaid" then
-                        blockStart = k
-                        break
+                if not string.sub(markdown, mStart, mStart + 10):match("```mermaid") then
+                    -- Search back for ```mermaid
+                    for k = mStart, searchLimit, -1 do
+                        if string.sub(markdown, k, k + 9) == "```mermaid" then
+                            blockStart = k
+                            break
+                        end
                     end
                 end
-            end
 
-            local header = GetMermaidHeader(markdown, blockStart)
-            prependMermaidHeader = "```mermaid\n" .. header .. "\n"
+                local header = GetMermaidHeader(markdown, blockStart)
+                prependMermaidHeader = "```mermaid\n" .. header .. "\n"
 
-            CM.DebugPrint(
-                "CHUNKING",
-                string.format(
-                    "Split inside Mermaid block. Appended closing backticks and prepared header '%s' for next chunk.",
-                    header:gsub("\n", "\\n")
+                CM.DebugPrint(
+                    "CHUNKING",
+                    string.format(
+                        "Split inside Mermaid block. Appended closing backticks and prepared header '%s' for next chunk.",
+                        header:gsub("\n", "\\n")
+                    )
                 )
-            )
+            end
         end
 
         -- Add padding only if enabled
