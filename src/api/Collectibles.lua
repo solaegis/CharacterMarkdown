@@ -19,7 +19,8 @@ local _collectibleCache = {} -- Cache by categoryType
 
 function api.CheckDLCAccess(zoneId)
     -- DLC Check logic using CanJumpToPlayerInZone as proxy for "Do I have access?"
-    -- This is the standard heuristic used in the project
+    -- CanJumpToPlayerInZone(zoneId) returns (canJump: bool, result: JumpToPlayerResult)
+    -- pcall returns (success, canJump, result)
     local success, canJump, result = pcall(CanJumpToPlayerInZone, zoneId)
 
     local isLocked = false

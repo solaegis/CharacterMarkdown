@@ -316,6 +316,277 @@ end
 CM.utils.tonl.Encode = Encode
 
 -- =====================================================
+-- MINIMAL OUTPUT FOR LLM CONTEXT
+-- =====================================================
+-- Reduces token usage by keeping high-value data and removing cruft
+
+local function IsTableEmpty(t)
+    if not t or type(t) ~= "table" then
+        return true
+    end
+    for _ in pairs(t) do
+        return false
+    end
+    return true
+end
+
+local function MinimizeAchievements(achievements)
+    if not achievements then
+        return nil
+    end
+    local summary = achievements.summary or {}
+    local out = {
+        earnedPoints = achievements.points or summary.earnedPoints or 0,
+        totalPoints = achievements.total or summary.totalPoints or 0,
+        completionPercent = summary.completionPercent or 0,
+    }
+    -- Top 5 categories by earned (for quick context)
+    if achievements.categories and #achievements.categories > 0 then
+        local top = {}
+        for i, cat in ipairs(achievements.categories) do
+            if i <= 5 and (cat.earned or 0) > 0 then
+                table_insert(top, { name = cat.name or "", earned = cat.earned or 0, percent = cat.percent or 0 })
+            end
+        end
+        if #top > 0 then
+            out.topCategories = top
+        end
+    end
+    return out
+end
+
+local function MinimizeStats(stats)
+    if not stats or type(stats) ~= "table" then
+        return nil
+    end
+    local out = {}
+    -- Keep core stats
+    for _, k in ipairs({ "health", "magicka", "stamina", "weaponPower", "spellPower", "weaponCritChance", "spellCritChance",
+        "physicalPenetration", "spellPenetration", "physicalResist", "spellResist", "physicalMitigation", "spellMitigation" }) do
+        if stats[k] ~= nil then
+            out[k] = stats[k]
+        end
+    end
+    -- Collapse elemental resistances if all identical (flame, frost, shock, magic, disease, poison, bleed)
+    if stats.resistances and type(stats.resistances) == "table" then
+        local elementalKeys = { "flame", "frost", "shock", "magic", "disease", "poison", "bleed" }
+        local firstVal = nil
+        local allSame = true
+        for _, k in ipairs(elementalKeys) do
+            local v = stats.resistances[k]
+            if v and type(v) == "table" and v.value then
+                if firstVal == nil then
+                    firstVal = v.value
+                elseif v.value ~= firstVal then
+                    allSame = false
+                    break
+                end
+            end
+        end
+        if allSame and firstVal ~= nil then
+            out.resist = firstVal
+        else
+            out.resistances = stats.resistances
+        end
+    end
+    -- Keep effectiveHealth average only
+    if stats.effectiveHealth then
+        out.effectiveHealth = stats.effectiveHealth.average or stats.effectiveHealth
+    end
+    return out
+end
+
+local function MinimizeTitlesHousing(th)
+    if not th then
+        return nil
+    end
+    -- titlesHousing can be CollectTitlesData directly (current, owned, summary)
+    local summary = th.summary or {}
+    return {
+        current = th.current or th.title or "",
+        totalOwned = summary.totalOwned or (#(th.owned or {})),
+        completionPercent = summary.completionPercent or 0,
+    }
+end
+
+local function MinimizeCollectibles(col)
+    if not col then
+        return nil
+    end
+    return {
+        esoPlus = col.esoPlus,
+        summary = col.summary,
+    }
+end
+
+local function MinimizeInventory(inv, settings)
+    if not inv then
+        return nil
+    end
+    local out = {}
+    -- Backpack: used/max summary
+    out.backpack = {
+        used = inv.backpackUsed or inv.backpack and inv.backpack.used or 0,
+        max = inv.backpackMax or inv.backpack and inv.backpack.max or 0,
+    }
+    -- Bank: used/max summary
+    out.bank = {
+        used = inv.bankUsed or inv.bank and inv.bank.used or 0,
+        max = inv.bankMax or inv.bank and inv.bank.max or 0,
+    }
+    if inv.hasCraftingBag ~= nil then
+        out.hasCraftingBag = inv.hasCraftingBag
+    end
+    -- Omit item lists unless explicitly requested (minimal mode drops them)
+    if settings and (settings.showBagContents or settings.showBankContents or settings.showCraftingBagContents) then
+        out.bagItems = inv.bagItems
+        out.bankItems = inv.bankItems
+        out.craftingBagItems = inv.craftingBagItems
+    end
+    return out
+end
+
+local function MinimizeUndauntedPledges(up)
+    if not up then
+        return nil
+    end
+    local hasData = false
+    if up.active and type(up.active) == "table" and #up.active > 0 then
+        hasData = true
+    end
+    if up.daily then
+        if (up.daily.normal and #up.daily.normal > 0) or (up.daily.veteran and #up.daily.veteran > 0) then
+            hasData = true
+        end
+    end
+    if up.weekly then
+        if (up.weekly.normal and #up.weekly.normal > 0) or (up.weekly.veteran and #up.weekly.veteran > 0) then
+            hasData = true
+        end
+    end
+    if up.dungeonProgress then
+        local dp = up.dungeonProgress
+        if (dp.normal and dp.normal.total and dp.normal.total > 0)
+            or (dp.veteran and dp.veteran.total and dp.veteran.total > 0)
+            or (dp.hardmode and dp.hardmode.total and dp.hardmode.total > 0)
+        then
+            hasData = true
+        end
+    end
+    if not hasData then
+        return nil
+    end
+    return up
+end
+
+local function MinimizeCharacter(char)
+    if not char then
+        return nil
+    end
+    local out = {}
+    for _, k in ipairs({ "name", "class", "race", "level", "cp", "title", "alliance", "server", "account", "gender", "esoPlus" }) do
+        if char[k] ~= nil then
+            out[k] = char[k]
+        end
+    end
+    if char.attributes then
+        out.attributes = char.attributes
+    end
+    return out
+end
+
+local function MinimizeCp(cp)
+    if not cp then
+        return nil
+    end
+    local out = {
+        total = cp.total,
+        spent = cp.spent,
+        available = cp.available,
+    }
+    if cp.disciplines and #cp.disciplines > 0 then
+        out.disciplines = {}
+        for _, d in ipairs(cp.disciplines) do
+            table_insert(out.disciplines, {
+                name = d.name,
+                spent = d.spent or d.total,
+                available = d.available,
+            })
+        end
+    end
+    return out
+end
+
+---Minimize collected data for LLM context (reduce token usage)
+---@param data table Full collected data
+---@param settings table|nil Optional settings (for includeInventory detail)
+---@return table Minimal data
+function CM.utils.tonl.MinimizeForTONL(data, settings)
+    if not data or type(data) ~= "table" then
+        return data
+    end
+    settings = settings or {}
+    local out = {}
+
+    -- Copy metadata (minimal)
+    if data._metadata then
+        out._metadata = data._metadata
+    end
+
+    -- Character: keep identity only
+    out.character = MinimizeCharacter(data.character)
+
+    -- Core build data: keep as-is (high value)
+    out.cp = MinimizeCp(data.cp)
+    out.equipment = data.equipment
+    out.skillBar = data.skillBar
+    out.skillMorphs = data.skillMorphs
+    out.stats = MinimizeStats(data.stats)
+    out.role = data.role
+    out.location = data.location
+    out.mundus = data.mundus
+    out.buffs = data.buffs
+
+    -- User content
+    out.customNotes = (data.customNotes and data.customNotes ~= "") and data.customNotes or nil
+    out.customTitle = (data.customTitle and data.customTitle ~= "") and data.customTitle or nil
+    out.playStyle = (data.playStyle and data.playStyle ~= "") and data.playStyle or nil
+
+    -- Collapsed/summarized
+    out.currency = data.currency
+    out.companion = (data.companion and not IsTableEmpty(data.companion)) and data.companion or nil
+    out.collectibles = MinimizeCollectibles(data.collectibles)
+    out.inventory = MinimizeInventory(data.inventory, settings)
+    out.guilds = (data.guilds and not IsTableEmpty(data.guilds)) and data.guilds or nil
+
+    -- Achievements: collapse to summary
+    out.achievements = (data.achievements and not IsTableEmpty(data.achievements)) and MinimizeAchievements(data.achievements) or nil
+
+    -- Titles: summary only
+    out.titlesHousing = (data.titlesHousing and not IsTableEmpty(data.titlesHousing)) and MinimizeTitlesHousing(data.titlesHousing) or nil
+
+    -- Omit empty sections
+    out.antiquities = (data.antiquities and not IsTableEmpty(data.antiquities)) and data.antiquities or nil
+    out.quests = (data.quests and not IsTableEmpty(data.quests)) and data.quests or nil
+    out.pvp = (data.pvp and not IsTableEmpty(data.pvp)) and data.pvp or nil
+    out.progression = (data.progression and not IsTableEmpty(data.progression)) and data.progression or nil
+    out.riding = (data.riding and not IsTableEmpty(data.riding)) and data.riding or nil
+    out.armoryBuilds = (data.armoryBuilds and not IsTableEmpty(data.armoryBuilds)) and data.armoryBuilds or nil
+    out.undauntedPledges = MinimizeUndauntedPledges(data.undauntedPledges)
+    out.dlc = (data.dlc and not IsTableEmpty(data.dlc)) and data.dlc or nil
+    out.skill = (data.skill and not IsTableEmpty(data.skill)) and data.skill or nil
+
+    -- Remove nil entries
+    local cleaned = {}
+    for k, v in pairs(out) do
+        if v ~= nil then
+            cleaned[k] = v
+        end
+    end
+    return cleaned
+end
+
+-- =====================================================
 -- MODULE INITIALIZATION
 -- =====================================================
 
@@ -323,4 +594,5 @@ CM.DebugPrint("UTILS", "TONL module loaded")
 
 return {
     Encode = Encode,
+    MinimizeForTONL = CM.utils.tonl.MinimizeForTONL,
 }

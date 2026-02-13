@@ -6,126 +6,13 @@ local CM = CharacterMarkdown
 -- Import constants
 local CHUNKING = CM.constants.CHUNKING
 
--- =====================================================
--- HELPER FUNCTIONS
--- =====================================================
-
--- Helper function to check if a line is part of a markdown table
-local function IsTableLine(line)
-    if not line or line == "" then
-        return false
-    end
-    return line:match("^%s*|") ~= nil
-end
-
--- Helper function to check if a line is a markdown header
-local function IsHeaderLine(line)
-    if not line or line == "" then
-        return false
-    end
-    return line:match("^#+%s") ~= nil
-end
-
--- Helper function to check if a position is at a newline between a header and a table
--- Returns true if: current line is a header AND next non-empty line is a table
-local function IsHeaderBeforeTable(markdown, pos, markdownLength)
-    if pos >= markdownLength or string.sub(markdown, pos, pos) ~= "\n" then
-        return false
-    end
-
-    -- Find the line ending at pos (the header line)
-    local lineStart = pos
-    for i = pos - 1, math.max(1, pos - 1000), -1 do
-        if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
-            lineStart = i
-            break
-        end
-    end
-
-    local headerLine = string.sub(markdown, lineStart, pos - 1)
-    if not IsHeaderLine(headerLine) then
-        return false
-    end
-
-    -- Check if the next non-empty line is a table
-    local nextLineStart = pos + 1
-    -- Skip empty lines
-    while nextLineStart <= markdownLength and string.sub(markdown, nextLineStart, nextLineStart) == "\n" do
-        nextLineStart = nextLineStart + 1
-    end
-
-    if nextLineStart > markdownLength then
-        return false
-    end
-
-    -- Find the end of the next line
-    local nextLineEnd = nextLineStart
-    for i = nextLineStart, math.min(markdownLength, nextLineStart + 500) do
-        if string.sub(markdown, i, i) == "\n" then
-            nextLineEnd = i
-            break
-        end
-    end
-
-    local nextLine = string.sub(markdown, nextLineStart, nextLineEnd - 1)
-    return IsTableLine(nextLine)
-end
-
----Backtrack before a header when the next line is a table to keep header+table together.
----Returns newChunkEnd, prependNewline if backtracking is valid; nil otherwise.
-local function BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize)
-    if chunkEnd >= markdownLength then
-        return nil
-    end
-    if string.sub(markdown, chunkEnd, chunkEnd) ~= "\n" then
-        return nil
-    end
-    if not IsHeaderBeforeTable(markdown, chunkEnd, markdownLength) then
-        return nil
-    end
-    local backtrackHeaderStart = chunkEnd
-    for i = chunkEnd - 1, math.max(pos, chunkEnd - 1000), -1 do
-        if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-            backtrackHeaderStart = (i == pos) and pos or i
-            break
-        end
-    end
-    if backtrackHeaderStart <= pos then
-        return nil
-    end
-    local newChunkEnd = backtrackHeaderStart - 1
-    local proposedDataChars = newChunkEnd - pos + 1
-    if proposedDataChars + paddingSize <= copyLimit and proposedDataChars >= 100 then
-        return newChunkEnd, true
-    end
-    return nil
-end
-
--- Helper function to check if a line is part of a markdown list
-local function IsListLine(line)
-    if not line or line == "" then
-        return false
-    end
-
-    -- Strip all leading characters that aren't list markers or regular printable chars
-    -- This handles zero-width spaces and other invisible Unicode characters
-    local cleaned = line
-    -- Remove zero-width space (U+200B = \226\128\139) and similar invisible chars
-    -- Pattern: match UTF-8 sequences that are likely zero-width/invisible chars
-    cleaned = cleaned:gsub("^\226\128\139+", "") -- Zero-width space
-    cleaned = cleaned:gsub("^\226\128\140+", "") -- Zero-width non-joiner
-    cleaned = cleaned:gsub("^\226\128\141+", "") -- Zero-width joiner
-    -- Remove regular leading whitespace
-    cleaned = cleaned:gsub("^%s+", "")
-
-    -- Check if cleaned line starts with a list marker
-    if cleaned:match("^[-*+]%s") or cleaned:match("^%d+[.)]%s") then
-        return true
-    end
-
-    -- Fallback: check original pattern (handles normal cases without invisible chars)
-    return line:match("^%s*[-*+]%s") ~= nil or line:match("^%s*%d+[.)]%s") ~= nil
-end
+-- Import helpers (loaded before this file in manifest)
+local ChunkingHelpers = CM.utils and CM.utils.ChunkingHelpers
+local IsTableLine = ChunkingHelpers and ChunkingHelpers.IsTableLine or function() return false end
+local IsHeaderLine = ChunkingHelpers and ChunkingHelpers.IsHeaderLine or function() return false end
+local IsListLine = ChunkingHelpers and ChunkingHelpers.IsListLine or function() return false end
+local IsHeaderBeforeTable = ChunkingHelpers and ChunkingHelpers.IsHeaderBeforeTable or function() return false end
+local BacktrackBeforeHeaderTablePair = ChunkingHelpers and ChunkingHelpers.BacktrackBeforeHeaderTablePair or function() return nil end
 
 -- Helper function to check if a position is inside an HTML block (like <div>)
 local function IsInsideHtmlBlock(markdown, pos)
@@ -4108,6 +3995,45 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 )
                             )
                         end
+                    end
+                end
+            end
+        end
+
+        -- CRITICAL: Never split in the middle of a table row - chunk must end at newline
+        -- If chunkEnd is mid-line on a table row, backtrack to the newline before it
+        if chunkEnd < markdownLength and string.sub(markdown, chunkEnd, chunkEnd) ~= "\n" then
+            local lineStart = chunkEnd
+            for i = chunkEnd - 1, math.max(pos, chunkEnd - 2000), -1 do
+                if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
+                    lineStart = (i == 1) and 1 or i
+                    break
+                end
+            end
+            local lineEnd = chunkEnd
+            for i = chunkEnd, math.min(markdownLength, chunkEnd + 500) do
+                if string.sub(markdown, i, i) == "\n" then
+                    lineEnd = i
+                    break
+                end
+            end
+            local lineContent = string.sub(markdown, lineStart, lineEnd - 1)
+            if IsTableLine(lineContent) then
+                -- We're mid-table-row: backtrack to newline before this row
+                for i = lineStart - 1, math.max(pos, lineStart - 2000), -1 do
+                    if i >= pos and string.sub(markdown, i, i) == "\n" then
+                        chunkEnd = i
+                        CM.DebugPrint(
+                            "CHUNKING",
+                            string.format(
+                                "Chunk %d: Backtracked from mid-table-row to newline at %d to avoid splitting table",
+                                chunkNum,
+                                chunkEnd
+                            )
+                        )
+                        break
+                    elseif i < pos then
+                        break
                     end
                 end
             end

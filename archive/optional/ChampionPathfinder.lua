@@ -1,5 +1,7 @@
--- CharacterMarkdown - Champion Point Pathfinder
+-- CharacterMarkdown - Champion Point Pathfinder (ARCHIVED)
 -- Finds minimum path to unlock a specific champion skill/star
+-- NOT IN MANIFEST: Optional enhancement for path-to-star display in ChampionDiagram.
+-- Restore to src/utils/ and add to manifest if path-to-star feature is implemented.
 
 local CM = CharacterMarkdown
 local string_format = string.format

@@ -3,6 +3,8 @@
 
 local CM = CharacterMarkdown
 local string_format = string.format
+local table_insert = table.insert
+local table_concat = table.concat
 
 -- =====================================================
 -- STAR MAPPING
@@ -497,13 +499,15 @@ local function GenerateChampionDiagram(cpData)
         return markdown .. "*No invested Champion Points to visualize*\n\n"
     end
 
+    -- Generate diagram with table.concat for performance
+    local parts = {}
+
     -- Generate diagram with new cleaner format
-    markdown = markdown .. "```mermaid\n"
-    markdown = markdown
-        .. '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%\n\n'
-    markdown = markdown .. "flowchart LR\n"
-    markdown = markdown .. "  %% Champion Point Investment Visualization\n"
-    markdown = markdown .. "  %% Enhanced readability with clear visual hierarchy\n\n"
+    table_insert(parts, "```mermaid\n")
+    table_insert(parts, '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%\n\n')
+    table_insert(parts, "flowchart LR\n")
+    table_insert(parts, "  %% Champion Point Investment Visualization\n")
+    table_insert(parts, "  %% Enhanced readability with clear visual hierarchy\n\n")
 
     -- Build discipline map for easy lookup
     local disciplineMap = {}
@@ -538,26 +542,24 @@ local function GenerateChampionDiagram(cpData)
             local treeIcon = treeEmoji[treeName] or ""
             local pointsInvested = treePoints[treeName]
 
-            markdown = markdown .. "  %% ========================================\n"
-            markdown = markdown
-                .. string.format(
-                    "  %%%% %s %s CONSTELLATION (%d/%d pts)\n",
-                    treeIcon,
-                    treeName:upper(),
-                    pointsInvested,
-                    MAX_POINTS_PER_CONSTELLATION
-                )
-            markdown = markdown .. "  %% ========================================\n\n"
+            table_insert(parts, "  %% ========================================\n")
+            table_insert(parts, string_format(
+                "  %%%% %s %s CONSTELLATION (%d/%d pts)\n",
+                treeIcon,
+                treeName:upper(),
+                pointsInvested,
+                MAX_POINTS_PER_CONSTELLATION
+            ))
+            table_insert(parts, "  %% ========================================\n\n")
 
             -- Mermaid subgraph with simplified title
-            markdown = markdown
-                .. string.format(
-                    '  subgraph sub%s["%s %s CONSTELLATION"]\n',
-                    treeName:upper(),
-                    treeIcon,
-                    treeName:upper()
-                )
-            markdown = markdown .. "    \n"
+            table_insert(parts, string_format(
+                '  subgraph sub%s["%s %s CONSTELLATION"]\n',
+                treeName:upper(),
+                treeIcon,
+                treeName:upper()
+            ))
+            table_insert(parts, "    \n")
 
             -- Generate nodes for each tree
             for _, entry in ipairs(categories.slottable) do
@@ -592,7 +594,7 @@ local function GenerateChampionDiagram(cpData)
                     maxedText
                 )
 
-                markdown = markdown .. "    " .. nodeId .. '["' .. label .. '"]\n'
+                table_insert(parts, "    " .. nodeId .. '["' .. label .. '"]\n')
 
                 -- Style the node
                 local nodeColor = GetStrongNodeColor(treeName)
@@ -604,20 +606,11 @@ local function GenerateChampionDiagram(cpData)
                     strokeColor = isMaxed and "#ffd700" or nodeColor
                 end
 
-                markdown = markdown
-                    .. "    style "
-                    .. nodeId
-                    .. " fill:"
-                    .. nodeColor
-                    .. ",stroke:"
-                    .. strokeColor
-                    .. ",stroke-width:"
-                    .. strokeWidth
-                    .. ",color:#fff\n"
+                table_insert(parts, "    style " .. nodeId .. " fill:" .. nodeColor .. ",stroke:" .. strokeColor .. ",stroke-width:" .. strokeWidth .. ",color:#fff\n")
             end
 
             -- Render Connections
-            markdown = markdown .. "\n    %% Connections\n"
+            table_insert(parts, "\n    %% Connections\n")
             for _, entry in ipairs(treeSkills[treeName].all) do
                 local starData = entry.starData
                 local nodeId = starData.node
@@ -640,7 +633,7 @@ local function GenerateChampionDiagram(cpData)
                         end
 
                         if prereqNodeId then
-                            markdown = markdown .. "    " .. prereqNodeId .. " --> " .. nodeId .. "\n"
+                            table_insert(parts, "    " .. prereqNodeId .. " --> " .. nodeId .. "\n")
                         end
                     end
                 end
@@ -648,13 +641,8 @@ local function GenerateChampionDiagram(cpData)
 
             -- Add available points node
             local disciplineAvailable = discipline and discipline.available or 0
-            markdown = markdown .. "\n"
-            markdown = markdown
-                .. "    "
-                .. treeName:upper()
-                .. '_AVAIL["💎 '
-                .. disciplineAvailable
-                .. ' points available"]\n'
+            table_insert(parts, "\n")
+            table_insert(parts, "    " .. treeName:upper() .. '_AVAIL["💎 ' .. disciplineAvailable .. ' points available"]\n')
 
             -- Style available node
             local availBgColor = {
@@ -669,109 +657,80 @@ local function GenerateChampionDiagram(cpData)
                 Fitness = "#b87a7a",
             }
 
-            markdown = markdown
-                .. "    style "
-                .. treeName:upper()
-                .. "_AVAIL fill:"
-                .. availBgColorValue
-                .. ",stroke:"
-                .. availTextColor[treeName]
-                .. ",stroke-width:2px,stroke-dasharray:5 5,color:"
-                .. availTextColor[treeName]
-                .. "\n\n"
+            table_insert(parts, "    style " .. treeName:upper() .. "_AVAIL fill:" .. availBgColorValue .. ",stroke:" .. availTextColor[treeName] .. ",stroke-width:2px,stroke-dasharray:5 5,color:" .. availTextColor[treeName] .. "\n\n")
 
-            markdown = markdown .. "  end\n"
+            table_insert(parts, "  end\n")
 
             -- Add subgraph background styling
             local subgraphBgColor = GetSubgraphBackgroundColor(treeName)
-            markdown = markdown
-                .. string.format(
-                    "  style sub%s fill:%s,stroke:%s,stroke-width:3px\n\n",
-                    treeName:upper(),
-                    subgraphBgColor,
-                    GetStrongNodeColor(treeName)
-                )
+            table_insert(parts, string_format("  style sub%s fill:%s,stroke:%s,stroke-width:3px\n\n", treeName:upper(), subgraphBgColor, GetStrongNodeColor(treeName)))
         end
     end
 
     -- Add simplified legend matching the example format
-    markdown = markdown .. "  %% ========================================\n"
-    markdown = markdown .. "  %% END OF MAIN DIAGRAM\n"
-    markdown = markdown .. "  %% ========================================\n\n"
+    table_insert(parts, "  %% ========================================\n")
+    table_insert(parts, "  %% END OF MAIN DIAGRAM\n")
+    table_insert(parts, "  %% ========================================\n\n")
 
     -- Close the main mermaid block
-    markdown = markdown .. "```\n\n"
+    table_insert(parts, "```\n\n")
 
     -- Start a SEPARATE mermaid block for the legend
     -- This prevents chunking from splitting the legend subgraph
-    markdown = markdown .. "```mermaid\n"
-    markdown = markdown .. "%%{init: {"
-    markdown = markdown .. '"theme":"base", '
-    markdown = markdown .. '"themeVariables": { '
-    markdown = markdown .. '"background":"transparent",'
-    markdown = markdown .. '"fontSize":"12px",'
-    markdown = markdown .. '"primaryColor":"#f0f0f0",'
-    markdown = markdown .. '"primaryTextColor":"#333",'
-    markdown = markdown .. '"primaryBorderColor":"#999",'
-    markdown = markdown .. '"lineColor":"#999"'
-    markdown = markdown .. "}"
-    markdown = markdown .. "}}%%\n\n"
-    markdown = markdown .. "flowchart LR\n\n"
+    table_insert(parts, "```mermaid\n")
+    table_insert(parts, '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"12px","primaryColor":"#f0f0f0","primaryTextColor":"#333","primaryBorderColor":"#999","lineColor":"#999"}}}%%\n\n')
+    table_insert(parts, "flowchart LR\n\n")
 
     -- Parent legend subgraph
-    markdown = markdown .. '  subgraph subLEGEND["📖 LEGEND & VISUAL GUIDE"]\n'
-    markdown = markdown .. "    \n"
+    table_insert(parts, '  subgraph subLEGEND["📖 LEGEND & VISUAL GUIDE"]\n')
+    table_insert(parts, "    \n")
 
     -- Star Types subsection
-    markdown = markdown .. '    LEG_STARS["Star Types"]\n'
-    markdown = markdown .. '    LEG_S1["⭐ Gold Border = Maxed Slottable"]\n'
-    markdown = markdown .. '    LEG_S2["🔶 Orange Border = Independent Star"]\n'
-    markdown = markdown .. '    LEG_S3["Standard Border = In Progress"]\n'
-    markdown = markdown .. "    \n"
+    table_insert(parts, '    LEG_STARS["Star Types"]\n')
+    table_insert(parts, '    LEG_S1["⭐ Gold Border = Maxed Slottable"]\n')
+    table_insert(parts, '    LEG_S2["🔶 Orange Border = Independent Star"]\n')
+    table_insert(parts, '    LEG_S3["Standard Border = In Progress"]\n')
+    table_insert(parts, "    \n")
 
     -- Progress Indicators subsection
-    markdown = markdown .. '    LEG_FILL["Progress Indicators"]\n'
-    markdown = markdown .. '    LEG_F1["⭐ = 100% Maxed"]\n'
-    markdown = markdown .. '    LEG_F2["●●● = 75-99%"]\n'
-    markdown = markdown .. '    LEG_F3["●●○ = 50-74%"]\n'
-    markdown = markdown .. '    LEG_F4["●○○ = 25-49%"]\n'
-    markdown = markdown .. '    LEG_F5["○○○ = 1-24%"]\n'
-    markdown = markdown .. "    \n"
+    table_insert(parts, '    LEG_FILL["Progress Indicators"]\n')
+    table_insert(parts, '    LEG_F1["⭐ = 100% Maxed"]\n')
+    table_insert(parts, '    LEG_F2["●●● = 75-99%"]\n')
+    table_insert(parts, '    LEG_F3["●●○ = 50-74%"]\n')
+    table_insert(parts, '    LEG_F4["●○○ = 25-49%"]\n')
+    table_insert(parts, '    LEG_F5["○○○ = 1-24%"]\n')
+    table_insert(parts, "    \n")
 
     -- Connections for visual organization
-    markdown = markdown .. "    LEG_STARS --> LEG_S1 & LEG_S2 & LEG_S3\n"
-    markdown = markdown .. "    LEG_FILL --> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5\n\n"
+    table_insert(parts, "    LEG_STARS --> LEG_S1 & LEG_S2 & LEG_S3\n")
+    table_insert(parts, "    LEG_FILL --> LEG_F1 & LEG_F2 & LEG_F3 & LEG_F4 & LEG_F5\n\n")
 
     -- Styling for legend elements
-    -- Title nodes are transparent with bright text, example nodes have fills with dark text
-    markdown = markdown .. "    style LEG_STARS fill:transparent,stroke:none,color:#ccc\n"
-    markdown = markdown .. "    style LEG_FILL fill:transparent,stroke:none,color:#ccc\n"
-    markdown = markdown .. "    style LEG_S1 fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333\n"
-    markdown = markdown .. "    style LEG_S2 fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333\n"
-    markdown = markdown .. "    style LEG_S3 fill:#fff,stroke:#999,stroke-width:2px,color:#333\n"
-    markdown = markdown .. "    style LEG_F1 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
-    markdown = markdown .. "    style LEG_F2 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
-    markdown = markdown .. "    style LEG_F3 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
-    markdown = markdown .. "    style LEG_F4 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
-    markdown = markdown .. "    style LEG_F5 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n"
+    table_insert(parts, "    style LEG_STARS fill:transparent,stroke:none,color:#ccc\n")
+    table_insert(parts, "    style LEG_FILL fill:transparent,stroke:none,color:#ccc\n")
+    table_insert(parts, "    style LEG_S1 fill:#fff,stroke:#ffd700,stroke-width:3px,color:#333\n")
+    table_insert(parts, "    style LEG_S2 fill:#fff,stroke:#ff8c00,stroke-width:3px,color:#333\n")
+    table_insert(parts, "    style LEG_S3 fill:#fff,stroke:#999,stroke-width:2px,color:#333\n")
+    table_insert(parts, "    style LEG_F1 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n")
+    table_insert(parts, "    style LEG_F2 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n")
+    table_insert(parts, "    style LEG_F3 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n")
+    table_insert(parts, "    style LEG_F4 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n")
+    table_insert(parts, "    style LEG_F5 fill:#eee,stroke:#333,stroke-width:1px,color:#333\n")
 
     -- Close legend subgraph
-    markdown = markdown .. "  end\n"
-    markdown = markdown .. "  style subLEGEND fill:transparent,stroke:#999,stroke-width:3px\n"
-
-    -- Close the legend mermaid block
-    markdown = markdown .. "```\n\n"
-
+    table_insert(parts, "  end\n")
+    table_insert(parts, "  style subLEGEND fill:transparent,stroke:#999,stroke-width:3px\n")
+    table_insert(parts, "```\n\n")
 
     -- Add separator at the end (as this becomes the end of the CP section)
     local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
     if CreateSeparator then
-        markdown = markdown .. CreateSeparator("hr")
+        table_insert(parts, CreateSeparator("hr"))
     else
-        markdown = markdown .. "---\n\n"
+        table_insert(parts, "---\n\n")
     end
 
-    return markdown
+    return markdown .. table_concat(parts)
 end
 
 CM.generators.sections.GenerateChampionDiagram = GenerateChampionDiagram

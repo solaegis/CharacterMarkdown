@@ -101,6 +101,12 @@ end
 - Data is dereferenced immediately after use
 - This ensures stale data never accumulates
 
+**API Layer Caches (Distinct from Collector Data)**:
+- The API layer (e.g. `src/api/Collectibles.lua`, `src/api/Skills.lua`, `src/api/Titles.lua`, `src/api/Antiquities.lua`) may cache raw ESO API responses at module scope
+- These API caches are acceptable when invalidated by events (e.g. `EVENT_COLLECTIBLE_UNLOCKED`)
+- They cache low-level API results, not collector output; collectors still produce fresh data each run
+- Do not confuse API-layer caches with collector output caching (which is prohibited)
+
 **Location**: `src/generators/Markdown.lua`
 
 ### 4. Settings Cache
@@ -193,6 +199,18 @@ end
 - Standard ESO addon practice
 
 **Locations**: All collector and generator files
+
+### 7. Performance and Heavy Collectors
+
+**Heavy collectors** (Inventory with craft bag, Achievements with 40+ categories, Collectibles with 12 categories) run sequentially and can cause noticeable lag on large profiles.
+
+**Profiling**:
+- Enable LibDebugLogger to see `CM.DebugPrint` output; add timing around collector calls to identify slowest collectors
+- Consider wrapping `SafeCollect` calls with `GetGameTimeMilliseconds()` before/after for profiling
+
+**Future optimization** (not yet implemented):
+- Lazy-load sections (e.g. craft bag only when that section is enabled in settings and visible)
+- Deferred/async collection is complex in ESO Lua and not currently planned
 
 ## Memory Leak Prevention
 

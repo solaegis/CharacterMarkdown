@@ -11,10 +11,6 @@ local api = CM.api.character
 -- FALLBACK LOOKUP TABLES
 -- =====================================================
 
--- =====================================================
--- FALLBACK LOOKUP TABLES
--- =====================================================
-
 -- Race ID to name mapping (fallback if API fails)
 local RACE_NAMES = CM.Constants.RACE_NAMES
 

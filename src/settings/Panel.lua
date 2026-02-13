@@ -1792,6 +1792,49 @@ function CM.Settings.Panel:AddActions(options)
         end
     end
 
+    -- Achievement Hunter preset: Minimal + Achievements, Collectibles, Antiquities
+    local function ApplyAchievementHunterPreset()
+        ApplyMinimalPreset()
+        CharacterMarkdownSettings.includeAchievements = true
+        CharacterMarkdownSettings.includeCollectibles = true
+        CharacterMarkdownSettings.includeAntiquities = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("Achievement Hunter preset applied")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
+    -- Crafter preset: Minimal + Crafting, Currency, Inventory
+    local function ApplyCrafterPreset()
+        ApplyMinimalPreset()
+        CharacterMarkdownSettings.includeCrafting = true
+        CharacterMarkdownSettings.includeCurrency = true
+        CharacterMarkdownSettings.includeInventory = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("Crafter preset applied")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
+    -- Solo PvE preset: Minimal + Quests, Progression, Companion
+    local function ApplySoloPvEPreset()
+        ApplyMinimalPreset()
+        CharacterMarkdownSettings.includeQuests = true
+        CharacterMarkdownSettings.includeProgression = true
+        CharacterMarkdownSettings.includeRidingSkills = true
+        CharacterMarkdownSettings.includeCompanion = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("Solo PvE preset applied")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
     table.insert(options, {
         type = "button",
         name = "Preset: Minimal",
@@ -1805,6 +1848,30 @@ function CM.Settings.Panel:AddActions(options)
         name = "Preset: PvP Build",
         tooltip = "Minimal plus PvP info, stats, and Alliance War Skills.",
         func = ApplyPvPBuildPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: Achievement Hunter",
+        tooltip = "Minimal plus Achievements, Collectibles, and Antiquities.",
+        func = ApplyAchievementHunterPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: Crafter",
+        tooltip = "Minimal plus Crafting, Currency, and Inventory.",
+        func = ApplyCrafterPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: Solo PvE",
+        tooltip = "Minimal plus Quests, Progression, Riding, and Companion.",
+        func = ApplySoloPvEPreset,
         width = "half",
     })
 

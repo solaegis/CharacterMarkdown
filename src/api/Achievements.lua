@@ -48,7 +48,15 @@ function api.GetSubCategoryInfo(catIndex, subCatIndex)
 end
 
 function api.GetRecent()
-    local ids = { CM.SafeCall(GetRecentlyCompletedAchievements, 5) }
+    local success, id1, id2, id3, id4, id5 = CM.SafeCallMulti(GetRecentlyCompletedAchievements, 5)
+    local ids = {}
+    if success then
+        for _, id in ipairs({ id1, id2, id3, id4, id5 }) do
+            if id and type(id) == "number" then
+                table.insert(ids, id)
+            end
+        end
+    end
     local recent = {}
     for _, id in ipairs(ids) do
         if type(id) == "number" then

@@ -6,6 +6,7 @@ local CM = CharacterMarkdown
 -- Import TONL encoder
 local TONL = CM.utils and CM.utils.tonl
 local EncodeTONL = TONL and TONL.Encode
+local MinimizeForTONL = TONL and TONL.MinimizeForTONL
 
 -- =====================================================
 -- DATA COLLECTION HELPERS
@@ -209,8 +210,11 @@ local function GenerateTONL()
 
     CM.DebugPrint("FORMATTER", "Data collection complete, encoding to TONL...")
 
+    -- Minimize for LLM context (reduce token usage)
+    local dataToEncode = MinimizeForTONL and MinimizeForTONL(collectedData, settings) or collectedData
+
     -- Encode to TONL format
-    local success, tonlOutput = pcall(EncodeTONL, collectedData)
+    local success, tonlOutput = pcall(EncodeTONL, dataToEncode)
 
     if not success then
         CM.Error("Failed to encode data to TONL: " .. tostring(tonlOutput))

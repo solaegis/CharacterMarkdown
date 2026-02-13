@@ -322,6 +322,9 @@ local function InitializeWindowControls()
         -- ESC = Close window (X without modifiers also closes)
         if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
             CM.DebugPrint("KEYBOARD", "ESC/X pressed - closing window")
+            if editBoxControl then
+                editBoxControl:LoseFocus()
+            end
             windowControl:SetHidden(true)
             return true -- Consume
         end
@@ -1253,8 +1256,14 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
     -- Show window
     windowControl:SetHidden(false)
 
-    -- Staggered TakeFocus (0, 50, 100, 200ms) to overcome chat/game focus races
-    for _, delayMs in ipairs({ 0, 50, 100, 200 }) do
+    -- Immediate TakeFocus so EditBox grabs focus as soon as window is visible
+    if editBoxControl then
+        editBoxControl:TakeFocus()
+    end
+
+    -- Staggered TakeFocus (0, 50, 100, 200, 300, 400ms) to overcome chat/game focus races
+    -- Chat often retains focus after Enter; longer delays ensure EditBox wins
+    for _, delayMs in ipairs({ 0, 50, 100, 200, 300, 400 }) do
         zo_callLater(function()
             if not windowControl:IsHidden() and editBoxControl then
                 editBoxControl:TakeFocus()
@@ -1304,9 +1313,9 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
         end
     end, 200) -- Delay to ensure window is fully rendered
 
-    -- Give EditBox focus so it receives keyboard events
+    -- Give EditBox focus so it receives keyboard events (350ms lets chat release focus)
     CM.DebugPrint("UI", "Window opened - EditBox has focus and text selected, ready for keyboard shortcuts")
-    SelectAll(200)
+    SelectAll(350)
 
     return true
 end
@@ -1386,6 +1395,9 @@ local function OnAddOnLoaded(event, addonName)
                 -- ESC or X = Close
                 if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
                     CM.DebugPrint("KEYBOARD", "ESC/X pressed (global fallback) - closing window")
+                    if editBoxControl then
+                        editBoxControl:LoseFocus()
+                    end
                     windowControl:SetHidden(true)
                     return
                 end

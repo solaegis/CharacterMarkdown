@@ -21,9 +21,6 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         -- FORMATTER SETTINGS
         -- ====================================
-        -- ====================================
-        -- FORMATTER SETTINGS
-        -- ====================================
         -- currentFormatter = "markdown", -- REMOVED: Strict enforcement
 
         -- ====================================
