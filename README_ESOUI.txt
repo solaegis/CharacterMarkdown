@@ -1,20 +1,19 @@
 CharacterMarkdown
 =================
 
-Transform your ESO character into AI-ready markdown for deep build analysis and optimization. 
-Export comprehensive character profiles with complete stats, skills, equipment, and progression data, 
-then paste into ChatGPT, Claude, or other AI assistants for expert build interrogation, improvement 
-guidance, and dynamic playstyle exploration. Includes clickable UESP wiki links for abilities, sets, 
-races, classes, zones, and more.
+Export comprehensive ESO character data in beautiful Markdown or structured TONL format with 
+clickable UESP links for abilities, sets, races, classes, zones, and more. Paste into ChatGPT, 
+Claude, or other AI assistants for expert build analysis, optimization suggestions, and 
+personalized guidance.
 
 FEATURES
 --------
 
+* Complete Character Profile - Comprehensive export of level, CP, attributes, skills, equipment, combat stats, and progression data
+* Multiple Output Formats - Markdown (default) and TONL (data) optimized for different platforms and sharing needs
 * AI-Powered Build Analysis - Export your complete character profile and paste into ChatGPT, Claude, or other AI assistants for deep build interrogation, optimization suggestions, and personalized guidance
 * Build Improvement Guidance - Get AI-driven recommendations on skill rotations, gear optimization, attribute allocation, and CP distribution based on your playstyle goals
 * Dynamic Build Goals - Easily share your build with AI to explore different playstyles - switch from PvE to PvP, DPS to Tank, or experiment with hybrid builds with expert AI guidance
-* Complete Character Profile - Comprehensive export of level, CP, attributes, skills, equipment, combat stats, and progression data
-* Multiple Output Formats - Markdown (default) and TONL (data) optimized for different AI platforms and sharing needs
 * Smart Wiki Links - Automatic UESP links for abilities, sets, races, classes, zones - perfect for AI context and verification
 * Rich Output - Tables, progress bars, and collapsible sections for GitHub format that AI tools can easily parse and analyze
 * Easy Sharing - Copy to clipboard for seamless pasting into AI chat interfaces, Discord, forums, or documentation
@@ -115,10 +114,12 @@ USE CASES
 REQUIREMENTS
 ------------
 
-* Elder Scrolls Online
-* ESO API Version 101047
+* Elder Scrolls Online 11.2.0 (Gold Road)
+* ESO API Version 101048
 * Optional: LibAddonMenu-2.0 (recommended)
 * Optional: LibDebugLogger (for debugging)
+* Optional: LibSets (for set collection features)
+* Optional: LibSlashCommander (for slash command registration)
 
 INSTALLATION LOCATION
 ---------------------
@@ -150,6 +151,8 @@ LINKS
 -----
 
 ESOUI Download: https://www.esoui.com/downloads/info4279-CharacterMarkdown.html
+GitHub: https://github.com/solaegis/CharacterMarkdown
+Issue Tracker: https://github.com/solaegis/CharacterMarkdown/issues
 UESP Wiki: https://en.uesp.net/wiki/Online:Main_Page
 
 Made for the ESO community
