@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Chunking**: Never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
+- **Documentation**: Corrected Lua comment syntax in ARCHITECTURE.md (`#` → `--`)
+
+## [2.2.6] - 2026-02-12
+
+### Fixed
+- **Chunking**: Resolved logic errors and variable shadowing; unified padding handling; reordered truncation checks
+- **Chunking**: Prevent splitting inline markdown links and table rows
+- **UI**: Enable cursor mode and keyboard focus for markdown window EditBox
+- **ESO API**: SafeCall usage for Achievements, Inventory, Collectibles; bounded craft bag fallback loop
+
+### Added
+- **Settings**: Implemented settings panel review plan (organization, tooltips, LibAddonMenu patterns)
+- **Release**: Phase 2 release checklist tasks (examples trim, docs audit)
+- **CI**: GitHub Actions workflow for mdBook documentation deployment
+
+### Changed
+- **Chunking**: Extracted ChunkingHelpers module; added tests and documentation
+
 ## [2.2.5] - 2025-12-26
 
 ## [2.2.4] - 2025-12-06
