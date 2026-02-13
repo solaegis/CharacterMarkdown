@@ -145,7 +145,7 @@ local CM = CharacterMarkdown
 
 -- Sub-namespaces
 CM.utils = {}
-CM.api = {}           # API layer (ESO API abstraction)
+CM.api = {}           -- API layer (ESO API abstraction)
 CM.links = {}
 CM.collectors = {}
 CM.generators = {}

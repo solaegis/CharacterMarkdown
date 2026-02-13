@@ -2159,6 +2159,54 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
         end
 
+        -- CRITICAL: Check if chunkEnd is inside a Mermaid code block
+        -- Never split inside mermaid blocks - they must stay contiguous (splitting breaks diagram rendering)
+        local isInsideMermaid, mermaidBlockStart, mermaidBlockEnd = IsInsideMermaidBlock(markdown, chunkEnd)
+        if isInsideMermaid and mermaidBlockStart and mermaidBlockEnd then
+            local mermaidBlockSize = mermaidBlockEnd - mermaidBlockStart + 1
+            local structureOverageAllowance = CHUNKING.STRUCTURE_OVERRIDE_MERMAID
+                or CHUNKING.STRUCTURE_OVERRIDE_HTML
+                or 5000
+            local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
+
+            if mermaidBlockSize <= effectiveMaxForStructures then
+                -- Can include the whole mermaid block - extend to its end
+                chunkEnd = mermaidBlockEnd
+                foundNewline = true
+                CM.DebugPrint(
+                    "CHUNKING",
+                    string.format(
+                        "Chunk %d: Extending to include Mermaid block at %d (ends at %d)",
+                        chunkNum,
+                        mermaidBlockStart,
+                        mermaidBlockEnd
+                    )
+                )
+            else
+                -- Mermaid block is too large - backtrack to before it
+                for i = mermaidBlockStart - 1, math.max(pos, mermaidBlockStart - 1000), -1 do
+                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
+                        local newEnd = (i == pos) and pos or (i - 1)
+                        if ValidateChunkSizeAfterBacktrack(newEnd) then
+                            chunkEnd = newEnd
+                            foundNewline = true
+                            CM.DebugPrint(
+                                "CHUNKING",
+                                string.format(
+                                    "Chunk %d: Backtracked to %d to avoid splitting Mermaid block (block at %d-%d)",
+                                    chunkNum,
+                                    chunkEnd,
+                                    mermaidBlockStart,
+                                    mermaidBlockEnd
+                                )
+                            )
+                        end
+                        break
+                    end
+                end
+            end
+        end
+
         -- CRITICAL: Final safety check - ensure chunkEnd is not inside a markdown link
         if chunkEnd < markdownLength then
             local linkEnd = IsInsideMarkdownLink(markdown, chunkEnd)
@@ -3664,6 +3712,50 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 chunkEnd
                             )
                         )
+                    end
+                end
+            end
+        end
+
+        -- CRITICAL: Check if chunkEnd is inside a Mermaid code block (alternate code path)
+        -- Never split inside mermaid blocks - they must stay contiguous (splitting breaks diagram rendering)
+        local inMermaidAlt, mermaidStartAlt, mermaidEndAlt = IsInsideMermaidBlock(markdown, chunkEnd)
+        if inMermaidAlt and mermaidStartAlt and mermaidEndAlt then
+            local mermaidSizeAlt = mermaidEndAlt - mermaidStartAlt + 1
+            local overageAlt = CHUNKING.STRUCTURE_OVERRIDE_MERMAID or CHUNKING.STRUCTURE_OVERRIDE_HTML or 5000
+            local maxForStructAlt = maxSafeDataSize + overageAlt
+
+            if mermaidSizeAlt <= maxForStructAlt then
+                chunkEnd = mermaidEndAlt
+                foundNewline = true
+                CM.DebugPrint(
+                    "CHUNKING",
+                    string.format(
+                        "Chunk %d: Extending to include Mermaid block at %d (ends at %d)",
+                        chunkNum,
+                        mermaidStartAlt,
+                        mermaidEndAlt
+                    )
+                )
+            else
+                for i = mermaidStartAlt - 1, math.max(pos, mermaidStartAlt - 1000), -1 do
+                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
+                        local newEnd = (i == pos) and pos or (i - 1)
+                        if ValidateChunkSizeAfterBacktrack(newEnd) then
+                            chunkEnd = newEnd
+                            foundNewline = true
+                            CM.DebugPrint(
+                                "CHUNKING",
+                                string.format(
+                                    "Chunk %d: Backtracked to %d to avoid splitting Mermaid block (block at %d-%d)",
+                                    chunkNum,
+                                    chunkEnd,
+                                    mermaidStartAlt,
+                                    mermaidEndAlt
+                                )
+                            )
+                        end
+                        break
                     end
                 end
             end
