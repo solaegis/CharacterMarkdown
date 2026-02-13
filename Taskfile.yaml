@@ -30,6 +30,9 @@ includes:
   examples:
     taskfile: ./taskfiles/Examples.yaml
     internal: false
+  docs:
+    taskfile: ./taskfiles/Docs.yaml
+    internal: false
 
 tasks:
   # ----------------------------------------------------------------------------
@@ -77,9 +80,9 @@ tasks:
       - task install:live
 
   version:
-    desc: Alias for release:version
+    desc: Alias for release:version:show
     cmds:
-      - task release:version
+      - task release:version:show
 
   # ----------------------------------------------------------------------------
   # Initialization

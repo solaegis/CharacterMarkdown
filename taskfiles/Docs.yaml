@@ -1,0 +1,62 @@
+version: "3"
+
+# Docs Tasks - Taskfile Module
+# Included from main Taskfile.yaml
+# Phase 2 of release checklist: documentation validation
+
+tasks:
+  audit:
+    desc: Documentation health audit (file count, structure)
+    cmds:
+      - |
+        echo "📚 Documentation Audit"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        if [ -d "docs" ]; then
+          COUNT=$(find docs -type f \( -name "*.md" -o -name "*.txt" \) 2>/dev/null | wc -l | tr -d ' ')
+          echo "📄 Documentation files in docs/: ${COUNT}"
+          echo ""
+          echo "Key files:"
+          for f in docs/README.md docs/PUBLISHING.md docs/DEVELOPMENT.md docs/ARCHITECTURE.md docs/MEMORY_MANAGEMENT.md; do
+            if [ -f "$f" ]; then
+              echo "  ✓ $f"
+            else
+              echo "  ✗ $f (missing)"
+            fi
+          done
+        else
+          echo "  ✗ docs/ directory not found"
+        fi
+        echo ""
+    silent: true
+
+  links:
+    desc: Check for broken internal markdown links
+    cmds:
+      - |
+        echo "🔗 Checking internal links..."
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        FOUND=0
+        for file in $(find docs -name "*.md" -type f 2>/dev/null); do
+          dir=$(dirname "$file")
+          for target in $(grep -oE '\]\([^)]+\.md[^)]*\)' "$file" 2>/dev/null | sed 's/](\(.*\))/\1/' | sed 's/#.*//' | sort -u); do
+            [ -z "$target" ] && continue
+            case "$target" in http*) continue ;; esac
+            [ -f "$target" ] && continue
+            resolved="$dir/$target"
+            resolved=$(echo "$resolved" | sed 's|/\./|/|g')
+            while echo "$resolved" | grep -q '[^/]*/\.\./'; do
+              resolved=$(echo "$resolved" | sed 's|[^/]*/\.\./||')
+            done
+            [ -f "$resolved" ] && continue
+            echo "  ⚠ Possibly broken in $file: $target"
+            FOUND=1
+          done
+        done
+        if [ "${FOUND:-0}" -eq 0 ]; then
+          echo "  ✓ No obvious broken internal links found"
+        fi
+        echo ""
+        exit 0
+    silent: true

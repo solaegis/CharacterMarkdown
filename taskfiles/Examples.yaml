@@ -12,3 +12,11 @@ tasks:
         python3 scripts/trim.py examples/*.md || true
       - echo "✅ Examples trimmed"
     silent: true
+
+  trim:dry-run:
+    desc: Preview trim changes without modifying files
+    cmds:
+      - |
+        echo "🔪 Trimming example markdown files (dry run)..."
+        python3 scripts/trim.py --dry-run examples/*.md || true
+    silent: true
