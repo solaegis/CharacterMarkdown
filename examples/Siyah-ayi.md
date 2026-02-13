@@ -2,11 +2,11 @@
 
 <div align="center">
 
-# Ringil of Eskiath (War Hero, Social Outcast)
+# Siyah-ayi (Abyssal Champion)
 
-![Level](<https://img.shields.io/badge/Level-20-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-321-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Nightblade-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-321-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Warden-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
-**Imperial Nightblade • Daggerfall Covenant Alliance**
+**Orc Warden • Daggerfall Covenant Alliance**
 
 
 </div>
@@ -44,24 +44,24 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Level** | 20 |
+| **Level** | 50 |
 | **Champion Points** | 321 |
 | **Gender** | Male |
-| **Age** | 14h 42m |
+| **Skill Points** | None |
 | **Account** | @vavasour |
-| **ESO Plus** | ✅ Active |
+| **Age** | 7d 18h 5m |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Attributes** | 🔵 0 / ❤️ 0 / ⚡ 25 |
-| **Skill Points** | 🎯 6 available - Ready to spend |
-| **🐴 Riding Skills** | 🐴 7/60 / 💪 0/60 / 🎒 0/60 |
-| **Race** | [Imperial](https://en.uesp.net/wiki/Online:Imperial) |
-| **Class** | [Nightblade](https://en.uesp.net/wiki/Online:Nightblade) |
-| **Location** | [Artaeum](https://en.uesp.net/wiki/Online:Artaeum) (633) |
+| **ESO Plus** | ✅ Active |
+| **Attributes** | 🔵 0 / ❤️ 0 / ⚡ 64 |
+| **Available Champion Points** | ⚒️ 8 - ⚔️ 19 - 💪 9 |
+| **🐴 Riding Skills** | 🐴 60 / 💪 60 / 🎒 60 ✅ |
+| **Race** | [Orc](https://en.uesp.net/wiki/Online:Orc) |
+| **Class** | [Warden](https://en.uesp.net/wiki/Online:Warden) |
 
 
 </div><div>
@@ -69,9 +69,11 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Server** | [NA Megaserver](https://en.uesp.net/wiki/Online:Megaservers) |
-| **🪨 Mundus Stone** | [The Warrior](https://en.uesp.net/wiki/Online:The_Warrior_(Mundus_Stone)) |
+| **Title** | [Abyssal Champion](https://en.uesp.net/wiki/Online:Abyssal_Champion) |
+| **🪨 Mundus Stone** | [The Lover](https://en.uesp.net/wiki/Online:The_Lover_(Mundus_Stone)) |
+| **Location** | [Auridon](https://en.uesp.net/wiki/Online:Auridon) (Firsthold Wayshrine) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **Title** | [War Hero, Social Outcast](https://en.uesp.net/wiki/Online:War_Hero,_Social_Outcast) |
+| **🍖 Active Buffs** | Other: [Increase Max Health](https://en.uesp.net/wiki/Online:Increase_Max_Health), [Gallop](https://en.uesp.net/wiki/Online:Gallop), [Wild Guardian](https://en.uesp.net/wiki/Online:Wild_Guardian) |
 
 
 </div><div>
@@ -82,9 +84,9 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 28,936 |
-| ⚔️ **Alliance Points** | 0 |
-| 🔮 **Tel Var** | 0 |
+| 💰 **Gold** | 105,182 |
+| ⚔️ **Alliance Points** | 15,056 |
+| 🔮 **Tel Var** | 5,540 |
 | 💎 **Transmute Crystals** | 106 |
 | 📜 **Writs** | 0 |
 | 🎫 **Event Tickets** | 12 |
@@ -115,32 +117,32 @@
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 💚 **Resources** | Health | 25,200 |
-|  | Magicka | 20,332 |
-|  | Stamina | 27,625 |
-| ⚔️ **Offensive** | Weapon Power | 2,444 |
-|  | Spell Power | 2,206 |
+| 💚 **Resources** | Health | 26,956 |
+|  | Magicka | 13,654 |
+|  | Stamina | 27,946 |
+| ⚔️ **Offensive** | Weapon Power | 2,835 |
+|  | Spell Power | 2,835 |
 
 
 </div><div>
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🎯 **Critical** | Weapon Crit | 4,483 (20.4%) |
-|  | Spell Crit | 4,483 (20.4%) |
-| ⚔️ **Penetration** | Physical | 3,324 |
-|  | Spell | 3,324 |
+| 🎯 **Critical** | Weapon Crit | 4,273 (19.5%) |
+|  | Spell Crit | 4,273 (19.5%) |
+| ⚔️ **Penetration** | Physical | 3,833 |
+|  | Spell | 3,833 |
 
 
 </div><div>
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🛡️ **Defensive** | Physical Resist | 9,490 (90.4%) |
-|  | Spell Resist | 9,490 (90.4%) |
-| ♻️ **Recovery** | Health | 606 |
-|  | Magicka | 1,678 |
-|  | Stamina | 2,202 |
+| 🛡️ **Defensive** | Physical Resist | 11,310 (81.8%) |
+|  | Spell Resist | 11,310 (81.8%) |
+| ♻️ **Recovery** | Health | 599 |
+|  | Magicka | 617 |
+|  | Stamina | 975 |
 
 
 </div>
@@ -156,43 +158,43 @@
 
 | **Ability** | **Cost/Value** |
 |:---|---:|
-| ⚔️ **Light Attack** | 3,549 dmg |
-| ⚔️ **Heavy Attack** | 7,098 dmg |
-| ⚔️ **Bash** | 742 cost, 5,386 dmg |
-| 🛡️ **Block** | 1,585 cost, 50% mit, 40% spd |
-| 🔓 **Break Free** | 5,130 cost |
-| 🏃 **Dodge Roll** | 3,797 cost |
-| 🐾 **Sneak** | 79 cost, 0% spd |
-| 🏃‍♂️ **Sprint** | 446 cost, 0% spd |
+| ⚔️ **Light Attack** | 3,952 dmg |
+| ⚔️ **Heavy Attack** | 7,905 dmg |
+| ⚔️ **Bash** | 765 cost, 5,811 dmg |
+| 🛡️ **Block** | 1,232 cost, 50% mit, 40% spd |
+| 🔓 **Break Free** | 5,400 cost |
+| 🏃 **Dodge Roll** | 2,579 cost |
+| 🐾 **Sneak** | 43 cost, 0% spd |
+| 🏃‍♂️ **Sprint** | 380 cost, 0% spd |
 
 </div>
 <div>
 
 | **Resistance** | **Value** |
 |:---|---:|
-| 🔥 **Flame** | 14.3% |
-| ⚡ **Shock** | 14.3% |
-| ❄️ **Frost** | 14.3% |
-| 🔮 **Magic** | 14.3% |
-| 🦠 **Disease** | 14.3% |
-| ☠️ **Poison** | 14.3% |
-| 🩸 **Bleed** | 14.3% |
+| 🔥 **Flame** | 17.1% |
+| ⚡ **Shock** | 17.1% |
+| ❄️ **Frost** | 17.1% |
+| 🔮 **Magic** | 17.1% |
+| 🦠 **Disease** | 17.1% |
+| ☠️ **Poison** | 17.1% |
+| 🩸 **Bleed** | 17.1% |
 
 </div>
 <div>
 
 | **Damage Type** | **Bonus** |
 |:---|---:|
-| 💥 **Critical Damage** | 59% |
-| ⚔️ **Physical** | 3% |
-| 🔥 **Flame** | 3% |
-| ⚡ **Shock** | 3% |
+| 💥 **Critical Damage** | 79% |
+| ⚔️ **Physical** | 0 |
+| 🔥 **Flame** | 0 |
+| ⚡ **Shock** | 0 |
 | ❄️ **Frost** | 0 |
-| 🔮 **Magic** | 3% |
-| 🦠 **Disease** | 3% |
-| ☠️ **Poison** | 3% |
-| 🩸 **Bleed** | 3% |
-| 🌌 **Oblivion** | 3% |
+| 🔮 **Magic** | 0 |
+| 🦠 **Disease** | 0 |
+| ☠️ **Poison** | 0 |
+| 🩸 **Bleed** | 0 |
+| 🌌 **Oblivion** | 0 |
 
 </div>
 <div>
@@ -201,7 +203,7 @@
 |:---|---:|
 | 💚 **Healing Done** | 0 |
 | 💖 **Healing Taken** | 0 |
-| ✨ **Critical Healing** | 59% |
+| ✨ **Critical Healing** | 64% |
 
 </div>
 </div>
@@ -212,13 +214,13 @@
 
 | **1** | **2** | **3** | **4** | **5** | **6** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| [Blur](https://en.uesp.net/wiki/Online:Blur) | [Critical Charge](https://en.uesp.net/wiki/Online:Critical_Charge) | [Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap) | [Wrecking Blow](https://en.uesp.net/wiki/Online:Wrecking_Blow) | [Strife](https://en.uesp.net/wiki/Online:Strife) | [Death Stroke](https://en.uesp.net/wiki/Online:Death_Stroke) |
+| [Flurry](https://en.uesp.net/wiki/Online:Flurry) | [Resolving Vigor](https://en.uesp.net/wiki/Online:Resolving_Vigor) | [Frost Cloak](https://en.uesp.net/wiki/Online:Frost_Cloak) | [Dive](https://en.uesp.net/wiki/Online:Dive) | [Subterranean Assault](https://en.uesp.net/wiki/Online:Subterranean_Assault) | [Guardian's Savagery](https://en.uesp.net/wiki/Online:Guardian's_Savagery) |
 
 ### 🔮 🔮 🔮 Back Bar (Backup)
 
 | **1** | **2** | **3** | **4** | **5** | **6** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| [Snipe](https://en.uesp.net/wiki/Online:Snipe) | [Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap) | [Blur](https://en.uesp.net/wiki/Online:Blur) | [Veiled Strike](https://en.uesp.net/wiki/Online:Veiled_Strike) | [Strife](https://en.uesp.net/wiki/Online:Strife) | [Death Stroke](https://en.uesp.net/wiki/Online:Death_Stroke) |
+| [Bull Netch](https://en.uesp.net/wiki/Online:Bull_Netch) | [Endless Hail](https://en.uesp.net/wiki/Online:Endless_Hail) | [Consuming Trap](https://en.uesp.net/wiki/Online:Consuming_Trap) | [Subterranean Assault](https://en.uesp.net/wiki/Online:Subterranean_Assault) | [Fungal Growth](https://en.uesp.net/wiki/Online:Fungal_Growth) | [Guardian's Savagery](https://en.uesp.net/wiki/Online:Guardian's_Savagery) |
 
 ---
 
@@ -228,26 +230,27 @@
 
 | **Set** | **Progress** |
 | --- | --- |
-| 🟢 **[Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set)** | `5/5` ██████████ 100% |
-| 🔴 **[Gryphon's Ferocity Set](https://en.uesp.net/wiki/Online:Gryphon's_Ferocity_Set)** | `2/5` ████░░░░░░ 40% |
-| 🔴 **[Prisoner's Rags Set](https://en.uesp.net/wiki/Online:Prisoner's_Rags_Set)** | `2/5` ████░░░░░░ 40% |
+| 🟢 **[Flanking Strategist Set](https://en.uesp.net/wiki/Online:Flanking_Strategist_Set)** | `5/5` ██████████ 100% |
+| ⚪ **[Unfathomable Darkness Set](https://en.uesp.net/wiki/Online:Unfathomable_Darkness_Set)** | `1/5` ██░░░░░░░░ 20% |
+| 🟠 **[Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set)** | `3/5` ██████░░░░ 60% |
 
 ### 📋 Equipment Details
 
 | **Slot** | **Item** | **Set** | **Quality** | **Trait** | **Type** | **Enchantment** |
 | --- | --- | --- | --- | --- | --- | --- |
-| ⛑️ **Head** | Prisoner's Hat | [Prisoner's Rags Set](https://en.uesp.net/wiki/Online:Prisoner's_Rags_Set) | 🔮 Superior | Training | Light | Maximum Magicka Enchantment |
-| 💎 **Neck** | Necklace of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Robust | None | Stamina Recovery Enchantment |
-| 🛡️ **Chest** | hide jack of Stamina | - | ⚡ Fine | Well-fitted | Medium | Maximum Stamina Enchantment |
-| 👑 **Shoulders** | Arm Cops of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | ⚡ Fine | Training | Medium | Maximum Stamina Enchantment |
-| ⚔️ **Main Hand** | Prisoner's Maul | [Prisoner's Rags Set](https://en.uesp.net/wiki/Online:Prisoner's_Rags_Set) | 🔮 Superior | Training | None | Absorb Magicka Enchantment |
-| ⚡ **Waist** | Gryphon's Belt | [Gryphon's Ferocity Set](https://en.uesp.net/wiki/Online:Gryphon's_Ferocity_Set) | 🔮 Superior | Sturdy | Medium | Maximum Stamina Enchantment |
-| 👖 **Legs** | hide guards of Health | - | 🔮 Superior | Training | Medium | Maximum Health Enchantment |
-| 👟 **Feet** | Sabatons of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | ⚡ Fine | Training | Heavy | Maximum Health Enchantment |
-| 💍 **Ring 1** | Ring of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | ⚡ Fine | Arcane | None | Magicka Recovery Enchantment |
-| 💍 **Ring 2** | Gryphon's Ring | [Gryphon's Ferocity Set](https://en.uesp.net/wiki/Online:Gryphon's_Ferocity_Set) | ⚡ Fine | Robust | None | Stamina Recovery Enchantment |
-| ✋ **Hands** | hide bracers of Stamina | - | 🔮 Superior | Well-fitted | Medium | Maximum Stamina Enchantment |
-| 🔮 **Backup Main Hand** | Bow of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Training | None | Absorb Stamina Enchantment |
+| ⛑️ **Head** | Helmet of Flanking | [Flanking Strategist Set](https://en.uesp.net/wiki/Online:Flanking_Strategist_Set) | 🔮 Superior | Divines | Medium | Maximum Stamina Enchantment |
+| 💎 **Neck** | Necklace of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Healthy | None | Health Recovery Enchantment |
+| 🛡️ **Chest** | Jack of Flanking | [Flanking Strategist Set](https://en.uesp.net/wiki/Online:Flanking_Strategist_Set) | 🔮 Superior | Impenetrable | Medium | Maximum Stamina Enchantment |
+| 👑 **Shoulders** | Rubedo Leather arm cops of Magicka | - | ⚡ Fine | Well-fitted | Medium | Maximum Magicka Enchantment |
+| ⚔️ **Main Hand** | Sword of Unfathomable Darkness | [Unfathomable Darkness Set](https://en.uesp.net/wiki/Online:Unfathomable_Darkness_Set) | 🔮 Superior | Training | None | Absorb Stamina Enchantment |
+| 🛡️ **Off Hand** | rubedite sword of Flame | - | ⚡ Fine | Sharpened | None | Fiery Weapon Enchantment |
+| ⚡ **Waist** | rubedo leather belt of Stamina | - | ⭐ Epic | Well-fitted | Medium | Maximum Stamina Enchantment |
+| 👖 **Legs** | Guards of Flanking | [Flanking Strategist Set](https://en.uesp.net/wiki/Online:Flanking_Strategist_Set) | 🔮 Superior | Reinforced | Medium | Maximum Stamina Enchantment |
+| 👟 **Feet** | Boots of Flanking | [Flanking Strategist Set](https://en.uesp.net/wiki/Online:Flanking_Strategist_Set) | ⭐ Epic | Infused | Medium | Maximum Stamina Enchantment |
+| 💍 **Ring 1** | Ring of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Swift | None | Health Recovery Enchantment |
+| 💍 **Ring 2** | Ring of the Trainee | [Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set) | 🔮 Superior | Robust | None | Stamina Recovery Enchantment |
+| ✋ **Hands** | Bracers of Flanking | [Flanking Strategist Set](https://en.uesp.net/wiki/Online:Flanking_Strategist_Set) | 🔮 Superior | Divines | Medium | Maximum Stamina Enchantment |
+| 🔮 **Backup Main Hand** | ruby ash bow of Flame | - | 🔮 Superior | Decisive | None | Fiery Weapon Enchantment |
 
 ---
 
@@ -255,38 +258,44 @@
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 321 | 321 | 0 |
+| 321 | 285 | 36 |
+
+
+> ✨ **Enlightened** - 1,194,239 XP bonus remaining
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
 | **⚒️ Craft** | **Assigned Points** |
 | --- | ---: |
-| ████████████ 100% | 107/107 points |
-| **[Wanderer](https://en.uesp.net/wiki/Online:Wanderer)** | 7 points |
-| **[Fortune's Favor](https://en.uesp.net/wiki/Online:Fortune's_Favor)** | 50 points |
-| **[Gilded Fingers](https://en.uesp.net/wiki/Online:Gilded_Fingers)** | 50 points |
+| ███████████░ 92% | 99/107 points |
+| **[Steadfast Enchantment](https://en.uesp.net/wiki/Online:Steadfast_Enchantment)** | 10 points |
+| **[Rationer](https://en.uesp.net/wiki/Online:Rationer)** | 14 points |
+| **[Wanderer](https://en.uesp.net/wiki/Online:Wanderer)** | 15 points |
+| **[Breakfall](https://en.uesp.net/wiki/Online:Breakfall)** | 10 points |
+| **[Steed's Blessing](https://en.uesp.net/wiki/Online:Steed's_Blessing)** | 50 points |
 
 
 </div><div>
 
 | **⚔️ Warfare** | **Assigned Points** |
 | --- | ---: |
-| ████████████ 100% | 107/107 points |
-| **[Precision](https://en.uesp.net/wiki/Online:Precision)** | 20 points |
-| **[Fighting Finesse](https://en.uesp.net/wiki/Online:Fighting_Finesse)** | 27 points |
-| **[Piercing](https://en.uesp.net/wiki/Online:Piercing)** | 10 points |
-| **[Master-at-Arms](https://en.uesp.net/wiki/Online:Master-at-Arms)** | 25 points |
-| **[Deadly Aim](https://en.uesp.net/wiki/Online:Deadly_Aim)** | 25 points |
+| █████████░░░ 82% | 88/107 points |
+| **[Precision](https://en.uesp.net/wiki/Online:Precision)** | 10 points |
+| **[Piercing](https://en.uesp.net/wiki/Online:Piercing)** | 20 points |
+| **[Tireless Discipline](https://en.uesp.net/wiki/Online:Tireless_Discipline)** | 8 points |
+| **[Endless Endurance](https://en.uesp.net/wiki/Online:Endless_Endurance)** | 50 points |
 
 
 </div><div>
 
 | **💪 Fitness** | **Assigned Points** |
 | --- | ---: |
-| ████████████ 100% | 107/107 points |
-| **[Rejuvenation](https://en.uesp.net/wiki/Online:Rejuvenation)** | 50 points |
-| **[Fortified](https://en.uesp.net/wiki/Online:Fortified)** | 7 points |
+| ██████████░░ 91% | 98/107 points |
+| **[Hero's Vigor](https://en.uesp.net/wiki/Online:Hero's_Vigor)** | 8 points |
+| **[Mystic Tenacity](https://en.uesp.net/wiki/Online:Mystic_Tenacity)** | 10 points |
+| **[Tumbling](https://en.uesp.net/wiki/Online:Tumbling)** | 15 points |
+| **[Fortified](https://en.uesp.net/wiki/Online:Fortified)** | 15 points |
 | **[Boundless Vitality](https://en.uesp.net/wiki/Online:Boundless_Vitality)** | 50 points |
 
 
@@ -303,73 +312,81 @@ flowchart LR
   %% Enhanced readability with clear visual hierarchy
 
   %% ========================================
-  %% ⚒️ CRAFT CONSTELLATION (107/564 pts)
+  %% ⚒️ CRAFT CONSTELLATION (99/564 pts)
   %% ========================================
 
   subgraph subCRAFT["⚒️ CRAFT CONSTELLATION"]
 
-    C_FortunesFavor["⭐ Fortune's Favor<br/>50/50 pts | MAXED"]
-    style C_FortunesFavor fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
-    C_GildedFingers["⭐ Gilded Fingers<br/>50/50 pts | MAXED"]
-    style C_GildedFingers fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
-    C_Wanderer["Wanderer<br/>7/50 pts | ○○○ 14%"]
+    C_SteedsBlessing["⭐ Steed's Blessing<br/>50/50 pts | MAXED"]
+    style C_SteedsBlessing fill:#4a9d7f,stroke:#ffd700,stroke-width:4px,color:#fff
+    C_Wanderer["Wanderer<br/>15/50 pts | ●○○ 30%"]
     style C_Wanderer fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    C_Rationer["Rationer<br/>14/30 pts | ●○○ 46%"]
+    style C_Rationer fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    C_SteadfastEnchantment["Steadfast Enchantment<br/>10/50 pts | ○○○ 20%"]
+    style C_SteadfastEnchantment fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
+    C_Breakfall["Breakfall<br/>10/50 pts | ○○○ 20%"]
+    style C_Breakfall fill:#4a9d7f,stroke:#4a9d7f,stroke-width:2px,color:#fff
 
     %% Connections
-    C_GildedFingers --> C_FortunesFavor
-    C_FortunesFavor --> C_Wanderer
+    C_SteadfastEnchantment --> C_Rationer
+    C_Wanderer --> C_SteadfastEnchantment
+    C_Wanderer --> C_Breakfall
 
-    CRAFT_AVAIL["💎 0 points available"]
+    CRAFT_AVAIL["💎 8 points available"]
     style CRAFT_AVAIL fill:#d4e8df,stroke:#4a9d7f,stroke-width:2px,stroke-dasharray:5 5,color:#4a9d7f
 
   end
   style subCRAFT fill:transparent,stroke:#4a9d7f,stroke-width:3px
 
   %% ========================================
-  %% ⚔️ WARFARE CONSTELLATION (107/564 pts)
+  %% ⚔️ WARFARE CONSTELLATION (88/564 pts)
   %% ========================================
 
   subgraph subWARFARE["⚔️ WARFARE CONSTELLATION"]
 
-    W_FightingFinesse["Fighting Finesse<br/>27/50 pts | ●●○ 54%"]
-    style W_FightingFinesse fill:#5b7fb8,stroke:#5b7fb8,stroke-width:3px,color:#fff
-    W_DeadlyAim["Deadly Aim<br/>25/50 pts | ●●○ 50%"]
-    style W_DeadlyAim fill:#5b7fb8,stroke:#5b7fb8,stroke-width:3px,color:#fff
-    W_MasteratArms["Master-at-Arms<br/>25/50 pts | ●●○ 50%"]
-    style W_MasteratArms fill:#5b7fb8,stroke:#5b7fb8,stroke-width:3px,color:#fff
-    W_Precision["⭐ Precision<br/>20/20 pts | MAXED"]
-    style W_Precision fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
-    W_Piercing["Piercing<br/>10/20 pts | ●●○ 50%"]
+    W_EndlessEndurance["⭐ Endless Endurance<br/>50/50 pts | MAXED"]
+    style W_EndlessEndurance fill:#5b7fb8,stroke:#ffd700,stroke-width:4px,color:#fff
+    W_Piercing["⭐ Piercing<br/>20/20 pts | MAXED"]
     style W_Piercing fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
+    W_Precision["Precision<br/>10/20 pts | ●●○ 50%"]
+    style W_Precision fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
+    W_TirelessDiscipline["Tireless Discipline<br/>8/20 pts | ●○○ 40%"]
+    style W_TirelessDiscipline fill:#5b7fb8,stroke:#5b7fb8,stroke-width:2px,color:#fff
 
     %% Connections
-    W_Precision --> W_FightingFinesse
-    W_Piercing --> W_DeadlyAim
-    W_Piercing --> W_MasteratArms
     W_Precision --> W_Piercing
+    W_TirelessDiscipline --> W_Piercing
 
-    WARFARE_AVAIL["💎 0 points available"]
+    WARFARE_AVAIL["💎 19 points available"]
     style WARFARE_AVAIL fill:#d4e4f0,stroke:#5b7fb8,stroke-width:2px,stroke-dasharray:5 5,color:#5b7fb8
 
   end
   style subWARFARE fill:transparent,stroke:#5b7fb8,stroke-width:3px
 
   %% ========================================
-  %% 💪 FITNESS CONSTELLATION (107/564 pts)
+  %% 💪 FITNESS CONSTELLATION (98/564 pts)
   %% ========================================
 
   subgraph subFITNESS["💪 FITNESS CONSTELLATION"]
 
-    F_Rejuvenation["⭐ Rejuvenation<br/>50/50 pts | MAXED"]
-    style F_Rejuvenation fill:#b87a7a,stroke:#ffd700,stroke-width:4px,color:#fff
     F_BoundlessVitality["⭐ Boundless Vitality<br/>50/50 pts | MAXED"]
     style F_BoundlessVitality fill:#b87a7a,stroke:#ffd700,stroke-width:4px,color:#fff
-    F_Fortified["Fortified<br/>7/50 pts | ○○○ 14%"]
+    F_Fortified["Fortified<br/>15/50 pts | ●○○ 30%"]
     style F_Fortified fill:#b87a7a,stroke:#b87a7a,stroke-width:3px,color:#fff
+    F_Tumbling["Tumbling<br/>15/30 pts | ●●○ 50%"]
+    style F_Tumbling fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    F_MysticTenacity["Mystic Tenacity<br/>10/50 pts | ○○○ 20%"]
+    style F_MysticTenacity fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
+    F_HerosVigor["Hero's Vigor<br/>8/20 pts | ●○○ 40%"]
+    style F_HerosVigor fill:#b87a7a,stroke:#b87a7a,stroke-width:2px,color:#fff
 
     %% Connections
+    F_HerosVigor --> F_MysticTenacity
+    F_Tumbling --> F_MysticTenacity
+    F_MysticTenacity --> F_HerosVigor
 
-    FITNESS_AVAIL["💎 0 points available"]
+    FITNESS_AVAIL["💎 9 points available"]
     style FITNESS_AVAIL fill:#f0d4d4,stroke:#b87a7a,stroke-width:2px,stroke-dasharray:5 5,color:#b87a7a
 
   end
@@ -449,7 +466,8 @@ flowchart LR
 
 | **Category** | **Value** |
 | --- | --- |
-| Rank | Recruit |
+| Rank | Recruit Grade 1 (Rank 3) |
+| Alliance Points | 15,056 |
 
 ---
 
@@ -530,6 +548,8 @@ flowchart LR
 
 - [Abecean Privateer's Apparel](https://en.uesp.net/wiki/Online:Abecean_Privateer's_Apparel)
 - [Bloodthorn Robes](https://en.uesp.net/wiki/Online:Bloodthorn_Robes)
+
+
 - [Covenant Scout](https://en.uesp.net/wiki/Online:Covenant_Scout)
 - [Dark Seducer](https://en.uesp.net/wiki/Online:Dark_Seducer)
 - [Frostedge Bandit Armor](https://en.uesp.net/wiki/Online:Frostedge_Bandit_Armor)
@@ -557,8 +577,6 @@ flowchart LR
 - [Elite Seat](https://en.uesp.net/wiki/Online:Elite_Seat)
 - [Flower Fling](https://en.uesp.net/wiki/Online:Flower_Fling)
 - [Glimmer Dust](https://en.uesp.net/wiki/Online:Glimmer_Dust)
-
-
 - [Plant Yourself](https://en.uesp.net/wiki/Online:Plant_Yourself)
 - [Pop the Cork](https://en.uesp.net/wiki/Online:Pop_the_Cork)
 - [Wait the Great](https://en.uesp.net/wiki/Online:Wait_the_Great)
@@ -719,101 +737,179 @@ flowchart LR
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 77 | 100 | ███████░░░ 77% |
-| Bank | 218 | 480 | ████░░░░░░ 45% |
+| Backpack | 154 | 200 | ███████░░░ 77% |
+| Bank | 240 | 480 | █████░░░░░ 50% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 <details>
-<summary><strong>Backpack Items</strong> (77 unique items)</summary>
+<summary><strong>Backpack Items</strong> (154 unique items)</summary>
 
-#### Other (77 items)
+#### Other (154 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| 🟡 "Room to Spare" Housing Brochure | 1 | 🟡 |
-| 🔵 Auridon Treasure Map II | 1 | 🔵 |
+| 🔵 Alchemist Survey: Alik'r | 3 | 🔵 |
+| 🔵 Alchemist Survey: Auridon | 4 | 🔵 |
+| 🔵 Alchemist Survey: Bangkorai | 1 | 🔵 |
+| 🔵 Alchemist Survey: Coldharbour II | 4 | 🔵 |
+| 🔵 Alchemist Survey: Craglorn I | 4 | 🔵 |
+| 🔵 Alchemist Survey: Craglorn II | 2 | 🔵 |
+| 🔵 Alchemist Survey: Craglorn III | 1 | 🔵 |
+| 🔵 Alchemist Survey: Eastmarch | 3 | 🔵 |
+| 🔵 Alchemist Survey: Glenumbra | 2 | 🔵 |
+| 🔵 Alchemist Survey: Greenshade | 6 | 🔵 |
+| 🔵 Alchemist Survey: Malabal Tor | 3 | 🔵 |
+| 🔵 Alchemist Survey: Reaper's March | 6 | 🔵 |
+| 🔵 Alchemist Survey: Shadowfen | 5 | 🔵 |
+| 🔵 Alchemist Survey: Stormhaven | 5 | 🔵 |
+| 🔵 Alchemist Survey: The Rift | 3 | 🔵 |
+| 🔵 Alchemist Survey: Vvardenfell | 3 | 🔵 |
+| 🔵 Alchemist Survey: Wrothgar II | 1 | 🔵 |
+| 🔵 Blackreach: Arkthzand Cavern Treasure Map | 1 | 🔵 |
+| 🔵 Blackreach: Greymoor Caverns Treasure Map II | 1 | 🔵 |
+| 🟡 Bound Attribute Respecification Scroll | 1 | 🟡 |
 | 🟡 Bound Crown Experience Scroll | 1 | 🟡 |
-| 🟣 Bound Crown Fortifying Meal | 1 | 🟣 |
-| 🔵 Bound Crown Repair Kit | 1 | 🔵 |
 | 🟣 Bound Crown Tri-Restoration Potion | 25 | 🟣 |
-| 🟣 Bound Gold Coast Swift Survivor Elixir | 25 | 🟣 |
-| ⚪ Cloudy Damage Health Poison II | 12 | ⚪ |
-| ⚪ Coarse Chalk | 1 | ⚪ |
-| ⚪ Common Buckle | 10 | ⚪ |
-| 🟢 Companion's Restoration Staff | 1 | 🟢 |
-| 🔵 Counterfeit Pardon Edict | 1 | 🔵 |
+| 🟣 Bound Gold Coast Swift Survivor Elixir | 22 | 🟣 |
+| 🟣 Bound Gold Coast Warrior Elixir | 21 | 🟣 |
+| 🟡 Bound Skill Respecification Scroll | 1 | 🟡 |
+| ⚪ Bravil's Best Beet Risotto | 5 | ⚪ |
+| 🔵 Clockwork City Treasure Map II | 1 | 🔵 |
+| ⚪ Coarse Chalk | 2 | ⚪ |
+| 🔵 Coldharbour Treasure Map I | 1 | 🔵 |
+| 🔵 Coldharbour Treasure Map III | 1 | 🔵 |
+| 🔵 Coldharbour Treasure Map IV | 1 | 🔵 |
+| 🔵 Coldharbour Treasure Map V | 1 | 🔵 |
+| 🔵 Coldharbour Treasure Map VI | 1 | 🔵 |
+| ⚪ Construct's Chestplate | 1 | ⚪ |
+| ⚪ Construct's Right Leg | 1 | ⚪ |
+| 🔵 Craglorn Treasure Map I | 1 | 🔵 |
+| 🔵 Craglorn Treasure Map II | 1 | 🔵 |
+| 🔵 Craglorn Treasure Map III | 1 | 🔵 |
 | 🔵 Craglorn Treasure Map VI | 1 | 🔵 |
-| 🟣 Crown Fortifying Meal | 10 | 🟣 |
-| ⚪ Crusty Bread | 1 | ⚪ |
-| ⚪ Crusty Bread | 3 | ⚪ |
-| ⚪ Daedra Husk | 8 | ⚪ |
-| ⚪ dram of health | 1 | ⚪ |
-| ⚪ dram of Magicka | 2 | ⚪ |
-| ⚪ dram of stamina | 3 | ⚪ |
-| ⚪ Foul Hide | 1 | ⚪ |
-| 🔵 Gold Coast Treasure Map II | 1 | 🔵 |
-| 🔵 Grahtwood Treasure Map III | 1 | 🔵 |
-| 🔵 Grahtwood Treasure Map VI | 1 | 🔵 |
-| 🟢 Gryphon's Belt | 1 | 🟢 |
-| 🟣 Harvested Soul Fragment | 1 | 🟣 |
-| ⚪ Heart of the Indrik | 1 | ⚪ |
-| ⚪ hide arm cops | 1 | ⚪ |
-| 🔵 hide arm cops of Health | 1 | 🔵 |
-| 🔵 hide belt of Health | 1 | 🔵 |
-| 🔵 High Isle Treasure Map V | 1 | 🔵 |
+| ⚪ Crusty Bread | 2 | ⚪ |
+| ⚪ Crusty Sweetroll | 1 | ⚪ |
+| 🔵 Cyrodiil Treasure Map I | 1 | 🔵 |
+| 🔵 Cyrodiil Treasure Map IV | 1 | 🔵 |
+| 🔵 Cyrodiil Treasure Map VI | 1 | 🔵 |
+| 🔵 Cyrodiil Treasure Map VIII | 1 | 🔵 |
+| 🔵 Cyrodiil Treasure Map XIV | 1 | 🔵 |
+| 🟡 Darkening: Dark of the Moons | 1 | 🟡 |
+| 🔵 Deadlands Treasure Map II | 1 | 🔵 |
+| 🔵 Enchanter Survey: Alik'r | 5 | 🔵 |
+| 🔵 Enchanter Survey: Coldharbour I | 2 | 🔵 |
+| 🔵 Enchanter Survey: Coldharbour II | 2 | 🔵 |
+| 🔵 Enchanter Survey: Craglorn I | 2 | 🔵 |
+| 🔵 Enchanter Survey: Craglorn III | 2 | 🔵 |
+| 🔵 Enchanter Survey: Greenshade | 5 | 🔵 |
+| 🔵 Enchanter Survey: Malabal Tor | 3 | 🔵 |
+| 🔵 Enchanter Survey: Northern Elsweyr | 1 | 🔵 |
+| 🔵 Enchanter Survey: Reaper's March | 2 | 🔵 |
+| 🔵 Enchanter Survey: Rivenspire | 2 | 🔵 |
+| 🔵 Enchanter Survey: Shadowfen | 5 | 🔵 |
+| 🔵 Enchanter Survey: Stonefalls | 4 | 🔵 |
+| 🔵 Enchanter Survey: Stormhaven | 5 | 🔵 |
+| 🔵 Enchanter Survey: The Rift | 3 | 🔵 |
+| 🔵 Enchanter Survey: Vvardenfell | 2 | 🔵 |
+| 🔵 Enchanter Survey: Wrothgar I | 1 | 🔵 |
+| 🔵 Enchanter Survey: Wrothgar II | 1 | 🔵 |
+| 🟢 Equipment Repair Kit | 3 | 🟢 |
+| 🟢 Folded Note | 1 | 🟢 |
+| 🟡 Gold Coast Debilitating Poison | 100 | 🟡 |
+| 🟣 Gold Coast Swift Survivor Elixir | 100 | 🟣 |
+| 🔵 Greenshade Treasure Map II | 1 | 🔵 |
+| 🔵 Greenshade Treasure Map III | 1 | 🔵 |
+| 🔵 Greenshade Treasure Map IV | 1 | 🔵 |
+| 🔵 Khenarthi's Roost Treasure Map II | 1 | 🔵 |
 | 🔵 Khenarthi's Roost Treasure Map IV | 1 | 🔵 |
-| ⚪ Lantern of Lies | 1 | ⚪ |
-| ⚪ linen gloves | 1 | ⚪ |
-| 🔵 linen gloves of Magicka | 1 | 🔵 |
-| ⚪ linen hat | 1 | ⚪ |
-| 🔵 linen shoes of Magicka | 1 | 🔵 |
-| ⚪ Lockpick | 56 | ⚪ |
-| ⚪ Lockpick | 8 | ⚪ |
-| 🔵 Malabal Tor Treasure Map III | 1 | 🔵 |
-| 🟣 Mara's Delectable Parcel | 1 | 🟣 |
-| 🟣 Mara's Delectable Parcel | 1 | 🟣 |
-| 🟣 Mara's Delectable Parcel | 1 | 🟣 |
-| 🟣 Mara's Delectable Parcel | 1 | 🟣 |
-| 🟣 Mara's Delectable Parcel | 1 | 🟣 |
-| 🟡 Mara's Extravagant Parcel | 1 | 🟡 |
-| 🟡 Mara's Extravagant Parcel | 1 | 🟡 |
-| ⚪ Mud Ball | 170 | ⚪ |
-| 🟢 Necklace of the Order of Diagna | 1 | 🟢 |
-| 🔵 Necklace of the Withered Hand | 1 | 🔵 |
-| 🔵 oak ice staff of Frost | 1 | 🔵 |
-| 🔵 oak inferno staff of Shock | 1 | 🔵 |
-| 🟢 pewter necklace | 1 | 🟢 |
-| ⚪ pewter ring | 1 | ⚪ |
-| ⚪ Red Hippocras | 1 | ⚪ |
-| 🔵 Ring of the Order of Diagna | 1 | 🔵 |
-| 🔵 Ring of the Withered Hand | 1 | 🔵 |
-| 🟢 Ring of the Withered Hand | 1 | 🟢 |
-| 🟢 Ring of the Withered Hand | 1 | 🟢 |
-| ⚪ slight Glyph of Frost | 1 | ⚪ |
-| ⚪ slight Glyph of Reduce Feat Cost | 1 | ⚪ |
-| ⚪ slight Glyph of Shock | 1 | ⚪ |
-| ⚪ slight Glyph of Stamina | 1 | ⚪ |
-| 🟢 Soul Gem | 58 | 🟢 |
-| ⚪ Soul Gem (Empty) | 1 | ⚪ |
-| ⚪ steel battle axe | 1 | ⚪ |
-| ⚪ steel battle axe | 1 | ⚪ |
-| 🔵 steel dagger of Frost | 1 | 🔵 |
-| 🟢 steel girdle of Health | 1 | 🟢 |
-| 🔵 steel greatsword of Shock | 1 | 🔵 |
-| 🔵 steel sabatons of Health | 1 | 🔵 |
+| ⚪ Leather Pouch | 10 | ⚪ |
+| ⚪ Lockpick | 12 | ⚪ |
+| ⚪ Lockpick | 152 | ⚪ |
+| 🔵 Murkmire Treasure Map I | 1 | 🔵 |
+| 🔵 Northern Elsweyr Treasure Map II | 1 | 🔵 |
+| 🔵 Northern Elsweyr Treasure Map IV | 1 | 🔵 |
+| 🔵 Northern Elsweyr Treasure Map VI | 1 | 🔵 |
+| ⚪ pewter necklace | 1 | ⚪ |
+| 🟡 Pledge of Mara | 1 | 🟡 |
+| 🔵 Reaper's March Treasure Map I | 1 | 🔵 |
+| 🔵 Reaper's March Treasure Map II | 1 | 🔵 |
+| 🔵 Reaper's March Treasure Map VI | 1 | 🔵 |
+| 🟢 Recipe: Borscht | 1 | 🟢 |
+| 🔵 Rivenspire Treasure Map I | 1 | 🔵 |
+| 🔵 Rivenspire Treasure Map IV | 1 | 🔵 |
+| 🔵 Rivenspire Treasure Map V | 1 | 🔵 |
+| 🔵 Rivenspire Treasure Map VI | 1 | 🔵 |
+| ⚪ Roguish Escape Draught | 5 | ⚪ |
+| ⚪ Roguish Stealth Draught | 5 | ⚪ |
+| ⚪ rubedite cuirass | 1 | ⚪ |
+| ⚪ ruby ash shield | 1 | ⚪ |
+| 🟡 Runebox: Colovian Fur Hood | 1 | 🟡 |
+| 🟡 Runebox: Colovian Fur Hood | 1 | 🟡 |
+| 🟡 Runebox: Colovian Fur Hood | 1 | 🟡 |
+| 🟡 Runebox: Fire-Breather's Torches | 1 | 🟡 |
+| 🟡 Runebox: Fire-Breather's Torches | 1 | 🟡 |
+| 🟡 Runebox: Gloam Gryphon Fledgling | 1 | 🟡 |
+| 🟡 Runebox: Juggler's Knives | 1 | 🟡 |
+| 🟡 Runebox: Juggler's Knives | 1 | 🟡 |
+| 🟡 Runebox: Juggler's Knives | 1 | 🟡 |
+| 🟡 Runebox: Mud Ball Pouch | 1 | 🟡 |
+| 🟡 Runebox: Mud Ball Pouch | 1 | 🟡 |
+| 🟡 Runebox: Nordic Bather's Towel | 1 | 🟡 |
+| 🟡 Runebox: Powderwhite Coney | 1 | 🟡 |
+| 🟡 Runebox: Powderwhite Coney | 1 | 🟡 |
+| 🟡 Runebox: Powderwhite Coney | 1 | 🟡 |
+| 🟡 Runebox: Snowball Buddy | 1 | 🟡 |
+| 🟡 Runebox: Sword-Swallower's Blade | 1 | 🟡 |
+| 🟡 Runebox: Sword-Swallower's Blade | 1 | 🟡 |
+| ⚪ Sea Viper Armor | 1 | ⚪ |
+| 🔵 Shadowfen Treasure Map I | 1 | 🔵 |
+| 🔵 Shadowfen Treasure Map II | 1 | 🔵 |
+| 🔵 Shadowfen Treasure Map III | 1 | 🔵 |
+| 🔵 Shadowfen Treasure Map IV | 1 | 🔵 |
+| 🟢 slight Glyph of Weapon Damage | 1 | 🟢 |
+| 🟢 Soul Gem | 34 | 🟢 |
+| ⚪ Soul Gem (Empty) | 4 | ⚪ |
+| 🔵 Southern Elsweyr Treasure Map II | 1 | 🔵 |
+| ⚪ Sparkwreath Dazzler | 4 | ⚪ |
+| 🔵 Stonefalls Treasure Map I | 1 | 🔵 |
+| 🔵 Stonefalls Treasure Map II | 1 | 🔵 |
+| 🔵 Stonefalls Treasure Map III | 1 | 🔵 |
 | 🔵 Stonefalls Treasure Map IV | 1 | 🔵 |
-| 🔵 Sword-Singer's Jack | 1 | 🔵 |
-| 🔵 Sword-Singer's Ring | 1 | 🔵 |
-| 🔵 Sword-Singer's Ring | 1 | 🔵 |
-| 🟢 Sword-Singer's Ring | 1 | 🟢 |
-| ⚪ Thukhozod's Bracer | 1 | ⚪ |
+| 🔵 Stonefalls Treasure Map VI | 1 | 🔵 |
+| 🔵 Stormhaven Treasure Map II | 1 | 🔵 |
+| 🔵 Stormhaven Treasure Map III | 1 | 🔵 |
+| 🔵 Stormhaven Treasure Map IV | 1 | 🔵 |
+| 🔵 Stormhaven Treasure Map VI | 1 | 🔵 |
+| 🔵 Stros M'Kai Treasure Map I | 1 | 🔵 |
+| 🔵 Stros M'Kai Treasure Map II | 1 | 🔵 |
+| 🔵 Summerset Treasure Map IV | 1 | 🔵 |
+| 🔵 Telvanni Peninsula Treasure Map II | 1 | 🔵 |
+| 🔵 The Blade of Woe | 1 | 🔵 |
+| 🔵 The Rift Treasure Map I | 1 | 🔵 |
+| 🔵 The Rift Treasure Map IV | 1 | 🔵 |
+| 🔵 The Rift Treasure Map VI | 1 | 🔵 |
+| 🔵 Unidentified Blacksmith Survey Report | 1 | 🔵 |
+| 🔵 Unidentified Clothier Survey Report | 2 | 🔵 |
+| 🔵 Unidentified Enchanter Survey Report | 1 | 🔵 |
+| 🔵 Unidentified Woodworker Survey Report | 1 | 🔵 |
+| 🔵 Vvardenfell Treasure Map IV | 1 | 🔵 |
+| 🔵 Vvardenfell Treasure Map V | 1 | 🔵 |
+| 🔵 Vvardenfell Treasure Map VI | 1 | 🔵 |
+| 🔵 Western Skyrim Treasure Map I | 1 | 🔵 |
+| 🔵 Western Skyrim Treasure Map II | 1 | 🔵 |
+| 🔵 Western Skyrim Treasure Map III | 1 | 🔵 |
+| 🔵 Western Skyrim Treasure Map IV | 1 | 🔵 |
+| 🔵 Wrothgar Treasure Map I | 1 | 🔵 |
+| 🔵 Wrothgar Treasure Map III | 1 | 🔵 |
+| 🔵 Wrothgar Treasure Map VI | 1 | 🔵 |
 
 </details>
 
 <details>
-<summary><strong>Bank Items</strong> (218 unique items)</summary>
+<summary><strong>Bank Items</strong> (240 unique items)</summary>
 
-#### Other (218 items)
+
+#### Other (240 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
@@ -828,6 +924,7 @@ flowchart LR
 | 🔵 Clockwork City Treasure Map II | 1 | 🔵 |
 | 🔵 Companion's Girdle | 1 | 🔵 |
 | 🔵 Companion's Greaves | 1 | 🔵 |
+| 🟢 Companion's Restoration Staff | 1 | 🟢 |
 | 🔵 Counterfeit Pardon Edict | 14 | 🔵 |
 | 🔵 Crafting Motif 1: High Elf Style | 2 | 🔵 |
 | 🔵 Crafting Motif 5: Breton Style | 1 | 🔵 |
@@ -842,8 +939,8 @@ flowchart LR
 | 🟣 Crown Fortifying Meal | 57 | 🟣 |
 | 🟡 Crown Lesson: Riding Speed | 5 | 🟡 |
 | 🟡 Crown Lethal Poison | 150 | 🟡 |
-| 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🟣 Crown Tri-Restoration Potion | 25 | 🟣 |
+| 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🟣 Crown Tri-Restoration Potion | 200 | 🟣 |
 | 🔵 Cyrodiil Treasure Map VI | 1 | 🔵 |
 | 🔵 Deadlands Treasure Map II | 1 | 🔵 |
@@ -902,6 +999,9 @@ flowchart LR
 | 🟡 Grand Gold Coast Experience Scroll | 3 | 🟡 |
 | 🔵 Gryphon's Belt | 1 | 🔵 |
 | 🔵 Gryphon's Necklace | 1 | 🔵 |
+| 🟣 Harvested Soul Fragment | 1 | 🟣 |
+| 🔵 hide arm cops of Health | 1 | 🔵 |
+| 🔵 hide belt of Health | 1 | 🔵 |
 | ⚪ hide bracers | 1 | ⚪ |
 | 🟢 Imperial Bed, Single | 1 | 🟢 |
 | 🟣 Imperial Charity Writ | 1 | 🟣 |
@@ -935,15 +1035,21 @@ flowchart LR
 | ⚪ Keep Wall Masonry Repair Kit | 10 | ⚪ |
 | 🟣 Leniency Edict | 1 | 🟣 |
 | 🔵 linen epaulets of Magicka | 1 | 🔵 |
+| 🔵 linen gloves of Magicka | 1 | 🔵 |
 | 🔵 linen hat of Magicka | 1 | 🔵 |
 | 🔵 linen sash of Health | 1 | 🔵 |
 | 🔵 linen sash of Magicka | 1 | 🔵 |
 | 🔵 linen shoes of Health | 1 | 🔵 |
 | 🔵 linen shoes of Magicka | 1 | 🔵 |
+| 🔵 linen shoes of Magicka | 1 | 🔵 |
 | 🟡 Major Gold Coast Experience Scroll | 1 | 🟡 |
 | 🔵 Murkmire Treasure Map I | 1 | 🔵 |
+| 🔵 Necklace of the Withered Hand | 1 | 🔵 |
 | 🔵 oak bow of Frost | 1 | 🔵 |
+| 🔵 oak ice staff of Frost | 1 | 🔵 |
 | ⚪ oak inferno staff | 1 | ⚪ |
+| 🔵 oak inferno staff of Shock | 1 | 🔵 |
+| 🔵 oak lightning staff of Frost | 1 | 🔵 |
 | 🔵 oak lightning staff of Frost | 1 | 🔵 |
 | 🔵 oak restoration staff of Frost | 1 | 🔵 |
 | 🟣 Painting of High Elf Tower, Refined | 1 | 🟣 |
@@ -973,6 +1079,8 @@ flowchart LR
 | 🔵 Restoration Staff of the Wyrd Tree | 1 | 🔵 |
 | ⚪ Revelry Pie | 40 | ⚪ |
 | 🔵 Ring of the Order of Diagna | 1 | 🔵 |
+| 🔵 Ring of the Order of Diagna | 1 | 🔵 |
+| 🔵 Ring of the Withered Hand | 1 | 🔵 |
 | 🔵 Ring of the Withered Hand | 1 | 🔵 |
 | 🔵 Ring of Trinimac's Valor | 1 | 🔵 |
 | 🔵 Rivenspire Treasure Map IV | 1 | 🔵 |
@@ -996,12 +1104,15 @@ flowchart LR
 | ⚪ slight Glyph of Flame | 1 | ⚪ |
 | ⚪ slight Glyph of Flame | 1 | ⚪ |
 | ⚪ slight Glyph of Frost | 1 | ⚪ |
+| ⚪ slight Glyph of Frost | 1 | ⚪ |
 | ⚪ slight Glyph of Health | 1 | ⚪ |
 | ⚪ slight Glyph of Magicka | 1 | ⚪ |
 | ⚪ slight Glyph of Magicka | 1 | ⚪ |
 | ⚪ slight Glyph of Magicka | 1 | ⚪ |
 | ⚪ slight Glyph of Reduce Feat Cost | 1 | ⚪ |
+| ⚪ slight Glyph of Reduce Feat Cost | 1 | ⚪ |
 | ⚪ slight Glyph of Reduce Spell Cost | 1 | ⚪ |
+| ⚪ slight Glyph of Shock | 1 | ⚪ |
 | ⚪ slight Glyph of Stamina | 1 | ⚪ |
 | 🔵 slight Glyph of Weapon Damage | 1 | 🔵 |
 | 🔵 Southern Elsweyr Treasure Map II | 1 | 🔵 |
@@ -1013,21 +1124,28 @@ flowchart LR
 | 🔵 steel axe of Flame | 1 | 🔵 |
 | 🔵 steel cuirass of Magicka | 1 | 🔵 |
 | 🔵 steel dagger of Flame | 1 | 🔵 |
+| 🔵 steel dagger of Frost | 1 | 🔵 |
 | 🔵 steel girdle of Magicka | 1 | 🔵 |
 | 🔵 steel greatsword of Frost | 1 | 🔵 |
+| 🔵 steel greatsword of Shock | 1 | 🔵 |
 | 🔵 steel mace of Shock | 1 | 🔵 |
 | 🔵 steel mace of Shock | 1 | 🔵 |
+| 🔵 steel sabatons of Health | 1 | 🔵 |
 | 🔵 steel sabatons of Magicka | 1 | 🔵 |
 | 🔵 Stormhaven Treasure Map II | 1 | 🔵 |
 | 🔵 Stormhaven Treasure Map III | 1 | 🔵 |
 | 🔵 Stros M'Kai Treasure Map I | 1 | 🔵 |
 | 🔵 Stros M'Kai Treasure Map II | 1 | 🔵 |
+| 🔵 Sword-Singer's Jack | 1 | 🔵 |
+| 🔵 Sword-Singer's Ring | 1 | 🔵 |
+| 🔵 Sword-Singer's Ring | 1 | 🔵 |
 | 🟣 Systres' Cuirass | 1 | 🟣 |
 | 🟣 Systres' Greaves | 1 | 🟣 |
 | 🟣 Systres' Helm | 1 | 🟣 |
 | 🟣 Systres' Pauldrons | 1 | 🟣 |
 | 🟣 Systres' Sabatons | 1 | 🟣 |
 | 🔵 The Rift Treasure Map VI | 1 | 🔵 |
+| 🟢 Vanus's Gloves | 1 | 🟢 |
 | 🔵 Vanus's Lightning Staff | 1 | 🔵 |
 | 🔵 Vanus's Necklace | 1 | 🔵 |
 | 🔵 Vvardenfell Treasure Map IV | 1 | 🔵 |
@@ -1053,7 +1171,7 @@ flowchart LR
 | ⚪ Diamond | 146 | ⚪ |
 | ⚪ Emerald | 99 | ⚪ |
 | ⚪ Fortified Nirncrux | 1 | ⚪ |
-| ⚪ Garnet | 127 | ⚪ |
+| ⚪ Garnet | 128 | ⚪ |
 | ⚪ Quartz | 128 | ⚪ |
 | ⚪ Sapphire | 114 | ⚪ |
 | ⚪ Sardonyx | 237 | ⚪ |
@@ -1066,10 +1184,10 @@ flowchart LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | 🔵 Denata | 539 | 🔵 |
-| 🟢 Jejota | 1153 | 🟢 |
+| 🟢 Jejota | 1154 | 🟢 |
 | 🟡 Kuta | 96 | 🟡 |
 | 🟣 Rekuta | 333 | 🟣 |
-| ⚪ Ta | 843 | ⚪ |
+| ⚪ Ta | 844 | ⚪ |
 
 
 </div><div>
@@ -1079,13 +1197,13 @@ flowchart LR
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | ⚪ Dekeipa | 151 | ⚪ |
-| ⚪ Deni | 394 | ⚪ |
+| ⚪ Deni | 395 | ⚪ |
 | ⚪ Denima | 162 | ⚪ |
 | ⚪ Deteri | 132 | ⚪ |
 | ⚪ Haoko | 117 | ⚪ |
 | ⚪ Kaderi | 127 | ⚪ |
 | ⚪ Kuoko | 127 | ⚪ |
-| ⚪ Makderi | 101 | ⚪ |
+| ⚪ Makderi | 102 | ⚪ |
 | ⚪ Makko | 379 | ⚪ |
 | ⚪ Makkoma | 149 | ⚪ |
 | ⚪ Meip | 137 | ⚪ |
@@ -1103,12 +1221,12 @@ flowchart LR
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
-| ⚪ Alchemical Resin | 822 | ⚪ |
+| ⚪ Alchemical Resin | 825 | ⚪ |
 | ⚪ Bast | 249 | ⚪ |
 | ⚪ Clean Pelt | 132 | ⚪ |
 | ⚪ Decorative Wax | 186 | ⚪ |
-| ⚪ Heartwood | 190 | ⚪ |
-| ⚪ Mundane Rune | 666 | ⚪ |
+| ⚪ Heartwood | 191 | ⚪ |
+| ⚪ Mundane Rune | 667 | ⚪ |
 | ⚪ Ochre | 138 | ⚪ |
 | ⚪ Regulus | 316 | ⚪ |
 
@@ -1161,7 +1279,7 @@ flowchart LR
 | ⚪ Rose | 51 | ⚪ |
 | ⚪ Rye | 166 | ⚪ |
 | ⚪ Saltrice | 37 | ⚪ |
-| ⚪ Seasoning | 91 | ⚪ |
+| ⚪ Seasoning | 101 | ⚪ |
 | ⚪ Seaweed | 83 | ⚪ |
 | ⚪ Small Game | 34 | ⚪ |
 | ⚪ Surilie Grapes | 172 | ⚪ |
@@ -1197,7 +1315,7 @@ flowchart LR
 | ⚪ guts, Lake Bait | 61 | ⚪ |
 | ⚪ insect parts, River Bait | 86 | ⚪ |
 | ⚪ shad, River Bait | 75 | ⚪ |
-| ⚪ worms, Saltwater Bait | 197 | ⚪ |
+| ⚪ worms, Saltwater Bait | 200 | ⚪ |
 
 
 </div><div>
@@ -1356,7 +1474,7 @@ flowchart LR
 | ⚪ hide scraps | 6 | ⚪ |
 | ⚪ high iron ore | 9 | ⚪ |
 | ⚪ iron hide scraps | 6 | ⚪ |
-| ⚪ iron ore | 4 | ⚪ |
+| ⚪ iron ore | 14 | ⚪ |
 | ⚪ leather scraps | 5 | ⚪ |
 | ⚪ Malachite Shard | 1 | ⚪ |
 | ⚪ orichalcum ore | 6 | ⚪ |
@@ -1367,7 +1485,7 @@ flowchart LR
 | ⚪ raw ancestor silk | 8 | ⚪ |
 | ⚪ raw cotton | 5 | ⚪ |
 | ⚪ raw ebonthread | 1 | ⚪ |
-| ⚪ raw flax | 12 | ⚪ |
+| ⚪ raw flax | 15 | ⚪ |
 | ⚪ raw ironweed | 4 | ⚪ |
 | ⚪ raw jute | 4 | ⚪ |
 | ⚪ raw Kreshweed | 5 | ⚪ |
@@ -1381,7 +1499,7 @@ flowchart LR
 | ⚪ rough mahogany | 6 | ⚪ |
 | ⚪ rough maple | 19 | ⚪ |
 | ⚪ rough nightwood | 2 | ⚪ |
-| ⚪ rough oak | 10 | ⚪ |
+| ⚪ rough oak | 16 | ⚪ |
 | ⚪ rough ruby ash | 26 | ⚪ |
 | ⚪ rough yew | 9 | ⚪ |
 | ⚪ rubedite ore | 9 | ⚪ |
@@ -1410,13 +1528,14 @@ flowchart LR
 
 </div><div>
 
+
 #### Reagent (30 items)
 
 | **Item** | **Stack** | **Quality** |
 | --- | ---: | --- |
 | 🟢 Beetle Scuttle | 74 | 🟢 |
 | 🟢 blessed thistle | 116 | 🟢 |
-| 🟢 blue entoloma | 258 | 🟢 |
+| 🟢 blue entoloma | 259 | 🟢 |
 | 🟢 bugloss | 304 | 🟢 |
 | 🟢 Butterfly Wing | 107 | 🟢 |
 | 🟢 Chaurus Egg | 40 | 🟢 |
@@ -1424,7 +1543,7 @@ flowchart LR
 | 🟢 columbine | 297 | 🟢 |
 | 🟢 corn flower | 137 | 🟢 |
 | 🟢 Crimson Nirnroot | 20 | 🟢 |
-| 🟢 dragonthorn | 450 | 🟢 |
+| 🟢 dragonthorn | 452 | 🟢 |
 | 🟢 emetic russula | 185 | 🟢 |
 | 🟢 Fleshfly Larva||Fleshfly Larvae | 183 | 🟢 |
 | 🟢 imp stool | 187 | 🟢 |
@@ -1443,7 +1562,7 @@ flowchart LR
 | 🟢 violet coprinus | 152 | 🟢 |
 | 🟢 water hyacinth | 318 | 🟢 |
 | 🟢 white cap | 256 | 🟢 |
-| 🟢 wormwood | 328 | 🟢 |
+| 🟢 wormwood | 329 | 🟢 |
 
 
 </div><div>
@@ -1466,7 +1585,7 @@ flowchart LR
 | --- | ---: | --- |
 | ⚪ Adamantite | 195 | ⚪ |
 | ⚪ Argent Pelt | 5 | ⚪ |
-| ⚪ Argentum | 384 | ⚪ |
+| ⚪ Argentum | 385 | ⚪ |
 | ⚪ Ash Canvas | 11 | ⚪ |
 | ⚪ Auric Tusk | 1 | ⚪ |
 | ⚪ Auroran Dust | 5 | ⚪ |
@@ -1475,7 +1594,7 @@ flowchart LR
 | ⚪ Black Beeswax | 58 | ⚪ |
 | ⚪ Blood of Sahrotnax | 5 | ⚪ |
 | ⚪ Boiled Carapace | 12 | ⚪ |
-| ⚪ Bone | 177 | ⚪ |
+| ⚪ Bone | 178 | ⚪ |
 | ⚪ Bronze | 337 | ⚪ |
 | ⚪ Cassiterite | 5 | ⚪ |
 | ⚪ Consecrated Myrrh | 5 | ⚪ |
@@ -1578,7 +1697,7 @@ flowchart LR
 
 | **Total Achievements** | **Completed** | **Completion %** | **Points Earned** | **Total Points** |
 | ---: | ---: | ---: | ---: | ---: |
-| 444 | 23 | 5% | 4,035 | 72,540 |
+| 444 | 23 | 5% | 4,025 | 72,540 |
 
 ### 📊 Achievement Categories
 
@@ -2895,7 +3014,7 @@ flowchart LR
 </details>
 
 <details>
-<summary><strong>🔧 Quests (130/2150 pts)</strong></summary>
+<summary><strong>🔧 Quests (120/2150 pts)</strong></summary>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
@@ -2950,8 +3069,8 @@ flowchart LR
 
 | **Main Quest** | **Value** |
 | --- | ---: |
-| Points | 20/160 |
-| Progress | █░░░░░░░░░ 12% |
+| Points | 10/160 |
+| Progress | ░░░░░░░░░░ 6% |
 
 
 </div>
@@ -3313,10 +3432,11 @@ flowchart LR
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-84,202%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-90,668%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 02/12/2026 • Version: 2.2.5-2-g4f82cea</sub>
+<sub>Generated on 02/12/2026 • Version: 2.2.5-3-g5286551</sub>
 
 </div>
+

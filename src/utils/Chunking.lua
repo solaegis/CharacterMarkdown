@@ -71,6 +71,36 @@ local function IsHeaderBeforeTable(markdown, pos, markdownLength)
     return IsTableLine(nextLine)
 end
 
+---Backtrack before a header when the next line is a table to keep header+table together.
+---Returns newChunkEnd, prependNewline if backtracking is valid; nil otherwise.
+local function BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize)
+    if chunkEnd >= markdownLength then
+        return nil
+    end
+    if string.sub(markdown, chunkEnd, chunkEnd) ~= "\n" then
+        return nil
+    end
+    if not IsHeaderBeforeTable(markdown, chunkEnd, markdownLength) then
+        return nil
+    end
+    local backtrackHeaderStart = chunkEnd
+    for i = chunkEnd - 1, math.max(pos, chunkEnd - 1000), -1 do
+        if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
+            backtrackHeaderStart = (i == pos) and pos or i
+            break
+        end
+    end
+    if backtrackHeaderStart <= pos then
+        return nil
+    end
+    local newChunkEnd = backtrackHeaderStart - 1
+    local proposedDataChars = newChunkEnd - pos + 1
+    if proposedDataChars + paddingSize <= copyLimit and proposedDataChars >= 100 then
+        return newChunkEnd, true
+    end
+    return nil
+end
+
 -- Helper function to check if a line is part of a markdown list
 local function IsListLine(line)
     if not line or line == "" then
@@ -103,7 +133,7 @@ local function IsInsideHtmlBlock(markdown, pos)
 
     -- Search backwards for opening <div> tags
     local divStart = nil
-    local searchStart = math.max(1, pos - 5000) -- Search up to 5000 chars back
+    local searchStart = math.max(1, pos - (CHUNKING.BACKTRACK_WINDOW or 5000))
 
     for i = pos, searchStart, -1 do
         local substr = string.sub(markdown, i, math.min(markdownLen, i + 4))
@@ -784,7 +814,7 @@ local function IsInsideCodeBlock(markdown, pos)
     -- to avoid O(n²) performance issues that can crash ESO
 
     -- Search backwards to find if we're inside a code block
-    local searchStart = math.max(1, pos - 5000) -- Limit search window to 5k chars
+    local searchStart = math.max(1, pos - (CHUNKING.BACKTRACK_WINDOW or 5000))
     local beforePos = string.sub(markdown, searchStart, pos - 1)
 
     -- Find the LAST ``` before pos (opening marker)
@@ -815,7 +845,7 @@ local function IsInsideCodeBlock(markdown, pos)
         end
 
         -- Now search forward from pos to find closing ```
-        local afterPos = string.sub(markdown, pos, math.min(markdownLen, pos + 5000))
+        local afterPos = string.sub(markdown, pos, math.min(markdownLen, pos + (CHUNKING.BACKTRACK_WINDOW or 5000)))
         local closingPos = string.find(afterPos, "\n```", 1, true)
         if closingPos then
             -- Found closing ```, return block boundaries
@@ -1070,8 +1100,8 @@ end
 -- =====================================================
 
 -- Strip padding from chunk content for paste/copy operations
--- Padding format: content + 85 spaces + newline + newline
--- This function removes the padding that was added during chunking
+-- Padding format: content + SPACE_PADDING_SIZE newlines (550 by default)
+-- This function removes chunk markers and normalizes trailing newlines for copy/paste
 local function StripPadding(content, isLastChunk)
     if not content or content == "" then
         return content
@@ -1138,13 +1168,11 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
     -- Calculate overhead for padding + HTML marker + potential mermaid header
     -- When disabled: only account for marker, no padding
     -- When enabled: account for both marker and padding
-    local markerSize = 60 -- Reserve space for HTML comment marker "<!-- Chunk N (XXXXX bytes before padding) -->\n\n"
-    -- Reserve space for potential mermaid header (continuation chunks may need this)
-    -- Header can include: "```mermaid\n" + "%%{init:...}%%\n" + empty line + "flowchart LR\n"
-    local mermaidHeaderReserve = 350 -- Conservative estimate for large init configs
+    local markerSize = CHUNKING.CHUNK_MARKER_SIZE or 60
+    local mermaidHeaderReserve = CHUNKING.MERMAID_HEADER_RESERVE or 350
     local paddingSize = 0 -- Default: no padding
     if not CHUNKING.DISABLE_PADDING then
-        paddingSize = (CHUNKING.SPACE_PADDING_SIZE or 500) -- newlines for padding
+        paddingSize = (CHUNKING.SPACE_PADDING_SIZE or CHUNKING.PADDING_FALLBACK or 550)
     end
     local totalOverhead = markerSize + paddingSize + mermaidHeaderReserve -- Total bytes to reserve
 
@@ -1641,7 +1669,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
 
             if not foundNewline and potentialEnd > pos then
-                local extendedSearchStart = math.max(pos, potentialEnd - 5000)
+                local extendedSearchStart = math.max(pos, potentialEnd - (CHUNKING.BACKTRACK_WINDOW or 5000))
                 -- Try safe newline search in extended range
                 local safeNewline = FindSafeNewline(markdown, extendedSearchStart, potentialEnd)
                 if safeNewline then
@@ -2208,7 +2236,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- If so, backtrack to before the HTML block start
         if isInsideHtml and htmlBlockStart and htmlBlockEnd then
             local htmlBlockSize = htmlBlockEnd - htmlBlockStart + 1
-            local structureOverageAllowance = 5000 -- Allow more overage for HTML blocks
+            local structureOverageAllowance = CHUNKING.STRUCTURE_OVERRIDE_HTML or 5000
             local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
 
             if htmlBlockSize <= effectiveMaxForStructures then
@@ -2665,7 +2693,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 end
             elseif tableEnd and tableEnd > chunkEnd and not isInTable and not isOnLineBeforeTable then
                 -- We're in the middle of a table but didn't detect it properly - find where it started
-                for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                     if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
                         local searchLineStart = (i == pos) and pos or i
                         local searchLineEnd = chunkEnd
@@ -2773,7 +2801,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
             if listEnd and listEnd > chunkEnd and not isOnListLine then
                 -- We're in the middle of a list - find where it started
-                for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                     if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
                         local btListLineStart = (i == pos) and pos or i
                         local btListLineEnd = chunkEnd
@@ -3137,7 +3165,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 )
                                 -- Find where table started
                                 local tableStart = chunkEnd
-                                for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                                for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                                     if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
                                         local btTableLineStart = (i == pos) and pos or i
                                         local btTableLineEnd = chunkEnd
@@ -3211,7 +3239,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 -- Only check for consecutive tables if we have at least 2000 bytes remaining
                 -- This ensures we don't extend when we're already close to the limit
                 if remainingSpace > 2000 then
-                    local structureOverageAllowance = 1500
+                    local structureOverageAllowance = CHUNKING.STRUCTURE_OVERRIDE_TABLE or 1500
                     local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
                     -- Check for consecutive tables if we're within the effective max (including overage)
                     if currentChunkSize <= effectiveMaxForStructures then
@@ -3969,7 +3997,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 else
                     -- Can't extend - backtrack before table
                     local tableStart = chunkEnd
-                    for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                    for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                         if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
                             local lineStart = (i == pos) and pos or i
                             local lineEnd = chunkEnd
@@ -4009,10 +4037,10 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- Check 1: Ensure chunkEnd is at a newline
             if string.sub(markdown, chunkEnd, chunkEnd) ~= "\n" then
                 -- chunkEnd is not at a newline - find the last safe newline before it
-                local lastSafeNewline = FindSafeNewline(markdown, math.max(pos, chunkEnd - 5000), chunkEnd)
+                local lastSafeNewline = FindSafeNewline(markdown, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), chunkEnd)
                 if not lastSafeNewline then
                     -- Fallback to any newline
-                    for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                    for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                         if string.sub(markdown, i, i) == "\n" then
                             lastSafeNewline = i
                             break
@@ -4522,81 +4550,32 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- For the actual padding string, we need just the spaces part (not including the 2 newlines)
         local spacePaddingSize = 0 -- Default: no padding
         if not CHUNKING.DISABLE_PADDING then
-            spacePaddingSize = CHUNKING.SPACE_PADDING_SIZE or 85
+            spacePaddingSize = CHUNKING.SPACE_PADDING_SIZE or CHUNKING.PADDING_FALLBACK or 550
         end
 
         -- Check if we're ending on a header that's followed by a table
-        if hasTrailingNewline and chunkEnd < markdownLength then
-            if IsHeaderBeforeTable(markdown, chunkEnd, markdownLength) then
-                -- Find the start of the header line
-                local backtrackHeaderStart = chunkEnd
-                for i = chunkEnd - 1, math.max(pos, chunkEnd - 1000), -1 do
-                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                        backtrackHeaderStart = (i == pos) and pos or i
-                        break
-                    end
-                end
-
-                -- Backtrack to just before the header
-                if backtrackHeaderStart > pos then
-                    -- Find the newline before the header
-                    local newChunkEnd = backtrackHeaderStart - 1
-                    local proposedDataChars = newChunkEnd - pos + 1
-
-                    -- CRITICAL FIX: Validate size before accepting backtrack
-                    if proposedDataChars + paddingSize <= copyLimit and proposedDataChars >= 100 then
-                        -- Update chunkEnd, chunkData, and related variables
-                        chunkEnd = newChunkEnd
-                        chunkData = string.sub(markdown, pos, chunkEnd)
-
-                        chunkContent = chunkData
-                        finalSize = string.len(chunkContent)
-
-                        -- Verify the new chunkEnd is at a newline
-
-                        -- CRITICAL: Set flag to prepend newline to next chunk
-                        -- This ensures the header starts on its own line after padding
-                        prependNewlineToChunk = true
-
-                        CM.DebugPrint(
-                            "CHUNKING",
-                            string.format(
-                                "Chunk %d: Backtracked from %d to %d to keep header+table together in next chunk (size: %d + %d padding = %d)",
-                                chunkNum,
-                                chunkEnd + (backtrackHeaderStart - pos),
-                                chunkEnd,
-                                proposedDataChars,
-                                paddingSize,
-                                proposedDataChars + paddingSize
-                            )
-                        )
-                    else
-                        -- Backtracking would create invalid chunk size
-                        if proposedDataChars + paddingSize > copyLimit then
-                            CM.DebugPrint(
-                                "CHUNKING",
-                                string.format(
-                                    "Chunk %d: Header backtracking would exceed copy limit (%d + %d = %d > %d), skipping",
-                                    chunkNum,
-                                    proposedDataChars,
-                                    paddingSize,
-                                    proposedDataChars + paddingSize,
-                                    copyLimit
-                                )
-                            )
-                        else
-                            CM.DebugPrint(
-                                "CHUNKING",
-                                string.format(
-                                    "Chunk %d: Header backtracking would create too-small chunk (%d < 100), skipping",
-                                    chunkNum,
-                                    proposedDataChars
-                                )
-                            )
-                        end
-                    end
-                end
-            end
+        local prevChunkEnd = chunkEnd
+        local newChunkEnd, shouldPrepend = BacktrackBeforeHeaderTablePair(
+            markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize
+        )
+        if newChunkEnd then
+            chunkEnd = newChunkEnd
+            chunkData = string.sub(markdown, pos, chunkEnd)
+            chunkContent = chunkData
+            finalSize = string.len(chunkContent)
+            prependNewlineToChunk = shouldPrepend
+            CM.DebugPrint(
+                "CHUNKING",
+                string.format(
+                    "Chunk %d: Backtracked from %d to %d to keep header+table together in next chunk (size: %d + %d padding = %d)",
+                    chunkNum,
+                    prevChunkEnd,
+                    chunkEnd,
+                    chunkEnd - pos + 1,
+                    paddingSize,
+                    chunkEnd - pos + 1 + paddingSize
+                )
+            )
         end
 
         -- Prepend newline if needed (from previous chunk split)
@@ -4723,7 +4702,29 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
         end
 
-        -- Add padding only if enabled
+        -- CRITICAL SAFETY NET: Ensure chunk ends on complete line BEFORE adding padding
+        -- If chunk doesn't end with newline, truncate to last newline first
+        -- This prevents truncation from removing padding when content ends mid-line
+        if not isLastChunk and string.sub(chunkContent, -1, -1) ~= "\n" then
+            local lastNewline = string.find(chunkContent, "\n[^\n]*$")
+            if lastNewline then
+                local originalSize = finalSize
+                chunkContent = string.sub(chunkContent, 1, lastNewline)
+                finalSize = string.len(chunkContent)
+                CM.Warn(
+                    string.format(
+                        "Chunk %d: SAFETY TRUNCATION - chunk didn't end on newline, truncated from %d to %d bytes",
+                        chunkNum,
+                        originalSize,
+                        finalSize
+                    )
+                )
+            else
+                CM.Error(string.format("Chunk %d: CRITICAL - chunk has no newlines, cannot truncate safely!", chunkNum))
+            end
+        end
+
+        -- Add padding only if enabled (after safety truncation - content now ends on newline)
         if not CHUNKING.DISABLE_PADDING then
             -- CRITICAL: Use NEWLINES as padding (not spaces or HTML comments)
             -- Newlines are safe if truncated, work in any markdown context, and are invisible in rendered output
@@ -4754,24 +4755,18 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             )
         end
 
-        -- CRITICAL SAFETY NET: Ensure chunk ends on complete line
-        -- If chunk doesn't end with newline, truncate to last newline
-        if not isLastChunk and string.sub(chunkContent, -1, -1) ~= "\n" then
-            local lastNewline = string.find(chunkContent, "\n[^\n]*$")
-            if lastNewline then
-                local originalSize = finalSize
-                chunkContent = string.sub(chunkContent, 1, lastNewline)
-                finalSize = string.len(chunkContent)
+        -- Runtime assertion: warn if non-last chunk has insufficient padding (when padding enabled)
+        if not isLastChunk and not CHUNKING.DISABLE_PADDING then
+            local trailing = chunkContent:match("\n+$")
+            local trailingCount = trailing and #trailing or 0
+            if trailingCount < 500 then
                 CM.Warn(
                     string.format(
-                        "Chunk %d: SAFETY TRUNCATION - chunk didn't end on newline, truncated from %d to %d bytes",
+                        "Chunk %d: padding check - expected >=500 trailing newlines, got %d (may indicate truncation)",
                         chunkNum,
-                        originalSize,
-                        finalSize
+                        trailingCount
                     )
                 )
-            else
-                CM.Error(string.format("Chunk %d: CRITICAL - chunk has no newlines, cannot truncate safely!", chunkNum))
             end
         end
 

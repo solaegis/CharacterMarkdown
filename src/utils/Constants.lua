@@ -44,15 +44,22 @@ CM.constants.CHUNKING = {
     DISABLE_PADDING = false, -- **PADDING ENABLED** - 500 byte buffer absorbs variable truncation
     USE_SECTION_BASED_CHUNKING = false, -- **DISABLED**: Section-based chunking has bugs - using legacy for now
     -- Padding constants (kept for backward compatibility if DISABLE_PADDING = false)
-    PADDING_OVERHEAD_BASE = 17, -- Base overhead for padding (comment + newlines)
-    PADDING_INVISIBLE_CHAR_LENGTH = 3, -- Length of invisible char (3 bytes in UTF-8)
+    PADDING_OVERHEAD_BASE = 17, -- [DEPRECATED] Base overhead - not currently used
+    PADDING_INVISIBLE_CHAR_LENGTH = 3, -- [DEPRECATED] Invisible char length - not currently used
     MIN_FINAL_CHUNK_PADDING = 50, -- Minimum padding for final chunk
     MAX_FINAL_CHUNK_PADDING = 300, -- Maximum padding for final chunk
     TARGET_CHUNK_SIZE = 5700, -- Target total size for non-final chunks
     SAFE_PADDING_RESERVE = 50, -- Reserve for padding calculation
-    PADDING_COMMENT = "\n[comment]: #\n", -- Invisible markdown comment (not currently used)
-    PADDING_INVISIBLE_CHAR = "\226\128\139", -- Zero-width space (U+200B) (not currently used)
+    PADDING_COMMENT = "\n[comment]: #\n", -- [DEPRECATED] Invisible markdown comment - not currently used
+    PADDING_INVISIBLE_CHAR = "\226\128\139", -- [DEPRECATED] Zero-width space (U+200B) - not currently used
     SPACE_PADDING_SIZE = 550, -- Number of NEWLINES to add as padding - safe if truncated, works in any markdown context
+    PADDING_FALLBACK = 550, -- Redundant fallback when SPACE_PADDING_SIZE is nil - must match
+    -- Chunking structure constants (used in legacy chunking)
+    CHUNK_MARKER_SIZE = 60, -- Reserve for HTML comment marker "<!-- Chunk N (XXXXX bytes before padding) -->\n\n"
+    MERMAID_HEADER_RESERVE = 350, -- Conservative estimate for large mermaid init configs
+    STRUCTURE_OVERRIDE_HTML = 5000, -- Allow overage for complete HTML blocks
+    STRUCTURE_OVERRIDE_TABLE = 1500, -- Allow overage for complete tables
+    BACKTRACK_WINDOW = 5000, -- Search window for backtracking to safe split points
 }
 
 -- =====================================================

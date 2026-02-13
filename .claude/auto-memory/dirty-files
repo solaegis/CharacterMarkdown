@@ -4,3 +4,6 @@
 /Users/lvavasour/git/CharacterMarkdown/src/commands/Debug.lua
 /Users/lvavasour/git/CharacterMarkdown/src/utils/Chunking.lua
 /Users/lvavasour/git/CharacterMarkdown/.github/workflows/release.yaml
+/Users/lvavasour/git/CharacterMarkdown/src/utils/Constants.lua
+/Users/lvavasour/git/CharacterMarkdown/src/utils/TestChunking.lua
+/Users/lvavasour/git/CharacterMarkdown/docs/CHUNKING.md
