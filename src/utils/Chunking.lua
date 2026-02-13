@@ -184,6 +184,43 @@ local function IsInsideHtmlTag(markdown, pos)
     return false, nil, nil
 end
 
+-- Helper: Check if content from nextPos would start the next chunk with </div> or </div><div>
+-- Splitting there would break multi-column grid layout (orphans closing tag, breaks HTML structure)
+local function WouldNextChunkStartWithGridColumnBoundary(markdown, chunkEnd, markdownLength)
+    if chunkEnd >= markdownLength then
+        return false
+    end
+    local nextPos = chunkEnd + 1
+    -- Skip leading newlines/whitespace
+    while nextPos <= markdownLength and string.sub(markdown, nextPos, nextPos):match("[%s]") do
+        nextPos = nextPos + 1
+    end
+    if nextPos > markdownLength then
+        return false
+    end
+    local substr = string.sub(markdown, nextPos, math.min(markdownLength, nextPos + 10))
+    return substr:match("^</div>") ~= nil
+end
+
+-- Helper: Search backwards from pos to find the grid container opening <div style="display: grid...
+-- Returns position of newline before the grid (safe chunk end) or nil
+local function FindGridContainerStartBackward(markdown, pos)
+    local searchStart = math.max(1, pos - 15000)
+    for i = pos, searchStart, -1 do
+        local substr = string.sub(markdown, i, math.min(pos, i + 60))
+        if substr:match('<div style="display: grid') or substr:match("<div style='display: grid") then
+            -- Found grid container - return the newline that ends the line before it (chunk ends there)
+            for j = i - 1, math.max(1, i - 500), -1 do
+                if string.sub(markdown, j, j) == "\n" then
+                    return j
+                end
+            end
+            return nil -- No newline found, can't safely split
+        end
+    end
+    return nil
+end
+
 -- Helper function to check if a position is inside a Mermaid code block or subgraph
 local function IsInsideMermaidBlock(markdown, pos)
     local markdownLen = string.len(markdown)
@@ -1556,6 +1593,24 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                             -- Continue searching for a valid position
                         end
                     end
+                end
+            end
+
+            -- CRITICAL: Never split such that next chunk starts with </div> or </div><div>
+            -- That breaks multi-column grid layout (CreateResponsiveColumns) - the </div> would
+            -- close the grid container prematurely, orphaning subsequent columns
+            if chunkEnd < markdownLength and WouldNextChunkStartWithGridColumnBoundary(markdown, chunkEnd, markdownLength) then
+                local gridStartNewline = FindGridContainerStartBackward(markdown, chunkEnd)
+                if gridStartNewline and gridStartNewline >= pos and ValidateChunkSizeAfterBacktrack(gridStartNewline) then
+                    chunkEnd = gridStartNewline
+                    CM.DebugPrint(
+                        "CHUNKING",
+                        string.format(
+                            "Chunk %d: Backtracked to %d to avoid splitting grid column boundary (next chunk would start with </div>)",
+                            chunkNum,
+                            chunkEnd
+                        )
+                    )
                 end
             end
 

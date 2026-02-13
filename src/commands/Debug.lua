@@ -9,10 +9,13 @@ CM.commands.debug = {}
 -- SAVEDVARS DEBUG UTILITY
 -- =====================================================
 
+-- CharacterMarkdownData: Legacy global from older addon versions (not in manifest).
+-- Current addon uses CharacterMarkdownSettings.perCharacterData[characterId] (CM.charData).
+-- Debug checks for it for diagnostic/backward-compatibility visibility only.
 local function DebugSavedVarsState()
     CM.Info("|c00FFFF[CM] ===== SAVEDVARIABLES DEBUG INFO =====|r")
     CM.Info("|c00FFFF[CM] CharacterMarkdownSettings exists: " .. tostring(_G.CharacterMarkdownSettings ~= nil) .. "|r")
-    CM.Info("|c00FFFF[CM] CharacterMarkdownData exists: " .. tostring(_G.CharacterMarkdownData ~= nil) .. "|r")
+    CM.Info("|c00FFFF[CM] CharacterMarkdownData exists (legacy): " .. tostring(_G.CharacterMarkdownData ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.settings exists: " .. tostring(CM.settings ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.charData exists: " .. tostring(CM.charData ~= nil) .. "|r")
 
@@ -31,7 +34,7 @@ local function DebugSavedVarsState()
     end
 
     if _G.CharacterMarkdownData then
-        CM.Info("|c00FF00[CM] CharacterMarkdownData structure:|r")
+        CM.Info("|c00FF00[CM] CharacterMarkdownData structure (legacy):|r")
         local keyCount = 0
         for k, v in pairs(_G.CharacterMarkdownData) do
             keyCount = keyCount + 1
@@ -39,7 +42,7 @@ local function DebugSavedVarsState()
         end
         CM.Info("|c00FF00[CM] Total keys: " .. keyCount .. "|r")
     else
-        CM.Error("|cFF0000[CM] ERROR: CharacterMarkdownData is NIL!|r")
+        CM.Info("|c00FFFF[CM] CharacterMarkdownData: nil (expected - legacy, not in manifest)|r")
     end
 
     CM.Info("|c00FFFF[CM] Character ID: " .. tostring(GetCurrentCharacterId()) .. "|r")

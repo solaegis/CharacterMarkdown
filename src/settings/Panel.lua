@@ -36,6 +36,32 @@ local function EnsureCharacterData()
     return false
 end
 
+-- Get or create per-character data for writing - writes directly to CharacterMarkdownSettings.perCharacterData
+-- to guarantee persistence. Keeps CM.charData in sync.
+local function GetOrCreateCharacterDataForWrite()
+    if not CharacterMarkdownSettings then
+        return nil
+    end
+    local characterId = tostring(GetCurrentCharacterId())
+    if not CharacterMarkdownSettings.perCharacterData then
+        CharacterMarkdownSettings.perCharacterData = {}
+    end
+    if not CharacterMarkdownSettings.perCharacterData[characterId] then
+        CharacterMarkdownSettings.perCharacterData[characterId] = {
+            customNotes = "",
+            customTitle = "",
+            playStyle = "",
+            _initialized = true,
+            _lastModified = GetTimeStamp(),
+            _characterName = GetUnitName("player"),
+            _accountName = GetDisplayName(),
+        }
+    end
+    local charData = CharacterMarkdownSettings.perCharacterData[characterId]
+    CM.charData = charData
+    return charData
+end
+
 -- =====================================================
 -- PLAY STYLES LIST
 -- =====================================================
@@ -238,6 +264,8 @@ function CM.Settings.Panel:Initialize()
     CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
         if panel and panel.data and panel.data.name == "Character Markdown" then
             ResizeBuildNotesEditbox()
+            -- Wire build notes counter label so setFunc can update it in real time as user types
+            CM._buildNotesCounterLabel = _G["CharacterMarkdown_BuildNotesCounter"]
         end
     end)
 
@@ -1397,23 +1425,19 @@ function CM.Settings.Panel:AddCustomNotes(options)
             return CM.charData and CM.charData.customTitle or ""
         end,
         setFunc = function(value)
-            -- Ensure character data is initialized
-            EnsureCharacterData()
-
-            if not CM.charData then
+            -- Write directly to CharacterMarkdownSettings.perCharacterData for guaranteed persistence
+            local charData = GetOrCreateCharacterDataForWrite()
+            if not charData then
                 CM.Error("Failed to save custom title - character data not available")
                 return
             end
 
             -- Normalize value (empty string if nil)
             local newValue = value or ""
-            local currentValue = CM.charData.customTitle or ""
+            local currentValue = charData.customTitle or ""
 
-            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
-            -- Modifying CM.charData automatically updates the parent structure
-            CM.charData.customTitle = newValue
-            CM.charData._lastModified = GetTimeStamp()
+            charData.customTitle = newValue
+            charData._lastModified = GetTimeStamp()
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1444,23 +1468,19 @@ function CM.Settings.Panel:AddCustomNotes(options)
             return CM.charData and CM.charData.playStyle or ""
         end,
         setFunc = function(value)
-            -- Ensure character data is initialized
-            EnsureCharacterData()
-
-            if not CM.charData then
+            -- Write directly to CharacterMarkdownSettings.perCharacterData for guaranteed persistence
+            local charData = GetOrCreateCharacterDataForWrite()
+            if not charData then
                 CM.Error("Failed to save play style - character data not available")
                 return
             end
 
             -- Normalize value (empty string if nil)
             local newValue = value or ""
-            local currentValue = CM.charData.playStyle or ""
+            local currentValue = charData.playStyle or ""
 
-            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
-            -- Modifying CM.charData automatically updates the parent structure
-            CM.charData.playStyle = newValue
-            CM.charData._lastModified = GetTimeStamp()
+            charData.playStyle = newValue
+            charData._lastModified = GetTimeStamp()
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1487,23 +1507,19 @@ function CM.Settings.Panel:AddCustomNotes(options)
             return CM.charData and CM.charData.customNotes or ""
         end,
         setFunc = function(value)
-            -- Ensure character data is initialized
-            EnsureCharacterData()
-
-            if not CM.charData then
+            -- Write directly to CharacterMarkdownSettings.perCharacterData for guaranteed persistence
+            local charData = GetOrCreateCharacterDataForWrite()
+            if not charData then
                 CM.Error("Failed to save build notes - character data not available")
                 return
             end
 
             -- Normalize value (empty string if nil)
             local newValue = value or ""
-            local currentValue = CM.charData.customNotes or ""
+            local currentValue = charData.customNotes or ""
 
-            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
-            -- Modifying CM.charData automatically updates the parent structure
-            CM.charData.customNotes = newValue
-            CM.charData._lastModified = GetTimeStamp()
+            charData.customNotes = newValue
+            charData._lastModified = GetTimeStamp()
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1512,18 +1528,16 @@ function CM.Settings.Panel:AddCustomNotes(options)
                 CM.DebugPrint("SETTINGS", "Build notes refreshed (" .. string.len(newValue) .. " bytes)")
             end
 
-            -- Update character counter if it exists
-            if CM._buildNotesCounterLabel then
-                local charCount = string.len(newValue)
-                local color = charCount > 1900 and "|cFF6B6B" or (charCount > 1700 and "|cFFD93D" or "|c6BCF7E")
-                CM._buildNotesCounterLabel:SetText(color .. "Characters: " .. charCount .. " / 1,900|r")
+            -- Update character counter if it exists (LAM description uses UpdateValue, not SetText)
+            if CM._buildNotesCounterLabel and CM._buildNotesCounterLabel.UpdateValue then
+                CM._buildNotesCounterLabel:UpdateValue()
             end
         end,
         width = "full",
         height = 500, -- Large editbox for better visibility - scrollbar appears when content exceeds this
         isMultiline = true,
         isExtraWide = true,
-        maxChars = 1900, -- ESO SavedVariables has a ~2000 character limit per string value
+        maxChars = (CM.constants and CM.constants.LIMITS and CM.constants.LIMITS.MAX_CUSTOM_NOTES_SIZE) or 1900,
         -- NOTE: No default value - this is user-entered data that must never be reset
         reference = "CharacterMarkdown_BuildNotesEditBox",
     })
@@ -1532,12 +1546,13 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "description",
         text = function()
+            local maxNotes = CM.constants and CM.constants.LIMITS and CM.constants.LIMITS.MAX_CUSTOM_NOTES_SIZE or 1900
             local charCount = 0
             if CM.charData and CM.charData.customNotes then
                 charCount = string.len(CM.charData.customNotes)
             end
-            local color = charCount > 1900 and "|cFF6B6B" or (charCount > 1700 and "|cFFD93D" or "|c6BCF7E")
-            return color .. "Characters: " .. charCount .. " / 1,900|r"
+            local color = charCount > maxNotes and "|cFF6B6B" or (charCount > maxNotes - 200 and "|cFFD93D" or "|c6BCF7E")
+            return color .. "Characters: " .. charCount .. " / " .. maxNotes .. "|r"
         end,
         reference = "CharacterMarkdown_BuildNotesCounter",
     })

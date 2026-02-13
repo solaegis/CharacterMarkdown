@@ -86,9 +86,16 @@ local function UpdateSelectAllButtonColor()
         return
     end
 
-    -- Keep button green while text is selected
-    -- Button turns green when SelectAll is called, stays green until chunk changes or window closes
-    if isTextSelected then
+    -- Use actual EditBox selection state (reflects mouse selection, Ctrl+A, etc.)
+    local hasSelection = isTextSelected
+    if editBoxControl.HasSelection then
+        local result = CM.SafeCall(editBoxControl.HasSelection, editBoxControl)
+        if result ~= nil then
+            hasSelection = result
+        end
+    end
+
+    if hasSelection then
         selectAllButton:SetColor(0, 1, 0, 1) -- Green
     else
         selectAllButton:SetColor(1, 1, 1, 1) -- White
@@ -162,6 +169,24 @@ local function InitializeWindowControls()
     if not windowControl then
         CM.Error("Window control not found! XML may not have loaded.")
         return false
+    end
+
+    -- Wrap SetHidden to restore game camera UI mode when window is closed
+    -- This fixes: mouse stuck in look mode, unable to click buttons when window opens
+    local originalSetHidden = windowControl.SetHidden
+    windowControl.SetHidden = function(self, hidden)
+        if hidden and self == windowControl then
+            if windowControl._savedUIMode ~= nil and SetGameCameraUIMode then
+                SetGameCameraUIMode(windowControl._savedUIMode)
+                windowControl._savedUIMode = nil
+                CM.DebugPrint("UI", "Restored game camera UI mode on window close")
+            elseif windowControl._usedToggleFallback and ZO_SceneManager_ToggleUIModeBinding then
+                ZO_SceneManager_ToggleUIModeBinding()
+                windowControl._usedToggleFallback = nil
+                CM.DebugPrint("UI", "Restored UI mode via ToggleUIModeBinding on window close")
+            end
+        end
+        return originalSetHidden(self, hidden)
     end
 
     -- Set background with solid color and nice border
@@ -1043,6 +1068,20 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
     -- Clear import mode flag
     windowControl._isImportMode = false
 
+    -- Enable game camera UI mode so cursor is visible and buttons can be clicked
+    -- This fixes: mouse stuck in look mode when window opens; also routes keyboard to UI
+    if SetGameCameraUIMode and IsGameCameraUIModeActive then
+        windowControl._savedUIMode = IsGameCameraUIModeActive()
+        SetGameCameraUIMode(true)
+        CM.DebugPrint("UI", "Enabled game camera UI mode for cursor/button interaction")
+    elseif ZO_SceneManager_ToggleUIModeBinding and type(ZO_SceneManager_ToggleUIModeBinding) == "function" then
+        -- Fallback: toggle UI mode when SetGameCameraUIMode not available (e.g. older ESO client)
+        ZO_SceneManager_ToggleUIModeBinding()
+        windowControl._savedUIMode = nil
+        windowControl._usedToggleFallback = true
+        CM.DebugPrint("UI", "Enabled UI mode via ToggleUIModeBinding fallback")
+    end
+
     -- Handle both string (single chunk) and table (chunks array) returns
     local isChunksArray = type(markdown) == "table"
 
@@ -1214,6 +1253,18 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
     -- Show window
     windowControl:SetHidden(false)
 
+    -- Staggered TakeFocus (0, 50, 100, 200ms) to overcome chat/game focus races
+    for _, delayMs in ipairs({ 0, 50, 100, 200 }) do
+        zo_callLater(function()
+            if not windowControl:IsHidden() and editBoxControl then
+                editBoxControl:TakeFocus()
+            end
+        end, delayMs)
+    end
+
+    -- Start periodic update to check EditBox selection state (unregistered when window closes)
+    EVENT_MANAGER:RegisterForUpdate("CharacterMarkdown_SelectionCheck", 200, UpdateSelectAllButtonColor)
+
     -- Bring window to top and activate
     if windowControl.SetTopmost then
         windowControl:SetTopmost(true)
@@ -1292,6 +1343,7 @@ function CharacterMarkdown_CloseWindow()
         end
         windowControl:SetHidden(true)
         ClearChunks() -- Clear chunks to prevent memory leak
+        EVENT_MANAGER:UnregisterForUpdate("CharacterMarkdown_SelectionCheck")
         CM.DebugPrint("UI", "Window closed")
     end
 end
@@ -1308,8 +1360,8 @@ local function OnAddOnLoaded(event, addonName)
     zo_callLater(function()
         InitializeWindowControls()
 
-        -- CRITICAL: Global keyboard handler is BACKUP ONLY
-        -- Primary handler is EditBox OnKeyDown - this only catches ESC if EditBox loses focus
+        -- CRITICAL: Global keyboard handler is BACKUP when EditBox loses focus
+        -- Primary handler is EditBox OnKeyDown - this catches shortcuts when EditBox cannot
         EVENT_MANAGER:RegisterForEvent(
             "CharacterMarkdown_GlobalKeyboard",
             EVENT_KEY_DOWN,
@@ -1324,25 +1376,72 @@ local function OnAddOnLoaded(event, addonName)
                     return
                 end
 
-                -- Only handle ESC as a backup (EditBox already handles it)
-                if key == KEY_ESCAPE then
-                    CM.DebugPrint("KEYBOARD", "ESC pressed (global fallback) - closing window")
+                -- If EditBox has focus, let it handle (avoids double-handling)
+                if editBoxControl and editBoxControl.HasFocus and editBoxControl:HasFocus() then
+                    return
+                end
+
+                local modifierPressed = ctrl or command
+
+                -- ESC or X = Close
+                if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
+                    CM.DebugPrint("KEYBOARD", "ESC/X pressed (global fallback) - closing window")
                     windowControl:SetHidden(true)
                     return
                 end
 
-                -- DISABLED: Auto-focus restoration
-                -- If we get here with the window open but EditBox not handling keys,
-                -- it means EditBox lost focus somehow - give it back
-                -- if editBoxControl and not editBoxControl:HasFocus() then
-                --     CM.DebugPrint("KEYBOARD", "Global handler detected EditBox lost focus - restoring")
-                --     editBoxControl:TakeFocus()
-                -- end
+                -- G = Regenerate
+                if key == KEY_G then
+                    CharacterMarkdown_RegenerateMarkdown()
+                    return
+                end
+
+                -- S = Settings
+                if key == KEY_S then
+                    CharacterMarkdown_OpenSettings()
+                    return
+                end
+
+                -- R = ReloadUI
+                if key == KEY_R then
+                    ReloadUI()
+                    return
+                end
+
+                -- Navigation: arrows, comma, period, PageUp, PageDown
+                if not modifierPressed then
+                    if (key == KEY_LEFTARROW or key == KEY_OEM_COMMA) and #markdownChunks > 1 then
+                        CharacterMarkdown_PreviousChunk()
+                        return
+                    end
+                    if (key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD) and #markdownChunks > 1 then
+                        CharacterMarkdown_NextChunk()
+                        return
+                    end
+                    if key == KEY_PAGEUP and #markdownChunks > 1 then
+                        CharacterMarkdown_PreviousChunk()
+                        return
+                    end
+                    if key == KEY_PAGEDOWN and #markdownChunks > 1 then
+                        CharacterMarkdown_NextChunk()
+                        return
+                    end
+                end
+
+                -- Space or Enter = Copy
+                if (key == KEY_SPACEBAR or key == KEY_ENTER) and not modifierPressed then
+                    CharacterMarkdown_CopyToClipboard()
+                    return
+                end
+
+                -- Restore focus so EditBox gets keys for next press
+                if editBoxControl then
+                    editBoxControl:TakeFocus()
+                end
             end
         )
 
-        -- Start periodic update to check EditBox selection state
-        EVENT_MANAGER:RegisterForUpdate("CharacterMarkdown_SelectionCheck", 200, UpdateSelectAllButtonColor)
+        -- Selection timer is registered when window opens, unregistered when it closes
     end, 100)
 end
 

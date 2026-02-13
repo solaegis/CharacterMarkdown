@@ -61,10 +61,12 @@ local function DetectOperatingSystem(forceRedetect)
         CM.DebugPrint("PLATFORM", "GetAddOnSavedVariablesDirectory not available")
     end
 
-    -- Save the detected OS
-    if settings then
-        local previousOS = settings.detectedOS
-        settings.detectedOS = detectedOS
+    -- Save the detected OS to SavedVariables (persist permanently)
+    if CharacterMarkdownSettings then
+        local previousOS = CharacterMarkdownSettings.detectedOS
+        CharacterMarkdownSettings.detectedOS = detectedOS
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
 
         -- Only log if OS changed or detection failed
         if previousOS and previousOS ~= "unknown" and previousOS ~= detectedOS then
@@ -117,9 +119,10 @@ local function SetOperatingSystem(os)
         return false
     end
 
-    local settings = CM.GetSettings()
-    if settings then
-        settings.detectedOS = os
+    if CharacterMarkdownSettings then
+        CharacterMarkdownSettings.detectedOS = os
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
         CM.Info("OS set to: " .. os)
         return true
     end
@@ -129,9 +132,10 @@ end
 
 -- Reset cached OS detection to force re-detection
 local function ResetOperatingSystem()
-    local settings = CM.GetSettings()
-    if settings then
-        settings.detectedOS = "unknown"
+    if CharacterMarkdownSettings then
+        CharacterMarkdownSettings.detectedOS = "unknown"
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
         CM.Info("OS detection reset - re-detecting...")
         -- Force immediate re-detection
         return DetectOperatingSystem(true) ~= "unknown"
