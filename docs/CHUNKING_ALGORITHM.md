@@ -3,72 +3,40 @@
 ## Overview
 The chunking algorithm splits large markdown documents into smaller chunks that fit within ESO's EditBox limits, while ensuring proper formatting and preventing truncation issues.
 
-## Constants (Updated 2025-11-12)
+## Constants
 
-Based on real-world testing and community research, the following limits have been established:
+### Current Values (as of 2026-02)
 
-- `CHUNKING.EDITBOX_LIMIT`: **6,000 chars** - Based on observed EditBox display truncation at ~6.5k (with safety buffer)
-- `CHUNKING.COPY_LIMIT`: **5,700 chars** - 300-char safety margin
-- `CHUNKING.MAX_DATA_CHARS`: **5,613 chars** - Maximum data per chunk (COPY_LIMIT - 87 for padding)
-- `CHUNKING.SPACE_PADDING_SIZE`: **85 spaces** - Padding to prevent paste truncation
-- `paddingSize`: **87 chars** - (85 spaces + 2 newlines)
+**Source:** `src/utils/Constants.lua` — keep this doc in sync when values change.
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `CHUNKING.EDITBOX_LIMIT` | **21,500** | Trigger chunking when content exceeds this limit |
+| `CHUNKING.COPY_LIMIT` | **21,500** | Safe copy limit per chunk |
+| `CHUNKING.MAX_DATA_CHARS` | **20,350** | Max data per chunk (leaves room for ~60 byte marker + 550 newlines + buffer) |
+| `CHUNKING.SPACE_PADDING_SIZE` | **550** | Number of newlines as padding |
+| `CHUNKING.CHUNK_MARKER_SIZE` | **60** | Reserve for HTML comment marker "<!-- Chunk N (XXXXX bytes before padding) -->\n\n" |
+
+**Key relationships:**
+- `EDITBOX_LIMIT` MUST equal `COPY_LIMIT` (both 21,500) — they trigger chunking when content exceeds what can fit in one chunk
+- `MAX_DATA_CHARS` (20,350) is less than `COPY_LIMIT` (21,500) because chunks include overhead (marker + padding)
 
 ### Why These Limits?
 
-#### Critical Finding (2025-11-12)
-**ESO's EditBox CANNOT DISPLAY more than ~6.5k characters. Content beyond this limit is invisible.**
+The EditBox is initialized with `SetMaxInputChars(22000)` in `src/ui/Window.lua`. Based on testing:
+- **21,500** is a safe copy limit per chunk
+- Chunking triggers when content exceeds `EDITBOX_LIMIT` (21,500)
+- `MAX_DATA_CHARS` (20,350) leaves room for the HTML chunk marker (~60 bytes) and padding (550 newlines)
 
-This is an **EditBox display limitation**, not a clipboard limitation. Testing confirmed:
-- Generated chunk #1: 19,483 characters (padding removed) → EditBox displayed only ~10-11k, rest invisible ❌
-- Generated chunk #2: 15,447 characters (padding removed) → EditBox displayed only ~10-11k, rest invisible ❌
-- Generated chunk #3: 9,609 characters (padding removed) → EditBox displayed only ~9k, missing ~600 chars ❌
-- Generated chunk #4: 8,691 characters (padding removed) → EditBox displayed only ~8k-8.5k, incomplete copy ❌
-- Generated chunk #5: 7,693 characters (padding removed) → EditBox displayed only ~7.5k, "Explor" vs "Exploration" ❌
-- Generated chunk #6: 7,101 characters (padding removed) → EditBox displayed only ~7k, "Dungeons   " incomplete ❌
-- Generated chunk #7: 6,602 characters (padding removed) → EditBox displayed only ~6.5k, "Social         " incomplete ❌
-- Generated chunk #8 (with 6.5k limit): 6,602 character chunk STILL truncated at line 572 with `</div` ❌
-- User observation: "I cannot scroll the editbox" - EditBox auto-scrolls to end on display
-- Copy operation: Can only copy what's visible (~6.0k chars safely)
-
-#### Research Sources
-- **ESOUI Forum Discussions**: Addon authors report EditBox display limitations
-- **Real-World Testing #1**: 19,483 char chunk displayed ~10-11k chars (2025-11-12)
-- **Real-World Testing #2**: 15,447 char chunk displayed ~10-11k chars (2025-11-12)
-- **Real-World Testing #3**: 9,609 char chunk truncated at ~9k chars (2025-11-12)
-- **Real-World Testing #4**: 8,691 char chunk truncated at ~8k-8.5k chars (2025-11-12)
-- **Real-World Testing #5**: 7,693 char chunk truncated at ~7.5k chars (2025-11-12)
-- **Real-World Testing #6**: 7,101 char chunk truncated at ~7k chars (2025-11-12)
-- **Real-World Testing #7**: 6,602 char chunk truncated at ~6.5k chars (2025-11-12)
-- **Real-World Testing #8**: 6,602 char chunk STILL truncated with 6.5k limit (2025-11-12)
-- **User Feedback**: EditBox auto-selects all on open, scrolls to end, shows truncated content
-- **Root Cause**: ESO EditBox display capacity hard limit at ~6.0-6.5k characters
-
-#### Strategy
-1. **EDITBOX_LIMIT (6.0k)**: Based on observed 6.5k truncation, with 500-char safety buffer
-2. **COPY_LIMIT (5.7k)**: Additional 300-char buffer for safety
-3. **MAX_DATA_CHARS (5.6k)**: Reserve 87 chars per chunk for padding to prevent truncation
-
-### Limit History
-
-| Constant | Original (2024) | Attempted #1 | Attempted #2 | Attempted #3 | Attempted #4 | Attempted #5 | Attempted #6 | Attempted #7 | Attempted #8 | Final (2025-11-12) | Notes |
-|----------|----------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|-------------------|--------|
-| EDITBOX_LIMIT | 8,500 | 20,000 | 16,000 | 10,000 | 9,000 | 8,000 | 7,500 | 7,000 | 6,500 | **6,000** | Display limit |
-| COPY_LIMIT | 8,500 | 19,700 | 15,700 | 9,700 | 8,700 | 7,700 | 7,200 | 6,700 | 6,200 | **5,700** | Display truncation |
-| MAX_DATA_CHARS | 8,413 | 19,613 | 15,613 | 9,613 | 8,613 | 7,613 | 7,113 | 6,613 | 6,113 | **5,613** | Safe for display |
-
-**Impact**: 
-- vs. Original: ~34% reduction (8.5k → 5.6k per chunk) for reliability
-- Reliable display/copy without truncation ✓
-- Document with 21k chars: 4 chunks (~5.6k + ~5.6k + ~5.6k + ~4.2k) instead of truncated chunks
+**Historical note:** Earlier testing (2025-11) suggested lower limits (~6k) due to display truncation. Further testing showed that with proper chunking and padding, the EditBox can reliably handle ~21.5k chars per chunk. See `src/utils/Constants.lua` comments for full testing history.
 
 ## Main Algorithm Steps
 
 ### 1. Initialize Chunk Boundaries
 - **Calculate limits:**
-  - `copyLimit = COPY_LIMIT or (EDITBOX_LIMIT - 300)` → **5,700 chars**
-  - `paddingSize = SPACE_PADDING_SIZE + 2` → **87 chars** (85 spaces + 2 newlines)
-  - `maxSafeDataSize = copyLimit - paddingSize` → **5,613 chars** (reserve space for padding)
-  - `effectiveMaxData = min(MAX_DATA_CHARS, maxSafeDataSize)` → **5,613 chars**
+  - `copyLimit = COPY_LIMIT` → **21,500 chars**
+  - `paddingSize` = chunk marker (~60) + SPACE_PADDING_SIZE (550 newlines) + buffer
+  - `effectiveMaxData = MAX_DATA_CHARS` → **20,350 chars** (reserve space for marker + padding)
 
 - **Determine if last chunk:**
   - `initialPotentialEnd = min(pos + effectiveMaxData - 1, markdownLength)`
@@ -215,13 +183,13 @@ This is an **EditBox display limitation**, not a clipboard limitation. Testing c
 ### 9. Add Padding
 - **Purpose:** Add padding to prevent paste truncation
 - **Padding format:**
-  - Remove trailing newlines: `chunkContent = chunkContent:gsub("\n+$", "")`
-  - Add spaces: `string.rep(" ", spacePaddingSize)` (85 spaces)
-  - Add 2 newlines: `\n\n`
-  - Final: `chunkContent = chunkContent .. string.rep(" ", spacePaddingSize) .. "\n\n"`
+  - Normalize trailing newlines in content
+  - Add SPACE_PADDING_SIZE (550) newlines as padding
+  - Chunk marker: `<!-- Chunk N (XXXXX bytes before padding) -->\n\n`
+  - Final: `chunkContent = marker .. content .. (550 newlines)`
 
 - **Update final size:**
-  - `finalSize = finalSize + paddingSize` (already includes spaces + 2 newlines)
+  - `finalSize = finalSize + paddingSize` (marker + content + padding)
 
 ### 10. Validate Final Chunk
 - **Check final size:**
@@ -229,7 +197,7 @@ This is an **EditBox display limitation**, not a clipboard limitation. Testing c
   - Should be `<= copyLimit` (except for last chunk)
 
 - **Verify chunk structure:**
-  - Ends with exactly 2 newlines (after padding)
+  - Ends with padding (550 newlines when enabled) for paste safety
   - Doesn't split markdown structures
   - Doesn't truncate headers, HTML tags, or tables
 
@@ -283,14 +251,14 @@ This is an **EditBox display limitation**, not a clipboard limitation. Testing c
 ## Example Flow
 
 ```
-1. Calculate: copyLimit=5700, paddingSize=87, maxSafeDataSize=5613
-2. Set: potentialEnd = pos + 5613
+1. Calculate: copyLimit=21500, effectiveMaxData=20350
+2. Set: potentialEnd = pos + 20350
 3. Look ahead: Find upcoming header at potentialEnd + 50
 4. Backtrack: chunkEnd = headerStart - 1
-5. Validate: Check padding size (dataSize + 87 <= 5700) ✓
+5. Validate: Check chunk size fits within limits ✓
 6. Extract: chunkData = markdown[pos:chunkEnd]
-7. Check: finalSize + 87 <= 5700 ✓
-8. Add padding: chunkContent = chunkData + " "×85 + "\n\n"
+7. Add marker: "<!-- Chunk N (XXXXX bytes before padding) -->\n\n"
+8. Add padding: 550 newlines for paste safety
 9. Store chunk, move to next: pos = chunkEnd + 1
 ```
 
@@ -312,18 +280,15 @@ Fallback truncation code has been converted to assertions:
 
 ### Testing Recommendations
 Test with character profiles of varying sizes:
-- **Small**: < 5.6k chars (single chunk)
-- **Medium**: 10-20k chars (2-4 chunks with new limits)
-- **Large**: 25-40k chars (5-8 chunks)
-- **Extra Large**: 40k+ chars (8+ chunks)
+- **Small**: < 21.5k chars (single chunk)
+- **Medium**: 21-40k chars (2 chunks)
+- **Large**: 40-60k chars (3-4 chunks)
+- **Extra Large**: 60k+ chars (4+ chunks)
 
 Monitor for:
-- ✓ No truncation in EditBox display (CRITICAL: display limit ~6.0k chars safely)
-- ✓ All content visible in EditBox (EditBox auto-scrolls to end, cannot manually scroll)
 - ✓ No truncation when copying chunks via Ctrl+C or "Select All" button
 - ✓ No truncation when pasting into external editors - **verify last line is complete!**
 - ✓ All padding correctly stripped before paste
 - ✓ Chunk boundaries don't split markdown structures
-- ✓ Chat log shows chunk sizes < 6,000 chars
-- ✓ Warning if any chunk exceeds 95% of limit (5,700+ chars)
+- ✓ Chunk sizes within limit (21,500 chars)
 

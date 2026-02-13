@@ -171,4 +171,4 @@ local remaining = math.max(0, maxPerDiscipline - discipline.assigned)
 | `src/collectors/Champion.lua` | Data collection |
 | `src/generators/sections/ChampionPoints.lua` | Markdown generation |
 | `src/generators/sections/ChampionDiagram.lua` | Mermaid diagram |
-| `src/utils/ChampionPathfinder.lua` | Path discovery |
+| `archive/optional/ChampionPathfinder.lua` | Path discovery (archived, optional enhancement) |

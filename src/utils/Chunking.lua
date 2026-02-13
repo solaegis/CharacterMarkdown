@@ -6,96 +6,13 @@ local CM = CharacterMarkdown
 -- Import constants
 local CHUNKING = CM.constants.CHUNKING
 
--- =====================================================
--- HELPER FUNCTIONS
--- =====================================================
-
--- Helper function to check if a line is part of a markdown table
-local function IsTableLine(line)
-    if not line or line == "" then
-        return false
-    end
-    return line:match("^%s*|") ~= nil
-end
-
--- Helper function to check if a line is a markdown header
-local function IsHeaderLine(line)
-    if not line or line == "" then
-        return false
-    end
-    return line:match("^#+%s") ~= nil
-end
-
--- Helper function to check if a position is at a newline between a header and a table
--- Returns true if: current line is a header AND next non-empty line is a table
-local function IsHeaderBeforeTable(markdown, pos, markdownLength)
-    if pos >= markdownLength or string.sub(markdown, pos, pos) ~= "\n" then
-        return false
-    end
-
-    -- Find the line ending at pos (the header line)
-    local lineStart = pos
-    for i = pos - 1, math.max(1, pos - 1000), -1 do
-        if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
-            lineStart = i
-            break
-        end
-    end
-
-    local headerLine = string.sub(markdown, lineStart, pos - 1)
-    if not IsHeaderLine(headerLine) then
-        return false
-    end
-
-    -- Check if the next non-empty line is a table
-    local nextLineStart = pos + 1
-    -- Skip empty lines
-    while nextLineStart <= markdownLength and string.sub(markdown, nextLineStart, nextLineStart) == "\n" do
-        nextLineStart = nextLineStart + 1
-    end
-
-    if nextLineStart > markdownLength then
-        return false
-    end
-
-    -- Find the end of the next line
-    local nextLineEnd = nextLineStart
-    for i = nextLineStart, math.min(markdownLength, nextLineStart + 500) do
-        if string.sub(markdown, i, i) == "\n" then
-            nextLineEnd = i
-            break
-        end
-    end
-
-    local nextLine = string.sub(markdown, nextLineStart, nextLineEnd - 1)
-    return IsTableLine(nextLine)
-end
-
--- Helper function to check if a line is part of a markdown list
-local function IsListLine(line)
-    if not line or line == "" then
-        return false
-    end
-
-    -- Strip all leading characters that aren't list markers or regular printable chars
-    -- This handles zero-width spaces and other invisible Unicode characters
-    local cleaned = line
-    -- Remove zero-width space (U+200B = \226\128\139) and similar invisible chars
-    -- Pattern: match UTF-8 sequences that are likely zero-width/invisible chars
-    cleaned = cleaned:gsub("^\226\128\139+", "") -- Zero-width space
-    cleaned = cleaned:gsub("^\226\128\140+", "") -- Zero-width non-joiner
-    cleaned = cleaned:gsub("^\226\128\141+", "") -- Zero-width joiner
-    -- Remove regular leading whitespace
-    cleaned = cleaned:gsub("^%s+", "")
-
-    -- Check if cleaned line starts with a list marker
-    if cleaned:match("^[-*+]%s") or cleaned:match("^%d+[.)]%s") then
-        return true
-    end
-
-    -- Fallback: check original pattern (handles normal cases without invisible chars)
-    return line:match("^%s*[-*+]%s") ~= nil or line:match("^%s*%d+[.)]%s") ~= nil
-end
+-- Import helpers (loaded before this file in manifest)
+local ChunkingHelpers = CM.utils and CM.utils.ChunkingHelpers
+local IsTableLine = ChunkingHelpers and ChunkingHelpers.IsTableLine or function() return false end
+local IsHeaderLine = ChunkingHelpers and ChunkingHelpers.IsHeaderLine or function() return false end
+local IsListLine = ChunkingHelpers and ChunkingHelpers.IsListLine or function() return false end
+local IsHeaderBeforeTable = ChunkingHelpers and ChunkingHelpers.IsHeaderBeforeTable or function() return false end
+local BacktrackBeforeHeaderTablePair = ChunkingHelpers and ChunkingHelpers.BacktrackBeforeHeaderTablePair or function() return nil end
 
 -- Helper function to check if a position is inside an HTML block (like <div>)
 local function IsInsideHtmlBlock(markdown, pos)
@@ -103,7 +20,7 @@ local function IsInsideHtmlBlock(markdown, pos)
 
     -- Search backwards for opening <div> tags
     local divStart = nil
-    local searchStart = math.max(1, pos - 5000) -- Search up to 5000 chars back
+    local searchStart = math.max(1, pos - (CHUNKING.BACKTRACK_WINDOW or 5000))
 
     for i = pos, searchStart, -1 do
         local substr = string.sub(markdown, i, math.min(markdownLen, i + 4))
@@ -184,13 +101,49 @@ local function IsInsideHtmlTag(markdown, pos)
     return false, nil, nil
 end
 
+-- Helper: Check if content from nextPos would start the next chunk with </div> or </div><div>
+-- Splitting there would break multi-column grid layout (orphans closing tag, breaks HTML structure)
+local function WouldNextChunkStartWithGridColumnBoundary(markdown, chunkEnd, markdownLength)
+    if chunkEnd >= markdownLength then
+        return false
+    end
+    local nextPos = chunkEnd + 1
+    -- Skip leading newlines/whitespace
+    while nextPos <= markdownLength and string.sub(markdown, nextPos, nextPos):match("[%s]") do
+        nextPos = nextPos + 1
+    end
+    if nextPos > markdownLength then
+        return false
+    end
+    local substr = string.sub(markdown, nextPos, math.min(markdownLength, nextPos + 10))
+    return substr:match("^</div>") ~= nil
+end
+
+-- Helper: Search backwards from pos to find the grid container opening <div style="display: grid...
+-- Returns position of newline before the grid (safe chunk end) or nil
+local function FindGridContainerStartBackward(markdown, pos)
+    local searchStart = math.max(1, pos - 15000)
+    for i = pos, searchStart, -1 do
+        local substr = string.sub(markdown, i, math.min(pos, i + 60))
+        if substr:match('<div style="display: grid') or substr:match("<div style='display: grid") then
+            -- Found grid container - return the newline that ends the line before it (chunk ends there)
+            for j = i - 1, math.max(1, i - 500), -1 do
+                if string.sub(markdown, j, j) == "\n" then
+                    return j
+                end
+            end
+            return nil -- No newline found, can't safely split
+        end
+    end
+    return nil
+end
+
 -- Helper function to check if a position is inside a Mermaid code block or subgraph
 local function IsInsideMermaidBlock(markdown, pos)
     local markdownLen = string.len(markdown)
 
     -- First, check if we're inside a ```mermaid code block
     local mermaidStart = nil
-    local codeBlockStart = nil
 
     -- Search backwards for code block markers
     for i = pos, 1, -1 do
@@ -203,7 +156,7 @@ local function IsInsideMermaidBlock(markdown, pos)
             -- Look a bit further back to see if there's a newline before it
             local checkPos = math.max(1, i - 11)
             if string.sub(markdown, checkPos, checkPos) == "\n" or checkPos == 1 then
-                codeBlockStart = i - 2 -- Position of start of ```
+                -- Position of start of ``` (ignored unused variable)
                 break
             end
         end
@@ -347,7 +300,7 @@ local function IsInsideMermaidBlock(markdown, pos)
 
                     for j = searchStart, extendedSearchEnd do
                         -- Find start of line
-                        local lineStart = j
+                        local searchLineStart = j
                         for k = j, math.max(1, j - 1000), -1 do
                             if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
                                 lineStart = k
@@ -364,7 +317,7 @@ local function IsInsideMermaidBlock(markdown, pos)
                             end
                         end
 
-                        local line = string.sub(markdown, lineStart, lineEnd - 1)
+                        local line = string.sub(markdown, searchLineStart, lineEnd - 1)
 
                         if line:match("subgraph%s") then
                             depth = depth + 1
@@ -399,89 +352,7 @@ local function IsInsideMermaidBlock(markdown, pos)
     return false, nil, nil
 end
 
--- Helper function to find the end of a Mermaid code block or subgraph starting at a given position
-local function FindMermaidBlockEnd(markdown, startPos, maxSearch)
-    local markdownLen = string.len(markdown)
-    local searchEnd = math.min(startPos + maxSearch, markdownLen)
 
-    -- First check if we're looking at a subgraph
-    local subgraphStart = nil
-    for i = startPos, math.min(startPos + 100, markdownLen) do
-        local substr = string.sub(markdown, i, math.min(markdownLen, i + 8))
-        if substr:match("^subgraph%s") then
-            subgraphStart = i
-            break
-        end
-    end
-
-    if subgraphStart then
-        -- Find the matching "end" for this subgraph
-        -- Count subgraph depth to find matching end
-        local depth = 1
-        local searchStart = subgraphStart + 9 -- After "subgraph "
-
-        for i = searchStart, searchEnd do
-            -- Find start of line
-            local lineStart = i
-            for k = i, math.max(1, i - 100), -1 do
-                if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
-                    lineStart = k
-                    break
-                end
-            end
-
-            -- Get the line content
-            local lineEnd = i
-            for k = i, math.min(markdownLen, i + 100) do
-                if string.sub(markdown, k, k) == "\n" then
-                    lineEnd = k
-                    break
-                end
-            end
-            local line = string.sub(markdown, lineStart, lineEnd - 1)
-
-            -- Check if line contains "subgraph" or "end" (with optional leading whitespace)
-            if line:match("subgraph%s") then
-                depth = depth + 1
-            elseif line:match("%send%s") or line:match("%send$") or line:match("%send\n") then
-                depth = depth - 1
-                if depth == 0 then
-                    -- Found matching end - return end of line
-                    return lineEnd
-                end
-            end
-        end
-        -- Subgraph not closed within search range - return nil
-        return nil
-    end
-
-    -- Not a subgraph - look for ```mermaid opening
-    local blockStart = nil
-    for i = startPos, math.min(startPos + 100, markdownLen) do
-        local substr = string.sub(markdown, i, math.min(markdownLen, i + 9))
-        if substr == "```mermaid" then
-            blockStart = i
-            break
-        end
-    end
-
-    if not blockStart then
-        return nil
-    end
-
-    -- Find the closing ```
-    for i = blockStart + 10, searchEnd do
-        local substr = string.sub(markdown, i, math.min(markdownLen, i + 2))
-        if substr == "```" then
-            -- Check if it's at start of line or after newline
-            if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
-                return i + 2 -- Return position after closing ```
-            end
-        end
-    end
-
-    return nil
-end
 
 -- Helper function to find the end of a list starting at a given position
 local function FindListEnd(markdown, startPos, maxSearch)
@@ -768,37 +639,6 @@ local function IsInsideTable(markdown, pos)
             tableEnd = nextNewline
             currentPos = nextNewline + 1
         elseif nextLineContent:match("^%s*$") then
-            -- Empty line - table might continue after it, or it might be the end
-            -- Check the next non-empty line
-            local checkPos = nextNewline + 1
-            while checkPos <= maxSearch do
-                local checkNewline = nil
-                for i = checkPos, maxSearch do
-                    if string.sub(markdown, i, i) == "\n" then
-                        checkNewline = i
-                        break
-                    end
-                end
-                if not checkNewline then
-                    -- End of markdown
-                    return markdownLen
-                end
-                local checkLine = string.sub(markdown, checkPos, checkNewline - 1)
-                if not checkLine:match("^%s*$") then
-                    -- Found non-empty line
-                    if IsTableLine(checkLine) then
-                        -- Table continues
-                        tableEnd = checkNewline
-                        currentPos = checkNewline + 1
-                        break
-                    else
-                        -- Table ends at the empty line
-                        return tableEnd
-                    end
-                end
-                checkPos = checkNewline + 1
-            end
-            -- If we didn't find a non-empty line, table ends at empty line
             return tableEnd
         else
             -- Non-table, non-empty line - table ends before this
@@ -861,7 +701,7 @@ local function IsInsideCodeBlock(markdown, pos)
     -- to avoid O(n²) performance issues that can crash ESO
 
     -- Search backwards to find if we're inside a code block
-    local searchStart = math.max(1, pos - 5000) -- Limit search window to 5k chars
+    local searchStart = math.max(1, pos - (CHUNKING.BACKTRACK_WINDOW or 5000))
     local beforePos = string.sub(markdown, searchStart, pos - 1)
 
     -- Find the LAST ``` before pos (opening marker)
@@ -892,7 +732,7 @@ local function IsInsideCodeBlock(markdown, pos)
         end
 
         -- Now search forward from pos to find closing ```
-        local afterPos = string.sub(markdown, pos, math.min(markdownLen, pos + 5000))
+        local afterPos = string.sub(markdown, pos, math.min(markdownLen, pos + (CHUNKING.BACKTRACK_WINDOW or 5000)))
         local closingPos = string.find(afterPos, "\n```", 1, true)
         if closingPos then
             -- Found closing ```, return block boundaries
@@ -995,7 +835,7 @@ local function FindSafeNewline(markdown, startPos, endPos)
                 local blockStart = codeBlock[1]
 
                 -- Check if it's a Mermaid block
-                local isMermaid, mStart, mEnd = IsInsideMermaidBlock(markdown, i)
+                local isMermaid, mStart, _ = IsInsideMermaidBlock(markdown, i)
 
                 if isMermaid then
                     -- It is a Mermaid block. Check if we are inside a subgraph.
@@ -1147,14 +987,14 @@ end
 -- =====================================================
 
 -- Strip padding from chunk content for paste/copy operations
--- Padding format: content + 85 spaces + newline + newline
--- This function removes the padding that was added during chunking
+-- Padding format: content + SPACE_PADDING_SIZE newlines (550 by default)
+-- This function removes chunk markers and normalizes trailing newlines for copy/paste
 local function StripPadding(content, isLastChunk)
     if not content or content == "" then
         return content
     end
 
-    local CHUNKING = CM.constants.CHUNKING
+
 
     local stripped = content
 
@@ -1215,13 +1055,11 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
     -- Calculate overhead for padding + HTML marker + potential mermaid header
     -- When disabled: only account for marker, no padding
     -- When enabled: account for both marker and padding
-    local markerSize = 60 -- Reserve space for HTML comment marker "<!-- Chunk N (XXXXX bytes before padding) -->\n\n"
-    -- Reserve space for potential mermaid header (continuation chunks may need this)
-    -- Header can include: "```mermaid\n" + "%%{init:...}%%\n" + empty line + "flowchart LR\n"
-    local mermaidHeaderReserve = 350 -- Conservative estimate for large init configs
+    local markerSize = CHUNKING.CHUNK_MARKER_SIZE or 60
+    local mermaidHeaderReserve = CHUNKING.MERMAID_HEADER_RESERVE or 350
     local paddingSize = 0 -- Default: no padding
     if not CHUNKING.DISABLE_PADDING then
-        paddingSize = (CHUNKING.SPACE_PADDING_SIZE or 500) -- newlines for padding
+        paddingSize = (CHUNKING.SPACE_PADDING_SIZE or CHUNKING.PADDING_FALLBACK or 550)
     end
     local totalOverhead = markerSize + paddingSize + mermaidHeaderReserve -- Total bytes to reserve
 
@@ -1277,8 +1115,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         end
 
         -- CRITICAL: Check if we're inside a Mermaid block or HTML block
-        isInsideMermaid, mermaidBlockStart, mermaidBlockEnd = IsInsideMermaidBlock(markdown, potentialEnd)
         local isInsideHtml, htmlBlockStart, htmlBlockEnd = IsInsideHtmlBlock(markdown, potentialEnd)
+
 
         if potentialEnd < markdownLength then
             local searchStart = math.max(pos, potentialEnd - 1000)
@@ -1291,11 +1129,9 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             local lookAheadEnd = math.min(potentialEnd + 500, markdownLength) -- Check up to 500 chars ahead
             local foundUpcomingStructure = false
             local structureStartPos = nil
+
             local isBeforeTable = false
             local tableStartPos = nil
-            local isInsideMermaid = false
-            local mermaidBlockStart = nil
-            local mermaidBlockEnd = nil
 
             -- Skip empty lines and check for upcoming table/list
             local checkPos = lookAheadStart
@@ -1675,6 +1511,24 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 end
             end
 
+            -- CRITICAL: Never split such that next chunk starts with </div> or </div><div>
+            -- That breaks multi-column grid layout (CreateResponsiveColumns) - the </div> would
+            -- close the grid container prematurely, orphaning subsequent columns
+            if chunkEnd < markdownLength and WouldNextChunkStartWithGridColumnBoundary(markdown, chunkEnd, markdownLength) then
+                local gridStartNewline = FindGridContainerStartBackward(markdown, chunkEnd)
+                if gridStartNewline and gridStartNewline >= pos and ValidateChunkSizeAfterBacktrack(gridStartNewline) then
+                    chunkEnd = gridStartNewline
+                    CM.DebugPrint(
+                        "CHUNKING",
+                        string.format(
+                            "Chunk %d: Backtracked to %d to avoid splitting grid column boundary (next chunk would start with </div>)",
+                            chunkNum,
+                            chunkEnd
+                        )
+                    )
+                end
+            end
+
             -- Use FindSafeNewline to avoid splitting inside markdown links
             if not foundNewline then
                 local safeNewline = FindSafeNewline(markdown, searchStart, potentialEnd)
@@ -1702,7 +1556,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
 
             if not foundNewline and potentialEnd > pos then
-                local extendedSearchStart = math.max(pos, potentialEnd - 5000)
+                local extendedSearchStart = math.max(pos, potentialEnd - (CHUNKING.BACKTRACK_WINDOW or 5000))
                 -- Try safe newline search in extended range
                 local safeNewline = FindSafeNewline(markdown, extendedSearchStart, potentialEnd)
                 if safeNewline then
@@ -1752,7 +1606,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- If so, backtrack to before the header starts or extend to after it ends
         local isInHeaderLine = false
         local headerLineStart = nil
-        local headerLineEnd = nil
         if chunkEnd > 1 and chunkEnd < markdownLength then
             -- Find the start of the current line
             local lineStart = chunkEnd
@@ -1786,7 +1639,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     -- This happens when category header (####) and subcategory header (#####) get merged
                     isInHeaderLine = true
                     headerLineStart = lineStart
-                    headerLineEnd = lineEnd
+
                     CM.DebugPrint(
                         "CHUNKING",
                         string.format(
@@ -1800,7 +1653,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     -- chunkEnd is in the middle of the header line
                     isInHeaderLine = true
                     headerLineStart = lineStart
-                    headerLineEnd = lineEnd
+
                 elseif chunkEnd == lineEnd - 1 or chunkEnd == lineEnd then
                     -- chunkEnd is right at the end of a header line
                     -- Check if next line is also a header (would indicate missing category header)
@@ -1829,7 +1682,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                             -- Backtrack to before this subcategory header to keep it with its category
                             isInHeaderLine = true
                             headerLineStart = lineStart
-                            headerLineEnd = lineEnd
+
                             CM.DebugPrint(
                                 "CHUNKING",
                                 string.format(
@@ -1874,7 +1727,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                             -- Empty header - category name is missing
                             isInHeaderLine = true
                             headerLineStart = lineStart
-                            headerLineEnd = lineEnd
+
                             CM.DebugPrint(
                                 "CHUNKING",
                                 string.format(
@@ -1886,12 +1739,12 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                         elseif currentLine:match("%w+$") and not currentLine:match("%s+$") then
                             -- Current line ends with a partial word - likely truncated header
                             -- Check if the full line would be a valid header
-                            local fullLine = string.sub(markdown, lineStart, lineEnd - 1)
-                            if fullLine:match("^####%s+") then
+                            local checkLine = string.sub(markdown, lineStart, lineEnd - 1)
+                            if checkLine:match("^####%s+") then
                                 -- This is a header line that got truncated
                                 isInHeaderLine = true
                                 headerLineStart = lineStart
-                                headerLineEnd = lineEnd
+
                                 CM.DebugPrint(
                                     "CHUNKING",
                                     string.format(
@@ -1931,10 +1784,9 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                         CM.DebugPrint(
                             "CHUNKING",
                             string.format(
-                                "Chunk %d: WARNING - Cannot backtrack to %d (would violate padding constraints), keeping chunkEnd at %d",
+                                "Chunk %d: WARNING - Cannot backtrack to %d (would violate padding constraints), continuing search",
                                 chunkNum,
-                                newEnd,
-                                chunkEnd
+                                newEnd
                             )
                         )
                         break
@@ -2017,7 +1869,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
         -- CRITICAL: Check if chunkEnd is in the middle of an HTML tag
         -- If so, backtrack to before the tag starts
-        local isInsideHtmlTag, htmlTagStart, htmlTagEnd = IsInsideHtmlTag(markdown, chunkEnd)
+        local isInsideHtmlTag, htmlTagStart, _ = IsInsideHtmlTag(markdown, chunkEnd)
         if isInsideHtmlTag and htmlTagStart then
             -- Backtrack to before the HTML tag, but validate padding size
             for i = htmlTagStart - 1, math.max(pos, htmlTagStart - 1000), -1 do
@@ -2059,7 +1911,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             local nextChar = string.sub(markdown, chunkEnd + 1, chunkEnd + 1)
             if nextChar == "<" then
                 -- Check if this is an incomplete HTML tag
-                local tagEnd = chunkEnd + 1
+
                 local foundClosingBracket = false
                 for i = chunkEnd + 2, math.min(markdownLength, chunkEnd + 20) do
                     if string.sub(markdown, i, i) == ">" then
@@ -2271,7 +2123,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- If so, backtrack to before the HTML block start
         if isInsideHtml and htmlBlockStart and htmlBlockEnd then
             local htmlBlockSize = htmlBlockEnd - htmlBlockStart + 1
-            local structureOverageAllowance = 5000 -- Allow more overage for HTML blocks
+            local structureOverageAllowance = CHUNKING.STRUCTURE_OVERRIDE_HTML or 5000
             local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
 
             if htmlBlockSize <= effectiveMaxForStructures then
@@ -2307,12 +2159,88 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
         end
 
+        -- CRITICAL: Final safety check - ensure chunkEnd is not inside a markdown link
+        if chunkEnd < markdownLength then
+            local linkEnd = IsInsideMarkdownLink(markdown, chunkEnd)
+            if linkEnd then
+                if linkEnd > markdownLength then
+                    -- Special case: incomplete link detected (newline at end of line with incomplete link)
+                    -- Find a safe newline before this position
+                    local safeNewlineBefore = FindSafeNewline(markdown, pos, chunkEnd - 1)
+                    if safeNewlineBefore then
+                        chunkEnd = safeNewlineBefore
+                        CM.DebugPrint(
+                            "CHUNKING",
+                            string.format(
+                                "Chunk %d: Final check - chunkEnd is at newline with incomplete link, moved back to safe newline at %d",
+                                chunkNum,
+                                chunkEnd
+                            )
+                        )
+                    else
+                        CM.DebugPrint(
+                            "CHUNKING",
+                            string.format(
+                                "Chunk %d: Final check - chunkEnd is at newline with incomplete link, but no safe newline found before it. Staying at %d",
+                                chunkNum,
+                                chunkEnd
+                            )
+                        )
+                    end
+                else
+                    -- chunkEnd is inside a link, find a safe newline after the link
+                    local safeNewline = FindSafeNewline(markdown, chunkEnd, math.min(markdownLength, linkEnd + 200))
+                    if safeNewline and safeNewline - pos + 1 <= maxSafeDataSize then
+                        chunkEnd = safeNewline
+                        CM.DebugPrint(
+                            "CHUNKING",
+                            string.format(
+                                "Chunk %d: Final check - chunkEnd was inside link, moved to safe newline at %d",
+                                chunkNum,
+                                chunkEnd
+                            )
+                        )
+                    else
+                        -- Can't find safe position, backtrack to before the link
+                        local linkStart = chunkEnd
+                        for i = chunkEnd, math.max(pos, chunkEnd - 1000), -1 do
+                            if string.sub(markdown, i, i) == "[" then
+                                linkStart = i
+                                break
+                            end
+                        end
+                        local safeNewlineBefore = FindSafeNewline(markdown, pos, linkStart - 1)
+                        if safeNewlineBefore then
+                            chunkEnd = safeNewlineBefore
+                            CM.DebugPrint(
+                                "CHUNKING",
+                                string.format(
+                                    "Chunk %d: Final check - chunkEnd was inside link, backtracked to safe newline at %d",
+                                    chunkNum,
+                                    chunkEnd
+                                )
+                            )
+                        else
+                            CM.DebugPrint(
+                                "CHUNKING",
+                                string.format(
+                                    "Chunk %d: Final check - chunkEnd was inside link, but no safe newline found. Staying at %d",
+                                    chunkNum,
+                                    chunkEnd
+                                )
+                            )
+                        end
+                    end
+                end
+            end
+        end
+
         -- CRITICAL: Check if chunkEnd is in the middle of a table or list
         -- NEVER allow chunking in the middle of these structures - always extend to end or backtrack before start
         if foundNewline or isLastChunk then
             -- Check if we're in the middle of a table
             -- First check if chunkEnd is actually on a table line
-            local isOnTableLine = false
+            local isOnTableLine
             local lineStart = chunkEnd
             for i = chunkEnd, math.max(pos, chunkEnd - 1000), -1 do
                 if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
@@ -2334,8 +2262,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- In this case, we're still in the middle of a table and should extend or backtrack
             local isAfterTableLine = false
             local isBeforeTableLine = false
-            local prevTableLine = nil
-            local nextTableLine = nil
+            local prevTableLine
+            local nextTableLine
             local isBeforeHeader = false
             if chunkEnd > 1 and string.sub(markdown, chunkEnd, chunkEnd) == "\n" and not isOnTableLine then
                 -- chunkEnd is at a newline - check if the previous line is a table line
@@ -2440,7 +2368,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- If that line is a header (starts with #), we need to backtrack before the header
             local isOnLineBeforeTable = false
             local isHeaderBeforeTable = false
-            local headerLineStart = nil
+            local tempHeaderStart = nil
             if not isInTable and chunkEnd < markdownLength then
                 -- First, find the line we're currently on
                 local currentLineStart = chunkEnd
@@ -2457,12 +2385,12 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                         break
                     end
                 end
-                local currentLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
+                local tempCurrentLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
 
                 -- Check if current line is a header
-                isHeaderBeforeTable = currentLine:match("^#+%s") ~= nil
+                isHeaderBeforeTable = tempCurrentLine:match("^#+%s") ~= nil
                 if isHeaderBeforeTable then
-                    headerLineStart = currentLineStart
+                    tempHeaderStart = currentLineStart
                 end
 
                 -- Check if next line is a table
@@ -2479,12 +2407,11 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                             break
                         end
                     end
-                    local nextLine = string.sub(markdown, nextLineStart, nextLineEnd - 1)
-                    if IsTableLine(nextLine) then
+                    local innerNextTableLine = string.sub(markdown, nextLineStart, nextLineEnd - 1)
+                    if IsTableLine(innerNextTableLine) then
                         isOnLineBeforeTable = true
-                        -- Find the table end
-                        tableEnd = FindTableEnd(markdown, nextLineEnd, tableSearchLimit)
-                        if tableEnd and tableEnd > chunkEnd then
+                        local innerTableEnd = FindTableEnd(markdown, nextLineEnd, tableSearchLimit)
+                        if innerTableEnd and innerTableEnd > chunkEnd then
                             CM.DebugPrint(
                                 "CHUNKING",
                                 string.format(
@@ -2531,9 +2458,9 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
 
                 -- If we're on a header before a table, ensure header+table stay together
-                if isHeaderBeforeTable and headerLineStart then
+                if isHeaderBeforeTable and tempHeaderStart then
                     -- Check if we can include header+table
-                    local headerTableChunkSize = tableEnd - headerLineStart + 1
+                    local headerTableChunkSize = tableEnd - tempHeaderStart + 1
 
                     if headerTableChunkSize <= effectiveMaxForStructures then
                         -- Can include header+table - EXTEND IMMEDIATELY to keep them together
@@ -2548,7 +2475,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                         )
                     else
                         -- Can't include header+table - backtrack before header
-                        for i = headerLineStart - 1, math.max(pos, headerLineStart - 1000), -1 do
+                        for i = tempHeaderStart - 1, math.max(pos, tempHeaderStart - 1000), -1 do
                             if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
                                 chunkEnd = (i == pos) and pos or (i - 1)
                                 CM.DebugPrint(
@@ -2588,7 +2515,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                             for i = chunkEnd - 1, math.max(pos, chunkEnd - 2000), -1 do
                                 if string.sub(markdown, i, i) == "\n" then
                                     -- Check if this is between table rows
-                                    local prevLine = nil
                                     local prevLineStart = i
                                     for j = i - 1, math.max(pos, i - 500), -1 do
                                         if j == pos or string.sub(markdown, j - 1, j - 1) == "\n" then
@@ -2596,8 +2522,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                             break
                                         end
                                     end
-                                    prevLine = string.sub(markdown, prevLineStart, i - 1)
-                                    if IsTableLine(prevLine) then
+                                    local tempPrevLine = string.sub(markdown, prevLineStart, i - 1)
+                                    if IsTableLine(tempPrevLine) then
                                         chunkEnd = i
                                         CM.DebugPrint(
                                             "CHUNKING",
@@ -2617,7 +2543,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                         for i = chunkEnd - 1, math.max(pos, chunkEnd - 2000), -1 do
                             if string.sub(markdown, i, i) == "\n" then
                                 -- Check if this is between table rows
-                                local prevLine = nil
+                                local prevLine
                                 local prevLineStart = i
                                 for j = i - 1, math.max(pos, i - 500), -1 do
                                     if j == pos or string.sub(markdown, j - 1, j - 1) == "\n" then
@@ -2654,22 +2580,21 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 end
             elseif tableEnd and tableEnd > chunkEnd and not isInTable and not isOnLineBeforeTable then
                 -- We're in the middle of a table but didn't detect it properly - find where it started
-                local tableStart = chunkEnd
-                for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                     if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                        local lineStart = (i == pos) and pos or i
-                        local lineEnd = chunkEnd
-                        for j = lineStart, math.min(chunkEnd, lineStart + 500) do
+                        local searchLineStart = (i == pos) and pos or i
+                        local searchLineEnd = chunkEnd
+                        for j = searchLineStart, math.min(chunkEnd, searchLineStart + 500) do
                             if string.sub(markdown, j, j) == "\n" then
-                                lineEnd = j
+                                searchLineEnd = j
                                 break
                             end
                         end
-                        local line = string.sub(markdown, lineStart, lineEnd - 1)
+                        local line = string.sub(markdown, searchLineStart, searchLineEnd - 1)
                         if IsTableLine(line) then
                             -- Found the start of the table - backtrack to before it
                             local originalChunkEnd = chunkEnd
-                            for k = lineStart - 1, math.max(pos, lineStart - 1000), -1 do
+                            for k = searchLineStart - 1, math.max(pos, searchLineStart - 1000), -1 do
                                 if k == pos or string.sub(markdown, k - 1, k - 1) == "\n" then
                                     chunkEnd = (k == pos) and pos or (k - 1)
                                     CM.DebugPrint(
@@ -2692,7 +2617,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
             -- Check if we're in the middle of a list
             -- First check if chunkEnd is actually on a list line
-            local isOnListLine = false
             local listLineStart = chunkEnd
             for i = chunkEnd, math.max(pos, chunkEnd - 1000), -1 do
                 if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
@@ -2707,25 +2631,25 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     break
                 end
             end
-            local currentListLine = string.sub(markdown, listLineStart, listLineEnd - 1)
-            isOnListLine = IsListLine(currentListLine)
+            local tempIsOnListLine = string.sub(markdown, listLineStart, listLineEnd - 1)
+            local isOnListLine = IsListLine(tempIsOnListLine)
 
             -- CRITICAL: Also check if chunkEnd is at a newline AFTER a list line
             -- In this case, we're still in the middle of a list and should backtrack
+            -- CRITICAL: Also check if chunkEnd is at a newline AFTER a list line
+            -- In this case, we're still in the middle of a list and should backtrack
             local isAfterListLine = false
-            local prevListLine = nil
             if chunkEnd > 1 and string.sub(markdown, chunkEnd, chunkEnd) == "\n" then
                 -- chunkEnd is at a newline - check if the previous line is a list line
                 local prevLineStart = chunkEnd
                 for i = chunkEnd - 1, math.max(pos, chunkEnd - 1000), -1 do
-                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                        prevLineStart = (i == pos) and pos or i
-                        break
-                    end
+                if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
+                    prevLineStart = (i == pos) and pos or i
+                    break
                 end
-                prevListLine = string.sub(markdown, prevLineStart, chunkEnd - 1)
-                isAfterListLine = IsListLine(prevListLine)
             end
+            isAfterListLine = IsListLine(string.sub(markdown, prevLineStart, chunkEnd - 1))
+        end
 
             -- Check if list continues after chunkEnd
             local listEnd = nil
@@ -2762,28 +2686,23 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             else
                 listEnd = FindListEnd(markdown, chunkEnd, 10000)
             end
-
-            -- Backtrack if:
-            -- 1. We're in the middle (list continues after chunkEnd) AND
-            -- 2. We're NOT on a list line (if we're on a list line, we should extend, not backtrack)
             if listEnd and listEnd > chunkEnd and not isOnListLine then
                 -- We're in the middle of a list - find where it started
-                local listStart = chunkEnd
-                for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                     if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                        local lineStart = (i == pos) and pos or i
-                        local lineEnd = chunkEnd
-                        for j = lineStart, math.min(chunkEnd, lineStart + 500) do
+                        local btListLineStart = (i == pos) and pos or i
+                        local btListLineEnd = chunkEnd
+                        for j = btListLineStart, math.min(chunkEnd, btListLineStart + 500) do
                             if string.sub(markdown, j, j) == "\n" then
-                                lineEnd = j
+                                btListLineEnd = j
                                 break
                             end
                         end
-                        local line = string.sub(markdown, lineStart, lineEnd - 1)
+                        local line = string.sub(markdown, btListLineStart, btListLineEnd - 1)
                         if IsListLine(line) then
                             -- Found the start of the list - backtrack to before it
                             local originalChunkEnd = chunkEnd
-                            for k = lineStart - 1, math.max(pos, lineStart - 1000), -1 do
+                            for k = btListLineStart - 1, math.max(pos, btListLineStart - 1000), -1 do
                                 if k == pos or string.sub(markdown, k - 1, k - 1) == "\n" then
                                     chunkEnd = (k == pos) and pos or (k - 1)
                                     CM.DebugPrint(
@@ -2819,7 +2738,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 )
             else
                 -- CRITICAL: For last chunk, search to end of markdown to find complete table
-                local tableSearchLimit = isLastChunk and markdownLength or 10000
+                local extendedTableSearchLimit = isLastChunk and markdownLength or 10000
 
                 -- CRITICAL: Check if we already extended chunkEnd in early detection (header+table case)
                 -- If so, preserve the outer tableEnd value and skip re-detection
@@ -2830,7 +2749,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
                 if not alreadyExtendedForHeader then
                     -- Only re-detect if we haven't already extended for header+table
-                    tableEnd = FindTableEnd(markdown, chunkEnd, tableSearchLimit)
+                    tableEnd = FindTableEnd(markdown, chunkEnd, extendedTableSearchLimit)
                 end
 
                 -- CRITICAL: Also check if there's a table starting right after chunkEnd
@@ -2863,7 +2782,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 -- There's a table starting after chunkEnd - find its end
                                 -- CRITICAL: Check if chunkEnd is on a header line - if so, include header in calculation
                                 local headerBeforeTable = false
-                                local headerLineStart = nil
+                                
                                 if chunkEnd > pos then
                                     -- Find the line chunkEnd is on
                                     local currentLineStart = chunkEnd
@@ -2880,15 +2799,14 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                             break
                                         end
                                     end
-                                    local currentLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
+                                    local tempCurrentLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
                                     -- Check if current line is a header (starts with #)
-                                    if currentLine:match("^#+%s") ~= nil then
+                                    if tempCurrentLine:match("^#+%s") ~= nil then
                                         headerBeforeTable = true
-                                        headerLineStart = currentLineStart
                                     end
                                 end
 
-                                local foundTableEnd = FindTableEnd(markdown, nextLineEnd, tableSearchLimit)
+                                local foundTableEnd = FindTableEnd(markdown, nextLineEnd, extendedTableSearchLimit)
                                 if foundTableEnd and foundTableEnd > chunkEnd then
                                     tableEnd = foundTableEnd
                                     CM.DebugPrint(
@@ -2922,15 +2840,17 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                                 end
                                             end
 
-                                            local nextTableLine =
-                                                string.sub(markdown, nextTableStart, nextTableLineEnd - 1)
-                                            if IsTableLine(nextTableLine) then
-                                                -- There's another table starting right after - find its end
+                                            local innerNextTableLine = string.sub(markdown, nextTableStart, nextTableLineEnd - 1)
+                                            if IsTableLine(innerNextTableLine) then
+                                                -- There's another table starting right after the current one - find its end
                                                 local nextTableEnd =
-                                                    FindTableEnd(markdown, nextTableLineEnd, tableSearchLimit)
-                                                if nextTableEnd and nextTableEnd > tableEnd then
+                                                    FindTableEnd(markdown, nextTableLineEnd, extendedTableSearchLimit)
+                                                if nextTableEnd and nextTableEnd > chunkEnd then
                                                     local combinedTableChunkSize = nextTableEnd - pos + 1
-                                                    -- CRITICAL FIX: Account for padding in size check
+                                                    -- CRITICAL: For consecutive tables, allow small overage to include complete structures
+                                                    -- Complete structures (table -> table -> list) are better than truncated ones
+                                                    -- Allow up to 1500 bytes overage for complete consecutive structures
+
                                                     if combinedTableChunkSize + paddingSize <= copyLimit then
                                                         tableEnd = nextTableEnd
                                                         CM.DebugPrint(
@@ -2988,8 +2908,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                     break
                                 end
                             end
-                            local currentLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
-                            if currentLine:match("^#+%s") ~= nil then
+                            local tempHeaderLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
+                            if tempHeaderLine:match("^#+%s") ~= nil then
                                 -- chunkEnd is on a header line - check if next line is a table
                                 local nextLineStart = chunkEnd + 1
                                 while
@@ -3019,12 +2939,12 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     end
 
                     local tableChunkSize = tableEnd - contentStart + 1
-                    local currentChunkSize = chunkEnd - pos + 1
-                    local remainingSpace = maxSafeDataSize - currentChunkSize
+                    local innerCurrentChunkSize = chunkEnd - pos + 1
+                    local remainingSpace = maxSafeDataSize - innerCurrentChunkSize
 
                     -- CRITICAL: If we're in a table (on, after, before, between table lines) OR on line before table, we MUST extend
                     -- Never allow chunking in the middle of a table or on the line before a table
-                    -- CRITICAL: If there's a header before a table, we MUST extend to include header+table or backtrack before header
+                    -- CRITICAL: If there's a header before the table, we MUST extend to include header+table or backtrack before header
                     local mustExtendForTable = isInTable or isOnLineBeforeTable or isHeaderBeforeTable
 
                     -- CRITICAL: Use maxSafeDataSize (not maxSafeSize) to ensure data doesn't exceed copy limit
@@ -3132,19 +3052,19 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 )
                                 -- Find where table started
                                 local tableStart = chunkEnd
-                                for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                                for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                                     if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                                        local lineStart = (i == pos) and pos or i
-                                        local lineEnd = chunkEnd
-                                        for j = lineStart, math.min(chunkEnd, lineStart + 500) do
+                                        local btTableLineStart = (i == pos) and pos or i
+                                        local btTableLineEnd = chunkEnd
+                                        for j = btTableLineStart, math.min(chunkEnd, btTableLineStart + 500) do
                                             if string.sub(markdown, j, j) == "\n" then
-                                                lineEnd = j
+                                                btTableLineEnd = j
                                                 break
                                             end
                                         end
-                                        local line = string.sub(markdown, lineStart, lineEnd - 1)
+                                        local line = string.sub(markdown, btTableLineStart, btTableLineEnd - 1)
                                         if IsTableLine(line) then
-                                            tableStart = lineStart
+                                            tableStart = btTableLineStart
                                         else
                                             break
                                         end
@@ -3200,13 +3120,13 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 -- This handles cases where multiple tables appear consecutively (e.g., Companion section)
                 -- CONSERVATIVE: Only extend for consecutive tables if we have enough remaining space
                 -- If we're already close to the limit, stop at the current table end and let the next chunk handle it
-                local currentChunkSize = chunkEnd - pos + 1
-                local remainingSpace = maxSafeDataSize - currentChunkSize
+                local innerCurrentChunkSize = chunkEnd - pos + 1
+                local remainingSpace = maxSafeDataSize - innerCurrentChunkSize
 
                 -- Only check for consecutive tables if we have at least 2000 bytes remaining
                 -- This ensures we don't extend when we're already close to the limit
                 if remainingSpace > 2000 then
-                    local structureOverageAllowance = 1500
+                    local structureOverageAllowance = CHUNKING.STRUCTURE_OVERRIDE_TABLE or 1500
                     local effectiveMaxForStructures = maxSafeDataSize + structureOverageAllowance
                     -- Check for consecutive tables if we're within the effective max (including overage)
                     if currentChunkSize <= effectiveMaxForStructures then
@@ -3230,10 +3150,10 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                     end
                                 end
 
-                                local nextTableLine = string.sub(markdown, nextTableStart, nextTableLineEnd - 1)
-                                if IsTableLine(nextTableLine) then
+                                local tempNextTableLine = string.sub(markdown, nextTableStart, nextTableLineEnd - 1)
+                                if IsTableLine(tempNextTableLine) then
                                     -- There's another table starting right after the current one - find its end
-                                    local nextTableEnd = FindTableEnd(markdown, nextTableLineEnd, tableSearchLimit)
+                                    local nextTableEnd = FindTableEnd(markdown, nextTableLineEnd, extendedTableSearchLimit)
                                     if nextTableEnd and nextTableEnd > chunkEnd then
                                         local combinedTableChunkSize = nextTableEnd - pos + 1
                                         -- CRITICAL: For consecutive tables, allow small overage to include complete structures
@@ -3323,14 +3243,14 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
                                                     if listStartPos then
                                                         -- There's a list starting after the consecutive table - find its end
-                                                        local listSearchLimit = isLastChunk and markdownLength or 10000
-                                                        local listEnd =
-                                                            FindListEnd(markdown, listStartPos, listSearchLimit)
-                                                        if listEnd and listEnd > chunkEnd then
-                                                            local combinedWithListSize = listEnd - pos + 1
+                                                        local innerTableSearchLimit = isLastChunk and markdownLength or 10000
+                                                        local nextListEnd =
+                                                            FindListEnd(markdown, listStartPos, innerTableSearchLimit)
+                                                        if nextListEnd and nextListEnd > chunkEnd then
+                                                            local combinedWithListSize = nextListEnd - pos + 1
                                                             -- CRITICAL: For lists after consecutive tables, allow same overage for complete structures
                                                             if combinedWithListSize <= effectiveMaxForStructures then
-                                                                chunkEnd = listEnd
+                                                                chunkEnd = nextListEnd
                                                                 CM.DebugPrint(
                                                                     "CHUNKING",
                                                                     string.format(
@@ -3391,7 +3311,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 if chunkEnd - pos + 1 <= maxSafeDataSize then
                     -- CRITICAL: When chunkEnd is at a newline, check if the previous line is a list line
                     -- If so, we're in a list and should find its end
-                    local listEnd = nil
+                    local innerListEnd = nil
                     local checkPos = chunkEnd
                     if checkPos > 1 and string.sub(markdown, checkPos, checkPos) == "\n" then
                         -- chunkEnd is at a newline - check if the line before it is a list line
@@ -3405,25 +3325,25 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                         local prevLine = string.sub(markdown, prevLineStart, checkPos - 1)
                         if IsListLine(prevLine) then
                             -- We're at the end of a list line - find the end of the entire list
-                            listEnd = FindListEnd(markdown, checkPos, 10000)
+                            innerListEnd = FindListEnd(markdown, checkPos, 10000)
                         end
                     end
 
                     -- If we didn't find a list yet, try the normal approach
-                    if not listEnd or listEnd <= chunkEnd then
-                        listEnd = FindListEnd(markdown, chunkEnd, 10000)
+                    if not innerListEnd or innerListEnd <= chunkEnd then
+                        innerListEnd = FindListEnd(markdown, chunkEnd, 10000)
                     end
 
                     -- CRITICAL: Also check if there's a list starting right after chunkEnd
                     -- (FindListEnd only works if chunkEnd is already in a list)
-                    if not listEnd or listEnd <= chunkEnd then
+                    if not innerListEnd or innerListEnd <= chunkEnd then
                         -- Check if there's a list starting after chunkEnd (may be separated by empty lines)
                         -- Look ahead up to 10 lines to find a list
                         local searchAhead = 10 -- Check up to 10 lines ahead
                         local currentLineStart = chunkEnd + 1
                         local foundListStart = nil
 
-                        for lineCheck = 1, searchAhead do
+                        for _ = 1, searchAhead do
                             if currentLineStart > markdownLength then
                                 break
                             end
@@ -3449,12 +3369,12 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 end
                             end
 
-                            local currentLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
-                            if IsListLine(currentLine) then
+                            local innerCurrentLine = string.sub(markdown, currentLineStart, currentLineEnd - 1)
+                            if IsListLine(innerCurrentLine) then
                                 -- Found a list starting after chunkEnd - find its end
                                 foundListStart = currentLineEnd
                                 break
-                            elseif currentLine:match("^%s*$") then
+                            elseif innerCurrentLine:match("^%s*$") then
                                 -- Empty line, continue searching
                                 currentLineStart = currentLineEnd + 1
                             else
@@ -3465,31 +3385,31 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
                         if foundListStart then
                             local listSearchLimit = isLastChunk and markdownLength or 10000
-                            listEnd = FindListEnd(markdown, foundListStart, listSearchLimit)
-                            if listEnd and listEnd > chunkEnd then
+                            local listEndAfterChunkEnd = FindListEnd(markdown, foundListStart, listSearchLimit)
+                            if listEndAfterChunkEnd and listEndAfterChunkEnd > chunkEnd then
                                 CM.DebugPrint(
                                     "CHUNKING",
                                     string.format(
                                         "Chunk %d: Found list starting after chunkEnd at %d, list ends at %d",
                                         chunkNum,
                                         foundListStart,
-                                        listEnd
+                                        listEndAfterChunkEnd
                                     )
                                 )
                             end
                         end
                     end
 
-                    if listEnd and listEnd > chunkEnd then
-                        local listChunkSize = listEnd - pos + 1
+                    if innerListEnd and innerListEnd > chunkEnd then
+                        local listChunkSize = innerListEnd - pos + 1
                         -- CRITICAL: Use maxSafeDataSize (not maxSafeSize) to ensure data doesn't exceed copy limit
                         if listChunkSize <= maxSafeDataSize then
                             -- CRITICAL: Verify the new chunk end is not inside a markdown link
-                            local linkEnd = IsInsideMarkdownLink(markdown, listEnd)
-                            if linkEnd and linkEnd > listEnd then
+                            local linkEnd = IsInsideMarkdownLink(markdown, innerListEnd)
+                            if linkEnd and linkEnd > innerListEnd then
                                 -- The list end is inside a link, find a safe newline after the link
                                 local safeNewline =
-                                    FindSafeNewline(markdown, listEnd, math.min(markdownLength, linkEnd + 200))
+                                    FindSafeNewline(markdown, innerListEnd, math.min(markdownLength, linkEnd + 200))
                                 if safeNewline and safeNewline - pos + 1 <= maxSafeDataSize then
                                     chunkEnd = safeNewline
                                     CM.DebugPrint(
@@ -3507,13 +3427,13 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                         string.format(
                                             "Chunk %d: List end at %d is inside link, staying at safe position %d",
                                             chunkNum,
-                                            listEnd,
+                                            innerListEnd,
                                             chunkEnd
                                         )
                                     )
                                 end
                             else
-                                chunkEnd = listEnd
+                                chunkEnd = innerListEnd
                                 CM.DebugPrint(
                                     "CHUNKING",
                                     string.format("Chunk %d: Found list, moving chunk end to %d", chunkNum, chunkEnd)
@@ -3529,8 +3449,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 )
                             )
                         end
-                    elseif listEnd and listEnd < chunkEnd then
-                        chunkEnd = listEnd
+                    elseif innerListEnd and innerListEnd < chunkEnd then
+                        chunkEnd = innerListEnd
                     end
                 end
             end
@@ -3570,24 +3490,24 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 end
 
                 local lineAtTruncation = string.sub(markdown, lineStartAtTruncation, lineEndAtTruncation - 1)
-                local isInTable = IsTableLine(lineAtTruncation)
+                local innerIsInTable = IsTableLine(lineAtTruncation)
 
-                if isInTable then
+                if innerIsInTable then
                     -- We're in the middle of a table - find where the table starts
                     local tableStart = lineStartAtTruncation
                     for i = lineStartAtTruncation - 1, math.max(pos, lineStartAtTruncation - 2000), -1 do
                         if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                            local lineStart = i == pos and pos or i
-                            local lineEnd = lineStartAtTruncation
+                            local innerLineStart = i == pos and pos or i
+                            local innerLineEnd = lineStartAtTruncation
                             for j = i, math.min(markdownLength, i + 500) do
                                 if string.sub(markdown, j, j) == "\n" then
-                                    lineEnd = j
+                                    innerLineEnd = j
                                     break
                                 end
                             end
-                            local line = string.sub(markdown, lineStart, lineEnd - 1)
+                            local line = string.sub(markdown, innerLineStart, innerLineEnd - 1)
                             if IsTableLine(line) then
-                                tableStart = lineStart
+                                tableStart = innerLineStart
                             else
                                 break
                             end
@@ -3964,7 +3884,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 else
                     -- Can't extend - backtrack before table
                     local tableStart = chunkEnd
-                    for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                    for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                         if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
                             local lineStart = (i == pos) and pos or i
                             local lineEnd = chunkEnd
@@ -4004,10 +3924,10 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- Check 1: Ensure chunkEnd is at a newline
             if string.sub(markdown, chunkEnd, chunkEnd) ~= "\n" then
                 -- chunkEnd is not at a newline - find the last safe newline before it
-                local lastSafeNewline = FindSafeNewline(markdown, math.max(pos, chunkEnd - 5000), chunkEnd)
+                local lastSafeNewline = FindSafeNewline(markdown, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), chunkEnd)
                 if not lastSafeNewline then
                     -- Fallback to any newline
-                    for i = chunkEnd, math.max(pos, chunkEnd - 5000), -1 do
+                    for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
                         if string.sub(markdown, i, i) == "\n" then
                             lastSafeNewline = i
                             break
@@ -4041,7 +3961,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 local linkEnd = IsInsideMarkdownLink(markdown, chunkEnd)
                 if linkEnd and linkEnd > chunkEnd then
                     -- We're at a newline but inside a link - find safe newline after link
-                    local copyLimit = CHUNKING.COPY_LIMIT or (editboxLimit - 300)
+
                     local safeNewline = FindSafeNewline(markdown, chunkEnd, math.min(markdownLength, linkEnd + 200))
                     if safeNewline and safeNewline - pos + 1 <= copyLimit then
                         chunkEnd = safeNewline
@@ -4080,6 +4000,45 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
         end
 
+        -- CRITICAL: Never split in the middle of a table row - chunk must end at newline
+        -- If chunkEnd is mid-line on a table row, backtrack to the newline before it
+        if chunkEnd < markdownLength and string.sub(markdown, chunkEnd, chunkEnd) ~= "\n" then
+            local lineStart = chunkEnd
+            for i = chunkEnd - 1, math.max(pos, chunkEnd - 2000), -1 do
+                if i == 1 or string.sub(markdown, i - 1, i - 1) == "\n" then
+                    lineStart = (i == 1) and 1 or i
+                    break
+                end
+            end
+            local lineEnd = chunkEnd
+            for i = chunkEnd, math.min(markdownLength, chunkEnd + 500) do
+                if string.sub(markdown, i, i) == "\n" then
+                    lineEnd = i
+                    break
+                end
+            end
+            local lineContent = string.sub(markdown, lineStart, lineEnd - 1)
+            if IsTableLine(lineContent) then
+                -- We're mid-table-row: backtrack to newline before this row
+                for i = lineStart - 1, math.max(pos, lineStart - 2000), -1 do
+                    if i >= pos and string.sub(markdown, i, i) == "\n" then
+                        chunkEnd = i
+                        CM.DebugPrint(
+                            "CHUNKING",
+                            string.format(
+                                "Chunk %d: Backtracked from mid-table-row to newline at %d to avoid splitting table",
+                                chunkNum,
+                                chunkEnd
+                            )
+                        )
+                        break
+                    elseif i < pos then
+                        break
+                    end
+                end
+            end
+        end
+
         local chunkData = string.sub(markdown, pos, chunkEnd)
         local dataChars = string.len(chunkData)
         -- isLastChunk was already calculated earlier and may have been adjusted
@@ -4109,22 +4068,22 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- CRITICAL: Safety check - ensure data itself doesn't exceed copy limit
         -- Reserve space for padding on all chunks (including last chunk)
         -- paddingSize is calculated once at the top of the function
-        local maxSafeDataSize = copyLimit - paddingSize
-        if dataChars > maxSafeDataSize then
+        local maxDataSizeForCheck = copyLimit - paddingSize
+        if dataChars > maxDataSizeForCheck then
             CM.DebugPrint(
                 "CHUNKING",
                 string.format(
                     "Chunk %d: Data size %d exceeds safe limit %d, finding safe truncation point",
                     chunkNum,
                     dataChars,
-                    maxSafeDataSize
+                    maxDataSizeForCheck
                 )
             )
 
             -- Find the last complete line within the safe limit
             -- Search backwards from safeEndPos to find a newline (always use absolute positions)
-            local safeEndPos = pos + maxSafeDataSize - 1
-            local lastNewlinePos = nil
+            local safeEndPos = pos + maxDataSizeForCheck - 1
+            local lastNewlinePos
 
             -- Search backwards from safeEndPos to find the last safe newline
             local searchStart = math.min(safeEndPos, chunkEnd, markdownLength)
@@ -4436,7 +4395,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         end
 
         local chunkContent = chunkData
-        local finalSize = string.len(chunkContent)
+        local totalChunkSize = string.len(chunkContent)
+        local finalSize = totalChunkSize
 
         -- Check final size (after marker + padding will be added) against copy limit
         -- totalOverhead is calculated once at the top of the function
@@ -4516,86 +4476,32 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- For the actual padding string, we need just the spaces part (not including the 2 newlines)
         local spacePaddingSize = 0 -- Default: no padding
         if not CHUNKING.DISABLE_PADDING then
-            spacePaddingSize = CHUNKING.SPACE_PADDING_SIZE or 85
+            spacePaddingSize = CHUNKING.SPACE_PADDING_SIZE or CHUNKING.PADDING_FALLBACK or 550
         end
 
         -- Check if we're ending on a header that's followed by a table
-        if hasTrailingNewline and chunkEnd < markdownLength then
-            if IsHeaderBeforeTable(markdown, chunkEnd, markdownLength) then
-                -- Find the start of the header line
-                local headerLineStart = chunkEnd
-                for i = chunkEnd - 1, math.max(pos, chunkEnd - 1000), -1 do
-                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                        headerLineStart = (i == pos) and pos or i
-                        break
-                    end
-                end
-
-                -- Backtrack to just before the header
-                if headerLineStart > pos then
-                    -- Find the newline before the header
-                    local newChunkEnd = headerLineStart - 1
-                    local proposedDataChars = newChunkEnd - pos + 1
-
-                    -- CRITICAL FIX: Validate size before accepting backtrack
-                    if proposedDataChars + paddingSize <= copyLimit and proposedDataChars >= 100 then
-                        -- Update chunkEnd, chunkData, and related variables
-                        chunkEnd = newChunkEnd
-                        chunkData = string.sub(markdown, pos, chunkEnd)
-                        dataChars = string.len(chunkData)
-                        chunkContent = chunkData
-                        finalSize = string.len(chunkContent)
-
-                        -- Verify the new chunkEnd is at a newline
-                        if string.sub(markdown, chunkEnd, chunkEnd) == "\n" then
-                            hasTrailingNewline = true
-                        else
-                            hasTrailingNewline = false
-                        end
-
-                        -- CRITICAL: Set flag to prepend newline to next chunk
-                        -- This ensures the header starts on its own line after padding
-                        prependNewlineToChunk = true
-
-                        CM.DebugPrint(
-                            "CHUNKING",
-                            string.format(
-                                "Chunk %d: Backtracked from %d to %d to keep header+table together in next chunk (size: %d + %d padding = %d)",
-                                chunkNum,
-                                chunkEnd + (headerLineStart - pos),
-                                chunkEnd,
-                                proposedDataChars,
-                                paddingSize,
-                                proposedDataChars + paddingSize
-                            )
-                        )
-                    else
-                        -- Backtracking would create invalid chunk size
-                        if proposedDataChars + paddingSize > copyLimit then
-                            CM.DebugPrint(
-                                "CHUNKING",
-                                string.format(
-                                    "Chunk %d: Header backtracking would exceed copy limit (%d + %d = %d > %d), skipping",
-                                    chunkNum,
-                                    proposedDataChars,
-                                    paddingSize,
-                                    proposedDataChars + paddingSize,
-                                    copyLimit
-                                )
-                            )
-                        else
-                            CM.DebugPrint(
-                                "CHUNKING",
-                                string.format(
-                                    "Chunk %d: Header backtracking would create too-small chunk (%d < 100), skipping",
-                                    chunkNum,
-                                    proposedDataChars
-                                )
-                            )
-                        end
-                    end
-                end
-            end
+        local prevChunkEnd = chunkEnd
+        local newChunkEnd, shouldPrepend = BacktrackBeforeHeaderTablePair(
+            markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize
+        )
+        if newChunkEnd then
+            chunkEnd = newChunkEnd
+            chunkData = string.sub(markdown, pos, chunkEnd)
+            chunkContent = chunkData
+            finalSize = string.len(chunkContent)
+            prependNewlineToChunk = shouldPrepend
+            CM.DebugPrint(
+                "CHUNKING",
+                string.format(
+                    "Chunk %d: Backtracked from %d to %d to keep header+table together in next chunk (size: %d + %d padding = %d)",
+                    chunkNum,
+                    prevChunkEnd,
+                    chunkEnd,
+                    chunkEnd - pos + 1,
+                    paddingSize,
+                    chunkEnd - pos + 1 + paddingSize
+                )
+            )
         end
 
         -- Prepend newline if needed (from previous chunk split)
@@ -4661,7 +4567,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         local chunkMarker =
             string.format("<!-- Chunk %d (%d bytes before padding) -->\n\n", chunkNum, contentSizeBeforePadding)
         chunkContent = chunkMarker .. chunkContent
-        finalSize = string.len(chunkContent)
 
         -- Check if we split inside a Mermaid block
         -- If so, we need to close this block and prepare header for next block
@@ -4697,6 +4602,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 local checkStr = string.sub(markdown, math.max(1, mStart), math.min(markdownLength, mStart + 20))
                 if checkStr:match("subgraph") then
                     -- We are in a subgraph, need to find main block start
+                     CM.DebugPrint("CHUNKING", "Mermaid subgraph detected, header resolution might be tricky")
                 end
 
                 if not string.sub(markdown, mStart, mStart + 10):match("```mermaid") then
@@ -4722,7 +4628,29 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             end
         end
 
-        -- Add padding only if enabled
+        -- CRITICAL SAFETY NET: Ensure chunk ends on complete line BEFORE adding padding
+        -- If chunk doesn't end with newline, truncate to last newline first
+        -- This prevents truncation from removing padding when content ends mid-line
+        if not isLastChunk and string.sub(chunkContent, -1, -1) ~= "\n" then
+            local lastNewline = string.find(chunkContent, "\n[^\n]*$")
+            if lastNewline then
+                local originalSize = finalSize
+                chunkContent = string.sub(chunkContent, 1, lastNewline)
+                finalSize = string.len(chunkContent)
+                CM.Warn(
+                    string.format(
+                        "Chunk %d: SAFETY TRUNCATION - chunk didn't end on newline, truncated from %d to %d bytes",
+                        chunkNum,
+                        originalSize,
+                        finalSize
+                    )
+                )
+            else
+                CM.Error(string.format("Chunk %d: CRITICAL - chunk has no newlines, cannot truncate safely!", chunkNum))
+            end
+        end
+
+        -- Add padding only if enabled (after safety truncation - content now ends on newline)
         if not CHUNKING.DISABLE_PADDING then
             -- CRITICAL: Use NEWLINES as padding (not spaces or HTML comments)
             -- Newlines are safe if truncated, work in any markdown context, and are invisible in rendered output
@@ -4753,24 +4681,18 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             )
         end
 
-        -- CRITICAL SAFETY NET: Ensure chunk ends on complete line
-        -- If chunk doesn't end with newline, truncate to last newline
-        if not isLastChunk and string.sub(chunkContent, -1, -1) ~= "\n" then
-            local lastNewline = string.find(chunkContent, "\n[^\n]*$")
-            if lastNewline then
-                local originalSize = finalSize
-                chunkContent = string.sub(chunkContent, 1, lastNewline)
-                finalSize = string.len(chunkContent)
+        -- Runtime assertion: warn if non-last chunk has insufficient padding (when padding enabled)
+        if not isLastChunk and not CHUNKING.DISABLE_PADDING then
+            local trailing = chunkContent:match("\n+$")
+            local trailingCount = trailing and #trailing or 0
+            if trailingCount < 500 then
                 CM.Warn(
                     string.format(
-                        "Chunk %d: SAFETY TRUNCATION - chunk didn't end on newline, truncated from %d to %d bytes",
+                        "Chunk %d: padding check - expected >=500 trailing newlines, got %d (may indicate truncation)",
                         chunkNum,
-                        originalSize,
-                        finalSize
+                        trailingCount
                     )
                 )
-            else
-                CM.Error(string.format("Chunk %d: CRITICAL - chunk has no newlines, cannot truncate safely!", chunkNum))
             end
         end
 
@@ -4818,7 +4740,7 @@ end
 ---@param markdown string The markdown content to chunk
 ---@return table Array of chunk objects
 local function SplitMarkdownIntoChunks_SectionBased(markdown)
-    local chunks = {}
+
     local markdownLength = string.len(markdown)
     local maxSize = CHUNKING.COPY_LIMIT or 5700
 
@@ -4850,7 +4772,7 @@ local function SplitMarkdownIntoChunks_SectionBased(markdown)
         return SplitMarkdownIntoChunks_Legacy(markdown)
     end
 
-    chunks = ChunkBuilder.BuildChunks(sections, maxSize, {
+    local chunks = ChunkBuilder.BuildChunks(sections, maxSize, {
         preserveSections = true,
         preserveSubsections = true,
         preserveTables = true,

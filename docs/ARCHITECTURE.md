@@ -29,10 +29,20 @@ CharacterMarkdown/
 │   │
 │   ├── utils/               # Helper functions
 │   │   ├── Formatters.lua   # Text formatting
-│   │   ├── Quality.lua      # Item quality utilities
-│   │   ├── Markdown.lua     # Markdown utilities
+│   │   ├── Constants.lua    # Chunking limits, format names
+│   │   ├── ChunkingHelpers.lua  # Line-type detection for chunking
+│   │   ├── Chunking.lua     # Split large markdown into chunks
+│   │   ├── TONL.lua         # TONL encode + MinimizeForTONL
 │   │   ├── AdvancedMarkdown.lua # Advanced styling
 │   │   └── Stats.lua        # Stat calculations
+│   │
+│   ├── api/                 # API layer (ESO API abstraction)
+│   │   ├── Character.lua    # Identity, race, class, level
+│   │   ├── Combat.lua       # Stats, attributes, resistances
+│   │   ├── Equipment.lua    # Worn gear, sets
+│   │   ├── Champion.lua    # CP disciplines
+│   │   ├── Skills.lua       # Skill bars, morphs
+│   │   └── ...              # PvP, Quests, Achievements, etc.
 │   │
 │   ├── links/               # UESP URL generation
 │   │   ├── Abilities.lua
@@ -41,34 +51,40 @@ CharacterMarkdown/
 │   │   ├── Systems.lua
 │   │   └── Companions.lua
 │   │
-│   ├── collectors/          # Data collection
-│   │   ├── Character.lua    # Identity, DLC
+│   ├── collectors/          # Data collection (uses api layer)
+│   │   ├── Character.lua    # Identity, titles, DLC
 │   │   ├── Combat.lua       # Stats, attributes
-│   │   ├── Equipment.lua    # Worn gear, sets
-│   │   ├── Skills.lua       # Bars, progression
+│   │   ├── Champion.lua     # CP data
+│   │   ├── Skills.lua       # Bars, morphs, progression
+│   │   ├── Equipment.lua   # Worn gear, sets
 │   │   ├── Economy.lua      # Currencies
-│   │   ├── Progression.lua  # Achievements, riding
-│   │   ├── World.lua        # Location, PvP
-│   │   └── Companion.lua    # Active companion
+│   │   ├── Progression.lua # Riding, age
+│   │   ├── PvP.lua          # PvP stats, campaigns
+│   │   ├── Achievements.lua # Achievement categories
+│   │   ├── Collectibles.lua # Collections, housing
+│   │   ├── Quests.lua       # Quest journal, pledges
+│   │   ├── Companion.lua    # Active companion
+│   │   ├── Crafting.lua    # Crafting knowledge
+│   │   └── ...
 │   │
 │   ├── generators/          # Markdown generation
 │   │   ├── Markdown.lua     # Main orchestrator
 │   │   ├── helpers/
 │   │   │   └── Utilities.lua
 │   │   └── sections/        # Individual sections
-│   │       ├── Character.lua
-│   │       ├── Equipment.lua    # Orchestrator for equipment modules
-│   │       ├── equipment/       # Equipment submodules
-│   │       │   ├── Helpers.lua      # Shared utilities
-│   │       │   ├── SkillBars.lua    # Skill bar tables
-│   │       │   ├── SkillMorphs.lua  # Morph selection
-│   │       │   ├── GearTable.lua    # Equipment details
-│   │       │   └── Skills.lua       # Skill progression
-│   │       ├── Combat.lua
-│   │       ├── Crafting.lua
-│   │       ├── Economy.lua
-│   │       ├── Companion.lua
+│   │       ├── Character.lua, Overview.lua
+│   │       ├── Equipment.lua, equipment/   # Skill bars, morphs, gear table
+│   │       ├── Combat.lua, ChampionPoints.lua, ChampionDiagram.lua
+│   │       ├── Crafting.lua, Economy.lua
+│   │       ├── DLCAndMundus.lua, PvPStats.lua
+│   │       ├── Achievements.lua, Antiquities.lua
+│   │       ├── TitlesHousing.lua, Quests.lua, World.lua
+│   │       ├── Guilds.lua, Companion.lua
 │   │       └── Footer.lua
+│   │
+│   ├── formatters/          # Output formatters
+│   │   ├── Markdown.lua     # Markdown output (format selection)
+│   │   └── TONL.lua         # TONL output (minimal for LLM)
 │   │
 │   ├── settings/            # Configuration
 │   │   ├── Defaults.lua     # Default values
@@ -98,21 +114,24 @@ Defined in `CharacterMarkdown.addon`:
 
 ```
 1. Core.lua              # Initialize namespace, debug system
-2. utils/*               # Helper functions (no dependencies)
-3. links/*               # UESP URL generation (uses utils)
-4. collectors/*          # Data collection (uses utils + links)
-5. generators/helpers/*  # Generator utilities
-6. generators/sections/* # Individual markdown sections
-7. generators/Markdown.lua  # Main orchestrator
-8. Commands.lua          # /markdown command
-9. Events.lua            # Event handlers
-10. settings/*           # Configuration system
-11. CharacterMarkdown.xml   # UI definition
-12. ui/Window.lua        # Window handler
-13. Init.lua             # Final validation
+2. utils/*               # Helper functions (Constants, ChunkingHelpers, Chunking, TONL, etc.)
+3. api/*                 # API layer (Character, Combat, Equipment, Skills, Champion, etc.)
+4. links/*               # UESP URL generation (uses utils)
+5. collectors/*          # Data collection (uses api + utils + links)
+6. generators/helpers/*  # Generator utilities
+7. generators/sections/* # Individual markdown sections
+8. generators/Markdown.lua  # Main markdown orchestrator
+9. formatters/*          # Output formatters (Markdown.lua, TONL.lua)
+10. commands/*          # Command submodules
+11. Commands.lua         # /markdown, /tonl command orchestration
+12. Events.lua           # Event handlers
+13. settings/*           # Configuration (Defaults, Initializer, Panel)
+14. CharacterMarkdown.xml   # UI definition
+15. ui/Window.lua        # Window handler
+16. Init.lua             # Final validation
 ```
 
-**Critical**: Order ensures dependencies load before dependents.
+**Critical**: Order ensures dependencies load before dependents. Access settings via `CM.GetSettings()`.
 
 ---
 
@@ -126,13 +145,13 @@ local CM = CharacterMarkdown
 
 -- Sub-namespaces
 CM.utils = {}
+CM.api = {}           # API layer (ESO API abstraction)
 CM.links = {}
 CM.collectors = {}
 CM.generators = {}
 CM.settings = {}
 
 -- State
-CM.currentFormat = "github"
 CM.isInitialized = false
 
 -- Debug system
@@ -141,12 +160,7 @@ CM.Info(message)
 CM.Warn(message)
 CM.Error(message)
 
--- Cached globals (performance)
-CM.cached = {
-    EVENT_MANAGER = EVENT_MANAGER,
-    string_format = string.format,
-    table_insert = table.insert,
-}
+-- Settings: access via CM.GetSettings() (merged with defaults)
 ```
 
 ### 2. Data Collection
@@ -220,25 +234,20 @@ end
 
 ### 5. Settings System
 
-**Pattern**: LibAddonMenu integration with SavedVariables.
+**Pattern**: LibAddonMenu integration with SavedVariables. Access via `CM.GetSettings()`.
 
 ```lua
 -- settings/Defaults.lua
-CM.Settings.defaults = {
-    currentFormat = "github",
-    includeChampionPoints = true,
-    enableAbilityLinks = true,
-    minSkillRank = 1,
-}
+CM.Settings.Defaults:GetAll()  -- Returns default values
 
 -- settings/Initializer.lua
-function CM.Settings.Initializer:Initialize()
-    -- Merge defaults with SavedVariables
-    for key, value in pairs(CM.Settings.defaults) do
-        if CharacterMarkdownSettings[key] == nil then
-            CharacterMarkdownSettings[key] = value
-        end
-    end
+-- Initializes CharacterMarkdownSettings (account-wide SavedVariables)
+-- Merges defaults, handles per-character data in perCharacterData[characterId]
+
+-- Access: CM.GetSettings() returns merged settings (defaults + saved)
+local settings = CM.GetSettings()
+if settings.includeChampionPoints then
+    -- ...
 end
 
 -- settings/Panel.lua
@@ -278,15 +287,14 @@ end
 ### User Executes Command
 
 ```
-1. User: /markdown github
-2. Commands.lua: Parse argument → "github"
-3. Commands.lua: Call CM.generators.GenerateMarkdown("github")
-4. Markdown.lua: Call all collectors to gather data
-5. Markdown.lua: Call section generators with data + format
-6. Markdown.lua: Concatenate sections → return markdown string
-7. Commands.lua: Call CharacterMarkdown_ShowWindow(markdown, "github")
-8. Window.lua: Display markdown in EditBox
-9. Window.lua: Auto-select text for easy copying
+1. User: /markdown github  (or /tonl)
+2. Commands.lua: Parse argument → format name or "tonl"
+3. Formatter: formatters/Markdown.lua or formatters/TONL.lua
+4. Formatter: Call collectors to gather data (conditionally based on settings)
+5. Markdown: Call section generators; TONL: MinimizeForTONL then Encode
+6. Chunking: If output exceeds limit, split into chunks
+7. Commands.lua: Call CharacterMarkdown_ShowWindow(content, format)
+8. Window.lua: Display in EditBox, auto-select for copy
 ```
 
 ---
@@ -345,9 +353,10 @@ end
 
 ### Add New Format
 
-1. Edit `generators/Markdown.lua`
-2. Add format handling in section generators
+1. Create `src/formatters/NewFormat.lua` or add format handling in `formatters/Markdown.lua`
+2. Add format-specific logic in section generators
 3. Update `Commands.lua` for format alias
+4. Register in manifest if new formatter file
 
 ### Add New Section
 

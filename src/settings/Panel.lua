@@ -36,6 +36,32 @@ local function EnsureCharacterData()
     return false
 end
 
+-- Get or create per-character data for writing - writes directly to CharacterMarkdownSettings.perCharacterData
+-- to guarantee persistence. Keeps CM.charData in sync.
+local function GetOrCreateCharacterDataForWrite()
+    if not CharacterMarkdownSettings then
+        return nil
+    end
+    local characterId = tostring(GetCurrentCharacterId())
+    if not CharacterMarkdownSettings.perCharacterData then
+        CharacterMarkdownSettings.perCharacterData = {}
+    end
+    if not CharacterMarkdownSettings.perCharacterData[characterId] then
+        CharacterMarkdownSettings.perCharacterData[characterId] = {
+            customNotes = "",
+            customTitle = "",
+            playStyle = "",
+            _initialized = true,
+            _lastModified = GetTimeStamp(),
+            _characterName = GetUnitName("player"),
+            _accountName = GetDisplayName(),
+        }
+    end
+    local charData = CharacterMarkdownSettings.perCharacterData[characterId]
+    CM.charData = charData
+    return charData
+end
+
 -- =====================================================
 -- PLAY STYLES LIST
 -- =====================================================
@@ -104,7 +130,8 @@ function CM.Settings.Panel:Initialize()
         return false
     end
 
-    -- Ensure character data is initialized\n    EnsureCharacterData()\n
+    -- Ensure character data is initialized
+    EnsureCharacterData()
     local LAM = LibAddonMenu2
 
     -- Create settings panel
@@ -206,7 +233,6 @@ function CM.Settings.Panel:Initialize()
         website = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html",
         feedback = "https://www.esoui.com/downloads/info4279-CharacterMarkdown.html#comments",
         donation = "https://www.buymeacoffee.com/lewisvavasw",
-        registerForRefresh = true,
     }
 
     self.panelId = "CharacterMarkdownPanel"
@@ -238,6 +264,8 @@ function CM.Settings.Panel:Initialize()
     CALLBACK_MANAGER:RegisterCallback("LAM-PanelControlsCreated", function(panel)
         if panel and panel.data and panel.data.name == "Character Markdown" then
             ResizeBuildNotesEditbox()
+            -- Wire build notes counter label so setFunc can update it in real time as user types
+            CM._buildNotesCounterLabel = _G["CharacterMarkdown_BuildNotesCounter"]
         end
     end)
 
@@ -253,31 +281,31 @@ end
 function CM.Settings.Panel:BuildOptionsData()
     local options = {}
 
-    -- Add sections organized by collector modules (bottom-up refactor)
+    -- Add sections organized by user workflow (most-used first)
     self:AddActions(options) -- FIRST: Quick actions and controls
 
     -- self:AddFormatterSection(options) -- REMOVED: Formatter selection removed
-    self:AddCustomNotes(options) -- Character-Specific Settings
+    self:AddCustomNotes(options) -- Character Profile
 
-    self:AddLayoutSection(options) -- Layout options (Header/Footer/TOC)
+    self:AddLayoutSection(options) -- Layout options (Header/Footer)
 
-    -- Collector-based sections (organized by collector module)
-    self:AddCharacterSection(options) -- Character.lua collectors
-    self:AddCombatSection(options) -- Combat.lua collectors
-    self:AddChampionSection(options) -- Champion.lua collectors
-    self:AddSkillsSection(options) -- Skills.lua collectors
-    self:AddEquipmentSection(options) -- Equipment.lua collectors
-    self:AddInventorySection(options) -- Inventory.lua collectors
-    self:AddProgressionSection(options) -- Progression.lua collectors
-    self:AddPvPSection(options) -- PvP.lua collectors
-    self:AddCompanionSection(options) -- Companion.lua collectors
-    self:AddCollectiblesSection(options) -- Collectibles.lua collectors
-    self:AddAchievementsSection(options) -- Achievements.lua collectors
-    self:AddAntiquitiesSection(options) -- Antiquities.lua collectors
-    self:AddQuestsSection(options) -- Quests.lua collectors (includes Undaunted Pledges)
-    self:AddArmoryBuildsSection(options) -- ArmoryBuilds.lua collectors
-    self:AddCraftingSection(options) -- Crafting.lua collectors
-    self:AddSocialSection(options) -- Social.lua collectors (Guilds, Mail)
+    -- Content sections: core build first, then common, then optional
+    self:AddCombatSection(options) -- Combat (core)
+    self:AddEquipmentSection(options) -- Equipment (core)
+    self:AddSkillsSection(options) -- Skills (core)
+    self:AddChampionSection(options) -- Champion Points (core)
+    self:AddCharacterSection(options) -- Character identity
+    self:AddInventorySection(options) -- Inventory, currency
+    self:AddCompanionSection(options) -- Companion
+    self:AddCollectiblesSection(options) -- Collectibles
+    self:AddProgressionSection(options) -- Progression
+    self:AddPvPSection(options) -- PvP
+    self:AddAchievementsSection(options) -- Achievements
+    self:AddAntiquitiesSection(options) -- Antiquities
+    self:AddQuestsSection(options) -- Quests, Undaunted Pledges
+    self:AddArmoryBuildsSection(options) -- Armory Builds
+    self:AddCraftingSection(options) -- Crafting
+    self:AddSocialSection(options) -- Guilds, Mail
 
     self:AddLinkSettings(options)
     self:AddSupportSection(options) -- LAST: Support section
@@ -338,6 +366,11 @@ function CM.Settings.Panel:AddLayoutSection(options)
         setFunc = CreateSetFunc("includeFooter"),
         width = "half",
         default = true,
+    })
+
+    table.insert(options, {
+        type = "divider",
+        width = "full",
     })
 end
 
@@ -517,7 +550,7 @@ function CM.Settings.Panel:AddChampionSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Include CP Visual Diagram",
-        tooltip = "Show a Mermaid diagram visualizing your invested Champion Points with prerequisite relationships (GitHub/VSCode only). Requires 'Include Champion Points' to be enabled. Uses cluster API to discover skill relationships.",
+        tooltip = "Mermaid diagram of Champion Points with prerequisites (GitHub/VSCode only). Requires Champion Points section.",
         getFunc = function()
             return CharacterMarkdownSettings.includeChampionDiagram
         end,
@@ -580,7 +613,7 @@ function CM.Settings.Panel:AddSkillsSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Show All Available Morphs",
-        tooltip = "Show all morphable skills with their morph choices (not just equipped abilities).\nWhen enabled, displays comprehensive morph information for all unlocked skills.\nWhen disabled, shows only equipped abilities on bars.\nWARNING: Can generate 2-5KB of additional text for fully skilled characters.",
+        tooltip = "Show all morphable skills with morph choices (not just equipped). ~2-5KB for fully skilled characters.",
         getFunc = function()
             return CharacterMarkdownSettings.includeSkillMorphs
         end,
@@ -664,7 +697,8 @@ function CM.Settings.Panel:AddInventorySection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Show Bag Item List",
-        tooltip = "Show detailed list of all items in your backpack\nWarning: Can generate LARGE output with many items!",
+        tooltip = "Show detailed list of all items in your backpack.",
+        warning = "Can generate very large output with many items",
         getFunc = function()
             return CharacterMarkdownSettings.showBagContents
         end,
@@ -680,7 +714,8 @@ function CM.Settings.Panel:AddInventorySection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Show Bank Item List",
-        tooltip = "Show detailed list of all items in your bank\nWarning: Can generate LARGE output with many items!",
+        tooltip = "Show detailed list of all items in your bank.",
+        warning = "Can generate very large output with many items",
         getFunc = function()
             return CharacterMarkdownSettings.showBankContents
         end,
@@ -696,7 +731,8 @@ function CM.Settings.Panel:AddInventorySection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Show Crafting Bag Item List",
-        tooltip = "Show detailed list of all items in your crafting bag (ESO Plus only)\nWarning: Can generate LARGE output with many items!",
+        tooltip = "Show detailed list of all items in your crafting bag (ESO Plus only).",
+        warning = "Can generate very large output with many items",
         getFunc = function()
             return CharacterMarkdownSettings.showCraftingBagContents
         end,
@@ -895,7 +931,7 @@ function CM.Settings.Panel:AddPvPSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "Show Alliance War Skills",
-        tooltip = "Display Alliance War skill lines (Assault/Support/Emperor) in PvP section.\nUseful for PvE players who use these skills but don't actively PvP.",
+        tooltip = "Show Alliance War skill lines (Assault/Support/Emperor). Useful for PvE players who use these skills.",
         getFunc = function()
             return CharacterMarkdownSettings.showAllianceWarSkills
         end,
@@ -975,7 +1011,8 @@ function CM.Settings.Panel:AddCollectiblesSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Detailed Collectibles Lists",
-        tooltip = "Show detailed lists of all owned collectibles (mounts, pets, costumes, emotes, mementos, skins, polymorphs, personalities) with progress bars and UESP links.\n(Can add 5000+ chars depending on collection size)",
+        tooltip = "Show detailed lists of all owned collectibles (mounts, pets, costumes, emotes, mementos, skins, polymorphs, personalities) with progress bars and UESP links (~5000+ chars).",
+        warning = "Can generate very large output depending on collection size",
         getFunc = function()
             return CharacterMarkdownSettings.showCollectiblesDetailed
         end,
@@ -1038,7 +1075,7 @@ function CM.Settings.Panel:AddAchievementsSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "Include Achievement Tracking",
-        tooltip = "Show achievement progress with category breakdown (Combat, PvP, Exploration, Crafting, etc.), in-progress achievements, and recent completions.\n(~1000-2000 chars depending on progress)",
+        tooltip = "Show achievement progress by category, in-progress achievements, and recent completions (~1000-2000 chars).",
         getFunc = function()
             return CharacterMarkdownSettings.includeAchievements
         end,
@@ -1050,7 +1087,7 @@ function CM.Settings.Panel:AddAchievementsSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Show All Achievements",
-        tooltip = "Show all achievements. When disabled, shows only achievements that are currently in progress (have some progress but not completed). Useful for goal tracking when disabled.",
+        tooltip = "Show all achievements. When disabled, only in-progress achievements appear.",
         getFunc = function()
             return CharacterMarkdownSettings.showAllAchievements ~= false
         end,
@@ -1147,7 +1184,7 @@ function CM.Settings.Panel:AddQuestsSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Detailed Quest Categories",
-        tooltip = "Show quest breakdown by categories (Main Story, Guild Quests, DLC Quests, etc.) with zone tracking.",
+        tooltip = "Show quest breakdown by category (Main Story, Guild, DLC, etc.) with zone tracking.",
         getFunc = function() return CharacterMarkdownSettings.showQuestsDetailed end,
         setFunc = CreateSetFunc("showQuestsDetailed"),
         disabled = function() return not CharacterMarkdownSettings.includeQuests end,
@@ -1158,7 +1195,7 @@ function CM.Settings.Panel:AddQuestsSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "    Show All Quests",
-        tooltip = "Show all quests. When disabled, shows only currently active quests. Useful for current objective tracking when disabled.",
+        tooltip = "Show all quests. When disabled, only active quests appear.",
         getFunc = function() return CharacterMarkdownSettings.showAllQuests ~= false end,
         setFunc = CreateSetFunc("showAllQuests"),
         disabled = function() return not CharacterMarkdownSettings.includeQuests end,
@@ -1309,6 +1346,11 @@ end
 
 function CM.Settings.Panel:AddLinkSettings(options)
     table.insert(options, {
+        type = "divider",
+        width = "full",
+    })
+
+    table.insert(options, {
         type = "header",
         name = "External Links (GitHub format only)",
         width = "full",
@@ -1323,7 +1365,7 @@ function CM.Settings.Panel:AddLinkSettings(options)
     table.insert(options, {
         type = "checkbox",
         name = "Enable UESP Links",
-        tooltip = "Make game elements clickable links to UESP wiki:\n• Abilities (skills on bars)\n• Armor sets\n• Race, Class, Alliance\n• Mundus stones\n• Champion Point skills\n• Zones/Locations\n• PvP Campaigns\n• Companions",
+        tooltip = "Link abilities, armor sets, race, class, alliance, Mundus stones, CP skills, zones, PvP campaigns, and companions to UESP wiki.",
         getFunc = function()
             return CharacterMarkdownSettings.enableAbilityLinks
         end,
@@ -1345,7 +1387,7 @@ end
 function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "header",
-        name = "Character-Specific Settings",
+        name = "Character Profile",
         width = "full",
     })
 
@@ -1374,7 +1416,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "checkbox",
         name = "Include Build Notes",
-        tooltip = "Include custom build notes section (appears after Overview to set context for your build)\nNotes must be entered below to appear in output",
+                tooltip = "Include custom build notes (after Overview). Enter notes below to appear in output.",
         getFunc = function()
             return CharacterMarkdownSettings.includeBuildNotes
         end,
@@ -1386,7 +1428,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "editbox",
         name = "Custom Title",
-        tooltip = "Override your character's in-game title with a custom one.\nTitle is saved per-character and persists between sessions.\nLeave empty to use your character's current title.",
+        tooltip = "Override in-game title. Saved per-character. Leave empty to use current title.",
         getFunc = function()
             -- Ensure character data is initialized
             EnsureCharacterData()
@@ -1397,23 +1439,19 @@ function CM.Settings.Panel:AddCustomNotes(options)
             return CM.charData and CM.charData.customTitle or ""
         end,
         setFunc = function(value)
-            -- Ensure character data is initialized
-            EnsureCharacterData()
-
-            if not CM.charData then
+            -- Write directly to CharacterMarkdownSettings.perCharacterData for guaranteed persistence
+            local charData = GetOrCreateCharacterDataForWrite()
+            if not charData then
                 CM.Error("Failed to save custom title - character data not available")
                 return
             end
 
             -- Normalize value (empty string if nil)
             local newValue = value or ""
-            local currentValue = CM.charData.customTitle or ""
+            local currentValue = charData.customTitle or ""
 
-            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
-            -- Modifying CM.charData automatically updates the parent structure
-            CM.charData.customTitle = newValue
-            CM.charData._lastModified = GetTimeStamp()
+            charData.customTitle = newValue
+            charData._lastModified = GetTimeStamp()
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1431,7 +1469,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "dropdown",
         name = "Play Style",
-        tooltip = "Select the primary play style for this character.\nPlay style is saved per-character and persists between sessions.\nLeave empty if not applicable.",
+        tooltip = "Primary play style. Saved per-character. Leave empty if not applicable.",
         choices = PLAY_STYLES,
         choicesValues = PLAY_STYLE_VALUES,
         getFunc = function()
@@ -1444,23 +1482,19 @@ function CM.Settings.Panel:AddCustomNotes(options)
             return CM.charData and CM.charData.playStyle or ""
         end,
         setFunc = function(value)
-            -- Ensure character data is initialized
-            EnsureCharacterData()
-
-            if not CM.charData then
+            -- Write directly to CharacterMarkdownSettings.perCharacterData for guaranteed persistence
+            local charData = GetOrCreateCharacterDataForWrite()
+            if not charData then
                 CM.Error("Failed to save play style - character data not available")
                 return
             end
 
             -- Normalize value (empty string if nil)
             local newValue = value or ""
-            local currentValue = CM.charData.playStyle or ""
+            local currentValue = charData.playStyle or ""
 
-            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
-            -- Modifying CM.charData automatically updates the parent structure
-            CM.charData.playStyle = newValue
-            CM.charData._lastModified = GetTimeStamp()
+            charData.playStyle = newValue
+            charData._lastModified = GetTimeStamp()
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1476,7 +1510,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "editbox",
         name = "Build Notes",
-        tooltip = "Add custom notes (rotation, parse data, build description, etc.)\nNotes are saved per-character and persist between sessions.\n\nLimit: 1,900 characters (ESO SavedVariables restriction)",
+        tooltip = "Custom notes (rotation, parse data, build description). Saved per-character. Limit: 1,900 chars.",
         getFunc = function()
             -- Ensure character data is initialized
             EnsureCharacterData()
@@ -1487,23 +1521,19 @@ function CM.Settings.Panel:AddCustomNotes(options)
             return CM.charData and CM.charData.customNotes or ""
         end,
         setFunc = function(value)
-            -- Ensure character data is initialized
-            EnsureCharacterData()
-
-            if not CM.charData then
+            -- Write directly to CharacterMarkdownSettings.perCharacterData for guaranteed persistence
+            local charData = GetOrCreateCharacterDataForWrite()
+            if not charData then
                 CM.Error("Failed to save build notes - character data not available")
                 return
             end
 
             -- Normalize value (empty string if nil)
             local newValue = value or ""
-            local currentValue = CM.charData.customNotes or ""
+            local currentValue = charData.customNotes or ""
 
-            -- Update CM.charData (ZO_SavedVars proxy - automatically persists)
-            -- NOTE: CM.charData is a subtable within CharacterMarkdownSettings.perCharacterData
-            -- Modifying CM.charData automatically updates the parent structure
-            CM.charData.customNotes = newValue
-            CM.charData._lastModified = GetTimeStamp()
+            charData.customNotes = newValue
+            charData._lastModified = GetTimeStamp()
 
             -- Log the save (only log if value actually changed)
             if newValue ~= currentValue then
@@ -1512,18 +1542,16 @@ function CM.Settings.Panel:AddCustomNotes(options)
                 CM.DebugPrint("SETTINGS", "Build notes refreshed (" .. string.len(newValue) .. " bytes)")
             end
 
-            -- Update character counter if it exists
-            if CM._buildNotesCounterLabel then
-                local charCount = string.len(newValue)
-                local color = charCount > 1900 and "|cFF6B6B" or (charCount > 1700 and "|cFFD93D" or "|c6BCF7E")
-                CM._buildNotesCounterLabel:SetText(color .. "Characters: " .. charCount .. " / 1,900|r")
+            -- Update character counter if it exists (LAM description uses UpdateValue, not SetText)
+            if CM._buildNotesCounterLabel and CM._buildNotesCounterLabel.UpdateValue then
+                CM._buildNotesCounterLabel:UpdateValue()
             end
         end,
         width = "full",
         height = 500, -- Large editbox for better visibility - scrollbar appears when content exceeds this
         isMultiline = true,
         isExtraWide = true,
-        maxChars = 1900, -- ESO SavedVariables has a ~2000 character limit per string value
+        maxChars = (CM.constants and CM.constants.LIMITS and CM.constants.LIMITS.MAX_CUSTOM_NOTES_SIZE) or 1900,
         -- NOTE: No default value - this is user-entered data that must never be reset
         reference = "CharacterMarkdown_BuildNotesEditBox",
     })
@@ -1532,14 +1560,20 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "description",
         text = function()
+            local maxNotes = CM.constants and CM.constants.LIMITS and CM.constants.LIMITS.MAX_CUSTOM_NOTES_SIZE or 1900
             local charCount = 0
             if CM.charData and CM.charData.customNotes then
                 charCount = string.len(CM.charData.customNotes)
             end
-            local color = charCount > 1900 and "|cFF6B6B" or (charCount > 1700 and "|cFFD93D" or "|c6BCF7E")
-            return color .. "Characters: " .. charCount .. " / 1,900|r"
+            local color = charCount > maxNotes and "|cFF6B6B" or (charCount > maxNotes - 200 and "|cFFD93D" or "|c6BCF7E")
+            return color .. "Characters: " .. charCount .. " / " .. maxNotes .. "|r"
         end,
         reference = "CharacterMarkdown_BuildNotesCounter",
+    })
+
+    table.insert(options, {
+        type = "divider",
+        width = "full",
     })
 end
 
@@ -1551,6 +1585,12 @@ function CM.Settings.Panel:AddActions(options)
     table.insert(options, {
         type = "header",
         name = "Actions",
+        width = "full",
+    })
+
+    table.insert(options, {
+        type = "description",
+        text = "Configure which sections appear in your generated markdown. Character-specific options (title, play style, notes) are saved per character.",
         width = "full",
     })
 
@@ -1687,9 +1727,8 @@ function CM.Settings.Panel:AddActions(options)
         func = function()
             ToggleAllSections(true)
             -- Force panel refresh
-            local LAM = LibStub("LibAddonMenu-2.0", true) -- true = silent, returns nil if not found
-            if LAM and CM.Settings.Panel.panelId then
-                LAM:RefreshPanel(CM.Settings.Panel.panelId)
+            if LibAddonMenu2 and CM.Settings.Panel.panelId then
+                LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
             end
         end,
         width = "half",
@@ -1703,12 +1742,142 @@ function CM.Settings.Panel:AddActions(options)
         func = function()
             ToggleAllSections(false)
             -- Force panel refresh
-            local LAM = LibStub("LibAddonMenu-2.0", true) -- true = silent, returns nil if not found
-            if LAM and CM.Settings.Panel.panelId then
-                LAM:RefreshPanel(CM.Settings.Panel.panelId)
+            if LibAddonMenu2 and CM.Settings.Panel.panelId then
+                LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
             end
         end,
         width = "half",
+    })
+
+    -- Minimal preset: build sharing (Combat, Equipment, Skills, Champion, Currency)
+    local function ApplyMinimalPreset()
+        ToggleAllSections(false)
+        CharacterMarkdownSettings.includeHeader = true
+        CharacterMarkdownSettings.includeFooter = true
+        CharacterMarkdownSettings.includeTableOfContents = true
+        CharacterMarkdownSettings.includeBasicCombatStats = true
+        CharacterMarkdownSettings.includeAdvancedStats = true
+        CharacterMarkdownSettings.includeRole = true
+        CharacterMarkdownSettings.includeBuffs = true
+        CharacterMarkdownSettings.includeAttributes = true
+        CharacterMarkdownSettings.includeChampionPoints = true
+        CharacterMarkdownSettings.includeSkillBars = true
+        CharacterMarkdownSettings.includeSkills = true
+        CharacterMarkdownSettings.includeEquipment = true
+        CharacterMarkdownSettings.includeCurrency = true
+        CharacterMarkdownSettings.includeLocation = true
+        CharacterMarkdownSettings.includeCharacterAttributes = true
+        CharacterMarkdownSettings.includeBuildNotes = true
+        CharacterMarkdownSettings.enableAbilityLinks = true
+        CharacterMarkdownSettings.enableSetLinks = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("Minimal preset applied (build sharing)")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
+    -- PvP Build preset: Minimal + PvP info and Alliance War Skills
+    local function ApplyPvPBuildPreset()
+        ApplyMinimalPreset()
+        CharacterMarkdownSettings.includePvP = true
+        CharacterMarkdownSettings.includePvPStats = true
+        CharacterMarkdownSettings.showAllianceWarSkills = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("PvP Build preset applied")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
+    -- Achievement Hunter preset: Minimal + Achievements, Collectibles, Antiquities
+    local function ApplyAchievementHunterPreset()
+        ApplyMinimalPreset()
+        CharacterMarkdownSettings.includeAchievements = true
+        CharacterMarkdownSettings.includeCollectibles = true
+        CharacterMarkdownSettings.includeAntiquities = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("Achievement Hunter preset applied")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
+    -- Crafter preset: Minimal + Crafting, Currency, Inventory
+    local function ApplyCrafterPreset()
+        ApplyMinimalPreset()
+        CharacterMarkdownSettings.includeCrafting = true
+        CharacterMarkdownSettings.includeCurrency = true
+        CharacterMarkdownSettings.includeInventory = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("Crafter preset applied")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
+    -- Solo PvE preset: Minimal + Quests, Progression, Companion
+    local function ApplySoloPvEPreset()
+        ApplyMinimalPreset()
+        CharacterMarkdownSettings.includeQuests = true
+        CharacterMarkdownSettings.includeProgression = true
+        CharacterMarkdownSettings.includeRidingSkills = true
+        CharacterMarkdownSettings.includeCompanion = true
+        CharacterMarkdownSettings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("Solo PvE preset applied")
+        if LibAddonMenu2 and CM.Settings.Panel.panelId then
+            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
+        end
+    end
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: Minimal",
+        tooltip = "Build sharing: Combat, Equipment, Skills, Champion Points, Currency. Disables optional sections.",
+        func = ApplyMinimalPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: PvP Build",
+        tooltip = "Minimal plus PvP info, stats, and Alliance War Skills.",
+        func = ApplyPvPBuildPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: Achievement Hunter",
+        tooltip = "Minimal plus Achievements, Collectibles, and Antiquities.",
+        func = ApplyAchievementHunterPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: Crafter",
+        tooltip = "Minimal plus Crafting, Currency, and Inventory.",
+        func = ApplyCrafterPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
+        name = "Preset: Solo PvE",
+        tooltip = "Minimal plus Quests, Progression, Riding, and Companion.",
+        func = ApplySoloPvEPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "divider",
+        width = "full",
     })
 end
 
@@ -1717,6 +1886,11 @@ end
 -- =====================================================
 
 function CM.Settings.Panel:AddSupportSection(options)
+    table.insert(options, {
+        type = "divider",
+        width = "full",
+    })
+
     table.insert(options, {
         type = "header",
         name = "Support",

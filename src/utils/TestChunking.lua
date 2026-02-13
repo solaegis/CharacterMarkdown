@@ -119,6 +119,46 @@ local function TestMermaidBlockIntegrity()
     return true, "Mermaid block preserved"
 end
 
+local function TestPaddingConsistency()
+    local testName = "Padding Consistency"
+
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local expectedPadding = CM.constants.CHUNKING.SPACE_PADDING_SIZE or CM.constants.CHUNKING.PADDING_FALLBACK or 550
+
+    if CM.constants.CHUNKING.DISABLE_PADDING then
+        return true, "Padding disabled - skip"
+    end
+
+    -- Create markdown that must be split into multiple chunks
+    local part1 = CreateLongString("A", limit - 100)
+    local part2 = CreateLongString("B", limit - 100)
+    local part3 = CreateLongString("C", 500)
+    local input = part1 .. "\n\n" .. part2 .. "\n\n" .. part3
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+
+    if #chunks < 2 then
+        return false, string_format("Expected at least 2 chunks for padding test, got %d", #chunks)
+    end
+
+    -- Each non-last chunk must end with exactly expectedPadding newlines
+    for i = 1, #chunks - 1 do
+        local content = chunks[i].content
+        local trailing = content:match("\n+$")
+        local count = trailing and #trailing or 0
+        if count ~= expectedPadding then
+            return false, string_format(
+                "Chunk %d: expected %d trailing newlines, got %d",
+                i,
+                expectedPadding,
+                count
+            )
+        end
+    end
+
+    return true, string_format("All %d non-last chunks have %d trailing newlines", #chunks - 1, expectedPadding)
+end
+
 local function TestTableIntegrity()
     local testName = "Table Integrity"
 
@@ -161,6 +201,7 @@ function CM.tests.chunking.RunTests()
         { name = "HTML Block Integrity", func = TestHtmlBlockIntegrity },
         { name = "Mermaid Block Integrity", func = TestMermaidBlockIntegrity },
         { name = "Table Integrity", func = TestTableIntegrity },
+        { name = "Padding Consistency", func = TestPaddingConsistency },
     }
 
     local passed = 0

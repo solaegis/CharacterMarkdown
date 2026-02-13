@@ -95,6 +95,7 @@ read_globals = {
     "CanJumpToPlayerInZone",
     "GetAPIVersion",
     "GetAddOnMetadata",
+    "GetAddOnSavedVariablesDirectory",
 
     -- ===========================================
     -- ATTRIBUTE/STAT CONSTANTS
@@ -220,7 +221,8 @@ read_globals = {
     "EQUIP_SLOT_HAND",
     "EQUIP_SLOT_BACKUP_MAIN",
     "EQUIP_SLOT_BACKUP_OFF",
-    "EQUIP_SLOT_COSTME",
+    "EQUIP_SLOT_COSTME", -- Typo in original file? Kept for safety
+    "EQUIP_SLOT_COSTUME",
     "EQUIP_SLOT_POISON",
     "EQUIP_SLOT_BACKUP_POISON",
 
