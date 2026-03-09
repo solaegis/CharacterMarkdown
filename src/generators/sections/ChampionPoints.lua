@@ -570,7 +570,7 @@ local function GenerateChampionPoints(cpData)
         markdown = markdown .. "\n"
     end
 
-    -- Display enlightenment status if available (API 101048+)
+    -- Display enlightenment status if available (API 101049+)
     if cpData.enlightenment and cpData.enlightenment.isEnlightened then
         local enlightenment = cpData.enlightenment
         local poolText = CM.utils.FormatNumber(enlightenment.poolRemaining)

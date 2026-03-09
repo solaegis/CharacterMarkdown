@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Update 49 Compatibility**: Bumped API version to 101049 to officially support ESO Update 49.
+- **Dependencies**: Bumped optional dependency minimums for LibDebugLogger (250) and LibSets (86).
+- **ESOUI Description**: Completely revamped the `README_ESOUI.txt` for visual improvements and clearer highlight of AI integrations.
+
 ### Fixed
 - **Chunking**: Never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
 - **Documentation**: Corrected Lua comment syntax in ARCHITECTURE.md (`#` → `--`)

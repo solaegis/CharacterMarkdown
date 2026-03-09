@@ -1,159 +1,96 @@
-CharacterMarkdown
-=================
+========================================================================
+                      CHARACTER MARKDOWN
+========================================================================
 
-Export comprehensive ESO character data in beautiful Markdown or structured TONL format with 
-clickable UESP links for abilities, sets, races, classes, zones, and more. Paste into ChatGPT, 
-Claude, or other AI assistants for expert build analysis, optimization suggestions, and 
-personalized guidance.
+Export comprehensive ESO character data in beautiful Markdown or structured TONL format. 
+Designed for the AI age: Paste your profile into ChatGPT, Claude, or other AI assistants 
+for expert build analysis, optimization, and personalized guidance!
 
-FEATURES
---------
+Ready for Update 49 (Night Market, Tamriel Tomes, Combat Refresh) & API 101049!
 
-* Complete Character Profile - Comprehensive export of level, CP, attributes, skills, equipment, combat stats, and progression data
-* Multiple Output Formats - Markdown (default) and TONL (data) optimized for different platforms and sharing needs
-* AI-Powered Build Analysis - Export your complete character profile and paste into ChatGPT, Claude, or other AI assistants for deep build interrogation, optimization suggestions, and personalized guidance
-* Build Improvement Guidance - Get AI-driven recommendations on skill rotations, gear optimization, attribute allocation, and CP distribution based on your playstyle goals
-* Dynamic Build Goals - Easily share your build with AI to explore different playstyles - switch from PvE to PvP, DPS to Tank, or experiment with hybrid builds with expert AI guidance
-* Smart Wiki Links - Automatic UESP links for abilities, sets, races, classes, zones - perfect for AI context and verification
-* Rich Output - Tables, progress bars, and collapsible sections for GitHub format that AI tools can easily parse and analyze
-* Easy Sharing - Copy to clipboard for seamless pasting into AI chat interfaces, Discord, forums, or documentation
+------------------------------------------------------------------------
+                             THE AI ADVANTAGE
+------------------------------------------------------------------------
 
-QUICK START
------------
+Character Markdown isn't just for forum posts. It's built to give modern AI 
+tools perfect context about your exact build.
 
-Installation:
-1. Via Minion: Search "CharacterMarkdown" and install
-2. Manual: Extract the ZIP to your ESO AddOns folder
+> The Workflow:
+  1. Type `/markdown` in-game
+  2. Click "Select All" and Copy 
+  3. Paste the entire output into Claude, ChatGPT, or your favorite AI
+  4. Ask: "How can I optimize this for the new U49 Trial?" or "What's the best rotation for this setup?"
+  5. Get highly specific, math-backed recommendations based on YOUR actual gear, skills, and CP!
 
-AI-Powered Build Analysis Workflow:
-1. Type /markdown in-game (opens export window)
-2. Click "Select All" then copy (Ctrl+C)
-3. Paste into ChatGPT, Claude, or your preferred AI assistant
-4. Ask questions like "How can I improve this build?" or "What should I change for PvP?"
-5. Get expert recommendations on gear, skills, attributes, and CP distribution
+------------------------------------------------------------------------
+                                FEATURES
+------------------------------------------------------------------------
 
-Traditional Sharing:
-* Paste into Discord, GitHub, forums, or any markdown-compatible platform
+[+] Complete Character Profile 
+    Extensive export of level, CP, attributes, skills, equipment, 
+    combat stats, and progression data.
 
-WHAT'S INCLUDED
----------------
+[+] Multiple Output Formats 
+    Markdown (default) and TONL (data) optimized for different 
+    platforms and sharing needs.
 
-All data needed for comprehensive AI build analysis:
+[+] Smart Wiki Links 
+    Automatic UESP links for abilities, sets, races, classes, zones.
+    Perfect for AI context and manual verification!
 
-Core Character Data:
-* Name, race, class, alliance, level, CP
-* Attribute allocations (Magicka, Health, Stamina)
-* Combat stats (resources, power, resistances, recovery)
-* Equipment with set bonuses and traits
-* Mundus stone and active buffs
-* All skill bars with morphs and progression
+[+] Rich Output Formatting
+    Tables, progress bars, and collapsible sections that AI tools 
+    can easily parse, and humans can easily read.
 
-Extended Information:
-* Economy - Gold, currencies, inventory capacity
-* Progression - Achievement score, riding skills, enlightenment
-* DLC Access - ESO Plus status, owned chapters and DLC
-* Collectibles - Active collectibles and achievements
-* PvP - Alliance War rank and active campaign
-* Companion - Active companion stats and equipment
-* Crafting - Research progress and crafting knowledge
+[+] Comprehensive Tracking
+    * Economy: Gold, AP, Tel Var, currencies, inventory
+    * Progression: Achievement score, riding skills
+    * Content: ESO Plus status, owned chapters/DLC (including Gold Road/U49 features)
+    * Companion: Active companion stats & gear
+    * PvP: Alliance War rank & campaigns
 
-This comprehensive data export provides AI assistants with everything needed to analyze your build, identify optimization opportunities, and provide actionable improvement recommendations.
+------------------------------------------------------------------------
+                              QUICK START
+------------------------------------------------------------------------
 
-OUTPUT FORMATS & COMMANDS
--------------------------
+* Installation
+  - Use Minion (Search "CharacterMarkdown" -> Install)
+  - Or manual: Extract ZIP to Documents\Elder Scrolls Online\live\AddOns\
 
-Available Commands:
-/markdown (or /cm)  - Generate Markdown format (default)
-/tonl               - Generate TONL data format
-/markdown help      - Show available commands
-/markdown version   - Show version
-/markdown notes "text" - Set custom build notes
-/markdown settings  - Open settings (if LibAddonMenu is installed)
+* Commands
+  /markdown (or /cm)      - Generate Markdown format (default)
+  /tonl                   - Generate TONL data format
+  /markdown help          - Show commands
+  /markdown version       - Show version
+  /markdown notes "text"  - Set custom build notes
+  /markdown settings      - Open configuration panel
 
-Format Details:
-* Markdown (Default) - Full markdown tables with collapsible sections, rich formatting, comprehensive UESP wiki links. Best for AI analysis with maximum context and detail.
-* TONL - Structured data format (Tom's Obvious, Minimal Language). Machine-readable export ideal for data processing and external tools.
+------------------------------------------------------------------------
+                        SETTINGS & CUSTOMIZATION
+------------------------------------------------------------------------
 
-SETTINGS AND CUSTOMIZATION
----------------------------
-
-Access Settings:
-* In-game: Type /markdown then click "Settings" button
-* Addon Menu: CharacterMarkdown settings panel
-* Command: /markdown settings (if LibAddonMenu is installed)
-
-Key Settings Options:
-* Sections - Enable/disable specific data sections
-* Links - Toggle UESP links for abilities and sets
-* Filters - Set minimum skill ranks, equipment quality thresholds
-* Profiles - Save and load different configuration sets
+You can fully customize your export!
+- Type `/markdown` then click the "Settings" button.
+- Toggle specific sections on or off.
+- Filter minimum skill ranks or equipment quality thresholds.
 
 Built-in Profiles:
-* Full Documentation - Everything enabled (maximum detail)
+* Full Documentation - Max detail for AI
 * PvE Build - Focused on trials/dungeons
 * PvP Build - Optimized for Cyrodiil/Battlegrounds
 
-Advanced Features:
-* Custom Notes - Add personal build notes with /markdown notes "text"
-* Profile Management - Per-character notes, titles, and play styles
-* Error Handling - Comprehensive error reporting with debug mode
+------------------------------------------------------------------------
+                         LINKS & SUPPORT
+------------------------------------------------------------------------
 
-USE CASES
----------
+* ESOUI Download : https://www.esoui.com/downloads/info4279-CharacterMarkdown.html
+* GitHub Source  : https://github.com/solaegis/CharacterMarkdown
+* Issue Tracker  : https://github.com/solaegis/CharacterMarkdown/issues
+* UESP Wiki      : https://en.uesp.net/wiki/Online:Main_Page
 
-* AI-Powered Build Analysis - Paste your character profile into ChatGPT, Claude, or other AI assistants for deep build interrogation, optimization suggestions, and personalized improvement guidance
-* Dynamic Build Optimization - Get AI recommendations on skill rotations, gear choices, attribute allocation, and CP distribution tailored to your playstyle goals
-* Playstyle Exploration - Use AI to explore different build directions - switch from PvE to PvP, DPS to Tank, or experiment with hybrid builds with expert guidance
-* Build Improvement Guidance - Receive AI-driven feedback on what to change, why to change it, and how to implement improvements
-* Share Builds - Export complete character builds for forums, Discord, or community discussions
-* Document Progress - Track your character's progression over time and compare builds with AI analysis
-* Build Guides - Create comprehensive build documentation with AI assistance
-* Guild Roster - Document your character for guild applications with AI-verified optimization
-* Personal Reference - Quick access to your character details for AI-assisted planning
+* Required       : Elder Scrolls Online (Update 49 / API 101049)
+* Optional Libs  : LibAddonMenu-2.0, LibDebugLogger, LibSets, LibSlashCommander
 
-REQUIREMENTS
-------------
-
-* Elder Scrolls Online 11.2.0 (Gold Road)
-* ESO API Version 101048
-* Optional: LibAddonMenu-2.0 (recommended)
-* Optional: LibDebugLogger (for debugging)
-* Optional: LibSets (for set collection features)
-* Optional: LibSlashCommander (for slash command registration)
-
-INSTALLATION LOCATION
----------------------
-
-Extract to:
-Documents\Elder Scrolls Online\live\AddOns\
-
-Or use Minion for automatic installation and updates.
-
-REPORTING ISSUES
-----------------
-
-If you encounter any issues or have suggestions:
-* Check the changelog for recent updates
-* Review settings to ensure options are configured correctly
-* Use /markdown debug for additional troubleshooting information
-
-VERSION
--------
-
-See CHANGELOG.md in the addon folder for complete version history.
-
-LICENSE
--------
-
-MIT License - See LICENSE file for details
-
-LINKS
------
-
-ESOUI Download: https://www.esoui.com/downloads/info4279-CharacterMarkdown.html
-GitHub: https://github.com/solaegis/CharacterMarkdown
-Issue Tracker: https://github.com/solaegis/CharacterMarkdown/issues
-UESP Wiki: https://en.uesp.net/wiki/Online:Main_Page
-
-Made for the ESO community
-
+========================================================================
+                      Made with love for the ESO community
+========================================================================

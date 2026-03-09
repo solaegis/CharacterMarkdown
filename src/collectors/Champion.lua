@@ -120,7 +120,7 @@ local function CollectChampionPointData()
     data.total = cpPoints.total or 0
     data.available = cpPoints.unspent
 
-    -- Get enlightenment info (API 101048+)
+    -- Get enlightenment info (API 101049+)
     if CM.api.champion.GetEnlightenmentInfo then
         data.enlightenment = CM.api.champion.GetEnlightenmentInfo()
     end

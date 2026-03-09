@@ -1,6 +1,6 @@
 # CharacterMarkdown
 
-[![API](https://img.shields.io/badge/ESO_API-101048-green.svg)](https://www.esoui.com/)
+[![API](https://img.shields.io/badge/ESO_API-101049-green.svg)](https://www.esoui.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-@project-version@-orange.svg)](CHANGELOG.md)
 

@@ -276,7 +276,7 @@ end
 -- Composition functions moved to collector level
 
 -- =====================================================
--- COMPREHENSIVE ADVANCED STATS (API 101048+)
+-- COMPREHENSIVE ADVANCED STATS (API 101049+)
 -- =====================================================
 
 -- Aggregate all available advanced stats into a single lookup

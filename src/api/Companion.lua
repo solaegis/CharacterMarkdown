@@ -205,7 +205,7 @@ end
 -- Composition functions moved to collector level
 
 -- =====================================================
--- COMPANION OUTFIT & RAPPORT (API 101048+)
+-- COMPANION OUTFIT & RAPPORT (API 101049+)
 -- =====================================================
 
 function api.GetCompanionOutfit()

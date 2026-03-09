@@ -126,7 +126,7 @@ end
 -- Composition functions moved to collector level
 
 -- =====================================================
--- ENLIGHTENMENT TRACKING (API 101048+)
+-- ENLIGHTENMENT TRACKING (API 101049+)
 -- =====================================================
 
 function api.GetEnlightenmentInfo()

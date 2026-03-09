@@ -64,9 +64,11 @@ local function CollectCompanionData()
         data.skills = CM.api.companion.GetCompanionSkills()
         data.equipment = CM.api.companion.GetCompanionEquipment()
 
-        -- Get rapport level (API 101048+)
-        if CM.api.companion.GetCompanionRapport then
-            data.rapport = CM.api.companion.GetCompanionRapport()
+        -- Get rapport level (API 101049+)
+        local hasRapport = HasActiveCompanion()
+        if hasRapport then
+            data.rapportLevel = GetActiveCompanionRapportLevel()
+            data.rapportLevelDescription = GetActiveCompanionRapportLevelDescription(data.rapportLevel)
         end
 
         -- Get outfit info (API 101048+)
