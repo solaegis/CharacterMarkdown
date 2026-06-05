@@ -186,8 +186,29 @@ validate_changelog() {
     return 0
 }
 
+validate_examples() {
+    print_section "6. Example Characters Validation"
+
+    if ! check_task; then
+        return 1
+    fi
+
+    if ! command_exists uv; then
+        print_warning "uv not found - skipping examples:check"
+        return 0
+    fi
+
+    if task examples:check > /dev/null 2>&1; then
+        print_success "Example characters match SavedVariables"
+        return 0
+    else
+        print_error "Example characters check failed - run 'task examples:check' for details"
+        return 1
+    fi
+}
+
 validate_readme() {
-    print_section "6. README.md Validation"
+    print_section "7. README.md Validation"
     
     README_FILE="README.md"
     MANIFEST_FILE="CharacterMarkdown.addon"
@@ -218,7 +239,7 @@ validate_readme() {
 }
 
 validate_git_state() {
-    print_section "7. Git State Validation"
+    print_section "8. Git State Validation"
     
     if ! command_exists git; then
         print_warning "Git not found - skipping git validation"
@@ -251,7 +272,7 @@ validate_git_state() {
 }
 
 validate_build() {
-    print_section "8. Build Validation"
+    print_section "9. Build Validation"
     
     if ! check_task; then
         return 1
@@ -304,6 +325,7 @@ main() {
     validate_manifest || validation_failed=1
     validate_files || validation_failed=1
     validate_changelog || validation_failed=1
+    validate_examples || validation_failed=1
     validate_readme || true  # Don't fail on README warnings
     validate_git_state || true  # Don't fail on git checks
     validate_build || validation_failed=1

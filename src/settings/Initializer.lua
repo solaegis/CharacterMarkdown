@@ -145,6 +145,25 @@ function CM.Settings.Initializer:TryZOSavedVars()
         )
     end
 
+    -- MIGRATION: Enable Crafting & Style Knowledge (Version 2.2.6+)
+    -- If settingsVersion is less than 4, enable the new crafting/style features by default
+    if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 4 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 4 - enabling crafting and style features")
+
+        -- Enable the features
+        CharacterMarkdownSettings.includeCrafting = true
+        CharacterMarkdownSettings.includeMotifs = true
+        CharacterMarkdownSettings.showMotifsDetailed = true
+        CharacterMarkdownSettings.includeStyles = true
+        CharacterMarkdownSettings.showStylesDetailed = true
+        CharacterMarkdownSettings.includeRecipes = true
+
+        CharacterMarkdownSettings.settingsVersion = 4
+        CM.Info(
+            "New Crafting & Style Knowledge features have been enabled! You can now see your character's motifs and unlocked styles in your profiles."
+        )
+    end
+
     -- zo_savedvars_available = true -- luacheck: ignore
     CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully")
     return true
@@ -236,6 +255,18 @@ function CM.Settings.Initializer:InitializeFallback()
         CM.Info(
             "Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats."
         )
+    end
+
+    -- MIGRATION: Enable Crafting & Style Knowledge (Version 2.2.6+)
+    if not CM.settings.settingsVersion or CM.settings.settingsVersion < 4 then
+        CM.DebugPrint("SETTINGS", "Migrating (fallback) to settings version 4")
+        CM.settings.includeCrafting = true
+        CM.settings.includeMotifs = true
+        CM.settings.showMotifsDetailed = true
+        CM.settings.includeStyles = true
+        CM.settings.showStylesDetailed = true
+        CM.settings.includeRecipes = true
+        CM.settings.settingsVersion = 4
     end
 
     CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")

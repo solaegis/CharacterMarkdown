@@ -18,7 +18,6 @@ local editBoxControl = nil
 local currentMarkdown = ""
 local markdownChunks = {} -- Array of markdown chunks
 local currentChunkIndex = 1
-local copyChunkIndex = 1 -- Track which chunk we're copying
 
 -- Forward declarations
 local ShowChunk
@@ -27,7 +26,6 @@ local ShowChunk
 local function ClearChunks()
     markdownChunks = {}
     currentChunkIndex = 1
-    copyChunkIndex = 1
     currentMarkdown = ""
     CM.DebugPrint("UI", "Chunks cleared")
 end
@@ -117,32 +115,6 @@ end
 -- =====================================================
 -- INITIALIZE WINDOW CONTROLS
 -- =====================================================
-
--- Helper to ensure EditBox has keyboard focus for shortcuts
-local function EnsureEditBoxHasKeyboardFocus()
-    if windowControl and not windowControl:IsHidden() and editBoxControl then
-        -- CRITICAL: EditBox must have focus to receive keyboard events
-        -- All keyboard shortcuts are handled by EditBox OnKeyDown handler
-        editBoxControl:SetKeyboardEnabled(true)
-        editBoxControl:TakeFocus()
-
-        -- Also ensure window is on top
-        if windowControl.SetTopmost then
-            windowControl:SetTopmost(true)
-        end
-
-        CM.DebugPrint("KEYBOARD", "EditBox has keyboard focus for shortcuts")
-    end
-end
-
-local function LoseFocus(delayMs)
-    delayMs = delayMs or 150 -- Default delay
-    zo_callLater(function()
-        if not windowControl:IsHidden() and editBoxControl then
-            editBoxControl:LoseFocus()
-        end
-    end, delayMs)
-end
 
 -- Helper to select all text, take focus, and update selection state
 -- Wraps the operation in zo_callLater with window/editBox checks
@@ -664,9 +636,6 @@ function CharacterMarkdown_RegenerateMarkdown()
     -- Reset selection state when regenerating
     ResetSelectionState()
 
-    -- Get current formatter (default to markdown if not stored)
-    local formatter = CM.currentFormatter or "markdown"
-
     -- Clear the window and reset UI elements
     if editBoxControl then
         editBoxControl:SetText("")
@@ -811,6 +780,7 @@ function ShowChunk(chunkIndex)
     local chunkSize = string.len(chunkContent)
     local CHUNKING = CM.constants and CM.constants.CHUNKING
     local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT) or 10000
+    local COPY_LIMIT = (CHUNKING and CHUNKING.COPY_LIMIT) or 21500
 
     -- This should never happen if chunking algorithm is working correctly
     if chunkSize > EDITBOX_LIMIT then
@@ -841,8 +811,6 @@ function ShowChunk(chunkIndex)
     ResetSelectionState()
 
     -- Update visual progress bar
-    local CHUNKING = CM.constants and CM.constants.CHUNKING
-    local COPY_LIMIT = (CHUNKING and CHUNKING.COPY_LIMIT) or 21500
     local fillPercentage = (chunkSize / COPY_LIMIT) * 100
     local segmentsToFill = math.ceil((fillPercentage / 100) * 10) -- 10 segments total
 
@@ -879,10 +847,6 @@ function ShowChunk(chunkIndex)
 
     -- Always update instructions label to prevent stale data from previous runs
     if instructionsLabel then
-        -- Get copy limit for visual display
-        local COPY_LIMIT = (CHUNKING and CHUNKING.COPY_LIMIT) or 21500
-        local percentage = math.floor((chunkSize / COPY_LIMIT) * 100)
-
         -- Create visual progress bar (12 blocks for better granularity and symmetry)
         -- Using ASCII characters for ESO font compatibility
         local barLength = 12

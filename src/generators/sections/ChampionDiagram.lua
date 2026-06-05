@@ -504,7 +504,10 @@ local function GenerateChampionDiagram(cpData)
 
     -- Generate diagram with new cleaner format
     table_insert(parts, "```mermaid\n")
-    table_insert(parts, '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%\n\n')
+    table_insert(
+        parts,
+        '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"14px","primaryColor":"#e8f4f0","primaryTextColor":"#000","primaryBorderColor":"#4a9d7f","lineColor":"#999","secondaryColor":"#f0f4f8","tertiaryColor":"#faf0f0"}, "flowchart": {"curve":"basis"}}}%%\n\n'
+    )
     table_insert(parts, "flowchart LR\n")
     table_insert(parts, "  %% Champion Point Investment Visualization\n")
     table_insert(parts, "  %% Enhanced readability with clear visual hierarchy\n\n")
@@ -543,22 +546,23 @@ local function GenerateChampionDiagram(cpData)
             local pointsInvested = treePoints[treeName]
 
             table_insert(parts, "  %% ========================================\n")
-            table_insert(parts, string_format(
-                "  %%%% %s %s CONSTELLATION (%d/%d pts)\n",
-                treeIcon,
-                treeName:upper(),
-                pointsInvested,
-                MAX_POINTS_PER_CONSTELLATION
-            ))
+            table_insert(
+                parts,
+                string_format(
+                    "  %%%% %s %s CONSTELLATION (%d/%d pts)\n",
+                    treeIcon,
+                    treeName:upper(),
+                    pointsInvested,
+                    MAX_POINTS_PER_CONSTELLATION
+                )
+            )
             table_insert(parts, "  %% ========================================\n\n")
 
             -- Mermaid subgraph with simplified title
-            table_insert(parts, string_format(
-                '  subgraph sub%s["%s %s CONSTELLATION"]\n',
-                treeName:upper(),
-                treeIcon,
-                treeName:upper()
-            ))
+            table_insert(
+                parts,
+                string_format('  subgraph sub%s["%s %s CONSTELLATION"]\n', treeName:upper(), treeIcon, treeName:upper())
+            )
             table_insert(parts, "    \n")
 
             -- Generate nodes for each tree
@@ -606,7 +610,18 @@ local function GenerateChampionDiagram(cpData)
                     strokeColor = isMaxed and "#ffd700" or nodeColor
                 end
 
-                table_insert(parts, "    style " .. nodeId .. " fill:" .. nodeColor .. ",stroke:" .. strokeColor .. ",stroke-width:" .. strokeWidth .. ",color:#fff\n")
+                table_insert(
+                    parts,
+                    "    style "
+                        .. nodeId
+                        .. " fill:"
+                        .. nodeColor
+                        .. ",stroke:"
+                        .. strokeColor
+                        .. ",stroke-width:"
+                        .. strokeWidth
+                        .. ",color:#fff\n"
+                )
             end
 
             -- Render Connections
@@ -642,7 +657,10 @@ local function GenerateChampionDiagram(cpData)
             -- Add available points node
             local disciplineAvailable = discipline and discipline.available or 0
             table_insert(parts, "\n")
-            table_insert(parts, "    " .. treeName:upper() .. '_AVAIL["💎 ' .. disciplineAvailable .. ' points available"]\n')
+            table_insert(
+                parts,
+                "    " .. treeName:upper() .. '_AVAIL["💎 ' .. disciplineAvailable .. ' points available"]\n'
+            )
 
             -- Style available node
             local availBgColor = {
@@ -657,13 +675,32 @@ local function GenerateChampionDiagram(cpData)
                 Fitness = "#b87a7a",
             }
 
-            table_insert(parts, "    style " .. treeName:upper() .. "_AVAIL fill:" .. availBgColorValue .. ",stroke:" .. availTextColor[treeName] .. ",stroke-width:2px,stroke-dasharray:5 5,color:" .. availTextColor[treeName] .. "\n\n")
+            table_insert(
+                parts,
+                "    style "
+                    .. treeName:upper()
+                    .. "_AVAIL fill:"
+                    .. availBgColorValue
+                    .. ",stroke:"
+                    .. availTextColor[treeName]
+                    .. ",stroke-width:2px,stroke-dasharray:5 5,color:"
+                    .. availTextColor[treeName]
+                    .. "\n\n"
+            )
 
             table_insert(parts, "  end\n")
 
             -- Add subgraph background styling
             local subgraphBgColor = GetSubgraphBackgroundColor(treeName)
-            table_insert(parts, string_format("  style sub%s fill:%s,stroke:%s,stroke-width:3px\n\n", treeName:upper(), subgraphBgColor, GetStrongNodeColor(treeName)))
+            table_insert(
+                parts,
+                string_format(
+                    "  style sub%s fill:%s,stroke:%s,stroke-width:3px\n\n",
+                    treeName:upper(),
+                    subgraphBgColor,
+                    GetStrongNodeColor(treeName)
+                )
+            )
         end
     end
 
@@ -678,7 +715,10 @@ local function GenerateChampionDiagram(cpData)
     -- Start a SEPARATE mermaid block for the legend
     -- This prevents chunking from splitting the legend subgraph
     table_insert(parts, "```mermaid\n")
-    table_insert(parts, '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"12px","primaryColor":"#f0f0f0","primaryTextColor":"#333","primaryBorderColor":"#999","lineColor":"#999"}}}%%\n\n')
+    table_insert(
+        parts,
+        '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"12px","primaryColor":"#f0f0f0","primaryTextColor":"#333","primaryBorderColor":"#999","lineColor":"#999"}}}%%\n\n'
+    )
     table_insert(parts, "flowchart LR\n\n")
 
     -- Parent legend subgraph

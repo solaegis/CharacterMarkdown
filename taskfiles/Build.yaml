@@ -64,6 +64,7 @@ tasks:
 
         chmod +x scripts/validate-zip.sh
         scripts/validate-zip.sh "{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
+    silent: true
 
   fast:
     desc: Build without tests (fast local iteration)
@@ -96,6 +97,7 @@ tasks:
         ./scripts/replace-version.sh "{{.BUILD_DIR}}/{{.ADDON_NAME}}" "$VERSION"
         cd {{.BUILD_DIR}} && zip -r -q "../{{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip" {{.ADDON_NAME}}
         echo "✅ Built: {{.DIST_DIR}}/{{.ADDON_NAME}}-${VERSION}.zip"
+    silent: true
 
   esoui:
     desc: Create ESOUI-compatible package (same as build:release)

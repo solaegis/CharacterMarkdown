@@ -31,6 +31,11 @@ These templates help you:
   - Output standards for gear tables, skill bars, CP distributions
   - Use this if you want Claude to focus specifically on optimization
 
+- **`build_plan_template.md`** - Skeleton for Solaegis-style `*_plan.md` build plans
+  - Canonical section order (at a glance → trinity → combat → gear → CP → companion → collectibles → checklist)
+  - Placeholder tables for skill bars, loadout, CP, and phased execution list
+  - Exemplar: `examples/solaegis/na/silent_snow_falls_plan.md`; rules in repo `AGENTS.md`
+
 - **`playstyle_strategy.md`** - Template for documenting playstyle strategies
   - Comprehensive playstyle documentation format
   - Stat architecture, gear strategy, rotation mechanics
@@ -149,17 +154,3 @@ For questions about:
 - **CharacterMarkdown addon**: See main README.md
 - **Using templates with Claude**: Experiment and iterate
 - **ESO optimization**: Consult ESO community resources
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -44,6 +44,7 @@ local function GetGenerators()
         GenerateChampionDiagram = CM.generators.sections.GenerateChampionDiagram,
         GenerateCollectibles = CM.generators.sections.GenerateCollectibles,
         GenerateCrafting = CM.generators.sections.GenerateCrafting,
+        GenerateStyles = CM.generators.sections.GenerateStyles,
         GenerateAchievements = CM.generators.sections.GenerateAchievements,
         GenerateAntiquities = CM.generators.sections.GenerateAntiquities,
         GenerateQuests = CM.generators.sections.GenerateQuests,
@@ -54,6 +55,7 @@ local function GetGenerators()
 
         -- Tier 3-5 sections
         GenerateTitlesHousing = CM.generators.sections.GenerateTitlesHousing,
+        GenerateTitles = CM.generators.sections.GenerateTitles,
         GeneratePvPStats = CM.generators.sections.GeneratePvPStats,
         GenerateArmoryBuilds = CM.generators.sections.GenerateArmoryBuilds,
         GenerateUndauntedPledges = CM.generators.sections.GenerateUndauntedPledges,
@@ -259,7 +261,6 @@ local function GetSectionRegistry(settings, gen, data)
                 -- Check if any subsection is enabled
                 return IsSettingEnabled(settings, "includeGeneral", true)
                     or IsSettingEnabled(settings, "includeCurrency", true)
-                    or IsSettingEnabled(settings, "includeCharacterStats", true)
             end,
             generator = function()
                 -- Pass attributes data through settings for GenerateGeneral
@@ -467,7 +468,10 @@ local function GetSectionRegistry(settings, gen, data)
             condition = IsSettingEnabled(settings, "includeSkills", true),
             generator = function()
                 local skillProgressionData = data.skill or {}
-                local skillMorphsData = data.skillMorphs or {}
+                -- Only pass morph data if includeSkillMorphs is enabled (default: false)
+                local skillMorphsData = IsSettingEnabled(settings, "includeSkillMorphs", false)
+                        and (data.skillMorphs or {})
+                    or nil
 
                 -- Use the new consolidated generator
                 return gen.GenerateCharacterProgress(skillProgressionData, skillMorphsData)
@@ -515,6 +519,27 @@ local function GetSectionRegistry(settings, gen, data)
             condition = IsSettingEnabled(settings, "includeCompanion", true),
             generator = function()
                 return gen.GenerateCompanion(data.companion)
+            end,
+        },
+
+        -- 👑 Titles (standalone when Collectibles is off)
+        {
+            name = "Titles",
+            tocEntry = {
+                title = "👑 Titles",
+            },
+            condition = function()
+                if not IsSettingEnabled(settings, "includeTitlesHousing", false) then
+                    return false
+                end
+                if IsSettingEnabled(settings, "includeCollectibles", false) then
+                    return false
+                end
+                return data.titlesHousing ~= nil
+            end,
+            generator = function()
+                local titlesData = data.titlesHousing and data.titlesHousing.titles or {}
+                return gen.GenerateTitles(titlesData)
             end,
         },
 
@@ -566,12 +591,22 @@ local function GetSectionRegistry(settings, gen, data)
                         hasData = true
                     end
                 end
-                -- Check for Titles/Housing if enabled (implicit check as they are part of collectibles section)
+                -- Check for Titles/Housing if those toggles are enabled
                 if not hasData and data.titlesHousing then
                     local titles = data.titlesHousing.titles
                     local housing = data.titlesHousing.housing
-                    if (titles and (titles.total or 0) > 0) or (housing and (housing.total or 0) > 0) then
-                        hasData = true
+                    if IsSettingEnabled(settings, "includeTitlesHousing", false) then
+                        if (titles and (titles.total or 0) > 0)
+                            or (titles and titles.current and titles.current ~= "")
+                            or (titles and titles.owned and #titles.owned > 0)
+                        then
+                            hasData = true
+                        end
+                    end
+                    if not hasData and IsSettingEnabled(settings, "includeHousing", false) then
+                        if housing and (housing.total or 0) > 0 then
+                            hasData = true
+                        end
                     end
                 end
                 return hasData
@@ -738,20 +773,34 @@ local function GetSectionRegistry(settings, gen, data)
         -- ========================================
         -- Uses: Crafting.lua - CollectCraftingData
         -- Setting: includeCrafting
-        -- NOTE: Currently disabled in section registry
-        -- TODO: Enable Crafting section when generator is implemented
-        --[[
         {
             name = "Crafting",
             tocEntry = {
-                title = "⚒️ Crafting"
+                title = "⚒️ Crafting Knowledge",
             },
-            condition = IsSettingEnabled(settings, "includeCrafting", true),
+            condition = IsSettingEnabled(settings, "includeCrafting", true)
+                or IsSettingEnabled(settings, "includeMotifs", true)
+                or IsSettingEnabled(settings, "includeRecipes", true),
             generator = function()
-                return gen.GenerateCrafting(data.crafting, format)
-            end
+                return gen.GenerateCrafting(data.crafting)
+            end,
         },
-        --]]
+
+        -- ========================================
+        -- OUTFIT STYLES (Styles.lua collector)
+        -- ========================================
+        -- Uses: Styles.lua - CollectStylesData
+        -- Setting: includeStyles
+        {
+            name = "Styles",
+            tocEntry = {
+                title = "🧥 Outfit Styles",
+            },
+            condition = IsSettingEnabled(settings, "includeStyles", true),
+            generator = function()
+                return gen.GenerateStyles(data.styles)
+            end,
+        },
 
         -- ========================================
         -- SOCIAL (Social.lua collector) - Settings Panel Order: 16
@@ -855,7 +904,8 @@ local function GenerateMarkdown()
         role = SafeCollect("CollectRoleData", CM.collectors.CollectRoleData),
         location = SafeCollect("CollectLocationData", CM.collectors.CollectLocationData),
         collectibles = SafeCollect("CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
-        -- crafting = SafeCollect("CollectCraftingKnowledgeData", CM.collectors.CollectCraftingKnowledgeData),  -- DISABLED
+        crafting = SafeCollect("CollectCraftingData", CM.collectors.CollectCraftingData),
+        styles = SafeCollect("CollectStylesData", CM.collectors.CollectStylesData),
         achievements = SafeCollect("CollectAchievementsData", CM.collectors.CollectAchievementsData),
         antiquities = SafeCollect("CollectAntiquitiesData", CM.collectors.CollectAntiquitiesData),
         quests = SafeCollect("CollectQuestJournalData", CM.collectors.CollectQuestJournalData),
@@ -894,8 +944,6 @@ local function GenerateMarkdown()
     CM.DebugPrint("GENERATOR", function()
         return "Generating markdown..."
     end)
-
-    local markdown = ""
 
     -- Get section registry (pass flattened settings)
     local sections = GetSectionRegistry(settings, gen, collectedData)
@@ -1074,10 +1122,10 @@ local function GenerateMarkdown()
     end
     -- Markdown generated
 
-    local markdown = table.concat(markdownChunks)
+    local finalMarkdown = table.concat(markdownChunks)
 
-    -- CRITICAL CHECK: If markdown is empty at this point, log it
-    if markdown == "" or #markdown == 0 then
+    -- CRITICAL CHECK: If finalMarkdown is empty at this point, log it
+    if finalMarkdown == "" or #finalMarkdown == 0 then
         CM.Error("⚠️ CRITICAL: Markdown is EMPTY after section generation!")
         CM.Error("This means all sections returned empty content or were skipped.")
         CM.Error("Please check if settings are enabled and data collectors returned data.")
@@ -1085,9 +1133,9 @@ local function GenerateMarkdown()
 
     -- Footer (controlled by includeFooter setting)
     if IsSettingEnabled(settings, "includeFooter", true) then
-        local footerSuccess, footerResult = pcall(gen.GenerateFooter, string.len(markdown))
+        local footerSuccess, footerResult = pcall(gen.GenerateFooter, string.len(finalMarkdown))
         if footerSuccess then
-            markdown = markdown .. footerResult
+            finalMarkdown = finalMarkdown .. footerResult
             CM.DebugPrint("GENERATOR", string.format("Footer added (%d chars)", #footerResult))
         else
             CM.DebugPrint("GENERATOR", string.format("Failed to generate footer: %s", tostring(footerResult)))
@@ -1097,11 +1145,11 @@ local function GenerateMarkdown()
     -- Final markdown complete
 
     CM.DebugPrint("GENERATOR", function()
-        return string.format("Markdown generation complete: %d bytes", string.len(markdown))
+        return string.format("Markdown generation complete: %d bytes", string.len(finalMarkdown))
     end)
 
     -- Store the complete markdown in a variable
-    local completeMarkdown = markdown
+    local completeMarkdown = finalMarkdown
     local markdownLength = string.len(completeMarkdown)
 
     -- Update character data timestamp (markdown/format no longer stored - exceeds ESO 2k char limit and unused)

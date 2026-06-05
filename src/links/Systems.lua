@@ -30,7 +30,6 @@ local function CreateMundusLink(mundusName)
     end
 
     local url = GenerateMundusURL(mundusName)
-    local url = GenerateMundusURL(mundusName)
     if url then
         return "[" .. mundusName .. "](" .. url .. ")"
     else
@@ -68,7 +67,6 @@ local function CreateCPSkillLink(skillName)
     end
 
     local url = GenerateCPSkillURL(skillName)
-    local url = GenerateCPSkillURL(skillName)
     if url then
         return "[" .. skillName .. "](" .. url .. ")"
     else
@@ -104,7 +102,6 @@ local function CreateCampaignLink(campaignName)
         return campaignName
     end
 
-    local url = GenerateCampaignURL(campaignName)
     local url = GenerateCampaignURL(campaignName)
     if url then
         return "[" .. campaignName .. "](" .. url .. ")"
@@ -152,7 +149,6 @@ local function CreateBuffLink(buffName)
         return buffName
     end
 
-    local url = GenerateBuffURL(buffName)
     local url = GenerateBuffURL(buffName)
     if url then
         return "[" .. buffName .. "](" .. url .. ")"
@@ -218,7 +214,6 @@ local function CreateCurrencyLink(currencyName)
     end
 
     local url = GenerateCurrencyURL(currencyName)
-    local url = GenerateCurrencyURL(currencyName)
     if url then
         return "[" .. currencyName .. "](" .. url .. ")"
     else
@@ -262,7 +257,6 @@ local function CreateCollectibleLink(collectibleName)
     end
 
     local url = GenerateCollectibleURL(collectibleName)
-    local url = GenerateCollectibleURL(collectibleName)
     if url then
         return "[" .. collectibleName .. "](" .. url .. ")"
     else
@@ -271,3 +265,120 @@ local function CreateCollectibleLink(collectibleName)
 end
 
 CM.links.CreateCollectibleLink = CreateCollectibleLink
+
+-- =====================================================
+-- MOTIF CHAPTER LINKS
+-- =====================================================
+
+local function GenerateMotifChapterURL(chapterName)
+    if not chapterName or chapterName == "" then
+        return nil
+    end
+
+    -- UESP format: https://en.uesp.net/wiki/Online:Crafting_Motif_XX:_Style_Part
+    -- Chapter names from ESO look like "Crafting Motif 18: Akaviri Boots"
+    -- UESP uses underscores: "Crafting_Motif_18:_Akaviri_Boots"
+    local urlName = chapterName:gsub(" ", "_")
+    urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    return "https://en.uesp.net/wiki/Online:" .. urlName
+end
+
+CM.links.GenerateMotifChapterURL = GenerateMotifChapterURL
+
+local function CreateMotifLink(chapterName)
+    if not chapterName or chapterName == "" then
+        return chapterName or ""
+    end
+
+    local settings = CM.GetSettings and CM.GetSettings() or {}
+    if settings and settings.enableMotifLinks == false then
+        return chapterName
+    end
+
+    local url = GenerateMotifChapterURL(chapterName)
+    if url then
+        return "[" .. chapterName .. "](" .. url .. ")"
+    else
+        return chapterName
+    end
+end
+
+CM.links.CreateMotifLink = CreateMotifLink
+
+-- =====================================================
+-- OUTFIT STYLE LINKS
+-- =====================================================
+
+local function GenerateStyleURL(styleName)
+    if not styleName or styleName == "" then
+        return nil
+    end
+
+    -- UESP format: https://en.uesp.net/wiki/Online:Style_Name (e.g. "Breton Robe 1")
+    -- These map to individual style item pages on UESP
+    local urlName = styleName:gsub(" ", "_")
+    urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    return "https://en.uesp.net/wiki/Online:" .. urlName
+end
+
+CM.links.GenerateStyleURL = GenerateStyleURL
+
+local function CreateStyleLink(styleName)
+    if not styleName or styleName == "" then
+        return styleName or ""
+    end
+
+    local settings = CM.GetSettings and CM.GetSettings() or {}
+    if settings and settings.enableStyleLinks == false then
+        return styleName
+    end
+
+    local url = GenerateStyleURL(styleName)
+    if url then
+        return "[" .. styleName .. "](" .. url .. ")"
+    else
+        return styleName
+    end
+end
+
+CM.links.CreateStyleLink = CreateStyleLink
+
+-- =====================================================
+-- RECIPE LINKS
+-- =====================================================
+
+local function GenerateRecipeURL(recipeName)
+    if not recipeName or recipeName == "" then
+        return nil
+    end
+
+    -- UESP format: https://en.uesp.net/wiki/Online:Recipe_Name
+    -- Recipe names from ESO look like "Comberry Brandy" or "Dubious Camoran Throne"
+    -- UESP uses underscores and the "Recipe_" prefix is NOT part of the page title;
+    -- the page itself IS the recipe name, e.g. Online:Comberry_Brandy
+    local urlName = recipeName:gsub(" ", "_")
+    urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    return "https://en.uesp.net/wiki/Online:" .. urlName
+end
+
+CM.links.GenerateRecipeURL = GenerateRecipeURL
+
+local function CreateRecipeLink(recipeName)
+    if not recipeName or recipeName == "" then
+        return recipeName or ""
+    end
+
+    local settings = CM.GetSettings and CM.GetSettings() or {}
+    if settings and settings.enableRecipeLinks == false then
+        return recipeName
+    end
+
+    local url = GenerateRecipeURL(recipeName)
+    if url then
+        return "[" .. recipeName .. "](" .. url .. ")"
+    else
+        return recipeName
+    end
+end
+
+CM.links.CreateRecipeLink = CreateRecipeLink

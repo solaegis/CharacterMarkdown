@@ -10,7 +10,6 @@ CM.utils.ChunkBuilder = {}
 -- Cached functions
 local string_len = string.len
 local table_insert = table.insert
-local table_concat = table.concat
 
 ---Check if new content can fit in current chunk
 ---@param currentContent string Current chunk content
@@ -40,7 +39,6 @@ local function BuildChunks(sections, maxSize, options)
 
     -- Default options
     options = options or {}
-    local preserveSections = options.preserveSections ~= false -- default true
     local minChunkSize = options.minChunkSize or 100
 
     local chunks = {}

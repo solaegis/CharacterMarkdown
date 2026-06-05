@@ -78,7 +78,6 @@ CM.constants.LIMITS = {
 
 CM.constants.FORMATS = {
     MARKDOWN = "markdown",
-    TONL = "tonl",
 }
 
 -- =====================================================

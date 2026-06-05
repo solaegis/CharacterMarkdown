@@ -66,7 +66,13 @@ function CM.Settings.Defaults:GetAll()
         includePvP = false,
         includeCollectibles = true,
         showCollectiblesDetailed = false, -- Show full lists vs counts
-        includeCrafting = false,
+        includeCrafting = true,
+        includeMotifs = true,
+        showMotifsDetailed = false,
+        includeStyles = true,
+        showStylesDetailed = false,
+        includeRecipes = true,
+        showRecipesDetailed = false, -- Show individual recipe lists per category vs counts only
         includeAchievements = false, -- Achievement tracking with category breakdown (opt-in for detail level)
         showAllAchievements = true, -- Show all achievements vs in-progress only
         includeAntiquities = false, -- Antiquities tracking (opt-in, not all players use this content)
@@ -104,6 +110,9 @@ function CM.Settings.Defaults:GetAll()
         -- ====================================
         enableAbilityLinks = true, -- Add UESP wiki links to abilities (no size impact, major UX improvement)
         enableSetLinks = true, -- Add UESP wiki links to armor sets (no size impact, major UX improvement)
+        enableMotifLinks = true, -- Add UESP wiki links to crafting motif chapters (no size impact, major UX improvement)
+        enableStyleLinks = true, -- Add UESP wiki links to outfit style entries (no size impact, major UX improvement)
+        enableRecipeLinks = true, -- Add UESP wiki links to individual recipes (no size impact, major UX improvement)
 
         -- ====================================
         -- PER-CHARACTER DATA STORAGE

@@ -22,8 +22,7 @@ function api.GetItemInfo(bagId, slotIndex)
         return nil
     end
 
-    local success_info, icon, stack, _, _, _, equipType, itemStyleId, quality =
-        CM.SafeCallMulti(GetItemInfo, bagId, slotIndex)
+    local success_info, icon, _, _, _, _, _, _, quality = CM.SafeCallMulti(GetItemInfo, bagId, slotIndex)
     local name = CM.SafeCall(GetItemName, bagId, slotIndex)
 
     -- Trait
@@ -34,11 +33,11 @@ function api.GetItemInfo(bagId, slotIndex)
     end
 
     -- Set Info
-    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId =
+    local success, hasSet, setName, _, numEquipped, maxEquipped, setId =
         CM.SafeCallMulti(GetItemLinkSetInfo, link, false)
 
     -- Enchant
-    local success_enchant, hasEnchant, enchantName, enchantDesc = CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
+    local success_enchant, hasEnchant, enchantName, _ = CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
 
     return {
         name = name or "Unknown",
@@ -68,8 +67,7 @@ function api.GetSetBonuses(itemLink)
         return {}
     end
 
-    local success, hasSet, setName, numBonuses, numEquipped, maxEquipped, setId =
-        CM.SafeCallMulti(GetItemLinkSetInfo, itemLink, false)
+    local success, hasSet, setName, numBonuses, _, _, setId = CM.SafeCallMulti(GetItemLinkSetInfo, itemLink, false)
 
     if not success or not hasSet then
         return {}

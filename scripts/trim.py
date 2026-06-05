@@ -207,13 +207,12 @@ def trim_markdown(content: str) -> str:
             consecutive_blanks = 0
             result.append(line)
     
-    # Remove excessive trailing newlines (keep at most 2 blank lines at end)
-    while len(result) > 0 and result[-1] == '' and result[-2:].count('') > 2:
+    # Strip all trailing blank lines, then add exactly one
+    while result and result[-1] == '':
         result.pop()
-    
+
     # Ensure file ends with single newline
-    if result and result[-1] != '':
-        result.append('')
+    result.append('')
     
     return '\n'.join(result)
 
@@ -276,6 +275,22 @@ def main():
     
     args = parser.parse_args()
     
+    # Expand directories and globs
+    files_to_process = []
+    for path in args.files:
+        path_str = str(path)
+        if '*' in path_str or '?' in path_str:
+            # Handle glob patterns if shell didn't expand them
+            import glob
+            matched = glob.glob(path_str, recursive=True)
+            files_to_process.extend([Path(f) for f in matched])
+        elif path.is_dir():
+            # Recursively find all supported files in directory
+            for ext in ['*.md', '*.markdown', '*.tonl']:
+                files_to_process.extend(path.rglob(ext))
+        else:
+            files_to_process.append(path)
+            
     # Process files
     total_files = 0
     total_changed = 0
@@ -284,17 +299,23 @@ def main():
     print("📝 Trimming files...")
     print()
     
-    for filepath in args.files:
+    # Use a set to avoid processing the same file multiple times if globs overlap
+    processed_paths = set()
+    
+    for filepath in files_to_process:
         if not filepath.exists():
-            print(f"  ✗ Not found: {filepath}", file=sys.stderr)
             continue
         
         if not filepath.is_file():
-            print(f"  ✗ Not a file: {filepath}", file=sys.stderr)
             continue
+            
+        # Normalize path for the set
+        abs_path = filepath.absolute()
+        if abs_path in processed_paths:
+            continue
+        processed_paths.add(abs_path)
         
         if filepath.suffix.lower() not in ['.md', '.markdown', '.tonl']:
-            print(f"  ✗ Not a supported file type: {filepath}", file=sys.stderr)
             continue
         
         total_files += 1

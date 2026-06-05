@@ -21,10 +21,8 @@ local function CollectCraftBagItems()
                 local itemName = CM.SafeCall(GetItemName, BAG_VIRTUAL, slotIndex) or "Unknown"
                 itemName = itemName:gsub("%^%w+$", "") -- Strip superscript markers
 
-                local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
-                    pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
+                local success, _, stack, _, _, _, _, _, quality = pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
                 if not success then
-                    icon = nil
                     stack = 1
                     quality = 0
                 end
@@ -65,10 +63,8 @@ local function CollectCraftBagItems()
                     local itemName = CM.SafeCall(GetItemName, BAG_VIRTUAL, slotIndex) or "Unknown"
                     itemName = itemName:gsub("%^%w+$", "")
 
-                    local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
-                        pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
+                    local success, _, stack, _, _, _, _, _, quality = pcall(GetItemInfo, BAG_VIRTUAL, slotIndex)
                     if not success then
-                        icon = nil
                         stack = 1
                         quality = 0
                     end
@@ -116,10 +112,8 @@ local function CollectBagItems(bagId)
             local itemName = CM.SafeCall(GetItemName, bagId, slotIndex) or "Unknown"
             itemName = itemName:gsub("%^%w+$", "") -- Strip superscript markers
 
-            local success, icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality =
-                pcall(GetItemInfo, bagId, slotIndex)
+            local success, _, stack, _, _, _, _, _, quality = pcall(GetItemInfo, bagId, slotIndex)
             if not success then
-                icon = nil
                 stack = 1
                 quality = 0
             end

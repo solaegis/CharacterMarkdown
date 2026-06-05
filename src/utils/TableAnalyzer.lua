@@ -171,7 +171,7 @@ local function AnalyzeTables(tableArray)
     local minWidth = 999999
 
     -- Analyze each table
-    for i, tableMarkdown in ipairs(tableArray) do
+    for _, tableMarkdown in ipairs(tableArray) do
         local metadata = AnalyzeTable(tableMarkdown)
         table_insert(tables, metadata)
 

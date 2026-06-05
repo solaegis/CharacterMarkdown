@@ -83,7 +83,7 @@ local function CollectCompanionData()
             activeLevel = data.active.level or 0,
             skillCount = data.skills and #data.skills or 0,
             equipmentCount = data.equipment and #data.equipment or 0,
-            rapportLevel = data.rapport and data.rapport.description or nil,
+            rapportLevel = data.rapportLevelDescription or nil,
         }
     else
         data.active = nil

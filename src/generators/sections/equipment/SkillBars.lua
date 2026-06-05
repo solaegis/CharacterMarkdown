@@ -84,37 +84,33 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
                     local abilitiesRow = "|"
                     for _, ability in ipairs(abilities) do
                         if ability and type(ability) == "table" then
-                            local abilityText = ""
                             if cache.CreateAbilityLink then
                                 local success_ab, abText =
                                     pcall(cache.CreateAbilityLink, ability.name or "Unknown", ability.id)
                                 if success_ab and abText then
-                                    abilityText = abText
+                                    abilitiesRow = abilitiesRow .. " " .. abText .. " |"
                                 else
-                                    abilityText = ability.name or "Unknown"
+                                    abilitiesRow = abilitiesRow .. " " .. (ability.name or "Unknown") .. " |"
                                 end
                             else
-                                abilityText = ability.name or "Unknown"
+                                abilitiesRow = abilitiesRow .. " " .. (ability.name or "Unknown") .. " |"
                             end
-                            abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
                         else
                             abilitiesRow = abilitiesRow .. " - |"
                         end
                     end
                     if hasUltimate then
-                        local ultimateText = ""
                         if cache.CreateAbilityLink then
                             local success_ult, ultText =
                                 pcall(cache.CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
                             if success_ult and ultText then
-                                ultimateText = ultText
+                                abilitiesRow = abilitiesRow .. " " .. ultText .. " |"
                             else
-                                ultimateText = bar.ultimate or "[Empty]"
+                                abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
                             end
                         else
-                            ultimateText = bar.ultimate or "[Empty]"
+                            abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
                         end
-                        abilitiesRow = abilitiesRow .. " " .. ultimateText .. " |"
                     end
                     output = output .. abilitiesRow .. "\n\n"
                 else
@@ -135,19 +131,17 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
                     -- Build row data
                     for _, ability in ipairs(abilities) do
                         if ability and type(ability) == "table" then
-                            local abilityText = ""
                             if cache.CreateAbilityLink then
                                 local success_ab, abText =
                                     pcall(cache.CreateAbilityLink, ability.name or "Unknown", ability.id)
                                 if success_ab and abText then
-                                    abilityText = abText
+                                    table.insert(rowData, abText)
                                 else
-                                    abilityText = ability.name or "Unknown"
+                                    table.insert(rowData, ability.name or "Unknown")
                                 end
                             else
-                                abilityText = ability.name or "Unknown"
+                                table.insert(rowData, ability.name or "Unknown")
                             end
-                            table.insert(rowData, abilityText)
                         else
                             table.insert(rowData, "-")
                         end
@@ -155,24 +149,22 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
 
                     -- Add ultimate to row data
                     if hasUltimate then
-                        local ultimateText = ""
                         if cache.CreateAbilityLink then
                             local success_ult, ultText =
                                 pcall(cache.CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
                             if success_ult and ultText then
-                                ultimateText = ultText
+                                table.insert(rowData, ultText)
                             else
-                                ultimateText = bar.ultimate or "[Empty]"
+                                table.insert(rowData, bar.ultimate or "[Empty]")
                             end
                         else
-                            ultimateText = bar.ultimate or "[Empty]"
+                            table.insert(rowData, bar.ultimate or "[Empty]")
                         end
-                        table.insert(rowData, ultimateText)
                     end
 
                     -- Generate table with styled headers
                     local alignment = {}
-                    for i = 1, #headers do
+                    for _ in ipairs(headers) do
                         table.insert(alignment, "center")
                     end
                     local options = {
@@ -263,36 +255,32 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
                         if ability and type(ability) == "table" then
                             local abilityName = ability.name or "Unknown"
                             local abilityId = ability.id
-                            local abilityText = ""
                             if cache.CreateAbilityLink then
                                 local success_ab, abText = pcall(cache.CreateAbilityLink, abilityName, abilityId)
                                 if success_ab and abText then
-                                    abilityText = abText
+                                    abilitiesRow = abilitiesRow .. " " .. abText .. " |"
                                 else
-                                    abilityText = abilityName
+                                    abilitiesRow = abilitiesRow .. " " .. abilityName .. " |"
                                 end
                             else
-                                abilityText = abilityName
+                                abilitiesRow = abilitiesRow .. " " .. abilityName .. " |"
                             end
-                            abilitiesRow = abilitiesRow .. " " .. abilityText .. " |"
                         else
                             abilitiesRow = abilitiesRow .. " - |"
                         end
                     end
                     if hasUltimate then
                         local ultimateId = bar.ultimateId
-                        local ultimateText = ""
                         if cache.CreateAbilityLink then
                             local success_ult, ultText = pcall(cache.CreateAbilityLink, bar.ultimate or "", ultimateId)
                             if success_ult and ultText then
-                                ultimateText = ultText
+                                abilitiesRow = abilitiesRow .. " " .. ultText .. " |"
                             else
-                                ultimateText = bar.ultimate or "[Empty]"
+                                abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
                             end
                         else
-                            ultimateText = bar.ultimate or "[Empty]"
+                            abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
                         end
-                        abilitiesRow = abilitiesRow .. " " .. ultimateText .. " |"
                     end
                     output = output .. abilitiesRow .. "\n\n"
                 else
@@ -312,18 +300,16 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
                         if ability and type(ability) == "table" then
                             local abilityName = ability.name or "Unknown"
                             local abilityId = ability.id
-                            local abilityText = ""
                             if cache.CreateAbilityLink then
                                 local success_ab, abText = pcall(cache.CreateAbilityLink, abilityName, abilityId)
                                 if success_ab and abText then
-                                    abilityText = abText
+                                    table.insert(rowData, abText)
                                 else
-                                    abilityText = abilityName
+                                    table.insert(rowData, abilityName)
                                 end
                             else
-                                abilityText = abilityName
+                                table.insert(rowData, abilityName)
                             end
-                            table.insert(rowData, abilityText)
                         else
                             table.insert(rowData, "-")
                         end
@@ -331,22 +317,20 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
 
                     if hasUltimate then
                         local ultimateId = bar.ultimateId
-                        local ultimateText = ""
                         if cache.CreateAbilityLink then
                             local success_ult, ultText = pcall(cache.CreateAbilityLink, bar.ultimate or "", ultimateId)
                             if success_ult and ultText then
-                                ultimateText = ultText
+                                table.insert(rowData, ultText)
                             else
-                                ultimateText = bar.ultimate or "[Empty]"
+                                table.insert(rowData, bar.ultimate or "[Empty]")
                             end
                         else
-                            ultimateText = bar.ultimate or "[Empty]"
+                            table.insert(rowData, bar.ultimate or "[Empty]")
                         end
-                        table.insert(rowData, ultimateText)
                     end
 
                     local alignment = {}
-                    for i = 1, #headers do
+                    for _ in ipairs(headers) do
                         table.insert(alignment, "center")
                     end
                     local options = {

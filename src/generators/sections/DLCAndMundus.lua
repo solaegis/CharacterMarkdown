@@ -141,7 +141,6 @@ local function GenerateDLCAsCollectible(dlcData)
 
     local content = ""
 
-    -- Handle ESO Plus case
     if dlcData.hasESOPlus then
         if dlcData.accessible and #dlcData.accessible > 0 then
             for _, dlcName in ipairs(dlcData.accessible) do
@@ -149,7 +148,12 @@ local function GenerateDLCAsCollectible(dlcData)
             end
         end
 
-        content = content .. "\n**ESO Plus Active** - All DLCs and Chapters are accessible.\n\n"
+        local esoPlusText = "ESO Plus Active"
+        local settings = CharacterMarkdownSettings or {}
+        if settings.esoPlusExpirationDate and settings.esoPlusExpirationDate ~= "" then
+            esoPlusText = string_format("ESO Plus Active (exp %s)", settings.esoPlusExpirationDate)
+        end
+        content = content .. "\n**" .. esoPlusText .. "** - All DLCs and Chapters are accessible.\n\n"
     else
         -- Show accessible and locked content
         if dlcData.accessible and #dlcData.accessible > 0 then
@@ -225,25 +229,31 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
         end
     end
 
-    -- Check if titles/housing would add content
+    -- Check if titles/housing would add content (respect section toggles)
     if not hasContent and titlesHousingData then
         local titlesData = titlesHousingData.titles or {}
         local housingData = titlesHousingData.housing or {}
 
-        -- Check titles (support both old and new structure)
-        local hasTitles = (titlesData.total and titlesData.total > 0)
-            or (titlesData.summary and titlesData.summary.totalAvailable and titlesData.summary.totalAvailable > 0)
-            or (titlesData.owned and #titlesData.owned > 0)
-            or (titlesData.current and titlesData.current ~= "") -- Check for current title
+        if settings.includeTitlesHousing then
+            local hasTitles = (titlesData.total and titlesData.total > 0)
+                or (titlesData.summary and titlesData.summary.totalAvailable and titlesData.summary.totalAvailable > 0)
+                or (titlesData.owned and #titlesData.owned > 0)
+                or (titlesData.current and titlesData.current ~= "")
 
-        -- Check housing (support both old and new structure)
-        local hasHousing = (housingData.total and housingData.total > 0)
-            or (housingData.summary and housingData.summary.totalOwned and housingData.summary.totalOwned > 0)
-            or (housingData.owned and #housingData.owned > 0)
-            or (housingData.primary and housingData.primary.name) -- Check for primary house
+            if hasTitles then
+                hasContent = true
+            end
+        end
 
-        if hasTitles or hasHousing then
-            hasContent = true
+        if not hasContent and settings.includeHousing then
+            local hasHousing = (housingData.total and housingData.total > 0)
+                or (housingData.summary and housingData.summary.totalOwned and housingData.summary.totalOwned > 0)
+                or (housingData.owned and #housingData.owned > 0)
+                or (housingData.primary and housingData.primary.name)
+
+            if hasHousing then
+                hasContent = true
+            end
         end
     end
 
@@ -406,7 +416,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
         end
     end
 
-    -- 4. Titles & Housing
+    -- 4. Titles & Housing (gated by includeTitlesHousing / includeHousing)
     if titlesHousingData then
         local GenerateTitles = CM.generators.sections.GenerateTitles
         local GenerateHousing = CM.generators.sections.GenerateHousing
@@ -421,7 +431,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
                 or (titlesData.list and #titlesData.list > 0)
                 or (titlesData.owned and #titlesData.owned > 0)
 
-            if titlesData and hasTitles then
+            if settings.includeTitlesHousing and titlesData and hasTitles then
                 local titlesContent = GenerateTitles(titlesData)
                 -- Remove header if present (will be in summary)
                 titlesContent = titlesContent:gsub("^###%s+👑%s+Titles%s*\n%s*\n", "")
@@ -462,7 +472,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
                 or (housingData.summary and housingData.summary.totalAvailable and housingData.summary.totalAvailable > 0)
                 or (housingData.owned and #housingData.owned > 0)
 
-            if housingData and hasHousing then
+            if settings.includeHousing and housingData and hasHousing then
                 local housingContent = GenerateHousing(housingData)
                 -- Remove header if present (will be in summary)
                 housingContent = housingContent:gsub("^###%s+🏠%s+Housing%s*\n%s*\n", "")

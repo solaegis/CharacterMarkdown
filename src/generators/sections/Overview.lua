@@ -159,8 +159,8 @@ local function GenerateGeneral(
             end
         end
 
-        -- Progression data
-        if progressionData then
+        -- Progression data (gated by includeProgression setting)
+        if progressionData and settings and settings.includeProgression == true then
             local unspentSkillPoints = progressionData.unspentSkillPoints or progressionData.skillPoints or 0
             if unspentSkillPoints and unspentSkillPoints > 0 then
                 table_insert(allRows, {
@@ -290,7 +290,8 @@ local function GenerateGeneral(
         end
 
         -- Riding Skills (with emojis like attributes) - max is 60 for each
-        if ridingData then
+        -- Gated by includeRidingSkills setting (default: false)
+        if ridingData and settings and settings.includeRidingSkills == true then
             -- Handle case where values might be booleans (true = maxed/60, false = 0)
             local speed = ridingData.speed
             if type(speed) == "boolean" then
@@ -472,7 +473,8 @@ local function GenerateGeneral(
             end
         end
 
-        if progressionData then
+        -- Progression data (gated by includeProgression setting)
+        if progressionData and settings and settings.includeProgression == true then
             local unspentSkillPoints = progressionData.unspentSkillPoints or progressionData.skillPoints or 0
             if unspentSkillPoints and unspentSkillPoints > 0 then
                 result = result
@@ -514,7 +516,8 @@ local function GenerateGeneral(
         end
 
         -- Add riding skills summary if available (max is 60 for each)
-        if ridingData then
+        -- Gated by includeRidingSkills setting (default: false)
+        if ridingData and settings and settings.includeRidingSkills == true then
             -- Handle case where values might be booleans (true = maxed/60, false = 0)
             local speed = ridingData.speed
             if type(speed) == "boolean" then
@@ -713,7 +716,8 @@ local function GenerateGeneral(
             end
         end
 
-        if progressionData then
+        -- Progression data (gated by includeProgression setting)
+        if progressionData and settings and settings.includeProgression == true then
             local unspentSkillPoints = progressionData.unspentSkillPoints or progressionData.skillPoints or 0
             if unspentSkillPoints and unspentSkillPoints > 0 then
                 table.insert(
@@ -758,7 +762,8 @@ local function GenerateGeneral(
         end
 
         -- Add riding skills summary if available (max is 60 for each)
-        if ridingData then
+        -- Gated by includeRidingSkills setting (default: false)
+        if ridingData and settings and settings.includeRidingSkills == true then
             -- Handle case where values might be booleans (true = maxed/60, false = 0)
             local speed = ridingData.speed
             if type(speed) == "boolean" then

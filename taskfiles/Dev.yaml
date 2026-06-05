@@ -183,6 +183,7 @@ tasks:
     desc: Run all validation checks
     deps: [validate, validate:changelog, validate:readme]
     cmds:
+      - task: examples:check
       - echo "✅ All validations passed"
     silent: true
 

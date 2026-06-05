@@ -9,7 +9,6 @@ CM.utils.MarkdownParser = {}
 
 -- Cached string functions for performance
 local string_find = string.find
-local string_sub = string.sub
 local string_match = string.match
 local string_gmatch = string.gmatch
 local string_len = string.len
@@ -33,7 +32,6 @@ local function ParseSections(markdown)
 
     local currentSection = nil
     local currentContent = {}
-    local startLine = 1
 
     for lineNum, line in ipairs(lines) do
         -- Check if line is a header (## or ###)

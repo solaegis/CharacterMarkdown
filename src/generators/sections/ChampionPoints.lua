@@ -342,6 +342,81 @@ end
 -- SINGLE DISCIPLINE GENERATOR (for multi-column layout)
 -- =====================================================
 
+local function GenerateSingleDiscipline(discipline, unassignedCP)
+    local markdown = ""
+    local disciplineSpent = discipline.spent or discipline.total or 0
+    local maxPerDiscipline = discipline.cap or (disciplineSpent + (discipline.available or 0))
+
+    -- Fallback if cap is missing
+    if maxPerDiscipline == 0 and unassignedCP then
+        maxPerDiscipline = disciplineSpent + unassignedCP
+    end
+
+    -- Ensure max is at least equal to spent (safety check)
+    if maxPerDiscipline < disciplineSpent then
+        maxPerDiscipline = disciplineSpent
+    end
+
+    if disciplineSpent > 0 then
+        -- Safety check: avoid division by zero
+        local disciplinePercent = maxPerDiscipline > 0
+                and math.min(100, math.floor((disciplineSpent / maxPerDiscipline) * 100))
+            or 0
+        local progressBar = CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
+
+        -- Progress row: progress bar + percentage | x/y points
+        markdown = markdown .. "#### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. "\n\n"
+        markdown = markdown
+            .. "**"
+            .. CM.utils.FormatNumber(disciplineSpent)
+            .. "/"
+            .. maxPerDiscipline
+            .. " points** "
+            .. progressBar
+            .. " "
+            .. disciplinePercent
+            .. "%\n\n"
+
+        -- Show skills breakdown using unified function
+        local skills, skillSource = GetDisciplineSkills(discipline)
+        local hasSkills = #skills > 0
+
+        if hasSkills then
+            for _, skill in ipairs(skills) do
+                local skillText = CM.utils.CreateCPSkillLink(skill.name)
+                local pointText = GetPointText(skill.points)
+                local skillType = skill.type or (skill.isSlottable and "slottable" or "passive")
+
+                if skillSource == "separated" then
+                    -- Show type indicator when using separated arrays
+                    local typeEmoji = skillType == "slottable" and "⭐" or "🔒"
+                    markdown = markdown
+                        .. string_format("- %s **%s**: %d %s\n", typeEmoji, skillText, skill.points, pointText)
+                else
+                    -- Standard format for mixed array
+                    markdown = markdown .. string_format("- **%s**: %d %s\n", skillText, skill.points, pointText)
+                end
+            end
+        else
+            -- If discipline has points but no skills listed, show a note
+            markdown = markdown .. "*Points assigned but details not available*\n"
+        end
+    else
+        -- Show discipline even with 0 points (for visibility)
+        if maxPerDiscipline == 0 then
+            maxPerDiscipline = unassignedCP
+        end
+
+        local progressBar = CM.utils.GenerateProgressBar(0, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
+
+        markdown = markdown .. "#### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. "\n\n"
+        markdown = markdown .. "**0/" .. maxPerDiscipline .. " points** " .. progressBar .. " 0%\n\n"
+        markdown = markdown .. "*No points assigned*\n"
+    end
+
+    return markdown
+end
+
 -- Generate a discipline as a table (for multi-column table layout)
 local function GenerateDisciplineTable(discipline, unassignedCP)
     local disciplineSpent = discipline.spent or discipline.total or 0
@@ -384,7 +459,7 @@ local function GenerateDisciplineTable(discipline, unassignedCP)
 
         if hasSkills then
             for _, skill in ipairs(skills) do
-                local skillText = CM.utils.CreateCPSkillLink(skill.name, format)
+                local skillText = CM.utils.CreateCPSkillLink(skill.name)
                 local pointText = GetPointText(skill.points)
                 local skillType = skill.type or (skill.isSlottable and "slottable" or "passive")
 
@@ -424,81 +499,6 @@ local function GenerateDisciplineTable(discipline, unassignedCP)
     }
 
     return CreateStyledTable(headers, rows, options)
-end
-
-local function GenerateSingleDiscipline(discipline, unassignedCP)
-    local markdown = ""
-    local disciplineSpent = discipline.spent or discipline.total or 0
-    local maxPerDiscipline = discipline.cap or (disciplineSpent + (discipline.available or 0))
-
-    -- Fallback if cap is missing
-    if maxPerDiscipline == 0 and unassignedCP then
-        maxPerDiscipline = disciplineSpent + unassignedCP
-    end
-
-    -- Ensure max is at least equal to spent (safety check)
-    if maxPerDiscipline < disciplineSpent then
-        maxPerDiscipline = disciplineSpent
-    end
-
-    if disciplineSpent > 0 then
-        -- Safety check: avoid division by zero
-        local disciplinePercent = maxPerDiscipline > 0
-                and math.min(100, math.floor((disciplineSpent / maxPerDiscipline) * 100))
-            or 0
-        local progressBar = CM.utils.GenerateProgressBar(disciplinePercent, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
-
-        -- Progress row: progress bar + percentage | x/y points
-        markdown = markdown .. "#### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. "\n\n"
-        markdown = markdown
-            .. "**"
-            .. CM.utils.FormatNumber(disciplineSpent)
-            .. "/"
-            .. maxPerDiscipline
-            .. " points** "
-            .. progressBar
-            .. " "
-            .. disciplinePercent
-            .. "%\n\n"
-
-        -- Show skills breakdown using unified function
-        local skills, skillSource = GetDisciplineSkills(discipline)
-        local hasSkills = #skills > 0
-
-        if hasSkills then
-            for _, skill in ipairs(skills) do
-                local skillText = CM.utils.CreateCPSkillLink(skill.name, format)
-                local pointText = GetPointText(skill.points)
-                local skillType = skill.type or (skill.isSlottable and "slottable" or "passive")
-
-                if skillSource == "separated" then
-                    -- Show type indicator when using separated arrays
-                    local typeEmoji = skillType == "slottable" and "⭐" or "🔒"
-                    markdown = markdown
-                        .. string_format("- %s **%s**: %d %s\n", typeEmoji, skillText, skill.points, pointText)
-                else
-                    -- Standard format for mixed array
-                    markdown = markdown .. string_format("- **%s**: %d %s\n", skillText, skill.points, pointText)
-                end
-            end
-        else
-            -- If discipline has points but no skills listed, show a note
-            markdown = markdown .. "*Points assigned but details not available*\n"
-        end
-    else
-        -- Show discipline even with 0 points (for visibility)
-        if maxPerDiscipline == 0 then
-            maxPerDiscipline = unassignedCP
-        end
-
-        local progressBar = CM.utils.GenerateProgressBar(0, CP_CONSTANTS.PROGRESS_BAR_LENGTH)
-
-        markdown = markdown .. "#### " .. (discipline.emoji or "⚔️") .. " " .. discipline.name .. "\n\n"
-        markdown = markdown .. "**0/" .. maxPerDiscipline .. " points** " .. progressBar .. " 0%\n\n"
-        markdown = markdown .. "*No points assigned*\n"
-    end
-
-    return markdown
 end
 
 -- =====================================================

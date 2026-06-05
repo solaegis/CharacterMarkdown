@@ -12,13 +12,6 @@ local string_rep = string.rep
 -- TEST HELPERS
 -- =====================================================
 
-local function Assert(condition, message)
-    if not condition then
-        return false, message
-    end
-    return true
-end
-
 local function CreateLongString(char, length)
     return string_rep(char, length)
 end
@@ -28,8 +21,6 @@ end
 -- =====================================================
 
 local function TestBasicSplitting()
-    local testName = "Basic Splitting"
-
     -- Create a string slightly larger than the limit (assuming limit is around 6000)
     -- We'll use a smaller limit for testing if possible, but we can't easily change the constant
     -- So we'll construct a string that MUST be split
@@ -59,8 +50,6 @@ local function TestBasicSplitting()
 end
 
 local function TestHtmlBlockIntegrity()
-    local testName = "HTML Block Integrity"
-
     -- Create a large HTML block that shouldn't be split
     -- Note: If the block is larger than the ABSOLUTE limit, it MUST be split,
     -- but the chunking logic tries to avoid it if possible.
@@ -94,8 +83,6 @@ local function TestHtmlBlockIntegrity()
 end
 
 local function TestMermaidBlockIntegrity()
-    local testName = "Mermaid Block Integrity"
-
     local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
     local padding = CreateLongString("P", limit - 100)
 
@@ -120,8 +107,6 @@ local function TestMermaidBlockIntegrity()
 end
 
 local function TestPaddingConsistency()
-    local testName = "Padding Consistency"
-
     local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
     local expectedPadding = CM.constants.CHUNKING.SPACE_PADDING_SIZE or CM.constants.CHUNKING.PADDING_FALLBACK or 550
 
@@ -147,12 +132,7 @@ local function TestPaddingConsistency()
         local trailing = content:match("\n+$")
         local count = trailing and #trailing or 0
         if count ~= expectedPadding then
-            return false, string_format(
-                "Chunk %d: expected %d trailing newlines, got %d",
-                i,
-                expectedPadding,
-                count
-            )
+            return false, string_format("Chunk %d: expected %d trailing newlines, got %d", i, expectedPadding, count)
         end
     end
 
@@ -160,8 +140,6 @@ local function TestPaddingConsistency()
 end
 
 local function TestTableIntegrity()
-    local testName = "Table Integrity"
-
     local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
     local padding = CreateLongString("P", limit - 100)
 

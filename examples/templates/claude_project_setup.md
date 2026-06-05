@@ -226,7 +226,7 @@ Include farming priorities, gold requirements, and expected performance gains.
 
 ### Recommendations Seem Generic
 
-**Solution:** 
+**Solution:**
 - Be more specific in your requests
 - Upload character profile with goals
 - Mention specific content or constraints
@@ -317,16 +317,3 @@ claude-project/
 - **Template Questions**: Modify templates to fit your needs
 
 Remember: These templates are starting points. Customize them to match your workflow and preferences!
-
-
-
-
-
-
-
-
-
-
-
-
-

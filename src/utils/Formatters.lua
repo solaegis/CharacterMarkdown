@@ -48,8 +48,6 @@ local function CreateProgressBar(percentage, style)
         return ""
     end
 
-    style = style or "default"
-
     -- Clamp percentage to 0-100
     percentage = math_floor(percentage)
     if percentage < 0 then

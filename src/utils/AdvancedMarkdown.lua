@@ -529,14 +529,6 @@ CM.utils.markdown.GetQualityIndicator = GetQualityIndicator
     @param columns number - Number of columns (default: 4)
     @return string - HTML table or markdown list
 ]]
--- Helper function to convert markdown links to HTML links
-local function ConvertMarkdownLinksToHTML(text)
-    if not text or text == "" then
-        return text
-    end
-    -- Convert [text](url) to <a href="url">text</a>
-    return string_gsub(text, "%[(.-)%]%((.-)%)", '<a href="%2">%1</a>')
-end
 
 local function CreateCompactGrid(items, columns, align)
     if not items or #items == 0 then
@@ -553,7 +545,7 @@ local function CreateCompactGrid(items, columns, align)
 
     -- Create separator row with proper alignment
     local separatorRow = "|"
-    for col = 1, columns do
+    for _ = 1, columns do
         if align == "left" then
             separatorRow = separatorRow .. ":---|"
         elseif align == "right" then
@@ -584,7 +576,7 @@ local function CreateCompactGrid(items, columns, align)
         if row == 1 then
             -- First row: create empty header row
             local headerRow = "|"
-            for col = 1, columns do
+            for _ = 1, columns do
                 headerRow = headerRow .. " |"
             end
             table.insert(rows, headerRow)
@@ -622,22 +614,16 @@ local function CreateStyledTable(headers, rows, options)
     end
 
     -- Handle backward compatibility: if options is array, treat as alignment
-    local alignment, coloredHeaders, tableWidth
+    local alignment
     if type(options) == "table" and options[1] ~= nil then
         -- Old-style: array of alignments
         alignment = options
-        coloredHeaders = false
-        tableWidth = nil
     elseif type(options) == "table" then
         -- New-style: options table
         alignment = options.alignment or {}
-        coloredHeaders = options.coloredHeaders
-        tableWidth = options.width or options.tableWidth
     else
         -- No options provided
         alignment = {}
-        coloredHeaders = false
-        tableWidth = nil
     end
 
     -- Bold all headers - Always use markdown bold
@@ -810,12 +796,12 @@ local function CreateAttentionNeeded(warnings, format, headerTitle)
         return ""
     end
 
-    headerTitle = headerTitle or "Attention Needed"
-    format = format or "github"
+    local hTitle = headerTitle or "Attention Needed"
+    -- format = format or "github"
 
     -- Always use GitHub-native callout syntax for warnings
     -- Use bullet points for proper list rendering inside the callout
-    local result = "> [!WARNING]\n"
+    local result = string_format("> [!WARNING]\n> **%s**\n", hTitle)
     for _, warning in ipairs(warnings) do
         result = result .. "> - " .. warning .. "\n"
     end
@@ -840,7 +826,7 @@ local function FormatText(text, styles, format)
         return text
     end
 
-    format = format or "github"
+    -- format = format or "github"
     local result = text
 
     for _, style in ipairs(styles) do

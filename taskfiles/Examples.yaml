@@ -9,14 +9,47 @@ tasks:
     cmds:
       - |
         echo "🔪 Trimming example markdown files..."
-        python3 scripts/trim.py examples/*.md || true
+        uv run scripts/trim.py "examples/**/*.md" || true
       - echo "✅ Examples trimmed"
     silent: true
+    preconditions:
+      - sh: command -v uv
+        msg: "uv is not installed. See https://github.com/astral-sh/uv"
 
   trim:dry-run:
     desc: Preview trim changes without modifying files
     cmds:
       - |
         echo "🔪 Trimming example markdown files (dry run)..."
-        python3 scripts/trim.py --dry-run examples/*.md || true
+        uv run scripts/trim.py --dry-run "examples/**/*.md" || true
     silent: true
+    preconditions:
+      - sh: command -v uv
+        msg: "uv is not installed. See https://github.com/astral-sh/uv"
+
+  check:
+    desc: Verify example character files match SavedVariables triples
+    dir: "{{.TASKFILE_DIR}}/.."
+    cmds:
+      - |
+        uv run scripts/check_example_characters.py \
+          --saved-variables "${ESO_SAVED_VARS:-$HOME/Documents/Elder Scrolls Online/live/SavedVariables}" \
+          --examples examples
+    silent: true
+    preconditions:
+      - sh: command -v uv
+        msg: "uv is not installed. See https://github.com/astral-sh/uv"
+
+  check:audit:
+    desc: Report example/SV drift without failing on orphan examples
+    dir: "{{.TASKFILE_DIR}}/.."
+    cmds:
+      - |
+        uv run scripts/check_example_characters.py \
+          --allow-orphan-examples \
+          --saved-variables "${ESO_SAVED_VARS:-$HOME/Documents/Elder Scrolls Online/live/SavedVariables}" \
+          --examples examples
+    silent: true
+    preconditions:
+      - sh: command -v uv
+        msg: "uv is not installed. See https://github.com/astral-sh/uv"

@@ -71,7 +71,12 @@ local function GenerateHeader(charData, format)
     }
 
     if isESOPlus then
-        table.insert(badges, { label = "ESO+", value = "Active", color = "gold" })
+        local esoPlusValue = "Active"
+        local settings = CM.GetSettings()
+        if settings.esoPlusExpirationDate and settings.esoPlusExpirationDate ~= "" then
+            esoPlusValue = string_format("Active (exp %s)", settings.esoPlusExpirationDate)
+        end
+        table.insert(badges, { label = "ESO+", value = esoPlusValue, color = "gold" })
     end
 
     local badgeRow = markdown.CreateBadgeRow(badges) or ""
@@ -572,36 +577,28 @@ local function GenerateDynamicTableOfContents(registry, format)
 
     local tocLines = {}
 
-    -- Helper function to generate anchor links (matches GitHub anchor generation)
-    local function GenerateAnchor(text)
-        if not text then
-            return ""
-        end
-
-        -- Keep only ASCII letters, numbers, spaces, and basic punctuation
-        -- This removes emojis and other Unicode characters
-        local anchor = ""
-        for i = 1, #text do
-            local byte = text:byte(i)
-            if
-                (byte >= 48 and byte <= 57) -- 0-9
-                or (byte >= 65 and byte <= 90) -- A-Z
-                or (byte >= 97 and byte <= 122) -- a-z
-                or byte == 32
-                or byte == 45
-            then -- space or hyphen
-                anchor = anchor .. text:sub(i, i)
+    -- Use central anchor generator from utilities if available, otherwise fallback
+    local GenerateAnchor = (CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor)
+        or function(text)
+            if not text then
+                return ""
             end
+            local anchor = ""
+            for i = 1, #text do
+                local byte = text:byte(i)
+                if
+                    (byte >= 48 and byte <= 57)
+                    or (byte >= 65 and byte <= 90)
+                    or (byte >= 97 and byte <= 122)
+                    or byte == 32
+                    or byte == 45
+                then
+                    anchor = anchor .. text:sub(i, i)
+                end
+            end
+            anchor = anchor:lower():gsub("%s+", "-"):gsub("^%-+", ""):gsub("%-+$", ""):gsub("%-%-+", "-")
+            return anchor
         end
-
-        -- Convert to lowercase and replace spaces with hyphens
-        anchor = anchor:lower():gsub("%s+", "-")
-
-        -- Remove leading/trailing hyphens and collapse multiple hyphens
-        anchor = anchor:gsub("^%-+", ""):gsub("%-+$", ""):gsub("%-%-+", "-")
-
-        return anchor
-    end
 
     -- Loop through registry and build TOC for sections with tocEntry metadata
     for _, section in ipairs(registry) do

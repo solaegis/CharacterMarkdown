@@ -43,46 +43,55 @@ tasks:
     desc: List all available tasks
     cmds:
       - task --list
+    silent: true
 
   lint:
     desc: Alias for dev:lint
     cmds:
       - task dev:lint
+    silent: true
 
   lint:fix:
     desc: Alias for dev:lint:fix
     cmds:
       - task dev:lint:fix
+    silent: true
 
   format:
     desc: Alias for dev:format
     cmds:
       - task dev:format
+    silent: true
 
   test:
     desc: Alias for dev:test
     cmds:
       - task dev:test
+    silent: true
 
   validate:
     desc: Alias for dev:validate:all
     cmds:
       - task dev:validate:all
+    silent: true
 
   build:
     desc: Alias for build:release
     cmds:
       - task build:release
+    silent: true
 
   install:
     desc: Alias for install:live
     cmds:
       - task install:live
+    silent: true
 
   version:
     desc: Alias for release:version:show
     cmds:
       - task release:version:show
+    silent: true
 
   # ----------------------------------------------------------------------------
   # Initialization
@@ -94,5 +103,6 @@ tasks:
       - task dev:install:deps
       - pre-commit install
       - task install:dev
+    silent: true
     status:
       - test -f .git/hooks/pre-commit

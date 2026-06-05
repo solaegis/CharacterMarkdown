@@ -213,7 +213,7 @@ local function RunAllTests()
     local passed = 0
     local failed = 0
 
-    for i, testFunc in ipairs(tests) do
+    for _, testFunc in ipairs(tests) do
         local success, result = pcall(testFunc)
         if success then
             passed = passed + 1

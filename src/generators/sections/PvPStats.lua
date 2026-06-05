@@ -4,34 +4,14 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar, GenerateAnchor, FormatTime
+local FormatNumber, GenerateProgressBar, FormatTime
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
-        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
         FormatTime = CM.utils.FormatTime
-    end
-end
-
--- Helper: Format seconds to readable time
-local function FormatTimeRemaining(seconds)
-    if not seconds or seconds <= 0 then
-        return "N/A"
-    end
-
-    local days = math.floor(seconds / 86400)
-    local hours = math.floor((seconds % 86400) / 3600)
-    local minutes = math.floor((seconds % 3600) / 60)
-
-    if days > 0 then
-        return string.format("%dd %dh", days, hours)
-    elseif hours > 0 then
-        return string.format("%dh %dm", hours, minutes)
-    else
-        return string.format("%dm", minutes)
     end
 end
 
@@ -406,11 +386,6 @@ end
 local function GeneratePvPStats(pvpData, pvpStatsData, skillProgressionData, settings)
     InitializeUtilities()
 
-    local CreateCampaignLink = CM.links and CM.links.CreateCampaignLink
-    local CreateSkillLineLink = CM.links and CM.links.CreateSkillLineLink
-    local CreateAbilityLink = CM.links and CM.links.CreateAbilityLink
-    local CreateCollapsible = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateCollapsible
-
     -- Use provided settings or get current settings
     if not settings then
         settings = CM.GetSettings()
@@ -442,12 +417,7 @@ local function GeneratePvPStats(pvpData, pvpStatsData, skillProgressionData, set
     local leaderboards = showPvPStats and pvpStatsData and pvpStatsData.leaderboards or {}
     local battlegrounds = showPvPStats and pvpStatsData and pvpStatsData.battlegrounds or {}
 
-    -- Determine display level based on settings
-    local showProgression = settings.showPvPProgression or false
-    local showCampaignRewards = settings.showCampaignRewards or false
-    local showLeaderboardsDetail = settings.showLeaderboards or false
-    local showBattlegroundsDetail = settings.showBattlegrounds or false
-    local detailedPvP = settings.detailedPvP or false
+    local battlegrounds = showPvPStats and pvpStatsData and pvpStatsData.battlegrounds or {}
 
     local markdown = ""
 

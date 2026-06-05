@@ -44,6 +44,22 @@ python3 scripts/trim.py --dry-run file1.md file2.md
 
 **Background**: CharacterMarkdown's chunking system adds chunk markers and excessive padding (550+ newlines) to protect against paste truncation. This is intentional for the in-game display but unnecessary for saved example files. This script cleans up saved examples while preserving all actual content.
 
+## check_example_characters.py
+
+**Purpose**: Verify example character markdown files match ESO SavedVariables using `(account, location, slug)` identity.
+
+**Usage**:
+```bash
+task examples:check
+task examples:check:audit   # allow orphan example files
+
+uv run scripts/check_example_characters.py \
+  --saved-variables "$HOME/Documents/Elder Scrolls Online/live/SavedVariables" \
+  --examples examples
+```
+
+**Checks**: SV coverage, orphan profiles, duplicate triples, path/metadata alignment, lowercase underscore filenames, plan link resolution.
+
 ## Other Scripts
 
 ### pre-release-check.sh

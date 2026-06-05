@@ -62,16 +62,12 @@ local function ValidateHTMLStructure(markdown)
 
     -- If tables exist, check for proper structure
     -- Count occurrences correctly
-    local tableCount = 0
-    local trCount = 0
 
     -- Count <table> tags
-    local _, count1 = string_gsub(markdown, "<table", "")
-    tableCount = count1
+    local _, tableCount = string_gsub(markdown, "<table", "")
 
     -- Count <tr> tags
-    local _, count2 = string_gsub(markdown, "<tr", "")
-    trCount = count2
+    local _, trCount = string_gsub(markdown, "<tr", "")
 
     -- Valid HTML: every <table> should have at least one <tr>
     if trCount >= tableCount then

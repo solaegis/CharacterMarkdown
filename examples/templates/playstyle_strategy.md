@@ -15,7 +15,7 @@
 ### Playstyle Philosophy
 **Core Concept:** [2-3 sentence description of what defines this playstyle]
 
-**Example:** 
+**Example:**
 > "High-mobility magicka DPS optimized for execute phases in veteran trials. Prioritizes burst windows with major vulnerability uptime, sacrificing sustained DPS for devastating 30-second windows. Designed for content where boss burn phases matter more than dummy parses."
 
 ### Archetype Tags
@@ -176,7 +176,7 @@ For new players or initial gearing:
 
 #### Weapon Traits
 - **Main Hand:** [Trait] - [Why]
-- **Off Hand:** [Trait] - [Why]  
+- **Off Hand:** [Trait] - [Why]
 - **Back Bar:** [Trait] - [Why]
 
 ### Enchantment Strategy
@@ -391,16 +391,16 @@ If skills aren't maxed, level in this order:
 #### Opening Sequence (0-20s)
 ```
 [Back Bar]
-1. DoT Skill 1 → 
-2. DoT Skill 2 → 
-3. Buff Skill → 
-4. DoT Skill 3 → 
+1. DoT Skill 1 →
+2. DoT Skill 2 →
+3. Buff Skill →
+4. DoT Skill 3 →
 5. Bar Swap
 
 [Front Bar]
-6. DoT Skill 4 → 
-7. Direct Damage Skill → 
-8. Spammable x3 → 
+6. DoT Skill 4 →
+7. Direct Damage Skill →
+8. Spammable x3 →
 9. Bar Swap
 ```
 
@@ -415,7 +415,7 @@ If skills aren't maxed, level in this order:
 - Direct Damage Skill (when off cooldown)
 - Proc weapon enchant every 4 light attacks
 
-[Back Bar] (Stay 4s)  
+[Back Bar] (Stay 4s)
 - Refresh DoT 1 (if <3s remaining)
 - Refresh DoT 2 (if <3s remaining)
 - Buff Skill (if <5s remaining)
@@ -829,9 +829,9 @@ Experience: [Prog status / Clears / Score]
 
 ## Strategy Validation
 
-**Last Reviewed:** [Date]  
-**Reviewed By:** [Your name / Build theorycrafter]  
-**Validation Status:** 
+**Last Reviewed:** [Date]
+**Reviewed By:** [Your name / Build theorycrafter]
+**Validation Status:**
 - [ ] Mathematically sound
 - [ ] Tested in target content
 - [ ] Compared to meta alternatives

@@ -112,7 +112,6 @@ local function GenerateAchievementSummary(achievementData, format)
     local summary = achievementData.summary
 
     -- Pivot table: metrics as columns, values as rows
-    local headers = { "Metric", "Value" }
     local rows = {
         { "Total Achievements", CM.utils.FormatNumber(summary.totalAchievements) },
         { "Completed", CM.utils.FormatNumber(summary.completedAchievements) },
@@ -164,7 +163,7 @@ local function GenerateAchievementCategories(achievementData, format)
 
     -- Check if there are any categories with data
     local hasCategories = false
-    for categoryName, categoryData in pairs(categories) do
+    for _, categoryData in pairs(categories) do
         if categoryData.total > 0 then
             hasCategories = true
             break
@@ -339,8 +338,8 @@ local function GenerateInProgressAchievements(achievementData, format)
     end
 
     -- Sort achievements by name within each subcategory
-    for category, subcategories in pairs(categories) do
-        for subcategory, achievements in pairs(subcategories) do
+    for _, subcategories in pairs(categories) do
+        for _, achievements in pairs(subcategories) do
             table.sort(achievements, function(a, b)
                 return (a.name or "") < (b.name or "")
             end)

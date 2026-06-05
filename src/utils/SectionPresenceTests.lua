@@ -7,8 +7,6 @@ CM.tests = CM.tests or {}
 CM.tests.sectionPresence = {}
 
 local string_find = string.find
-local string_match = string.match
-local string_gsub = string.gsub
 local string_format = string.format
 
 -- Helper function to check if a setting is enabled (matches Markdown.lua logic)
@@ -338,8 +336,6 @@ local SECTION_PATTERNS = {
 
 -- Check if a section is present in markdown using its patterns
 local function DetectSection(sectionConfig, markdown, format)
-    local sectionName = sectionConfig.name
-
     -- Check if section is format-specific
     if sectionConfig.formatSpecific then
         local isFormatSpecific = false

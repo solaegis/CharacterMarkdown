@@ -39,21 +39,29 @@ end
 
 function api.GetSlotAbility(slotIndex, hotbarCategory)
     -- Returns info about ability in a specific bar slot
+    local slotType = CM.SafeCall(GetSlotType, slotIndex, hotbarCategory)
     local abilityId = CM.SafeCall(GetSlotBoundId, slotIndex, hotbarCategory)
+
     if not abilityId or abilityId == 0 then
         return nil
     end
 
-    local name = CM.SafeCall(GetAbilityName, abilityId, "player")
-    local icon = CM.SafeCall(GetAbilityIcon, abilityId)
-    local duration = CM.SafeCall(GetAbilityDuration, abilityId, nil, "player")
-
-    -- Check if it's an ultimate
+    local name, icon
     local isUltimate = false
-    -- Check if ability uses ultimate mechanic flag by checking cost with ULTIMATE flag
-    local ultimateCost = CM.SafeCall(GetAbilityCost, abilityId, COMBAT_MECHANIC_FLAGS_ULTIMATE, nil, "player")
-    if ultimateCost and ultimateCost > 0 then
-        isUltimate = true
+
+    if slotType == ACTION_TYPE_CRAFTED_ABILITY then
+        name = CM.SafeCall(GetCraftedAbilityDisplayName, abilityId)
+        icon = CM.SafeCall(GetCraftedAbilityIcon, abilityId)
+    else
+        name = CM.SafeCall(GetAbilityName, abilityId, "player")
+        icon = CM.SafeCall(GetAbilityIcon, abilityId)
+
+        -- Check if it's an ultimate
+        -- Check if ability uses ultimate mechanic flag by checking cost with ULTIMATE flag
+        local ultimateCost = CM.SafeCall(GetAbilityCost, abilityId, COMBAT_MECHANIC_FLAGS_ULTIMATE, nil, "player")
+        if ultimateCost and ultimateCost > 0 then
+            isUltimate = true
+        end
     end
 
     return {
@@ -61,8 +69,7 @@ function api.GetSlotAbility(slotIndex, hotbarCategory)
         name = name or "Unknown",
         icon = icon,
         isUltimate = isUltimate,
-        cost = cost,
-        costMechanic = mechanic,
+        slotType = slotType,
     }
 end
 

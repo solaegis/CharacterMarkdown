@@ -15,70 +15,9 @@ local function GenerateOutput(formatter)
         return
     end
 
+    -- Default to markdown if no formatter specified
+    formatter = formatter or "markdown"
     CM.DebugPrint("COMMAND", "Generating " .. formatter .. " output...")
-
-    -- TONL formatter
-    if formatter == "tonl" then
-        if not CM.formatters or not CM.formatters.GenerateTONL then
-            CM.Error("TONL formatter not loaded!")
-            CM.Error("Try /reloadui to restart the addon")
-            return
-        end
-
-        local success, tonlOutput = pcall(function()
-            return CM.formatters.GenerateTONL()
-        end)
-
-        if not success then
-            CM.Error("Failed to generate TONL:")
-            CM.Error(tostring(tonlOutput))
-            return
-        end
-
-        if not tonlOutput then
-            CM.Error("Generated TONL is nil")
-            return
-        end
-
-        -- Handle chunked output (table) or single string
-        local isChunksArray = type(tonlOutput) == "table"
-        local tonlSize = 0
-
-        if isChunksArray then
-            if #tonlOutput == 0 then
-                CM.Error("Generated TONL chunks array is empty")
-                return
-            end
-            for _, chunk in ipairs(tonlOutput) do
-                tonlSize = tonlSize + string.len(chunk.content)
-            end
-            CM.DebugPrint(
-                "COMMAND",
-                string.format(
-                    "TONL generated: %d chars in %d chunk%s",
-                    tonlSize,
-                    #tonlOutput,
-                    #tonlOutput == 1 and "" or "s"
-                )
-            )
-        else
-            if tonlOutput == "" then
-                CM.Error("Generated TONL is empty")
-                return
-            end
-            tonlSize = string.len(tonlOutput)
-            CM.DebugPrint("COMMAND", string.format("TONL generated: %d chars", tonlSize))
-        end
-
-        if CharacterMarkdown_ShowWindow then
-            CM.DebugPrint("COMMAND", "Opening display window...")
-            CharacterMarkdown_ShowWindow(tonlOutput, formatter)
-        else
-            CM.Warn("Window display not available")
-            CM.Info("TONL copied to clipboard")
-        end
-        return
-    end
 
     -- Markdown formatter
     if formatter == "markdown" then
@@ -156,6 +95,8 @@ local function GenerateOutput(formatter)
             CM.Info("Markdown copied to clipboard")
         end
         return
+    else
+        CM.Error("Unknown formatter: " .. tostring(formatter))
     end
 end
 
@@ -235,20 +176,11 @@ local function InitializeCommands()
         helpCmd:AddAlias("help")
         helpCmd:SetCallback(function()
             CM.Info("/markdown - Generate Markdown profile (Alias: /cm)")
-            CM.Info("/markdown tonl - Generate TONL profile")
             CM.Info("/markdown settings - Open settings")
             CM.Info("/markdown version - Show version")
             CM.Info("/markdown debug - Toggle debug")
         end)
         helpCmd:SetDescription("Show available commands")
-
-        -- Subcommand: tonl
-        local tonlCmd = cmd:RegisterSubCommand()
-        tonlCmd:AddAlias("tonl")
-        tonlCmd:SetCallback(function()
-            GenerateOutput("tonl")
-        end)
-        tonlCmd:SetDescription("Generate TONL output")
 
         -- Subcommand: markdown
         local mdCmd = cmd:RegisterSubCommand()
@@ -305,11 +237,6 @@ local function InitializeCommands()
         end)
         findCmd:SetDescription("Find IDs (debug)")
         findCmd:SetAutoComplete({ "names" })
-
-        -- Register global aliases for backward compatibility
-        LibSlashCommander:Register("/tonl", function()
-            GenerateOutput("tonl")
-        end, "Generate TONL output")
     else
         -- Fallback: Manual parsing
         CM.Info("LibSlashCommander not found - using basic command handling")
@@ -346,8 +273,6 @@ local function InitializeCommands()
                 end
             elseif command == "version" then
                 debug.HandleVersion()
-            elseif command == "tonl" then
-                GenerateOutput("tonl")
             elseif command == "markdown" then
                 GenerateOutput("markdown")
             elseif command == "test" then
@@ -366,7 +291,6 @@ local function InitializeCommands()
                 debug.HandleFindNames()
             elseif command == "help" then
                 CM.Info("/markdown - Generate Markdown profile (Alias: /cm)")
-                CM.Info("/markdown tonl - Generate TONL profile")
                 CM.Info("/markdown settings - Open settings")
                 CM.Info("/markdown debug - Toggle debug")
                 CM.Info("/markdown version - Show version")
@@ -379,9 +303,6 @@ local function InitializeCommands()
 
         SLASH_COMMANDS["/markdown"] = ManualHandler
         SLASH_COMMANDS["/cm"] = ManualHandler
-        SLASH_COMMANDS["/tonl"] = function()
-            GenerateOutput("tonl")
-        end
     end
 end
 

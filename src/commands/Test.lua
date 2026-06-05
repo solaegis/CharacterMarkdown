@@ -138,11 +138,7 @@ local function HandleTest(args)
     CM.Info(string.format("Generating %s formatter with current settings...", testFormatter))
 
     local success, markdown = pcall(function()
-        if testFormatter == "tonl" then
-            return CM.formatters.GenerateTONL()
-        else
-            return CM.formatters.GenerateMarkdown()
-        end
+        return CM.formatters.GenerateMarkdown()
     end)
 
     if not success or not markdown then

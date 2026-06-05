@@ -8,11 +8,18 @@ local CHUNKING = CM.constants.CHUNKING
 
 -- Import helpers (loaded before this file in manifest)
 local ChunkingHelpers = CM.utils and CM.utils.ChunkingHelpers
-local IsTableLine = ChunkingHelpers and ChunkingHelpers.IsTableLine or function() return false end
-local IsHeaderLine = ChunkingHelpers and ChunkingHelpers.IsHeaderLine or function() return false end
-local IsListLine = ChunkingHelpers and ChunkingHelpers.IsListLine or function() return false end
-local IsHeaderBeforeTable = ChunkingHelpers and ChunkingHelpers.IsHeaderBeforeTable or function() return false end
-local BacktrackBeforeHeaderTablePair = ChunkingHelpers and ChunkingHelpers.BacktrackBeforeHeaderTablePair or function() return nil end
+local IsTableLine = ChunkingHelpers and ChunkingHelpers.IsTableLine or function()
+    return false
+end
+-- local IsHeaderLine = ChunkingHelpers and ChunkingHelpers.IsHeaderLine or function() return false end
+local IsListLine = ChunkingHelpers and ChunkingHelpers.IsListLine or function()
+    return false
+end
+-- local IsHeaderBeforeTable = ChunkingHelpers and ChunkingHelpers.IsHeaderBeforeTable or function() return false end
+local BacktrackBeforeHeaderTablePair = ChunkingHelpers and ChunkingHelpers.BacktrackBeforeHeaderTablePair
+    or function()
+        return nil
+    end
 
 -- Helper function to check if a position is inside an HTML block (like <div>)
 local function IsInsideHtmlBlock(markdown, pos)
@@ -301,9 +308,9 @@ local function IsInsideMermaidBlock(markdown, pos)
                     for j = searchStart, extendedSearchEnd do
                         -- Find start of line
                         local searchLineStart = j
-                        for k = j, math.max(1, j - 1000), -1 do
-                            if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
-                                lineStart = k
+                        for _ = j, math.max(1, j - 1000), -1 do
+                            if string.sub(markdown, _ - 1, _ - 1) == "\n" then
+                                -- lineStart = k
                                 break
                             end
                         end
@@ -329,7 +336,7 @@ local function IsInsideMermaidBlock(markdown, pos)
                             end
                         end
 
-                        j = lineEnd -- Skip to next line
+                        -- j = lineEnd -- Skip to next line
                     end
 
                     if subgraphEnd then
@@ -351,8 +358,6 @@ local function IsInsideMermaidBlock(markdown, pos)
     -- Not inside a mermaid block
     return false, nil, nil
 end
-
-
 
 -- Helper function to find the end of a list starting at a given position
 local function FindListEnd(markdown, startPos, maxSearch)
@@ -431,7 +436,7 @@ local function IsInsideMarkdownLink(markdown, pos)
         end
 
         -- Check if the line contains an incomplete markdown link
-        local lineContent = string.sub(markdown, lineStart, pos - 1)
+        -- local lineContent = string.sub(markdown, lineStart, pos - 1)
         -- Look for pattern: [text](url where url is incomplete (no closing paren)
         local openParenPos = nil
         local openBracketPos = nil
@@ -753,7 +758,7 @@ local function GetMermaidHeader(markdown, blockStart)
     -- blockStart is the newline before ```
     -- So ``` starts at blockStart + 1
     local markdownLen = string.len(markdown)
-    
+
     -- Find the end of the line containing ```mermaid
     local lineEnd = string.find(markdown, "\n", blockStart + 1)
     if not lineEnd then
@@ -771,30 +776,32 @@ local function GetMermaidHeader(markdown, blockStart)
     -- (handles %%{init:...}%% comments and empty lines before the flowchart/graph directive)
     local currentLineStart = lineEnd + 1
     local headerLines = {} -- Collect init comments and directives
-    
+
     for _ = 1, 10 do -- Search up to 10 lines
         if currentLineStart > markdownLen then
             break
         end
-        
+
         local currentLineEnd = string.find(markdown, "\n", currentLineStart)
         if not currentLineEnd then
             currentLineEnd = markdownLen + 1
         end
-        
+
         local line = string.sub(markdown, currentLineStart, currentLineEnd - 1)
         local trimmedLine = line:match("^%s*(.-)%s*$") or ""
-        
+
         -- Check if this line is a diagram directive (flowchart, graph, sequenceDiagram, etc.)
-        if trimmedLine:match("^flowchart") or 
-           trimmedLine:match("^graph%s") or 
-           trimmedLine:match("^sequenceDiagram") or
-           trimmedLine:match("^gantt") or
-           trimmedLine:match("^classDiagram") or
-           trimmedLine:match("^stateDiagram") or
-           trimmedLine:match("^erDiagram") or
-           trimmedLine:match("^pie") or
-           trimmedLine:match("^journey") then
+        if
+            trimmedLine:match("^flowchart")
+            or trimmedLine:match("^graph%s")
+            or trimmedLine:match("^sequenceDiagram")
+            or trimmedLine:match("^gantt")
+            or trimmedLine:match("^classDiagram")
+            or trimmedLine:match("^stateDiagram")
+            or trimmedLine:match("^erDiagram")
+            or trimmedLine:match("^pie")
+            or trimmedLine:match("^journey")
+        then
             -- Found the diagram directive - collect everything before it plus the directive
             table.insert(headerLines, line)
             return table.concat(headerLines, "\n")
@@ -809,7 +816,7 @@ local function GetMermaidHeader(markdown, blockStart)
             table.insert(headerLines, line)
             return table.concat(headerLines, "\n")
         end
-        
+
         currentLineStart = currentLineEnd + 1
     end
 
@@ -994,8 +1001,6 @@ local function StripPadding(content, isLastChunk)
         return content
     end
 
-
-
     local stripped = content
 
     -- Strip chunk marker at the beginning (e.g., "<!-- Chunk 1 (20448 bytes before padding) -->\n\n")
@@ -1063,7 +1068,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
     end
     local totalOverhead = markerSize + paddingSize + mermaidHeaderReserve -- Total bytes to reserve
 
-
     if markdownLength <= maxDataChars then
         return { { content = markdown } }
     end
@@ -1087,7 +1091,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- Marker + padding help prevent paste truncation and provide chunk identification
         local maxSafeDataSize = copyLimit - totalOverhead
         local effectiveMaxData = math.min(maxDataChars, maxSafeDataSize)
-        local maxSafeSize = copyLimit
+        -- local maxSafeSize = copyLimit
         -- CRITICAL: Ensure we never exceed maxSafeDataSize (not maxSafeSize) for data content
         local potentialEnd = math.min(pos + effectiveMaxData - 1, markdownLength)
         local chunkEnd = potentialEnd
@@ -1116,7 +1120,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
         -- CRITICAL: Check if we're inside a Mermaid block or HTML block
         local isInsideHtml, htmlBlockStart, htmlBlockEnd = IsInsideHtmlBlock(markdown, potentialEnd)
-
 
         if potentialEnd < markdownLength then
             local searchStart = math.max(pos, potentialEnd - 1000)
@@ -1514,9 +1517,16 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- CRITICAL: Never split such that next chunk starts with </div> or </div><div>
             -- That breaks multi-column grid layout (CreateResponsiveColumns) - the </div> would
             -- close the grid container prematurely, orphaning subsequent columns
-            if chunkEnd < markdownLength and WouldNextChunkStartWithGridColumnBoundary(markdown, chunkEnd, markdownLength) then
+            if
+                chunkEnd < markdownLength
+                and WouldNextChunkStartWithGridColumnBoundary(markdown, chunkEnd, markdownLength)
+            then
                 local gridStartNewline = FindGridContainerStartBackward(markdown, chunkEnd)
-                if gridStartNewline and gridStartNewline >= pos and ValidateChunkSizeAfterBacktrack(gridStartNewline) then
+                if
+                    gridStartNewline
+                    and gridStartNewline >= pos
+                    and ValidateChunkSizeAfterBacktrack(gridStartNewline)
+                then
                     chunkEnd = gridStartNewline
                     CM.DebugPrint(
                         "CHUNKING",
@@ -1653,7 +1663,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     -- chunkEnd is in the middle of the header line
                     isInHeaderLine = true
                     headerLineStart = lineStart
-
                 elseif chunkEnd == lineEnd - 1 or chunkEnd == lineEnd then
                     -- chunkEnd is right at the end of a header line
                     -- Check if next line is also a header (would indicate missing category header)
@@ -2691,13 +2700,13 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 -- chunkEnd is at a newline - check if the previous line is a list line
                 local prevLineStart = chunkEnd
                 for i = chunkEnd - 1, math.max(pos, chunkEnd - 1000), -1 do
-                if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
-                    prevLineStart = (i == pos) and pos or i
-                    break
+                    if i == pos or string.sub(markdown, i - 1, i - 1) == "\n" then
+                        prevLineStart = (i == pos) and pos or i
+                        break
+                    end
                 end
+                isAfterListLine = IsListLine(string.sub(markdown, prevLineStart, chunkEnd - 1))
             end
-            isAfterListLine = IsListLine(string.sub(markdown, prevLineStart, chunkEnd - 1))
-        end
 
             -- Check if list continues after chunkEnd
             local listEnd = nil
@@ -2830,7 +2839,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 -- There's a table starting after chunkEnd - find its end
                                 -- CRITICAL: Check if chunkEnd is on a header line - if so, include header in calculation
                                 local headerBeforeTable = false
-                                
+
                                 if chunkEnd > pos then
                                     -- Find the line chunkEnd is on
                                     local currentLineStart = chunkEnd
@@ -2888,7 +2897,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                                 end
                                             end
 
-                                            local innerNextTableLine = string.sub(markdown, nextTableStart, nextTableLineEnd - 1)
+                                            local innerNextTableLine =
+                                                string.sub(markdown, nextTableStart, nextTableLineEnd - 1)
                                             if IsTableLine(innerNextTableLine) then
                                                 -- There's another table starting right after the current one - find its end
                                                 local nextTableEnd =
@@ -3201,7 +3211,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                                 local tempNextTableLine = string.sub(markdown, nextTableStart, nextTableLineEnd - 1)
                                 if IsTableLine(tempNextTableLine) then
                                     -- There's another table starting right after the current one - find its end
-                                    local nextTableEnd = FindTableEnd(markdown, nextTableLineEnd, extendedTableSearchLimit)
+                                    local nextTableEnd =
+                                        FindTableEnd(markdown, nextTableLineEnd, extendedTableSearchLimit)
                                     if nextTableEnd and nextTableEnd > chunkEnd then
                                         local combinedTableChunkSize = nextTableEnd - pos + 1
                                         -- CRITICAL: For consecutive tables, allow small overage to include complete structures
@@ -3291,7 +3302,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
                                                     if listStartPos then
                                                         -- There's a list starting after the consecutive table - find its end
-                                                        local innerTableSearchLimit = isLastChunk and markdownLength or 10000
+                                                        local innerTableSearchLimit = isLastChunk and markdownLength
+                                                            or 10000
                                                         local nextListEnd =
                                                             FindListEnd(markdown, listStartPos, innerTableSearchLimit)
                                                         if nextListEnd and nextListEnd > chunkEnd then
@@ -3727,7 +3739,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
             if mermaidSizeAlt <= maxForStructAlt then
                 chunkEnd = mermaidEndAlt
-                foundNewline = true
+                -- foundNewline = true
                 CM.DebugPrint(
                     "CHUNKING",
                     string.format(
@@ -3743,7 +3755,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                         local newEnd = (i == pos) and pos or (i - 1)
                         if ValidateChunkSizeAfterBacktrack(newEnd) then
                             chunkEnd = newEnd
-                            foundNewline = true
+                            -- foundNewline = true
                             CM.DebugPrint(
                                 "CHUNKING",
                                 string.format(
@@ -4016,7 +4028,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- Check 1: Ensure chunkEnd is at a newline
             if string.sub(markdown, chunkEnd, chunkEnd) ~= "\n" then
                 -- chunkEnd is not at a newline - find the last safe newline before it
-                local lastSafeNewline = FindSafeNewline(markdown, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), chunkEnd)
+                local lastSafeNewline =
+                    FindSafeNewline(markdown, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), chunkEnd)
                 if not lastSafeNewline then
                     -- Fallback to any newline
                     for i = chunkEnd, math.max(pos, chunkEnd - (CHUNKING.BACKTRACK_WINDOW or 5000)), -1 do
@@ -4538,12 +4551,10 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
         -- CRITICAL: Verify chunk ends with newline (unless it's the last chunk at end of file)
         -- This ensures chunks can be safely concatenated without creating malformed markdown
-        local hasTrailingNewline = false
+        -- local hasTrailingNewline = false
         if not isLastChunk or chunkEnd < markdownLength then
             local lastChar = string.sub(chunkContent, -1, -1)
-            if lastChar == "\n" then
-                hasTrailingNewline = true
-            else
+            if lastChar ~= "\n" then
                 CM.DebugPrint(
                     "CHUNKING",
                     string.format(
@@ -4556,7 +4567,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 -- Force add newline to prevent concatenation issues
                 chunkContent = chunkContent .. "\n"
                 finalSize = finalSize + 1
-                hasTrailingNewline = true
+                -- hasTrailingNewline = true
                 CM.DebugPrint("CHUNKING", string.format("Chunk %d: Added missing newline at end", chunkNum))
             end
         end
@@ -4573,9 +4584,8 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
 
         -- Check if we're ending on a header that's followed by a table
         local prevChunkEnd = chunkEnd
-        local newChunkEnd, shouldPrepend = BacktrackBeforeHeaderTablePair(
-            markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize
-        )
+        local newChunkEnd, shouldPrepend =
+            BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize)
         if newChunkEnd then
             chunkEnd = newChunkEnd
             chunkData = string.sub(markdown, pos, chunkEnd)
@@ -4616,23 +4626,26 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- Use patterns that skip leading whitespace directly on chunkContent to avoid string copy
             local startsWithMermaidFence = chunkContent:match("^%s*```mermaid")
             local startsWithInit = chunkContent:match("^%s*%%%%{init:")
-            local startsWithFlowchart = chunkContent:match("^%s*flowchart") 
-                                     or chunkContent:match("^%s*graph%s")
-                                     or chunkContent:match("^%s*sequenceDiagram")
-                                     or chunkContent:match("^%s*gantt")
-                                     or chunkContent:match("^%s*classDiagram")
-                                     or chunkContent:match("^%s*stateDiagram")
-                                     or chunkContent:match("^%s*erDiagram")
-                                     or chunkContent:match("^%s*pie")
-                                     or chunkContent:match("^%s*journey")
-            
+            local startsWithFlowchart = chunkContent:match("^%s*flowchart")
+                or chunkContent:match("^%s*graph%s")
+                or chunkContent:match("^%s*sequenceDiagram")
+                or chunkContent:match("^%s*gantt")
+                or chunkContent:match("^%s*classDiagram")
+                or chunkContent:match("^%s*stateDiagram")
+                or chunkContent:match("^%s*erDiagram")
+                or chunkContent:match("^%s*pie")
+                or chunkContent:match("^%s*journey")
+
             if startsWithMermaidFence then
                 -- Chunk already starts with its own mermaid block, don't prepend anything
                 -- ALSO skip the mermaid close logic - we're not continuing a block, we're starting a new one
                 skipMermaidClose = true
-                CM.DebugPrint("CHUNKING", "Chunk starts with new mermaid fence, skipping header prepend AND mermaid close logic")
+                CM.DebugPrint(
+                    "CHUNKING",
+                    "Chunk starts with new mermaid fence, skipping header prepend AND mermaid close logic"
+                )
             elseif chunkContent:match("^%s*```") then
-                -- Chunk starts with a closing fence. Since we are in 'prependMermaidHeader' mode, 
+                -- Chunk starts with a closing fence. Since we are in 'prependMermaidHeader' mode,
                 -- this is the closing fence of the PREVIOUS split block.
                 -- We already closed the previous chunk artificially, so this fence is redundant.
                 -- STRIP it to prevent creating an empty code block.
@@ -4652,8 +4665,6 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             prependMermaidHeader = nil
         end
 
-
-
         -- Add HTML comment marker at START of chunk (safe, won't be truncated, ignored by renderers)
         local contentSizeBeforePadding = string.len(chunkContent)
         local chunkMarker =
@@ -4670,16 +4681,19 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
             -- Check if we are really inside the block (not just at the end)
             -- If chunkEnd points to the newline before ```, we are effectively at the end?
             -- IsInsideMermaidBlock returns blockEnd as position AFTER ```
-            
+
             -- CRITICAL: Also check if we're right at the START of the block (within the header area)
             -- If chunkEnd is within ~500 chars of mStart, the block just opened and has no content yet
             -- Adding artificial close would create an empty block
             local distanceFromStart = chunkEnd - mStart
             if distanceFromStart < 500 then
-                 CM.DebugPrint("CHUNKING", string.format(
-                    "Chunk ends %d chars after mermaid block start - too close, skipping artificial close",
-                    distanceFromStart
-                ))
+                CM.DebugPrint(
+                    "CHUNKING",
+                    string.format(
+                        "Chunk ends %d chars after mermaid block start - too close, skipping artificial close",
+                        distanceFromStart
+                    )
+                )
             else
                 -- If chunkEnd is inside, append closing backticks
                 chunkContent = chunkContent .. "\n```\n"
@@ -4694,7 +4708,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 local checkStr = string.sub(markdown, math.max(1, mStart), math.min(markdownLength, mStart + 20))
                 if checkStr:match("subgraph") then
                     -- We are in a subgraph, need to find main block start
-                     CM.DebugPrint("CHUNKING", "Mermaid subgraph detected, header resolution might be tricky")
+                    CM.DebugPrint("CHUNKING", "Mermaid subgraph detected, header resolution might be tricky")
                 end
 
                 if not string.sub(markdown, mStart, mStart + 10):match("```mermaid") then
@@ -4832,7 +4846,6 @@ end
 ---@param markdown string The markdown content to chunk
 ---@return table Array of chunk objects
 local function SplitMarkdownIntoChunks_SectionBased(markdown)
-
     local markdownLength = string.len(markdown)
     local maxSize = CHUNKING.COPY_LIMIT or 5700
 

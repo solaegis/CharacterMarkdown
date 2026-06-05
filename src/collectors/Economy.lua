@@ -96,6 +96,6 @@ local function CollectEconomyData()
 end
 
 CM.collectors.CollectEconomyData = CollectEconomyData
-CM.collectors.CollectCurrencyData = CollectEconomyData -- Alias for compatibility with TONL/Markdown
+CM.collectors.CollectCurrencyData = CollectEconomyData -- Alias for compatibility
 
 CM.DebugPrint("COLLECTOR", "Economy collector module loaded")

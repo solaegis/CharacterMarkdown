@@ -29,7 +29,11 @@ local function EnsureCharacterData()
     end
     -- Initialize from account-wide settings perCharacterData
     local characterId = tostring(GetCurrentCharacterId())
-    if CharacterMarkdownSettings and CharacterMarkdownSettings.perCharacterData and CharacterMarkdownSettings.perCharacterData[characterId] then
+    if
+        CharacterMarkdownSettings
+        and CharacterMarkdownSettings.perCharacterData
+        and CharacterMarkdownSettings.perCharacterData[characterId]
+    then
         CM.charData = CharacterMarkdownSettings.perCharacterData[characterId]
         return true
     end
@@ -224,8 +228,8 @@ function CM.Settings.Panel:Initialize()
             -- CRITICAL: Force refresh the panel to update the UI with preserved values
             -- This ensures the text fields show the preserved values after reset
             zo_callLater(function()
-                if LAM and self.panelId then
-                    LAM:RefreshPanel(self.panelId)
+                if self.panelControl and self.panelControl.RefreshPanel then
+                    self.panelControl:RefreshPanel()
                     CM.DebugPrint("SETTINGS", "Panel refreshed after defaults reset")
                 end
             end, 100)
@@ -236,7 +240,7 @@ function CM.Settings.Panel:Initialize()
     }
 
     self.panelId = "CharacterMarkdownPanel"
-    LAM:RegisterAddonPanel(self.panelId, panelData)
+    self.panelControl = LAM:RegisterAddonPanel(self.panelId, panelData)
 
     -- Register options with proper getFunc/setFunc
     local optionsData = self:BuildOptionsData()
@@ -1282,7 +1286,85 @@ function CM.Settings.Panel:AddCraftingSection(options)
         end,
         setFunc = CreateSetFunc("includeCrafting"),
         width = "half",
-        default = false,
+        default = true,
+    })
+
+    -- Motifs
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Include Motifs",
+        tooltip = "Show known crafting motifs and completion progress.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeMotifs
+        end,
+        setFunc = CreateSetFunc("includeMotifs"),
+        width = "half",
+        default = true,
+        disabled = function()
+            return not CharacterMarkdownSettings.includeCrafting
+        end,
+    })
+
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Show Motifs Detailed",
+        tooltip = "Show a detailed list of all motif chapters vs just a summary count.",
+        getFunc = function()
+            return CharacterMarkdownSettings.showMotifsDetailed
+        end,
+        setFunc = CreateSetFunc("showMotifsDetailed"),
+        width = "half",
+        default = true,
+        disabled = function()
+            return not CharacterMarkdownSettings.includeCrafting or not CharacterMarkdownSettings.includeMotifs
+        end,
+    })
+
+    -- Outfit Styles
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Include Outfit Styles",
+        tooltip = "Show known outfit styles and completion progress.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeStyles
+        end,
+        setFunc = CreateSetFunc("includeStyles"),
+        width = "half",
+        default = true,
+        disabled = function()
+            return not CharacterMarkdownSettings.includeCrafting
+        end,
+    })
+
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Show Styles Detailed",
+        tooltip = "Show a detailed list of all outfit styles vs just a summary count.",
+        getFunc = function()
+            return CharacterMarkdownSettings.showStylesDetailed
+        end,
+        setFunc = CreateSetFunc("showStylesDetailed"),
+        width = "half",
+        default = true,
+        disabled = function()
+            return not CharacterMarkdownSettings.includeCrafting or not CharacterMarkdownSettings.includeStyles
+        end,
+    })
+
+    -- Recipes
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Include Recipes",
+        tooltip = "Show known provisioning and furnishing recipes.",
+        getFunc = function()
+            return CharacterMarkdownSettings.includeRecipes
+        end,
+        setFunc = CreateSetFunc("includeRecipes"),
+        width = "half",
+        default = true,
+        disabled = function()
+            return not CharacterMarkdownSettings.includeCrafting
+        end,
     })
 
     table.insert(options, {
@@ -1358,7 +1440,7 @@ function CM.Settings.Panel:AddLinkSettings(options)
 
     table.insert(options, {
         type = "description",
-        text = "Enable clickable UESP wiki links for game elements. All links respect the same toggle below.",
+        text = "Enable clickable UESP wiki links for game elements by category.",
         width = "full",
     })
 
@@ -1376,6 +1458,42 @@ function CM.Settings.Panel:AddLinkSettings(options)
             CM.InvalidateSettingsCache()
         end,
         width = "full",
+        default = true,
+    })
+
+    table.insert(options, {
+        type = "checkbox",
+        name = "    Motif UESP Links",
+        tooltip = "Link crafting motif chapters to UESP wiki (Crafting section).",
+        getFunc = function()
+            return CharacterMarkdownSettings.enableMotifLinks
+        end,
+        setFunc = CreateSetFunc("enableMotifLinks"),
+        width = "half",
+        default = true,
+    })
+
+    table.insert(options, {
+        type = "checkbox",
+        name = "    Style UESP Links",
+        tooltip = "Link outfit style entries to UESP wiki (Crafting section).",
+        getFunc = function()
+            return CharacterMarkdownSettings.enableStyleLinks
+        end,
+        setFunc = CreateSetFunc("enableStyleLinks"),
+        width = "half",
+        default = true,
+    })
+
+    table.insert(options, {
+        type = "checkbox",
+        name = "    Recipe UESP Links",
+        tooltip = "Link individual recipes to UESP wiki (Crafting section).",
+        getFunc = function()
+            return CharacterMarkdownSettings.enableRecipeLinks
+        end,
+        setFunc = CreateSetFunc("enableRecipeLinks"),
+        width = "half",
         default = true,
     })
 end
@@ -1416,7 +1534,7 @@ function CM.Settings.Panel:AddCustomNotes(options)
     table.insert(options, {
         type = "checkbox",
         name = "Include Build Notes",
-                tooltip = "Include custom build notes (after Overview). Enter notes below to appear in output.",
+        tooltip = "Include custom build notes (after Overview). Enter notes below to appear in output.",
         getFunc = function()
             return CharacterMarkdownSettings.includeBuildNotes
         end,
@@ -1565,7 +1683,8 @@ function CM.Settings.Panel:AddCustomNotes(options)
             if CM.charData and CM.charData.customNotes then
                 charCount = string.len(CM.charData.customNotes)
             end
-            local color = charCount > maxNotes and "|cFF6B6B" or (charCount > maxNotes - 200 and "|cFFD93D" or "|c6BCF7E")
+            local color = charCount > maxNotes and "|cFF6B6B"
+                or (charCount > maxNotes - 200 and "|cFFD93D" or "|c6BCF7E")
             return color .. "Characters: " .. charCount .. " / " .. maxNotes .. "|r"
         end,
         reference = "CharacterMarkdown_BuildNotesCounter",
@@ -1582,6 +1701,12 @@ end
 -- =====================================================
 
 function CM.Settings.Panel:AddActions(options)
+    local function RefreshSettingsPanel()
+        if CM.Settings.Panel.panelControl and CM.Settings.Panel.panelControl.RefreshPanel then
+            CM.Settings.Panel.panelControl:RefreshPanel()
+        end
+    end
+
     table.insert(options, {
         type = "header",
         name = "Actions",
@@ -1627,6 +1752,8 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.includeFooter = value
         CharacterMarkdownSettings.includeTableOfContents = value
         CharacterMarkdownSettings.includeAttentionNeeded = value
+        CharacterMarkdownSettings.includeQuickStats = value
+        CharacterMarkdownSettings.includeGeneral = value
 
         -- CHARACTER (Character.lua collectors)
         CharacterMarkdownSettings.includeLocation = value
@@ -1692,9 +1819,9 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.showAntiquitiesDetailed = value
 
         -- QUESTS (Quests.lua collectors)
-        -- CharacterMarkdownSettings.includeQuests = value  -- DISABLED
-        -- CharacterMarkdownSettings.showQuestsDetailed = value  -- DISABLED
-        -- CharacterMarkdownSettings.showAllQuests = value  -- DISABLED
+        CharacterMarkdownSettings.includeQuests = value
+        CharacterMarkdownSettings.showQuestsDetailed = value
+        CharacterMarkdownSettings.showAllQuests = value
         CharacterMarkdownSettings.includeUndauntedPledges = value
 
         -- ARMORY BUILDS (ArmoryBuilds.lua collectors)
@@ -1702,6 +1829,12 @@ function CM.Settings.Panel:AddActions(options)
 
         -- CRAFTING (Crafting.lua collectors)
         CharacterMarkdownSettings.includeCrafting = value
+        CharacterMarkdownSettings.includeMotifs = value
+        CharacterMarkdownSettings.showMotifsDetailed = value
+        CharacterMarkdownSettings.includeStyles = value
+        CharacterMarkdownSettings.showStylesDetailed = value
+        CharacterMarkdownSettings.includeRecipes = value
+        CharacterMarkdownSettings.showRecipesDetailed = value
 
         -- SOCIAL (Social.lua collectors)
         CharacterMarkdownSettings.includeGuilds = value
@@ -1710,9 +1843,18 @@ function CM.Settings.Panel:AddActions(options)
         -- LINKS
         CharacterMarkdownSettings.enableAbilityLinks = value
         CharacterMarkdownSettings.enableSetLinks = value
+        CharacterMarkdownSettings.enableMotifLinks = value
+        CharacterMarkdownSettings.enableStyleLinks = value
+        CharacterMarkdownSettings.enableRecipeLinks = value
 
         -- NOTES/DISPLAY
         CharacterMarkdownSettings.includeBuildNotes = value
+
+        -- OTHER ADDITIONS
+        CharacterMarkdownSettings.includeEquipmentEnhancement = value
+        CharacterMarkdownSettings.showEquipmentAnalysis = value
+        CharacterMarkdownSettings.showEquipmentRecommendations = value
+        CharacterMarkdownSettings.includeWorldProgress = value
 
         CharacterMarkdownSettings._lastModified = GetTimeStamp()
         CM.InvalidateSettingsCache()
@@ -1727,26 +1869,29 @@ function CM.Settings.Panel:AddActions(options)
         func = function()
             ToggleAllSections(true)
             -- Force panel refresh
-            if LibAddonMenu2 and CM.Settings.Panel.panelId then
-                LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
-            end
+            RefreshSettingsPanel()
         end,
         width = "half",
     })
 
-    -- Disable All Sections button
+    -- Reset to Defaults button
     table.insert(options, {
         type = "button",
-        name = "Disable All Sections",
-        tooltip = "Turn off all content sections",
+        name = "Reset to Defaults",
+        tooltip = "Reset all settings to default values (preserves custom character notes).",
         func = function()
-            ToggleAllSections(false)
+            CM.Settings.Initializer:ResetToDefaults()
             -- Force panel refresh
-            if LibAddonMenu2 and CM.Settings.Panel.panelId then
-                LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
-            end
+            RefreshSettingsPanel()
         end,
         width = "half",
+        isDangerous = true,
+    })
+
+    table.insert(options, {
+        type = "description",
+        text = "Apply a curated preset configuration to match a specific playstyle or goal. This will modify your toggles, but will not erase your custom character notes.",
+        width = "full",
     })
 
     -- Minimal preset: build sharing (Combat, Equipment, Skills, Champion, Currency)
@@ -1768,85 +1913,148 @@ function CM.Settings.Panel:AddActions(options)
         CharacterMarkdownSettings.includeLocation = true
         CharacterMarkdownSettings.includeCharacterAttributes = true
         CharacterMarkdownSettings.includeBuildNotes = true
-        CharacterMarkdownSettings.enableAbilityLinks = true
-        CharacterMarkdownSettings.enableSetLinks = true
+        CharacterMarkdownSettings.includeQuickStats = true
+        CharacterMarkdownSettings.includeGeneral = true
+        CharacterMarkdownSettings.enableAbilityLinks = false
+        CharacterMarkdownSettings.enableSetLinks = false
         CharacterMarkdownSettings._lastModified = GetTimeStamp()
         CM.InvalidateSettingsCache()
         CM.Info("Minimal preset applied (build sharing)")
-        if LibAddonMenu2 and CM.Settings.Panel.panelId then
-            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
-        end
+        RefreshSettingsPanel()
     end
 
     -- PvP Build preset: Minimal + PvP info and Alliance War Skills
     local function ApplyPvPBuildPreset()
         ApplyMinimalPreset()
+        CharacterMarkdownSettings.enableAbilityLinks = true
+        CharacterMarkdownSettings.enableSetLinks = true
         CharacterMarkdownSettings.includePvP = true
         CharacterMarkdownSettings.includePvPStats = true
         CharacterMarkdownSettings.showAllianceWarSkills = true
+        CharacterMarkdownSettings.includeSkillMorphs = true
+        CharacterMarkdownSettings.includeChampionDiagram = true
+        CharacterMarkdownSettings.includeTitlesHousing = true
+        CharacterMarkdownSettings.includeArmoryBuilds = true
+        CharacterMarkdownSettings.includeGuilds = true
+        CharacterMarkdownSettings.includeMail = true
         CharacterMarkdownSettings._lastModified = GetTimeStamp()
         CM.InvalidateSettingsCache()
         CM.Info("PvP Build preset applied")
-        if LibAddonMenu2 and CM.Settings.Panel.panelId then
-            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
-        end
+        RefreshSettingsPanel()
     end
 
     -- Achievement Hunter preset: Minimal + Achievements, Collectibles, Antiquities
     local function ApplyAchievementHunterPreset()
         ApplyMinimalPreset()
+        CharacterMarkdownSettings.enableAbilityLinks = true
+        CharacterMarkdownSettings.enableSetLinks = true
         CharacterMarkdownSettings.includeAchievements = true
+        CharacterMarkdownSettings.showAllAchievements = true
         CharacterMarkdownSettings.includeCollectibles = true
         CharacterMarkdownSettings.includeAntiquities = true
+        CharacterMarkdownSettings.showAntiquitiesDetailed = true
+        CharacterMarkdownSettings.includeCrafting = true
+        CharacterMarkdownSettings.includeMotifs = true
+        CharacterMarkdownSettings.showMotifsDetailed = true
+        CharacterMarkdownSettings.includeStyles = true
+        CharacterMarkdownSettings.showStylesDetailed = true
+        CharacterMarkdownSettings.includeRecipes = true
+        CharacterMarkdownSettings.showRecipesDetailed = true
+        CharacterMarkdownSettings.enableMotifLinks = true
+        CharacterMarkdownSettings.enableStyleLinks = true
+        CharacterMarkdownSettings.enableRecipeLinks = true
         CharacterMarkdownSettings._lastModified = GetTimeStamp()
         CM.InvalidateSettingsCache()
         CM.Info("Achievement Hunter preset applied")
-        if LibAddonMenu2 and CM.Settings.Panel.panelId then
-            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
-        end
+        RefreshSettingsPanel()
     end
 
     -- Crafter preset: Minimal + Crafting, Currency, Inventory
     local function ApplyCrafterPreset()
         ApplyMinimalPreset()
+        CharacterMarkdownSettings.enableAbilityLinks = true
+        CharacterMarkdownSettings.enableSetLinks = true
         CharacterMarkdownSettings.includeCrafting = true
+        CharacterMarkdownSettings.includeMotifs = true
+        CharacterMarkdownSettings.includeStyles = true
+        CharacterMarkdownSettings.includeRecipes = true
+        CharacterMarkdownSettings.showMotifsDetailed = true
+        CharacterMarkdownSettings.showStylesDetailed = true
+        CharacterMarkdownSettings.showRecipesDetailed = true
+        CharacterMarkdownSettings.enableMotifLinks = true
+        CharacterMarkdownSettings.enableStyleLinks = true
+        CharacterMarkdownSettings.enableRecipeLinks = true
         CharacterMarkdownSettings.includeCurrency = true
         CharacterMarkdownSettings.includeInventory = true
+        CharacterMarkdownSettings.showBagContents = true
+        CharacterMarkdownSettings.showBankContents = true
+        CharacterMarkdownSettings.showCraftingBagContents = true
+        CharacterMarkdownSettings.includeCollectibles = true
+        CharacterMarkdownSettings.showCollectiblesDetailed = true
+        CharacterMarkdownSettings.includeDLCAccess = true
+        CharacterMarkdownSettings.includeHousing = true
         CharacterMarkdownSettings._lastModified = GetTimeStamp()
         CM.InvalidateSettingsCache()
         CM.Info("Crafter preset applied")
-        if LibAddonMenu2 and CM.Settings.Panel.panelId then
-            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
-        end
+        RefreshSettingsPanel()
     end
 
     -- Solo PvE preset: Minimal + Quests, Progression, Companion
     local function ApplySoloPvEPreset()
         ApplyMinimalPreset()
+        CharacterMarkdownSettings.enableAbilityLinks = true
+        CharacterMarkdownSettings.enableSetLinks = true
         CharacterMarkdownSettings.includeQuests = true
+        CharacterMarkdownSettings.showQuestsDetailed = true
+        CharacterMarkdownSettings.showAllQuests = true
+        CharacterMarkdownSettings.includeUndauntedPledges = true
+        CharacterMarkdownSettings.includeArmoryBuilds = true
         CharacterMarkdownSettings.includeProgression = true
         CharacterMarkdownSettings.includeRidingSkills = true
         CharacterMarkdownSettings.includeCompanion = true
+        CharacterMarkdownSettings.includeSkillMorphs = true
+        CharacterMarkdownSettings.includeChampionDiagram = true
+        CharacterMarkdownSettings.includeTitlesHousing = true
+        CharacterMarkdownSettings.includeCollectibles = true
+        CharacterMarkdownSettings.showCollectiblesDetailed = true
+        CharacterMarkdownSettings.includeDLCAccess = true
+        CharacterMarkdownSettings.includeHousing = true
+        CharacterMarkdownSettings.includePvP = true
+        CharacterMarkdownSettings.includePvPStats = true
+        CharacterMarkdownSettings.showPvPProgression = true
+        CharacterMarkdownSettings.showCampaignRewards = true
+        CharacterMarkdownSettings.showLeaderboards = true
+        CharacterMarkdownSettings.showBattlegrounds = true
+        CharacterMarkdownSettings.showDetailedPvP = true
+        CharacterMarkdownSettings.showAllianceWarSkills = true
+        CharacterMarkdownSettings.includeGuilds = true
+        CharacterMarkdownSettings.includeMail = true
         CharacterMarkdownSettings._lastModified = GetTimeStamp()
         CM.InvalidateSettingsCache()
         CM.Info("Solo PvE preset applied")
-        if LibAddonMenu2 and CM.Settings.Panel.panelId then
-            LibAddonMenu2:RefreshPanel(CM.Settings.Panel.panelId)
-        end
+        RefreshSettingsPanel()
     end
 
     table.insert(options, {
         type = "button",
         name = "Preset: Minimal",
-        tooltip = "Build sharing: Combat, Equipment, Skills, Champion Points, Currency. Disables optional sections.",
+        tooltip = "Build sharing: Combat, Equipment, Skills, Champion Points, Currency. No UESP links. Disables optional sections.",
         func = ApplyMinimalPreset,
         width = "half",
     })
 
     table.insert(options, {
         type = "button",
+        name = "Preset: Solo PvE",
+        tooltip = "Minimal plus full Quests [BETA], Armory [BETA], Social, Progression, Riding, Companion, skill morphs, CP diagram, titles, Collectibles, and PvP.",
+        func = ApplySoloPvEPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
         name = "Preset: PvP Build",
-        tooltip = "Minimal plus PvP info, stats, and Alliance War Skills.",
+        tooltip = "Minimal plus PvP info, stats, Alliance War skills, skill morphs, CP diagram, titles, Armory [BETA], and Social.",
         func = ApplyPvPBuildPreset,
         width = "half",
     })
@@ -1854,7 +2062,7 @@ function CM.Settings.Panel:AddActions(options)
     table.insert(options, {
         type = "button",
         name = "Preset: Achievement Hunter",
-        tooltip = "Minimal plus Achievements, Collectibles, and Antiquities.",
+        tooltip = "Minimal plus full Achievements, Antiquities, Collectibles, and Crafting (all submenu options).",
         func = ApplyAchievementHunterPreset,
         width = "half",
     })
@@ -1862,16 +2070,8 @@ function CM.Settings.Panel:AddActions(options)
     table.insert(options, {
         type = "button",
         name = "Preset: Crafter",
-        tooltip = "Minimal plus Crafting, Currency, and Inventory.",
+        tooltip = "Minimal plus full Crafting, Currency, Inventory, bag/bank/crafting bag lists, and Collectibles.",
         func = ApplyCrafterPreset,
-        width = "half",
-    })
-
-    table.insert(options, {
-        type = "button",
-        name = "Preset: Solo PvE",
-        tooltip = "Minimal plus Quests, Progression, Riding, and Companion.",
-        func = ApplySoloPvEPreset,
         width = "half",
     })
 

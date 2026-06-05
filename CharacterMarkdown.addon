@@ -2,7 +2,7 @@
 ## Author: solaegis
 ## Version: @project-version@
 ## AddOnVersion: 1.0.0
-## APIVersion: 101049 101048
+## APIVersion: 101050 101049
 ## SavedVariables: CharacterMarkdownSettings
 ## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=250 LibSets>=86 LibSlashCommander>=4
 ## Description: Exports comprehensive character data in enhanced markdown format (Markdown, TONL). Generate copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Includes ESO Plus, DLC access, currencies, progression, riding skills, inventory, PvP, collectibles, and crafting knowledge. Use /markdown (or /cm) to generate.
@@ -31,7 +31,6 @@ src/utils/Chunking.lua
 src/utils/TestValidation.lua
 src/utils/SectionPresenceTests.lua
 src/utils/LibSetsIntegration.lua
-src/utils/TONL.lua
 
 ## API Layer (depends on Core, utils)
 src/api/Character.lua
@@ -52,6 +51,7 @@ src/api/System.lua
 src/api/Companion.lua
 src/api/Antiquities.lua
 src/api/Titles.lua
+src/api/Lore.lua
 src/api/ArmoryBuilds.lua
 src/api/UndauntedPledges.lua
 src/api/Mail.lua
@@ -82,6 +82,7 @@ src/collectors/Social.lua
 src/collectors/ArmoryBuilds.lua
 src/collectors/Companion.lua
 src/collectors/Crafting.lua
+src/collectors/Styles.lua
 src/collectors/System.lua
 
 ## Markdown generator (depends on collectors + links)
@@ -105,6 +106,7 @@ src/generators/sections/Equipment.lua
 
 src/generators/sections/Combat.lua
 src/generators/sections/Crafting.lua
+src/generators/sections/Styles.lua
 src/generators/sections/DLCAndMundus.lua
 src/generators/sections/ChampionPoints.lua
 src/generators/sections/ChampionDiagram.lua
@@ -123,7 +125,6 @@ src/generators/Markdown.lua
 
 ## Formatters (output formatters)
 src/formatters/Markdown.lua
-src/formatters/TONL.lua
 
 ## Command system (refactored into modular components)
 src/commands/Debug.lua

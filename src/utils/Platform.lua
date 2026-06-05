@@ -15,7 +15,7 @@ local function DetectOperatingSystem(forceRedetect)
     end
 
     -- Try to auto-detect based on filesystem path
-    local detectedOS = "unknown"
+    local detectedOS
 
     -- GetAddOnSavedVariablesDirectory() returns paths like:
     -- Mac:     /Users/username/Documents/Elder Scrolls Online/live/SavedVariables/

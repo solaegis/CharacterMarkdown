@@ -9,7 +9,6 @@ CM.utils.LayoutCalculator = CM.utils.LayoutCalculator or {}
 local math_max = math.max
 local math_min = math.min
 local math_floor = math.floor
-local math_ceil = math.ceil
 
 -- Constants for layout calculation
 local MIN_WIDTH_PX = 250 -- Minimum column width for readability
@@ -19,7 +18,7 @@ local CHARS_PER_PX = 0.15 -- Approximate conversion factor (characters to pixels
 
 --[[
     Calculate optimal layout parameters for a set of tables
-    
+
     Algorithm:
     1. Analyze all tables to get width/row estimates
     2. Calculate widest table (sets baseline minWidth)
@@ -27,7 +26,7 @@ local CHARS_PER_PX = 0.15 -- Approximate conversion factor (characters to pixels
     4. Determine optimal column count based on item count and balance
     5. Adjust minWidth to ensure visual balance (prevent one wide + many narrow)
     6. Apply constraints (min/max for readability)
-    
+
     @param tableArray table - Array of markdown table strings (already generated)
     @param options table - Optional configuration:
         - minItems: number - Minimum items to trigger multi-column (default: 2)
@@ -35,7 +34,7 @@ local CHARS_PER_PX = 0.15 -- Approximate conversion factor (characters to pixels
         - targetWidth: number - Target width in pixels (default: auto-calculate)
         - balanceThreshold: number - Ratio threshold for balance (default: 0.7)
         - gap: string - Gap between columns (default: "20px")
-    
+
     @return table - { minWidth = "XXXpx", gap = "XXpx", columnCount = N, metadata = {...} }
 ]]
 local function CalculateOptimalLayout(tableArray, options)
@@ -120,7 +119,7 @@ local function CalculateOptimalLayout(tableArray, options)
     -- If there's high width variance, increase minWidth to prevent extreme differences
     local widthRatio = stats.minWidth > 0 and (stats.minWidth / stats.maxWidth) or 0
 
-    local adjustedWidth = baselineWidth
+    local adjustedWidth
 
     if widthRatio < balanceThreshold then
         -- High variance detected - use median to balance

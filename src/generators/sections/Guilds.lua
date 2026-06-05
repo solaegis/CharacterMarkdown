@@ -18,6 +18,67 @@ end
 -- GUILDS
 -- =====================================================
 
+-- =====================================================
+-- UNDAUNTED ACTIVE PLEDGES (Subsection)
+-- =====================================================
+
+local function GenerateUndauntedActivePledges(undauntedPledgesData)
+    local markdown = ""
+    local pledges = undauntedPledgesData.pledges or {}
+
+    if not pledges.active or #pledges.active == 0 then
+        return ""
+    end
+
+    markdown = markdown .. "### 📋 Undaunted Active Pledges\n\n"
+
+    local CreateZoneLink = CM.links and CM.links.CreateZoneLink
+    for _, pledge in ipairs(pledges.active) do
+        -- Parse pledge name: "Pledge: Darkshade II - Deshaan" -> extract dungeon and zone
+        local pledgeText = pledge.name or ""
+        local locationText = pledge.location or ""
+
+        -- Extract dungeon name (part after "Pledge: " and before " - ")
+        local dungeonName = pledgeText
+        if pledgeText:find("Pledge: ") and pledgeText:find(" - ") then
+            -- Format: "Pledge: DUNGEON - ZONE"
+            dungeonName = pledgeText:match("Pledge: (.+) %-")
+                or pledgeText:gsub("^Pledge: ", ""):match("(.+) %-")
+                or pledgeText:gsub("^Pledge: ", "")
+        elseif pledgeText:find("Pledge: ") then
+            -- Format: "Pledge: DUNGEON" (no location separator)
+            dungeonName = pledgeText:gsub("^Pledge: ", "")
+        end
+
+        -- Clean up dungeon name
+        dungeonName = dungeonName:gsub("^%s+", ""):gsub("%s+$", "")
+
+        -- Create links for dungeon and location
+        local dungeonLink = (CreateZoneLink and CreateZoneLink(dungeonName)) or dungeonName
+        local locationLink = ""
+        if locationText ~= "" then
+            locationLink = (CreateZoneLink and CreateZoneLink(locationText)) or locationText
+        elseif pledgeText:find(" - ") then
+            -- Extract zone from pledge name if location field is empty
+            local zoneName = pledgeText:match("%- (.+)$")
+            if zoneName then
+                zoneName = zoneName:gsub("^%s+", ""):gsub("%s+$", "")
+                locationLink = (CreateZoneLink and CreateZoneLink(zoneName)) or zoneName
+            end
+        end
+
+        markdown = markdown .. "- Pledge: " .. dungeonLink
+        if locationLink ~= "" and locationLink ~= dungeonLink then
+            markdown = markdown .. " - " .. locationLink
+        end
+        markdown = markdown .. "\n"
+    end
+
+    markdown = markdown .. "\n"
+
+    return markdown
+end
+
 local function GenerateGuilds(guildsData, undauntedPledgesData)
     InitializeUtilities()
 
@@ -144,67 +205,6 @@ local function GenerateGuilds(guildsData, undauntedPledgesData)
     then
         markdown = markdown .. GenerateUndauntedActivePledges(undauntedPledgesData)
     end
-
-    return markdown
-end
-
--- =====================================================
--- UNDAUNTED ACTIVE PLEDGES (Subsection)
--- =====================================================
-
-local function GenerateUndauntedActivePledges(undauntedPledgesData)
-    local markdown = ""
-    local pledges = undauntedPledgesData.pledges or {}
-
-    if not pledges.active or #pledges.active == 0 then
-        return ""
-    end
-
-    markdown = markdown .. "### 📋 Undaunted Active Pledges\n\n"
-
-    local CreateZoneLink = CM.links and CM.links.CreateZoneLink
-    for _, pledge in ipairs(pledges.active) do
-        -- Parse pledge name: "Pledge: Darkshade II - Deshaan" -> extract dungeon and zone
-        local pledgeText = pledge.name or ""
-        local locationText = pledge.location or ""
-
-        -- Extract dungeon name (part after "Pledge: " and before " - ")
-        local dungeonName = pledgeText
-        if pledgeText:find("Pledge: ") and pledgeText:find(" - ") then
-            -- Format: "Pledge: DUNGEON - ZONE"
-            dungeonName = pledgeText:match("Pledge: (.+) %-")
-                or pledgeText:gsub("^Pledge: ", ""):match("(.+) %-")
-                or pledgeText:gsub("^Pledge: ", "")
-        elseif pledgeText:find("Pledge: ") then
-            -- Format: "Pledge: DUNGEON" (no location separator)
-            dungeonName = pledgeText:gsub("^Pledge: ", "")
-        end
-
-        -- Clean up dungeon name
-        dungeonName = dungeonName:gsub("^%s+", ""):gsub("%s+$", "")
-
-        -- Create links for dungeon and location
-        local dungeonLink = (CreateZoneLink and CreateZoneLink(dungeonName)) or dungeonName
-        local locationLink = ""
-        if locationText ~= "" then
-            locationLink = (CreateZoneLink and CreateZoneLink(locationText)) or locationText
-        elseif pledgeText:find(" - ") then
-            -- Extract zone from pledge name if location field is empty
-            local zoneName = pledgeText:match("%- (.+)$")
-            if zoneName then
-                zoneName = zoneName:gsub("^%s+", ""):gsub("%s+$", "")
-                locationLink = (CreateZoneLink and CreateZoneLink(zoneName)) or zoneName
-            end
-        end
-
-        markdown = markdown .. "- Pledge: " .. dungeonLink
-        if locationLink ~= "" and locationLink ~= dungeonLink then
-            markdown = markdown .. " - " .. locationLink
-        end
-        markdown = markdown .. "\n"
-    end
-
-    markdown = markdown .. "\n"
 
     return markdown
 end

@@ -189,7 +189,7 @@ local function GenerateCompanion(companionData)
                 -- Build row data
                 for i = 1, 5 do
                     if abilities[i] then
-                        local abilityText = CreateAbilityLink(abilities[i].name, abilities[i].id, format)
+                        local abilityText = CreateAbilityLink(abilities[i].name, abilities[i].id)
                         table_insert(rowData, abilityText)
                     else
                         table_insert(rowData, "[Empty]")

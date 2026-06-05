@@ -12,6 +12,21 @@ local function CollectCraftingData()
     -- Transform API data to expected format (backward compatibility)
     crafting.timers = timers or {}
 
+    -- Motifs
+    local settings = CM.GetSettings()
+    if settings.includeMotifs then
+        crafting.motifs = CM.api.crafting.GetMotifKnowledge()
+    else
+        crafting.motifs = {}
+    end
+
+    -- Recipes
+    if settings.includeRecipes then
+        crafting.recipes = CM.api.crafting.GetRecipeKnowledge()
+    else
+        crafting.recipes = { all = {}, count = 0 }
+    end
+
     -- Research info (optional, can be large)
     crafting.research = {
         blacksmithing = CM.api.crafting.GetResearchInfo(CRAFTING_TYPE_BLACKSMITHING),
@@ -20,12 +35,13 @@ local function CollectCraftingData()
         jewelry = CM.api.crafting.GetResearchInfo(CRAFTING_TYPE_JEWELRYCRAFTING),
     }
 
-    -- Styles (optional, can be large)
+    -- Styles (basic crafting styles)
     crafting.styles = CM.api.crafting.GetKnownStyles()
 
     -- Add computed summary
     local activeTimers = crafting.timers and #crafting.timers or 0
-    local totalStyles = crafting.styles and #crafting.styles or 0
+    local totalMotifs = crafting.motifs and #crafting.motifs or 0
+    local totalRecipes = crafting.recipes and crafting.recipes.count or 0
 
     -- Calculate research progress
     local researchProgress = {
@@ -36,14 +52,29 @@ local function CollectCraftingData()
     }
 
     for craftType, researchInfo in pairs(crafting.research) do
-        if researchInfo and researchInfo.total > 0 then
-            researchProgress[craftType] = math.floor((researchInfo.completed / researchInfo.total) * 100)
+        local totalTraits = 0
+        local knownTraits = 0
+        if researchInfo then
+            for _, line in ipairs(researchInfo) do
+                if line.traits then
+                    for _, trait in ipairs(line.traits) do
+                        totalTraits = totalTraits + 1
+                        if trait.known then
+                            knownTraits = knownTraits + 1
+                        end
+                    end
+                end
+            end
+        end
+        if totalTraits > 0 then
+            researchProgress[craftType] = math.floor((knownTraits / totalTraits) * 100)
         end
     end
 
     crafting.summary = {
         activeTimers = activeTimers,
-        totalStyles = totalStyles,
+        totalMotifs = totalMotifs,
+        totalRecipes = totalRecipes,
         researchProgress = researchProgress,
     }
 
