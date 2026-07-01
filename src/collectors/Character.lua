@@ -146,48 +146,26 @@ local function CollectTitlesData()
     -- Use API layer granular functions (composition at collector level)
     local currentTitle = CM.api.titles.GetCurrentTitle()
     local allTitles = CM.api.titles.GetAllTitles()
-    local numTitles = CM.api.titles.GetNumTitles()
 
     local data = {
         current = currentTitle or "",
         owned = {},
         summary = {
             totalOwned = 0,
-            totalAvailable = numTitles or 0,
-            completionPercent = 0,
         },
     }
 
-    -- Ensure totalAvailable is at least equal to owned count (fix for API returning 0)
-    -- Note: GetNumTitles returns owned titles, so totalAvailable is effectively totalOwned
-    -- There is no API to get "total titles in game" easily
-    if data.summary.totalAvailable == 0 and allTitles then
-        -- Count owned titles from the full list if API failed
-        local count = 0
-        for _, title in ipairs(allTitles) do
-            if title.owned then
-                count = count + 1
-            end
-        end
-        data.summary.totalAvailable = count
-    end
-
-    -- Process owned titles
     if allTitles then
         for _, title in ipairs(allTitles) do
             if title.owned then
                 table.insert(data.owned, {
                     id = title.id,
                     name = title.name or "Unknown",
+                    isCurrent = title.isCurrent or false,
                 })
             end
         end
         data.summary.totalOwned = #data.owned
-    end
-
-    -- Calculate completion percentage
-    if data.summary.totalAvailable > 0 then
-        data.summary.completionPercent = math.floor((data.summary.totalOwned / data.summary.totalAvailable) * 100)
     end
 
     -- Sort owned titles alphabetically

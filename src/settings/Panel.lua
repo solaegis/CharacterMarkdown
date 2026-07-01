@@ -213,7 +213,7 @@ function CM.Settings.Panel:Initialize()
             end
 
             -- Update other reset-related fields
-            CharacterMarkdownSettings.settingsVersion = 1
+            CharacterMarkdownSettings.settingsVersion = 4
             CharacterMarkdownSettings.activeProfile = "Custom"
             CharacterMarkdownSettings._lastModified = GetTimeStamp()
 
@@ -228,8 +228,8 @@ function CM.Settings.Panel:Initialize()
             -- CRITICAL: Force refresh the panel to update the UI with preserved values
             -- This ensures the text fields show the preserved values after reset
             zo_callLater(function()
-                if self.panelControl and self.panelControl.RefreshPanel then
-                    self.panelControl:RefreshPanel()
+                if CM.Settings.Panel.panelControl and CM.Settings.Panel.panelControl.RefreshPanel then
+                    CM.Settings.Panel.panelControl:RefreshPanel()
                     CM.DebugPrint("SETTINGS", "Panel refreshed after defaults reset")
                 end
             end, 100)
@@ -1134,7 +1134,7 @@ function CM.Settings.Panel:AddAntiquitiesSection(options)
         end,
         setFunc = CreateSetFunc("includeAntiquities"),
         width = "half",
-        default = true,
+        default = false,
     })
 
     table.insert(controls, {
@@ -1314,7 +1314,7 @@ function CM.Settings.Panel:AddCraftingSection(options)
         end,
         setFunc = CreateSetFunc("showMotifsDetailed"),
         width = "half",
-        default = true,
+        default = false,
         disabled = function()
             return not CharacterMarkdownSettings.includeCrafting or not CharacterMarkdownSettings.includeMotifs
         end,
@@ -1345,7 +1345,7 @@ function CM.Settings.Panel:AddCraftingSection(options)
         end,
         setFunc = CreateSetFunc("showStylesDetailed"),
         width = "half",
-        default = true,
+        default = false,
         disabled = function()
             return not CharacterMarkdownSettings.includeCrafting or not CharacterMarkdownSettings.includeStyles
         end,

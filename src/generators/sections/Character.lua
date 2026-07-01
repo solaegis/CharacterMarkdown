@@ -240,14 +240,14 @@ local function GenerateQuickStats(
                 -- Always include all currencies
                 table.insert(
                     currencyRowsParts,
-                    string_format("|| %s **%s** | %s |\n", item.emoji, item.label, safeFormat(value or 0))
+                    string_format("| %s **%s** | %s |\n", item.emoji, item.label, safeFormat(value or 0))
                 )
             end
             local currencyRows = table.concat(currencyRowsParts)
 
             -- Currency section is always created since Gold is always included
             currencySection =
-                string_format("### Currency\n\n|| Attribute | Value |\n||:----------|:------|\n%s\n", currencyRows)
+                string_format("### Currency\n\n| Attribute | Value |\n|:----------|:------|\n%s\n", currencyRows)
         end
     end
 
@@ -255,10 +255,10 @@ local function GenerateQuickStats(
 
     -- Check if General section uses styled tables (has grid layout)
     local generalHasGrid = generalSection ~= "" and string.find(generalSection, '<div style="display: grid;')
-    -- Currency uses styled tables if it doesn't start with the fallback format (|| pipes)
+    -- Currency uses styled tables if it doesn't start with the fallback pipe table
     -- and doesn't have a grid wrapper (meaning it's a styled table ready to be added to grid)
     local currencyHasStyledTable = currencySection ~= ""
-        and not string.find(currencySection, "^### Currency\n\n||")
+        and not string.find(currencySection, "^### Currency\n\n| Attribute")
         and not string.find(currencySection, "<div style=")
 
     if generalHasGrid and currencyHasStyledTable then

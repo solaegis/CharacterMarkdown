@@ -37,7 +37,7 @@ function morphs.GenerateSkillMorphs(skillMorphsData)
     for _, skillType in ipairs(skillMorphsData) do
         local totalAbilities = 0
         for _, skillLine in ipairs(skillType.skillLines) do
-            totalAbilities = totalAbilities + #skillLine.abilities
+            totalAbilities = totalAbilities + #(skillLine.abilities or {})
         end
 
         output = output
@@ -76,7 +76,7 @@ function morphs.GenerateSkillMorphs(skillMorphsData)
 
                 output = output .. "\n\n"
 
-                if #ability.morphs > 0 then
+                if #(ability.morphs or {}) > 0 then
                     local selectedMorph = nil
                     local unselectedMorphs = {}
 

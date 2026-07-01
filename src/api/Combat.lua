@@ -80,13 +80,13 @@ function api.GetBuffs()
 
     for i = 1, numBuffs do
         -- GetUnitBuffInfo returns: buffName, timeStarted, timeEnding, buffSlot, stackCount, iconFilename, buffType, effectType, abilityType, statusEffectType, abilityId, sourceUnitId, initialCooldown
-        local success, buffName, _, _, _, _, icon, _, _, _, _, abilityId =
+        local success, buffName, _, _, _, iconFilename, _, _, _, _, abilityId =
             CM.SafeCallMulti(GetUnitBuffInfo, "player", i)
 
         if success and buffName then
             table.insert(buffs, {
                 name = buffName,
-                icon = icon,
+                icon = iconFilename,
                 id = abilityId,
             })
 
@@ -258,8 +258,9 @@ function api.GetHealingBonuses()
 end
 
 function api.GetUtilityStats()
-    -- Riding Stats
-    local speedBonus, maxSpeedBonus, staminaBonus, maxStaminaBonus, inventoryBonus, maxInventoryBonus = GetRidingStats()
+    -- GetRidingStats: inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus
+    local inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus =
+        GetRidingStats()
 
     return {
         riding = {

@@ -120,8 +120,8 @@ local function GenerateZoneURL(zoneName)
         return nil
     end
     local urlName = zoneName:gsub(" ", "_")
-    urlName = urlName:gsub("%(", "")
-    urlName = urlName:gsub("%)", "")
+    urlName = urlName:gsub("%(", "_(")
+    urlName = urlName:gsub("%)", "_)")
     return "https://en.uesp.net/wiki/Online:" .. urlName
 end
 

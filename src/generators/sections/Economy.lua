@@ -18,6 +18,26 @@ local function InitializeUtilities()
     end
 end
 
+-- Append a styled table or plain markdown fallback when utils are unavailable
+local function AppendStyledTable(result, headers, rows, options)
+    local CreateStyledTable = (markdown and markdown.CreateStyledTable)
+        or (CM.utils.markdown and CM.utils.markdown.CreateStyledTable)
+    if CreateStyledTable then
+        return result .. CreateStyledTable(headers, rows, options)
+    end
+    local lines = {}
+    table.insert(lines, "| " .. table.concat(headers, " | ") .. " |")
+    local alignRow = {}
+    for i = 1, #headers do
+        alignRow[i] = (options and options.alignment and options.alignment[i] == "left") and ":---" or "---:"
+    end
+    table.insert(lines, "| " .. table.concat(alignRow, " | ") .. " |")
+    for _, row in ipairs(rows) do
+        table.insert(lines, "| " .. table.concat(row, " | ") .. " |")
+    end
+    return result .. table.concat(lines, "\n") .. "\n"
+end
+
 -- =====================================================
 -- CURRENCY
 -- =====================================================
@@ -73,12 +93,11 @@ local function GenerateCurrency(currencyData)
         table.insert(rows, { item.label, item.value })
     end
 
-    local CreateStyledTable = markdown and markdown.CreateStyledTable or CM.utils.markdown.CreateStyledTable
     local options = {
         alignment = { "left", "left" },
         coloredHeaders = true,
     }
-    result = result .. CreateStyledTable(headers, rows, options)
+    result = AppendStyledTable(result, headers, rows, options)
 
     return result
 end
@@ -289,7 +308,7 @@ local function GenerateItemList(items, containerName)
 
             -- Create table with category header embedded
             local categoryTable = "#### " .. categoryName .. " (" .. #categoryItems .. " items)\n\n"
-            categoryTable = categoryTable .. CreateStyledTable(headers, rows, options)
+            categoryTable = AppendStyledTable(categoryTable, headers, rows, options)
             table.insert(categoryTables, categoryTable)
         end
 
@@ -338,7 +357,7 @@ local function GenerateItemList(items, containerName)
                 table.insert(rows, { qualitySymbol .. " " .. item.name, stackText, qualitySymbol })
             end
 
-            result = result .. CreateStyledTable(headers, rows, options)
+            result = AppendStyledTable(result, headers, rows, options)
 
             -- Ensure table ends with proper newlines before next section
             local lastChars = string.sub(result, -2, -1)
@@ -423,12 +442,11 @@ local function GenerateInventory(inventoryData)
         table.insert(rows, { "Crafting Bag", "∞", "∞", "ESO Plus" })
     end
 
-    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
     local options = {
         alignment = { "left", "right", "right", "left" },
         coloredHeaders = true,
     }
-    result = result .. CreateStyledTable(headers, rows, options)
+    result = AppendStyledTable(result, headers, rows, options)
 
     -- Add detailed bag contents if available
     if inventoryData.bagItems then
@@ -475,12 +493,11 @@ local function GeneratePvP(pvpData)
         table.insert(rows, { "Current Campaign", campaignText })
     end
 
-    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
     local options = {
         alignment = { "left", "left" },
         coloredHeaders = true,
     }
-    result = result .. CreateStyledTable(headers, rows, options)
+    result = AppendStyledTable(result, headers, rows, options)
 
     return result
 end

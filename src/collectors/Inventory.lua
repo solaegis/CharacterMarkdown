@@ -47,19 +47,14 @@ local function CollectCraftBagItems()
             end
         end
     else
-        -- Fallback method (bounded: stop after 100 consecutive empty slots)
+        -- Fallback method (bounded by GetBagSize)
         CM.DebugPrint("INVENTORY", "ZO_IterateBagSlots not available, using fallback method")
         local craftBagUsedSuccess, craftBagUsedResult = pcall(GetNumBagUsedSlots, BAG_VIRTUAL)
         if craftBagUsedSuccess and craftBagUsedResult and craftBagUsedResult > 0 then
-            local consecutiveEmpty = 0
-            local maxConsecutiveEmpty = 100
-            for slotIndex = 0, 10000 do
-                if consecutiveEmpty >= maxConsecutiveEmpty then
-                    break
-                end
+            local maxSlots = CM.SafeCall(GetBagSize, BAG_VIRTUAL) or 0
+            for slotIndex = 0, maxSlots - 1 do
                 local itemLink = CM.SafeCall(GetItemLink, BAG_VIRTUAL, slotIndex)
                 if itemLink and itemLink ~= "" then
-                    consecutiveEmpty = 0
                     local itemName = CM.SafeCall(GetItemName, BAG_VIRTUAL, slotIndex) or "Unknown"
                     itemName = itemName:gsub("%^%w+$", "")
 
@@ -86,8 +81,6 @@ local function CollectCraftBagItems()
                         itemTypeName = itemTypeName,
                         slot = slotIndex,
                     })
-                else
-                    consecutiveEmpty = consecutiveEmpty + 1
                 end
             end
         end
@@ -257,25 +250,28 @@ local function CollectSoulGemData()
     soulGems.filled = 0
     soulGems.empty = 0
 
-    local numSlots = CM.SafeCall(GetBagSize, BAG_BACKPACK) or 0
+    local function scanBag(bagId)
+        local numSlots = CM.SafeCall(GetBagSize, bagId) or 0
 
-    for slotIndex = 0, numSlots - 1 do
-        local itemType = CM.SafeCall(GetItemType, BAG_BACKPACK, slotIndex)
+        for slotIndex = 0, numSlots - 1 do
+            local itemType = CM.SafeCall(GetItemType, bagId, slotIndex)
 
-        if itemType == ITEMTYPE_SOUL_GEM then
-            local stackCount = CM.SafeCall(GetSlotStackSize, BAG_BACKPACK, slotIndex) or 0
-            -- Use API layer for item link
-            local itemLink = CM.api.equipment.GetItemLink(BAG_BACKPACK, slotIndex)
+            if itemType == ITEMTYPE_SOUL_GEM then
+                local stackCount = CM.SafeCall(GetSlotStackSize, bagId, slotIndex) or 0
+                local itemLink = CM.api.equipment.GetItemLink(bagId, slotIndex)
 
-            -- Check if filled (contains "Filled" in name typically)
-            local itemName = itemLink and CM.SafeCall(GetItemLinkName, itemLink) or nil
-            if itemName and itemName:find("Filled") then
-                soulGems.filled = soulGems.filled + stackCount
-            else
-                soulGems.empty = soulGems.empty + stackCount
+                local itemName = itemLink and CM.SafeCall(GetItemLinkName, itemLink) or nil
+                if itemName and itemName:find("Filled") then
+                    soulGems.filled = soulGems.filled + stackCount
+                else
+                    soulGems.empty = soulGems.empty + stackCount
+                end
             end
         end
     end
+
+    scanBag(BAG_BACKPACK)
+    scanBag(BAG_BANK)
 
     return soulGems
 end

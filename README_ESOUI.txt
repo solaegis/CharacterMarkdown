@@ -2,7 +2,7 @@
                       CHARACTER MARKDOWN
 ========================================================================
 
-Export comprehensive ESO character data in beautiful Markdown or structured TONL format. 
+Export comprehensive ESO character data in beautiful Markdown format. 
 Designed for the AI age: Paste your profile into ChatGPT, Claude, or other AI assistants 
 for expert build analysis, optimization, and personalized guidance!
 
@@ -30,9 +30,9 @@ tools perfect context about your exact build.
     Extensive export of level, CP, attributes, skills, equipment, 
     combat stats, and progression data.
 
-[+] Multiple Output Formats 
-    Markdown (default) and TONL (data) optimized for different 
-    platforms and sharing needs.
+[+] Markdown Output 
+    Rich tables, links, and formatting optimized for sharing 
+    and AI-assisted build analysis.
 
 [+] Smart Wiki Links 
     Automatic UESP links for abilities, sets, races, classes, zones.
@@ -59,7 +59,6 @@ tools perfect context about your exact build.
 
 * Commands
   /markdown (or /cm)      - Generate Markdown format (default)
-  /tonl                   - Generate TONL data format
   /markdown help          - Show commands
   /markdown version       - Show version
   /markdown notes "text"  - Set custom build notes

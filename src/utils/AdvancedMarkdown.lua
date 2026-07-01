@@ -667,7 +667,11 @@ local function CreateStyledTable(headers, rows, options)
 
     -- Data rows
     for _, row in ipairs(rows) do
-        table.insert(lines, "| " .. table_concat(row, " | ") .. " |")
+        local escapedRow = {}
+        for _, cell in ipairs(row) do
+            table.insert(escapedRow, string_gsub(tostring(cell or ""), "|", "\\|"))
+        end
+        table.insert(lines, "| " .. table_concat(escapedRow, " | ") .. " |")
     end
 
     return table_concat(lines, "\n") .. "\n\n"

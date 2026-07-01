@@ -23,8 +23,14 @@ function api.GetGuildInfo(guildIndex)
 
     local name = CM.SafeCall(GetGuildName, guildId)
     local allianceId = CM.SafeCall(GetGuildAlliance, guildId)
-    local rankIndex = CM.SafeCall(GetGuildPlayerRankIndex, guildId)
+    local rankIndex = nil
     local memberIndex = CM.SafeCall(GetPlayerGuildMemberIndex, guildId)
+    if memberIndex and memberIndex > 0 then
+        local successMember, _, _, memberRankIndex = CM.SafeCallMulti(GetGuildMemberInfo, guildId, memberIndex)
+        if successMember then
+            rankIndex = memberRankIndex
+        end
+    end
     local memberCount = CM.SafeCall(GetNumGuildMembers, guildId)
 
     -- Rank name (optional, but useful)

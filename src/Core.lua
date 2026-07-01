@@ -271,16 +271,16 @@ function CM.SafeCallMulti(func, ...)
     end
 
     local args = { ... }
-    local success, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10 =
-        pcall(func, unpack(args))
-    if not success then
-        local errorMsg = result1
+    local results = { pcall(func, unpack(args)) }
+    if not results[1] then
+        local errorMsg = results[2]
         CM.DebugPrint("SAFECALL", function()
             return string.format("Error in SafeCallMulti: %s", tostring(errorMsg))
         end)
         return false, errorMsg
     end
-    return true, result1, result2, result3, result4, result5, result6, result7, result8, result9, result10
+    table.remove(results, 1)
+    return true, unpack(results)
 end
 
 -- Validate required modules loaded

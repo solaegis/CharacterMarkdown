@@ -26,6 +26,11 @@ Thumbs.db
 # Logs
 *.log
 
+# Audit / agent session artifacts (not part of the addon)
+api_diff.txt
+lint_results*.txt
+.claude/
+
 # Node modules (if any)
 node_modules/
 

@@ -50,9 +50,10 @@ end
 -- =====================================================
 
 local function GetAchievementStatusIcon(achievement)
+    local progress = achievement.progress or {}
     if achievement.completed then
         return "✅"
-    elseif achievement.progress.totalRequired > 0 and achievement.progress.totalProgress > 0 then
+    elseif progress.totalRequired > 0 and progress.totalProgress > 0 then
         return "🔄"
     else
         return "⚪"
@@ -60,14 +61,15 @@ local function GetAchievementStatusIcon(achievement)
 end
 
 local function GetProgressText(achievement)
+    local progress = achievement.progress or {}
     if achievement.completed then
         return "Completed"
-    elseif achievement.progress.totalRequired > 0 then
+    elseif progress.totalRequired > 0 then
         return string.format(
             "%d/%d (%d%%)",
-            achievement.progress.totalProgress,
-            achievement.progress.totalRequired,
-            achievement.progress.progressPercent
+            progress.totalProgress,
+            progress.totalRequired,
+            progress.progressPercent
         )
     else
         return "Not Started"
@@ -114,7 +116,6 @@ local function GenerateAchievementSummary(achievementData, format)
     -- Pivot table: metrics as columns, values as rows
     local rows = {
         { "Total Achievements", CM.utils.FormatNumber(summary.totalAchievements) },
-        { "Completed", CM.utils.FormatNumber(summary.completedAchievements) },
         { "Completion %", summary.completionPercent .. "%" },
         { "Points Earned", CM.utils.FormatNumber(summary.earnedPoints) },
         { "Total Points", CM.utils.FormatNumber(summary.totalPoints) },
@@ -700,9 +701,12 @@ local function GenerateSkyshardAchievements(skyshardData, format)
     markdown = markdown .. "| **Collected** | " .. skyshardData.collected .. " |\n"
     markdown = markdown .. "| **Total** | " .. skyshardData.total .. " |\n"
     markdown = markdown .. "| **Skill Points Earned** | " .. skyshardData.skillPoints .. " |\n"
+    local skyshardPct = (skyshardData.total and skyshardData.total > 0)
+        and math.floor((skyshardData.collected / skyshardData.total) * 100)
+        or 0
     markdown = markdown
         .. "| **Progress** | "
-        .. CM.utils.GenerateProgressBar(math.floor((skyshardData.collected / skyshardData.total) * 100), 12)
+        .. CM.utils.GenerateProgressBar(skyshardPct, 12)
         .. " |\n"
     markdown = markdown .. "\n"
 

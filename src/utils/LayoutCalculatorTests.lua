@@ -8,6 +8,7 @@ CM.utils.LayoutCalculatorTests = CM.utils.LayoutCalculatorTests or {}
 -- Localize functions
 local LayoutCalculator = CM.utils.LayoutCalculator
 local TableAnalyzer = CM.utils.TableAnalyzer
+local string_format = string.format
 
 --[[
     Generate a sample markdown table for testing
@@ -34,6 +35,31 @@ local function GenerateSampleTable(width, rows, title)
     return table.concat(lines, "\n")
 end
 
+local function AssertLayout(layout, testName, minColumns, maxColumns)
+    if not layout then
+        return false, testName .. ": layout is nil"
+    end
+    if not layout.minWidth or not layout.minWidth:match("^%d+px$") then
+        return false, testName .. ": invalid minWidth " .. tostring(layout.minWidth)
+    end
+    if not layout.gap or not layout.gap:match("^%d+px$") then
+        return false, testName .. ": invalid gap " .. tostring(layout.gap)
+    end
+    if type(layout.columnCount) ~= "number" then
+        return false, testName .. ": columnCount missing"
+    end
+    if layout.columnCount < minColumns or layout.columnCount > maxColumns then
+        return false, string_format(
+            "%s: columnCount %d outside expected range %d-%d",
+            testName,
+            layout.columnCount,
+            minColumns,
+            maxColumns
+        )
+    end
+    return true, testName .. " passed"
+end
+
 --[[
     Test 1: Small item count (2-3 tables)
 ]]
@@ -54,7 +80,7 @@ local function TestSmallItemCount()
     CM.Info(string.format("  Column Count: %d", layout.columnCount))
     CM.Info(string.format("  Reason: %s", layout.metadata.reason or "unknown"))
 
-    return layout
+    return AssertLayout(layout, "Small item count", 1, 3)
 end
 
 --[[
@@ -74,7 +100,7 @@ local function TestMediumItemCount()
     CM.Info(string.format("  MinWidth: %s", layout.minWidth))
     CM.Info(string.format("  Column Count: %d", layout.columnCount))
 
-    return layout
+    return AssertLayout(layout, "Medium item count", 2, 6)
 end
 
 --[[
@@ -94,7 +120,7 @@ local function TestLargeItemCount()
     CM.Info(string.format("  MinWidth: %s", layout.minWidth))
     CM.Info(string.format("  Column Count: %d", layout.columnCount))
 
-    return layout
+    return AssertLayout(layout, "Large item count", 2, 12)
 end
 
 --[[
@@ -122,7 +148,11 @@ local function TestVaryingWidths()
     CM.Info(string.format("  Calculated MinWidth: %s", layout.minWidth))
     CM.Info(string.format("  Column Count: %d", layout.columnCount))
 
-    return layout
+    if analysis.stats.maxWidth <= analysis.stats.minWidth then
+        return false, "Varying widths: expected maxWidth > minWidth"
+    end
+
+    return AssertLayout(layout, "Varying widths", 2, 6)
 end
 
 --[[
@@ -146,7 +176,11 @@ local function TestSimilarWidths()
     CM.Info(string.format("  Calculated MinWidth: %s", layout.minWidth))
     CM.Info(string.format("  Column Count: %d", layout.columnCount))
 
-    return layout
+    if (layout.metadata.widthRatio or 0) <= 0 then
+        return false, "Similar widths: expected positive widthRatio metadata"
+    end
+
+    return AssertLayout(layout, "Similar widths", 2, 8)
 end
 
 --[[
@@ -159,6 +193,9 @@ local function TestEdgeCases()
     CM.Info("  6a. Empty array:")
     local layout1 = LayoutCalculator.CalculateOptimalLayout({})
     CM.Info(string.format("    MinWidth: %s, Reason: %s", layout1.minWidth, layout1.metadata.reason))
+    if layout1.columnCount ~= 1 or layout1.metadata.reason ~= "empty_input" then
+        return false, "Edge case empty array: expected single column with reason empty_input"
+    end
 
     -- Single table
     CM.Info("  6b. Single table:")
@@ -166,6 +203,9 @@ local function TestEdgeCases()
         GenerateSampleTable(60, 3, "Solo"),
     })
     CM.Info(string.format("    MinWidth: %s, Reason: %s", layout2.minWidth, layout2.metadata.reason))
+    if layout2.columnCount ~= 1 then
+        return false, "Edge case single table: expected columnCount 1"
+    end
 
     -- Very narrow tables
     CM.Info("  6c. Very narrow tables:")
@@ -175,6 +215,10 @@ local function TestEdgeCases()
     end
     local layout3 = LayoutCalculator.CalculateOptimalLayout(narrowTables)
     CM.Info(string.format("    MinWidth: %s (should be clamped to min)", layout3.minWidth))
+    local narrowWidth = tonumber((layout3.minWidth or ""):match("^(%d+)"))
+    if not narrowWidth or narrowWidth < 250 then
+        return false, "Edge case narrow tables: minWidth should be clamped to minimum"
+    end
 
     -- Very wide tables
     CM.Info("  6d. Very wide tables:")
@@ -184,8 +228,12 @@ local function TestEdgeCases()
     end
     local layout4 = LayoutCalculator.CalculateOptimalLayout(wideTables)
     CM.Info(string.format("    MinWidth: %s (should be clamped to max)", layout4.minWidth))
+    local wideWidth = tonumber((layout4.minWidth or ""):match("^(%d+)"))
+    if not wideWidth or wideWidth > 450 then
+        return false, "Edge case wide tables: minWidth should be clamped to maximum"
+    end
 
-    return true
+    return true, "Edge cases passed"
 end
 
 --[[
@@ -214,13 +262,14 @@ local function RunAllTests()
     local failed = 0
 
     for _, testFunc in ipairs(tests) do
-        local success, result = pcall(testFunc)
-        if success then
+        local success, okOrErr, message = pcall(testFunc)
+        if success and okOrErr == true then
             passed = passed + 1
-            CM.Info("  ✓ Test passed\n")
+            CM.Info(string.format("  ✓ %s\n", message or "Test passed"))
         else
             failed = failed + 1
-            CM.Error(string.format("  ✗ Test failed: %s\n", tostring(result)))
+            local errMsg = success and (message or tostring(okOrErr)) or tostring(okOrErr)
+            CM.Error(string.format("  ✗ Test failed: %s\n", errMsg))
         end
     end
 

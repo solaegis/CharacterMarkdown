@@ -683,22 +683,17 @@ local function GenerateGeneral(
             local warfareAvailable = 0
             local fitnessAvailable = 0
 
-            -- Calculate max per discipline (660 or total/3, whichever is lower)
-            local maxPerDiscipline = math.min(660, math.floor((cpData.total or 0) / 3))
-
-            -- Get assigned points per discipline and calculate remaining capacity
             for _, discipline in ipairs(cpData.disciplines) do
                 local name = discipline.name or ""
-                local assigned = discipline.assigned or discipline.total or 0
-                local remaining = math.max(0, maxPerDiscipline - assigned)
+                local available = discipline.available or 0
 
                 if DisciplineType then
                     if name == DisciplineType.CRAFT then
-                        craftAvailable = remaining
+                        craftAvailable = available
                     elseif name == DisciplineType.WARFARE then
-                        warfareAvailable = remaining
+                        warfareAvailable = available
                     elseif name == DisciplineType.FITNESS then
-                        fitnessAvailable = remaining
+                        fitnessAvailable = available
                     end
                 end
             end

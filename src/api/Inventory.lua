@@ -18,7 +18,7 @@ end
 
 function api.GetMaxCurrency(currencyType, location)
     location = location or CURRENCY_LOCATION_CHARACTER
-    return CM.SafeCall(GetMaxPossibleCurrencyAmount, currencyType, location) or 0
+    return CM.SafeCall(GetMaxPossibleCurrency, currencyType, location) or 0
 end
 
 function api.GetAllCurrencies()

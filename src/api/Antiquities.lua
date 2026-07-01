@@ -11,19 +11,11 @@ local api = CM.api.antiquities
 -- CACHING
 -- =====================================================
 
-local _antiquityCache = {} -- Cache by antiquityId
+local _antiquityCache = {}
 
 -- =====================================================
 -- GRANULAR GETTERS
 -- =====================================================
-
-function api.GetNumSets()
-    return CM.SafeCall(GetNumAntiquitySets) or 0
-end
-
-function api.GetSetId(setIndex)
-    return CM.SafeCall(GetAntiquitySetId, setIndex)
-end
 
 function api.GetSetInfo(setId)
     if not setId then
@@ -42,41 +34,60 @@ function api.GetSetInfo(setId)
     }
 end
 
-function api.GetAntiquityId(setId, antiquityIndex)
-    return CM.SafeCall(GetAntiquitySetAntiquityId, setId, antiquityIndex)
-end
-
 function api.GetAntiquityInfo(antiquityId)
     if not antiquityId then
         return nil
     end
 
-    -- Return cached if available
     if _antiquityCache[antiquityId] then
         return _antiquityCache[antiquityId]
     end
 
     local name = CM.SafeCall(GetAntiquityName, antiquityId) or "Unknown"
-    local quality = CM.SafeCall(GetAntiquityQuality, antiquityId) or ANTIQUITY_QUALITY_MAGIC
-    local hasLead = CM.SafeCall(GetAntiquityHasLead, antiquityId) or false
-    local isRepeatable = CM.SafeCall(GetAntiquityIsRepeatable, antiquityId) or false
+    local quality = CM.SafeCall(GetAntiquityQuality, antiquityId) or ANTIQUITY_QUALITY_WHITE
+    local hasLead = CM.SafeCall(DoesAntiquityHaveLead, antiquityId) or false
+    local isRepeatable = CM.SafeCall(IsAntiquityRepeatable, antiquityId) or false
+    local numRecovered = CM.SafeCall(GetNumAntiquitiesRecovered, antiquityId) or 0
+    local numAchieved = CM.SafeCall(GetNumGoalsAchievedForAntiquity, antiquityId) or 0
+    local numGoals = CM.SafeCall(GetTotalNumGoalsForAntiquity, antiquityId) or 0
 
-    local success, isDiscovered = pcall(GetHasAntiquityBeenDiscovered, antiquityId)
-    local discovered = (success and isDiscovered) or false
+    local isDiscovered = numRecovered > 0
+    local isCompleted = numGoals > 0 and numAchieved >= numGoals
+    local isInProgress = hasLead and (not isCompleted or isRepeatable)
 
     local result = {
         id = antiquityId,
         name = name,
         quality = quality,
         hasLead = hasLead,
-        isDiscovered = discovered,
+        isDiscovered = isDiscovered,
+        isCompleted = isCompleted,
         isRepeatable = isRepeatable,
-        isInProgress = hasLead and not discovered,
+        isInProgress = isInProgress,
+        numRecovered = numRecovered,
+        numAchieved = numAchieved,
+        numGoals = numGoals,
     }
 
-    -- Cache the result
     _antiquityCache[antiquityId] = result
     return result
+end
+
+function api.GetInProgressAntiquities()
+    local inProgress = {}
+    local numInProgress = CM.SafeCall(GetNumInProgressAntiquities) or 0
+
+    for index = 1, numInProgress do
+        local antiquityId = CM.SafeCall(GetInProgressAntiquityId, index)
+        if antiquityId then
+            local info = api.GetAntiquityInfo(antiquityId)
+            if info then
+                table.insert(inProgress, info)
+            end
+        end
+    end
+
+    return inProgress
 end
 
 function api.ClearCache()
@@ -84,35 +95,43 @@ function api.ClearCache()
 end
 
 function api.GetSets()
-    local numSets = api.GetNumSets()
-    local sets = {}
+    if not GetNextAntiquityId then
+        return {}
+    end
 
-    for setIndex = 1, numSets do
-        local setId = api.GetSetId(setIndex)
+    local setsById = {}
+    local antiquityId = CM.SafeCall(GetNextAntiquityId, nil)
+
+    while antiquityId do
+        local setId = CM.SafeCall(GetAntiquitySetId, antiquityId)
         if setId then
-            local setInfo = api.GetSetInfo(setId)
-            if setInfo then
-                setInfo.antiquities = {}
-
-                -- Get antiquities in this set
-                for antiquityIndex = 1, setInfo.numAntiquities do
-                    local antiquityId = api.GetAntiquityId(setId, antiquityIndex)
-                    if antiquityId then
-                        local antiquityInfo = api.GetAntiquityInfo(antiquityId)
-                        if antiquityInfo then
-                            table.insert(setInfo.antiquities, antiquityInfo)
-                        end
-                    end
+            if not setsById[setId] then
+                local setInfo = api.GetSetInfo(setId)
+                if setInfo then
+                    setInfo.antiquities = {}
+                    setsById[setId] = setInfo
                 end
+            end
 
-                table.insert(sets, setInfo)
+            local antiquityInfo = api.GetAntiquityInfo(antiquityId)
+            if antiquityInfo and setsById[setId] then
+                table.insert(setsById[setId].antiquities, antiquityInfo)
             end
         end
+
+        antiquityId = CM.SafeCall(GetNextAntiquityId, antiquityId)
     end
+
+    local sets = {}
+    for _, setInfo in pairs(setsById) do
+        table.insert(sets, setInfo)
+    end
+
+    table.sort(sets, function(a, b)
+        return (a.name or "") < (b.name or "")
+    end)
 
     return sets
 end
-
--- Composition functions moved to collector level
 
 CM.DebugPrint("API", "Antiquities API module loaded")

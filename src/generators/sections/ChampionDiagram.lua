@@ -218,11 +218,26 @@ local function GetMaxPoints(skillName)
 end
 
 -- =====================================================
+-- HELPER: Sanitize mermaid node labels
+-- =====================================================
+local function SanitizeMermaidLabel(text)
+    if not text or text == "" then
+        return ""
+    end
+    local sanitized = text
+    sanitized = sanitized:gsub("\\", "\\\\")
+    sanitized = sanitized:gsub('"', '\\"')
+    sanitized = sanitized:gsub("%[", "\\[")
+    sanitized = sanitized:gsub("%]", "\\]")
+    return sanitized
+end
+
+-- =====================================================
 -- HELPER: Generate node definition
 -- =====================================================
 local function GenerateNode(skill, starData)
     local nodeId = starData.node
-    local skillName = skill.name
+    local skillName = SanitizeMermaidLabel(skill.name)
     local points = skill.points
 
     -- Node shape based on type
@@ -584,6 +599,9 @@ local function GenerateChampionDiagram(cpData)
                 local points = skill.points
                 local maxPoints = (skill.maxPoints and skill.maxPoints > 0) and skill.maxPoints
                     or GetMaxPoints(skill.name)
+                if maxPoints <= 0 then
+                    maxPoints = 1
+                end
                 local indicator = GetPointIndicator(points, maxPoints)
                 local percentage = math.floor((points / maxPoints) * 100)
                 local isMaxed = points >= maxPoints
@@ -592,7 +610,7 @@ local function GenerateChampionDiagram(cpData)
                 local label = string.format(
                     "%s%s<br/>%d/%d pts%s",
                     isMaxed and "⭐ " or "",
-                    skill.name,
+                    SanitizeMermaidLabel(skill.name),
                     points,
                     maxPoints,
                     maxedText

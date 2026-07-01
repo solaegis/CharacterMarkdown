@@ -14,9 +14,10 @@ local api = CM.api.pvp
 -- gender: Optional parameter - should be passed from collector level
 --        Defaults to 1 (Female) if not provided (for backward compatibility)
 function api.GetRank(gender)
-    gender = gender or 1 -- Default to 1 (Female) if not provided
-    local rank = CM.SafeCall(GetUnitAvARank, "player") or 0
-    local subRank = 0
+    gender = gender or CM.SafeCall(GetUnitGender, "player") or GENDER_MALE
+    local success, rank, subRank = CM.SafeCallMulti(GetUnitAvARank, "player")
+    rank = (success and rank) or 0
+    subRank = (success and subRank) or 0
     local rankName = "Recruit"
     local points = CM.SafeCall(GetUnitAvARankPoints, "player") or 0
 
@@ -26,6 +27,7 @@ function api.GetRank(gender)
 
     return {
         rank = rank,
+        subRank = subRank,
         name = rankName,
         points = points,
     }

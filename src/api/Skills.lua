@@ -21,19 +21,12 @@ local _skillCache = {
 -- =====================================================
 
 function api.GetSkillPoints()
-    local total = CM.SafeCall(GetTotalSkillPoints) or 0
-    local unspent = 0
-    -- ESO API variance check
-    if GetNumAvailableSkillPoints then
-        unspent = CM.SafeCall(GetNumAvailableSkillPoints) or 0
-    elseif GetAvailableSkillPoints then
-        unspent = CM.SafeCall(GetAvailableSkillPoints) or 0
-    end
+    local unspent = CM.SafeCall(GetAvailableSkillPoints) or 0
 
     return {
-        total = total,
+        total = nil, -- No reliable total-skill-points API in current ESO client
         unspent = unspent,
-        used = total - unspent,
+        used = nil,
     }
 end
 
@@ -145,9 +138,11 @@ function api.GetSkillLinesByType(skillType)
     local lines = {}
 
     for skillLineIndex = 1, numSkillLines do
-        local success, name, rank, discovered, skillLineId, advised, unlockText =
-            CM.SafeCallMulti(GetSkillLineInfo, skillType, skillLineIndex)
-        if name and discovered then
+        local success, rank, _, _, discovered =
+            CM.SafeCallMulti(GetSkillLineDynamicInfo, skillType, skillLineIndex)
+        local skillLineId = CM.SafeCall(GetSkillLineId, skillType, skillLineIndex)
+        local name = skillLineId and CM.SafeCall(GetSkillLineNameById, skillLineId) or nil
+        if success and name and discovered then
             table.insert(lines, {
                 index = skillLineIndex,
                 name = name,
@@ -287,8 +282,9 @@ function api.GetSkillPassives(skillType, skillLineIndex)
 
             -- For passives, we need to check if they are purchased and their rank
             if purchased then
-                -- Get current rank
-                currentRank = CM.SafeCall(GetSkillAbilityUpgradeInfo, skillType, skillLineIndex, abilityIndex) or 0
+                local successUpgrade, currentRank, maxRank =
+                    CM.SafeCallMulti(GetSkillAbilityUpgradeInfo, skillType, skillLineIndex, abilityIndex)
+                currentRank = (successUpgrade and currentRank) or 0
             end
 
             -- Get max rank for the passive

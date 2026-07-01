@@ -7,6 +7,28 @@ CM.tests.chunking = {}
 
 local string_format = string.format
 local string_rep = string.rep
+local StripPadding = CM.utils.Chunking and CM.utils.Chunking.StripPadding
+
+local function StripChunkForCompare(content, isLastChunk)
+    if StripPadding then
+        return StripPadding(content, isLastChunk)
+    end
+    return content
+end
+
+local function CountMermaidFences(content)
+    local count = 0
+    local searchPos = 1
+    while true do
+        local startPos, endPos = content:find("```", searchPos, true)
+        if not startPos then
+            break
+        end
+        count = count + 1
+        searchPos = endPos + 1
+    end
+    return count
+end
 
 -- =====================================================
 -- TEST HELPERS
@@ -36,10 +58,10 @@ local function TestBasicSplitting()
         return false, string_format("Expected at least 2 chunks, got %d", #chunks)
     end
 
-    -- Verify total content matches
+    -- Verify total content matches (strip padding/marker overhead before compare)
     local reassembled = ""
-    for _, chunk in ipairs(chunks) do
-        reassembled = reassembled .. chunk.content
+    for i, chunk in ipairs(chunks) do
+        reassembled = reassembled .. StripChunkForCompare(chunk.content, i == #chunks)
     end
 
     if reassembled ~= input then
@@ -101,6 +123,18 @@ local function TestMermaidBlockIntegrity()
 
     if not foundIntact then
         return false, "Mermaid block was split across chunks"
+    end
+
+    for i, chunk in ipairs(chunks) do
+        local fenceCount = CountMermaidFences(chunk.content)
+        if fenceCount % 2 ~= 0 then
+            return false, string_format("Chunk %d has unclosed mermaid fence (count: %d)", i, fenceCount)
+        end
+        local openFence = chunk.content:find("```mermaid", 1, true)
+        local closeFence = chunk.content:find("\n```", openFence and (openFence + 1) or 1, true)
+        if openFence and not closeFence then
+            return false, string_format("Chunk %d opens mermaid block without closing fence", i)
+        end
     end
 
     return true, "Mermaid block preserved"

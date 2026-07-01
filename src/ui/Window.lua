@@ -30,6 +30,11 @@ local function ClearChunks()
     CM.DebugPrint("UI", "Chunks cleared")
 end
 
+local function CleanupWindowState()
+    ClearChunks()
+    EVENT_MANAGER:UnregisterForUpdate("CharacterMarkdown_SelectionCheck")
+end
+
 -- =====================================================
 -- SELECTION STATE TRACKING
 -- =====================================================
@@ -148,6 +153,7 @@ local function InitializeWindowControls()
     local originalSetHidden = windowControl.SetHidden
     windowControl.SetHidden = function(self, hidden)
         if hidden and self == windowControl then
+            CleanupWindowState()
             if windowControl._savedUIMode ~= nil and SetGameCameraUIMode then
                 SetGameCameraUIMode(windowControl._savedUIMode)
                 windowControl._savedUIMode = nil
@@ -297,7 +303,7 @@ local function InitializeWindowControls()
             if editBoxControl then
                 editBoxControl:LoseFocus()
             end
-            windowControl:SetHidden(true)
+            CharacterMarkdown_CloseWindow()
             return true -- Consume
         end
 
@@ -519,10 +525,8 @@ function CharacterMarkdown_CopyToClipboard()
 
             -- Get OS-specific copy shortcut text
             local copyShortcut = "Ctrl+C"
-            if CM.utils.Platform then
+            if CM.utils.Platform and CM.utils.Platform.GetShortcutText then
                 copyShortcut = CM.utils.Platform.GetShortcutText("copy")
-            elseif os.isMac then
-                copyShortcut = "Cmd+C"
             end
 
             CM.DebugPrint(
@@ -567,10 +571,8 @@ function CharacterMarkdown_CopyToClipboard()
 
         -- Get OS-specific copy shortcut text
         local copyShortcut = "Ctrl+C"
-        if CM.utils.Platform then
+        if CM.utils.Platform and CM.utils.Platform.GetShortcutText then
             copyShortcut = CM.utils.Platform.GetShortcutText("copy")
-        elseif os.isMac then
-            copyShortcut = "Cmd+C"
         end
 
         CM.DebugPrint("UI", "Text selected - Press " .. copyShortcut .. " to copy")
@@ -834,13 +836,9 @@ function ShowChunk(chunkIndex)
 
     -- Update overlay instructions with OS-specific shortcut
     if overlayLabel then
-        local shortcutText = "Ctrl+A then Ctrl+C" -- Default fallback
-        if CM.utils.Platform then
+        local shortcutText = "Ctrl+A then Ctrl+C"
+        if CM.utils.Platform and CM.utils.Platform.GetShortcutText then
             shortcutText = CM.utils.Platform.GetShortcutText("select_copy")
-        elseif os.isMac then
-            shortcutText = "Cmd+A then Cmd+C"
-        elseif os.isWin then
-            shortcutText = "Ctrl+A then Ctrl+C"
         end
         overlayLabel:SetText(string.format("Press [Space] or %s to copy", shortcutText))
     end
@@ -1028,7 +1026,7 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
             label:SetText("[X] Dismiss")
         end
         dismissButton:SetHandler("OnClicked", function()
-            CharacterMarkdownWindow:SetHidden(true)
+            CharacterMarkdown_CloseWindow()
         end)
     end
 
@@ -1305,7 +1303,7 @@ function CharacterMarkdown_CloseWindow()
                     label:SetText("[X] Dismiss")
                 end
                 dismissButton:SetHandler("OnClicked", function()
-                    CharacterMarkdownWindow:SetHidden(true)
+                    CharacterMarkdown_CloseWindow()
                 end)
             end
             windowControl._isImportMode = false
@@ -1315,8 +1313,6 @@ function CharacterMarkdown_CloseWindow()
             windowControl:SetTopmost(false)
         end
         windowControl:SetHidden(true)
-        ClearChunks() -- Clear chunks to prevent memory leak
-        EVENT_MANAGER:UnregisterForUpdate("CharacterMarkdown_SelectionCheck")
         CM.DebugPrint("UI", "Window closed")
     end
 end
@@ -1362,7 +1358,7 @@ local function OnAddOnLoaded(event, addonName)
                     if editBoxControl then
                         editBoxControl:LoseFocus()
                     end
-                    windowControl:SetHidden(true)
+                    CharacterMarkdown_CloseWindow()
                     return
                 end
 

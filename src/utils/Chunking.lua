@@ -52,7 +52,7 @@ local function IsInsideHtmlBlock(markdown, pos)
             elseif closeSubstr:match("^</div>") then
                 divDepth = divDepth - 1
                 if divDepth == 0 then
-                    divEnd = i + 5 -- Position after </div>
+                    divEnd = i + 6 -- Position after </div> (6 chars)
                     break
                 end
             end
@@ -305,38 +305,45 @@ local function IsInsideMermaidBlock(markdown, pos)
                     local depth = 1
                     local searchStart = subgraphStart + 9 -- After "subgraph "
 
-                    for j = searchStart, extendedSearchEnd do
-                        -- Find start of line
-                        local searchLineStart = j
-                        for _ = j, math.max(1, j - 1000), -1 do
-                            if string.sub(markdown, _ - 1, _ - 1) == "\n" then
-                                -- lineStart = k
+                    local forwardPos = searchStart
+                    while forwardPos < extendedSearchEnd do
+                        local forwardLineStart = forwardPos
+                        for k = forwardPos, math.max(1, forwardPos - 1000), -1 do
+                            if k == 1 or string.sub(markdown, k - 1, k - 1) == "\n" then
+                                forwardLineStart = k
                                 break
                             end
                         end
 
-                        -- Find end of line
-                        local lineEnd = j
-                        for k = j, math.min(markdownLen, j + 500) do
+                        local forwardLineEnd = forwardPos
+                        for k = forwardPos, math.min(markdownLen, forwardPos + 500) do
                             if string.sub(markdown, k, k) == "\n" then
-                                lineEnd = k
+                                forwardLineEnd = k
                                 break
                             end
                         end
 
-                        local line = string.sub(markdown, searchLineStart, lineEnd - 1)
+                        local forwardLine = string.sub(markdown, forwardLineStart, forwardLineEnd - 1)
 
-                        if line:match("subgraph%s") then
+                        if forwardLine:match("subgraph%s") then
                             depth = depth + 1
-                        elseif line:match("%send%s") or line:match("%send$") or line:match("%send\n") then
+                        elseif
+                            forwardLine:match("%send%s")
+                            or forwardLine:match("%send$")
+                            or forwardLine:match("%send\n")
+                        then
                             depth = depth - 1
                             if depth == 0 then
-                                subgraphEnd = lineEnd
+                                subgraphEnd = forwardLineEnd
                                 break
                             end
                         end
 
-                        -- j = lineEnd -- Skip to next line
+                        if forwardLineEnd > forwardPos then
+                            forwardPos = forwardLineEnd + 1
+                        else
+                            forwardPos = forwardPos + 1
+                        end
                     end
 
                     if subgraphEnd then
@@ -1314,7 +1321,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                     if tableChunkSize <= effectiveMaxForStructures then
                         -- CRITICAL FIX: Validate final chunk size before accepting extension
                         local proposedChunkSize = tableEnd - pos + 1
-                        if proposedChunkSize + paddingSize <= copyLimit then
+                        if proposedChunkSize + totalOverhead <= copyLimit then
                             -- Can include the table (and header) - extend to table end
                             chunkEnd = tableEnd
                             foundNewline = true
@@ -4173,7 +4180,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- CRITICAL: Safety check - ensure data itself doesn't exceed copy limit
         -- Reserve space for padding on all chunks (including last chunk)
         -- paddingSize is calculated once at the top of the function
-        local maxDataSizeForCheck = copyLimit - paddingSize
+        local maxDataSizeForCheck = copyLimit - totalOverhead
         if dataChars > maxDataSizeForCheck then
             CM.DebugPrint(
                 "CHUNKING",
@@ -4469,7 +4476,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         if isLastChunk and chunkEnd < markdownLength then
             local remainingLength = markdownLength - pos + 1
             -- Only include all content if it fits within limits (accounting for padding)
-            if remainingLength + paddingSize <= copyLimit then
+            if remainingLength + totalOverhead <= copyLimit then
                 CM.DebugPrint(
                     "CHUNKING",
                     string.format(
@@ -4532,21 +4539,53 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
                 )
                 isLastChunk = false
             end
-            -- For all chunks (including what was thought to be last), truncate to fit within limits
-            CM.DebugPrint(
-                "CHUNKING",
-                string.format(
-                    "Chunk %d: Truncating to fit within limits (current: %d, limit: %d, padding: %d)",
-                    chunkNum,
-                    finalSize,
-                    copyLimit,
-                    paddingSize
+            -- Truncate to fit within limits (account for marker + padding + mermaid reserve)
+            local maxDataForFinal = copyLimit - totalOverhead
+            local safeEndPos = pos + maxDataForFinal - 1
+            local lastNewlinePos = FindSafeNewline(markdown, pos, math.min(safeEndPos, chunkEnd, markdownLength))
+            if not lastNewlinePos then
+                for i = math.min(safeEndPos, chunkEnd, markdownLength), pos, -1 do
+                    if string.sub(markdown, i, i) == "\n" then
+                        lastNewlinePos = i
+                        break
+                    end
+                end
+            end
+            if lastNewlinePos and lastNewlinePos >= pos then
+                chunkEnd = lastNewlinePos
+                chunkData = string.sub(markdown, pos, chunkEnd)
+                chunkContent = chunkData
+                dataChars = string.len(chunkData)
+                finalSize = dataChars
+                CM.DebugPrint(
+                    "CHUNKING",
+                    string.format(
+                        "Chunk %d: CRITICAL oversize backtrack to newline at %d (size: %d + %d overhead = %d)",
+                        chunkNum,
+                        chunkEnd,
+                        finalSize,
+                        totalOverhead,
+                        finalSize + totalOverhead
+                    )
                 )
-            )
-            -- This should not happen if maxSafeDataSize was calculated correctly above
-            -- but if it does, we need to continue with what we have
-            chunkContent = chunkData
-            finalSize = dataChars
+            else
+                chunkEnd = safeEndPos
+                chunkData = string.sub(markdown, pos, chunkEnd)
+                chunkContent = chunkData
+                dataChars = string.len(chunkData)
+                finalSize = dataChars
+                CM.DebugPrint(
+                    "CHUNKING",
+                    string.format(
+                        "Chunk %d: CRITICAL oversize hard truncate at %d (size: %d + %d overhead = %d)",
+                        chunkNum,
+                        chunkEnd,
+                        finalSize,
+                        totalOverhead,
+                        finalSize + totalOverhead
+                    )
+                )
+            end
         end
 
         -- CRITICAL: Verify chunk ends with newline (unless it's the last chunk at end of file)
@@ -4585,7 +4624,7 @@ local function SplitMarkdownIntoChunks_Legacy(markdown)
         -- Check if we're ending on a header that's followed by a table
         local prevChunkEnd = chunkEnd
         local newChunkEnd, shouldPrepend =
-            BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize)
+            BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownLength, copyLimit, totalOverhead)
         if newChunkEnd then
             chunkEnd = newChunkEnd
             chunkData = string.sub(markdown, pos, chunkEnd)

@@ -16,7 +16,7 @@ local function SafeGetPlayerStat(statType, defaultValue)
     local success, value = pcall(function()
         return GetPlayerStat(statType)
     end)
-    if success and value then
+    if success and value ~= nil then
         return value
     end
     return defaultValue

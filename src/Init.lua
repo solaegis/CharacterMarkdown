@@ -48,7 +48,7 @@ if not allValid then
 end
 
 -- Validate slash command registered
-if not SLASH_COMMANDS["/markdown"] then
+if not SLASH_COMMANDS["/markdown"] and not LibSlashCommander then
     CM.Error("/markdown command not registered!")
     allValid = false
 end

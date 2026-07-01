@@ -253,9 +253,11 @@ local function InitializeCommands()
                 if rest:match("^show") then
                     settings.HandleSettingsShow()
                 elseif rest:match("^get") then
-                    settings.HandleSettingsGet(rest)
+                    local args = rest:match("^get%s*(.*)$") or ""
+                    settings.HandleSettingsGet(args)
                 elseif rest:match("^set") then
-                    settings.HandleSettingsSet(rest)
+                    local args = rest:match("^set%s*(.*)$") or ""
+                    settings.HandleSettingsSet(args)
                 elseif rest:match("^reset") then
                     settings.HandleSettingsReset()
                 elseif rest:match("^enable%-all") then

@@ -54,8 +54,10 @@ end
 function api.GetRace()
     local raceId = CM.SafeCall(GetUnitRaceId, "player")
 
+    local genderId = CM.SafeCall(GetUnitGender, "player") or GENDER_MALE
+
     -- Use GetRaceName() as documented in API_REFERENCE.md
-    local raceName = CM.SafeCall(GetRaceName, GENDER_MALE, raceId)
+    local raceName = CM.SafeCall(GetRaceName, genderId, raceId)
 
     -- Fallback to lookup table if API fails
     if (not raceName or raceName == "") and RACE_NAMES[raceId] then
@@ -99,8 +101,10 @@ function api.GetClass()
         }
     end
 
+    local genderId = CM.SafeCall(GetUnitGender, "player") or GENDER_MALE
+
     -- Use GetClassName() as documented in API_REFERENCE.md
-    local className = CM.SafeCall(GetClassName, GENDER_MALE, classId)
+    local className = CM.SafeCall(GetClassName, genderId, classId)
 
     -- Fallback to lookup table if API fails
     if (not className or className == "") and CLASS_NAMES[classId] then

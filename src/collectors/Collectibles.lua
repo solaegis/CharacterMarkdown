@@ -32,7 +32,7 @@ local function CollectCollectiblesData()
         headMarkings = COLLECTIBLE_CATEGORY_TYPE_HEAD_MARKING,
         bodyMarkings = COLLECTIBLE_CATEGORY_TYPE_BODY_MARKING,
         facialAccessories = COLLECTIBLE_CATEGORY_TYPE_FACIAL_ACCESSORY,
-        piercings = COLLECTIBLE_CATEGORY_TYPE_PIERCING,
+        piercings = COLLECTIBLE_CATEGORY_TYPE_PIERCING_JEWELRY,
         assistants = COLLECTIBLE_CATEGORY_TYPE_ASSISTANT,
     }
 

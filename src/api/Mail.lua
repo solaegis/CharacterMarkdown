@@ -20,38 +20,45 @@ function api.GetMailInfo(mailId)
         return nil
     end
 
-    local sender = CM.SafeCall(GetMailSender, mailId)
-    local subject = CM.SafeCall(GetMailSubject, mailId)
-    local readStatus = CM.SafeCall(IsMailRead, mailId)
-    local attachmentStatus = CM.SafeCall(HasMailAttachments, mailId)
-    local attachmentCount = 0
+    local success, senderDisplay, senderCharacter, subject, _, unread, _, _, _, numAttachments =
+        CM.SafeCallMulti(GetMailItemInfo, mailId)
 
-    if attachmentStatus then
-        attachmentCount = CM.SafeCall(GetMailAttachmentCount, mailId) or 0
+    if not success then
+        return nil
+    end
+
+    local sender = senderDisplay or senderCharacter or "Unknown"
+    if (not sender or sender == "") and GetMailSender then
+        local senderSuccess, displayName, characterName = CM.SafeCallMulti(GetMailSender, mailId)
+        if senderSuccess then
+            sender = displayName or characterName or "Unknown"
+        end
     end
 
     return {
         id = mailId,
         sender = sender or "Unknown",
         subject = subject or "",
-        isRead = readStatus or false,
-        hasAttachments = attachmentStatus or false,
-        attachmentCount = attachmentCount,
+        isRead = not unread,
+        hasAttachments = (numAttachments or 0) > 0,
+        attachmentCount = numAttachments or 0,
     }
 end
 
 function api.GetAllMail()
-    local numMail = api.GetNumMail()
     local mailList = {}
 
-    for i = 1, numMail do
-        local mailId = CM.SafeCall(GetMailId, i)
-        if mailId then
-            local mailInfo = api.GetMailInfo(mailId)
-            if mailInfo then
-                table.insert(mailList, mailInfo)
-            end
+    if not GetNextMailId then
+        return mailList
+    end
+
+    local mailId = CM.SafeCall(GetNextMailId, nil)
+    while mailId do
+        local mailInfo = api.GetMailInfo(mailId)
+        if mailInfo then
+            table.insert(mailList, mailInfo)
         end
+        mailId = CM.SafeCall(GetNextMailId, mailId)
     end
 
     return mailList

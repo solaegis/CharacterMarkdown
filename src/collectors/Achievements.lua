@@ -52,29 +52,18 @@ local function CollectAchievementsData()
     achievements.categories = categories
 
     -- Add computed fields
-    -- Calculate total and completed achievements from categories
     local totalAchievements = 0
-    local completedAchievements = 0
 
     for _, cat in ipairs(categories) do
         totalAchievements = totalAchievements + (cat.numAchievements or 0)
-        -- Estimate completed based on percentage since we don't have exact count per category in this structure
-        -- This is an approximation until we have better API access
-        if cat.total > 0 and cat.earned > 0 then
-            local catCompleted = math.floor((cat.earned / cat.total) * (cat.numAchievements or 0))
-            completedAchievements = completedAchievements + catCompleted
-        end
     end
 
-    -- Add computed fields
     achievements.summary = {
         completionPercent = achievements.total > 0 and math.floor((achievements.points / achievements.total) * 100)
             or 0,
         recentCount = recent and #recent or 0,
         categoryCount = #categories,
-        -- Fields expected by generator:
         totalAchievements = totalAchievements,
-        completedAchievements = completedAchievements,
         earnedPoints = achievements.points,
         totalPoints = achievements.total,
     }

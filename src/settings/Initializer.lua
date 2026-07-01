@@ -104,8 +104,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
     end
 
     -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
-    -- If settingsVersion is less than 2, update quest settings to new defaults
-    if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 2 then
+    if CharacterMarkdownSettings.settingsVersion and CharacterMarkdownSettings.settingsVersion < 2 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
         CharacterMarkdownSettings.includeQuests = true
         CharacterMarkdownSettings.showQuestsDetailed = true
@@ -115,8 +114,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
     end
 
     -- MIGRATION: Split Character Stats into Basic and Advanced (Version 2.2.0+)
-    -- If settingsVersion is less than 3, migrate includeCharacterStats to new settings
-    if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 3 then
+    if CharacterMarkdownSettings.settingsVersion and CharacterMarkdownSettings.settingsVersion < 3 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
 
         -- If the old setting existed and was enabled, enable both new settings
@@ -146,8 +144,7 @@ function CM.Settings.Initializer:TryZOSavedVars()
     end
 
     -- MIGRATION: Enable Crafting & Style Knowledge (Version 2.2.6+)
-    -- If settingsVersion is less than 4, enable the new crafting/style features by default
-    if not CharacterMarkdownSettings.settingsVersion or CharacterMarkdownSettings.settingsVersion < 4 then
+    if CharacterMarkdownSettings.settingsVersion and CharacterMarkdownSettings.settingsVersion < 4 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 4 - enabling crafting and style features")
 
         -- Enable the features
@@ -162,6 +159,10 @@ function CM.Settings.Initializer:TryZOSavedVars()
         CM.Info(
             "New Crafting & Style Knowledge features have been enabled! You can now see your character's motifs and unlocked styles in your profiles."
         )
+    end
+
+    if CharacterMarkdownSettings.settingsVersion == nil then
+        CharacterMarkdownSettings.settingsVersion = 4
     end
 
     -- zo_savedvars_available = true -- luacheck: ignore
@@ -188,9 +189,9 @@ function CM.Settings.Initializer:InitializeFallback()
     -- Initialize settings with defaults
     local defaults = CM.Settings.Defaults:GetAll()
 
-    -- Version tracking
+    -- Version tracking for fresh installs
     if CM.settings.settingsVersion == nil then
-        CM.settings.settingsVersion = 1
+        CM.settings.settingsVersion = 4
         CM.settings._initialized = true
         CM.settings._lastModified = GetTimeStamp()
     end
@@ -215,9 +216,7 @@ function CM.Settings.Initializer:InitializeFallback()
         CM.DebugPrint("SETTINGS", "Initialized perCharacterData as empty table")
     end
 
-    -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
-    -- If settingsVersion is less than 2, update quest settings to new defaults
-    if not CM.settings.settingsVersion or CM.settings.settingsVersion < 2 then
+    if CM.settings.settingsVersion and CM.settings.settingsVersion < 2 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
         CM.settings.includeQuests = true
         CM.settings.showQuestsDetailed = true
@@ -226,9 +225,7 @@ function CM.Settings.Initializer:InitializeFallback()
         CM.Info("Quest tracking has been enabled in your settings!")
     end
 
-    -- MIGRATION: Split Character Stats into Basic and Advanced (Version 2.2.0+)
-    -- If settingsVersion is less than 3, migrate includeCharacterStats to new settings
-    if not CM.settings.settingsVersion or CM.settings.settingsVersion < 3 then
+    if CM.settings.settingsVersion and CM.settings.settingsVersion < 3 then
         CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
 
         -- If the old setting existed and was enabled, enable both new settings
@@ -257,8 +254,7 @@ function CM.Settings.Initializer:InitializeFallback()
         )
     end
 
-    -- MIGRATION: Enable Crafting & Style Knowledge (Version 2.2.6+)
-    if not CM.settings.settingsVersion or CM.settings.settingsVersion < 4 then
+    if CM.settings.settingsVersion and CM.settings.settingsVersion < 4 then
         CM.DebugPrint("SETTINGS", "Migrating (fallback) to settings version 4")
         CM.settings.includeCrafting = true
         CM.settings.includeMotifs = true
@@ -266,6 +262,10 @@ function CM.Settings.Initializer:InitializeFallback()
         CM.settings.includeStyles = true
         CM.settings.showStylesDetailed = true
         CM.settings.includeRecipes = true
+        CM.settings.settingsVersion = 4
+    end
+
+    if CM.settings.settingsVersion == nil then
         CM.settings.settingsVersion = 4
     end
 
@@ -492,8 +492,9 @@ function CM.Settings.Initializer:LoadProfile(profileName)
     local profile = CM.settings.profiles[profileName]
 
     if not profile then
-        -- Check if it's a preset profile
-        profile = CM.Settings.Defaults:GetProfile(profileName)
+        if CM.Settings.Defaults.GetProfile then
+            profile = CM.Settings.Defaults:GetProfile(profileName)
+        end
         if not profile then
             CM.Error("Profile '" .. profileName .. "' not found")
             return false
@@ -567,12 +568,14 @@ function CM.Settings.Initializer:GetProfileList()
     end
 
     -- Add preset profiles
-    for name, profile in pairs(CM.Settings.Defaults.PROFILES) do
-        table.insert(profiles, {
-            name = name,
-            description = profile.description,
-            isPreset = true,
-        })
+    if CM.Settings.Defaults.PROFILES then
+        for name, profile in pairs(CM.Settings.Defaults.PROFILES) do
+            table.insert(profiles, {
+                name = name,
+                description = profile.description,
+                isPreset = true,
+            })
+        end
     end
 
     return profiles
@@ -659,8 +662,10 @@ function CM.Settings.Initializer:ImportSettings(importString)
     -- Apply imported settings
     local applied = 0
     for key, value in pairs(import.settings) do
-        CM.settings[key] = value
-        applied = applied + 1
+        if key ~= "perCharacterData" then
+            CM.settings[key] = value
+            applied = applied + 1
+        end
     end
 
     -- Apply notes if present
@@ -778,7 +783,7 @@ function CM.Settings.Initializer:ResetToDefaults()
     end
 
     -- Reset version
-    CM.settings.settingsVersion = 1
+    CM.settings.settingsVersion = 4
     CM.settings.activeProfile = "Custom"
 
     -- DO NOT clear character-specific data (customNotes, customTitle, playStyle)

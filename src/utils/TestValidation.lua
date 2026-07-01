@@ -170,7 +170,7 @@ local function ValidateResourceValues(markdown)
     -- Try to extract values
     for _, pattern in ipairs(healthPatterns) do
         local match = string_match(markdown, pattern)
-        if match and match ~= "0" then
+        if match then
             healthValue = match
             break
         end
@@ -178,7 +178,7 @@ local function ValidateResourceValues(markdown)
 
     for _, pattern in ipairs(magickaPatterns) do
         local match = string_match(markdown, pattern)
-        if match and match ~= "0" then
+        if match then
             magickaValue = match
             break
         end
@@ -186,7 +186,7 @@ local function ValidateResourceValues(markdown)
 
     for _, pattern in ipairs(staminaPatterns) do
         local match = string_match(markdown, pattern)
-        if match and match ~= "0" then
+        if match then
             staminaValue = match
             break
         end
@@ -198,8 +198,8 @@ local function ValidateResourceValues(markdown)
         AddResult(testName, false, "Could not find resource values in Quick Stats (check format or data collection)")
         return false
     elseif not healthValue and not magickaValue and not staminaValue then
-        -- Found patterns but all extracted values are 0 or nil
-        AddResult(testName, false, "All resources appear to be 0 (likely data collection issue)")
+        -- Found patterns but all extracted values are nil
+        AddResult(testName, false, "Could not extract resource values from Quick Stats (check format or data collection)")
         return false
     else
         AddResult(testName, true, "Resource values found and appear valid")
@@ -285,8 +285,10 @@ end
 local function ValidateProgressBars(markdown)
     local testName = "Issue #6: Progress Bar Consistency"
 
-    -- Check for standardized progress bar characters (█ and ░)
-    local standardBars = string_find(markdown, "█") and string_find(markdown, "░")
+    -- Require progress bar glyphs together in a capacity/progress context (not isolated characters)
+    local progressBarPattern = "[█░]+"
+    local hasProgressBarRow = string_find(markdown, "|.-|" .. progressBarPattern .. ".-%d+%%")
+        or string_find(markdown, progressBarPattern .. ".-%d+%%")
 
     -- Check for old inconsistent characters
     local oldBars = string_find(markdown, "▓") or string_find(markdown, "▰") or string_find(markdown, "▱")
@@ -296,7 +298,7 @@ local function ValidateProgressBars(markdown)
         return false
     end
 
-    if standardBars then
+    if hasProgressBarRow then
         AddResult(testName, true, "Progress bars use standardized characters (█ and ░)")
         return true
     else

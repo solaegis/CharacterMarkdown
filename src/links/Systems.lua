@@ -85,7 +85,7 @@ local function GenerateCampaignURL(campaignName)
         return nil
     end
     local urlName = campaignName:gsub(" ", "_")
-    return "https://en.uesp.net/wiki/Online:Campaigns#" .. urlName
+    return "https://en.uesp.net/wiki/Online:Campaigns#" .. string.lower(urlName)
 end
 
 CM.links.GenerateCampaignURL = GenerateCampaignURL
@@ -122,7 +122,7 @@ local function GenerateBuffURL(buffName)
     end
 
     -- Special cases for vampire/werewolf
-    if buffName:find("Vampir") or buffName:find("Stage %d") then
+    if buffName:find("Vampir") or buffName:find("Stage %d+") then
         return "https://en.uesp.net/wiki/Online:Vampire"
     end
     if buffName:find("Lycanthropy") or buffName:find("Werewolf") then

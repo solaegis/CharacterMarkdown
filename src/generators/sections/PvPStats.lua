@@ -65,6 +65,10 @@ end
 -- =====================================================
 
 local function GenerateAllianceWarColumn(pvp, settings)
+    if not pvp then
+        return ""
+    end
+
     local markdown = ""
     local showProgression = settings.showPvPProgression or false
 
@@ -117,6 +121,10 @@ end
 -- =====================================================
 
 local function GenerateCampaignColumn(pvp, settings)
+    if not pvp then
+        return ""
+    end
+
     local markdown = ""
     local CreateCampaignLink = CM.links and CM.links.CreateCampaignLink
     local showCampaignRewards = settings.showCampaignRewards or false
@@ -415,8 +423,6 @@ local function GeneratePvPStats(pvpData, pvpStatsData, skillProgressionData, set
         end
     end
     local leaderboards = showPvPStats and pvpStatsData and pvpStatsData.leaderboards or {}
-    local battlegrounds = showPvPStats and pvpStatsData and pvpStatsData.battlegrounds or {}
-
     local battlegrounds = showPvPStats and pvpStatsData and pvpStatsData.battlegrounds or {}
 
     local markdown = ""

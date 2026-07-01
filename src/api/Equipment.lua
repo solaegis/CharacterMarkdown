@@ -32,12 +32,13 @@ function api.GetItemInfo(bagId, slotIndex)
         traitName = CM.SafeCall(GetString, "SI_ITEMTRAITTYPE", traitType)
     end
 
-    -- Set Info
-    local success, hasSet, setName, _, numEquipped, maxEquipped, setId =
+    -- Set Info: hasSet, setName, numBonuses, numNormalEquipped, maxEquipped, setId, numPerfectedEquipped
+    local success, hasSet, setName, _, numNormalEquipped, maxEquipped, setId =
         CM.SafeCallMulti(GetItemLinkSetInfo, link, false)
 
-    -- Enchant
-    local success_enchant, hasEnchant, enchantName, _ = CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
+    -- Enchant: hasCharges, enchantHeader, enchantDescription
+    local success_enchant, hasCharges, enchantHeader, enchantDescription =
+        CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
 
     return {
         name = name or "Unknown",
@@ -52,12 +53,12 @@ function api.GetItemInfo(bagId, slotIndex)
             hasSet = hasSet,
             name = setName,
             id = setId,
-            count = numEquipped,
+            count = numNormalEquipped,
             max = maxEquipped,
         },
         enchant = {
-            hasEnchant = hasEnchant,
-            name = enchantName,
+            hasEnchant = hasCharges,
+            name = enchantHeader or enchantDescription,
         },
     }
 end

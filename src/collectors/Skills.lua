@@ -29,12 +29,20 @@ local function CollectSkillBarData()
         }
 
         if apiBar then
-            for _, ability in ipairs(apiBar) do
-                if ability and ability.id and ability.id > 0 then
+            for slotIndex, ability in ipairs(apiBar) do
+                local barSlot = slotIndex + 2
+                if ability.isUltimate then
+                    if ability.id and ability.id > 0 then
+                        bar.ultimate = ability.name or "Empty"
+                        bar.ultimateId = ability.id
+                    end
+                else
                     table.insert(bar.abilities, {
-                        name = ability.name or "Empty",
-                        id = ability.id,
-                        isUltimate = ability.isUltimate or false,
+                        index = slotIndex,
+                        slot = barSlot,
+                        name = (ability.id and ability.id > 0) and (ability.name or "Unknown") or "[Empty Slot]",
+                        id = (ability.id and ability.id > 0) and ability.id or nil,
+                        isUltimate = false,
                     })
                 end
             end
@@ -153,13 +161,13 @@ local function CollectSkillProgressionData()
             local abilities = CM.api.skills.GetSkillAbilitiesWithMorphs(line.type, line.index)
             for _, skill in ipairs(abilities) do
                 data.summary.totalSkills = data.summary.totalSkills + 1
-                if #skill.morphs > 0 then
-                    data.summary.totalMorphs = data.summary.totalMorphs + 1
+                if skill.morphs then
+                    data.summary.totalMorphs = data.summary.totalMorphs + #skill.morphs
                 end
             end
 
-            -- Count passives
-            local passives = CM.api.skills.GetSkillPassives(line.type, line.index)
+            -- Count passives (reuse cached passives when already fetched)
+            local passives = line.passives or CM.api.skills.GetSkillPassives(line.type, line.index)
             data.summary.totalPassives = data.summary.totalPassives + #passives
         end
 

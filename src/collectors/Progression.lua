@@ -83,9 +83,9 @@ CM.collectors.CollectProgressionData = CollectProgressionData
 local function CollectRidingSkillsData()
     -- Use API layer granular functions (composition at collector level)
     local riding = CM.api.progression.GetRidingSkills()
-    local maxedOut = (riding.capacity == riding.maxCapacity)
-        and (riding.stamina == riding.maxStamina)
-        and (riding.speed == riding.maxSpeed)
+    local maxedOut = (riding.capacity >= (riding.maxCapacity or riding.capacity))
+        and (riding.stamina >= (riding.maxStamina or riding.stamina))
+        and (riding.speed >= (riding.maxSpeed or riding.speed))
     riding.maxedOut = maxedOut
     return riding
 end

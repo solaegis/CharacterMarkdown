@@ -17,6 +17,9 @@ function api.GetRidingSkills()
         speed = speed or 0,
         stamina = stamina or 0,
         capacity = capacity or 0,
+        maxSpeed = maxSpeed or 0,
+        maxStamina = maxStamina or 0,
+        maxCapacity = maxCapacity or 0,
     }
 end
 

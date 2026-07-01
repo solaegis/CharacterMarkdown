@@ -52,6 +52,98 @@ local function CollectBasicPvPData()
 end
 
 -- =====================================================
+-- DETAILED PVP STATS
+-- =====================================================
+
+local function GetBattlegroundLeaderboard(bgType)
+    local success, currentRank, currentScore = CM.SafeCallMulti(GetBattlegroundLeaderboardLocalPlayerInfo, bgType)
+    if success then
+        return {
+            rank = currentRank or 0,
+            score = currentScore or 0,
+        }
+    end
+    return { rank = 0, score = 0 }
+end
+
+local function CollectPvPStatsData()
+    local characterInfo = CM.api.character.GetGender()
+    local genderId = characterInfo and characterInfo.id or 1
+    local rank = CM.api.pvp.GetRank(genderId)
+    local campaign = CM.api.pvp.GetCampaign()
+
+    local pvp = {
+        rank = rank and rank.rank or 0,
+        rankName = rank and rank.name or "Recruit",
+        rankPoints = rank and rank.points or 0,
+        allianceName = nil,
+        progression = nil,
+        campaign = nil,
+        rewards = nil,
+    }
+
+    local alliance = CM.SafeCall(GetUnitAlliance, "player")
+    if alliance then
+        pvp.allianceName = CM.SafeCall(GetAllianceName, alliance)
+    end
+
+    if pvp.rankPoints > 0 then
+        local success, subRankStart, nextSubRank = CM.SafeCallMulti(GetAvARankProgress, pvp.rankPoints)
+        if success then
+            subRankStart = subRankStart or 0
+            nextSubRank = nextSubRank or subRankStart
+            local pointsToNext = math.max(0, nextSubRank - pvp.rankPoints)
+            local range = nextSubRank - subRankStart
+            local progressPercent = range > 0 and ((pvp.rankPoints - subRankStart) / range * 100) or 0
+            pvp.progression = {
+                currentPoints = pvp.rankPoints,
+                subRankStart = subRankStart,
+                nextSubRank = nextSubRank,
+                pointsToNext = pointsToNext,
+                progressPercent = progressPercent,
+            }
+        end
+    end
+
+    if campaign and campaign.id and campaign.id > 0 then
+        pvp.campaign = {
+            name = campaign.name,
+            isActive = true,
+            ruleset = {
+                name = nil,
+                allowsCP = CM.SafeCall(DoesCurrentCampaignRulesetAllowChampionPoints) or false,
+            },
+        }
+
+        local rulesetId = CM.SafeCall(GetCampaignRulesetId, campaign.id)
+        if rulesetId then
+            pvp.campaign.ruleset.name = CM.SafeCall(GetCampaignRulesetName, rulesetId)
+        end
+
+        local earnedTier = CM.SafeCall(GetPlayerCampaignRewardTierInfo, campaign.id) or 0
+        local loyaltyStreak = CM.SafeCall(GetCurrentCampaignLoyaltyStreak) or 0
+        pvp.rewards = {
+            earnedTier = earnedTier,
+            loyaltyStreak = loyaltyStreak,
+        }
+    end
+
+    return {
+        pvp = pvp,
+        leaderboards = {
+            playerPosition = { found = false },
+        },
+        battlegrounds = {
+            leaderboards = {
+                deathmatch = GetBattlegroundLeaderboard(BATTLEGROUND_LEADERBOARD_TYPE_DEATHMATCH),
+                flagGames = GetBattlegroundLeaderboard(BATTLEGROUND_LEADERBOARD_TYPE_FLAG_GAMES),
+                landGrab = GetBattlegroundLeaderboard(BATTLEGROUND_LEADERBOARD_TYPE_LAND_GRAB),
+            },
+        },
+    }
+end
+
+-- =====================================================
 -- UNIFIED PVP COLLECTOR
 -- =====================================================
 
@@ -94,32 +186,28 @@ local function CollectPvPData()
         isActive = basic.isInBattleground or false,
     }
 
-    -- Note: Detailed PvP stats collection would go here if needed
-    -- For now, just return basic data
+    if includePvPStats then
+        result.stats = CollectPvPStatsData()
+    end
 
     return result
 end
 
 CM.collectors.CollectPvPData = CollectPvPData
 
--- Maintain backward compatibility
 CM.collectors.CollectPvPStatsData = function()
     local settings = CM.GetSettings()
     local includePvPStats = settings and settings.includePvPStats or false
 
     if includePvPStats then
-        return {
-            pvp = {},
-            leaderboards = {},
-            battlegrounds = {},
-        }
-    else
-        return {
-            pvp = {},
-            leaderboards = {},
-            battlegrounds = {},
-        }
+        return CollectPvPStatsData()
     end
+
+    return {
+        pvp = {},
+        leaderboards = {},
+        battlegrounds = {},
+    }
 end
 
 CM.DebugPrint("COLLECTOR", "PvP collector module loaded")

@@ -79,7 +79,7 @@ function api.ClearCache()
 end
 
 function api.GetHousingInfo()
-    local primaryId = CM.SafeCall(GetPrimaryHouse)
+    local primaryId = CM.SafeCall(GetHousingPrimaryHouse)
     local primaryName = nil
     if primaryId and primaryId > 0 then
         primaryName = CM.SafeCall(GetCollectibleName, primaryId)

@@ -4,12 +4,12 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-@project-version@-orange.svg)](CHANGELOG.md)
 
-**Export comprehensive ESO character data in beautiful Markdown or structured TONL format** with clickable UESP links for abilities, sets, races, classes, zones, and more.
+**Export comprehensive ESO character data in beautiful Markdown format** with clickable UESP links for abilities, sets, races, classes, zones, and more.
 
 ## ✨ Features
 
 - **📊 Complete Character Profile** - Level, CP, attributes, skills, equipment, combat stats
-- **🎯 Multiple Formats** - Markdown (Visual), TONL (Data)
+- **🎯 Markdown Output** - Rich tables, links, and formatting for sharing and AI context
 - **🔗 Smart Links** - Automatic UESP links for abilities, sets, races, classes
 - **⚙️ Customizable** - Extensive settings and profile system
 - **🎨 Rich Output** - Tables, emojis, progress bars, collapsible sections
@@ -24,7 +24,6 @@
 ### Usage
 ```
 /markdown (or /cm)           # Generate Markdown format (default)
-/tonl                        # Generate TONL data format
 
 # Settings management
 /markdown help               # Show available commands
@@ -33,7 +32,7 @@
 ```
 
 ### Export Process
-1. Run `/markdown` or `/tonl` command in-game
+1. Run `/markdown` command in-game
 2. Window opens with generated output
 3. Click "Select All" → Copy (Ctrl+C)
 4. Paste anywhere (Markdown viewers, data tools, etc.)
@@ -61,11 +60,6 @@
 - Rich formatting with emojis and progress bars
 - Comprehensive UESP links
 - Perfect for documentation and sharing (e.g. GitHub, Discord)
-
-### TONL Format
-- Structured data format (Tom's Obvious, Minimal Language)
-- Machine-readable export with full data fidelity
-- Ideal for external tools, data analysis, and build sharing
 
 ## ⚙️ Settings & Customization
 

@@ -65,11 +65,11 @@ function api.GetDisciplineInfo(disciplineIndex)
     -- Fallback to old method if the new one didn't work
     if savedPointsTotal == 0 then
         -- Try old API methods
-        savedPointsTotal = CM.SafeCall(GetChampionPointsInDiscipline, disciplineId) or 0
+        savedPointsTotal = CM.SafeCall(GetNumSpentChampionPoints, disciplineId) or 0
         CM.DebugPrint(
             "CP_API",
             string.format(
-                "Discipline %s: Fallback GetChampionPointsInDiscipline=%d",
+                "Discipline %s: Fallback GetNumSpentChampionPoints=%d",
                 name or "Unknown",
                 savedPointsTotal
             )
@@ -77,10 +77,10 @@ function api.GetDisciplineInfo(disciplineIndex)
     end
 
     -- Get unspent points for this discipline
-    local unspent = CM.SafeCall(GetAvailableChampionPointsForDiscipline, disciplineId) or 0
+    local unspent = CM.SafeCall(GetNumUnspentChampionPoints, disciplineId) or 0
     CM.DebugPrint(
         "CP_API",
-        string.format("Discipline %s: GetAvailableChampionPointsForDiscipline=%d", name or "Unknown", unspent)
+        string.format("Discipline %s: GetNumUnspentChampionPoints=%d", name or "Unknown", unspent)
     )
 
     return {
@@ -99,24 +99,22 @@ function api.GetDisciplineSkills(disciplineIndex)
         local skillId = CM.SafeCall(GetChampionSkillId, disciplineIndex, i)
         if skillId then
             local points = CM.SafeCall(GetNumPointsSpentOnChampionSkill, skillId) or 0
-            if points > 0 then
-                local name = CM.SafeCall(GetChampionSkillName, skillId)
-                local maxPoints = CM.SafeCall(GetChampionSkillMaxPoints, skillId) or 0
+            local name = CM.SafeCall(GetChampionSkillName, skillId)
+            local maxPoints = CM.SafeCall(GetChampionSkillMaxPoints, skillId) or 0
 
-                -- Determine if slottable
-                -- CHAMPION_SKILL_TYPE_NORMAL = 0 (Passive)
-                -- Others are slottable
-                local skillType = CM.SafeCall(GetChampionSkillType, skillId)
-                local isSlottable = (skillType ~= 0 and skillType ~= CHAMPION_SKILL_TYPE_NORMAL)
+            -- Determine if slottable
+            -- CHAMPION_SKILL_TYPE_NORMAL = 0 (Passive)
+            -- Others are slottable
+            local skillType = CM.SafeCall(GetChampionSkillType, skillId)
+            local isSlottable = (skillType ~= 0 and skillType ~= CHAMPION_SKILL_TYPE_NORMAL)
 
-                table.insert(skills, {
-                    id = skillId,
-                    name = name or "Unknown",
-                    points = points,
-                    max = maxPoints,
-                    isSlottable = isSlottable,
-                })
-            end
+            table.insert(skills, {
+                id = skillId,
+                name = name or "Unknown",
+                points = points,
+                max = maxPoints,
+                isSlottable = isSlottable,
+            })
         end
     end
 
@@ -136,45 +134,26 @@ function api.GetEnlightenmentInfo()
     -- Get remaining enlightenment pool (XP bonus remaining)
     local poolRemaining = CM.SafeCall(GetEnlightenedPool) or 0
 
-    -- Get time until enlightenment changes (seconds)
-    local timeUntilChange = CM.SafeCall(GetTimeUntilEnlightenmentChange) or 0
-
-    -- Format time for display if enlightened
-    local timeFormatted = nil
-    if isEnlightened and timeUntilChange > 0 then
-        -- Use ZO_FormatTime if available, otherwise format manually
-        if ZO_FormatTime then
-            timeFormatted = CM.SafeCall(ZO_FormatTime, timeUntilChange, TIME_FORMAT_STYLE_DESCRIPTIVE)
-        else
-            -- Manual formatting fallback
-            local hours = math.floor(timeUntilChange / 3600)
-            local minutes = math.floor((timeUntilChange % 3600) / 60)
-            timeFormatted = string.format("%dh %dm", hours, minutes)
-        end
-    end
-
     CM.DebugPrint(
         "CP_API",
         string.format(
-            "Enlightenment: active=%s, pool=%d, timeUntilChange=%d",
+            "Enlightenment: active=%s, pool=%d",
             tostring(isEnlightened),
-            poolRemaining,
-            timeUntilChange
+            poolRemaining
         )
     )
 
     return {
         isEnlightened = isEnlightened,
         poolRemaining = poolRemaining,
-        timeUntilChange = timeUntilChange,
-        timeFormatted = timeFormatted,
+        timeUntilChange = nil,
+        timeFormatted = nil,
     }
 end
 
 -- Get pending (uncommitted) champion point changes
 function api.GetPendingPoints()
-    local pending = CM.SafeCall(GetNumPendingChampionPoints) or 0
-    return pending
+    return 0
 end
 
 CM.DebugPrint("API", "Champion API module loaded")

@@ -8,6 +8,8 @@ CM.generators.sections.equipment = CM.generators.sections.equipment or {}
 
 local helpers = CM.generators.sections.equipment
 local skillbars = {}
+local table_concat = table.concat
+local table_insert = table.insert
 
 -- =====================================================
 -- SKILL BARS ONLY (Front/Back Bar tables only)
@@ -21,19 +23,17 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
     -- Validate input data - handle nil, non-table, or empty bars
     if not skillBarData or type(skillBarData) ~= "table" then
         CM.DebugPrint("EQUIPMENT", "GenerateSkillBarsOnly: No skill bar data provided")
-        return "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n"
+        return ""
     end
 
     -- Check if bars exist and have content
     local bars = skillBarData.bars or skillBarData -- Support both {bars=[...]} and direct array
     if not bars or type(bars) ~= "table" or #bars == 0 then
         CM.DebugPrint("EQUIPMENT", "GenerateSkillBarsOnly: No bars in skill bar data")
-        return "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n"
+        return ""
     end
 
-    local output = ""
-
-    output = output .. "## ⚔️ Combat Arsenal\n\n"
+    local outputParts = { "### Skill bars\n\n" }
 
     -- Determine weapon types from bar names for better labels
     local barLabels = {
@@ -51,11 +51,13 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
         end
     end
 
+    local hasBarContent = false
+
     for barIdx, bar in ipairs(bars) do
         if bar and type(bar) == "table" then
             local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
             local barName = bar.name or "Unknown Bar"
-            output = output .. "### " .. label.emoji .. " " .. label.emoji .. " " .. barName .. "\n\n"
+            table_insert(outputParts, "### " .. label.emoji .. " " .. barName .. "\n\n")
 
             -- Safely get abilities array
             local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
@@ -63,11 +65,13 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
 
             -- Abilities table (horizontal format) using CreateStyledTable
             if #abilities > 0 or hasUltimate then
+                hasBarContent = true
                 local markdown_utils = cache.markdown
                 local CreateStyledTable = markdown_utils and markdown_utils.CreateStyledTable
 
                 if not CreateStyledTable then
                     -- Fallback to manual table if CreateStyledTable not available
+                    local tableParts = {}
                     local headerRow = "|"
                     local separatorRow = "|"
                     for i = 1, #abilities do
@@ -78,8 +82,8 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
                         headerRow = headerRow .. " ⚡ |"
                         separatorRow = separatorRow .. ":--|"
                     end
-                    output = output .. headerRow .. "\n"
-                    output = output .. separatorRow .. "\n"
+                    table_insert(tableParts, headerRow .. "\n")
+                    table_insert(tableParts, separatorRow .. "\n")
 
                     local abilitiesRow = "|"
                     for _, ability in ipairs(abilities) do
@@ -112,7 +116,8 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
                             abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
                         end
                     end
-                    output = output .. abilitiesRow .. "\n\n"
+                    table_insert(tableParts, abilitiesRow .. "\n\n")
+                    table_insert(outputParts, table_concat(tableParts))
                 else
                     -- Build headers and row data
                     local headers = {}
@@ -172,17 +177,17 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
                         coloredHeaders = true,
                         width = "100%",
                     }
-                    output = output .. CreateStyledTable(headers, { rowData }, options)
+                    table_insert(outputParts, CreateStyledTable(headers, { rowData }, options))
                 end
             end
         end
     end
 
-    if output == "## ⚔️ Combat Arsenal\n\n" then
-        output = output .. "*No skill bars configured*\n\n"
+    if not hasBarContent then
+        return ""
     end
 
-    return output
+    return table_concat(outputParts)
 end
 
 -- =====================================================
@@ -194,9 +199,16 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
     helpers.InitializeUtilities()
     local cache = helpers.cache
 
-    -- Validate input data - handle nil, non-table, or empty table
-    if not skillBarData or type(skillBarData) ~= "table" or #skillBarData == 0 then
+    -- Validate input data - handle nil, non-table, or empty bars
+    if not skillBarData or type(skillBarData) ~= "table" then
         CM.DebugPrint("EQUIPMENT", "GenerateSkillBars: No skill bar data provided")
+        local placeholder = "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n---\n\n"
+        return placeholder
+    end
+
+    local bars = skillBarData.bars or skillBarData
+    if not bars or type(bars) ~= "table" or #bars == 0 then
+        CM.DebugPrint("EQUIPMENT", "GenerateSkillBars: No bars in skill bar data")
         local placeholder = "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n---\n\n"
         return placeholder
     end
@@ -205,7 +217,7 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
     local markdown_utils = cache.markdown
     local CreateCollapsible = markdown_utils and markdown_utils.CreateCollapsible
 
-    CM.DebugPrint("EQUIPMENT", string.format("GenerateSkillBars: skillBarData length=%s", tostring(#skillBarData)))
+    CM.DebugPrint("EQUIPMENT", string.format("GenerateSkillBars: bars length=%s", tostring(#bars)))
 
     output = output .. "## ⚔️ Combat Arsenal\n\n"
 
@@ -215,7 +227,7 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
     }
 
     -- Try to detect weapon types from bar names
-    for barIdx, bar in ipairs(skillBarData) do
+    for barIdx, bar in ipairs(bars) do
         local barName = bar.name or ""
         if barName:find("Backup") or barName:find("Back Bar") then
             barLabels[barIdx].suffix = " (Backup)"
@@ -224,7 +236,7 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
         end
     end
 
-    for barIdx, bar in ipairs(skillBarData) do
+    for barIdx, bar in ipairs(bars) do
         if bar and type(bar) == "table" then
             local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
             local barName = bar.name or "Unknown Bar"

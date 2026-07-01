@@ -18,25 +18,11 @@ local function GenerateEquipmentInternal(equipmentData, noWrapper)
     local cache = helpers.cache
     local markdown_utils = cache.markdown
 
-    local result = ""
-
     if not equipmentData or type(equipmentData) ~= "table" or (not equipmentData.sets and not equipmentData.items) then
-        if markdown_utils and markdown_utils.CreateHeader then
-            result = markdown_utils.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2)
-                or '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
-        else
-            result = '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
-        end
-        result = result .. "*Equipment data not available*\n\n---\n\n"
-        return result
+        return ""
     end
 
-    if markdown_utils and markdown_utils.CreateHeader then
-        result = markdown_utils.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2)
-            or '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
-    else
-        result = '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
-    end
+    local bodyParts = {}
 
     -- SET DISPLAY
     if equipmentData.sets and type(equipmentData.sets) == "table" and #equipmentData.sets > 0 then
@@ -94,21 +80,22 @@ local function GenerateEquipmentInternal(equipmentData, noWrapper)
             end
 
             local options = { alignment = { "left", "left" }, coloredHeaders = true }
-            result = result .. CreateStyledTable(headers, rows, options)
+            table.insert(bodyParts, CreateStyledTable(headers, rows, options))
         else
             -- Fallback table
-            result = result .. "| Set | Progress |\n|---|---|\n"
+            local setTableParts = { "| Set | Progress |\n|---|---|\n" }
             for _, set in ipairs(equipmentData.sets) do
                 local setLink = cache.CreateSetLink(set.name or "")
-                result = result .. string.format("| **%s** | %d/5 |\n", setLink, set.count)
+                table.insert(setTableParts, string.format("| **%s** | %d/5 |\n", setLink, set.count))
             end
-            result = result .. "\n"
+            table.insert(setTableParts, "\n")
+            table.insert(bodyParts, table.concat(setTableParts))
         end
     end
 
     -- EQUIPMENT DETAILS
     if equipmentData.items and type(equipmentData.items) == "table" and #equipmentData.items > 0 then
-        result = result .. "### 📋 Equipment Details\n\n"
+        local detailsParts = { "### 📋 Equipment Details\n\n" }
 
         local setInfoLookup = {}
         if equipmentData.sets and type(equipmentData.sets) == "table" then
@@ -191,16 +178,31 @@ local function GenerateEquipmentInternal(equipmentData, noWrapper)
                 coloredHeaders = true,
                 width = "100%",
             }
-            result = result .. CreateStyledTable(headers, rows, options)
+            table.insert(detailsParts, CreateStyledTable(headers, rows, options))
         else
             -- Simple fallback table
-            result = result .. "| Slot | Item | Set |\n|---|---|---|\n"
+            table.insert(detailsParts, "| Slot | Item | Set |\n|---|---|---|\n")
             for _, row in ipairs(rows) do
-                result = result .. "| " .. row[1] .. " | " .. row[2] .. " | " .. row[3] .. " |\n"
+                table.insert(detailsParts, "| " .. row[1] .. " | " .. row[2] .. " | " .. row[3] .. " |\n")
             end
-            result = result .. "\n"
+            table.insert(detailsParts, "\n")
         end
+        table.insert(bodyParts, table.concat(detailsParts))
     end
+
+    if #bodyParts == 0 then
+        return ""
+    end
+
+    local header
+    if markdown_utils and markdown_utils.CreateHeader then
+        header = markdown_utils.CreateHeader("Equipment & Active Sets", "⚔️", nil, 2)
+            or '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
+    else
+        header = '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n'
+    end
+
+    local result = header .. table.concat(bodyParts)
 
     if not noWrapper then
         local CreateSeparator = markdown_utils and markdown_utils.CreateSeparator
@@ -218,7 +220,7 @@ function gear.GenerateEquipment(equipmentData, noWrapper)
     local success, result = pcall(GenerateEquipmentInternal, equipmentData, noWrapper)
     if success then
         if not result or result == "" then
-            return '<a id="equipment--active-sets"></a>\n\n## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n'
+            return ""
         end
         return result
     else

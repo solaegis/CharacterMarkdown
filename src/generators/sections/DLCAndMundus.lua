@@ -111,6 +111,10 @@ end
 local function GenerateMundus(mundusData)
     InitializeUtilities()
 
+    if not mundusData then
+        return ""
+    end
+
     local markdown = ""
 
     InitializeUtilities()

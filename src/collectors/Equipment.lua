@@ -29,21 +29,143 @@ local function CollectEquipmentData()
         EQUIP_SLOT_BACKUP_OFF,
     }
 
-    -- Collect set information
+    -- Collect set information and equipment items in a single slot scan
     local sets = {}
     local setItemLinks = {}
     for _, slotIndex in ipairs(equipSlots) do
-        -- Use API layer for basic item info
         local itemInfo = CM.api.equipment.GetEquippedItem(slotIndex)
         if itemInfo and itemInfo.name and itemInfo.name ~= "" then
-            -- Use set info from API layer
             if itemInfo.set and itemInfo.set.hasSet and itemInfo.set.name then
                 sets[itemInfo.set.name] = (sets[itemInfo.set.name] or 0) + 1
-                -- Store one item link for this set to query bonuses later
                 if not setItemLinks[itemInfo.set.name] then
                     setItemLinks[itemInfo.set.name] = itemInfo.link
                 end
             end
+
+            -- Strip superscript markers from item names (^n, ^N, ^F, ^p, etc.)
+            local itemName = itemInfo.name:gsub("%^%w+$", "")
+            local itemLink = itemInfo.link
+            local hasSet = itemInfo.set and itemInfo.set.hasSet or false
+            local setName = itemInfo.set and itemInfo.set.name or nil
+            local quality = itemInfo.quality or 0
+            if type(quality) ~= "number" then
+                quality = 0
+            end
+            local traitName = itemInfo.trait and itemInfo.trait.name or "None"
+
+            local enchantName = itemInfo.enchant and itemInfo.enchant.name or nil
+            local enchantIcon, enchantCharge, enchantMaxCharge = nil, 0, 0
+            local success1, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
+            if success1 then
+                if charge ~= nil and type(charge) == "number" then
+                    enchantCharge = charge
+                end
+                if maxCharge ~= nil and type(maxCharge) == "number" and maxCharge > 0 then
+                    enchantMaxCharge = maxCharge
+                end
+                if icon then
+                    enchantIcon = icon
+                end
+                if not enchantName and name and name ~= "" and type(name) == "string" then
+                    enchantName = name
+                end
+            end
+
+            local itemStyle = 0
+            local success2, style = pcall(GetItemLinkItemStyle, itemLink)
+            if success2 and style then
+                itemStyle = style
+            end
+
+            local requiredLevel, requiredCP = 0, 0
+            local success3, level = pcall(GetItemLinkRequiredLevel, itemLink)
+            if success3 and level then
+                requiredLevel = level
+            end
+            local success4, cp = pcall(GetItemLinkRequiredChampionPoints, itemLink)
+            if success4 and cp then
+                requiredCP = cp
+            end
+
+            local bindType = BIND_TYPE_NONE
+            local success5, bind = pcall(GetItemLinkBindType, itemLink)
+            if success5 and bind then
+                bindType = bind
+            end
+
+            local itemValue = 0
+            local success6, value = pcall(GetItemLinkValue, itemLink, false)
+            if success6 and value then
+                itemValue = value
+            end
+
+            local isCrafted = false
+            local success7, crafted = pcall(IsItemLinkCrafted, itemLink)
+            if success7 then
+                isCrafted = crafted
+            end
+
+            local armorType = ARMOR_TYPE_NONE
+            local weaponType = WEAPON_TYPE_NONE
+            local craftedQuality = ITEM_QUALITY_NONE
+            local isStolen = false
+
+            local success8, armor = pcall(GetItemLinkArmorType, itemLink)
+            if success8 and armor then
+                armorType = armor
+            end
+            local success9, weapon = pcall(GetItemLinkWeaponType, itemLink)
+            if success9 and weapon then
+                weaponType = weapon
+            end
+            local success10, craftedQual = pcall(GetItemLinkCraftedQuality, itemLink)
+            if success10 and craftedQual then
+                craftedQuality = craftedQual
+            end
+            local success11, stolen = pcall(GetItemLinkStolen, itemLink)
+            if success11 then
+                isStolen = stolen
+            end
+
+            local flavorText = ""
+            local originalItemLink = ""
+            local success12, flavor = pcall(GetItemLinkFlavorText, itemLink)
+            if success12 and flavor and flavor ~= "" then
+                flavorText = flavor
+            end
+            local success13, originalItem = pcall(GetItemLinkClothierOriginalItem, itemLink)
+            if success13 and originalItem and originalItem ~= "" then
+                originalItemLink = originalItem
+            end
+
+            table.insert(equipment.items, {
+                slotIndex = slotIndex,
+                slotName = CM.utils.GetEquipSlotName(slotIndex),
+                emoji = CM.utils.GetSlotEmoji(slotIndex),
+                name = itemName,
+                setName = (hasSet and setName) and setName or "-",
+                quality = CM.utils.GetQualityColor(quality),
+                qualityNumeric = quality or 0,
+                qualityEmoji = CM.utils.GetQualityEmoji(quality),
+                trait = traitName,
+                isEmpty = false,
+                enchantment = enchantName or false,
+                enchantIcon = enchantIcon,
+                enchantCharge = enchantCharge,
+                enchantMaxCharge = enchantMaxCharge,
+                style = itemStyle,
+                requiredLevel = requiredLevel,
+                requiredCP = requiredCP,
+                bindType = bindType,
+                value = itemValue,
+                isCrafted = isCrafted,
+                armorType = armorType,
+                weaponType = weaponType,
+                craftedQuality = craftedQuality,
+                isStolen = isStolen,
+                flavorText = flavorText,
+                originalItemLink = originalItemLink,
+            })
         end
     end
 
@@ -79,149 +201,6 @@ local function CollectEquipmentData()
         end
 
         table.insert(equipment.sets, setData)
-    end
-
-    -- Collect equipment items with extended details
-    for _, slotIndex in ipairs(equipSlots) do
-        -- Use API layer for basic item info
-        local itemInfo = CM.api.equipment.GetEquippedItem(slotIndex)
-        if itemInfo and itemInfo.name and itemInfo.name ~= "" then
-            -- Strip superscript markers from item names (^n, ^N, ^F, ^p, etc.)
-            local itemName = itemInfo.name:gsub("%^%w+$", "")
-            local itemLink = itemInfo.link
-            local hasSet = itemInfo.set and itemInfo.set.hasSet or false
-            local setName = itemInfo.set and itemInfo.set.name or nil
-            local quality = itemInfo.quality or 0
-            -- Ensure quality is a number (0-4)
-            if type(quality) ~= "number" then
-                quality = 0
-            end
-            local traitName = itemInfo.trait and itemInfo.trait.name or "None"
-
-            -- Enchantment info (from API layer, but need extended details)
-            local enchantName = itemInfo.enchant and itemInfo.enchant.name or nil
-            local enchantIcon, enchantCharge, enchantMaxCharge = nil, 0, 0
-            -- Get extended enchant details (charge, max charge, icon) via direct API call
-            local success1, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
-            if success1 then
-                if charge ~= nil and type(charge) == "number" then
-                    enchantCharge = charge
-                end
-                if maxCharge ~= nil and type(maxCharge) == "number" and maxCharge > 0 then
-                    enchantMaxCharge = maxCharge
-                end
-                if icon then
-                    enchantIcon = icon
-                end
-                -- Use name from extended call if API layer didn't provide it
-                if not enchantName and name and name ~= "" and type(name) == "string" then
-                    enchantName = name
-                end
-            end
-
-            -- Item style
-            local itemStyle = 0
-            local success2, style = pcall(GetItemLinkItemStyle, itemLink)
-            if success2 and style then
-                itemStyle = style
-            end
-
-            -- Required level/CP
-            local requiredLevel, requiredCP = 0, 0
-            local success3, level = pcall(GetItemLinkRequiredLevel, itemLink)
-            if success3 and level then
-                requiredLevel = level
-            end
-            local success4, cp = pcall(GetItemLinkRequiredChampionPoints, itemLink)
-            if success4 and cp then
-                requiredCP = cp
-            end
-
-            -- Bind type
-            local bindType = BIND_TYPE_NONE
-            local success5, bind = pcall(GetItemLinkBindType, itemLink)
-            if success5 and bind then
-                bindType = bind
-            end
-
-            -- Item value
-            local itemValue = 0
-            local success6, value = pcall(GetItemLinkValue, itemLink, false)
-            if success6 and value then
-                itemValue = value
-            end
-
-            -- Crafted status
-            local isCrafted = false
-            local success7, crafted = pcall(IsItemLinkCrafted, itemLink)
-            if success7 then
-                isCrafted = crafted
-            end
-
-            -- Item classification
-            local armorType = ARMOR_TYPE_NONE
-            local weaponType = WEAPON_TYPE_NONE
-            local craftedQuality = ITEM_QUALITY_NONE
-            local isStolen = false
-
-            local success8, armor = pcall(GetItemLinkArmorType, itemLink)
-            if success8 and armor then
-                armorType = armor
-            end
-            local success9, weapon = pcall(GetItemLinkWeaponType, itemLink)
-            if success9 and weapon then
-                weaponType = weapon
-            end
-            local success10, craftedQual = pcall(GetItemLinkCraftedQuality, itemLink)
-            if success10 and craftedQual then
-                craftedQuality = craftedQual
-            end
-            local success11, stolen = pcall(GetItemLinkStolen, itemLink)
-            if success11 then
-                isStolen = stolen
-            end
-
-            -- Item details
-            local flavorText = ""
-            local originalItemLink = ""
-            local success12, flavor = pcall(GetItemLinkFlavorText, itemLink)
-            if success12 and flavor and flavor ~= "" then
-                flavorText = flavor
-            end
-            local success13, originalItem = pcall(GetItemLinkClothierOriginalItem, itemLink)
-            if success13 and originalItem and originalItem ~= "" then
-                originalItemLink = originalItem
-            end
-
-            table.insert(equipment.items, {
-                slotIndex = slotIndex,
-                slotName = CM.utils.GetEquipSlotName(slotIndex),
-                emoji = CM.utils.GetSlotEmoji(slotIndex),
-                name = itemName,
-                setName = (hasSet and setName) and setName or "-",
-                quality = CM.utils.GetQualityColor(quality),
-                qualityNumeric = quality or 0, -- Store numeric quality for calculations
-                qualityEmoji = CM.utils.GetQualityEmoji(quality),
-                trait = traitName,
-                isEmpty = false,
-                enchantment = enchantName or false,
-                enchantIcon = enchantIcon,
-                enchantCharge = enchantCharge,
-                enchantMaxCharge = enchantMaxCharge,
-                style = itemStyle,
-                requiredLevel = requiredLevel,
-                requiredCP = requiredCP,
-                bindType = bindType,
-                value = itemValue,
-                isCrafted = isCrafted,
-                armorType = armorType,
-                weaponType = weaponType,
-                craftedQuality = craftedQuality,
-                isStolen = isStolen,
-                flavorText = flavorText,
-                originalItemLink = originalItemLink,
-            })
-        end
     end
 
     -- ===== COMPUTED FIELDS =====

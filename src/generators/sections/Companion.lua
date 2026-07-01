@@ -42,7 +42,7 @@ local function GenerateCompanion(companionData)
                 table_insert(sortedCompanions, comp)
             end
             table.sort(sortedCompanions, function(a, b)
-                return a.name < b.name
+                return (a.name or "") < (b.name or "")
             end)
 
             markdown = markdown .. "### Available Companions\n\n"
@@ -64,7 +64,7 @@ local function GenerateCompanion(companionData)
                 table_insert(sortedCompanions, comp)
             end
             table.sort(sortedCompanions, function(a, b)
-                return a.name < b.name
+                return (a.name or "") < (b.name or "")
             end)
 
             for _, comp in ipairs(sortedCompanions) do
@@ -272,7 +272,7 @@ local function GenerateCompanion(companionData)
             local headers = { "Slot", "Item", "Quality", "Trait" }
             local rows = {}
 
-            for _, item in ipairs(companionData.equipment) do
+            for _, item in ipairs(equipment) do
                 local warning = ""
                 if item.level and item.level < level and item.level < 20 then
                     warning = " ⚠️"

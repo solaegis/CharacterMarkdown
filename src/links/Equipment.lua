@@ -16,6 +16,7 @@ local function GenerateSetURL(setName)
     -- UESP format: https://en.uesp.net/wiki/Online:Set_Name_Set
     local urlName = setName:gsub(" ", "_")
     urlName = urlName:gsub("[%(%)%[%]%{%}]", "")
+    urlName = urlName:gsub("_Set$", "")
 
     return "https://en.uesp.net/wiki/Online:" .. urlName .. "_Set"
 end

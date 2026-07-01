@@ -95,7 +95,7 @@ end
 
 ---Backtrack before a header when the next line is a table to keep header+table together.
 ---Returns newChunkEnd, prependNewline if backtracking is valid; nil otherwise.
-local function BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownLength, copyLimit, paddingSize)
+local function BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownLength, copyLimit, totalOverhead)
     if chunkEnd >= markdownLength then
         return nil
     end
@@ -117,7 +117,7 @@ local function BacktrackBeforeHeaderTablePair(markdown, pos, chunkEnd, markdownL
     end
     local newChunkEnd = backtrackHeaderStart - 1
     local proposedDataChars = newChunkEnd - pos + 1
-    if proposedDataChars + paddingSize <= copyLimit and proposedDataChars >= 100 then
+    if proposedDataChars + totalOverhead <= copyLimit and proposedDataChars >= 100 then
         return newChunkEnd, true
     end
     return nil

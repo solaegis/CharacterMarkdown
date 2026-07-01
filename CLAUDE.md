@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 <!-- AUTO-MANAGED: project-description -->
 ## Overview
 
-CharacterMarkdown is an ESO (Elder Scrolls Online) addon that exports comprehensive character data in enhanced markdown format. Generates copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Supports Markdown and TONL output formats. Use `/markdown` (or `/cm`) to generate. ESO Lua 5.1 addon; no `goto` statements.
+CharacterMarkdown is an ESO (Elder Scrolls Online) addon that exports comprehensive character data in enhanced markdown format. Generates copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Use `/markdown` (or `/cm`) to generate. ESO Lua 5.1 addon; no `goto` statements.
 
 <!-- END AUTO-MANAGED -->
 
@@ -31,9 +31,9 @@ Data flow: `Data Collection → Markdown Generation → UI Display`
 - **src/api/**: ESO API abstraction (Character, Achievements, Collectibles, Combat, etc.)
 - **src/collectors/**: Data gathering only (Inventory, Achievements, Collectibles, etc.)
 - **src/generators/sections/**: Markdown creation (Character, Overview, Equipment, ChampionPoints, ChampionDiagram, etc.)
-- **src/formatters/**: Output formatters (Markdown.lua, TONL.lua)
+- **src/formatters/**: Output formatters (Markdown.lua)
 - **src/links/**: UESP URL generation
-- **src/utils/**: Chunking, ChunkingHelpers, Constants, TONL, Platform, etc.
+- **src/utils/**: Chunking, ChunkingHelpers, Constants, Platform, etc.
 - **src/settings/**: Defaults, Initializer, Panel (LibAddonMenu)
 - **src/ui/Window.lua**: Display window (protected - requires developer approval to modify)
 - **docs/**: ARCHITECTURE.md, CHUNKING.md, CHUNKING_ALGORITHM.md, CHAMPION_POINTS.md, MEMORY_MANAGEMENT.md
@@ -62,7 +62,6 @@ Load order in `CharacterMarkdown.addon`. See `docs/ARCHITECTURE.md` for full str
 - Collectors return raw data; generators produce markdown
 - Chunking: Legacy `SplitMarkdownIntoChunks_Legacy` active; section-based disabled. Never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
 - ChunkingHelpers: Line-type detection for chunking; extracted from Chunking.lua
-- TONL formatter: `src/formatters/TONL.lua` for minimal LLM-friendly output
 - ChampionDiagram: Mermaid CP diagram in `src/generators/sections/ChampionDiagram.lua`; STAR_MAP for tree positions
 - Per-character data in `CharacterMarkdownSettings.perCharacterData[characterId]`; preserve customNotes, customTitle, playStyle on reset
 - Chunking constants: EDITBOX_LIMIT=21500, COPY_LIMIT=21500, MAX_DATA_CHARS=20350 (Constants.lua)

@@ -157,7 +157,7 @@ function api.GetCompanionEquipment()
 
             if itemLink and itemLink ~= "" then
                 -- Quality
-                local quality = CM.SafeCall(GetItemLinkQuality, itemLink)
+                local quality = CM.SafeCall(GetItemLinkDisplayQuality, itemLink)
                 local qualityNumeric = quality or 0
                 itemData.quality = CM.utils.GetQualityColor(qualityNumeric)
                 itemData.qualityNumeric = qualityNumeric
@@ -167,30 +167,32 @@ function api.GetCompanionEquipment()
                 itemData.level = CM.SafeCall(GetItemLinkRequiredLevel, itemLink) or 0
 
                 -- Set information
-                local success, has, name = pcall(GetItemLinkSetInfo, itemLink, false)
+                local success, has, name, _, numEquipped, maxEquipped =
+                    pcall(GetItemLinkSetInfo, itemLink, false)
                 if success then
                     itemData.hasSet = has
                     itemData.setName = name
                 end
 
                 -- Trait information
-                local success2, trait = pcall(GetItemLinkTraitInfo, itemLink)
-                if success2 and trait then
-                    itemData.traitType = trait
-                    itemData.traitName = CM.SafeCall(GetString, "SI_ITEMTRAITTYPE", trait) or "None"
+                local success2, traitType, traitDesc = pcall(GetItemLinkTraitInfo, itemLink)
+                if success2 and traitType then
+                    itemData.traitType = traitType
+                    itemData.traitName = traitDesc or CM.SafeCall(GetString, "SI_ITEMTRAITTYPE", traitType) or "None"
                 end
 
-                -- Enchantment information
-                local success3, name, icon, charge, maxCharge = pcall(GetItemLinkEnchantInfo, itemLink)
+                -- Enchantment information: hasCharges, enchantHeader, enchantDescription
+                local success3, hasCharges, enchantHeader, enchantDescription =
+                    pcall(GetItemLinkEnchantInfo, itemLink)
                 if success3 then
-                    if name and name ~= "" then
-                        itemData.enchantName = name
+                    if enchantHeader and enchantHeader ~= "" then
+                        itemData.enchantName = enchantHeader
+                    elseif enchantDescription and enchantDescription ~= "" then
+                        itemData.enchantName = enchantDescription
                     end
-                    if charge ~= nil then
-                        itemData.enchantCharge = charge
-                    end
-                    if maxCharge ~= nil and maxCharge > 0 then
-                        itemData.enchantMaxCharge = maxCharge
+                    if hasCharges then
+                        itemData.enchantCharge = CM.SafeCall(GetItemLinkNumEnchantCharges, itemLink) or 0
+                        itemData.enchantMaxCharge = CM.SafeCall(GetItemLinkMaxEnchantCharges, itemLink) or 0
                     end
                 end
             end
@@ -219,18 +221,16 @@ function api.GetCompanionOutfit()
         return nil
     end
 
-    -- Get the companion's default outfit ID
-    local outfitId = CM.SafeCall(GetCompanionDefaultOutfitId, companionDefId)
+    local outfitIndex = CM.SafeCall(GetEquippedOutfitIndex, GAMEPLAY_ACTOR_CATEGORY_COMPANION)
     local outfitName = nil
 
-    if outfitId and outfitId > 0 then
-        -- Try to get outfit name
-        outfitName = CM.SafeCall(GetOutfitName, outfitId)
+    if outfitIndex and outfitIndex > 0 then
+        outfitName = CM.SafeCall(GetOutfitName, GAMEPLAY_ACTOR_CATEGORY_COMPANION, outfitIndex)
     end
 
     return {
         companionDefId = companionDefId,
-        outfitId = outfitId,
+        outfitId = outfitIndex,
         outfitName = outfitName or "Default",
     }
 end
@@ -240,18 +240,14 @@ function api.GetCompanionRapport()
         return nil
     end
 
-    local companionDefId = CM.SafeCall(GetActiveCompanionDefId)
-    if not companionDefId then
-        return nil
-    end
-
-    -- Get rapport level and description
-    local rapportLevel = CM.SafeCall(GetCompanionRapportLevel, companionDefId)
+    local rapportLevel = CM.SafeCall(GetActiveCompanionRapportLevel)
     local rapportDescription = nil
 
     if rapportLevel then
-        -- SI_COMPANIONRAPPORTLEVEL values: 1=Disdainful, 2=Wary, 3=Cordial, 4=Friendly, 5=Close
-        rapportDescription = CM.SafeCall(GetString, "SI_COMPANIONRAPPORTLEVEL", rapportLevel)
+        rapportDescription = CM.SafeCall(GetActiveCompanionRapportLevelDescription, rapportLevel)
+        if not rapportDescription or rapportDescription == "" then
+            rapportDescription = CM.SafeCall(GetString, "SI_COMPANIONRAPPORTLEVEL", rapportLevel)
+        end
     end
 
     return {

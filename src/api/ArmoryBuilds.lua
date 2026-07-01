@@ -40,11 +40,20 @@ function api.GetBuildAttributePoints(buildIndex)
 end
 
 function api.GetBuildChampionPoints(buildIndex)
-    local craft = CM.SafeCall(GetArmoryBuildChampionSpentPointsByDiscipline, buildIndex, CHAMPION_DISCIPLINE_CRAFT) or 0
-    local warfare = CM.SafeCall(GetArmoryBuildChampionSpentPointsByDiscipline, buildIndex, CHAMPION_DISCIPLINE_WARFARE)
-        or 0
-    local fitness = CM.SafeCall(GetArmoryBuildChampionSpentPointsByDiscipline, buildIndex, CHAMPION_DISCIPLINE_FITNESS)
-        or 0
+    local craft, warfare, fitness = 0, 0, 0
+    for disciplineIndex = 1, 3 do
+        local disciplineId = CM.SafeCall(GetChampionDisciplineId, disciplineIndex)
+        if disciplineId then
+            local spent = CM.SafeCall(GetArmoryBuildChampionSpentPointsByDiscipline, buildIndex, disciplineId) or 0
+            if disciplineIndex == 1 then
+                craft = spent
+            elseif disciplineIndex == 2 then
+                warfare = spent
+            elseif disciplineIndex == 3 then
+                fitness = spent
+            end
+        end
+    end
 
     if craft > 0 or warfare > 0 or fitness > 0 then
         return {
@@ -56,6 +65,17 @@ function api.GetBuildChampionPoints(buildIndex)
     end
 
     return {}
+end
+
+local function GetMundusStoneName(stoneId)
+    if not stoneId or stoneId <= 0 then
+        return nil
+    end
+    local name = CM.SafeCall(GetString, "SI_MUNDUSSTONE", stoneId)
+    if name and name ~= "" then
+        return name
+    end
+    return "Mundus Stone " .. tostring(stoneId)
 end
 
 function api.GetBuildEquipment(buildIndex)
@@ -78,15 +98,22 @@ function api.GetBuildEquipment(buildIndex)
     }
 
     for _, slot in ipairs(equipSlots) do
-        local itemLink = CM.SafeCall(GetArmoryBuildEquipSlotItemLinkInfo, buildIndex, slot)
-        if itemLink and itemLink ~= "" then
-            local itemName = CM.SafeCall(GetItemLinkName, itemLink)
-            if itemName and itemName ~= "" then
-                table.insert(equipment, {
-                    slot = slot,
-                    name = itemName,
-                    link = itemLink,
-                })
+        local success, equipSlotState, bagId, slotIndex = CM.SafeCallMulti(
+            GetArmoryBuildEquipSlotInfo,
+            buildIndex,
+            slot
+        )
+        if success and equipSlotState and bagId and slotIndex then
+            local itemLink = CM.SafeCall(GetItemLink, bagId, slotIndex, LINK_STYLE_DEFAULT)
+            if itemLink and itemLink ~= "" then
+                local itemName = CM.SafeCall(GetItemLinkName, itemLink)
+                if itemName and itemName ~= "" then
+                    table.insert(equipment, {
+                        slot = slot,
+                        name = itemName,
+                        link = itemLink,
+                    })
+                end
             end
         end
     end
@@ -149,7 +176,7 @@ function api.GetBuildMundusStones(buildIndex)
 
     local primary = CM.SafeCall(GetArmoryBuildPrimaryMundusStone, buildIndex)
     if primary and primary > 0 then
-        local primaryName = CM.SafeCall(GetMundusStoneDisplayName, primary)
+        local primaryName = GetMundusStoneName(primary)
         if primaryName and primaryName ~= "" then
             mundus.primary = primaryName
         end
@@ -157,7 +184,7 @@ function api.GetBuildMundusStones(buildIndex)
 
     local secondary = CM.SafeCall(GetArmoryBuildSecondaryMundusStone, buildIndex)
     if secondary and secondary > 0 then
-        local secondaryName = CM.SafeCall(GetMundusStoneDisplayName, secondary)
+        local secondaryName = GetMundusStoneName(secondary)
         if secondaryName and secondaryName ~= "" then
             mundus.secondary = secondaryName
         end

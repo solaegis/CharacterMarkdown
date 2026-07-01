@@ -32,14 +32,11 @@ local function GenerateUndauntedPledges(pledgesData)
     local dungeonProgress = pledgesData.dungeonProgress or {}
     local keys = pledgesData.keys or {}
 
-    if false then
-        -- Discord block removed
-    else
-        local anchorId = GenerateAnchor and GenerateAnchor("🏰 Undaunted Pledges") or "undaunted-pledges"
-        markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
-        markdown = markdown .. "## 🏰 Undaunted Pledges\n\n" -- Changed from 🏛️ for better compatibility
+    local anchorId = GenerateAnchor and GenerateAnchor("🏰 Undaunted Pledges") or "undaunted-pledges"
+    markdown = markdown .. string.format('<a id="%s"></a>\n\n', anchorId)
+    markdown = markdown .. "## 🏰 Undaunted Pledges\n\n" -- Changed from 🏛️ for better compatibility
 
-        -- Show active pledges from quest journal
+    -- Show active pledges from quest journal
         local hasActivePledges = pledges.active and #pledges.active > 0
         if hasActivePledges then
             markdown = markdown .. "### 📋 Active Pledges\n\n"
@@ -207,13 +204,12 @@ local function GenerateUndauntedPledges(pledgesData)
             end
         end
 
-        -- Use CreateSeparator for consistent separator styling
-        local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
-        if CreateSeparator then
-            markdown = markdown .. CreateSeparator("hr")
-        else
-            markdown = markdown .. "---\n\n"
-        end
+    -- Use CreateSeparator for consistent separator styling
+    local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
+    if CreateSeparator then
+        markdown = markdown .. CreateSeparator("hr")
+    else
+        markdown = markdown .. "---\n\n"
     end
 
     return markdown

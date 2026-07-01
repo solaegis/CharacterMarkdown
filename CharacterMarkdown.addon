@@ -5,7 +5,7 @@
 ## APIVersion: 101050 101049
 ## SavedVariables: CharacterMarkdownSettings
 ## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=250 LibSets>=86 LibSlashCommander>=4
-## Description: Exports comprehensive character data in enhanced markdown format (Markdown, TONL). Generate copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Includes ESO Plus, DLC access, currencies, progression, riding skills, inventory, PvP, collectibles, and crafting knowledge. Use /markdown (or /cm) to generate.
+## Description: Exports comprehensive character data in enhanced markdown format. Generate copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Includes ESO Plus, DLC access, currencies, progression, riding skills, inventory, PvP, collectibles, and crafting knowledge. Use /markdown (or /cm) to generate.
 ## This file is AddOnVersion: 20250121
 ## Directive above to support LibAddonMenu version sorting
 

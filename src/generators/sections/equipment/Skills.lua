@@ -96,6 +96,8 @@ function skills.GenerateSkills(skillData, skillMorphsData)
     helpers.InitializeUtilities()
     local cache = helpers.cache
 
+    skillData = skillData or {}
+
     local output = ""
 
     -- Filter out Alliance War category
@@ -218,19 +220,21 @@ function skills.GenerateSkills(skillData, skillMorphsData)
     if next(statusGroups.inProgress) then
         output = output .. "### 📈 In-Progress Skills\n\n"
         for categoryName, categoryData in pairs(statusGroups.inProgress) do
-            local categoryContent = ""
+            local lineParts = {}
             for _, skill in ipairs(categoryData.skills) do
                 local progressBar = cache.GenerateProgressBar(skill.progress or 0, 10)
-                categoryContent = categoryContent
-                    .. string.format(
+                table.insert(
+                    lineParts,
+                    string.format(
                         "- **%s**: Rank %d %s %d%%\n",
                         cache.CreateSkillLineLink(skill.name),
                         skill.rank or 0,
                         progressBar,
                         skill.progress or 0
                     )
+                )
             end
-            categoryContent = categoryContent .. "\n"
+            local categoryContent = table.concat(lineParts) .. "\n"
             local passivesContent = GeneratePassivesList(categoryData.skills)
             if passivesContent ~= "" then
                 categoryContent = categoryContent
@@ -258,19 +262,21 @@ function skills.GenerateSkills(skillData, skillMorphsData)
     if next(statusGroups.earlyProgress) then
         output = output .. "### ⚪ Early Progress Skills\n\n"
         for categoryName, categoryData in pairs(statusGroups.earlyProgress) do
-            local categoryContent = ""
+            local lineParts = {}
             for _, skill in ipairs(categoryData.skills) do
                 local progressBar = cache.GenerateProgressBar(skill.progress or 0, 10)
-                categoryContent = categoryContent
-                    .. string.format(
+                table.insert(
+                    lineParts,
+                    string.format(
                         "- **%s**: Rank %d %s %d%%\n",
                         cache.CreateSkillLineLink(skill.name),
                         skill.rank or 0,
                         progressBar,
                         skill.progress or 0
                     )
+                )
             end
-            categoryContent = categoryContent .. "\n"
+            local categoryContent = table.concat(lineParts) .. "\n"
             local passivesContent = GeneratePassivesList(categoryData.skills)
             if passivesContent ~= "" then
                 categoryContent = categoryContent

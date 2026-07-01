@@ -22,6 +22,10 @@ end
 local function GenerateCombatStats(statsData, inline)
     InitializeUtilities()
 
+    if not statsData then
+        return ""
+    end
+
     -- inline parameter: if true, generate just the table without section header/divider (for overview section)
     inline = inline or false
 
@@ -123,126 +127,83 @@ local function GenerateCombatStats(statsData, inline)
             markdown = markdown .. columnsLayout
         else
             -- Fallback to single table format
-            markdown = markdown .. "| Category | Stat | Value |\n"
-            markdown = markdown .. "|:---------|:-----|------:|\n"
-
-            -- Resources
-            markdown = markdown .. "| 💚 **Resources** | Health | " .. FormatNumber(statsData.health or 0) .. " |\n"
-            markdown = markdown .. "| | Magicka | " .. FormatNumber(statsData.magicka or 0) .. " |\n"
-            markdown = markdown .. "| | Stamina | " .. FormatNumber(statsData.stamina or 0) .. " |\n"
-
-            -- Offensive Power
-            markdown = markdown
-                .. "| ⚔️ **Offensive** | Weapon Power | "
-                .. FormatNumber(statsData.weaponPower or 0)
-                .. " |\n"
-            markdown = markdown .. "| | Spell Power | " .. FormatNumber(statsData.spellPower or 0) .. " |\n"
-
-            -- Critical Strike
-            markdown = markdown
-                .. "| 🎯 **Critical** | Weapon Crit | "
-                .. FormatNumber(statsData.weaponCritRating or 0)
-                .. " ("
-                .. (statsData.weaponCritChance or 0)
-                .. "%) |\n"
-            markdown = markdown
-                .. "| | Spell Crit | "
-                .. FormatNumber(statsData.spellCritRating or 0)
-                .. " ("
-                .. (statsData.spellCritChance or 0)
-                .. "%) |\n"
-
-            -- Penetration
-            markdown = markdown
-                .. "| ⚔️ **Penetration** | Physical | "
-                .. FormatNumber(statsData.physicalPenetration or 0)
-                .. " |\n"
-            markdown = markdown .. "| | Spell | " .. FormatNumber(statsData.spellPenetration or 0) .. " |\n"
-
-            -- Defensive
-            markdown = markdown
-                .. "| 🛡️ **Defensive** | Physical Resist | "
-                .. FormatNumber(statsData.physicalResist or 0)
-                .. " ("
-                .. (statsData.physicalMitigation or 0)
-                .. "%) |\n"
-            markdown = markdown
-                .. "| | Spell Resist | "
-                .. FormatNumber(statsData.spellResist or 0)
-                .. " ("
-                .. (statsData.spellMitigation or 0)
-                .. "%) |\n"
-
-            -- Recovery
-            markdown = markdown
-                .. "| ♻️ **Recovery** | Health | "
-                .. FormatNumber(statsData.healthRecovery or 0)
-                .. " |\n"
-            markdown = markdown .. "| | Magicka | " .. FormatNumber(statsData.magickaRecovery or 0) .. " |\n"
-            markdown = markdown .. "| | Stamina | " .. FormatNumber(statsData.staminaRecovery or 0) .. " |\n"
+            local statRows = {
+                "| Category | Stat | Value |",
+                "|:---------|:-----|------:|",
+                "| 💚 **Resources** | Health | " .. FormatNumber(statsData.health or 0) .. " |",
+                "| | Magicka | " .. FormatNumber(statsData.magicka or 0) .. " |",
+                "| | Stamina | " .. FormatNumber(statsData.stamina or 0) .. " |",
+                "| ⚔️ **Offensive** | Weapon Power | " .. FormatNumber(statsData.weaponPower or 0) .. " |",
+                "| | Spell Power | " .. FormatNumber(statsData.spellPower or 0) .. " |",
+                "| 🎯 **Critical** | Weapon Crit | "
+                    .. FormatNumber(statsData.weaponCritRating or 0)
+                    .. " ("
+                    .. (statsData.weaponCritChance or 0)
+                    .. "%) |",
+                "| | Spell Crit | "
+                    .. FormatNumber(statsData.spellCritRating or 0)
+                    .. " ("
+                    .. (statsData.spellCritChance or 0)
+                    .. "%) |",
+                "| ⚔️ **Penetration** | Physical | " .. FormatNumber(statsData.physicalPenetration or 0) .. " |",
+                "| | Spell | " .. FormatNumber(statsData.spellPenetration or 0) .. " |",
+                "| 🛡️ **Defensive** | Physical Resist | "
+                    .. FormatNumber(statsData.physicalResist or 0)
+                    .. " ("
+                    .. (statsData.physicalMitigation or 0)
+                    .. "%) |",
+                "| | Spell Resist | "
+                    .. FormatNumber(statsData.spellResist or 0)
+                    .. " ("
+                    .. (statsData.spellMitigation or 0)
+                    .. "%) |",
+                "| ♻️ **Recovery** | Health | " .. FormatNumber(statsData.healthRecovery or 0) .. " |",
+                "| | Magicka | " .. FormatNumber(statsData.magickaRecovery or 0) .. " |",
+                "| | Stamina | " .. FormatNumber(statsData.staminaRecovery or 0) .. " |",
+                "",
+            }
+            markdown = markdown .. table.concat(statRows, "\n") .. "\n"
         end
     end
 
     -- Generate table for non-inline mode
     if not inline then
-        markdown = markdown .. "| Category | Stat | Value |\n"
-        markdown = markdown .. "|:---------|:-----|------:|\n"
-
-        -- Resources
-        markdown = markdown .. "| 💚 **Resources** | Health | " .. FormatNumber(statsData.health or 0) .. " |\n"
-        markdown = markdown .. "| | Magicka | " .. FormatNumber(statsData.magicka or 0) .. " |\n"
-        markdown = markdown .. "| | Stamina | " .. FormatNumber(statsData.stamina or 0) .. " |\n"
-
-        -- Offensive Power
-        markdown = markdown
-            .. "| ⚔️ **Offensive** | Weapon Power | "
-            .. FormatNumber(statsData.weaponPower or 0)
-            .. " |\n"
-        markdown = markdown .. "| | Spell Power | " .. FormatNumber(statsData.spellPower or 0) .. " |\n"
-
-        -- Critical Strike
-        markdown = markdown
-            .. "| 🎯 **Critical** | Weapon Crit | "
-            .. FormatNumber(statsData.weaponCritRating or 0)
-            .. " ("
-            .. (statsData.weaponCritChance or 0)
-            .. "%) |\n"
-        markdown = markdown
-            .. "| | Spell Crit | "
-            .. FormatNumber(statsData.spellCritRating or 0)
-            .. " ("
-            .. (statsData.spellCritChance or 0)
-            .. "%) |\n"
-
-        -- Penetration
-        markdown = markdown
-            .. "| ⚔️ **Penetration** | Physical | "
-            .. FormatNumber(statsData.physicalPenetration or 0)
-            .. " |\n"
-        markdown = markdown .. "| | Spell | " .. FormatNumber(statsData.spellPenetration or 0) .. " |\n"
-
-        -- Defensive
-        markdown = markdown
-            .. "| 🛡️ **Defensive** | Physical Resist | "
-            .. FormatNumber(statsData.physicalResist or 0)
-            .. " ("
-            .. (statsData.physicalMitigation or 0)
-            .. "%) |\n"
-        markdown = markdown
-            .. "| | Spell Resist | "
-            .. FormatNumber(statsData.spellResist or 0)
-            .. " ("
-            .. (statsData.spellMitigation or 0)
-            .. "%) |\n"
-
-        -- Recovery
-        markdown = markdown
-            .. "| ♻️ **Recovery** | Health | "
-            .. FormatNumber(statsData.healthRecovery or 0)
-            .. " |\n"
-        markdown = markdown .. "| | Magicka | " .. FormatNumber(statsData.magickaRecovery or 0) .. " |\n"
-        markdown = markdown .. "| | Stamina | " .. FormatNumber(statsData.staminaRecovery or 0) .. " |\n"
-        markdown = markdown .. "\n"
+        local statRows = {
+            "| Category | Stat | Value |",
+            "|:---------|:-----|------:|",
+            "| 💚 **Resources** | Health | " .. FormatNumber(statsData.health or 0) .. " |",
+            "| | Magicka | " .. FormatNumber(statsData.magicka or 0) .. " |",
+            "| | Stamina | " .. FormatNumber(statsData.stamina or 0) .. " |",
+            "| ⚔️ **Offensive** | Weapon Power | " .. FormatNumber(statsData.weaponPower or 0) .. " |",
+            "| | Spell Power | " .. FormatNumber(statsData.spellPower or 0) .. " |",
+            "| 🎯 **Critical** | Weapon Crit | "
+                .. FormatNumber(statsData.weaponCritRating or 0)
+                .. " ("
+                .. (statsData.weaponCritChance or 0)
+                .. "%) |",
+            "| | Spell Crit | "
+                .. FormatNumber(statsData.spellCritRating or 0)
+                .. " ("
+                .. (statsData.spellCritChance or 0)
+                .. "%) |",
+            "| ⚔️ **Penetration** | Physical | " .. FormatNumber(statsData.physicalPenetration or 0) .. " |",
+            "| | Spell | " .. FormatNumber(statsData.spellPenetration or 0) .. " |",
+            "| 🛡️ **Defensive** | Physical Resist | "
+                .. FormatNumber(statsData.physicalResist or 0)
+                .. " ("
+                .. (statsData.physicalMitigation or 0)
+                .. "%) |",
+            "| | Spell Resist | "
+                .. FormatNumber(statsData.spellResist or 0)
+                .. " ("
+                .. (statsData.spellMitigation or 0)
+                .. "%) |",
+            "| ♻️ **Recovery** | Health | " .. FormatNumber(statsData.healthRecovery or 0) .. " |",
+            "| | Magicka | " .. FormatNumber(statsData.magickaRecovery or 0) .. " |",
+            "| | Stamina | " .. FormatNumber(statsData.staminaRecovery or 0) .. " |",
+            "",
+        }
+        markdown = markdown .. table.concat(statRows, "\n") .. "\n"
         -- Use CreateSeparator for consistent separator styling
         local CreateSeparator = CM.utils.markdown and CM.utils.markdown.CreateSeparator
         if CreateSeparator then
@@ -264,7 +225,7 @@ local function GenerateBuffs(buffsData)
 
     local markdown = ""
 
-    if not buffsData.food and not buffsData.potion then
+    if not buffsData.food and not buffsData.potion and not (buffsData.other and #buffsData.other > 0) then
         return ""
     end
 
@@ -276,6 +237,12 @@ local function GenerateBuffs(buffsData)
     if buffsData.potion then
         local potionLink = CreateBuffLink(buffsData.potion)
         markdown = markdown .. "**Potion:** " .. potionLink .. "  \n"
+    end
+    if buffsData.other and #buffsData.other > 0 then
+        for _, buffName in ipairs(buffsData.other) do
+            local buffLink = CreateBuffLink(buffName)
+            markdown = markdown .. "**Other:** " .. buffLink .. "  \n"
+        end
     end
     markdown = markdown .. "\n"
 

@@ -17,22 +17,25 @@ function api.GetResearchInfo(craftingType)
     local lines = {}
 
     for i = 1, numLines do
-        local _, name = CM.SafeCallMulti(GetSmithingResearchLineInfo, craftingType, i)
-        if name then
+        local success, name, icon, numTraits, timeSecs =
+            CM.SafeCallMulti(GetSmithingResearchLineInfo, craftingType, i)
+        if success and name then
             local traits = {}
-            -- Check traits
-            -- GetNumSmithingResearchLineTraits usually 9
-            local numTraitItems = CM.SafeCall(GetNumSmithingResearchLineTraits, craftingType, i) or 9
-            for j = 1, numTraitItems do
-                local _, traitType, _, known = CM.SafeCallMulti(GetSmithingResearchLineTraitInfo, craftingType, i, j)
-                table.insert(traits, {
-                    id = traitType,
-                    known = known,
-                })
+            numTraits = numTraits or 9
+            for j = 1, numTraits do
+                local successTrait, traitType, traitDesc, known =
+                    CM.SafeCallMulti(GetSmithingResearchLineTraitInfo, craftingType, i, j)
+                if successTrait then
+                    table.insert(traits, {
+                        id = traitType,
+                        known = known,
+                    })
+                end
             end
             table.insert(lines, {
                 name = name,
                 traits = traits,
+                timeRequiredSecs = timeSecs,
             })
         end
     end
@@ -41,16 +44,32 @@ function api.GetResearchInfo(craftingType)
 end
 
 function api.GetActiveTimers()
-    -- Get active research timers
-    local numTimers = CM.SafeCall(GetNumCurrentResearchTimers) or 0
     local timers = {}
-    for i = 1, numTimers do
-        local _, craftType, _, _, secondsRemaining = CM.SafeCallMulti(GetCurrentResearchTimerInfo, i)
-        if craftType then
-            table.insert(timers, {
-                craftType = craftType,
-                seconds = secondsRemaining,
-            })
+    local craftingTypes = {
+        CRAFTING_TYPE_BLACKSMITHING,
+        CRAFTING_TYPE_CLOTHIER,
+        CRAFTING_TYPE_WOODWORKING,
+        CRAFTING_TYPE_JEWELRYCRAFTING,
+    }
+
+    for _, craftType in ipairs(craftingTypes) do
+        local numLines = CM.SafeCall(GetNumSmithingResearchLines, craftType) or 0
+        for lineIndex = 1, numLines do
+            local _, name, _, numTraits = CM.SafeCallMulti(GetSmithingResearchLineInfo, craftType, lineIndex)
+            numTraits = numTraits or 9
+            for traitIndex = 1, numTraits do
+                local success, duration, timeRemaining =
+                    CM.SafeCallMulti(GetSmithingResearchLineTraitTimes, craftType, lineIndex, traitIndex)
+                if success and timeRemaining and timeRemaining > 0 then
+                    table.insert(timers, {
+                        craftType = craftType,
+                        lineName = name,
+                        traitIndex = traitIndex,
+                        seconds = timeRemaining,
+                        duration = duration,
+                    })
+                end
+            end
         end
     end
     return timers
