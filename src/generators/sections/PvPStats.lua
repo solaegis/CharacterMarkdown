@@ -17,7 +17,7 @@ end
 
 -- Helper: Generate rank progression text
 local function GenerateRankProgression(progression, format)
-    if not progression or progression.pointsToNext <= 0 then
+    if not progression or (progression.pointsToNext or 0) <= 0 then
         return ""
     end
 
@@ -81,19 +81,19 @@ local function GenerateAllianceWarColumn(pvp, settings)
     -- Rank
     if pvp.rankName and pvp.rankName ~= "" then
         local rankText = pvp.rankName
-        if pvp.rank > 0 then
+        if (pvp.rank or 0) > 0 then
             rankText = string.format("%s (Rank %d)", rankText, pvp.rank)
         end
         table.insert(rows, { "Rank", rankText })
     end
 
     -- Alliance Points
-    if pvp.rankPoints > 0 then
+    if (pvp.rankPoints or 0) > 0 then
         table.insert(rows, { "Alliance Points", FormatNumber(pvp.rankPoints) })
     end
 
     -- Progression
-    if showProgression and pvp.progression and pvp.progression.pointsToNext > 0 then
+    if showProgression and pvp.progression and (pvp.progression.pointsToNext or 0) > 0 then
         local progressText = GenerateRankProgression(pvp.progression)
         if progressText ~= "" then
             table.insert(rows, { "Progress to Next", progressText })
@@ -157,10 +157,10 @@ local function GenerateCampaignColumn(pvp, settings)
     end
 
     -- Campaign Rewards
-    if showCampaignRewards and pvp.rewards and pvp.rewards.earnedTier > 0 then
+    if showCampaignRewards and pvp.rewards and (pvp.rewards.earnedTier or 0) > 0 then
         table.insert(rows, { "Reward Tier", string.format("%d / 5", pvp.rewards.earnedTier) })
 
-        if pvp.rewards.loyaltyStreak > 0 then
+        if (pvp.rewards.loyaltyStreak or 0) > 0 then
             table.insert(rows, { "Loyalty", string.format("%d campaigns", pvp.rewards.loyaltyStreak) })
         end
     end
@@ -193,7 +193,7 @@ local function GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings)
             { "Rank", string.format("#%d", leaderboards.playerPosition.rank) },
         }
 
-        if leaderboards.playerPosition.ap > 0 then
+        if (leaderboards.playerPosition.ap or 0) > 0 then
             table.insert(rows, { "AP", FormatNumber(leaderboards.playerPosition.ap) })
         end
 
@@ -214,21 +214,21 @@ local function GenerateLeaderboardsColumn(leaderboards, battlegrounds, settings)
     -- Battlegrounds
     if showBattlegrounds and battlegrounds.leaderboards then
         local bg = battlegrounds.leaderboards
-        if bg.deathmatch.rank > 0 or bg.flagGames.rank > 0 or bg.landGrab.rank > 0 then
+        if (bg.deathmatch.rank or 0) > 0 or (bg.flagGames.rank or 0) > 0 or (bg.landGrab.rank or 0) > 0 then
             markdown = markdown .. "#### Battlegrounds\n\n"
 
             local headers = { "Mode", "Rank" }
             local rows = {}
 
-            if bg.deathmatch.rank > 0 then
+            if (bg.deathmatch.rank or 0) > 0 then
                 table.insert(rows, { "Deathmatch", string.format("#%d", bg.deathmatch.rank) })
             end
 
-            if bg.flagGames.rank > 0 then
+            if (bg.flagGames.rank or 0) > 0 then
                 table.insert(rows, { "Flag Games", string.format("#%d", bg.flagGames.rank) })
             end
 
-            if bg.landGrab.rank > 0 then
+            if (bg.landGrab.rank or 0) > 0 then
                 table.insert(rows, { "Land Grab", string.format("#%d", bg.landGrab.rank) })
             end
 
@@ -249,7 +249,7 @@ end
 -- =====================================================
 
 local function GenerateAllianceWarSkills(skillProgressionData)
-    if not skillProgressionData or #skillProgressionData == 0 then
+    if not skillProgressionData then
         return ""
     end
 
@@ -257,31 +257,39 @@ local function GenerateAllianceWarSkills(skillProgressionData)
     local CreateAbilityLink = CM.links and CM.links.CreateAbilityLink
     local CreateCollapsible = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateCollapsible
 
-    -- Find Alliance War category
-    local allianceWarCategory = nil
-    for _, category in ipairs(skillProgressionData) do
-        if category.name == "Alliance War" then
-            allianceWarCategory = category
-            break
+    local allianceWarSkills = {}
+
+    if skillProgressionData.lines then
+        for _, line in ipairs(skillProgressionData.lines) do
+            if line.type == 6 then
+                table.insert(allianceWarSkills, line)
+            end
+        end
+    elseif #skillProgressionData > 0 then
+        for _, category in ipairs(skillProgressionData) do
+            if category.name == "Alliance War" and category.skills then
+                allianceWarSkills = category.skills
+                break
+            end
         end
     end
 
-    if not allianceWarCategory or not allianceWarCategory.skills or #allianceWarCategory.skills == 0 then
+    if #allianceWarSkills == 0 then
         return ""
     end
 
     local markdown = ""
-    local categoryEmoji = allianceWarCategory.emoji or "🏰"
+    local categoryEmoji = "🏰"
 
     -- Group skills by status
     local maxedSkills = {}
     local inProgressSkills = {}
     local lowLevelSkills = {}
 
-    for _, skill in ipairs(allianceWarCategory.skills) do
-        if skill.maxed or (skill.rank and skill.rank >= 50) then
+    for _, skill in ipairs(allianceWarSkills) do
+        if skill.status == "maxed" or skill.maxed or (skill.rank and skill.rank >= 50) then
             table.insert(maxedSkills, skill)
-        elseif skill.rank and skill.rank >= 20 then
+        elseif skill.status == "in_progress" or (skill.rank and skill.rank >= 20) then
             table.insert(inProgressSkills, skill)
         else
             table.insert(lowLevelSkills, skill)
@@ -343,7 +351,7 @@ local function GenerateAllianceWarSkills(skillProgressionData)
 
     -- Show passives for all skills in this category
     local allPassives = {}
-    for _, skill in ipairs(allianceWarCategory.skills or {}) do
+    for _, skill in ipairs(allianceWarSkills) do
         if skill.passives and #skill.passives > 0 then
             for _, passive in ipairs(skill.passives) do
                 table.insert(allPassives, {
@@ -399,8 +407,8 @@ local function GeneratePvPStats(pvpData, pvpStatsData, skillProgressionData, set
         settings = CM.GetSettings()
     end
 
-    -- Check what to show
-    local showPvPStats = settings.includePvPStats or false
+    -- includePvP = basic Alliance War profile; includePvPStats = detailed stats block
+    local showPvPStats = settings.includePvPStats or settings.includePvP or false
     local showAllianceWarSkills = settings.showAllianceWarSkills or false
 
     -- Return empty if nothing to show

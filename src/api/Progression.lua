@@ -12,14 +12,27 @@ local api = CM.api.progression
 -- =====================================================
 
 function api.GetRidingSkills()
-    local success, capacity, maxCapacity, stamina, maxStamina, speed, maxSpeed = CM.SafeCallMulti(GetRidingStats)
+    -- GetRidingStats: inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus
+    local success, inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus =
+        CM.SafeCallMulti(GetRidingStats)
+    if not success then
+        return {
+            speed = 0,
+            stamina = 0,
+            capacity = 0,
+            maxSpeed = 0,
+            maxStamina = 0,
+            maxCapacity = 0,
+        }
+    end
+    -- Export as capacity/maxCapacity for generators (ESO "inventory" riding skill = bag capacity)
     return {
-        speed = speed or 0,
-        stamina = stamina or 0,
-        capacity = capacity or 0,
-        maxSpeed = maxSpeed or 0,
-        maxStamina = maxStamina or 0,
-        maxCapacity = maxCapacity or 0,
+        speed = speedBonus or 0,
+        stamina = staminaBonus or 0,
+        capacity = inventoryBonus or 0,
+        maxSpeed = maxSpeedBonus or 0,
+        maxStamina = maxStaminaBonus or 0,
+        maxCapacity = maxInventoryBonus or 0,
     }
 end
 

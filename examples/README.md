@@ -39,7 +39,7 @@ All live under `examples/solaegis/na/`:
 | `masisi` | Masisi |
 | `nekhtarhebi` | Nekhtarhebi |
 | `pelatiah` | Pelatiah |
-| `silent_snow_falls` | Silent-Snow-Falls |
+| `silent_snow_falls` | Silent-Snow-Falls (Solo PvE preset export; see below) |
 | `sjelhosteren` | Sjelhøsteren |
 | `stoirmgheal` | Stoirmgheal |
 | `tziyad` | Tziyad |
@@ -59,6 +59,26 @@ Audit drift without failing on orphan files:
 ```bash
 task examples:check:audit
 ```
+
+Validate example section list against LAM preset expectations (no ESO client required):
+
+```bash
+python3 scripts/validate_example_preset.py examples/solaegis/na/silent_snow_falls.md
+python3 scripts/validate_example_preset.py --profile factory-defaults examples/solaegis/na/silent_snow_falls.md  # expect FAIL (not factory defaults)
+```
+
+### Preset vs factory defaults
+
+Most `examples/solaegis/na/*.md` files are **GitHub format** exports from in-game `/markdown github`. They are **not** necessarily generated with **Reset to Defaults** — many match a LAM preset (e.g. **Solo PvE**).
+
+| Profile | `silent_snow_falls.md` |
+| --- | --- |
+| **Factory defaults** ([`Defaults.lua`](../src/settings/Defaults.lua)) | Includes Inventory, Crafting Knowledge, Outfit Styles; no PvP, Quests, Armory, or Mail |
+| **Solo PvE preset** | Includes PvP, Quest Progress, Armory, Mail, CP diagram, skill morphs, detailed Collectibles; omits Inventory / Crafting / Styles |
+
+`silent_snow_falls.md` is the **Solo PvE** reference (paired with [`silent_snow_falls_plan.md`](solaegis/na/silent_snow_falls_plan.md)). Full toggle matrix: [`docs/settings-presets-matrix.md`](../docs/settings-presets-matrix.md).
+
+When saving multi-chunk output, copy each chunk once in order; overlapping paste can duplicate sections (e.g. Collectibles + Companions).
 
 ## Generating your own
 

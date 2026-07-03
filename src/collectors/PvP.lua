@@ -87,7 +87,7 @@ local function CollectPvPStatsData()
         pvp.allianceName = CM.SafeCall(GetAllianceName, alliance)
     end
 
-    if pvp.rankPoints > 0 then
+    if (pvp.rankPoints or 0) > 0 then
         local success, subRankStart, nextSubRank = CM.SafeCallMulti(GetAvARankProgress, pvp.rankPoints)
         if success then
             subRankStart = subRankStart or 0

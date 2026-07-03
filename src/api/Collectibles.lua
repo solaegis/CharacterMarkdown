@@ -7,6 +7,13 @@ CM.api.collectibles = {}
 
 local api = CM.api.collectibles
 
+local function CleanCollectibleName(name)
+    if not name or type(name) ~= "string" then
+        return name or "Unknown"
+    end
+    return name:gsub("%^%w+$", "")
+end
+
 -- =====================================================
 -- CACHING
 -- =====================================================
@@ -50,12 +57,16 @@ function api.GetUnlockedCollectibles(categoryType)
         if id then
             local isUnlocked = CM.SafeCall(IsCollectibleUnlocked, id)
             if isUnlocked then
-                local name = CM.SafeCall(GetCollectibleName, id)
+                local name = CleanCollectibleName(CM.SafeCall(GetCollectibleName, id))
                 local nickname = CM.SafeCall(GetCollectibleNickname, id)
+                if nickname then
+                    nickname = CleanCollectibleName(nickname)
+                end
 
                 table.insert(unlocked, {
                     id = id,
                     name = name or "Unknown",
+                    fullName = name or "Unknown",
                     nickname = nickname,
                 })
                 count = count + 1

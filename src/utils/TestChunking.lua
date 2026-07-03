@@ -173,6 +173,113 @@ local function TestPaddingConsistency()
     return true, string_format("All %d non-last chunks have %d trailing newlines", #chunks - 1, expectedPadding)
 end
 
+local function TestChunkSizeLimits()
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local part1 = CreateLongString("A", limit - 100)
+    local part2 = CreateLongString("B", limit - 100)
+    local input = part1 .. "\n\n" .. part2
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+    for i, chunk in ipairs(chunks) do
+        if string.len(chunk.content) > limit then
+            return false, string_format("Chunk %d exceeds COPY_LIMIT (%d > %d)", i, string.len(chunk.content), limit)
+        end
+    end
+
+    return true, "All chunks within COPY_LIMIT"
+end
+
+local function TestChunkMarkersAndPadding()
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local expectedPadding = CM.constants.CHUNKING.SPACE_PADDING_SIZE or 550
+    local input = CreateLongString("X", limit - 50) .. "\n\n" .. CreateLongString("Y", limit - 50)
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+    if #chunks < 2 then
+        return false, "Expected multiple chunks for marker/padding test"
+    end
+
+    for i = 1, #chunks - 1 do
+        if not chunks[i].content:match("<!%-%- Chunk %d+") then
+            return false, string_format("Chunk %d missing HTML chunk marker", i)
+        end
+        local trailing = chunks[i].content:match("\n+$")
+        local count = trailing and #trailing or 0
+        if count ~= expectedPadding then
+            return false, string_format("Chunk %d: expected %d trailing newlines, got %d", i, expectedPadding, count)
+        end
+    end
+
+    return true, "Chunk markers and padding present on non-final chunks"
+end
+
+local function TestMarkdownLinkIntegrity()
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local padding = CreateLongString("P", limit - 100)
+    local linkBlock = "See [UESP link](https://en.uesp.net/wiki/Online:Ability) for details.\n"
+    local input = padding .. "\n" .. linkBlock
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+    local foundIntact = false
+    for _, chunk in ipairs(chunks) do
+        if chunk.content:find(linkBlock, 1, true) then
+            foundIntact = true
+            break
+        end
+    end
+
+    if not foundIntact then
+        return false, "Markdown link was split across chunks"
+    end
+
+    return true, "Markdown link preserved"
+end
+
+local function TestListIntegrity()
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local padding = CreateLongString("P", limit - 100)
+    local listBlock = "- Item one\n- Item two\n- Item three\n- Item four\n"
+    local input = padding .. "\n" .. listBlock
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+    local foundIntact = false
+    for _, chunk in ipairs(chunks) do
+        if chunk.content:find(listBlock, 1, true) then
+            foundIntact = true
+            break
+        end
+    end
+
+    if not foundIntact then
+        return false, "List was split across chunks"
+    end
+
+    return true, "List preserved"
+end
+
+local function TestResponsiveGridIntegrity()
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local padding = CreateLongString("P", limit - 100)
+    local gridBlock = '<div style="display: grid; grid-template-columns: 1fr 1fr;">\n'
+        .. "<div>Column A</div>\n<div>Column B</div>\n</div>\n"
+    local input = padding .. "\n" .. gridBlock
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+    local foundIntact = false
+    for _, chunk in ipairs(chunks) do
+        if chunk.content:find(gridBlock, 1, true) then
+            foundIntact = true
+            break
+        end
+    end
+
+    if not foundIntact then
+        return false, "Responsive grid HTML was split across chunks"
+    end
+
+    return true, "Responsive grid preserved"
+end
+
 local function TestTableIntegrity()
     local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
     local padding = CreateLongString("P", limit - 100)
@@ -210,9 +317,14 @@ function CM.tests.chunking.RunTests()
 
     local tests = {
         { name = "Basic Splitting", func = TestBasicSplitting },
+        { name = "Chunk Size Limits", func = TestChunkSizeLimits },
+        { name = "Chunk Markers And Padding", func = TestChunkMarkersAndPadding },
         { name = "HTML Block Integrity", func = TestHtmlBlockIntegrity },
         { name = "Mermaid Block Integrity", func = TestMermaidBlockIntegrity },
         { name = "Table Integrity", func = TestTableIntegrity },
+        { name = "List Integrity", func = TestListIntegrity },
+        { name = "Markdown Link Integrity", func = TestMarkdownLinkIntegrity },
+        { name = "Responsive Grid Integrity", func = TestResponsiveGridIntegrity },
         { name = "Padding Consistency", func = TestPaddingConsistency },
     }
 

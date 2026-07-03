@@ -324,7 +324,7 @@ local function GenerateSlottableChampionPoints(cpData)
                     local skillText = CM.utils.CreateCPSkillLink(skill.name)
                     local pointText = GetPointText(skill.points)
                     markdown = markdown
-                        .. string_format("- %s **%s**: %d %s\n", status, skillText, skill.points, pointText)
+                        .. string_format("- %s **%s**: %d %s\n", status, skillText, skill.points or 0, pointText)
                 end
                 markdown = markdown .. "\n"
             end
@@ -391,10 +391,10 @@ local function GenerateSingleDiscipline(discipline, unassignedCP)
                     -- Show type indicator when using separated arrays
                     local typeEmoji = skillType == "slottable" and "⭐" or "🔒"
                     markdown = markdown
-                        .. string_format("- %s **%s**: %d %s\n", typeEmoji, skillText, skill.points, pointText)
+                        .. string_format("- %s **%s**: %d %s\n", typeEmoji, skillText, skill.points or 0, pointText)
                 else
                     -- Standard format for mixed array
-                    markdown = markdown .. string_format("- **%s**: %d %s\n", skillText, skill.points, pointText)
+                    markdown = markdown .. string_format("- **%s**: %d %s\n", skillText, skill.points or 0, pointText)
                 end
             end
         else
@@ -464,7 +464,7 @@ local function GenerateDisciplineTable(discipline, unassignedCP)
                 local skillType = skill.type or (skill.isSlottable and "slottable" or "passive")
 
                 local skillName = ""
-                local pointsValue = string_format("%d %s", skill.points, pointText)
+                local pointsValue = string_format("%d %s", skill.points or 0, pointText)
 
                 if skillSource == "separated" then
                     -- Show type indicator when using separated arrays
@@ -656,12 +656,12 @@ local function GenerateChampionPoints(cpData)
                                         "- %s **%s**: %d %s\n",
                                         typeEmoji,
                                         skillText,
-                                        skill.points,
+                                        skill.points or 0,
                                         pointText
                                     )
                             else
                                 markdown = markdown
-                                    .. string_format("- **%s**: %d %s\n", skillText, skill.points, pointText)
+                                    .. string_format("- **%s**: %d %s\n", skillText, skill.points or 0, pointText)
                             end
                         end
                         markdown = markdown .. "\n"

@@ -189,32 +189,58 @@ function CM.Verbose(category, ...)
     end
 end
 
-function CM.Info(message)
-    if logger then
-        logger:Info(message)
+local function NormalizeLogMessage(message)
+    local text = message
+    if text == nil then
+        return "(no message)"
     end
-    d("[CharacterMarkdown]", message) -- Always show in chat too
+    text = tostring(text)
+    if text == "" or text:match("^%s*$") then
+        return "(no message)"
+    end
+    return text
+end
+
+local function ShouldLogToLibDebugLogger()
+    if not logger then
+        return false
+    end
+    if logger.IsEnabled then
+        return logger:IsEnabled()
+    end
+    return true
+end
+
+function CM.Info(message)
+    local text = NormalizeLogMessage(message)
+    if ShouldLogToLibDebugLogger() then
+        logger:Info(text)
+    end
+    d("|cFFFFFF[CharacterMarkdown]|r " .. text)
 end
 
 function CM.Warn(message)
-    if logger then
-        logger:Warn(message)
+    local text = NormalizeLogMessage(message)
+    if ShouldLogToLibDebugLogger() then
+        logger:Warn(text)
     end
-    d("|cFFFF00[CharacterMarkdown] WARNING:|r", message) -- Always show warnings
+    d("|cFFFF00[CharacterMarkdown] WARNING:|r " .. tostring(text))
 end
 
 function CM.Error(message)
-    if logger then
-        logger:Error(message)
+    local text = NormalizeLogMessage(message)
+    if ShouldLogToLibDebugLogger() then
+        logger:Error(text)
     end
-    d("|cFF0000[CharacterMarkdown] ERROR:|r", message)
+    d("|cFF0000[CharacterMarkdown] ERROR:|r " .. tostring(text))
 end
 
 function CM.Success(message)
-    if logger then
-        logger:Info(message)
+    local text = NormalizeLogMessage(message)
+    if ShouldLogToLibDebugLogger() then
+        logger:Info(text)
     end
-    d("|c00FF00[CharacterMarkdown]|r", message) -- Green text for success
+    d("|c00FF00[CharacterMarkdown]|r " .. text)
 end
 
 -- Cache frequently used globals for performance
@@ -270,17 +296,24 @@ function CM.SafeCallMulti(func, ...)
         return false, errorMsg
     end
 
-    local args = { ... }
-    local results = { pcall(func, unpack(args)) }
-    if not results[1] then
-        local errorMsg = results[2]
+    -- Forward "..." directly to pcall (no intermediate args table) so input args
+    -- containing nils are not truncated. Capture the exact return count with
+    -- select("#") so returns with nil "holes" (e.g. GetSkillAbilityUpgradeInfo,
+    -- GetMailItemInfo) are not silently dropped by unpack's undefined length.
+    local function capture(ok, ...)
+        return ok, select("#", ...), { ... }
+    end
+
+    local pcallOk, count, results = capture(pcall(func, ...))
+    if not pcallOk then
+        local errorMsg = results[1]
         CM.DebugPrint("SAFECALL", function()
             return string.format("Error in SafeCallMulti: %s", tostring(errorMsg))
         end)
         return false, errorMsg
     end
-    table.remove(results, 1)
-    return true, unpack(results)
+
+    return true, unpack(results, 1, count)
 end
 
 -- Validate required modules loaded

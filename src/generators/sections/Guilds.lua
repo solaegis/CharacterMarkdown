@@ -9,7 +9,9 @@ local FormatNumber, GenerateAnchor
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
-        FormatNumber = CM.utils.FormatNumber
+        if CM.utils then
+            FormatNumber = CM.utils.FormatNumber
+        end
         GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
@@ -153,9 +155,14 @@ local function GenerateGuilds(guildsData, undauntedPledgesData)
                     allianceText = (CreateAllianceLink and CreateAllianceLink(allianceName)) or allianceName
                 end
 
+                local rankName = guild.rankName or guild.rank or "Member"
+                if CM.utils and CM.utils.StripColorCodes then
+                    rankName = CM.utils.StripColorCodes(rankName)
+                end
+
                 table.insert(rows, {
                     "**" .. (guild.name or "Unknown") .. "**",
-                    guild.rank or "Member",
+                    rankName,
                     guild.memberCount and FormatNumber(guild.memberCount) or "0",
                     allianceText,
                 })
@@ -187,8 +194,13 @@ local function GenerateGuilds(guildsData, undauntedPledgesData)
                     allianceText = (CreateAllianceLink and CreateAllianceLink(allianceName)) or allianceName
                 end
 
+                local rankName = guild.rankName or guild.rank or "Member"
+                if CM.utils and CM.utils.StripColorCodes then
+                    rankName = CM.utils.StripColorCodes(rankName)
+                end
+
                 markdown = markdown .. "| **" .. (guild.name or "Unknown") .. "** | "
-                markdown = markdown .. (guild.rank or "Member") .. " | "
+                markdown = markdown .. rankName .. " | "
                 markdown = markdown .. (guild.memberCount and FormatNumber(guild.memberCount) or "0") .. " | "
                 markdown = markdown .. allianceText .. " |\n"
             end

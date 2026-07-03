@@ -12,6 +12,7 @@ local string_gsub = string.gsub
 local string_match = string.match
 local string_rep = string.rep
 local table_concat = table.concat
+local math_max = math.max
 
 -- =====================================================
 -- GITHUB CALLOUTS (Native Markdown Alerts)
@@ -665,11 +666,24 @@ local function CreateStyledTable(headers, rows, options)
     end
     table.insert(lines, "| " .. table_concat(separators, " | ") .. " |")
 
+    -- Normalize rows: accept a single flat row (array of cell strings) by mistake
+    local normalizedRows = rows
+    if type(rows) == "table" and #rows > 0 and type(rows[1]) ~= "table" then
+        normalizedRows = { rows }
+    end
+
     -- Data rows
-    for _, row in ipairs(rows) do
+    for rowIndex = 1, #normalizedRows do
+        local row = normalizedRows[rowIndex]
+        if type(row) ~= "table" then
+            row = { tostring(row or "") }
+        end
+
         local escapedRow = {}
-        for _, cell in ipairs(row) do
-            table.insert(escapedRow, string_gsub(tostring(cell or ""), "|", "\\|"))
+        local columnCount = math_max(#headers, #row)
+        for colIndex = 1, columnCount do
+            local cell = row[colIndex] or ""
+            escapedRow[colIndex] = string_gsub(tostring(cell), "|", "\\|")
         end
         table.insert(lines, "| " .. table_concat(escapedRow, " | ") .. " |")
     end

@@ -25,7 +25,7 @@ function CM.generators.sections.GenerateCharacterProgress(skillProgressionData, 
         end
     end
 
-    if GenerateSkillMorphs then
+    if skillMorphsData and GenerateSkillMorphs then
         local success, result = pcall(GenerateSkillMorphs, skillMorphsData)
         if success and result and result ~= "" then
             -- Strip the redudant "## 🌿 Skill Morphs" header if present

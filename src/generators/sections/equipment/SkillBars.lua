@@ -11,6 +11,96 @@ local skillbars = {}
 local table_concat = table.concat
 local table_insert = table.insert
 
+local REGULAR_ABILITY_SLOTS = 5
+
+local function FormatAbilityCell(ability, cache)
+    if ability and type(ability) == "table" then
+        local abilityName = ability.name or "[Empty Slot]"
+        if ability.id and cache.CreateAbilityLink then
+            local success, abText = pcall(cache.CreateAbilityLink, abilityName, ability.id)
+            if success and abText then
+                return abText
+            end
+        end
+        return abilityName
+    end
+    return "[Empty Slot]"
+end
+
+local function FormatUltimateCell(bar, cache)
+    if bar.ultimate and bar.ultimate ~= "" then
+        if cache.CreateAbilityLink and bar.ultimateId then
+            local success, ultText = pcall(cache.CreateAbilityLink, bar.ultimate, bar.ultimateId)
+            if success and ultText then
+                return ultText
+            end
+        end
+        return bar.ultimate
+    end
+    return "[Empty]"
+end
+
+local function AppendSkillBarTable(outputParts, abilities, bar, cache)
+    local markdown_utils = cache.markdown
+    local CreateStyledTable = markdown_utils and markdown_utils.CreateStyledTable
+
+    local headers = {}
+    local rowData = {}
+
+    for i = 1, REGULAR_ABILITY_SLOTS do
+        table_insert(headers, tostring(i))
+        table_insert(rowData, FormatAbilityCell(abilities[i], cache))
+    end
+    table_insert(headers, "⚡")
+    table_insert(rowData, FormatUltimateCell(bar, cache))
+
+    if not CreateStyledTable then
+        local tableParts = {}
+        local headerRow = "|"
+        local separatorRow = "|"
+        for _, header in ipairs(headers) do
+            headerRow = headerRow .. " " .. header .. " |"
+            separatorRow = separatorRow .. ":--:|"
+        end
+        table_insert(tableParts, headerRow .. "\n")
+        table_insert(tableParts, separatorRow .. "\n")
+        local abilitiesRow = "|"
+        for _, cell in ipairs(rowData) do
+            abilitiesRow = abilitiesRow .. " " .. cell .. " |"
+        end
+        table_insert(tableParts, abilitiesRow .. "\n\n")
+        table_insert(outputParts, table_concat(tableParts))
+        return
+    end
+
+    local alignment = {}
+    for _ in ipairs(headers) do
+        table_insert(alignment, "center")
+    end
+    local options = {
+        alignment = alignment,
+        coloredHeaders = true,
+        width = "100%",
+    }
+    table_insert(outputParts, CreateStyledTable(headers, { rowData }, options))
+end
+
+local function BarHasSlottedContent(abilities, bar)
+    if bar.ultimate and bar.ultimate ~= "" then
+        return true
+    end
+    for i = 1, REGULAR_ABILITY_SLOTS do
+        local ability = abilities[i]
+        if ability and ability.id and ability.id > 0 then
+            return true
+        end
+        if ability and ability.name and ability.name ~= "[Empty Slot]" and ability.name ~= "Empty" then
+            return true
+        end
+    end
+    return false
+end
+
 -- =====================================================
 -- SKILL BARS ONLY (Front/Back Bar tables only)
 -- =====================================================
@@ -55,130 +145,14 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
 
     for barIdx, bar in ipairs(bars) do
         if bar and type(bar) == "table" then
-            local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
             local barName = bar.name or "Unknown Bar"
-            table_insert(outputParts, "### " .. label.emoji .. " " .. barName .. "\n\n")
+            table_insert(outputParts, "### " .. barName .. "\n\n")
 
-            -- Safely get abilities array
             local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
-            local hasUltimate = bar.ultimate and bar.ultimate ~= ""
 
-            -- Abilities table (horizontal format) using CreateStyledTable
-            if #abilities > 0 or hasUltimate then
+            if BarHasSlottedContent(abilities, bar) then
                 hasBarContent = true
-                local markdown_utils = cache.markdown
-                local CreateStyledTable = markdown_utils and markdown_utils.CreateStyledTable
-
-                if not CreateStyledTable then
-                    -- Fallback to manual table if CreateStyledTable not available
-                    local tableParts = {}
-                    local headerRow = "|"
-                    local separatorRow = "|"
-                    for i = 1, #abilities do
-                        headerRow = headerRow .. " " .. i .. " |"
-                        separatorRow = separatorRow .. ":--|"
-                    end
-                    if hasUltimate then
-                        headerRow = headerRow .. " ⚡ |"
-                        separatorRow = separatorRow .. ":--|"
-                    end
-                    table_insert(tableParts, headerRow .. "\n")
-                    table_insert(tableParts, separatorRow .. "\n")
-
-                    local abilitiesRow = "|"
-                    for _, ability in ipairs(abilities) do
-                        if ability and type(ability) == "table" then
-                            if cache.CreateAbilityLink then
-                                local success_ab, abText =
-                                    pcall(cache.CreateAbilityLink, ability.name or "Unknown", ability.id)
-                                if success_ab and abText then
-                                    abilitiesRow = abilitiesRow .. " " .. abText .. " |"
-                                else
-                                    abilitiesRow = abilitiesRow .. " " .. (ability.name or "Unknown") .. " |"
-                                end
-                            else
-                                abilitiesRow = abilitiesRow .. " " .. (ability.name or "Unknown") .. " |"
-                            end
-                        else
-                            abilitiesRow = abilitiesRow .. " - |"
-                        end
-                    end
-                    if hasUltimate then
-                        if cache.CreateAbilityLink then
-                            local success_ult, ultText =
-                                pcall(cache.CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
-                            if success_ult and ultText then
-                                abilitiesRow = abilitiesRow .. " " .. ultText .. " |"
-                            else
-                                abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
-                            end
-                        else
-                            abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
-                        end
-                    end
-                    table_insert(tableParts, abilitiesRow .. "\n\n")
-                    table_insert(outputParts, table_concat(tableParts))
-                else
-                    -- Build headers and row data
-                    local headers = {}
-                    local rowData = {}
-
-                    -- Add ability column headers (1-5)
-                    for i = 1, #abilities do
-                        table.insert(headers, tostring(i))
-                    end
-
-                    -- Add ultimate column header
-                    if hasUltimate then
-                        table.insert(headers, "⚡")
-                    end
-
-                    -- Build row data
-                    for _, ability in ipairs(abilities) do
-                        if ability and type(ability) == "table" then
-                            if cache.CreateAbilityLink then
-                                local success_ab, abText =
-                                    pcall(cache.CreateAbilityLink, ability.name or "Unknown", ability.id)
-                                if success_ab and abText then
-                                    table.insert(rowData, abText)
-                                else
-                                    table.insert(rowData, ability.name or "Unknown")
-                                end
-                            else
-                                table.insert(rowData, ability.name or "Unknown")
-                            end
-                        else
-                            table.insert(rowData, "-")
-                        end
-                    end
-
-                    -- Add ultimate to row data
-                    if hasUltimate then
-                        if cache.CreateAbilityLink then
-                            local success_ult, ultText =
-                                pcall(cache.CreateAbilityLink, bar.ultimate or "", bar.ultimateId)
-                            if success_ult and ultText then
-                                table.insert(rowData, ultText)
-                            else
-                                table.insert(rowData, bar.ultimate or "[Empty]")
-                            end
-                        else
-                            table.insert(rowData, bar.ultimate or "[Empty]")
-                        end
-                    end
-
-                    -- Generate table with styled headers
-                    local alignment = {}
-                    for _ in ipairs(headers) do
-                        table.insert(alignment, "center")
-                    end
-                    local options = {
-                        alignment = alignment,
-                        coloredHeaders = true,
-                        width = "100%",
-                    }
-                    table_insert(outputParts, CreateStyledTable(headers, { rowData }, options))
-                end
+                AppendSkillBarTable(outputParts, abilities, bar, cache)
             end
         end
     end
@@ -238,120 +212,15 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
 
     for barIdx, bar in ipairs(bars) do
         if bar and type(bar) == "table" then
-            local label = barLabels[barIdx] or { emoji = "⚔️", suffix = "" }
             local barName = bar.name or "Unknown Bar"
-            output = output .. "### " .. label.emoji .. " " .. barName .. "\n\n"
+            output = output .. "### " .. barName .. "\n\n"
 
             local abilities = (bar.abilities and type(bar.abilities) == "table") and bar.abilities or {}
-            local hasUltimate = bar.ultimate and bar.ultimate ~= ""
 
-            if #abilities > 0 or hasUltimate then
-                local CreateStyledTable = markdown_utils and markdown_utils.CreateStyledTable
-                if not CreateStyledTable then
-                    -- Fallback code...
-                    local headerRow = "|"
-                    local separatorRow = "|"
-                    for i = 1, #abilities do
-                        headerRow = headerRow .. " " .. i .. " |"
-                        separatorRow = separatorRow .. ":--|"
-                    end
-                    if hasUltimate then
-                        headerRow = headerRow .. " ⚡ |"
-                        separatorRow = separatorRow .. ":--|"
-                    end
-                    output = output .. headerRow .. "\n"
-                    output = output .. separatorRow .. "\n"
-
-                    local abilitiesRow = "|"
-                    for _, ability in ipairs(abilities) do
-                        if ability and type(ability) == "table" then
-                            local abilityName = ability.name or "Unknown"
-                            local abilityId = ability.id
-                            if cache.CreateAbilityLink then
-                                local success_ab, abText = pcall(cache.CreateAbilityLink, abilityName, abilityId)
-                                if success_ab and abText then
-                                    abilitiesRow = abilitiesRow .. " " .. abText .. " |"
-                                else
-                                    abilitiesRow = abilitiesRow .. " " .. abilityName .. " |"
-                                end
-                            else
-                                abilitiesRow = abilitiesRow .. " " .. abilityName .. " |"
-                            end
-                        else
-                            abilitiesRow = abilitiesRow .. " - |"
-                        end
-                    end
-                    if hasUltimate then
-                        local ultimateId = bar.ultimateId
-                        if cache.CreateAbilityLink then
-                            local success_ult, ultText = pcall(cache.CreateAbilityLink, bar.ultimate or "", ultimateId)
-                            if success_ult and ultText then
-                                abilitiesRow = abilitiesRow .. " " .. ultText .. " |"
-                            else
-                                abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
-                            end
-                        else
-                            abilitiesRow = abilitiesRow .. " " .. (bar.ultimate or "[Empty]") .. " |"
-                        end
-                    end
-                    output = output .. abilitiesRow .. "\n\n"
-                else
-                    -- Build headers and row data
-                    local headers = {}
-                    local rowData = {}
-
-                    for i = 1, #abilities do
-                        table.insert(headers, tostring(i))
-                    end
-
-                    if hasUltimate then
-                        table.insert(headers, "⚡")
-                    end
-
-                    for _, ability in ipairs(abilities) do
-                        if ability and type(ability) == "table" then
-                            local abilityName = ability.name or "Unknown"
-                            local abilityId = ability.id
-                            if cache.CreateAbilityLink then
-                                local success_ab, abText = pcall(cache.CreateAbilityLink, abilityName, abilityId)
-                                if success_ab and abText then
-                                    table.insert(rowData, abText)
-                                else
-                                    table.insert(rowData, abilityName)
-                                end
-                            else
-                                table.insert(rowData, abilityName)
-                            end
-                        else
-                            table.insert(rowData, "-")
-                        end
-                    end
-
-                    if hasUltimate then
-                        local ultimateId = bar.ultimateId
-                        if cache.CreateAbilityLink then
-                            local success_ult, ultText = pcall(cache.CreateAbilityLink, bar.ultimate or "", ultimateId)
-                            if success_ult and ultText then
-                                table.insert(rowData, ultText)
-                            else
-                                table.insert(rowData, bar.ultimate or "[Empty]")
-                            end
-                        else
-                            table.insert(rowData, bar.ultimate or "[Empty]")
-                        end
-                    end
-
-                    local alignment = {}
-                    for _ in ipairs(headers) do
-                        table.insert(alignment, "center")
-                    end
-                    local options = {
-                        alignment = alignment,
-                        coloredHeaders = true,
-                        width = "100%",
-                    }
-                    output = output .. CreateStyledTable(headers, { rowData }, options)
-                end
+            if BarHasSlottedContent(abilities, bar) then
+                local tableParts = { output }
+                AppendSkillBarTable(tableParts, abilities, bar, cache)
+                output = table_concat(tableParts)
             end
         end
     end

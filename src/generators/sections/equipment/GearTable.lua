@@ -53,26 +53,28 @@ local function GenerateEquipmentInternal(equipmentData, noWrapper)
                     local success_pb, progressBar =
                         pcall(markdown_utils.CreateProgressBar, math.min(set.count or 0, maxPieces), maxPieces, 10)
                     if success_pb and progressBar then
-                        if set.count > maxPieces then
+                        local pieceCount = set.count or 0
+                        if pieceCount > maxPieces then
                             progressText = string.format(
                                 "`%d/%d` %s *(+%d extra)*",
                                 maxPieces,
                                 maxPieces,
                                 progressBar,
-                                set.count - maxPieces
+                                pieceCount - maxPieces
                             )
                         else
-                            progressText = string.format("`%d/%d` %s", set.count, maxPieces, progressBar)
+                            progressText = string.format("`%d/%d` %s", pieceCount, maxPieces, progressBar)
                         end
                     else
-                        progressText = string.format("`%d/%d`", set.count, maxPieces)
+                        progressText = string.format("`%d/%d`", set.count or 0, maxPieces)
                     end
                 else
-                    if set.count > maxPieces then
+                    local pieceCount = set.count or 0
+                    if pieceCount > maxPieces then
                         progressText =
-                            string.format("`%d/%d` *(+%d extra)*", maxPieces, maxPieces, set.count - maxPieces)
+                            string.format("`%d/%d` *(+%d extra)*", maxPieces, maxPieces, pieceCount - maxPieces)
                     else
-                        progressText = string.format("`%d/%d`", set.count, maxPieces)
+                        progressText = string.format("`%d/%d`", pieceCount, maxPieces)
                     end
                 end
 
@@ -86,7 +88,7 @@ local function GenerateEquipmentInternal(equipmentData, noWrapper)
             local setTableParts = { "| Set | Progress |\n|---|---|\n" }
             for _, set in ipairs(equipmentData.sets) do
                 local setLink = cache.CreateSetLink(set.name or "")
-                table.insert(setTableParts, string.format("| **%s** | %d/5 |\n", setLink, set.count))
+                table.insert(setTableParts, string.format("| **%s** | %d/5 |\n", setLink, set.count or 0))
             end
             table.insert(setTableParts, "\n")
             table.insert(bodyParts, table.concat(setTableParts))

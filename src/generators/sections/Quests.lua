@@ -70,8 +70,9 @@ local function GetProgressText(quest)
     if quest.isCompleted then
         return "✅ Completed"
     elseif quest.activeStepText and quest.activeStepText ~= "" then
-        -- Show the active step text from the quest
         return "🔄 " .. quest.activeStepText
+    elseif quest.stepText and quest.stepText ~= "" then
+        return "🔄 " .. quest.stepText
     elseif quest.progress and quest.progress.activeStepText and quest.progress.activeStepText ~= "" then
         return "🔄 " .. quest.progress.activeStepText
     else
@@ -125,23 +126,17 @@ local function GenerateQuestSummary(questData)
 
     CM.DebugPrint(
         "QUESTS",
-        string.format("Summary: active=%d, total=%d", summary.activeQuests or 0, summary.totalQuests or 0)
+        string.format("Summary: active=%d", summary.activeQuests or 0)
     )
 
     local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
     table_insert(parts, string.format('<a id="%s"></a>\n\n', anchorId))
     table_insert(parts, "## 📝 Quest Progress\n\n")
-    table_insert(parts, "| **Active Quests** | **Total Quests** | **Completed Quests** |\n")
-    table_insert(parts, "|------------------:|----------------:|---------------------:|\n")
+    table_insert(parts, "| **Active Quests (Journal)** |\n")
+    table_insert(parts, "|-------------------------:|\n")
     table_insert(
         parts,
-        "| "
-            .. CM.utils.FormatNumber(summary.activeQuests)
-            .. " | "
-            .. CM.utils.FormatNumber(summary.totalQuests)
-            .. " | "
-            .. CM.utils.FormatNumber(summary.completedQuests)
-            .. " |\n"
+        "| " .. CM.utils.FormatNumber(summary.activeQuests or summary.activeCount or 0) .. " |\n"
     )
     table_insert(parts, "\n")
 
@@ -351,13 +346,11 @@ local function GenerateQuests(questData)
     local activeQuestsDebug = (questData.summary and questData.summary.activeQuests)
         or (questData.summary and questData.summary.activeCount)
         or "nil"
-    local totalQuestsDebug = (questData.summary and questData.summary.totalQuests) or "nil"
     CM.DebugPrint(
         "QUESTS",
         string.format(
-            "Summary - activeQuests/activeCount: %s, totalQuests: %s",
-            tostring(activeQuestsDebug),
-            tostring(totalQuestsDebug)
+            "Summary - activeQuests/activeCount: %s",
+            tostring(activeQuestsDebug)
         )
     )
     CM.DebugPrint("QUESTS", string.format("Active quests count: %d", #(questData.active or {})))
@@ -367,8 +360,7 @@ local function GenerateQuests(questData)
     local activeQuests = (questData.summary and questData.summary.activeQuests)
         or (questData.summary and questData.summary.activeCount)
         or 0
-    local totalQuests = (questData.summary and questData.summary.totalQuests) or 0
-    local hasQuests = activeQuests > 0 or totalQuests > 0
+    local hasQuests = activeQuests > 0
 
     if not hasQuests then
         CM.DebugPrint("QUESTS", "No quests found, generating empty section message")

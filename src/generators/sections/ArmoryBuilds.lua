@@ -9,7 +9,9 @@ local FormatNumber, GenerateAnchor
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
-        FormatNumber = CM.utils.FormatNumber
+        if CM.utils then
+            FormatNumber = CM.utils.FormatNumber
+        end
         GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
@@ -25,13 +27,13 @@ local function FormatAttributes(attributes)
     end
 
     local parts = {}
-    if attributes.health and attributes.health > 0 then
+    if (attributes.health or 0) > 0 then
         table.insert(parts, attributes.health .. " Health")
     end
-    if attributes.magicka and attributes.magicka > 0 then
+    if (attributes.magicka or 0) > 0 then
         table.insert(parts, attributes.magicka .. " Magicka")
     end
-    if attributes.stamina and attributes.stamina > 0 then
+    if (attributes.stamina or 0) > 0 then
         table.insert(parts, attributes.stamina .. " Stamina")
     end
 
@@ -45,13 +47,13 @@ local function FormatChampionPoints(champion)
     end
 
     local parts = {}
-    if champion.craft and champion.craft > 0 then
+    if (champion.craft or 0) > 0 then
         table.insert(parts, champion.craft .. " Craft")
     end
-    if champion.warfare and champion.warfare > 0 then
+    if (champion.warfare or 0) > 0 then
         table.insert(parts, champion.warfare .. " Warfare")
     end
-    if champion.fitness and champion.fitness > 0 then
+    if (champion.fitness or 0) > 0 then
         table.insert(parts, champion.fitness .. " Fitness")
     end
 
@@ -108,7 +110,7 @@ local function GenerateArmoryBuildsStandard(armory)
         markdown = markdown .. "|:---------|:------|\n"
 
         -- Skill Points
-        if build.skillPoints and build.skillPoints > 0 then
+        if (build.skillPoints or 0) > 0 then
             markdown = markdown .. "| **Skill Points** | " .. FormatNumber(build.skillPoints) .. " |\n"
         end
 
@@ -127,7 +129,7 @@ local function GenerateArmoryBuildsStandard(armory)
         end
 
         -- Outfit
-        if build.outfitIndex and build.outfitIndex > 0 then
+        if (build.outfitIndex or 0) > 0 then
             markdown = markdown .. "| **Outfit Index** | " .. build.outfitIndex .. " |\n"
         end
 

@@ -327,8 +327,8 @@ local function GenerateGeneral(
 
         -- Sort rows by value length (ascending) for better table sizing
         table.sort(allRows, function(a, b)
-            local lenA = string.len(a[2] or "")
-            local lenB = string.len(b[2] or "")
+            local lenA = string.len(tostring(a[2] or ""))
+            local lenB = string.len(tostring(b[2] or ""))
             return lenA < lenB
         end)
 

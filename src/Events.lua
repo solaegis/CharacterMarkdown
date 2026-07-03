@@ -31,20 +31,23 @@ local function OnAddOnLoaded(event, addonName)
     end
 end
 
-local function OnPlayerActivated(event)
+local function OnPlayerActivated(event, initial)
     if not CM.isInitialized then
+        local panelReady = false
         if CM.Settings and CM.Settings.Panel then
             CM.Settings.Panel:Initialize()
+            panelReady = true
         end
 
-        CM.isInitialized = true
-        CM.Success("Ready! Use /markdown to generate character profile")
+        if panelReady then
+            CM.isInitialized = true
+            CM.Success("Ready! Use /markdown to generate character profile")
+        else
+            CM.Error("Settings panel failed to initialize!")
+        end
 
         EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED)
-        return
     end
-
-    EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED)
 end
 
 -- =====================================================
@@ -117,12 +120,6 @@ local function RegisterEventIfExists(eventId, handler)
     end
 end
 
-local function UnregisterEventIfExists(eventId)
-    if eventId then
-        EVENT_MANAGER:UnregisterForEvent(CM.name, eventId)
-    end
-end
-
 local function RegisterEvents()
     EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_ADD_ON_LOADED, OnAddOnLoaded)
     EVENT_MANAGER:RegisterForEvent(CM.name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
@@ -134,20 +131,9 @@ local function RegisterEvents()
     RegisterEventIfExists(EVENT_ANTIQUITY_UPDATED, OnAntiquityUpdated)
 end
 
-local function UnregisterEvents()
-    EVENT_MANAGER:UnregisterForEvent(CM.name, EVENT_ADD_ON_LOADED)
-    UnregisterEventIfExists(EVENT_PLAYER_ACTIVATED)
-    UnregisterEventIfExists(EVENT_COLLECTIBLE_UPDATED)
-    UnregisterEventIfExists(EVENT_SKILL_RANK_UPDATE)
-    UnregisterEventIfExists(EVENT_SKILL_POINTS_CHANGED)
-    UnregisterEventIfExists(EVENT_PLAYER_TITLES_UPDATE)
-    UnregisterEventIfExists(EVENT_ANTIQUITY_UPDATED)
-end
-
 CM.events.OnAddOnLoaded = OnAddOnLoaded
 CM.events.OnPlayerActivated = OnPlayerActivated
 CM.events.RegisterEvents = RegisterEvents
-CM.events.UnregisterEvents = UnregisterEvents
 
 -- Export cache invalidation handlers for manual clearing if needed
 CM.events.OnCollectibleUpdated = OnCollectibleUpdated

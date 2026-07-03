@@ -47,8 +47,10 @@ if not allValid then
     return
 end
 
--- Validate slash command registered
-if not SLASH_COMMANDS["/markdown"] and not LibSlashCommander then
+-- Validate slash command registered (LibSlashCommander registers without SLASH_COMMANDS entry)
+local slashCommandRegistered = SLASH_COMMANDS["/markdown"] ~= nil
+local libSlashCommanderAvailable = LibSlashCommander ~= nil
+if not slashCommandRegistered and not libSlashCommanderAvailable then
     CM.Error("/markdown command not registered!")
     allValid = false
 end

@@ -60,7 +60,7 @@ Load order in `CharacterMarkdown.addon`. See `docs/ARCHITECTURE.md` for full str
 ## Detected Patterns
 
 - Collectors return raw data; generators produce markdown
-- Chunking: Legacy `SplitMarkdownIntoChunks_Legacy` active; section-based disabled. Never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
+- Chunking: `SplitMarkdownIntoChunks` in Chunking.lua; never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
 - ChunkingHelpers: Line-type detection for chunking; extracted from Chunking.lua
 - ChampionDiagram: Mermaid CP diagram in `src/generators/sections/ChampionDiagram.lua`; STAR_MAP for tree positions
 - Per-character data in `CharacterMarkdownSettings.perCharacterData[characterId]`; preserve customNotes, customTitle, playStyle on reset

@@ -29,9 +29,10 @@ local function CollectSkillBarData()
         }
 
         if apiBar then
+            local ultimateSlotIndex = ACTION_BAR_ULTIMATE_SLOT_INDEX or 8
             for slotIndex, ability in ipairs(apiBar) do
                 local barSlot = slotIndex + 2
-                if ability.isUltimate then
+                if barSlot == ultimateSlotIndex then
                     if ability.id and ability.id > 0 then
                         bar.ultimate = ability.name or "Empty"
                         bar.ultimateId = ability.id

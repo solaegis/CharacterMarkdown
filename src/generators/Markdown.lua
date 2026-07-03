@@ -60,6 +60,7 @@ local function GetGenerators()
         GenerateArmoryBuilds = CM.generators.sections.GenerateArmoryBuilds,
         GenerateUndauntedPledges = CM.generators.sections.GenerateUndauntedPledges,
         GenerateGuilds = CM.generators.sections.GenerateGuilds,
+        GenerateMail = CM.generators.sections.GenerateMail,
 
         -- Companion sections
         GenerateCompanion = CM.generators.sections.GenerateCompanion,
@@ -89,7 +90,7 @@ local function SafeCollect(collectorName, collectorFunc)
             collector = collectorName,
             error = tostring(result),
         })
-        CM.Error(string.format("❌ %s failed: %s", collectorName, tostring(result)))
+        CM.Error(string.format("[FAIL] Collect %s failed: %s", collectorName, tostring(result)))
         return {} -- Return empty data on failure
     end
 
@@ -271,7 +272,6 @@ local function GetSectionRegistry(settings, gen, data)
                 settingsWithData._collectedData = {
                     characterAttributes = data.characterAttributes,
                 }
-                -- Call GenerateQuickStats which includes the section header
                 return gen.GenerateQuickStats(
                     data.character,
                     data.stats,
@@ -316,7 +316,11 @@ local function GetSectionRegistry(settings, gen, data)
             name = "CombatArsenal",
             tocEntry = {
                 title = "⚔️ Combat Arsenal",
-                subsections = { "Character Stats", "Advanced Stats" },
+                subsections = {
+                    "Character Stats",
+                    "Advanced Stats",
+                    "Skill bars",
+                },
             },
             condition = function()
                 local basicEnabled = IsSettingEnabled(settings, "includeBasicCombatStats", true)
@@ -350,6 +354,8 @@ local function GetSectionRegistry(settings, gen, data)
                                 )
                                 output = output .. statsOutput
                             end
+                        else
+                            CM.Error(string.format("Basic Combat Stats failed: %s", tostring(result)))
                         end
                     end
                 end
@@ -368,6 +374,8 @@ local function GetSectionRegistry(settings, gen, data)
                                 )
                                 output = output .. advStatsOutput
                             end
+                        else
+                            CM.Error(string.format("Advanced Stats failed: %s", tostring(result)))
                         end
                     end
                 end
@@ -379,6 +387,8 @@ local function GetSectionRegistry(settings, gen, data)
 
                     if success then
                         output = output .. (result or "")
+                    else
+                        CM.Error(string.format("Skill bars failed: %s", tostring(result)))
                     end
                 end
 
@@ -396,7 +406,9 @@ local function GetSectionRegistry(settings, gen, data)
         -- 2a. Equipment & Active Sets (separate section)
         {
             name = "Equipment",
-            tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
+            tocEntry = {
+                title = "⚔️ Equipment & Active Sets",
+            },
             condition = IsSettingEnabled(settings, "includeEquipment", true),
             generator = function()
                 local equipmentData = data.equipment or {}
@@ -419,34 +431,41 @@ local function GetSectionRegistry(settings, gen, data)
         -- 2b. ⭐ Champion Points (part of Combat Arsenal)
         {
             name = "ChampionPoints",
-            tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
+            tocEntry = {
+                title = "⭐ Champion Points",
+            },
             condition = function()
                 -- Re-evaluate condition at generation time to ensure we have latest settings
                 local currentSettings = CM.GetSettings() or settings
                 return IsSettingEnabled(currentSettings, "includeChampionPoints", true)
             end,
             generator = function()
-                -- Use current settings from CM.GetSettings() to ensure we have latest values
                 local currentSettings = CM.GetSettings() or settings
                 local markdown = ""
 
-                -- Show all Champion Points
-                local cpResult = gen.GenerateChampionPoints(data.cp)
+                local cpSuccess, cpResult = pcall(gen.GenerateChampionPoints, data.cp)
+                if not cpSuccess then
+                    CM.Error(string.format("Champion Points failed: %s", tostring(cpResult)))
+                    cpResult = "## ⭐ Champion Points\n\n*Error generating champion point data*\n\n"
+                else
+                    cpResult = cpResult or ""
+                end
 
-                -- Add Mermaid diagram if enabled
                 local diagramEnabled = IsSettingEnabled(currentSettings, "includeChampionDiagram", false)
                 if diagramEnabled then
-                    -- Strip the trailing separator from cpResult so the diagram connects visually
-                    -- Check for standard separator styles
-                    if cpResult:match("%-%-%-\n\n$") then
+                    if cpResult ~= "" and cpResult:match("%-%-%-\n\n$") then
                         cpResult = cpResult:gsub("%-%-%-\n\n$", "")
-                    elseif cpResult:match("<hr%s*/>\n\n$") then
+                    elseif cpResult ~= "" and cpResult:match("<hr%s*/>\n\n$") then
                         cpResult = cpResult:gsub("<hr%s*/>\n\n$", "")
                     end
 
                     markdown = markdown .. cpResult
-                    local diagramResult = gen.GenerateChampionDiagram(data.cp)
-                    markdown = markdown .. diagramResult
+                    local diagramSuccess, diagramResult = pcall(gen.GenerateChampionDiagram, data.cp)
+                    if diagramSuccess then
+                        markdown = markdown .. (diagramResult or "")
+                    else
+                        CM.Error(string.format("Champion diagram failed: %s", tostring(diagramResult)))
+                    end
                 else
                     markdown = markdown .. cpResult
                 end
@@ -464,7 +483,9 @@ local function GetSectionRegistry(settings, gen, data)
         -- 2c. Character Progress (Summary + Skill Morphs + Status-Organized Progression)
         {
             name = "CharacterProgress",
-            tocEntry = nil, -- Shown in Combat Arsenal TOC via parent
+            tocEntry = {
+                title = "📜 Character Progress",
+            },
             condition = IsSettingEnabled(settings, "includeSkills", true),
             generator = function()
                 local skillProgressionData = data.skill or {}
@@ -493,6 +514,7 @@ local function GetSectionRegistry(settings, gen, data)
                     or nil,
             },
             condition = IsSettingEnabled(settings, "includePvPStats", false)
+                or IsSettingEnabled(settings, "includePvP", false)
                 or IsSettingEnabled(settings, "showAllianceWarSkills", false),
             generator = function()
                 -- Pass skill progression data so PvP section can include Alliance War skills
@@ -717,37 +739,25 @@ local function GetSectionRegistry(settings, gen, data)
         -- Uses: Quests.lua - CollectQuestJournalData, CollectUndauntedPledgesData
         -- Settings: includeQuests (disabled), includeUndauntedPledges
 
-        -- 📜 Quests (standalone section) - DISABLED
-        --[[
+        -- 📜 Quests (standalone section)
         {
             name = "Quests",
             tocEntry = {
-                title = "📜 Quests",
+                title = "📝 Quest Progress",
             },
-            condition = IsSettingEnabled(settings, "includeQuests", false), -- Default to false (disabled by default)
+            condition = IsSettingEnabled(settings, "includeQuests", false),
             generator = function()
                 local markdown = ""
 
-                -- Check if quest data exists and has meaningful content
                 if not data.quests or not data.quests.summary then
                     return markdown
                 end
 
-                -- Check if we should show all quests or filter to active only
-                local showAllQuests = settings.showAllQuests ~= false -- Default to true (show all)
+                local showAllQuests = settings.showAllQuests ~= false
 
                 if showAllQuests then
-                    -- Show all quests (full data)
                     markdown = markdown .. gen.GenerateQuests(data.quests, format)
-
-                    -- Show detailed categories if enabled
-                    if IsSettingEnabled(settings, "showQuestsDetailed", false) then
-                        -- Additional detailed content is handled in the main generator
-                        -- This is intentionally empty as detailed content is processed elsewhere
-                        -- No action needed here
-                    end
                 else
-                    -- Filter to show only active quests
                     local activeData = {
                         summary = data.quests.summary,
                         active = data.quests.active or {},
@@ -758,15 +768,18 @@ local function GetSectionRegistry(settings, gen, data)
                 return markdown
             end,
         },
-        --]]
 
-        -- ========================================
-        -- ARMORY BUILDS (ArmoryBuilds.lua collector) - Settings Panel Order: 14
-        -- ========================================
-        -- Uses: ArmoryBuilds.lua - CollectArmoryBuildsData
-        -- Setting: includeArmoryBuilds
-        -- NOTE: Currently not in section registry, but collector exists
-        -- TODO: Add Armory Builds section when generator is implemented
+        -- 🏰 Armory Builds
+        {
+            name = "ArmoryBuilds",
+            tocEntry = {
+                title = "🏰 Armory Builds",
+            },
+            condition = IsSettingEnabled(settings, "includeArmoryBuilds", false),
+            generator = function()
+                return gen.GenerateArmoryBuilds(data.armoryBuilds or {})
+            end,
+        },
 
         -- ========================================
         -- CRAFTING (Crafting.lua collector) - Settings Panel Order: 15
@@ -808,6 +821,18 @@ local function GetSectionRegistry(settings, gen, data)
         -- Uses: Social.lua - CollectGuildsData, CollectMailData
         -- Settings: includeGuilds, includeMail
 
+        -- 📬 Mail
+        {
+            name = "Mail",
+            tocEntry = {
+                title = "📬 Mail",
+            },
+            condition = IsSettingEnabled(settings, "includeMail", false),
+            generator = function()
+                return gen.GenerateMail(data.mail)
+            end,
+        },
+
         -- 🏰 Guild Membership (includes Undaunted Active Pledges as subsection)
         {
             name = "Guilds",
@@ -831,13 +856,13 @@ local function GetSectionRegistry(settings, gen, data)
         -- Settings: includeCombatStats, includeRole, includeBuffs
         -- NOTE: These are shown in Overview table, not as standalone sections
 
-        -- Buffs (standalone section, not in TOC - shown in Overview table)
+        -- Buffs are shown in Overview when includeBuffs is enabled (no standalone section)
         {
             name = "Buffs",
-            tocEntry = nil, -- Not shown in TOC
-            condition = IsSettingEnabled(settings, "includeBuffs", true),
+            tocEntry = nil,
+            condition = false,
             generator = function()
-                return gen.GenerateBuffs(data.buffs)
+                return ""
             end,
         },
 
@@ -948,11 +973,109 @@ local function GenerateMarkdown()
     -- Get section registry (pass flattened settings)
     local sections = GetSectionRegistry(settings, gen, collectedData)
 
-    -- Generate all sections based on registry
-    -- Generate all sections based on registry
-    -- Generate sections
-    local markdownChunks = {}
+    -- Generate all sections based on registry (two-pass: bodies first, then TOC from actual output)
+    local function sectionHasContent(result)
+        return result and result ~= "" and result:gsub("%s+", "") ~= ""
+    end
 
+    local function applySectionFormatting(section, result)
+        if not sectionHasContent(result) then
+            return nil
+        end
+
+        if section.tocEntry and section.tocEntry.title then
+            local anchor = GenerateAnchor(section.tocEntry.title)
+            if anchor and anchor ~= "" then
+                if not result:match("^%s*<a id=") then
+                    result = string.format('<a id="%s"></a>\n\n%s', anchor, result)
+                    CM.DebugPrint(
+                        "MARKDOWN",
+                        string.format("Auto-added anchor: #%s for section %s", anchor, section.name)
+                    )
+                end
+            end
+        end
+
+        local hasSeparator = result:match("%-%-%-%s*$")
+            or result:match("<hr>%s*$")
+            or result:match("<hr%s*/>%s*$")
+
+        if not hasSeparator then
+            local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
+            if CreateSeparator then
+                result = result .. CreateSeparator("hr")
+            else
+                result = result .. "\n---\n\n"
+            end
+            CM.DebugPrint("GENERATOR", string.format("Auto-added separator for section %s", section.name))
+        end
+
+        return result
+    end
+
+    local sectionOutputs = {}
+
+    -- Pass 1: generate section bodies (TOC deferred until outputs are known)
+    for _, section in ipairs(sections) do
+        local conditionMet = false
+        if type(section.condition) == "function" then
+            conditionMet = section.condition()
+        else
+            conditionMet = section.condition
+        end
+
+        if conditionMet and not section.dynamicTOC and section.generator and type(section.generator) == "function" then
+            CM.DebugPrint("GENERATOR", string.format("Generating: %s", section.name))
+            local success, result = pcall(section.generator)
+            if success then
+                local resultLength = result and #result or 0
+                CM.DebugPrint("GENERATOR", string.format("%s: %d chars", section.name, resultLength))
+
+                if section.name == "Equipment" then
+                    if not result or result == "" or (result:gsub("%s+", "") == "") then
+                        CM.Error(
+                            string.format(
+                                "CRITICAL: Section '%s' returned empty content, this should never happen!",
+                                section.name
+                            )
+                        )
+                        result = "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
+                    end
+                end
+
+                sectionOutputs[section.name] = result or ""
+            else
+                CM.Error(string.format("[FAIL] Section %s failed: %s", section.name, tostring(result)))
+                if section.name == "Equipment" then
+                    CM.Error(string.format("CRITICAL: Section '%s' failed, adding placeholder", section.name))
+                    sectionOutputs[section.name] =
+                        "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n"
+                else
+                    sectionOutputs[section.name] = ""
+                end
+            end
+        end
+    end
+
+    -- Build TOC from sections that produced content
+    local tocContent = ""
+    if gen.GenerateDynamicTableOfContents then
+        local success, resultTOC = pcall(gen.GenerateDynamicTableOfContents, sections, nil, sectionOutputs)
+        if success then
+            tocContent = resultTOC or ""
+            CM.DebugPrint(
+                "GENERATOR",
+                string.format("  ✓ TableOfContents: %d chars (dynamic)", tocContent and #tocContent or 0)
+            )
+        else
+            CM.Error(string.format("Dynamic TOC generation failed: %s", tostring(resultTOC)))
+        end
+    else
+        CM.Error("GenerateDynamicTableOfContents function not found!")
+    end
+
+    -- Pass 2: assemble markdown in registry order
+    local markdownChunks = {}
     for _, section in ipairs(sections) do
         local conditionMet = false
         if type(section.condition) == "function" then
@@ -962,161 +1085,21 @@ local function GenerateMarkdown()
         end
 
         if conditionMet then
-            CM.DebugPrint("GENERATOR", string.format("Generating: %s", section.name))
-
-            -- Special handling for dynamic TOC
+            local result
             if section.dynamicTOC then
-                CM.DebugPrint("GENERATOR", "Dynamic TOC generation triggered")
-
-                -- Verify function exists
-                if not gen.GenerateDynamicTableOfContents then
-                    CM.Error("GenerateDynamicTableOfContents function not found!")
-                    -- Set result to empty to fall through
-                else
-                    local success, resultTOC = pcall(gen.GenerateDynamicTableOfContents, sections)
-                    if success then
-                        local resultLength = resultTOC and #resultTOC or 0
-                        CM.DebugPrint(
-                            "GENERATOR",
-                            string.format("  ✓ %s: %d chars (dynamic)", section.name, resultLength)
-                        )
-
-                        -- DIRECTLY REPLACING THE LOGIC:
-                        -- If we successfully generated TOC, treat it as 'result' for the common block
-                        if resultTOC and resultTOC ~= "" then
-                            -- We will process this result using the common block logic by setting a flag or restructure
-                            -- To minimize diff, we'll just execute the common logic here for TOC
-
-                            local result = resultTOC
-
-                            -- AUTO-ADD ANCHOR (TOC usually doesn't need anchor, but check tocEntry)
-                            if section.tocEntry and section.tocEntry.title then
-                                local anchor = GenerateAnchor(section.tocEntry.title)
-                                if anchor and anchor ~= "" then
-                                    if not result:match("^%s*<a id=") then
-                                        result = string.format('<a id="%s"></a>\n\n%s', anchor, result)
-                                    end
-                                end
-                            end
-
-                            -- AUTO-ADD SEPARATOR
-                            local hasSeparator = result:match("%-%-%-%s*$")
-                                or result:match("<hr>%s*$")
-                                or result:match("<hr%s*/>%s*$")
-                            if not hasSeparator then
-                                local CreateSeparator = CM.utils
-                                    and CM.utils.markdown
-                                    and CM.utils.markdown.CreateSeparator
-                                if CreateSeparator then
-                                    result = result .. CreateSeparator("hr")
-                                else
-                                    result = result .. "\n---\n\n"
-                                end
-                                CM.DebugPrint(
-                                    "GENERATOR",
-                                    string.format("Auto-added separator for section %s", section.name)
-                                )
-                            end
-
-                            table.insert(markdownChunks, result)
-                        end
-                    else
-                        CM.Error(string.format("Dynamic TOC generation failed: %s", tostring(resultTOC)))
-                    end
-                end
-            -- Normal section generation
-            elseif not section.generator or type(section.generator) ~= "function" then
-                CM.DebugPrint("GENERATOR", string.format("Section '%s' has no valid generator function", section.name))
+                result = tocContent
             else
-                local success, result = pcall(section.generator)
-                if success then
-                    -- Log result for ALL sections
-                    local resultLength = result and #result or 0
-                    local isEmpty = result == "" or not result
-                    CM.DebugPrint("GENERATOR", string.format("%s: %d chars", section.name, resultLength))
+                result = sectionOutputs[section.name]
+            end
 
-                    if isEmpty then
-                        CM.DebugPrint(
-                            "GENERATOR",
-                            string.format("%s returned EMPTY despite condition=true", section.name)
-                        )
-                    end
-
-                    -- CRITICAL: Ensure critical sections (SkillBars, Equipment) always have content
-                    if section.name == "SkillBars" or section.name == "Equipment" then
-                        if not result or result == "" or (result:gsub("%s+", "") == "") then
-                            CM.Error(
-                                string.format(
-                                    "CRITICAL: Section '%s' returned empty content, this should never happen!",
-                                    section.name
-                                )
-                            )
-                            -- Force placeholder content for critical sections
-                            if section.name == "SkillBars" then
-                                result = "## ⚔️ Combat Arsenal\n\n*No skill bars configured*\n\n---\n\n"
-                            elseif section.name == "Equipment" then
-                                result = "## ⚔️ Equipment & Active Sets\n\n*No equipment data available*\n\n---\n\n"
-                            end
-                        end
-                    end
-
-                    -- AUTO-ADD ANCHOR: If section has a tocEntry, prepend anchor before content
-                    -- IMPORTANT: Only add anchor if result has actual content (not empty or whitespace-only)
-                    if result and result ~= "" and result:gsub("%s+", "") ~= "" then
-                        if section.tocEntry and section.tocEntry.title then
-                            local anchor = GenerateAnchor(section.tocEntry.title)
-                            if anchor and anchor ~= "" then
-                                -- Only add anchor if content doesn't already have one
-                                if not result:match("^%s*<a id=") then
-                                    result = string.format('<a id="%s"></a>\n\n%s', anchor, result)
-                                    CM.DebugPrint(
-                                        "MARKDOWN",
-                                        string.format("Auto-added anchor: #%s for section %s", anchor, section.name)
-                                    )
-                                end
-                            end
-                        end
-
-                        -- AUTO-ADD SEPARATOR: Ensure section ends with a separator
-                        -- Check if result already ends with a separator (--- or <hr>)
-                        -- Allow for trailing whitespace/newlines
-                        local hasSeparator = result:match("%-%-%-%s*$")
-                            or result:match("<hr>%s*$")
-                            or result:match("<hr%s*/>%s*$")
-
-                        if not hasSeparator then
-                            local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
-                            if CreateSeparator then
-                                result = result .. CreateSeparator("hr")
-                            else
-                                result = result .. "\n---\n\n"
-                            end
-                            CM.DebugPrint(
-                                "GENERATOR",
-                                string.format("Auto-added separator for section %s", section.name)
-                            )
-                        end
-
-                        table.insert(markdownChunks, result)
-                    end
-                else
-                    CM.Error(string.format("  ✗ %s FAILED: %s", section.name, tostring(result)))
-                    -- For critical sections, add placeholder on error
-                    if section.name == "SkillBars" or section.name == "Equipment" then
-                        CM.Error(string.format("CRITICAL: Section '%s' failed, adding placeholder", section.name))
-                        if section.name == "SkillBars" then
-                            table.insert(
-                                markdownChunks,
-                                "## ⚔️ Combat Arsenal\n\n*Error generating skill bars*\n\n---\n\n"
-                            )
-                        elseif section.name == "Equipment" then
-                            table.insert(
-                                markdownChunks,
-                                "## ⚔️ Equipment & Active Sets\n\n*Error generating equipment data*\n\n---\n\n"
-                            )
-                        end
-                    end
-                end
+            local formatted = applySectionFormatting(section, result)
+            if formatted then
+                table.insert(markdownChunks, formatted)
+            elseif not section.dynamicTOC then
+                CM.DebugPrint(
+                    "GENERATOR",
+                    string.format("%s returned EMPTY despite condition=true", section.name)
+                )
             end
         end
     end
@@ -1126,9 +1109,9 @@ local function GenerateMarkdown()
 
     -- CRITICAL CHECK: If finalMarkdown is empty at this point, log it
     if finalMarkdown == "" or #finalMarkdown == 0 then
-        CM.Error("⚠️ CRITICAL: Markdown is EMPTY after section generation!")
-        CM.Error("This means all sections returned empty content or were skipped.")
-        CM.Error("Please check if settings are enabled and data collectors returned data.")
+        CM.Error("[ERR] Markdown is EMPTY after section generation!")
+        CM.Error("All sections returned empty content or were skipped.")
+        CM.Error("Check settings and data collectors; use /markdown debug on for details.")
     end
 
     -- Footer (controlled by includeFooter setting)

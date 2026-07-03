@@ -18,9 +18,12 @@ local editBoxControl = nil
 local currentMarkdown = ""
 local markdownChunks = {} -- Array of markdown chunks
 local currentChunkIndex = 1
+local globalKeyboardRegistered = false
 
 -- Forward declarations
 local ShowChunk
+local RegisterGlobalKeyboardHandler
+local UnregisterGlobalKeyboardHandler
 
 -- Clear chunks to prevent memory leak
 local function ClearChunks()
@@ -33,6 +36,7 @@ end
 local function CleanupWindowState()
     ClearChunks()
     EVENT_MANAGER:UnregisterForUpdate("CharacterMarkdown_SelectionCheck")
+    UnregisterGlobalKeyboardHandler()
 end
 
 -- =====================================================
@@ -551,13 +555,11 @@ function CharacterMarkdown_CopyToClipboard()
         if markdownLength > EDITBOX_LIMIT then
             CM.Error(
                 string.format(
-                    "ASSERTION FAILED: Single chunk content size %d exceeds EditBox limit %d",
+                    "[ERR] Single chunk size %d exceeds limit %d — should have been split; report via /markdown test",
                     markdownLength,
                     EDITBOX_LIMIT
                 )
             )
-            CM.Error("This indicates a bug in the chunking algorithm - content should have been chunked!")
-            CM.Error("Please report this issue with the /markdown test output")
             -- Don't truncate - let it fail visibly so the bug is noticed
         end
 
@@ -785,21 +787,16 @@ function ShowChunk(chunkIndex)
     local COPY_LIMIT = (CHUNKING and CHUNKING.COPY_LIMIT) or 21500
 
     -- This should never happen if chunking algorithm is working correctly
-    if chunkSize > EDITBOX_LIMIT then
+    if chunkSize > COPY_LIMIT then
         CM.Error(
             string.format(
-                "ASSERTION FAILED: Chunk %d size %d exceeds EditBox limit %d",
+                "[ERR] Chunk %d/%d size %d exceeds copy limit %d — chunking bug; report via /markdown test",
                 chunkIndex,
+                #markdownChunks,
                 chunkSize,
-                EDITBOX_LIMIT
+                COPY_LIMIT
             )
         )
-        CM.Error("This indicates a bug in the chunking algorithm!")
-        CM.Error("Please report this issue with chunk details:")
-        CM.Error(string.format("  Total chunks: %d", #markdownChunks))
-        CM.Error(string.format("  Problem chunk: %d", chunkIndex))
-        CM.Error(string.format("  Chunk size: %d", chunkSize))
-        CM.Error(string.format("  Limit: %d", EDITBOX_LIMIT))
         -- Don't truncate - let it fail visibly so the bug is noticed
     end
 
@@ -1236,6 +1233,8 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
     -- Start periodic update to check EditBox selection state (unregistered when window closes)
     EVENT_MANAGER:RegisterForUpdate("CharacterMarkdown_SelectionCheck", 200, UpdateSelectAllButtonColor)
 
+    RegisterGlobalKeyboardHandler()
+
     -- Bring window to top and activate
     if windowControl.SetTopmost then
         windowControl:SetTopmost(true)
@@ -1318,102 +1317,111 @@ function CharacterMarkdown_CloseWindow()
 end
 
 -- =====================================================
+-- GLOBAL KEYBOARD FALLBACK (window-visible only)
+-- =====================================================
+
+-- EVENT_KEY_DOWN is a runtime global (not documented in ESOUIDocumentationP50).
+-- Signature: (event, key, ctrl, alt, shift, command)
+RegisterGlobalKeyboardHandler = function()
+    if globalKeyboardRegistered then
+        return
+    end
+
+    EVENT_MANAGER:RegisterForEvent(
+        "CharacterMarkdown_GlobalKeyboard",
+        EVENT_KEY_DOWN,
+        function(_, key, ctrl, alt, shift, command)
+            if not windowControl or windowControl:IsHidden() then
+                return
+            end
+
+            if windowControl._isImportMode then
+                return
+            end
+
+            if editBoxControl and editBoxControl.HasFocus and editBoxControl:HasFocus() then
+                return
+            end
+
+            local modifierPressed = ctrl or command
+
+            if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
+                CM.DebugPrint("KEYBOARD", "ESC/X pressed (global fallback) - closing window")
+                if editBoxControl then
+                    editBoxControl:LoseFocus()
+                end
+                CharacterMarkdown_CloseWindow()
+                return
+            end
+
+            if key == KEY_G then
+                CharacterMarkdown_RegenerateMarkdown()
+                return
+            end
+
+            if key == KEY_S then
+                CharacterMarkdown_OpenSettings()
+                return
+            end
+
+            if key == KEY_R then
+                ReloadUI()
+                return
+            end
+
+            if not modifierPressed then
+                if (key == KEY_LEFTARROW or key == KEY_OEM_COMMA) and #markdownChunks > 1 then
+                    CharacterMarkdown_PreviousChunk()
+                    return
+                end
+                if (key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD) and #markdownChunks > 1 then
+                    CharacterMarkdown_NextChunk()
+                    return
+                end
+                if key == KEY_PAGEUP and #markdownChunks > 1 then
+                    CharacterMarkdown_PreviousChunk()
+                    return
+                end
+                if key == KEY_PAGEDOWN and #markdownChunks > 1 then
+                    CharacterMarkdown_NextChunk()
+                    return
+                end
+            end
+
+            if (key == KEY_SPACEBAR or key == KEY_ENTER) and not modifierPressed then
+                CharacterMarkdown_CopyToClipboard()
+                return
+            end
+
+            if editBoxControl then
+                editBoxControl:TakeFocus()
+            end
+        end
+    )
+
+    globalKeyboardRegistered = true
+end
+
+UnregisterGlobalKeyboardHandler = function()
+    if not globalKeyboardRegistered then
+        return
+    end
+
+    EVENT_MANAGER:UnregisterForEvent("CharacterMarkdown_GlobalKeyboard", EVENT_KEY_DOWN)
+    globalKeyboardRegistered = false
+end
+
+-- =====================================================
 -- INITIALIZE ON ADDON LOADED
 -- =====================================================
 
 local function OnAddOnLoaded(event, addonName)
-    if addonName ~= "CharacterMarkdown" then
+    if addonName ~= CM.name then
         return
     end
 
     zo_callLater(function()
         InitializeWindowControls()
-
-        -- CRITICAL: Global keyboard handler is BACKUP when EditBox loses focus
-        -- Primary handler is EditBox OnKeyDown - this catches shortcuts when EditBox cannot
-        EVENT_MANAGER:RegisterForEvent(
-            "CharacterMarkdown_GlobalKeyboard",
-            EVENT_KEY_DOWN,
-            function(_, key, ctrl, alt, shift, command)
-                -- Only handle when window is visible
-                if not windowControl or windowControl:IsHidden() then
-                    return
-                end
-
-                -- Skip if in import mode
-                if windowControl._isImportMode then
-                    return
-                end
-
-                -- If EditBox has focus, let it handle (avoids double-handling)
-                if editBoxControl and editBoxControl.HasFocus and editBoxControl:HasFocus() then
-                    return
-                end
-
-                local modifierPressed = ctrl or command
-
-                -- ESC or X = Close
-                if key == KEY_ESCAPE or (key == KEY_X and not modifierPressed) then
-                    CM.DebugPrint("KEYBOARD", "ESC/X pressed (global fallback) - closing window")
-                    if editBoxControl then
-                        editBoxControl:LoseFocus()
-                    end
-                    CharacterMarkdown_CloseWindow()
-                    return
-                end
-
-                -- G = Regenerate
-                if key == KEY_G then
-                    CharacterMarkdown_RegenerateMarkdown()
-                    return
-                end
-
-                -- S = Settings
-                if key == KEY_S then
-                    CharacterMarkdown_OpenSettings()
-                    return
-                end
-
-                -- R = ReloadUI
-                if key == KEY_R then
-                    ReloadUI()
-                    return
-                end
-
-                -- Navigation: arrows, comma, period, PageUp, PageDown
-                if not modifierPressed then
-                    if (key == KEY_LEFTARROW or key == KEY_OEM_COMMA) and #markdownChunks > 1 then
-                        CharacterMarkdown_PreviousChunk()
-                        return
-                    end
-                    if (key == KEY_RIGHTARROW or key == KEY_OEM_PERIOD) and #markdownChunks > 1 then
-                        CharacterMarkdown_NextChunk()
-                        return
-                    end
-                    if key == KEY_PAGEUP and #markdownChunks > 1 then
-                        CharacterMarkdown_PreviousChunk()
-                        return
-                    end
-                    if key == KEY_PAGEDOWN and #markdownChunks > 1 then
-                        CharacterMarkdown_NextChunk()
-                        return
-                    end
-                end
-
-                -- Space or Enter = Copy
-                if (key == KEY_SPACEBAR or key == KEY_ENTER) and not modifierPressed then
-                    CharacterMarkdown_CopyToClipboard()
-                    return
-                end
-
-                -- Restore focus so EditBox gets keys for next press
-                if editBoxControl then
-                    editBoxControl:TakeFocus()
-                end
-            end
-        )
-
-        -- Selection timer is registered when window opens, unregistered when it closes
     end, 100)
 end
 

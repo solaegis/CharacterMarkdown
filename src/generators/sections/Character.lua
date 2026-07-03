@@ -571,11 +571,19 @@ CM.generators.sections.GenerateCustomNotes = GenerateCustomNotes
 -- =====================================================
 
 -- Generate Table of Contents dynamically from section registry
--- This ensures TOC always matches actual output
-local function GenerateDynamicTableOfContents(registry, format)
+-- sectionOutputs: optional map of section.name -> generated markdown (two-pass TOC)
+local function GenerateDynamicTableOfContents(registry, format, sectionOutputs)
     -- Always generate TOC for markdown format
 
     local tocLines = {}
+
+    local function sectionHasBody(sectionName)
+        if not sectionOutputs or not sectionName then
+            return true
+        end
+        local content = sectionOutputs[sectionName]
+        return content and content ~= "" and content:gsub("%s+", "") ~= ""
+    end
 
     -- Use central anchor generator from utilities if available, otherwise fallback
     local GenerateAnchor = (CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor)
@@ -613,9 +621,10 @@ local function GenerateDynamicTableOfContents(registry, format)
                 shouldInclude = section.condition
             end
 
-            if shouldInclude then
+            if shouldInclude and sectionHasBody(section.name) then
                 local tocEntry = section.tocEntry
                 local anchor = GenerateAnchor(tocEntry.title)
+                local content = sectionOutputs and sectionOutputs[section.name] or nil
 
                 -- Main section entry
                 table_insert(tocLines, string_format("- [%s](#%s)", tocEntry.title, anchor))
@@ -624,7 +633,15 @@ local function GenerateDynamicTableOfContents(registry, format)
                 if tocEntry.subsections then
                     for _, subsection in ipairs(tocEntry.subsections) do
                         local subAnchor = GenerateAnchor(subsection)
-                        table_insert(tocLines, string_format("  - [%s](#%s)", subsection, subAnchor))
+                        local includeSubsection = true
+                        if content then
+                            includeSubsection = content:find('id="' .. subAnchor .. '"', 1, true)
+                                or content:find("### " .. subsection, 1, true)
+                                or content:find("## " .. subsection, 1, true)
+                        end
+                        if includeSubsection then
+                            table_insert(tocLines, string_format("  - [%s](#%s)", subsection, subAnchor))
+                        end
                     end
                 end
             end

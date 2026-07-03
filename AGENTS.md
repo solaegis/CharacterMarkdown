@@ -9,6 +9,8 @@
 - Target gear in build plans must always be **craftable** (account crafter / crafting stations). Do not plan primary loadouts around overland farming, dungeon monster sets, trial drops, or other non-crafted acquisition unless the user explicitly asks for an exception.
 - When changing addon settings (defaults in `src/settings/Defaults.lua`, LAM panel labels/checkboxes/presets in `src/settings/Panel.lua`, or `ToggleAllSections`), always update `docs/settings-presets-matrix.md` in the same change so factory defaults and every preset column stay accurate.
 - Do not bulk-reformat existing `examples/solaegis/na/*_plan.md` files to the canonical structure unless the user explicitly asks; apply the exemplar outline to new and heavily revised plans only.
+- When a LAM preset enables sections that lack generators or `Markdown.lua` registry wiring, implement or wire the missing output rather than disabling preset checkboxes or narrowing preset scope.
+- For large addon review/fix passes, prioritize by severity (correctness and crash bugs first), validate with luacheck/StyLua/tests, and work in reviewable batches.
 
 ## Learned Workspace Facts
 
@@ -21,5 +23,6 @@
 - `examples/solaegis/na/masisi.md` documents the account crafter used for gear-crafting plans tied to other Solaegis characters.
 - CharacterMarkdown exports in `examples/` are source of truth for in-game state; when syncing a plan from a profile, label **live** (equipped) vs **target** in Build at a glance and gear, and keep skill bars aligned with slotted actives and equipped weapons from the export.
 - Paired character profiles should link to their `{slug}_plan.md` with a section anchor table; highlight the plan checklist as the primary in-game entry point.
-- `docs/settings-presets-matrix.md` is the canonical matrix of factory defaults vs LAM presets (Minimal, Solo PvE, PvP Build, Achievement Hunter, Crafter) for every settings-menu checkbox; keep it in sync whenever settings code changes.
-- LAM presets call `ToggleAllSections(false)` first; any checkbox not turned back on by the preset stays off until the user uses Reset to Defaults or toggles it manually.
+- `docs/settings-presets-matrix.md` is the canonical matrix of factory defaults vs LAM presets (Minimal, Solo PvE, PvP Build, Achievement Hunter, Crafter) for every settings-menu checkbox; keep it in sync whenever settings code changes. LAM presets call `ToggleAllSections(false)` first; any checkbox not turned back on by the preset stays off until Reset to Defaults or manual toggle.
+- Before removing or rewriting ESO API call sites, verify disputed function/event names against the bundled `ESOUIDocumentationP50.txt` (and in-game globals when needed).
+- Markdown table of contents lists only sections whose generators produced non-empty body content (two-pass generation), not registry conditions alone.

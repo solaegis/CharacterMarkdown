@@ -8,20 +8,8 @@ CM.api.system = {}
 local api = CM.api.system
 
 -- =====================================================
--- SYSTEM / EVENTS
+-- SYSTEM / METADATA
 -- =====================================================
-
-function api.RegisterEvent(addonName, eventType, callback)
-    if EVENT_MANAGER then
-        EVENT_MANAGER:RegisterForEvent(addonName, eventType, callback, false)
-    end
-end
-
-function api.UnregisterEvent(addonName, eventType)
-    if EVENT_MANAGER then
-        EVENT_MANAGER:UnregisterForEvent(addonName, eventType)
-    end
-end
 
 function api.GetAPIVersion()
     return CM.SafeCall(GetAPIVersion) or 0

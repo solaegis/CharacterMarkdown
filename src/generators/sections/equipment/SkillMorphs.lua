@@ -20,7 +20,12 @@ function morphs.GenerateSkillMorphs(skillMorphsData)
 
     local output = ""
 
-    if not skillMorphsData or #skillMorphsData == 0 then
+    if not skillMorphsData then
+        return ""
+    end
+
+    local skillTypes = skillMorphsData.skillTypes or skillMorphsData
+    if type(skillTypes) ~= "table" or #skillTypes == 0 then
         output = output .. "## 🌿 Skill Morphs\n\n"
         output = output .. "*No morphable abilities found.*\n\n"
         local CreateSeparator = markdown_utils and markdown_utils.CreateSeparator
@@ -34,7 +39,7 @@ function morphs.GenerateSkillMorphs(skillMorphsData)
 
     output = output .. "## 🌿 Skill Morphs\n\n"
 
-    for _, skillType in ipairs(skillMorphsData) do
+    for _, skillType in ipairs(skillTypes) do
         local totalAbilities = 0
         for _, skillLine in ipairs(skillType.skillLines) do
             totalAbilities = totalAbilities + #(skillLine.abilities or {})

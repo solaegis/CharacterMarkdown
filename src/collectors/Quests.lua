@@ -27,10 +27,7 @@ local function CollectQuestJournalData()
     quests.summary = {
         activeCount = journalInfo and #journalInfo or 0,
         zoneCompletion = zoneCompletion and zoneCompletion.percent or 0,
-        -- Fields expected by generator:
         activeQuests = journalInfo and #journalInfo or 0,
-        totalQuests = journalInfo and #journalInfo or 0, -- Can only track active quests for now
-        completedQuests = 0, -- Cannot track completed quests via Journal API
     }
 
     return quests

@@ -8,6 +8,108 @@ CM.generators.sections.equipment = CM.generators.sections.equipment or {}
 
 local helpers = CM.generators.sections.equipment
 local skills = {}
+local table_insert = table.insert
+
+local constants = CM.constants or CM.Constants or {}
+local SKILL_TYPE_NAMES = constants.SKILL_TYPE_NAMES or {}
+local SKILL_TYPE_EMOJIS = constants.SKILL_TYPE_EMOJIS or {}
+local DEFAULT_SKILL_EMOJI = constants.DEFAULT_SKILL_EMOJI or "📜"
+local ALLIANCE_WAR_SKILL_TYPE = 6
+
+local function CountMorphAbilities(skillMorphsData)
+    if not skillMorphsData then
+        return 0
+    end
+    if skillMorphsData.summary and skillMorphsData.summary.totalMorphs then
+        return skillMorphsData.summary.totalMorphs
+    end
+
+    local skillTypes = skillMorphsData.skillTypes or skillMorphsData
+    if type(skillTypes) ~= "table" or #skillTypes == 0 then
+        return 0
+    end
+
+    local total = 0
+    for _, skillType in ipairs(skillTypes) do
+        for _, skillLine in ipairs(skillType.skillLines or {}) do
+            total = total + #(skillLine.abilities or {})
+        end
+    end
+    return total
+end
+
+local function GroupLinesByStatusAndCategory(lines, excludeType)
+    local statusGroups = { maxed = {}, inProgress = {}, earlyProgress = {} }
+
+    for _, line in ipairs(lines or {}) do
+        if line.type ~= excludeType then
+            local typeName = SKILL_TYPE_NAMES[line.type] or "Other"
+            local emoji = SKILL_TYPE_EMOJIS[typeName] or DEFAULT_SKILL_EMOJI
+            local bucket
+
+            if line.status == "maxed" or line.maxed then
+                bucket = statusGroups.maxed
+            elseif line.status == "in_progress" then
+                bucket = statusGroups.inProgress
+            else
+                bucket = statusGroups.earlyProgress
+            end
+
+            if not bucket[typeName] then
+                bucket[typeName] = { emoji = emoji, name = typeName, skills = {} }
+            end
+            table_insert(bucket[typeName].skills, line)
+        end
+    end
+
+    return statusGroups
+end
+
+local function GroupLegacyCategoriesByStatus(categories, excludeName)
+    local statusGroups = { maxed = {}, inProgress = {}, earlyProgress = {} }
+
+    for _, category in ipairs(categories or {}) do
+        if category.name ~= excludeName and category.skills and #category.skills > 0 then
+            local maxedSkills = {}
+            local inProgressSkills = {}
+            local earlyProgressSkills = {}
+
+            for _, skill in ipairs(category.skills) do
+                if skill.isRacial or skill.maxed or (skill.rank and skill.rank >= 50) then
+                    table_insert(maxedSkills, skill)
+                elseif skill.rank and skill.rank >= 20 then
+                    table_insert(inProgressSkills, skill)
+                else
+                    table_insert(earlyProgressSkills, skill)
+                end
+            end
+
+            if #maxedSkills > 0 then
+                statusGroups.maxed[category.name] = {
+                    emoji = category.emoji or "⚔️",
+                    name = category.name,
+                    skills = maxedSkills,
+                }
+            end
+            if #inProgressSkills > 0 then
+                statusGroups.inProgress[category.name] = {
+                    emoji = category.emoji or "⚔️",
+                    name = category.name,
+                    skills = inProgressSkills,
+                }
+            end
+            if #earlyProgressSkills > 0 then
+                statusGroups.earlyProgress[category.name] = {
+                    emoji = category.emoji or "⚔️",
+                    name = category.name,
+                    skills = earlyProgressSkills,
+                }
+            end
+        end
+    end
+
+    return statusGroups
+end
 
 -- =====================================================
 -- PROGRESS SUMMARY DASHBOARD
@@ -17,23 +119,31 @@ function skills.GenerateProgressSummary(skillProgressionData, skillMorphsData)
     helpers.InitializeUtilities()
     local cache = helpers.cache
 
-    -- Calculate statistics
-    local totalAbilitiesWithMorphs = 0
+    local totalAbilitiesWithMorphs = CountMorphAbilities(skillMorphsData)
     local maxedSkillLines = 0
     local inProgressSkillLines = 0
     local earlyProgressSkillLines = 0
+    local overallCompletion = 0
 
-    -- Count abilities with morphs
-    if skillMorphsData and #skillMorphsData > 0 then
-        for _, skillType in ipairs(skillMorphsData) do
-            for _, skillLine in ipairs(skillType.skillLines or {}) do
-                totalAbilitiesWithMorphs = totalAbilitiesWithMorphs + #(skillLine.abilities or {})
+    if skillProgressionData and skillProgressionData.summary then
+        local summary = skillProgressionData.summary
+        maxedSkillLines = summary.maxedCount or 0
+        inProgressSkillLines = summary.inProgressCount or 0
+        earlyProgressSkillLines = summary.earlyProgressCount or 0
+        overallCompletion = summary.completionPercent or 0
+    elseif skillProgressionData and skillProgressionData.lines then
+        for _, line in ipairs(skillProgressionData.lines) do
+            if line.status == "maxed" or line.maxed then
+                maxedSkillLines = maxedSkillLines + 1
+            elseif line.status == "in_progress" then
+                inProgressSkillLines = inProgressSkillLines + 1
+            else
+                earlyProgressSkillLines = earlyProgressSkillLines + 1
             end
         end
-    end
-
-    -- Count skill lines by status
-    if skillProgressionData and #skillProgressionData > 0 then
+        local totalSkillLines = maxedSkillLines + inProgressSkillLines + earlyProgressSkillLines
+        overallCompletion = totalSkillLines > 0 and math.floor((maxedSkillLines / totalSkillLines) * 100) or 0
+    elseif skillProgressionData and #skillProgressionData > 0 then
         for _, category in ipairs(skillProgressionData) do
             if category.skills and #category.skills > 0 then
                 for _, skill in ipairs(category.skills) do
@@ -47,10 +157,9 @@ function skills.GenerateProgressSummary(skillProgressionData, skillMorphsData)
                 end
             end
         end
+        local totalSkillLines = maxedSkillLines + inProgressSkillLines + earlyProgressSkillLines
+        overallCompletion = totalSkillLines > 0 and math.floor((maxedSkillLines / totalSkillLines) * 100) or 0
     end
-
-    local totalSkillLines = maxedSkillLines + inProgressSkillLines + earlyProgressSkillLines
-    local overallCompletion = totalSkillLines > 0 and math.floor((maxedSkillLines / totalSkillLines) * 100) or 0
 
     local output = "### Progress Overview\n\n"
 
@@ -100,52 +209,19 @@ function skills.GenerateSkills(skillData, skillMorphsData)
 
     local output = ""
 
-    -- Filter out Alliance War category
-    local filteredSkillData = {}
-    for _, category in ipairs(skillData) do
-        if category.name ~= "Alliance War" then
-            table.insert(filteredSkillData, category)
-        end
-    end
-
     -- Add Progress Summary
     local summaryTable = skills.GenerateProgressSummary(skillData, skillMorphsData)
     if summaryTable and summaryTable ~= "" then
         output = output .. summaryTable .. "\n\n"
     end
 
-    -- Reorganize: Group by status
-    local statusGroups = { maxed = {}, inProgress = {}, earlyProgress = {} }
-
-    for _, category in ipairs(filteredSkillData) do
-        if category.skills and #category.skills > 0 then
-            local maxedSkills = {}
-            local inProgressSkills = {}
-            local earlyProgressSkills = {}
-
-            for _, skill in ipairs(category.skills) do
-                if skill.isRacial or skill.maxed or (skill.rank and skill.rank >= 50) then
-                    table.insert(maxedSkills, skill)
-                elseif skill.rank and skill.rank >= 20 then
-                    table.insert(inProgressSkills, skill)
-                else
-                    table.insert(earlyProgressSkills, skill)
-                end
-            end
-
-            if #maxedSkills > 0 then
-                statusGroups.maxed[category.name] =
-                    { emoji = category.emoji or "⚔️", name = category.name, skills = maxedSkills }
-            end
-            if #inProgressSkills > 0 then
-                statusGroups.inProgress[category.name] =
-                    { emoji = category.emoji or "⚔️", name = category.name, skills = inProgressSkills }
-            end
-            if #earlyProgressSkills > 0 then
-                statusGroups.earlyProgress[category.name] =
-                    { emoji = category.emoji or "⚔️", name = category.name, skills = earlyProgressSkills }
-            end
-        end
+    local statusGroups
+    if skillData.lines then
+        statusGroups = GroupLinesByStatusAndCategory(skillData.lines, ALLIANCE_WAR_SKILL_TYPE)
+    elseif #skillData > 0 then
+        statusGroups = GroupLegacyCategoriesByStatus(skillData, "Alliance War")
+    else
+        statusGroups = { maxed = {}, inProgress = {}, earlyProgress = {} }
     end
 
     local function GeneratePassivesList(skills_list)
@@ -186,7 +262,7 @@ function skills.GenerateSkills(skillData, skillMorphsData)
     -- Generate Maxed Skills section
     if next(statusGroups.maxed) then
         output = output .. "### ✅ Maxed Skills\n\n"
-        for categoryName, categoryData in pairs(statusGroups.maxed) do
+        for _, categoryData in pairs(statusGroups.maxed) do
             local maxedNames = {}
             for _, skill in ipairs(categoryData.skills) do
                 table.insert(maxedNames, "**" .. cache.CreateSkillLineLink(skill.name) .. "**")
@@ -219,7 +295,7 @@ function skills.GenerateSkills(skillData, skillMorphsData)
     -- Generate In-Progress Skills section
     if next(statusGroups.inProgress) then
         output = output .. "### 📈 In-Progress Skills\n\n"
-        for categoryName, categoryData in pairs(statusGroups.inProgress) do
+        for _, categoryData in pairs(statusGroups.inProgress) do
             local lineParts = {}
             for _, skill in ipairs(categoryData.skills) do
                 local progressBar = cache.GenerateProgressBar(skill.progress or 0, 10)
@@ -261,7 +337,7 @@ function skills.GenerateSkills(skillData, skillMorphsData)
     -- Generate Early Progress Skills section
     if next(statusGroups.earlyProgress) then
         output = output .. "### ⚪ Early Progress Skills\n\n"
-        for categoryName, categoryData in pairs(statusGroups.earlyProgress) do
+        for _, categoryData in pairs(statusGroups.earlyProgress) do
             local lineParts = {}
             for _, skill in ipairs(categoryData.skills) do
                 local progressBar = cache.GenerateProgressBar(skill.progress or 0, 10)

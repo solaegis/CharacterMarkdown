@@ -9,8 +9,12 @@ local CreateBuffLink, FormatNumber, GenerateAnchor
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
-        CreateBuffLink = CM.links.CreateBuffLink
-        FormatNumber = CM.utils.FormatNumber
+        if CM.links then
+            CreateBuffLink = CM.links.CreateBuffLink
+        end
+        if CM.utils then
+            FormatNumber = CM.utils.FormatNumber
+        end
         GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
@@ -309,13 +313,13 @@ local function GenerateAdvancedStats(statsData)
         markdown = markdown .. "| ⚔️ **Heavy Attack** | " .. fmt(core.heavyAttackDamage) .. " dmg |\n"
 
         local bashStr = ""
-        if core.bashCost > 0 then
+        if (core.bashCost or 0) > 0 then
             bashStr = fmt(core.bashCost) .. " cost, "
         end
         markdown = markdown .. "| ⚔️ **Bash** | " .. bashStr .. fmt(core.bashDamage) .. " dmg |\n"
 
         local blockStr = ""
-        if core.blockCost > 0 then
+        if (core.blockCost or 0) > 0 then
             blockStr = fmt(core.blockCost) .. " cost, "
         end
         markdown = markdown
@@ -326,21 +330,21 @@ local function GenerateAdvancedStats(statsData)
             .. fmtPct(core.blockSpeed)
             .. " spd |\n"
 
-        if core.breakFreeCost > 0 then
+        if (core.breakFreeCost or 0) > 0 then
             markdown = markdown .. "| 🔓 **Break Free** | " .. fmt(core.breakFreeCost) .. " cost |\n"
         end
-        if core.dodgeRollCost > 0 then
+        if (core.dodgeRollCost or 0) > 0 then
             markdown = markdown .. "| 🏃 **Dodge Roll** | " .. fmt(core.dodgeRollCost) .. " cost |\n"
         end
 
         local sneakStr = ""
-        if core.sneakCost > 0 then
+        if (core.sneakCost or 0) > 0 then
             sneakStr = fmt(core.sneakCost) .. " cost, "
         end
         markdown = markdown .. "| 🐾 **Sneak** | " .. sneakStr .. fmtPct(core.sneakSpeed) .. " spd |\n"
 
         local sprintStr = ""
-        if core.sprintCost > 0 then
+        if (core.sprintCost or 0) > 0 then
             sprintStr = fmt(core.sprintCost) .. " cost, "
         end
         markdown = markdown .. "| 🏃‍♂️ **Sprint** | " .. sprintStr .. fmtPct(core.sprintSpeed) .. " spd |\n"

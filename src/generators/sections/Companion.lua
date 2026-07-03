@@ -11,9 +11,13 @@ local table_insert = table.insert
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not Pluralize then
-        CreateAbilityLink = CM.links.CreateAbilityLink
-        CreateCompanionLink = CM.links.CreateCompanionLink
-        Pluralize = CM.generators.helpers.Pluralize
+        if CM.links then
+            CreateAbilityLink = CM.links.CreateAbilityLink
+            CreateCompanionLink = CM.links.CreateCompanionLink
+        end
+        if CM.generators and CM.generators.helpers then
+            Pluralize = CM.generators.helpers.Pluralize
+        end
         GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
@@ -49,7 +53,7 @@ local function GenerateCompanion(companionData)
 
             -- Show available companions as list
             for _, comp in ipairs(sortedCompanions) do
-                local companionLink = CreateCompanionLink(comp.name)
+                local companionLink = CreateCompanionLink and CreateCompanionLink(comp.name) or (comp.name or "Unknown")
                 markdown = markdown .. "- " .. companionLink .. "\n"
             end
             markdown = markdown .. "\n"
@@ -91,7 +95,7 @@ local function GenerateCompanion(companionData)
     -- Active Companion section (only shown if there's an active companion)
     markdown = markdown .. "### Active Companion\n\n"
 
-    local companionNameLinked = CreateCompanionLink(companionName)
+    local companionNameLinked = CreateCompanionLink and CreateCompanionLink(companionName) or companionName
     markdown = markdown .. "#### 🧙 " .. companionNameLinked .. "\n\n"
 
     -- Collect warnings for companion issues
@@ -288,6 +292,9 @@ local function GenerateCompanion(companionData)
 
                 -- Trait information
                 local traitText = item.traitName or "None"
+                if CM.utils and CM.utils.StripColorCodes then
+                    traitText = CM.utils.StripColorCodes(traitText)
+                end
                 if traitText == "None" then
                     traitText = "-"
                 end
@@ -326,7 +333,11 @@ local function GenerateCompanion(companionData)
                 end
 
                 if item.traitName and item.traitName ~= "None" then
-                    itemText = itemText .. " — Trait: " .. item.traitName
+                    local traitLabel = item.traitName
+                    if CM.utils and CM.utils.StripColorCodes then
+                        traitLabel = CM.utils.StripColorCodes(traitLabel)
+                    end
+                    itemText = itemText .. " — Trait: " .. traitLabel
                 end
 
                 if item.enchantName then
