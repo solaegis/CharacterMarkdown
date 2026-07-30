@@ -49,9 +49,15 @@ local function CollectCharacterData()
     data.gender = genderInfo.name or "Unknown"
     data.race = raceInfo.name or "Unknown"
     data.class = classInfo.name or "Unknown"
+    data.classId = classInfo.id
     data.alliance = allianceName
     data.level = levelInfo.level or 0
     data.title = titleInfo or ""
+
+    -- Subclassing: active class lines with foreign classId vs native
+    if CM.api.skills and CM.api.skills.GetSubclassConfiguration then
+        data.subclass = CM.api.skills.GetSubclassConfiguration()
+    end
 
     -- Server and account
     data.server = locationInfo.world or "Unknown"

@@ -1044,6 +1044,53 @@ local function StripPadding(content, isLastChunk)
     return stripped
 end
 
+-- Detect chunk boundaries that would split a ```mermaid opener into bare "mermaid"
+local function WouldSplitPartialMermaidFence(markdown, chunkEnd, markdownLen)
+    if chunkEnd >= markdownLen then
+        return false
+    end
+
+    local nextStart = chunkEnd + 1
+    local afterSplit = string.sub(markdown, nextStart, math.min(markdownLen, nextStart + 12))
+    if afterSplit:match("^%s*mermaid") then
+        return true
+    end
+
+    -- Split inside "```mermaid" (after opening backticks, before the word)
+    for i = math.max(1, chunkEnd - 9), chunkEnd do
+        if string.sub(markdown, i, i + 9) == "```mermaid" and chunkEnd < i + 10 then
+            return true
+        end
+    end
+
+    return false
+end
+
+-- Backtrack before a partial ```mermaid fence so the next chunk keeps the full opener
+local function BacktrackFromPartialMermaidFence(markdown, chunkEnd, pos, isLast, backtrackBefore)
+    local nextStart = chunkEnd + 1
+    local markdownLen = string.len(markdown)
+    if nextStart > markdownLen then
+        return nil
+    end
+
+    local afterSplit = string.sub(markdown, nextStart, math.min(markdownLen, nextStart + 12))
+    if not afterSplit:match("^%s*mermaid") and not afterSplit:match("^%s*``") then
+        return nil
+    end
+
+    for i = math.min(chunkEnd, nextStart - 1), pos, -1 do
+        if string.sub(markdown, i, i + 2) == "```" then
+            local newEnd = backtrackBefore(i, isLast)
+            if newEnd then
+                return newEnd
+            end
+        end
+    end
+
+    return nil
+end
+
 
 -- Split markdown into chunks with conservative padding to prevent truncation
 -- This is the consolidated, best implementation that handles:
@@ -1303,6 +1350,14 @@ local function SplitMarkdownIntoChunks(markdown)
             end
         end
 
+        -- Never split inside a ```mermaid opener (prevents bare "mermaid" at chunk start)
+        if WouldSplitPartialMermaidFence(markdown, chunkEnd, markdownLength) then
+            local newEnd = BacktrackFromPartialMermaidFence(markdown, chunkEnd, pos, isLast, BacktrackBefore)
+            if newEnd then
+                chunkEnd = newEnd
+            end
+        end
+
         return chunkEnd, (chunkEnd >= markdownLength)
     end
 
@@ -1393,6 +1448,9 @@ local function SplitMarkdownIntoChunks(markdown)
                     or chunkContent:match("^%s*journey")
 
                 if startsWithMermaidFence then
+                    skipMermaidClose = true
+                elseif chunkContent:match("^%s*mermaid") then
+                    chunkContent = "```" .. chunkContent
                     skipMermaidClose = true
                 elseif chunkContent:match("^%s*```") then
                     chunkContent = chunkContent:gsub("^%s*```%s*", "", 1)

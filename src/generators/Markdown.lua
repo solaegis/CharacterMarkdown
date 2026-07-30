@@ -905,43 +905,126 @@ local function GenerateMarkdown()
         return "ERROR: Collectors not loaded. Type /reloadui and try again."
     end
 
-    -- Collect all data with error handling and aggregation
+    -- Get settings before collection so disabled sections skip heavy collectors
+    -- CM.GetSettings() merges with defaults to ensure every setting is true or false, never nil
+    local settings = CM.GetSettings() or {}
+
+    local function Need(...)
+        for i = 1, select("#", ...) do
+            local settingName = select(i, ...)
+            if IsSettingEnabled(settings, settingName, false) then
+                return true
+            end
+        end
+        return false
+    end
+
+    -- Optional collectors: only run when at least one consuming section is enabled
+    local function MaybeCollect(enabled, name, fn)
+        if enabled and fn then
+            return SafeCollect(name, fn)
+        end
+        return nil
+    end
+
+    -- Collect data with error handling; skip collectors for disabled sections
     CM.DebugPrint("GENERATOR", "Starting data collection...")
 
+    local needOverview = Need("includeGeneral", "includeCurrency", "includeQuickStats")
+    local needCombat = Need("includeBasicCombatStats", "includeAdvancedStats", "includeSkillBars")
+    local needSkills = Need("includeSkills", "includeSkillMorphs")
+    local needCp = Need("includeChampionPoints", "includeChampionDiagram") or needOverview
+    local needPvp = Need("includePvP", "includePvPStats", "showAllianceWarSkills")
+    local needTitlesHousing = Need("includeTitlesHousing", "includeHousing")
+    local needCollectibles = Need("includeCollectibles") or needTitlesHousing
+    local needCrafting = Need("includeCrafting", "includeMotifs", "includeRecipes")
+    local needGuilds = Need("includeGuilds", "includeUndauntedPledges")
+
     local collectedData = {
+        -- Always collect: identity + cheap fields used by header/footer
         character = SafeCollect("CollectCharacterData", CM.collectors.CollectCharacterData),
-        characterAttributes = SafeCollect("CollectAttributesData", CM.collectors.CollectAttributesData),
-        dlc = SafeCollect("CollectDLCAccess", CM.collectors.CollectDLCAccess),
-        mundus = SafeCollect("CollectMundusData", CM.collectors.CollectMundusData),
-        buffs = SafeCollect("CollectActiveBuffs", CM.collectors.CollectActiveBuffs),
-        cp = SafeCollect("CollectChampionPointData", CM.collectors.CollectChampionPointData),
-        skillBar = SafeCollect("CollectSkillBarData", CM.collectors.CollectSkillBarData),
-        skillMorphs = SafeCollect("CollectSkillMorphsData", CM.collectors.CollectSkillMorphsData),
-        stats = SafeCollect("CollectCombatStatsData", CM.collectors.CollectCombatStatsData),
-        equipment = SafeCollect("CollectEquipmentData", CM.collectors.CollectEquipmentData),
-        skill = SafeCollect("CollectSkillProgressionData", CM.collectors.CollectSkillProgressionData),
-        companion = SafeCollect("CollectCompanionData", CM.collectors.CollectCompanionData),
-        currency = SafeCollect("CollectCurrencyData", CM.collectors.CollectCurrencyData),
-        progression = SafeCollect("CollectProgressionData", CM.collectors.CollectProgressionData), -- Re-enabled: needed for skill points in QuickStats
-        riding = SafeCollect("CollectRidingSkillsData", CM.collectors.CollectRidingSkillsData),
-        inventory = SafeCollect("CollectInventoryData", CM.collectors.CollectInventoryData),
-        pvp = SafeCollect("CollectPvPData", CM.collectors.CollectPvPData),
-        role = SafeCollect("CollectRoleData", CM.collectors.CollectRoleData),
-        location = SafeCollect("CollectLocationData", CM.collectors.CollectLocationData),
-        collectibles = SafeCollect("CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
-        crafting = SafeCollect("CollectCraftingData", CM.collectors.CollectCraftingData),
-        styles = SafeCollect("CollectStylesData", CM.collectors.CollectStylesData),
-        achievements = SafeCollect("CollectAchievementsData", CM.collectors.CollectAchievementsData),
-        antiquities = SafeCollect("CollectAntiquitiesData", CM.collectors.CollectAntiquitiesData),
-        quests = SafeCollect("CollectQuestJournalData", CM.collectors.CollectQuestJournalData),
-        -- equipmentEnhancement = SafeCollect("CollectEquipmentEnhancementData", CM.collectors.CollectEquipmentEnhancementData),  -- DISABLED: generator returns empty
-        -- worldProgress = SafeCollect("CollectWorldProgressData", CM.collectors.CollectWorldProgressData),  -- DISABLED
-        titles = SafeCollect("CollectTitlesData", CM.collectors.CollectTitlesData),
-        housing = SafeCollect("CollectHousingData", CM.collectors.CollectHousingData),
-        armoryBuilds = SafeCollect("CollectArmoryBuildsData", CM.collectors.CollectArmoryBuildsData),
-        undauntedPledges = SafeCollect("CollectUndauntedPledgesData", CM.collectors.CollectUndauntedPledgesData),
-        guilds = SafeCollect("CollectGuildsData", CM.collectors.CollectGuildsData),
-        mail = SafeCollect("CollectMailData", CM.collectors.CollectMailData),
+        characterAttributes = MaybeCollect(
+            Need("includeCharacterAttributes") or needOverview,
+            "CollectAttributesData",
+            CM.collectors.CollectAttributesData
+        ),
+        dlc = MaybeCollect(
+            Need("includeDLCAccess") or needCollectibles,
+            "CollectDLCAccess",
+            CM.collectors.CollectDLCAccess
+        ),
+        mundus = MaybeCollect(needOverview or Need("includeBuffs"), "CollectMundusData", CM.collectors.CollectMundusData),
+        buffs = MaybeCollect(Need("includeBuffs") or needOverview, "CollectActiveBuffs", CM.collectors.CollectActiveBuffs),
+        cp = MaybeCollect(needCp, "CollectChampionPointData", CM.collectors.CollectChampionPointData),
+        skillBar = MaybeCollect(Need("includeSkillBars"), "CollectSkillBarData", CM.collectors.CollectSkillBarData),
+        skillMorphs = MaybeCollect(
+            Need("includeSkillMorphs"),
+            "CollectSkillMorphsData",
+            CM.collectors.CollectSkillMorphsData
+        ),
+        stats = MaybeCollect(needCombat, "CollectCombatStatsData", CM.collectors.CollectCombatStatsData),
+        equipment = MaybeCollect(
+            Need("includeEquipment", "includeBuildNotes"),
+            "CollectEquipmentData",
+            CM.collectors.CollectEquipmentData
+        ),
+        skill = MaybeCollect(needSkills, "CollectSkillProgressionData", CM.collectors.CollectSkillProgressionData),
+        companion = MaybeCollect(Need("includeCompanion"), "CollectCompanionData", CM.collectors.CollectCompanionData),
+        currency = MaybeCollect(
+            Need("includeCurrency") or needOverview,
+            "CollectCurrencyData",
+            CM.collectors.CollectCurrencyData
+        ),
+        progression = MaybeCollect(
+            Need("includeProgression") or needOverview,
+            "CollectProgressionData",
+            CM.collectors.CollectProgressionData
+        ),
+        riding = MaybeCollect(
+            Need("includeRidingSkills") or needCollectibles,
+            "CollectRidingSkillsData",
+            CM.collectors.CollectRidingSkillsData
+        ),
+        inventory = MaybeCollect(Need("includeInventory"), "CollectInventoryData", CM.collectors.CollectInventoryData),
+        pvp = MaybeCollect(needPvp or needOverview, "CollectPvPData", CM.collectors.CollectPvPData),
+        role = MaybeCollect(Need("includeRole"), "CollectRoleData", CM.collectors.CollectRoleData),
+        location = MaybeCollect(
+            Need("includeLocation") or needOverview,
+            "CollectLocationData",
+            CM.collectors.CollectLocationData
+        ),
+        collectibles = MaybeCollect(
+            needCollectibles,
+            "CollectCollectiblesData",
+            CM.collectors.CollectCollectiblesData
+        ),
+        crafting = MaybeCollect(needCrafting, "CollectCraftingData", CM.collectors.CollectCraftingData),
+        styles = MaybeCollect(Need("includeStyles"), "CollectStylesData", CM.collectors.CollectStylesData),
+        achievements = MaybeCollect(
+            Need("includeAchievements"),
+            "CollectAchievementsData",
+            CM.collectors.CollectAchievementsData
+        ),
+        antiquities = MaybeCollect(
+            Need("includeAntiquities"),
+            "CollectAntiquitiesData",
+            CM.collectors.CollectAntiquitiesData
+        ),
+        quests = MaybeCollect(Need("includeQuests"), "CollectQuestJournalData", CM.collectors.CollectQuestJournalData),
+        titles = MaybeCollect(needTitlesHousing, "CollectTitlesData", CM.collectors.CollectTitlesData),
+        housing = MaybeCollect(needTitlesHousing, "CollectHousingData", CM.collectors.CollectHousingData),
+        armoryBuilds = MaybeCollect(
+            Need("includeArmoryBuilds"),
+            "CollectArmoryBuildsData",
+            CM.collectors.CollectArmoryBuildsData
+        ),
+        undauntedPledges = MaybeCollect(
+            needGuilds,
+            "CollectUndauntedPledgesData",
+            CM.collectors.CollectUndauntedPledgesData
+        ),
+        guilds = MaybeCollect(Need("includeGuilds"), "CollectGuildsData", CM.collectors.CollectGuildsData),
+        mail = MaybeCollect(Need("includeMail"), "CollectMailData", CM.collectors.CollectMailData),
         customNotes = (CM.charData and CM.charData.customNotes)
             or (CharacterMarkdownData and CharacterMarkdownData.customNotes)
             or "",
@@ -956,11 +1039,6 @@ local function GenerateMarkdown()
 
     -- Report any collection errors
     ReportCollectionErrors()
-
-    -- Get settings - use CM.GetSettings() which guarantees no nil values
-    -- Settings are always stored in flat format in SavedVariables
-    -- CM.GetSettings() merges with defaults to ensure every setting is true or false, never nil
-    local settings = CM.GetSettings() or {}
 
     -- Get section generators
     local gen = GetGenerators()

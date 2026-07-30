@@ -634,122 +634,65 @@ function CharacterMarkdown_RegenerateMarkdown()
 
     CM.DebugPrint("UI", "Regenerating markdown...")
 
-    -- CRITICAL: Clear previous state before generating new markdown
-    ClearChunks()
-
-    -- Reset selection state when regenerating
-    ResetSelectionState()
-
-    -- Clear the window and reset UI elements
-    if editBoxControl then
-        editBoxControl:SetText("")
-        editBoxControl._originalText = "" -- Store for OnTextChanged handler
-        UpdateOverlayVisibility()
+    -- Show generating feedback immediately so the UI does not appear frozen
+    if CharacterMarkdown_ShowGeneratingPlaceholder then
+        CharacterMarkdown_ShowGeneratingPlaceholder(CM.currentFormatter or "markdown")
+    else
+        ClearChunks()
+        ResetSelectionState()
+        if editBoxControl then
+            editBoxControl:SetText("")
+            editBoxControl._originalText = ""
+            UpdateOverlayVisibility()
+        end
     end
 
-    -- Reset UI elements to prevent stale data display
-    local instructionsLabel = CharacterMarkdownWindowInstructions
-    local statusLabel = CharacterMarkdownWindowStatusIndicator
-    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
-    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
+    -- Defer generation so the placeholder can paint
+    zo_callLater(function()
+        local success, markdown = pcall(CM.formatters.GenerateMarkdown)
 
-    if instructionsLabel then
-        instructionsLabel:SetText("")
-    end
-    if statusLabel then
-        statusLabel:SetHidden(true)
-    end
-    -- Initialize navigation buttons as disabled (will be enabled if multiple chunks)
-    if prevButton then
-        prevButton:SetEnabled(false)
-        prevButton:SetAlpha(0.5)
-    end
-    if nextButton then
-        nextButton:SetEnabled(false)
-        nextButton:SetAlpha(0.5)
-    end
-
-    -- Regenerate markdown
-    local success, markdown = pcall(CM.formatters.GenerateMarkdown)
-
-    if not success then
-        CM.Error("Failed to regenerate markdown: " .. tostring(markdown))
-        return
-    end
-
-    if not markdown then
-        CM.Error("Generated markdown is nil")
-        return
-    end
-
-    -- Handle both string (single chunk) and table (chunks array) returns
-    local isChunksArray = type(markdown) == "table"
-
-    if isChunksArray then
-        if #markdown == 0 then
-            CM.Error("Generated markdown chunks array is empty")
+        if not success then
+            CM.Error("Failed to regenerate markdown: " .. tostring(markdown))
             return
         end
 
-        -- Update chunks
-        markdownChunks = markdown
-        currentChunkIndex = 1
-
-        -- Store full markdown as concatenated chunks for clipboard operations
-        -- CRITICAL: Strip padding when concatenating for paste
-        -- Padding is only needed for chunking logic, not for final paste output
-        local fullMarkdown = ""
-
-        for i, chunk in ipairs(markdownChunks) do
-            local isLastChunk = (i == #markdownChunks)
-            local chunkContent = CM.utils.Chunking.StripPadding(chunk.content, isLastChunk)
-            CM.DebugPrint("UI", string.format("Stripped padding from chunk %d/%d for paste", i, #markdownChunks))
-
-            -- Verify chunk ends with newline (unless it's the very last chunk)
-            -- This prevents mid-line/mid-link splits when concatenating
-            if not isLastChunk then
-                local lastChar = string.sub(chunkContent, -1, -1)
-                if lastChar ~= "\n" then
-                    CM.Warn(
-                        string.format(
-                            "Chunk %d/%d: Missing newline at end, adding one to prevent paste truncation",
-                            i,
-                            #markdownChunks
-                        )
-                    )
-                    chunkContent = chunkContent .. "\n"
-                end
-            end
-
-            fullMarkdown = fullMarkdown .. chunkContent
+        if not markdown then
+            CM.Error("Generated markdown is nil")
+            return
         end
-        currentMarkdown = fullMarkdown
 
-        -- Show first chunk
-        ShowChunk(1)
-    else
-        if markdown == "" then
+        local isChunksArray = type(markdown) == "table"
+        if isChunksArray and #markdown == 0 then
+            CM.Error("Generated markdown chunks array is empty")
+            return
+        end
+        if not isChunksArray and markdown == "" then
             CM.Error("Generated markdown is empty")
             return
         end
 
-        -- Update stored markdown
-        currentMarkdown = markdown
+        CharacterMarkdown_ShowWindow(markdown, CM.currentFormatter or "markdown")
 
-        -- Wrap in chunks array format
-        markdownChunks = { { content = markdown } }
-        currentChunkIndex = 1
-
-        -- Update the EditBox
-        editBoxControl:SetText(markdown)
-        editBoxControl._originalText = markdown -- Store for OnTextChanged handler
-        editBoxControl:SetColor(1, 1, 1, 1)
-        UpdateOverlayVisibility()
-
-        -- Select all text and take focus - CRITICAL: TakeFocus() as FINAL operation
-        CM.DebugPrint("UI", "Regenerated - Text selected and ready to copy")
-        SelectAll(150)
-    end
+        local markdownSize = 0
+        local chunkCount = 1
+        if isChunksArray then
+            chunkCount = #markdown
+            for _, chunk in ipairs(markdown) do
+                markdownSize = markdownSize + string.len(chunk.content or "")
+            end
+        else
+            markdownSize = string.len(markdown)
+        end
+        local sizeKb = math.floor((markdownSize / 1024) * 10 + 0.5) / 10
+        CM.Info(
+            string.format(
+                "CharacterMarkdown ready — regenerated (%d chunk%s, %.1f KB).",
+                chunkCount,
+                chunkCount == 1 and "" or "s",
+                sizeKb
+            )
+        )
+    end, 50)
 end
 
 -- =====================================================
@@ -962,6 +905,98 @@ function CharacterMarkdown_PreviousChunk()
 end
 
 -- =====================================================
+-- SHOW GENERATING PLACEHOLDER (opens before collection)
+-- =====================================================
+
+function CharacterMarkdown_ShowGeneratingPlaceholder(formatter)
+    formatter = formatter or "markdown"
+    CM.currentFormatter = formatter
+
+    if not InitializeWindowControls() then
+        CM.Error("Window initialization failed")
+        return false
+    end
+
+    ClearChunks()
+    ResetSelectionState()
+
+    windowControl._isImportMode = false
+    windowControl._isGenerating = true
+
+    -- Disable actions while generating
+    local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
+    local selectAllButton = CharacterMarkdownWindowButtonContainerSelectAllButton
+    if regenerateButton then
+        regenerateButton:SetEnabled(false)
+        regenerateButton:SetAlpha(0.5)
+    end
+    if selectAllButton then
+        selectAllButton:SetEnabled(false)
+        selectAllButton:SetAlpha(0.5)
+    end
+
+    if SetGameCameraUIMode and IsGameCameraUIModeActive then
+        windowControl._savedUIMode = IsGameCameraUIModeActive()
+        SetGameCameraUIMode(true)
+    elseif ZO_SceneManager_ToggleUIModeBinding and type(ZO_SceneManager_ToggleUIModeBinding) == "function" then
+        ZO_SceneManager_ToggleUIModeBinding()
+        windowControl._savedUIMode = nil
+        windowControl._usedToggleFallback = true
+    end
+
+    local placeholder = table.concat({
+        "# Generating CharacterMarkdown profile…",
+        "",
+        "Please wait while character data is collected and formatted.",
+        "The export will appear here when ready.",
+        "",
+        "Tip: Use Select All + Copy to paste into AI tools or forums.",
+    }, "\n")
+
+    markdownChunks = { { content = placeholder } }
+    currentChunkIndex = 1
+    currentMarkdown = placeholder
+
+    if editBoxControl then
+        editBoxControl:SetText(placeholder)
+        editBoxControl._originalText = placeholder
+        UpdateOverlayVisibility()
+    end
+
+    local instructionsLabel = CharacterMarkdownWindowInstructions
+    local statusLabel = CharacterMarkdownWindowStatusIndicator
+    if instructionsLabel then
+        instructionsLabel:SetText("|cFFD700Generating profile…|r Please wait.")
+    end
+    if statusLabel then
+        statusLabel:SetHidden(false)
+        statusLabel:SetText("|cFFD700Generating…|r")
+    end
+
+    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
+    if prevButton then
+        prevButton:SetEnabled(false)
+        prevButton:SetAlpha(0.5)
+    end
+    if nextButton then
+        nextButton:SetEnabled(false)
+        nextButton:SetAlpha(0.5)
+    end
+
+    windowControl:SetHidden(false)
+    if windowControl.SetTopmost then
+        windowControl:SetTopmost(true)
+    end
+    if windowControl.Activate then
+        windowControl:Activate()
+    end
+
+    CM.DebugPrint("UI", "Generating placeholder window opened")
+    return true
+end
+
+-- =====================================================
 -- SHOW WINDOW FUNCTION
 -- =====================================================
 
@@ -1027,20 +1062,26 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
         end)
     end
 
-    -- Clear import mode flag
+    -- Clear import / generating flags for normal display
     windowControl._isImportMode = false
+    windowControl._isGenerating = false
 
     -- Enable game camera UI mode so cursor is visible and buttons can be clicked
     -- This fixes: mouse stuck in look mode when window opens; also routes keyboard to UI
     if SetGameCameraUIMode and IsGameCameraUIModeActive then
-        windowControl._savedUIMode = IsGameCameraUIModeActive()
+        -- Preserve earlier saved mode if placeholder already opened the window
+        if windowControl._savedUIMode == nil then
+            windowControl._savedUIMode = IsGameCameraUIModeActive()
+        end
         SetGameCameraUIMode(true)
         CM.DebugPrint("UI", "Enabled game camera UI mode for cursor/button interaction")
     elseif ZO_SceneManager_ToggleUIModeBinding and type(ZO_SceneManager_ToggleUIModeBinding) == "function" then
         -- Fallback: toggle UI mode when SetGameCameraUIMode not available (e.g. older ESO client)
-        ZO_SceneManager_ToggleUIModeBinding()
-        windowControl._savedUIMode = nil
-        windowControl._usedToggleFallback = true
+        if not windowControl._usedToggleFallback then
+            ZO_SceneManager_ToggleUIModeBinding()
+            windowControl._savedUIMode = nil
+            windowControl._usedToggleFallback = true
+        end
         CM.DebugPrint("UI", "Enabled UI mode via ToggleUIModeBinding fallback")
     end
 

@@ -72,6 +72,13 @@ local function GenerateGeneral(
             or (charData.alliance or "Unknown")
 
         table_insert(allRows, { "**Class**", classText })
+
+        -- Subclassing (active foreign class skill lines)
+        if charData.subclass then
+            local subclassText = charData.subclass.summary or "None (native class lines)"
+            table_insert(allRows, { "**Subclass**", subclassText })
+        end
+
         table_insert(allRows, { "**Race**", raceText })
         table_insert(allRows, { "**Alliance**", allianceText })
 
@@ -404,6 +411,10 @@ local function GenerateGeneral(
             or (charData.alliance or "Unknown")
 
         result = result .. string_format("|| **Class** | %s |\n", classText)
+        if charData.subclass then
+            local subclassText = charData.subclass.summary or "None (native class lines)"
+            result = result .. string_format("|| **Subclass** | %s |\n", subclassText)
+        end
         result = result .. string_format("|| **Race** | %s |\n", raceText)
         result = result .. string_format("|| **Alliance** | %s |\n", allianceText)
 
@@ -615,6 +626,10 @@ local function GenerateGeneral(
         table.insert(lines, string_format("**Level:** %d", charData.level or 1))
         table.insert(lines, string_format("**Race:** %s", raceText))
         table.insert(lines, string_format("**Class:** %s", classText))
+        if charData.subclass then
+            local subclassText = charData.subclass.summary or "None (native class lines)"
+            table.insert(lines, string_format("**Subclass:** %s", subclassText))
+        end
         table.insert(lines, string_format("**Alliance:** %s", allianceText))
 
         local CreateServerLink = CM.links and CM.links.CreateServerLink

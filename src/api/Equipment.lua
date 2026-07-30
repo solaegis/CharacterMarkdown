@@ -33,8 +33,9 @@ function api.GetItemInfo(bagId, slotIndex)
     end
 
     -- Set Info: hasSet, setName, numBonuses, numNormalEquipped, maxEquipped, setId, numPerfectedEquipped
+    -- Pass equipped=true so numNormalEquipped reflects currently worn pieces (2H weapons count as 2)
     local success, hasSet, setName, _, numNormalEquipped, maxEquipped, setId =
-        CM.SafeCallMulti(GetItemLinkSetInfo, link, false)
+        CM.SafeCallMulti(GetItemLinkSetInfo, link, true)
 
     -- Enchant: hasCharges, enchantHeader, enchantDescription
     local success_enchant, hasCharges, enchantHeader, enchantDescription =

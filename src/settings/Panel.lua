@@ -1724,7 +1724,9 @@ function CM.Settings.Panel:AddActions(options)
         name = "Generate Profile Now",
         tooltip = "Open the copy window with current settings",
         func = function()
-            if SLASH_COMMANDS and SLASH_COMMANDS["/markdown"] then
+            if CM.commands and CM.commands.GenerateOutput then
+                CM.commands.GenerateOutput("markdown")
+            elseif SLASH_COMMANDS and type(SLASH_COMMANDS["/markdown"]) == "function" then
                 SLASH_COMMANDS["/markdown"]("")
             else
                 CM.Error("Command not available - try /reloadui")
@@ -1865,7 +1867,7 @@ function CM.Settings.Panel:AddActions(options)
     table.insert(options, {
         type = "button",
         name = "Enable All Sections",
-        tooltip = "Turn on all content sections (Champion Points, Equipment, Currency, etc.)",
+        tooltip = "Turn on all content sections (Champion Points, Equipment, Currency, etc.). Full export can take several seconds and briefly pause the game.",
         func = function()
             ToggleAllSections(true)
             -- Force panel refresh
@@ -2037,8 +2039,8 @@ function CM.Settings.Panel:AddActions(options)
 
     table.insert(options, {
         type = "button",
-        name = "Preset: Minimal",
-        tooltip = "Build sharing: Combat, Equipment, Skills, Champion Points, Currency. No UESP links. Disables optional sections.",
+        name = "Preset: Minimal (Build Export)",
+        tooltip = "Build export for sharing: CP, attributes, skill bars, skills, equipment (traits/enchants), combat stats, currency. No UESP links. Disables optional sections (achievements, inventory lists, etc.).",
         func = ApplyMinimalPreset,
         width = "half",
     })

@@ -18,7 +18,7 @@ Settings panel labels from **LibAddonMenu** (`/markdown settings`), with **Reset
 |--------|---------|
 | **Reset to Defaults** | Factory `Defaults.lua`; preserves build notes, custom title, play style text |
 | **Enable All Sections** | Every toggle **On** (not the same as factory defaults) |
-| **Minimal** | Lean build share: header, combat, gear, skills, CP, currency, overview helpers — **no UESP links** |
+| **Minimal** | Lean build share (Build Export): header, combat, gear, skills, CP, currency, overview helpers — **no UESP links** |
 | **Solo PvE** | Minimal + UESP links + quests [BETA] + armory [BETA] + social + progression + riding + companion + morphs + CP diagram + titles + full collectibles + full PvP |
 | **PvP Build** | Minimal + UESP links + core PvP + Alliance War skills + skill morphs + CP diagram + titles + armory [BETA] + social |
 | **Achievement Hunter** | Minimal + UESP links + full achievements + antiquities + collectibles (counts) + full crafting + crafting UESP links |

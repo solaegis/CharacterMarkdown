@@ -30,6 +30,81 @@ function api.GetFirstNormalActionBarSlotIndex()
     return (ACTION_BAR_FIRST_NORMAL_SLOT_INDEX or 2) + 1 -- → 3
 end
 
+---Detect active class skill lines and which are subclassed (foreign classId).
+---@return table {native=table, subclassed=table, hasSubclassing=bool, summary=string}
+function api.GetSubclassConfiguration()
+    local result = {
+        native = {},
+        subclassed = {},
+        hasSubclassing = false,
+        summary = "None (native class lines)",
+    }
+
+    local playerClassId = CM.SafeCall(GetUnitClassId, "player")
+    if not playerClassId or playerClassId == 0 then
+        return result
+    end
+
+    local skillTypeClass = SKILL_TYPE_CLASS or 1
+    local genderId = CM.SafeCall(GetUnitGender, "player") or GENDER_MALE
+    local classNames = CM.constants and CM.constants.CLASS_NAMES
+    local numLines = CM.SafeCall(GetNumSkillLines, skillTypeClass) or 0
+
+    for skillLineIndex = 1, numLines do
+        local success, rank, _, isActive, isDiscovered =
+            CM.SafeCallMulti(GetSkillLineDynamicInfo, skillTypeClass, skillLineIndex)
+        if success and isActive and isDiscovered then
+            local skillLineId = CM.SafeCall(GetSkillLineId, skillTypeClass, skillLineIndex)
+            local name = skillLineId and CM.SafeCall(GetSkillLineNameById, skillLineId) or nil
+            local lineClassId = CM.SafeCall(GetSkillLineClassId, skillTypeClass, skillLineIndex)
+
+            if name and name ~= "" then
+                local entry = {
+                    name = name,
+                    rank = rank or 0,
+                    id = skillLineId,
+                    classId = lineClassId,
+                }
+
+                if lineClassId and lineClassId ~= 0 and lineClassId ~= playerClassId then
+                    local sourceClass = CM.SafeCall(GetClassName, genderId, lineClassId)
+                    if (not sourceClass or sourceClass == "") and classNames and classNames[lineClassId] then
+                        sourceClass = classNames[lineClassId]
+                    end
+                    if sourceClass and sourceClass ~= "" then
+                        sourceClass = zo_strformat("<<1>>", sourceClass)
+                    end
+                    entry.sourceClass = sourceClass or "Unknown"
+                    table.insert(result.subclassed, entry)
+                else
+                    table.insert(result.native, entry)
+                end
+            end
+        end
+    end
+
+    result.hasSubclassing = #result.subclassed > 0
+    if result.hasSubclassing then
+        local parts = {}
+        for _, line in ipairs(result.subclassed) do
+            if line.sourceClass and line.sourceClass ~= "Unknown" then
+                table.insert(parts, string.format("%s (%s)", line.name, line.sourceClass))
+            else
+                table.insert(parts, line.name)
+            end
+        end
+        result.summary = table.concat(parts, ", ")
+    elseif #result.native > 0 then
+        local parts = {}
+        for _, line in ipairs(result.native) do
+            table.insert(parts, line.name)
+        end
+        result.summary = "None — " .. table.concat(parts, " / ")
+    end
+
+    return result
+end
+
 function api.IsUltimateActionBarSlot(slotIndex)
     return slotIndex == api.GetUltimateActionBarSlotIndex()
 end

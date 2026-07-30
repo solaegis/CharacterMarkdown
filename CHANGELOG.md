@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.8] - 2026-07-30
+
+### Fixed
+- **Equipment**: Two-handed weapons under-counting set pieces — use `GetItemLinkSetInfo` `numNormalEquipped` instead of per-slot +1 (`src/collectors/Equipment.lua`, `src/api/Equipment.lua`)
+- **Settings**: **Generate Profile Now** crash (`function expected instead of nil`) — route through `CM.commands.GenerateOutput` with safe fallback
+- **Chunking**: Avoid splitting inside `` ```mermaid `` openers (prevents bare `mermaid` at chunk start)
+
+### Added
+- **Subclass** row in Overview (foreign class skill lines via `GetSkillLineClassId`)
+- Generating placeholder window + chat confirmation when export completes
+- `EquipmentSetCountTests` (run via `/markdown unittest`)
+- Conditional collectors: skip heavy collectors when their sections are disabled
+
+### Changed
+- **Preset: Minimal (Build Export)** label/tooltip; `README_ESOUI.txt` documents presets and enable-all performance note
+- Example exports synced (`karakedi`, `heka_ankh`, `rilis_toxil`, `hya_cinthe_plan`)
+
 ## [2.2.7] - 2026-07-30
 
 ### Added

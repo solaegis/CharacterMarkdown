@@ -73,10 +73,15 @@ You can fully customize your export!
 - Toggle specific sections on or off.
 - Filter minimum skill ranks or equipment quality thresholds.
 
-Built-in Profiles:
-* Full Documentation - Max detail for AI
-* PvE Build - Focused on trials/dungeons
-* PvP Build - Optimized for Cyrodiil/Battlegrounds
+Built-in Profiles (Settings panel presets):
+* Minimal (Build Export) - CP, attributes, skills, gear, combat stats (best for build sharing)
+* Solo PvE - Minimal plus quests, companion, collectibles, progression
+* PvP Build - Minimal plus PvP stats and Alliance War skills
+* Achievement Hunter - Minimal plus achievements, antiquities, collectibles
+* Crafter - Minimal plus crafting, inventory, and collectibles
+
+Tip: Prefer Minimal (Build Export) when you only need a lean build profile.
+Full "Enable All Sections" exports can take several seconds.
 
 ------------------------------------------------------------------------
                          LINKS & SUPPORT

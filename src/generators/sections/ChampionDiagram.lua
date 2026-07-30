@@ -722,22 +722,10 @@ local function GenerateChampionDiagram(cpData)
         end
     end
 
-    -- Add simplified legend matching the example format
+    -- Add simplified legend matching the example format (same mermaid block as constellations)
     table_insert(parts, "  %% ========================================\n")
-    table_insert(parts, "  %% END OF MAIN DIAGRAM\n")
+    table_insert(parts, "  %% LEGEND\n")
     table_insert(parts, "  %% ========================================\n\n")
-
-    -- Close the main mermaid block
-    table_insert(parts, "```\n\n")
-
-    -- Start a SEPARATE mermaid block for the legend
-    -- This prevents chunking from splitting the legend subgraph
-    table_insert(parts, "```mermaid\n")
-    table_insert(
-        parts,
-        '%%{init: {"theme":"base", "themeVariables": { "background":"transparent","fontSize":"12px","primaryColor":"#f0f0f0","primaryTextColor":"#333","primaryBorderColor":"#999","lineColor":"#999"}}}%%\n\n'
-    )
-    table_insert(parts, "flowchart LR\n\n")
 
     -- Parent legend subgraph
     table_insert(parts, '  subgraph subLEGEND["📖 LEGEND & VISUAL GUIDE"]\n')

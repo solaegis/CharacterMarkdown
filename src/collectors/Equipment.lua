@@ -36,7 +36,14 @@ local function CollectEquipmentData()
         local itemInfo = CM.api.equipment.GetEquippedItem(slotIndex)
         if itemInfo and itemInfo.name and itemInfo.name ~= "" then
             if itemInfo.set and itemInfo.set.hasSet and itemInfo.set.name then
-                sets[itemInfo.set.name] = (sets[itemInfo.set.name] or 0) + 1
+                -- Use game-reported equipped count (numNormalEquipped). A two-handed
+                -- weapon occupies one slot but counts as two set pieces; slot-based
+                -- +1 under-counts those bonuses.
+                local equippedCount = itemInfo.set.count
+                if type(equippedCount) ~= "number" or equippedCount < 1 then
+                    equippedCount = 1
+                end
+                sets[itemInfo.set.name] = math.max(sets[itemInfo.set.name] or 0, equippedCount)
                 if not setItemLinks[itemInfo.set.name] then
                     setItemLinks[itemInfo.set.name] = itemInfo.link
                 end

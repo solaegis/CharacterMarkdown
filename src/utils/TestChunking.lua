@@ -308,6 +308,62 @@ local function TestTableIntegrity()
     return true, "Table preserved"
 end
 
+local function TestAdjacentMermaidFenceBoundary()
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local block1 = "```mermaid\nflowchart LR\n" .. CreateLongString("A", 400) .. "\n```"
+    local block2 = "```mermaid\nflowchart LR\n  subgraph subLEGEND\n    LEG1\n  end\n```"
+    -- Force a split near the boundary between two fenced mermaid blocks
+    local padding = CreateLongString("P", limit - 150)
+    local input = padding .. "\n\n" .. block1 .. "\n\n" .. block2
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+    if #chunks < 2 then
+        return false, "Expected multiple chunks for adjacent mermaid fence test"
+    end
+
+    for i, chunk in ipairs(chunks) do
+        local content = StripChunkForCompare(chunk.content, i == #chunks)
+        if content:match("\nmermaid\n") or content:match("^mermaid\n") then
+            return false, string_format("Chunk %d contains bare 'mermaid' line (corrupted fence)", i)
+        end
+        if content:find("mermaid", 1, true) and not content:find("```mermaid", 1, true) then
+            return false, string_format("Chunk %d has mermaid text without ```mermaid opener", i)
+        end
+    end
+
+    return true, "Adjacent mermaid fences not corrupted at chunk boundaries"
+end
+
+local function TestSingleMermaidWithLegendSubgraph()
+    local limit = CM.constants.CHUNKING.COPY_LIMIT or 5700
+    local diagram = "```mermaid\nflowchart LR\n"
+        .. "  subgraph subCRAFT\n    C1\n  end\n"
+        .. "  subgraph subLEGEND\n    LEG1\n  end\n"
+        .. "```"
+    local padding = CreateLongString("P", limit - 100)
+    local input = padding .. "\n\n" .. diagram
+
+    local chunks = CM.utils.Chunking.SplitMarkdownIntoChunks(input)
+
+    for i, chunk in ipairs(chunks) do
+        local content = StripChunkForCompare(chunk.content, i == #chunks)
+        if content:match("\nmermaid\n") or content:match("^mermaid\n") then
+            return false, string_format("Chunk %d contains bare 'mermaid' line", i)
+        end
+    end
+
+    local reassembled = ""
+    for i, chunk in ipairs(chunks) do
+        reassembled = reassembled .. StripChunkForCompare(chunk.content, i == #chunks)
+    end
+
+    if not reassembled:find("subLEGEND", 1, true) then
+        return false, "Legend subgraph lost after chunk reassembly"
+    end
+
+    return true, "Single mermaid block with legend subgraph preserved"
+end
+
 -- =====================================================
 -- RUNNER
 -- =====================================================
@@ -321,6 +377,8 @@ function CM.tests.chunking.RunTests()
         { name = "Chunk Markers And Padding", func = TestChunkMarkersAndPadding },
         { name = "HTML Block Integrity", func = TestHtmlBlockIntegrity },
         { name = "Mermaid Block Integrity", func = TestMermaidBlockIntegrity },
+        { name = "Adjacent Mermaid Fence Boundary", func = TestAdjacentMermaidFenceBoundary },
+        { name = "Single Mermaid With Legend Subgraph", func = TestSingleMermaidWithLegendSubgraph },
         { name = "Table Integrity", func = TestTableIntegrity },
         { name = "List Integrity", func = TestListIntegrity },
         { name = "Markdown Link Integrity", func = TestMarkdownLinkIntegrity },

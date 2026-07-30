@@ -27,73 +27,92 @@ local function GenerateOutput(formatter)
             return
         end
 
-        local success, markdown = pcall(function()
-            return CM.generators.GenerateMarkdown()
-        end)
-
-        if not success then
-            CM.Error("Failed to generate markdown:")
-            CM.Error(tostring(markdown))
-            return
+        -- Open window immediately so users see feedback before synchronous collection
+        if CharacterMarkdown_ShowGeneratingPlaceholder then
+            CharacterMarkdown_ShowGeneratingPlaceholder(formatter)
         end
 
-        if not markdown then
-            CM.Error("Generated markdown is nil")
-            return
-        end
+        -- Defer heavy work one frame so the placeholder can paint
+        zo_callLater(function()
+            local success, markdown = pcall(function()
+                return CM.generators.GenerateMarkdown()
+            end)
 
-        local isChunksArray = type(markdown) == "table"
-        local markdownSize = 0
-
-        if isChunksArray then
-            if #markdown == 0 then
-                CM.Error("Generated markdown chunks array is empty")
+            if not success then
+                CM.Error("Failed to generate markdown:")
+                CM.Error(tostring(markdown))
                 return
             end
-            for _, chunk in ipairs(markdown) do
-                markdownSize = markdownSize + string.len(chunk.content)
+
+            if not markdown then
+                CM.Error("Generated markdown is nil")
+                return
             end
-            CM.DebugPrint(
-                "COMMAND",
-                string.format(
-                    "Markdown generated: %d chars in %d chunk%s",
-                    markdownSize,
-                    #markdown,
-                    #markdown == 1 and "" or "s"
+
+            local isChunksArray = type(markdown) == "table"
+            local markdownSize = 0
+            local chunkCount = 1
+
+            if isChunksArray then
+                if #markdown == 0 then
+                    CM.Error("Generated markdown chunks array is empty")
+                    return
+                end
+                chunkCount = #markdown
+                for _, chunk in ipairs(markdown) do
+                    markdownSize = markdownSize + string.len(chunk.content)
+                end
+                CM.DebugPrint(
+                    "COMMAND",
+                    string.format(
+                        "Markdown generated: %d chars in %d chunk%s",
+                        markdownSize,
+                        chunkCount,
+                        chunkCount == 1 and "" or "s"
+                    )
                 )
-            )
-        else
-            if markdown == "" then
-                CM.Error("Generated markdown is empty")
-                return
+            else
+                if markdown == "" then
+                    CM.Error("Generated markdown is empty")
+                    return
+                end
+                markdownSize = string.len(markdown)
+                CM.DebugPrint("COMMAND", string.format("Markdown generated: %d chars", markdownSize))
             end
-            markdownSize = string.len(markdown)
-            CM.DebugPrint("COMMAND", string.format("Markdown generated: %d chars", markdownSize))
-        end
 
-        if CM.debug and CM.tests and CM.tests.validation then
-            zo_callLater(function()
-                local validationMarkdown = markdown
-                if isChunksArray then
-                    validationMarkdown = ""
-                    for _, chunk in ipairs(markdown) do
-                        validationMarkdown = validationMarkdown .. chunk.content
+            if CM.debug and CM.tests and CM.tests.validation then
+                zo_callLater(function()
+                    local validationMarkdown = markdown
+                    if isChunksArray then
+                        validationMarkdown = ""
+                        for _, chunk in ipairs(markdown) do
+                            validationMarkdown = validationMarkdown .. chunk.content
+                        end
                     end
-                end
-                local results = CM.tests.validation.ValidateMarkdown(validationMarkdown, formatter)
-                if #results.failed > 0 then
-                    CM.DebugPrint("TESTS", string.format("⚠️ %d validation test(s) failed", #results.failed))
-                end
-            end, 100)
-        end
+                    local results = CM.tests.validation.ValidateMarkdown(validationMarkdown, formatter)
+                    if #results.failed > 0 then
+                        CM.DebugPrint("TESTS", string.format("⚠️ %d validation test(s) failed", #results.failed))
+                    end
+                end, 100)
+            end
 
-        if CharacterMarkdown_ShowWindow then
-            CM.DebugPrint("COMMAND", "Opening display window...")
-            CharacterMarkdown_ShowWindow(markdown, formatter)
-        else
-            CM.Warn("Window display not available")
-            CM.Info("Markdown copied to clipboard")
-        end
+            if CharacterMarkdown_ShowWindow then
+                CM.DebugPrint("COMMAND", "Opening display window...")
+                CharacterMarkdown_ShowWindow(markdown, formatter)
+                local sizeKb = math.floor((markdownSize / 1024) * 10 + 0.5) / 10
+                CM.Info(
+                    string.format(
+                        "CharacterMarkdown ready — window opened (%d chunk%s, %.1f KB). Select All + Copy to paste.",
+                        chunkCount,
+                        chunkCount == 1 and "" or "s",
+                        sizeKb
+                    )
+                )
+            else
+                CM.Warn("Window display not available")
+                CM.Info("Markdown copied to clipboard")
+            end
+        end, 50)
         return
     else
         CM.Error("Unknown formatter: " .. tostring(formatter))

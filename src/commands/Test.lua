@@ -201,6 +201,12 @@ local function HandleTest(args)
         CM.Warn("Action bar slot tests not available")
     end
 
+    if CM.tests.equipmentSetCount and CM.tests.equipmentSetCount.RunTests then
+        CM.tests.equipmentSetCount.RunTests()
+    else
+        CM.Warn("Equipment set count tests not available")
+    end
+
     if sectionResults and CM.tests.sectionPresence then
         CM.tests.sectionPresence.PrintSectionTestReport()
     end
