@@ -96,11 +96,13 @@ This bar setup removes some utility to maximize your raw damage output and criti
 > [!IMPORTANT]
 > **One morph per base skill:** **Incapacitating Strike** and **Soul Harvest** are both morphs of **Death Stroke**. You can only learn **one**—you cannot slot different Death Stroke morphs on each bar. **Either** duplicate the **same** Death Stroke morph on **both** bars, **or** pair it with an ultimate from **another** skill line on one bar. **Default below:** **Incapacitating Strike** (front) and **[Toxic Barrage](https://en.uesp.net/wiki/Online:Toxic_Barrage)** (back)—Bow **[Rapid Fire](https://en.uesp.net/wiki/Online:Rapid_Fire)** morph; different base skill from Death Stroke, so no conflict.
 
-### 🔀 Subclassing: Siphoning → Sorcerer **Storm Calling**
+### 🔀 Subclassing: Triple Hybrid (Uber Tier)
+We push the build to the **Uber Tier** by utilizing two subclass lines, replacing our native utility lines to optimize raw stats, passives, and active skills:
 
-- **Why not Warden?** Animal Companion skills compete for bar space; this build avoids a **pet** on both bars.
-- **Why Storm Calling?** **[Power Surge](https://en.uesp.net/wiki/Online:Surge)** (*Surge* morph) and **[Hurricane](https://en.uesp.net/wiki/Online:Lightning_Form)** (*Lightning Form* morph) are **both in the same Sorcerer line** ([Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling)). Per [subclassing rules](https://www.elderscrollsonline.com/en-us/guides/subclassing), you may only equip **one** skill line per *additional* class—so one **Storm Calling** subclass replaces **Siphoning** and covers **both** actives (no need for Daedric Summoning).
-- **Placement:** **Deadly Cloak** stays on the **Dual Wield** bar (weapon skill). **Hurricane** is on the **bow** bar. **Power Surge** is on the **front** bar (self-buff; no weapon restriction).
+1. **Siphoning → Sorcerer [Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling):** Covers our primary self-buff (**Power Surge**) and AoE/defense (**Hurricane**).
+2. **Shadow → Arcanist [Herald of the Tome](https://en.uesp.net/wiki/Online:Herald_of_the_tome):** Taken strictly for its high-value, unconditional passive buffs.
+
+- **Placement:** **Deadly Cloak** stays on the **Dual Wield** bar (weapon skill). **Hurricane** is on the **bow** bar. **Power Surge** is on the **front** bar (self-buff).
 
 **Bar layout (slot 6 = Ultimate):**
 
@@ -114,7 +116,7 @@ Back bar (Bow)
 
 | **1** | **2** | **3** | **4** | **5** | **6 (Ultimate)** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Endless Hail | Razor Caltrops | Barbed Trap | **Hurricane** | Resolving Vigor | **Toxic Barrage** |
+| Endless Hail | Reaper's Mark (or Caltrops) | Barbed Trap | **Hurricane** | Resolving Vigor | **Toxic Barrage** |
 
 **What was swapped:** **Camouflaged Hunter** was removed to make room for **Power Surge**—you still have **Barbed Trap** on the back bar for Fighters Guild passives. **Dark Shade** was removed for **Hurricane** (AoE + Major Resolve + ramping damage on the ranged bar). Back bar ultimate is **Toxic Barrage** (Bow **Rapid Fire** morph) for ranged single-target burst; **Incapacitating Strike** stays on the **front** bar only—swap to melee to use it.
 
@@ -144,8 +146,9 @@ Only **Bow** abilities use the bow skill line; other slots can hold class, guild
 
 1. **Endless Hail** (AOE DOT)
    - *Path:* Weapon → Bow → [Base] Volley → **Endless Hail**
-2. **Razor Caltrops** (Major Breach)
-   - *Path:* Alliance War → Assault → [Base] Caltrops → **Razor Caltrops**
+2. **Reaper's Mark** (or **Razor Caltrops**) (Major Breach)
+   - *Path:* Assassination → [Base] Mark Target → **Reaper's Mark** (or Alliance War → Assault → [Base] Caltrops → **Razor Caltrops**)
+   - *Note:* Use **Reaper's Mark** as your primary choice for solo overland play (or until you unlock Caltrops). It inflicts Major Breach at range, heals you for 60% of your max health upon target death, and grants a 10% damage bonus (Major Berserk).
 3. **Barbed Trap** (Minor Force)
    - *Path:* Guild → Fighters Guild → [Base] Trap Beast → **Barbed Trap**
 4. **Hurricane**
@@ -170,14 +173,12 @@ Spend skill points on **every** passive below for lines you actively use. Names 
 | [Pressure Points](https://en.uesp.net/wiki/Online:Pressure_Points) | II |
 | [Hemorrhage](https://en.uesp.net/wiki/Online:Hemorrhage) | II |
 
-**Nightblade — [Shadow](https://en.uesp.net/wiki/Online:Shadow)** *(Dark Shade)*
+**Arcanist — [Herald of the Tome](https://en.uesp.net/wiki/Online:Herald_of_the_tome)** *(Subclass replaces **Shadow** — Passives only)*
 
-| Passive | Ranks |
-| --- | --- |
-| [Refreshing Shadows](https://en.uesp.net/wiki/Online:Refreshing_Shadows) | II |
-| [Shadow Barrier](https://en.uesp.net/wiki/Online:Shadow_Barrier) | II |
-| [Dark Vigor](https://en.uesp.net/wiki/Online:Dark_Vigor) | II |
-| [Dark Veil](https://en.uesp.net/wiki/Online:Dark_Veil) | II |
+| Passive | Ranks | Note |
+| --- | --- | --- |
+| [Harnessed Quintessence](https://en.uesp.net/wiki/Online:Harnessed_Quintessence) | II | +284 Weapon/Spell Damage when restoring resources (potions, synergies, kills) |
+| [Psychic Lesion](https://en.uesp.net/wiki/Online:Psychic_Lesion) | II | +15% Status Effect Damage, +55% Status Effect Chance |
 
 **Sorcerer — [Storm Calling](https://en.uesp.net/wiki/Online:Storm_Calling)** *(subclass replaces **Siphoning** — **Power Surge** / **Hurricane**)*
 

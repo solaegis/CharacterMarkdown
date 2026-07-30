@@ -40,10 +40,10 @@ The Sovereign of the Altar utilizes a combination of Sorcerer (Dark Magic & Stor
 
 | **Attribute**    | **Recommendation**                                                                |
 | :--------------- | :-------------------------------------------------------------------------------- |
-| **Primary Stat** | **64 points in Magicka** (Target: 25k+ Magicka / 3.2k+ Spell Power)               |
-| **Mundus Stone** | **The Atronach** (Magicka Recovery) - Already Active                              |
-| **Food**         | **Bewitched Sugar Skulls** (Tri-Stat + Health Recovery)                           |
-| **Potion**       | **Crown Tri-Restoration Potion**                                                 |
+| **Primary Stat** | **64 points in Magicka** (Target: 25k+ Magicka / 3.2k+ Spell Power) — do NOT re-slot to Stamina; feed Stamina via Dark Deal |
+| **Mundus Stone** | **The Atronach** (Magicka Recovery) - Active. Swap to **The Thief/Shadow** once sustain is comfortable for more crit/crit damage. |
+| **Food**         | **Artaeum Takeaway Broth** (Max H/M/S + Magicka & **Stamina** Recovery) — fuels the Stamina-hungry front bar |
+| **Potion**       | **Crown Tri-Restoration Potion** (keep on cooldown — refunds Stamina)             |
 
 ---
 
@@ -55,21 +55,31 @@ The power of the Sovereign of the Altar lies in the **Soul-Loop**. You do not fi
 | **Slot** | **Class** | **Skill (Base -> Morph)** | **Role** | **Status** |
 | :--- | :--- | :--- | :--- | :--------- |
 | **1** | 🌑 Sorcerer (Storm Calling) | **Lightning Form -> Boundless Storm** | Mobility/Resistance | ✅ ACTIVE |
-| **2** | ⚔️ Fighters Guild | **Silver Bolt -> Silver Leash** | Pull/Control | ✅ ACTIVE |
-| **3** | ⚔️ Dual Wield | **Blade Cloak -> Deadly Cloak** | **The Storm's Aura / Evasion** | 🔄 BASE EQUIPPED |
-| **4** | ⚔️ Dual Wield | **Flurry -> Bloodthirst** | **Primary Spammable / Heal** | ✅ ACTIVE |
-| **5** | ⚔️ Dual Wield | **Whirlwind -> Whirling Blades** | **The Harvest / Execute** | 🔄 BASE EQUIPPED |
+| **2** | ⚔️ Fighters Guild | **Silver Bolt -> Silver Leash** | Pull/Control (⚡ Stamina — drop first if sustain is tight) | ✅ ACTIVE |
+| **3** | ⚔️ Dual Wield | **Blade Cloak -> Deadly Cloak** | **The Storm's Aura / Evasion** | 🔄 NEEDS MORPH |
+| **4** | ⚔️ Dual Wield | **Flurry -> Bloodthirst** | **Primary Spammable / Heal** (⚡ Stamina) | ✅ ACTIVE |
+| **5** | ⚔️ Dual Wield | **Whirlwind -> Whirling Blades** | **The Harvest / Execute** (⚡ Stamina) | ✅ ACTIVE |
 | **Ult** | 🌑 Sorcerer (Storm Calling) | **Power Overload -> Energy Overload** | Direct Damage / Execute | ✅ ACTIVE |
 
 ### 🛡️ Back Bar: "The Altar of Metempsychosis" (Restoration Staff)
 | **Slot** | **Class** | **Skill (Base -> Morph)** | **Role** | **Status** |
 | :--- | :--- | :--- | :--- | :--------- |
-| **1** | 🪄 Resto Staff | **Blessing of Protection -> Combat Prayer** | **Restoration / Group Buff** | 🔄 BASE EQUIPPED |
+| **1** | 🪄 Resto Staff | **Blessing of Protection -> Combat Prayer** | **Restoration / Group Buff** | ✅ ACTIVE |
 | **2** | 🪄 Resto Staff | **Grand Healing -> Illustrious Healing** | **Ritual Area Healing** | ✅ ACTIVE |
-| **3** | 🌿 Warden (Green Balance) | **Healing Seed -> Budding Seeds** | Area Heal / Synergy | ✅ ACTIVE |
-| **4** | 🌑 Sorcerer (Storm Calling) | **Surge -> Critical Surge** | **Active Lifesteal** (Life Mage) | 🔄 BASE EQUIPPED |
-| **5** | 🌑 Sorcerer (Dark Magic) | **Dark Exchange -> Dark Deal** | **Internal Sacrifice** (Sustain) | ✅ ACTIVE |
+| **3** | 🌿 Warden (Green Balance) | **Fungal Growth -> Enchanted Growth** | Heal + Major Intellect/Endurance (sustain) | ✅ ACTIVE |
+| **4** | 🌑 Sorcerer (Storm Calling) | **Surge -> Critical Surge** | **Active Lifesteal** (Life Mage) | 🔄 NEEDS MORPH |
+| **5** | 🌑 Sorcerer (Dark Magic) | **Dark Exchange -> Dark Deal** | **Internal Sacrifice** — your Stamina battery | ✅ ACTIVE |
 | **Ult** | 🌿 Warden (Green Balance) | **Secluded Grove -> Enchanted Forest** | Low-Cost Salvation | ✅ ACTIVE |
+
+### ⚡ Stamina Management: Feeding the Vessel
+
+Your front bar runs three Stamina abilities (**Bloodthirst**, **Whirling Blades**, **Silver Leash**) off a small ~12.5k pool because all 64 attribute points are in Magicka. This is by design — feed Stamina from your huge Magicka pool instead of re-slotting attributes:
+
+*   **Dark Deal is your battery**: Bar-swap and cast **Dark Deal** every ~6–8s (or whenever Stamina drops below ~40%). It converts Magicka into Health + Stamina — the core sustain loop of this hybrid.
+*   **Wretched Vitality (5pc)**: Grants Major Endurance (potions) and Minor Endurance (class abilities) — a large Stamina-recovery boost you are missing at 2/5. This is now the top gear priority.
+*   **Potions**: Keep **Crown Tri-Restoration** on cooldown for the Stamina refund (finish Alchemy **Medicinal Use** for near-100% uptime).
+*   **Food**: **Artaeum Takeaway Broth** for Stamina recovery.
+*   **If still tight**: Drop **Silver Leash** (the least essential Stamina skill) for a Magicka ability such as **Mages' Wrath** (Storm Calling execute, on-theme) so only Bloodthirst + Whirling Blades draw Stamina.
 
 ---
 
@@ -112,24 +122,24 @@ To match the **Hybrid Life Mage** status, we utilize the peak survivors of the c
 
 ### 🛡️ Equipment Details
 
-| **Slot**           | **Size**  | **Trait**     | **Set**                 | **Enchantment**           |
-| :----------------- | :-------- | :------------ | :---------------------- | :------------------------ |
-| **Head**           | Light     | **Divines**   | **Order's Wrath**       | **Max Magicka**           |
-| **Chest**          | Light     | **Divines**   | **Order's Wrath**       | **Max Magicka**           |
-| **Legs**           | Light     | **Divines**   | **Order's Wrath**       | **Max Magicka**           |
-| **Shoulders**      | Medium    | **Divines**   | **Order's Wrath**       | **Max Magicka**           |
-| **Hands**          | Light     | **Divines**   | **Order's Wrath**       | **Max Magicka**           |
-| **Feet**           | Heavy     | **Divines**   | **Wretched Vitality**   | **Max Magicka**           |
-| **Waist**          | Light     | **Divines**   | **Order's Wrath**       | **Max Magicka**           |
-| **Necklace**       | Jewelry   | **Bloodthir.**| **Order's Wrath**       | **Multi-Effect**          |
-| **Ring (1)**       | Jewelry   | **Bloodthir.**| **Order's Wrath**       | **Multi-Effect**          |
-| **Ring (2)**       | Jewelry   | **Bloodthir.**| **Wretched Vitality**   | **Multi-Effect**          |
-| **Weapon 1 (M/O)** | Daggers   | **Precise**   | **Order's Wrath**       | **Weapon Damage**         |
-| **Weapon 2**       | Resto     | **Precise**   | **Druid's Braid**       | **Absorb Magicka**        |
+| **Slot**           | **Size**  | **Trait**        | **Set**               | **Enchantment**               |
+| :----------------- | :-------- | :--------------- | :-------------------- | :---------------------------- |
+| **Head**           | Light     | **Divines**      | **Order's Wrath**     | **Max Magicka**               |
+| **Chest**          | Light     | **Divines**      | **Order's Wrath**     | **Max Magicka**               |
+| **Legs**           | Light     | **Divines**      | **Order's Wrath**     | **Max Magicka**               |
+| **Hands**          | Light     | **Divines**      | **Order's Wrath**     | **Max Magicka**               |
+| **Waist**          | Light     | **Divines**      | **Order's Wrath**     | **Max Magicka**               |
+| **Shoulders**      | Medium    | **Divines**      | **Wretched Vitality** | **Max Magicka**               |
+| **Feet**           | Heavy     | **Divines**      | **Wretched Vitality** | **Max Magicka**               |
+| **Necklace**       | Jewelry   | **Bloodthirsty** | **Wretched Vitality** | **Spell Damage**              |
+| **Ring (1)**       | Jewelry   | **Bloodthirsty** | **Wretched Vitality** | **Spell Damage**              |
+| **Ring (2)**       | Jewelry   | **Bloodthirsty** | **Wretched Vitality** | **Spell/Weapon Damage**       |
+| **Weapon 1 (M/O)** | Daggers   | **Precise**      | **Order's Wrath**     | **Weapon Damage (Berserker)** |
+| **Weapon 2**       | Resto     | **Precise**      | **Order's Wrath**     | **Absorb Magicka**            |
 
 > [!TIP]
-> **The Sacred Rain (Earthgore)**: Your ultimate goal is the **Earthgore** set (Bloodroot Forge).
-> **Crafted Alternative**: Until Earthgore is acquired, use **Druid's Braid** in the Head and Shoulder slots. This provides extra Max Health and Stamina to fuel your **Internal Sacrifice**.
+> **Two full sets, both always-on**: This runs **5x Order's Wrath + 5x Wretched Vitality** across your body and jewelry, so both 5-piece bonuses stay active on both bars. It fixes the previous setup that wore **10 Order's Wrath pieces (5 wasted)** with only **2/5 Wretched Vitality**. Wretched Vitality's **Major/Minor Endurance is a key Stamina-sustain source** for the front bar.
+> **Weapon slots = future upgrade path**: The two weapons are Order's Wrath overflow for now — they are the natural home for a later non-craftable upgrade such as the **Earthgore** monster set (Bloodroot Forge) or an arena weapon. Drop **Druid's Braid** — at 1/5 it does nothing.
 
 ---
 
@@ -183,12 +193,16 @@ Masisi is currently supplying materials and motifs. He has reached the rank of *
 As a **Hybrid Life Mage**, your Champion Points must bridge the gap between devastating execute damage and life-saving restoration.
 
 ### ⚔️ Warfare (Blue Tree): The Spark of Life
-*   **Fighting Finesse** (Slotted): Increases Critical Damage and Critical Healing by 8%. Essential for the dual-role.
-*   **Master-at-Arms** (Slotted): Increases Direct Damage by 6% (Fuels your **Crystal Fragments** and **Impale**).
-*   **Swift Renewal** (Slotted): Increases Healing Over Time by 6% (Fuels your **Critical Surge** and **Illustrious Healing**).
-*   **Deadly Aim** (Slotted): Increases Single Target damage by 6% (Fuels the **Ranged Harvest**).
+
+> **Only 4 slottable stars per constellation.** You are currently running Master-at-Arms, Deadly Aim, Biting Aura, and Thaumaturge — **swap Biting Aura out for Fighting Finesse**.
+
+*   **Fighting Finesse** (Slot): Increases Critical Damage and Critical Healing. With your 32.5% crit + Critical Surge this boosts damage **and** healing. 🔄 SLOT THIS IN
+*   **Master-at-Arms** (Slot): Increases Direct Damage (fuels **Bloodthirst** and **Whirling Blades**). ✅ KEEP
+*   **Deadly Aim** (Slot): Increases Single Target damage (fuels **Bloodthirst**). ✅ KEEP
+*   **4th slot — pick one**: **Thaumaturge** (if leaning on DoTs like **Deadly Cloak**) or **Swift Renewal** (if healing a group — fuels **Illustrious Healing** / **Critical Surge**).
 
 > **Passive Priorities**: Eldritch Insight (Max Magicka), Precision (Crit Rating), Flawless Ritual (Heal Crit), War Mage (Spell Damage).
+> **Note**: No Warfare star restores Stamina — the front-bar Stamina drain is fixed by Dark Deal + Wretched Vitality + potions (see Stamina Management above).
 
 ### 💪 Fitness (Red Tree): The Eternal Vessel
 *   **Boundless Vitality** (Slotted): +1400 Max Health. The anchor of your survival.
@@ -250,10 +264,11 @@ To complete the transformation, target these specific collectibles that align wi
 
 ## ✅ Next Steps
 
-1.  **Master the Rituals**: 🔄 **HIGH PRIORITY**. You have successfully aligned your bars with the **Sovereign's Cycle**. Your goal is to reach Rank IV in **Blade Cloak**, **Whirlwind**, **Blessing of Protection**, and **Surge** to unlock their sustaining/power morphs (**Deadly Cloak**, **Whirling Blades**, **Combat Prayer**, and **Critical Surge**).
-2.  **Trinity Mastery**: ✅ **COMPLETE**. The integration of **Dark Magic**, **Storm Calling**, and **Green Balance** is finalized.
-3.  **Skill Grinding**: Max out the **Dual Wield** and **Restoration Staff** passives as you have now fully committed to this weapon pair.
-4.  **Gear Progression**: 🔄 **IN PROGRESS**. You have 9/12 **Order's Wrath** and 2/12 **Wretched Vitality**. Next steps include acquiring the final Wretched Vitality piece (Legs or Shoulders) to complete the 5-set sustain bonus.
-5.  **Trait Optimization**: Maintain your current **Bloodthirsty** and **Precise** daggers setup—it is performing excellently with the new 32.5% Critical Rate.
+1.  **Finish the last two morphs**: 🔄 **HIGH PRIORITY**. **Whirling Blades** and **Combat Prayer** are already morphed. Reach Rank IV to morph **Blade Cloak → Deadly Cloak** (front) and **Surge → Critical Surge** (back). Critical Surge is core to the Life Mage lifesteal.
+2.  **Fix Stamina sustain**: 🔄 **HIGH PRIORITY**. Weave **Dark Deal** every ~6–8s, keep **Crown Tri-Restoration** potions on cooldown, and switch food to **Artaeum Takeaway Broth**. Complete Wretched Vitality (below) for Major/Minor Endurance.
+3.  **Gear Progression**: 🔄 **IN PROGRESS**. Finish **Wretched Vitality to 5/5** (Shoulders, Feet + 3 jewelry) and drop **Druid's Braid**. Target = **5x Order's Wrath + 5x Wretched Vitality**, both always-on. Your current setup wears 10 Order's Wrath pieces (5 wasted) with only 2/5 Wretched Vitality.
+4.  **Champion Points**: Spend your idle points (⚔️ 4 / 💪 28). In Warfare, **swap Biting Aura → Fighting Finesse** (remember: 4 slottables max per constellation).
+5.  **Skill Grinding**: Max out the **Dual Wield** and **Restoration Staff** passives as you have now fully committed to this weapon pair.
+6.  **Trait Optimization**: Maintain your **Bloodthirsty** and **Precise** daggers setup—it performs excellently with the 32.5% Critical Rate. Consider 2x **Spell/Weapon Damage** jewelry glyphs over recovery, since Wretched Vitality now covers sustain.
 
 The Storm is harnessed. The Spark has settled into the soul. There is only life.

@@ -8,6 +8,8 @@
 
 **Imperial Templar • Ebonheart Pact Alliance**
 
+> 📋 **Build Plan:** See [Pelatiah's Build Plan (pelatiah_plan.md)](pelatiah_plan.md) for character backstory, Trinity subclassing, target loadout, CP mapping, and the in-game action checklist.
+
 
 </div>
 

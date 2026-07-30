@@ -31,10 +31,25 @@ These templates help you:
   - Output standards for gear tables, skill bars, CP distributions
   - Use this if you want Claude to focus specifically on optimization
 
-- **`build_plan_template.md`** - Skeleton for Solaegis-style `*_plan.md` build plans
-  - Canonical section order (at a glance → trinity → combat → gear → CP → companion → collectibles → checklist)
-  - Placeholder tables for skill bars, loadout, CP, and phased execution list
-  - Exemplar: `examples/solaegis/na/silent_snow_falls_plan.md`; rules in repo `AGENTS.md`
+- **`template_plan.md`** - **Canonical** skeleton for Solaegis-style `*_plan.md` build plans
+  - Copy-paste starting point for new plans and legacy alignment
+  - Section order: at a glance → roleplay → trinity → combat → gear → CP → companion → collectibles → checklist
+  - Includes Roleplay Custom Title / Build Notes, live-vs-target columns, crafter variant appendix
+  - Exemplar: `examples/solaegis/na/silent_snow_falls_plan.md`
+
+- **`champion_points_reference.md`** - Full CP star catalog for build plans (Warfare / Fitness / Craft)
+  - Generated from `champion_points.yaml` via `python3 scripts/generate_champion_points_reference.py`
+  - Star name, constellation, slottable vs passive, max points, stage costs
+  - Linked from `template_plan.md` Champion Point Mapping section
+
+- **`champion_points.yaml`** - Source of truth for CP star IDs, names, and point caps (Update 48)
+
+- **`build_plan_template.md`** - Legacy alias; points to `template_plan.md`
+
+- **Structure reference:** [`docs/plan_structure.md`](../../docs/plan_structure.md)
+  - Inventory of all current `*_plan.md` files (canonical vs legacy vs crafter)
+  - Section-by-section requirements, legacy→canonical mapping, alignment checklist
+  - Agent rules also in repo `AGENTS.md`
 
 - **`playstyle_strategy.md`** - Template for documenting playstyle strategies
   - Comprehensive playstyle documentation format
