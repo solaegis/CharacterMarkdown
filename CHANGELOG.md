@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Preset: Minimal (Build Export)** label/tooltip; `README_ESOUI.txt` documents presets and enable-all performance note
+- **ESOUI listing**: BBCode description with site theme colors (`da8a00` / `2ea5f1`), Chatbot Workflow and IDE Workflow sections; CI compatibility set to **12.0.0**
 - Example exports synced (`karakedi`, `heka_ankh`, `rilis_toxil`, `hya_cinthe_plan`)
 
 ## [2.2.7] - 2026-07-30

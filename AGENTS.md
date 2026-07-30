@@ -12,6 +12,7 @@
 - When a LAM preset enables sections that lack generators or `Markdown.lua` registry wiring, implement or wire the missing output rather than disabling preset checkboxes or narrowing preset scope.
 - For large addon review/fix passes, prioritize by severity (correctness and crash bugs first), validate with luacheck/StyLua/tests, and work in reviewable batches.
 - When asked to confirm an example export's **default settings** output, audit H2 sections against **factory defaults** and likely LAM presets (do not assume Reset to Defaults); use `scripts/validate_example_preset.py` and `docs/settings-presets-matrix.md`.
+- When drafting ESOUI posts, comments, or replies (addon page comments, forum threads, etc.), write the body in **BBCode** (`[B]`, `[I]`, `[LIST]`, `[*]`, `[URL]`, `[CODE]`, …), not Markdown — ESOUI uses BBCode for formatting.
 
 ## Learned Workspace Facts
 

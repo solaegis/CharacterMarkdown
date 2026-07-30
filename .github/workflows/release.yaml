@@ -8,7 +8,7 @@ on:
 env:
   ADDON_NAME: CharacterMarkdown
   ESOUI_ADDON_ID: '4279'
-  ESO_API_VERSION: '11.2.0'
+  ESO_API_VERSION: '12.0.0'
   LUA_VERSION: "5.1"
   BUILD_DIR: "/tmp/CharacterMarkdown"
   # Optional: Set to update API version automatically (e.g., 101047)
@@ -295,9 +295,9 @@ jobs:
           changelog_file: 'CHANGELOG.md'
           description_file: 'README_ESOUI.txt'
           
-          # ESO compatibility version (update as ESO patches release)
-          # Format: MAJOR.MINOR.PATCH (e.g., 11.0.0 for Gold Road)
-          # Get current from: /script d(GetAPIVersion()) in ESO
+          # ESO game client compatibility (shown as bold version on ESOUI)
+          # Format: MAJOR.MINOR.PATCH (e.g., 12.0.0 for Season Zero Pt.2)
+          # Get current from: /script d(GetESOVersionString()) in ESO
           compatibility: ${{ env.ESO_API_VERSION }}
           
           # Test mode: set to 'true' for dry-run, 'false' for production

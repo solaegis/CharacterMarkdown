@@ -22,7 +22,7 @@ Upload at: https://www.esoui.com/downloads/upload-update.php
 - **Name**: CharacterMarkdown
 - **Category**: Character Advancement
 - **Version**: @project-version@
-- **Game Version**: 11.0.0 (current ESO version)
+- **Game Version**: 12.0.0 (current ESO client; Season Zero Pt.2)
 - **Description**: Brief description with features
 - **File**: Upload ZIP
 - **Optional Libraries**: LibAddonMenu-2.0
