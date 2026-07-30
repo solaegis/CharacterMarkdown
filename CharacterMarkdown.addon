@@ -28,6 +28,7 @@ src/utils/ChunkingHelpers.lua
 src/utils/Chunking.lua
 src/utils/TestValidation.lua
 src/utils/SectionPresenceTests.lua
+src/utils/SkillsSlotTests.lua
 src/utils/LibSetsIntegration.lua
 
 ## API Layer (depends on Core, utils)

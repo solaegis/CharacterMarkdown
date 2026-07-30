@@ -10,43 +10,52 @@ local CM = CharacterMarkdown
 local function CollectSkillBarData()
     -- Use API layer granular functions (composition at collector level)
     local skillPoints = CM.api.skills.GetSkillPoints()
-    local primaryBar = CM.api.skills.GetActionBar(HOTBAR_CATEGORY_PRIMARY)
-    local backupBar = CM.api.skills.GetActionBar(HOTBAR_CATEGORY_BACKUP)
+    local firstNormal = CM.api.skills.GetFirstNormalActionBarSlotIndex()
+    local ultimateSlot = CM.api.skills.GetUltimateActionBarSlotIndex()
 
     local bars = {}
 
     local barConfigs = {
-        { id = 0, name = CM.Constants.BAR_NAMES.PRIMARY, hotbarCategory = HOTBAR_CATEGORY_PRIMARY, apiKey = "primary" },
-        { id = 1, name = CM.Constants.BAR_NAMES.BACKUP, hotbarCategory = HOTBAR_CATEGORY_BACKUP, apiKey = "backup" },
+        { id = 0, name = CM.Constants.BAR_NAMES.PRIMARY, hotbarCategory = HOTBAR_CATEGORY_PRIMARY },
+        { id = 1, name = CM.Constants.BAR_NAMES.BACKUP, hotbarCategory = HOTBAR_CATEGORY_BACKUP },
     }
 
     for _, config in ipairs(barConfigs) do
-        local apiBar = (config.apiKey == "primary") and primaryBar or backupBar
         local bar = {
             id = config.id,
             name = config.name,
             abilities = {},
         }
 
-        if apiBar then
-            local ultimateSlotIndex = ACTION_BAR_ULTIMATE_SLOT_INDEX or 8
-            for slotIndex, ability in ipairs(apiBar) do
-                local barSlot = slotIndex + 2
-                if barSlot == ultimateSlotIndex then
-                    if ability.id and ability.id > 0 then
-                        bar.ultimate = ability.name or "Empty"
-                        bar.ultimateId = ability.id
-                    end
-                else
-                    table.insert(bar.abilities, {
-                        index = slotIndex,
-                        slot = barSlot,
-                        name = (ability.id and ability.id > 0) and (ability.name or "Unknown") or "[Empty Slot]",
-                        id = (ability.id and ability.id > 0) and ability.id or nil,
-                        isUltimate = false,
-                    })
-                end
+        -- Regular ability slots (3-7): five entries, including empties
+        local displayIndex = 0
+        for slotIndex = firstNormal, ultimateSlot - 1 do
+            displayIndex = displayIndex + 1
+            local ability = CM.api.skills.GetSlotAbility(slotIndex, config.hotbarCategory)
+            if ability and ability.id and ability.id > 0 then
+                table.insert(bar.abilities, {
+                    index = displayIndex,
+                    slot = slotIndex,
+                    name = ability.name or "Unknown",
+                    id = ability.id,
+                    isUltimate = false,
+                })
+            else
+                table.insert(bar.abilities, {
+                    index = displayIndex,
+                    slot = slotIndex,
+                    name = "[Empty Slot]",
+                    id = nil,
+                    isUltimate = false,
+                })
             end
+        end
+
+        -- Ultimate slot (8)
+        local ultAbility = CM.api.skills.GetSlotAbility(ultimateSlot, config.hotbarCategory)
+        if ultAbility and ultAbility.id and ultAbility.id > 0 then
+            bar.ultimate = ultAbility.name or "Empty"
+            bar.ultimateId = ultAbility.id
         end
 
         table.insert(bars, bar)

@@ -17,6 +17,24 @@ local _skillCache = {
 }
 
 -- =====================================================
+-- ACTION BAR SLOT INDICES
+-- =====================================================
+-- ESO globals ACTION_BAR_*_SLOT_INDEX are 0-based. GetSlotBoundId and related
+-- APIs expect 1-based indices (client code always uses CONSTANT + 1).
+
+function api.GetUltimateActionBarSlotIndex()
+    return (ACTION_BAR_ULTIMATE_SLOT_INDEX or 7) + 1 -- → 8
+end
+
+function api.GetFirstNormalActionBarSlotIndex()
+    return (ACTION_BAR_FIRST_NORMAL_SLOT_INDEX or 2) + 1 -- → 3
+end
+
+function api.IsUltimateActionBarSlot(slotIndex)
+    return slotIndex == api.GetUltimateActionBarSlotIndex()
+end
+
+-- =====================================================
 -- GRANULAR GETTERS
 -- =====================================================
 
@@ -40,8 +58,7 @@ function api.GetSlotAbility(slotIndex, hotbarCategory)
     end
 
     local name, icon
-    local ultimateSlotIndex = ACTION_BAR_ULTIMATE_SLOT_INDEX or 8
-    local isUltimate = (slotIndex == ultimateSlotIndex)
+    local isUltimate = api.IsUltimateActionBarSlot(slotIndex)
 
     if slotType == ACTION_TYPE_CRAFTED_ABILITY then
         name = CM.SafeCall(GetCraftedAbilityDisplayName, abilityId)
@@ -62,12 +79,14 @@ end
 
 function api.GetActionBar(hotbarCategory)
     local bar = {}
-    -- Slots 3-7 are normal skills, 8 is Ultimate in ESO API logic for GetSlotBoundId usually
-    -- Wait: GetSlotBoundId documentation says index 1-6 for action bar?
-    -- Correction: ACTION_BAR_FIRST_NORMAL_SLOT_INDEX is 3, ACTION_BAR_ULTIMATE_SLOT_INDEX is 8.
-    -- Slots 1/2 are light/heavy attack helpers usually.
+    -- ESO 0-based: ACTION_BAR_FIRST_NORMAL_SLOT_INDEX=2, ACTION_BAR_ULTIMATE_SLOT_INDEX=7.
+    -- GetSlotBoundId uses 1-based: slots 3-7 normal abilities, slot 8 ultimate.
+    -- Slots 1/2 are light/heavy attack helpers.
 
-    for i = 3, 8 do
+    local firstNormal = api.GetFirstNormalActionBarSlotIndex()
+    local ultimateSlot = api.GetUltimateActionBarSlotIndex()
+
+    for i = firstNormal, ultimateSlot do
         local ability = api.GetSlotAbility(i, hotbarCategory)
         if ability then
             table.insert(bar, ability)
