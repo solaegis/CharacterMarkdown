@@ -44,7 +44,13 @@ jobs:
       - name: Update API version and generate addon name
         id: addon_name
         run: |
-          # Read current API version from manifest
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          if [ -z "$VERSION" ]; then
+            echo "❌ VERSION missing from steps.version.outputs"
+            exit 1
+          fi
+
+          # Read primary API version from manifest (first token after APIVersion:)
           API_VERSION=$(grep "^## APIVersion:" ${{ env.ADDON_NAME }}.addon | awk '{print $3}')
           echo "📋 Current API Version in manifest: $API_VERSION"
           
@@ -58,7 +64,7 @@ jobs:
             echo ""
             echo "🔍 API Version Check:"
             echo "   Current in manifest: $API_VERSION"
-            echo "   Expected for Gold Road: 101047+"
+            echo "   Primary target: 101050 (Update 50)"
             echo ""
             echo "📝 To update API version before release:"
             echo "   1. Run in ESO: /script d(GetAPIVersion())"
@@ -70,8 +76,10 @@ jobs:
             if [ "$API_VERSION" -lt 101000 ]; then
               echo "⚠️  WARNING: API version $API_VERSION seems outdated"
               echo "   Consider updating to current ESO API version"
+            elif [ "$API_VERSION" -ge 101050 ]; then
+              echo "✅ API version $API_VERSION appears current for Update 50"
             elif [ "$API_VERSION" -ge 101047 ]; then
-              echo "✅ API version $API_VERSION appears current for Gold Road"
+              echo "✅ API version $API_VERSION appears current for Gold Road / Update 49+"
             else
               echo "ℹ️  API version $API_VERSION may need updating for latest ESO release"
             fi
@@ -84,7 +92,9 @@ jobs:
           echo "✅ README_ESOUI.txt version updated"
           
           # Map API version to client release name (using >= logic for current/future releases)
-          if [ "$API_VERSION" -ge 101047 ]; then
+          if [ "$API_VERSION" -ge 101050 ]; then
+            CLIENT_RELEASE="Update 50"
+          elif [ "$API_VERSION" -ge 101047 ]; then
             CLIENT_RELEASE="Gold Road"
           elif [ "$API_VERSION" -ge 101040 ]; then
             CLIENT_RELEASE="Necrom"
@@ -103,18 +113,13 @@ jobs:
           fi
           
           # Generate addon name following ESOUI best practices
-          if [ "$CLIENT_RELEASE" = "API-$API_VERSION" ]; then
-            # For unmapped versions, use API version
-            FULL_ADDON_NAME="${{ env.ADDON_NAME }} - Updated for $CLIENT_RELEASE"
-          else
-            # For known releases, use friendly name
-            FULL_ADDON_NAME="${{ env.ADDON_NAME }} - Updated for $CLIENT_RELEASE"
-          fi
+          FULL_ADDON_NAME="${{ env.ADDON_NAME }} - Updated for $CLIENT_RELEASE"
           
           echo "ADDON_NAME=$FULL_ADDON_NAME" >> $GITHUB_OUTPUT
           echo "ZIP_NAME=$FULL_ADDON_NAME-${VERSION}.zip" >> $GITHUB_OUTPUT
           echo "CLIENT_RELEASE=$CLIENT_RELEASE" >> $GITHUB_OUTPUT
           echo "📦 Addon Name: $FULL_ADDON_NAME"
+          echo "📦 ZIP Name: $FULL_ADDON_NAME-${VERSION}.zip"
           echo "📦 Client Release: $CLIENT_RELEASE"
 
       # ========================================================================
@@ -174,22 +179,28 @@ jobs:
           BUILD_DIR="${{ env.BUILD_DIR }}"
           mkdir -p "$BUILD_DIR"
           
-          # Read .build-ignore and create rsync exclude arguments
-          EXCLUDE_ARGS=""
-          while IFS= read -r pattern; do
-            # Skip empty lines and comments
+          # Filter .build-ignore into an rsync exclude file (skip comments/blanks)
+          FILTER_FILE=$(mktemp)
+          while IFS= read -r pattern || [ -n "$pattern" ]; do
             [[ -z "$pattern" || "$pattern" =~ ^# ]] && continue
-            EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=$pattern"
+            printf '%s\n' "$pattern" >> "$FILTER_FILE"
           done < .build-ignore
           
-          # Copy files excluding patterns
+          # Copy files excluding patterns (--exclude-from avoids shell globbing of *.ext)
           rsync -a --quiet \
-            $EXCLUDE_ARGS \
+            --exclude-from="$FILTER_FILE" \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='build' \
             --exclude='dist' \
             . "$BUILD_DIR/"
+          rm -f "$FILTER_FILE"
+
+          if [ -f "$BUILD_DIR/pyproject.toml" ] || [ -f "$BUILD_DIR/book.toml" ]; then
+            echo "❌ Build package still contains disallowed .toml files"
+            find "$BUILD_DIR" -name '*.toml' -print
+            exit 1
+          fi
           
           # Create ZIP from temp directory
           cd /tmp

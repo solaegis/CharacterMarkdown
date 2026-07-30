@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **Skills export**: Correct 0-based → 1-based action bar slot mapping; ultimates no longer appear in slot 5; empty slots preserved (`src/api/Skills.lua`, `src/collectors/Skills.lua`, `SkillsSlotTests`)
+- **Release packaging**: Exclude `pyproject.toml` / `*.toml` from ESOUI ZIP; fix CI version binding for release artifact names
 - **Chunking**: Never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
 - **ESO API**: Correctness audit across collectors, generators, and core; includePvP wiring and example preset validation
 - **Documentation**: Corrected Lua comment syntax in ARCHITECTURE.md (`#` → `--`)
