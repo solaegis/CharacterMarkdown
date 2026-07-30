@@ -6,7 +6,7 @@ Export comprehensive ESO character data in beautiful Markdown format.
 Designed for the AI age: Paste your profile into ChatGPT, Claude, or other AI assistants 
 for expert build analysis, optimization, and personalized guidance!
 
-Ready for Update 49 (Night Market, Tamriel Tomes, Combat Refresh) & API 101049!
+Ready for Update 50 & API 101050 (also compatible with Update 49 / API 101049)!
 
 ------------------------------------------------------------------------
                              THE AI ADVANTAGE
@@ -87,7 +87,7 @@ Built-in Profiles:
 * Issue Tracker  : https://github.com/solaegis/CharacterMarkdown/issues
 * UESP Wiki      : https://en.uesp.net/wiki/Online:Main_Page
 
-* Required       : Elder Scrolls Online (Update 49 / API 101049)
+* Required       : Elder Scrolls Online (Update 50 / API 101050; also 101049)
 * Optional Libs  : LibAddonMenu-2.0, LibDebugLogger, LibSets, LibSlashCommander
 
 ========================================================================

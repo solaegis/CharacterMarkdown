@@ -7,14 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.7] - 2026-07-30
+
 ### Added
-- **Update 49 Compatibility**: Bumped API version to 101049 to officially support ESO Update 49.
+- **Update 50 Compatibility**: Manifest primary API **101050** (Update 50), with **101049** retained for backward compatibility.
 - **Dependencies**: Bumped optional dependency minimums for LibDebugLogger (250) and LibSets (86).
 - **ESOUI Description**: Completely revamped the `README_ESOUI.txt` for visual improvements and clearer highlight of AI integrations.
+- **Examples**: SavedVariables-aligned character exports, build plans, `template_plan.md`, and champion points reference tooling.
 
 ### Fixed
+- **Skills export**: Correct 0-based → 1-based action bar slot mapping; ultimates no longer appear in slot 5; empty slots preserved (`src/api/Skills.lua`, `src/collectors/Skills.lua`, `SkillsSlotTests`)
 - **Chunking**: Never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
+- **ESO API**: Correctness audit across collectors, generators, and core; includePvP wiring and example preset validation
 - **Documentation**: Corrected Lua comment syntax in ARCHITECTURE.md (`#` → `--`)
+
+### Changed
+- **Chunking**: Refactor and related export reliability improvements since 2.2.6
 
 ## [2.2.6] - 2026-02-12
 
