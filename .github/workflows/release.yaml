@@ -267,41 +267,20 @@ jobs:
       # ========================================================================
       # 9. Upload to ESOUI (PRODUCTION READY)
       # ========================================================================
+      # ESOUI API field is "compatible", not "compatibility" (m00nyONE/esoui-upload@v2 sends the wrong name).
       - name: Upload to ESOUI
-        uses: m00nyONE/esoui-upload@v2
-        with:
-          # =================================================================
-          # 🔧 CONFIGURATION REQUIRED:
-          # 1. Add ESOUI_API_KEY to GitHub Secrets:
-          #    Settings → Secrets → Actions → New repository secret
-          #    Name: ESOUI_API_KEY
-          #    Value: [Your token from https://www.esoui.com/downloads/filecpl.php?action=apitokens]
-          #
-          # 2. Replace ADDON_ID after first manual upload:
-          #    After uploading v2.1.0 manually to ESOUI, get the ID from:
-          #    https://www.esoui.com/downloads/info####-CharacterMarkdown.html
-          #                                        ^^^^
-          #    Replace 'XXXX' below with your actual ID (numbers only)
-          # =================================================================
-          
-          api_key: ${{ secrets.ESOUI_API_KEY }}
-          addon_id: ${{ env.ESOUI_ADDON_ID }} # https://www.esoui.com/downloads/info4279-CharacterMarkdown.html#info
-          
-          # Version from Git tag
-          version: ${{ steps.version.outputs.VERSION }}
-          
-          # Release artifacts
-          zip_file: ${{ steps.addon_name.outputs.ZIP_NAME }}
-          changelog_file: 'CHANGELOG.md'
-          description_file: 'README_ESOUI.txt'
-          
-          # ESO game client compatibility (shown as bold version on ESOUI)
-          # Format: MAJOR.MINOR.PATCH (e.g., 12.0.0 for Season Zero Pt.2)
-          # Get current from: /script d(GetESOVersionString()) in ESO
-          compatibility: ${{ env.ESO_API_VERSION }}
-          
-          # Test mode: set to 'true' for dry-run, 'false' for production
-          test: false
+        env:
+          ESOUI_API_KEY: ${{ secrets.ESOUI_API_KEY }}
+        run: |
+          chmod +x scripts/esoui-upload.sh
+          scripts/esoui-upload.sh \
+            "$ESOUI_API_KEY" \
+            "${{ env.ESOUI_ADDON_ID }}" \
+            "${{ steps.version.outputs.VERSION }}" \
+            "${{ steps.addon_name.outputs.ZIP_NAME }}" \
+            "${{ env.ESO_API_VERSION }}" \
+            "CHANGELOG.md" \
+            "README_ESOUI.txt"
 
       # ========================================================================
       # 10. Success Notification

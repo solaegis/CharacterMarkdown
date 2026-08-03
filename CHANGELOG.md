@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **ESOUI upload**: Send `compatible` (not `compatibility`) so game version 12.0.0 updates on the listing
+
 ## [2.2.8] - 2026-07-30
 
 ### Fixed
-- **Equipment**: Two-handed weapons under-counting set pieces — use `GetItemLinkSetInfo` `numNormalEquipped` instead of per-slot +1 (`src/collectors/Equipment.lua`, `src/api/Equipment.lua`)
-- **Settings**: **Generate Profile Now** crash (`function expected instead of nil`) — route through `CM.commands.GenerateOutput` with safe fallback
+- **Equipment**: Two-handed weapons under-counting set pieces - use `GetItemLinkSetInfo` `numNormalEquipped` instead of per-slot +1 (`src/collectors/Equipment.lua`, `src/api/Equipment.lua`)
+- **Settings**: **Generate Profile Now** crash (`function expected instead of nil`) - route through `CM.commands.GenerateOutput` with safe fallback
 - **Chunking**: Avoid splitting inside `` ```mermaid `` openers (prevents bare `mermaid` at chunk start)
 
 ### Added
@@ -34,11 +37,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Examples**: SavedVariables-aligned character exports, build plans, `template_plan.md`, and champion points reference tooling.
 
 ### Fixed
-- **Skills export**: Correct 0-based → 1-based action bar slot mapping; ultimates no longer appear in slot 5; empty slots preserved (`src/api/Skills.lua`, `src/collectors/Skills.lua`, `SkillsSlotTests`)
+- **Skills export**: Correct 0-based -> 1-based action bar slot mapping; ultimates no longer appear in slot 5; empty slots preserved (`src/api/Skills.lua`, `src/collectors/Skills.lua`, `SkillsSlotTests`)
 - **Release packaging**: Exclude `pyproject.toml` / `*.toml` from ESOUI ZIP; fix CI version binding for release artifact names
 - **Chunking**: Never split inside Mermaid code blocks; extend or backtrack chunk boundary to keep diagrams intact
 - **ESO API**: Correctness audit across collectors, generators, and core; includePvP wiring and example preset validation
-- **Documentation**: Corrected Lua comment syntax in ARCHITECTURE.md (`#` → `--`)
+- **Documentation**: Corrected Lua comment syntax in ARCHITECTURE.md (`#` -> `--`)
 
 ### Changed
 - **Chunking**: Refactor and related export reliability improvements since 2.2.6
@@ -63,14 +66,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.2.4] - 2025-12-06
 
-### 🔧 Fixed
+### Fixed
 - **ESOUI Compliance**: Fixed package compliance issue that caused rejection
   - Removed all non-allowed file types (C/C++ headers, Python scripts, config files)
   - Enhanced build exclusion system to prevent future compliance issues
   - Added automated validation to detect ESOUI-disallowed files before upload
   - Package now contains only ESOUI-allowed files: `*.lua`, `*.xml`, `*.txt`, `*.addon`
 
-### 🛠️ Cleanup
+### Cleanup
 - Removed test and debug files from repository root
 - Cleaned up temporary validation and test files
 - Enhanced `.build-ignore` with comprehensive exclusions
@@ -78,7 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.2.3] - 2025-12-06
 
-### 🛠️ Cleanup
+### Cleanup
 - Removed dead code and documentation references for deprecated 'Discord' and 'Quick' output formats.
 - Added documentation for the 'TONL' output format.
 
@@ -180,7 +183,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Now uses `GetCurrentTitle()`, `GetTitleName()`, `GetNumTitles()`, `IsTitleKnown()`
   - Updated `Character.lua` collector to use correct title API pattern
 - **Zone Completion**: Enhanced zone completion tracking with POI-based API
-  - Added three-tier fallback: `GetZoneCompletionStatus()` → POI tracking → manual calculation
+  - Added three-tier fallback: `GetZoneCompletionStatus()` -> POI tracking -> manual calculation
   - More accurate zone completion percentages using Points of Interest (POI) system
   - Better handling of zones with partial completion data
 

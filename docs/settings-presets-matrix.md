@@ -19,10 +19,10 @@ Settings panel labels from **LibAddonMenu** (`/markdown settings`), with **Reset
 | **Reset to Defaults** | Factory `Defaults.lua`; preserves build notes, custom title, play style text |
 | **Enable All Sections** | Every toggle **On** (not the same as factory defaults) |
 | **Minimal** | Lean build share (Build Export): header, combat, gear, skills, CP, currency, overview helpers — **no UESP links** |
-| **Solo PvE** | Minimal + UESP links + quests [BETA] + armory [BETA] + social + progression + riding + companion + morphs + CP diagram + titles + full collectibles + full PvP |
-| **PvP Build** | Minimal + UESP links + core PvP + Alliance War skills + skill morphs + CP diagram + titles + armory [BETA] + social |
-| **Achievement Hunter** | Minimal + UESP links + full achievements + antiquities + collectibles (counts) + full crafting + crafting UESP links |
-| **Crafter** | Minimal + UESP links + full crafting + crafting UESP links + inventory + bag/bank/crafting bag lists + full collectibles |
+| **Solo PvE** | Minimal + UESP links + quests [BETA] + world progress + armory [BETA] + social + progression + riding + companion + morphs + CP diagram + titles + appearance + collectibles + item set collection + full PvP |
+| **PvP Build** | Minimal + UESP links + core PvP + Vengeance + Alliance War skills + skill morphs + CP diagram + titles + armory [BETA] + social |
+| **Achievement Hunter** | Minimal + UESP links + full achievements + criteria detail + antiquities + collectibles + world progress + full crafting + crafting UESP links |
+| **Crafter** | Minimal + UESP links + full crafting + item set collection + crafting UESP links + inventory + bag/bank/crafting bag lists + full collectibles |
 
 ---
 
@@ -171,6 +171,38 @@ When **Include Collectibles** is on, titles appear inside the Collectibles secti
 
 ---
 
+## Achievements (extra)
+
+| Setting | Saved variable | Default | Minimal | Solo PvE | PvP Build | Ach. Hunter | Crafter |
+|---------|----------------|---------|---------|----------|-----------|-------------|---------|
+| Achievement Criteria Detail | `includeAchievementDetail` | Off | Off | Off | Off | On | Off |
+
+---
+
+## Collectibles (extra)
+
+| Setting | Saved variable | Default | Minimal | Solo PvE | PvP Build | Ach. Hunter | Crafter |
+|---------|----------------|---------|---------|----------|-----------|-------------|---------|
+| Include Appearance | `includeAppearance` | Off | Off | On | Off | Off | Off |
+
+---
+
+## Crafting (extra)
+
+| Setting | Saved variable | Default | Minimal | Solo PvE | PvP Build | Ach. Hunter | Crafter |
+|---------|----------------|---------|---------|----------|-----------|-------------|---------|
+| Include Item Set Collection | `includeItemSetCollection` | Off | Off | On | Off | Off | On |
+
+---
+
+## PvP (extra)
+
+| Setting | Saved variable | Default | Minimal | Solo PvE | PvP Build | Ach. Hunter | Crafter |
+|---------|----------------|---------|---------|----------|-----------|-------------|---------|
+| Include Vengeance | `includeVengeance` | Off | Off | Off | On | Off | Off |
+
+---
+
 ## Quests [BETA]
 
 | Setting | Saved variable | Default | Minimal | Solo PvE | PvP Build | Ach. Hunter | Crafter |
@@ -179,8 +211,8 @@ When **Include Collectibles** is on, titles appear inside the Collectibles secti
 | Detailed Quest Categories | `showQuestsDetailed` | Off | Off | On | Off | Off | Off |
 | Show All Quests | `showAllQuests` | Off | Off | On | Off | Off | Off |
 | [BETA] Include Undaunted Pledges | `includeUndauntedPledges` | Off | Off | On | Off | Off | Off |
-
-Quest tracking checkboxes are **commented out** in the settings UI; flags are still set by **Solo PvE** for when export is re-enabled. The standalone Quests generator is currently disabled in `src/generators/Markdown.lua`.
+| Include World Progress | `includeWorldProgress` | Off | Off | On | Off | On | Off |
+| Include Endless Dungeon | `includeEndlessDungeon` | Off | Off | Off | Off | Off | Off |
 
 ---
 

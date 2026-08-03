@@ -92,16 +92,35 @@ end
 function api.GetHousingInfo()
     local primaryId = CM.SafeCall(GetHousingPrimaryHouse)
     local primaryName = nil
+    local furnitureCount = nil
+    local isListed = nil
     if primaryId and primaryId > 0 then
         primaryName = CM.SafeCall(GetCollectibleName, primaryId)
+        if GetHouseFurnitureCount then
+            furnitureCount = CM.SafeCall(GetHouseFurnitureCount, primaryId)
+        end
+        if IsHouseListed then
+            isListed = CM.SafeCall(IsHouseListed, primaryId)
+        end
     end
 
     -- To get all houses, we iterate the HOUSE category collectible
     local houses = api.GetUnlockedCollectibles(COLLECTIBLE_CATEGORY_TYPE_HOUSE)
 
+    local toursStatus = nil
+    if GetHouseToursStatus then
+        toursStatus = CM.SafeCall(GetHouseToursStatus)
+    end
+
     return {
-        primary = { id = primaryId, name = primaryName },
+        primary = {
+            id = primaryId,
+            name = primaryName,
+            furnitureCount = furnitureCount,
+            isListedOnTours = isListed,
+        },
         owned = houses,
+        houseToursStatus = toursStatus,
     }
 end
 

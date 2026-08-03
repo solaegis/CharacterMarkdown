@@ -29,7 +29,6 @@ FACTORY_DEFAULTS_SECTIONS = {
 
 SOLO_PVE_SECTIONS = {
     "Overview",
-    "Build Notes",
     "Combat Arsenal",
     "Equipment & Active Sets",
     "Champion Points",
@@ -37,10 +36,17 @@ SOLO_PVE_SECTIONS = {
     "PvP",
     "Companions",
     "Collectibles",
+    "World Progress",
+    "Appearance",
     "Quest Progress",
     "Armory Builds",
     "Mail",
     "Guild Membership",
+}
+
+# Enabled by preset but omitted when there is no user/content body (see Markdown.lua guards)
+OPTIONAL_SECTIONS = {
+    "Build Notes",
 }
 
 # Solo PvE markers (settings not on by factory defaults)
@@ -48,6 +54,8 @@ SOLO_PVE_MARKERS = (
     "```mermaid",
     "Detailed Skill Morphs",
     '<summary>💁 Assistants',
+    "## 🌍 World Progress",
+    "## 🎨 Appearance",
 )
 
 
@@ -70,7 +78,7 @@ def extract_h2_titles(path: Path) -> set[str]:
 def validate_profile(path: Path, expected: set[str], profile_name: str) -> list[str]:
     issues: list[str] = []
     found = extract_h2_titles(path)
-    missing = expected - found
+    missing = expected - found - OPTIONAL_SECTIONS
     extra = found - expected
     if missing:
         issues.append(f"{profile_name}: missing sections: {sorted(missing)}")
