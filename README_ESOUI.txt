@@ -41,8 +41,10 @@ Paste your export into an AI chat or IDE for build-specific answers.
 [*]Economy: gold, AP, Tel Var, currencies, inventory
 [*]Progression: achievement score, riding skills
 [*]Content: ESO Plus status, owned chapters and DLC
+[*]World progress: skyshards, zone completion, dungeons, lorebooks
+[*]Appearance: outfit, mount, costume, dyes
 [*]Companion: active companion stats and gear
-[*]PvP: Alliance War rank and campaigns
+[*]PvP: Alliance War rank, campaigns, optional Vengeance loadout
 [/LIST]
 [/LIST]
 
@@ -78,7 +80,7 @@ Open via [B]/markdown settings[/B]:
 [B]Built-in presets[/B] (Settings panel):
 [LIST]
 [*][B]Minimal (Build Export)[/B] - CP, attributes, skills, gear, combat stats (best for build sharing)
-[*][B]Solo PvE[/B] - Minimal plus quests, companion, collectibles, progression
+[*][B]Solo PvE[/B] - Minimal plus quests, world progress, appearance, companion, collectibles, progression
 [*][B]PvP Build[/B] - Minimal plus PvP stats and Alliance War skills
 [*][B]Achievement Hunter[/B] - Minimal plus achievements, antiquities, collectibles
 [*][B]Crafter[/B] - Minimal plus crafting, inventory, and collectibles

@@ -7,8 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-08-03
+
+### Added
+- **World Progress** section: skyshards, zone completion, dungeon/delve progress, Cadwell's Almanac, lorebooks, optional Endless Dungeon score (`includeWorldProgress`, `includeEndlessDungeon`)
+- **Appearance** section: outfit, mount, mount skin, costume, hat, dye collection summary (`includeAppearance`)
+- **Vengeance** loadout block in PvP when enabled (`includeVengeance`)
+- **Achievement criteria detail** when `includeAchievementDetail` is on
+- **Item set collection** subsection in Crafting when `includeItemSetCollection` is on
+- P50 API layers: `src/api/World.lua`, `src/api/Appearance.lua`, `src/api/Vengeance.lua`; collectors and generators wired in `Markdown.lua`
+- Solo PvE preset: world progress, appearance, item set collection, full PvP toggles; settings matrix updated (`docs/settings-presets-matrix.md`)
+- `scripts/validate_example_preset.py` Solo PvE / factory-defaults H2 checks; `scripts/esoui-upload.sh` for release uploads
+
+### Changed
+- **Mundus detection**: prefer `GetUnitActiveMundusStoneBuffIndices` over buff-name heuristics (`src/collectors/Combat.lua`)
+- **Mount vs mount skin**: active mount from `GetActiveCollectibleByType(MOUNT)`; skin from `GetMountSkinId` (`src/api/Appearance.lua`)
+- **Skill bars**: slotted morph names from `GetSlotBoundId` + `GetAbilityName` (`src/api/Skills.lua`, `src/generators/sections/equipment/SkillBars.lua`)
+- **Achievements / antiquities / quests / crafting**: deeper P50 export fields and generators
+- Example export `rilis_toxil.md` refreshed for Solo PvE preset
+
 ### Fixed
-- **ESOUI upload**: Send `compatible` (not `compatibility`) so game version 12.0.0 updates on the listing
+- **Housing primary residence**: `GetHousingPrimaryHouse` returns houseId, not collectible ID — resolve name via `GetCollectibleIdForHouse`; furniture/tours use houseId (`src/api/Collectibles.lua`, `src/collectors/Collectibles.lua`)
+- **Collectibles generator**: argument wiring for titles/housing/lorebooks subsections
+- **ESOUI upload**: send `compatible` (not `compatibility`) so game version 12.0.0 updates on the listing
 
 ## [2.2.8] - 2026-07-30
 
