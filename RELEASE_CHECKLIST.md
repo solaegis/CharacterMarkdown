@@ -115,7 +115,19 @@ task release           # or: task release:workflow
   - ✅ Remove excessive padding (550+ trailing newlines)
   - ✅ Reduce consecutive blank lines (3+ → 2)
   - ✅ All markdown structure preserved
-  - ℹ️  Example files in `assets/examples/` should be clean for distribution
+  - ℹ️  Example files in `examples/` should be clean for distribution
+
+- [ ] **ESOUI Best Practices (automated)**
+  ```bash
+  task validate:esoui
+  # Or: ./scripts/validate-esoui-compliance.sh
+  ```
+  - ✅ Manifest: UTF-8 no BOM, lines ≤301 bytes, `AddOnVersion` integer, six-digit `APIVersion`
+  - ✅ AI disclosure and Credits at top of `README_ESOUI.txt`
+  - ✅ PC-only note in listing
+  - ✅ ASCII-only `README_ESOUI.txt` and `CHANGELOG.md`
+  - ✅ OptionalDependsOn libraries named in listing Credits
+  - ✅ See [docs/ESOUI_COMPLIANCE.md](docs/ESOUI_COMPLIANCE.md) and [docs/ESOUI_BEST_PRACTICES.md](docs/ESOUI_BEST_PRACTICES.md) §7
 
 - [ ] **CHANGELOG.md Updated**
   ```bash
@@ -391,9 +403,27 @@ task release           # or: task release:workflow
   - [ ] LibSlashCommander / LibChatMessage / LibAsync / LibCustomIcons listed when used
 
 - [ ] **License & Legal**
-  - [ ] LICENSE file present and correct
+  - [ ] LICENSE / LICENSE.md present and correct
   - [ ] Copyright year updated (if needed)
   - [ ] ESO disclaimer present in manifest
+
+### ESOUI Best Practices checklist (§7)
+
+Mirror of [docs/ESOUI_BEST_PRACTICES.md](docs/ESOUI_BEST_PRACTICES.md) section 7. Prefer `task validate:esoui` for automated items.
+
+- [ ] `AddOnVersion` bumped as an integer (`task version:bump` updates YYYYMMDD)
+- [ ] `APIVersion` matches current live client (and PTS, if dual-testing)
+- [ ] Manifest is UTF-8 without BOM, no line over 301 bytes
+- [ ] SavedVariables names are addon-prefixed and created in `EVENT_ADD_ON_LOADED`
+- [ ] No manual loading of declared dependencies from within the manifest file list
+- [ ] `IsLibrary: true` set correctly if this is a library, not a standalone addon (N/A for CharacterMarkdown)
+- [ ] Non-optional dependencies listed at the top of the addon description (N/A if OptionalDependsOn only)
+- [ ] AI-generated code disclosed if you can't personally vouch for it
+- [ ] Credit given for any reused code, concepts, or assets
+- [ ] Addon checked against ZOS/ESOUI prohibited-functionality rules ([docs/ESOUI_COMPLIANCE.md](docs/ESOUI_COMPLIANCE.md))
+- [ ] Changelog updated
+- [ ] License terms stated and honored if this is a fork, patch, or derivative
+- [ ] Platform compatibility (PC) tagged in listing; console-only N/A
 
 ---
 

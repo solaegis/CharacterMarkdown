@@ -149,6 +149,12 @@ jobs:
           echo "✅ Validating manifest..."
           lua scripts/validate-manifest.lua ${{ env.ADDON_NAME }}.txt
 
+      - name: ESOUI compliance checks
+        run: |
+          echo "✅ Running ESOUI listing compliance..."
+          chmod +x scripts/validate-esoui-compliance.sh
+          ./scripts/validate-esoui-compliance.sh ${{ env.ADDON_NAME }}.txt README_ESOUI.txt CHANGELOG.md
+
       # ========================================================================
       # 5. Update Version Placeholders (General Approach)
       # ========================================================================
@@ -163,6 +169,7 @@ jobs:
           
           echo "📝 Updating AddOnVersion in manifest"
           sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/g" ${{ env.ADDON_NAME }}.txt
+          sed -i "s/^## This file is AddOnVersion: .*/## This file is AddOnVersion: $DATE_VERSION/g" ${{ env.ADDON_NAME }}.txt
           
           echo "✅ Version updates complete:"
           echo "   @project-version@ → $VERSION (in all files)"

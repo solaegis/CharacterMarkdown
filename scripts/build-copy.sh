@@ -32,6 +32,15 @@ if [ -f "$SOURCE_DIR/README_ESOUI.txt" ]; then
     echo "  ✓ Copied README_ESOUI.txt"
 fi
 
+# Copy LICENSE.md for MIT notice in distributed package
+if [ -f "$SOURCE_DIR/LICENSE.md" ]; then
+    cp "$SOURCE_DIR/LICENSE.md" "$DEST_DIR/"
+    echo "  ✓ Copied LICENSE.md"
+elif [ -f "$SOURCE_DIR/LICENSE" ]; then
+    cp "$SOURCE_DIR/LICENSE" "$DEST_DIR/LICENSE.md"
+    echo "  ✓ Copied LICENSE as LICENSE.md"
+fi
+
 # Copy src/ directory with whitelist filtering
 if [ -d "$SOURCE_DIR/src" ]; then
     mkdir -p "$DEST_DIR/src"

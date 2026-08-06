@@ -138,6 +138,17 @@ tasks:
         NEW_VERSION="$MAJOR.$MINOR.$PATCH"
         echo "  $CURRENT → $NEW_VERSION"
 
+        # AddOnVersion must be a positive integer (ESO atoi); use YYYYMMDD
+        ADDON_VERSION=$(date +%Y%m%d)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          sed -i '' "s/^## AddOnVersion: .*/## AddOnVersion: ${ADDON_VERSION}/" {{.MANIFEST_FILE}}
+          sed -i '' "s/^## This file is AddOnVersion: .*/## This file is AddOnVersion: ${ADDON_VERSION}/" {{.MANIFEST_FILE}}
+        else
+          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: ${ADDON_VERSION}/" {{.MANIFEST_FILE}}
+          sed -i "s/^## This file is AddOnVersion: .*/## This file is AddOnVersion: ${ADDON_VERSION}/" {{.MANIFEST_FILE}}
+        fi
+        echo "  AddOnVersion → ${ADDON_VERSION}"
+
         DATE=$(date +%Y-%m-%d)
         if [[ "$OSTYPE" == "darwin"* ]]; then
           sed -i '' "s/## \[Unreleased\]/## [Unreleased]\n\n## [$NEW_VERSION] - $DATE/" CHANGELOG.md
@@ -145,7 +156,7 @@ tasks:
           sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$NEW_VERSION] - $DATE/" CHANGELOG.md
         fi
 
-        echo "✅ Version bumped to $NEW_VERSION"
+        echo "✅ Version bumped to $NEW_VERSION (AddOnVersion ${ADDON_VERSION})"
     silent: true
 
   version:api:

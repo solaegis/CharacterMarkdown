@@ -62,10 +62,24 @@ uv run scripts/check_example_characters.py \
 
 ## Other Scripts
 
+### validate-esoui-compliance.sh
+ESOUI listing and wiki-manifest compliance (AI disclosure, Credits, ASCII-only listing files, OptionalDependsOn sync, PC-only). Invokes `validate-manifest.lua` for line-length, AddOnVersion integer, BOM, and APIVersion rules.
+
+```bash
+task validate:esoui
+./scripts/validate-esoui-compliance.sh
+```
+
+See [docs/ESOUI_COMPLIANCE.md](../docs/ESOUI_COMPLIANCE.md).
+
+### validate-manifest.lua
+Validates `CharacterMarkdown.txt` against ESOUI Wiki manifest rules (§1).
+
 ### pre-release-check.sh
 Comprehensive pre-release validation script. Checks:
 - Lua syntax validation
 - Manifest validation
+- ESOUI listing compliance
 - File structure
 - CHANGELOG entries
 - README badges

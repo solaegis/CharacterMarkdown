@@ -383,6 +383,16 @@ function CM.Settings.Initializer:InitializeCharacterData()
         CM.charData.playStyle = ""
     end
 
+    -- Strip legacy cached-markdown fields (removed; exceeded ESO limits, never used)
+    if CM.charData.markdown ~= nil then
+        CM.charData.markdown = nil
+        CM.DebugPrint("SETTINGS", "Removed legacy per-character markdown cache")
+    end
+    if CM.charData.markdown_format ~= nil then
+        CM.charData.markdown_format = nil
+        CM.DebugPrint("SETTINGS", "Removed legacy per-character markdown_format")
+    end
+
     -- Update metadata
     CM.charData._lastModified = GetTimeStamp()
     CM.charData._characterName = GetUnitName("player")

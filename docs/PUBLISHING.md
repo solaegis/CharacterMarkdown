@@ -293,8 +293,25 @@ Runtime code reads and writes `CM.settings` (the current megaserver `$AccountWid
 
 ---
 
+## Discontinuing or transferring maintenance
+
+Follow [ESOUI Best Practices §§5–6](ESOUI_BEST_PRACTICES.md) if you stop shipping CharacterMarkdown:
+
+1. Prefer finding a maintainer over deletion if the addon is widely used. Post in the appropriate ESOUI forum.
+2. Update the ESOUI listing name, description, and changelog to state it is no longer to be used; link alternatives if known.
+3. Optionally update addon comments (many users read comments first).
+4. **Do not** rely on forum threads or addon comments alone for moderator action — comments are not monitored.
+5. To mark discontinued: PM an esoui.com moderator (Dolby, Cairenn, Baertram) with the addon link, asking for category **"Discontinued & Outdated"** (keeps Minion from finding it).
+6. To delete entirely: PM a moderator requesting deletion. Deletion removes description, changelog, files, and comments permanently.
+
+Forks, patches, and takeovers: see [CONTRIBUTING.md](../CONTRIBUTING.md). Repo compliance status: [ESOUI_COMPLIANCE.md](ESOUI_COMPLIANCE.md).
+
+---
+
 ## Related Documentation
 
+- **[ESOUI Best Practices](ESOUI_BEST_PRACTICES.md)** - Forum + wiki rules
+- **[ESOUI Compliance](ESOUI_COMPLIANCE.md)** - CharacterMarkdown status matrix
 - **[Development Guide](DEVELOPMENT.md)** - Setup and workflow
 - **[Architecture](ARCHITECTURE.md)** - Code structure
 - **[Testing Guide](TESTING_COMMAND.md)** - Pre-release validation

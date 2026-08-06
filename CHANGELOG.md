@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Example export `rilis_toxil.md` refreshed for Solo PvE preset
 
 ### Fixed
-- **Housing primary residence**: `GetHousingPrimaryHouse` returns houseId, not collectible ID — resolve name via `GetCollectibleIdForHouse`; furniture/tours use houseId (`src/api/Collectibles.lua`, `src/collectors/Collectibles.lua`)
+- **Housing primary residence**: `GetHousingPrimaryHouse` returns houseId, not collectible ID -- resolve name via `GetCollectibleIdForHouse`; furniture/tours use houseId (`src/api/Collectibles.lua`, `src/collectors/Collectibles.lua`)
 - **Collectibles generator**: argument wiring for titles/housing/lorebooks subsections
 - **ESOUI upload**: send `compatible` (not `compatibility`) so game version 12.0.0 updates on the listing
 

@@ -1,8 +1,11 @@
 [B]AI disclosure:[/B] This addon was developed with AI-assisted tooling. The author has personally written, reviewed, tested, and maintains all shipped code.
 
+[B]PC only:[/B] CharacterMarkdown on ESOUI is for the PC client. It is not a console (Xbox/PlayStation) addon.
+
 [B]Credits:[/B]
 [LIST]
 [*]Optional libraries: LibAddonMenu-2.0, LibDebugLogger, LibSets, LibSlashCommander, LibChatMessage, LibAsync, LibCustomIcons (see manifest OptionalDependsOn)
+[*]Markdown enhancement patterns inspired by David Wells' advanced-markdown (GitHub)
 [*]UESP wiki links and ESO API patterns used per community conventions
 [*][URL=https://github.com/solaegis/CharacterMarkdown]Source and issue tracker on GitHub[/URL]
 [/LIST]
@@ -111,7 +114,7 @@ Open via [B]/markdown settings[/B]:
 [/LIST]
 
 [B]Required[/B]: Elder Scrolls Online (Update 50+)
-[B]Optional libraries[/B]: See Credits above (LibAddonMenu-2.0 and others)
+[B]Optional libraries[/B]: See Credits above (LibAddonMenu-2.0 and others). [B]/markdown[/B] works without them; the settings UI needs LibAddonMenu-2.0.
 
 [center][color=da8a00]________________________________________________[/color][/center]
 

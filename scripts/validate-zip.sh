@@ -96,6 +96,13 @@ validate_zip_structure() {
     fi
     print_success "XML file present: src/ui/${ADDON_NAME}.xml"
     
+    # LICENSE.md for MIT distribution notice
+    if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/LICENSE.md"; then
+        print_error "Missing LICENSE.md in release ZIP"
+        return 1
+    fi
+    print_success "LICENSE.md present"
+    
     # Check for source directory
     if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/src/"; then
         print_error "Missing source directory: src/"

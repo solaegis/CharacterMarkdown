@@ -1,12 +1,12 @@
 ## Title: Character Markdown
 ## Author: solaegis
 ## Version: @project-version@
-## AddOnVersion: 1.0.0
+## AddOnVersion: 20260805
 ## APIVersion: 101050 101049
 ## SavedVariables: CharacterMarkdownSettings
 ## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=250 LibSets>=86 LibSlashCommander>=4 LibChatMessage LibAsync LibCustomIcons
-## Description: Exports comprehensive character data in enhanced markdown format. Generate copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Includes ESO Plus, DLC access, currencies, progression, riding skills, inventory, PvP, collectibles, and crafting knowledge. Use /markdown (or /cm) to generate.
-## This file is AddOnVersion: 20250121
+## Description: Export character data as Markdown with UESP links. Use /markdown or /cm.
+## This file is AddOnVersion: 20260805
 ## Directive above to support LibAddonMenu version sorting
 
 ## This Add-On is not created by, affiliated with or sponsored by ZeniMax Media Inc. or its affiliates. The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc. in the United States and/or other countries. All rights reserved.

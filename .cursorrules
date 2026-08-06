@@ -181,9 +181,8 @@
   - `customNotes`: Custom build notes entered by user
   - `customTitle`: Custom character title
   - `playStyle`: Play style tag (magicka_dps, stamina_tank, etc.)
-  - `markdown_format`: Format of last generated markdown (github, vscode, discord, quick)
-  - `markdown`: Full cached markdown document for this character
   - `_initialized`, `_lastModified`, `_characterName`, `_accountName`: Metadata fields
+  - Do **not** store generated markdown in SavedVars (`markdown` / `markdown_format` were removed)
 
 - **Example of adding a field**:
   ```lua
@@ -193,8 +192,6 @@
           customNotes = "",
           customTitle = "",
           playStyle = "",
-          markdown_format = "",
-          markdown = "",
           newField = "",  -- Add here
           _initialized = true,
           _lastModified = GetTimeStamp(),

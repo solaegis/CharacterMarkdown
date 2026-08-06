@@ -112,23 +112,36 @@ tasks:
     silent: true
 
   validate:manifest:
-    desc: Validate addon manifest file
+    desc: Validate addon manifest file (wiki + project rules)
     cmds:
       - echo "  Validating manifest..."
       - |
-        if ! grep -q "^## Title:" {{.MANIFEST_FILE}}; then
-          echo "  ✗ Missing Title in manifest"
-          exit 1
+        if command -v lua >/dev/null 2>&1; then
+          lua scripts/validate-manifest.lua {{.MANIFEST_FILE}}
+        else
+          if ! grep -q "^## Title:" {{.MANIFEST_FILE}}; then
+            echo "  ✗ Missing Title in manifest"
+            exit 1
+          fi
+          if ! grep -q "^## Version:" {{.MANIFEST_FILE}}; then
+            echo "  ✗ Missing Version in manifest"
+            exit 1
+          fi
+          if ! grep -q "^## APIVersion:" {{.MANIFEST_FILE}}; then
+            echo "  ✗ Missing APIVersion in manifest"
+            exit 1
+          fi
+          echo "    ✓ Manifest basic checks passed (install lua for full wiki validation)"
         fi
-        if ! grep -q "^## Version:" {{.MANIFEST_FILE}}; then
-          echo "  ✗ Missing Version in manifest"
-          exit 1
-        fi
-        if ! grep -q "^## APIVersion:" {{.MANIFEST_FILE}}; then
-          echo "  ✗ Missing APIVersion in manifest"
-          exit 1
-        fi
-        echo "    ✓ Manifest valid"
+    silent: true
+
+  validate:esoui:
+    desc: ESOUI listing + manifest compliance (best practices)
+    cmds:
+      - echo "  Running ESOUI compliance checks..."
+      - chmod +x scripts/validate-esoui-compliance.sh
+      - ./scripts/validate-esoui-compliance.sh {{.MANIFEST_FILE}} README_ESOUI.txt CHANGELOG.md
+      - echo "✅ ESOUI compliance passed"
     silent: true
 
   validate:syntax:
@@ -181,7 +194,7 @@ tasks:
 
   validate:all:
     desc: Run all validation checks
-    deps: [validate, validate:changelog, validate:readme]
+    deps: [validate, validate:changelog, validate:readme, validate:esoui]
     cmds:
       - task: examples:check
       - echo "✅ All validations passed"

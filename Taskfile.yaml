@@ -75,6 +75,12 @@ tasks:
       - task dev:validate:all
     silent: true
 
+  validate:esoui:
+    desc: Alias for dev:validate:esoui
+    cmds:
+      - task dev:validate:esoui
+    silent: true
+
   build:
     desc: Alias for build:release
     cmds:

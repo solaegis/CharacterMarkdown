@@ -238,6 +238,24 @@ validate_readme() {
     return 0
 }
 
+validate_esoui_compliance() {
+    print_section "7b. ESOUI Listing Compliance"
+
+    if [ ! -f "scripts/validate-esoui-compliance.sh" ]; then
+        print_error "scripts/validate-esoui-compliance.sh not found"
+        return 1
+    fi
+
+    chmod +x scripts/validate-esoui-compliance.sh
+    if ./scripts/validate-esoui-compliance.sh; then
+        print_success "ESOUI compliance checks passed"
+        return 0
+    else
+        print_error "ESOUI compliance failed - run './scripts/validate-esoui-compliance.sh' for details"
+        return 1
+    fi
+}
+
 validate_git_state() {
     print_section "8. Git State Validation"
     
@@ -327,6 +345,7 @@ main() {
     validate_changelog || validation_failed=1
     validate_examples || validation_failed=1
     validate_readme || true  # Don't fail on README warnings
+    validate_esoui_compliance || validation_failed=1
     validate_git_state || true  # Don't fail on git checks
     validate_build || validation_failed=1
     
