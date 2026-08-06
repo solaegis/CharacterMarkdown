@@ -51,13 +51,13 @@ jobs:
           fi
 
           # Read primary API version from manifest (first token after APIVersion:)
-          API_VERSION=$(grep "^## APIVersion:" ${{ env.ADDON_NAME }}.addon | awk '{print $3}')
+          API_VERSION=$(grep "^## APIVersion:" ${{ env.ADDON_NAME }}.txt | awk '{print $3}')
           echo "📋 Current API Version in manifest: $API_VERSION"
           
           # Check if we should update API version automatically
           if [ -n "${{ env.UPDATE_API_VERSION }}" ]; then
             echo "🔄 Auto-updating API version to: ${{ env.UPDATE_API_VERSION }}"
-            sed -i "s/^## APIVersion: .*/## APIVersion: ${{ env.UPDATE_API_VERSION }}/g" ${{ env.ADDON_NAME }}.addon
+            sed -i "s/^## APIVersion: .*/## APIVersion: ${{ env.UPDATE_API_VERSION }}/g" ${{ env.ADDON_NAME }}.txt
             API_VERSION="${{ env.UPDATE_API_VERSION }}"
             echo "✅ API version updated to: $API_VERSION"
           else
@@ -147,7 +147,7 @@ jobs:
       - name: Validate manifest
         run: |
           echo "✅ Validating manifest..."
-          lua scripts/validate-manifest.lua ${{ env.ADDON_NAME }}.addon
+          lua scripts/validate-manifest.lua ${{ env.ADDON_NAME }}.txt
 
       # ========================================================================
       # 5. Update Version Placeholders (General Approach)
@@ -162,7 +162,7 @@ jobs:
           ./scripts/replace-version.sh . "$VERSION"
           
           echo "📝 Updating AddOnVersion in manifest"
-          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/g" ${{ env.ADDON_NAME }}.addon
+          sed -i "s/^## AddOnVersion: .*/## AddOnVersion: $DATE_VERSION/g" ${{ env.ADDON_NAME }}.txt
           
           echo "✅ Version updates complete:"
           echo "   @project-version@ → $VERSION (in all files)"
@@ -175,35 +175,32 @@ jobs:
         run: |
           echo "📦 Building release package..."
           
-          # Create build directory
+          VERSION="${{ steps.version.outputs.VERSION }}"
           BUILD_DIR="${{ env.BUILD_DIR }}"
+          # Whitelist copy into CharacterMarkdown/ (parity with local task build)
+          rm -rf "$BUILD_DIR"
           mkdir -p "$BUILD_DIR"
+          chmod +x scripts/build-copy.sh scripts/replace-version.sh
+          ./scripts/build-copy.sh . "$BUILD_DIR"
+          ./scripts/replace-version.sh "$BUILD_DIR" "$VERSION"
           
-          # Filter .build-ignore into an rsync exclude file (skip comments/blanks)
-          FILTER_FILE=$(mktemp)
-          while IFS= read -r pattern || [ -n "$pattern" ]; do
-            [[ -z "$pattern" || "$pattern" =~ ^# ]] && continue
-            printf '%s\n' "$pattern" >> "$FILTER_FILE"
-          done < .build-ignore
-          
-          # Copy files excluding patterns (--exclude-from avoids shell globbing of *.ext)
-          rsync -a --quiet \
-            --exclude-from="$FILTER_FILE" \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='build' \
-            --exclude='dist' \
-            . "$BUILD_DIR/"
-          rm -f "$FILTER_FILE"
-
           if [ -f "$BUILD_DIR/pyproject.toml" ] || [ -f "$BUILD_DIR/book.toml" ]; then
             echo "❌ Build package still contains disallowed .toml files"
             find "$BUILD_DIR" -name '*.toml' -print
             exit 1
           fi
           
-          # Create ZIP from temp directory
-          cd /tmp
+          if [ ! -f "$BUILD_DIR/${{ env.ADDON_NAME }}.txt" ]; then
+            echo "❌ Missing PC manifest: ${{ env.ADDON_NAME }}.txt"
+            exit 1
+          fi
+          if [ -f "$BUILD_DIR/${{ env.ADDON_NAME }}.addon" ]; then
+            echo "❌ Unexpected .addon manifest in PC package"
+            exit 1
+          fi
+          
+          # Create ZIP from parent of BUILD_DIR (/tmp) so root is CharacterMarkdown/
+          cd "$(dirname "$BUILD_DIR")"
           zip -r -q "$GITHUB_WORKSPACE/${{ steps.addon_name.outputs.ZIP_NAME }}" "${{ env.ADDON_NAME }}"
           
           echo "✅ Created: ${{ steps.addon_name.outputs.ZIP_NAME }}"

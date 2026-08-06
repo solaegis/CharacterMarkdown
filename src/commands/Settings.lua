@@ -79,7 +79,7 @@ local function HandleSettingsGet(args)
     end
 
     -- Get raw and merged values
-    local rawValue = CharacterMarkdownSettings and CharacterMarkdownSettings[key] or nil
+    local rawValue = CM.settings and CM.settings[key] or nil
     local mergedValue = CM.GetSettings()[key]
 
     CM.Info("Setting: " .. key)
@@ -129,20 +129,20 @@ local function HandleSettingsSet(args)
     end
 
     -- Set value
-    if not CharacterMarkdownSettings then
+    if not CM.settings then
         CM.Error("Settings not available")
         return
     end
 
-    CharacterMarkdownSettings[key] = value
-    CharacterMarkdownSettings._lastModified = GetTimeStamp()
+    CM.settings[key] = value
+    CM.settings._lastModified = GetTimeStamp()
     CM.InvalidateSettingsCache()
 
     CM.Success("Setting updated: " .. key .. " = " .. tostring(value))
 end
 
 local function HandleSettingsReset(args)
-    if not CharacterMarkdownSettings then
+    if not CM.settings then
         CM.Error("Settings not available")
         return
     end
@@ -153,43 +153,43 @@ local function HandleSettingsReset(args)
     -- CRITICAL: Preserve only text fields (customNotes, customTitle, playStyle) for current character
     local characterId = tostring(GetCurrentCharacterId())
     local preservedTextFields = nil
-    if CharacterMarkdownSettings.perCharacterData and CharacterMarkdownSettings.perCharacterData[characterId] then
+    if CM.settings.perCharacterData and CM.settings.perCharacterData[characterId] then
         preservedTextFields = {
-            customNotes = CharacterMarkdownSettings.perCharacterData[characterId].customNotes,
-            customTitle = CharacterMarkdownSettings.perCharacterData[characterId].customTitle,
-            playStyle = CharacterMarkdownSettings.perCharacterData[characterId].playStyle,
+            customNotes = CM.settings.perCharacterData[characterId].customNotes,
+            customTitle = CM.settings.perCharacterData[characterId].customTitle,
+            playStyle = CM.settings.perCharacterData[characterId].playStyle,
         }
     end
 
     -- Reset all settings to defaults (preserve internal metadata and per-character data)
     for key, defaultValue in pairs(defaults) do
         if key:sub(1, 1) ~= "_" and key ~= "perCharacterData" then
-            CharacterMarkdownSettings[key] = defaultValue
+            CM.settings[key] = defaultValue
             count = count + 1
         end
     end
 
     -- Restore only the text fields for current character
     if preservedTextFields then
-        if not CharacterMarkdownSettings.perCharacterData then
-            CharacterMarkdownSettings.perCharacterData = {}
+        if not CM.settings.perCharacterData then
+            CM.settings.perCharacterData = {}
         end
-        if not CharacterMarkdownSettings.perCharacterData[characterId] then
-            CharacterMarkdownSettings.perCharacterData[characterId] = {}
+        if not CM.settings.perCharacterData[characterId] then
+            CM.settings.perCharacterData[characterId] = {}
         end
-        CharacterMarkdownSettings.perCharacterData[characterId].customNotes = preservedTextFields.customNotes
-        CharacterMarkdownSettings.perCharacterData[characterId].customTitle = preservedTextFields.customTitle
-        CharacterMarkdownSettings.perCharacterData[characterId].playStyle = preservedTextFields.playStyle
+        CM.settings.perCharacterData[characterId].customNotes = preservedTextFields.customNotes
+        CM.settings.perCharacterData[characterId].customTitle = preservedTextFields.customTitle
+        CM.settings.perCharacterData[characterId].playStyle = preservedTextFields.playStyle
     end
 
-    CharacterMarkdownSettings._lastModified = GetTimeStamp()
+    CM.settings._lastModified = GetTimeStamp()
     CM.InvalidateSettingsCache()
 
     CM.Success("Reset " .. count .. " settings to defaults (text fields preserved)")
 end
 
 local function HandleSettingsEnableAll(args)
-    if not CharacterMarkdownSettings then
+    if not CM.settings then
         CM.Error("Settings not available")
         return
     end
@@ -200,12 +200,12 @@ local function HandleSettingsEnableAll(args)
     -- Enable all boolean settings
     for key, defaultValue in pairs(defaults) do
         if type(defaultValue) == "boolean" and key:sub(1, 1) ~= "_" then
-            CharacterMarkdownSettings[key] = true
+            CM.settings[key] = true
             count = count + 1
         end
     end
 
-    CharacterMarkdownSettings._lastModified = GetTimeStamp()
+    CM.settings._lastModified = GetTimeStamp()
     CM.InvalidateSettingsCache()
 
     CM.Success("Enabled " .. count .. " boolean settings")

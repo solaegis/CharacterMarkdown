@@ -17,7 +17,7 @@ if [ -z "$TARGET" ] || [ -z "$VERSION" ]; then
   echo "Usage: $0 <target_path> <version>"
   echo ""
   echo "Examples:"
-  echo "  $0 CharacterMarkdown.addon 2.1.7       # Replace in single file"
+  echo "  $0 CharacterMarkdown.txt 2.1.7        # Replace in single file"
   echo "  $0 src/ 2.1.7                          # Replace in directory"
   echo "  $0 . 2.1.7                             # Replace in all files"
   exit 1

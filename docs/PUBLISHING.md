@@ -8,6 +8,12 @@
 3. Apply for author status (User Control Panel → Permissions)
 4. Wait for approval (24-48 hours)
 
+### Packaging notes (PC-only on ESOUI)
+- Manifest: `CharacterMarkdown.txt` (not `.addon`)
+- ZIP root folder must be `CharacterMarkdown/` matching the manifest basename
+- Exclude hidden/dev paths (`__MACOSX`, `.github`, `scripts/`, dotfiles)
+- Local and CI builds both use `scripts/build-copy.sh` whitelist copy
+
 ### 2. First Manual Upload
 ```bash
 # Build release
@@ -25,7 +31,7 @@ Upload at: https://www.esoui.com/downloads/upload-update.php
 - **Game Version**: 12.0.0 (current ESO client; Season Zero Pt.2)
 - **Description**: Brief description with features
 - **File**: Upload ZIP
-- **Optional Libraries**: LibAddonMenu-2.0
+- **Optional Libraries**: LibAddonMenu-2.0, LibDebugLogger, LibSets, LibSlashCommander, LibChatMessage, LibAsync, LibCustomIcons
 
 ### 3. Get Addon ID
 After upload approval, note the ID from URL:
@@ -135,7 +141,7 @@ task version:bump -- minor   # 2.1.0 → 2.2.0
 task version:bump -- major   # 2.1.0 → 3.0.0
 
 # Manual
-# Edit CharacterMarkdown.addon:
+# Edit CharacterMarkdown.txt:
 ## Version: 2.1.1
 ## AddOnVersion: 20250121  # YYYYMMDD format
 ```
@@ -267,15 +273,23 @@ git push origin :v2.1.1  # Delete remote
 
 ## Console Publishing (Optional)
 
-ESO supports addons on Xbox/PlayStation (as of June 2025).
+ESO supports addons on Xbox/PlayStation (as of June 2025). CharacterMarkdown on ESOUI is **PC-only** and ships `CharacterMarkdown.txt`.
 
-### Requirements
-- Use `.addon` manifest extension (already done)
+### Requirements (if targeting console separately)
+- Console uploads use `.addon` manifest extension (separate from ESOUI PC zip)
 - Case-sensitive file paths on PlayStation
 - Upload via Bethesda.net (separate from ESOUI)
 
 ### Upload Tool
 Download: https://help.elderscrollsonline.com/app/answers/detail/a_id/69621
+
+---
+
+## SavedVariables (server-scoped)
+
+Account-wide settings use `ZO_SavedVars:NewAccountWide` with `GetWorldName()` as the namespace so NA, EU, and PTS toggles do not overwrite each other. Per-character fields (`customNotes`, `customTitle`, `playStyle`) remain under `perCharacterData[characterId]` inside the current server's account table (character IDs are already unique across megaservers).
+
+Runtime code reads and writes `CM.settings` (the current megaserver `$AccountWide` table), not the SavedVariables root.
 
 ---
 

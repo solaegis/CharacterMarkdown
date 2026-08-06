@@ -7,7 +7,7 @@ version: "3"
 vars:
   ADDON_NAME: CharacterMarkdown
   SRC_DIR: src
-  MANIFEST_FILE: CharacterMarkdown.addon
+  MANIFEST_FILE: CharacterMarkdown.txt
   BUILD_DIR: build
   DIST_DIR: dist
   VERSION: "@project-version@"

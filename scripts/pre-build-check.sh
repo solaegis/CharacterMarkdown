@@ -18,7 +18,7 @@ ALLOWED_EXTENSIONS=("lua" "xml" "txt" "addon" "md")
 CHECK_DIRS=("src")
 
 # Files at root that should be checked (manifest, README_ESOUI.txt)
-ROOT_FILES=("CharacterMarkdown.addon" "README_ESOUI.txt")
+ROOT_FILES=("CharacterMarkdown.txt" "README_ESOUI.txt")
 
 echo "🔍 Pre-Build Validation: Checking for disallowed file types..."
 echo ""

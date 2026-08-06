@@ -104,18 +104,10 @@ local function GenerateHeader(charData, format)
         header = header .. "---\n\n"
     end
 
-    -- Check for Custom Icon via LibCustomIcons
-    if LibCustomIcons and LibCustomIcons.GetStatic and GetDisplayName then
-        local displayName = GetDisplayName()
-        local iconPath = LibCustomIcons.GetStatic(displayName)
-        if iconPath then
-            -- Convert to URL (assuming standard GitHub hosting for the library)
-            -- Remove "LibCustomIcons/" prefix if present to avoid double path
-            local relativePath = iconPath:gsub("^LibCustomIcons/", "")
-            local iconUrl = "https://raw.githubusercontent.com/m00nyONE/LibCustomIcons/main/" .. relativePath
-            local iconMarkdown = string_format("\n![Custom Icon](%s)\n\n", iconUrl)
-            header = header .. iconMarkdown
-        end
+    -- Custom account icon via LibCustomIcons (optional)
+    local icons = CM.utils and CM.utils.LibCustomIconsIntegration
+    if icons and icons.GetStaticIconMarkdown then
+        header = header .. (icons.GetStaticIconMarkdown() or "")
     end
 
     -- Add leading newline for proper markdown formatting

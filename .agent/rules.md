@@ -203,7 +203,7 @@
   ```
 
 ### File Structure
-- Follow the load order in `CharacterMarkdown.addon` manifest
+- Follow the load order in `CharacterMarkdown.txt` manifest
 - Core → Utils → Links → Collectors → Generators → Commands → Events → Settings → UI → Init
 - New modules must be added to manifest in correct order
 
@@ -392,7 +392,7 @@ The chunking constants in `src/utils/Constants.lua` are based on extensive real-
 
 **CRITICAL: Auto-Install After Code Changes**
 
-- **MANDATORY**: After making ANY changes to addon code files (`.lua`, `.xml`, `CharacterMarkdown.addon`, or any file in `src/`):
+- **MANDATORY**: After making ANY changes to addon code files (`.lua`, `.xml`, `CharacterMarkdown.txt`, or any file in `src/`):
   - **IMMEDIATELY run `task install:live`** to install the updated code to ESO Live client
   - This must be done automatically after every code change to enable in-game testing
   - The command copies updated files to `~/Documents/Elder Scrolls Online/live/AddOns/CharacterMarkdown/`

@@ -938,57 +938,30 @@ local function GetSectionRegistry(settings, gen, data)
 end
 
 -- =====================================================
--- MAIN GENERATION FUNCTION
+-- DATA COLLECTION (sync + LibAsync spike for heavy collectors)
 -- =====================================================
 
-local function GenerateMarkdown()
-    -- Default to markdown (GitHub style)
-
-    -- Reset error tracking
-    ResetCollectionErrors()
-
-    -- Verify collectors are loaded
+local function ValidateCollectorsReady()
     if not CM.collectors then
         CM.Error("CM.collectors namespace doesn't exist!")
         CM.Error("The addon did not load correctly. Try /reloadui")
-        return "ERROR: Addon not loaded. Type /reloadui and try again."
+        return false, "ERROR: Addon not loaded. Type /reloadui and try again."
     end
 
-    -- Check if a critical collector exists (test case)
     if not CM.collectors.CollectCharacterData then
         CM.Error("Collectors not loaded!")
         CM.Error("Available in CM.collectors:")
         for k, v in pairs(CM.collectors) do
             CM.Error("  - " .. k)
         end
-        return "ERROR: Collectors not loaded. Type /reloadui and try again."
+        return false, "ERROR: Collectors not loaded. Type /reloadui and try again."
     end
 
-    -- Get settings before collection so disabled sections skip heavy collectors
-    -- CM.GetSettings() merges with defaults to ensure every setting is true or false, never nil
-    local settings = CM.GetSettings() or {}
+    return true, nil
+end
 
-    local function Need(...)
-        for i = 1, select("#", ...) do
-            local settingName = select(i, ...)
-            if IsSettingEnabled(settings, settingName, false) then
-                return true
-            end
-        end
-        return false
-    end
-
-    -- Optional collectors: only run when at least one consuming section is enabled
-    local function MaybeCollect(enabled, name, fn)
-        if enabled and fn then
-            return SafeCollect(name, fn)
-        end
-        return nil
-    end
-
-    -- Collect data with error handling; skip collectors for disabled sections
-    CM.DebugPrint("GENERATOR", "Starting data collection...")
-
+--- Collect all sections except inventory/achievements (deferred for LibAsync spike).
+local function CollectBaseData(settings, Need, MaybeCollect)
     local needOverview = Need("includeGeneral", "includeCurrency", "includeQuickStats")
     local needCombat = Need("includeBasicCombatStats", "includeAdvancedStats", "includeSkillBars")
     local needSkills = Need("includeSkills", "includeSkillMorphs")
@@ -999,8 +972,7 @@ local function GenerateMarkdown()
     local needCrafting = Need("includeCrafting", "includeMotifs", "includeRecipes", "includeItemSetCollection")
     local needGuilds = Need("includeGuilds", "includeUndauntedPledges")
 
-    local collectedData = {
-        -- Always collect: identity + cheap fields used by header/footer
+    return {
         character = SafeCollect("CollectCharacterData", CM.collectors.CollectCharacterData),
         characterAttributes = MaybeCollect(
             Need("includeCharacterAttributes") or needOverview,
@@ -1044,7 +1016,9 @@ local function GenerateMarkdown()
             "CollectRidingSkillsData",
             CM.collectors.CollectRidingSkillsData
         ),
-        inventory = MaybeCollect(Need("includeInventory"), "CollectInventoryData", CM.collectors.CollectInventoryData),
+        -- inventory / achievements filled by CollectHeavyData (LibAsync spike)
+        inventory = nil,
+        achievements = nil,
         pvp = MaybeCollect(needPvp or needOverview, "CollectPvPData", CM.collectors.CollectPvPData),
         role = MaybeCollect(Need("includeRole"), "CollectRoleData", CM.collectors.CollectRoleData),
         location = MaybeCollect(
@@ -1059,11 +1033,6 @@ local function GenerateMarkdown()
         ),
         crafting = MaybeCollect(needCrafting, "CollectCraftingData", CM.collectors.CollectCraftingData),
         styles = MaybeCollect(Need("includeStyles"), "CollectStylesData", CM.collectors.CollectStylesData),
-        achievements = MaybeCollect(
-            Need("includeAchievements"),
-            "CollectAchievementsData",
-            CM.collectors.CollectAchievementsData
-        ),
         antiquities = MaybeCollect(
             Need("includeAntiquities"),
             "CollectAntiquitiesData",
@@ -1098,26 +1067,65 @@ local function GenerateMarkdown()
             or (CharacterMarkdownData and CharacterMarkdownData.customNotes)
             or "",
     }
+end
 
-    -- Add composite data structures
+local function BuildHeavyCollectorSteps(settings, Need)
+    return {
+        {
+            key = "inventory",
+            name = "CollectInventoryData",
+            enabled = Need("includeInventory") and CM.collectors.CollectInventoryData ~= nil,
+            fn = CM.collectors.CollectInventoryData,
+        },
+        {
+            key = "achievements",
+            name = "CollectAchievementsData",
+            enabled = Need("includeAchievements") and CM.collectors.CollectAchievementsData ~= nil,
+            fn = CM.collectors.CollectAchievementsData,
+        },
+    }
+end
+
+local function FinalizeCollectedData(collectedData)
     collectedData.titlesHousing = {
         titles = collectedData.titles,
         housing = collectedData.housing,
-        collections = collectedData.collectibles, -- Pass collectibles for furniture collections if needed
+        collections = collectedData.collectibles,
     }
+end
 
-    -- Report any collection errors
+local function MakeNeed(settings)
+    return function(...)
+        for i = 1, select("#", ...) do
+            local settingName = select(i, ...)
+            if IsSettingEnabled(settings, settingName, false) then
+                return true
+            end
+        end
+        return false
+    end
+end
+
+local function MaybeCollect(enabled, name, fn)
+    if enabled and fn then
+        return SafeCollect(name, fn)
+    end
+    return nil
+end
+
+-- =====================================================
+-- MARKDOWN ASSEMBLY
+-- =====================================================
+
+local function AssembleMarkdown(settings, collectedData)
     ReportCollectionErrors()
 
-    -- Get section generators
     local gen = GetGenerators()
 
-    -- Generate markdown
     CM.DebugPrint("GENERATOR", function()
         return "Generating markdown..."
     end)
 
-    -- Get section registry (pass flattened settings)
     local sections = GetSectionRegistry(settings, gen, collectedData)
 
     -- Generate all sections based on registry (two-pass: bodies first, then TOC from actual output)
@@ -1350,7 +1358,124 @@ local function GenerateMarkdown()
 end
 
 -- =====================================================
+-- MAIN GENERATION ENTRY POINTS
+-- =====================================================
+
+local function CollectHeavySync(collectedData, heavySteps)
+    local asyncLib = CM.utils and CM.utils.LibAsyncIntegration
+    for _, step in ipairs(heavySteps) do
+        if step.enabled and step.fn then
+            if asyncLib and asyncLib.TimedCall then
+                local success, result, elapsed = asyncLib.TimedCall(step.name, step.fn)
+                if success then
+                    collectedData[step.key] = result
+                else
+                    collectedData[step.key] = {}
+                    table.insert(collectionErrors, {
+                        collector = step.name,
+                        error = tostring(result),
+                    })
+                    CM.Error(string.format("[FAIL] Collect %s failed: %s", step.name, tostring(result)))
+                end
+                CM.DebugPrint(
+                    "LIBASYNC",
+                    string.format("Sync heavy collector %s took %dms", step.key, elapsed or 0)
+                )
+            else
+                collectedData[step.key] = SafeCollect(step.name, step.fn)
+            end
+        else
+            collectedData[step.key] = nil
+        end
+    end
+end
+
+local function GenerateMarkdown()
+    ResetCollectionErrors()
+
+    local ready, errMsg = ValidateCollectorsReady()
+    if not ready then
+        return errMsg
+    end
+
+    local settings = CM.GetSettings() or {}
+    local Need = MakeNeed(settings)
+
+    CM.DebugPrint("GENERATOR", "Starting data collection...")
+
+    local collectedData = CollectBaseData(settings, Need, MaybeCollect)
+    local heavySteps = BuildHeavyCollectorSteps(settings, Need)
+    CollectHeavySync(collectedData, heavySteps)
+    FinalizeCollectedData(collectedData)
+
+    return AssembleMarkdown(settings, collectedData)
+end
+
+--- Async generation: yields between inventory and achievements when LibAsync is installed.
+-- onComplete(markdownOrChunks), onError(message) optional.
+local function GenerateMarkdownAsync(onComplete, onError)
+    ResetCollectionErrors()
+
+    local ready, errMsg = ValidateCollectorsReady()
+    if not ready then
+        if onError then
+            onError(errMsg)
+        elseif onComplete then
+            onComplete(errMsg)
+        end
+        return false
+    end
+
+    local settings = CM.GetSettings() or {}
+    local Need = MakeNeed(settings)
+
+    CM.DebugPrint("GENERATOR", "Starting data collection (async spike)...")
+
+    local collectedData = CollectBaseData(settings, Need, MaybeCollect)
+    local heavySteps = BuildHeavyCollectorSteps(settings, Need)
+
+    local function finish(data)
+        FinalizeCollectedData(data)
+        local success, result = pcall(AssembleMarkdown, settings, data)
+        if not success then
+            if onError then
+                onError(tostring(result))
+            end
+            return
+        end
+        if onComplete then
+            onComplete(result)
+        end
+    end
+
+    local asyncLib = CM.utils and CM.utils.LibAsyncIntegration
+    local anyHeavy = false
+    for _, step in ipairs(heavySteps) do
+        if step.enabled then
+            anyHeavy = true
+            break
+        end
+    end
+
+    if asyncLib and asyncLib.IsLibAsyncAvailable and asyncLib.IsLibAsyncAvailable() and anyHeavy then
+        CM.DebugPrint("LIBASYNC", "Using LibAsync for inventory/achievements collectors")
+        asyncLib.RunCollectorChain(heavySteps, function(results)
+            for key, value in pairs(results) do
+                collectedData[key] = value
+            end
+            finish(collectedData)
+        end)
+        return true
+    end
+
+    CollectHeavySync(collectedData, heavySteps)
+    finish(collectedData)
+    return false
+end
+
+-- =====================================================
 -- EXPORTS
 -- =====================================================
 
 CM.generators.GenerateMarkdown = GenerateMarkdown
+CM.generators.GenerateMarkdownAsync = GenerateMarkdownAsync

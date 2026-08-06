@@ -63,6 +63,8 @@ generate_diagrams.py
 
 # ============================================================================
 # Test & Debug Files (CRITICAL - NOT FOR RELEASE)
+# Note: *Tests.lua (e.g. LayoutCalculatorTests.lua) ARE production files
+# listed in the manifest and must NOT be excluded.
 # ============================================================================
 test
 tests
@@ -72,7 +74,6 @@ test_*.lua
 verify_*.lua
 debug_*.lua
 reproduce_*.lua
-*Tests.lua
 
 # ============================================================================
 # Examples & Templates (NOT FOR RELEASE)
@@ -90,6 +91,8 @@ assets
 issues_summary.txt
 validation_report*.txt
 uesp_linked_phrases.txt
+ESOUIDocumentationP50.txt
+ESOUIDocumentation*.txt
 *.tmp
 *.temp
 *.log
@@ -149,6 +152,12 @@ luarocks
 *.json
 
 # ============================================================================
+# YAML / config (not for addon zip)
+# ============================================================================
+*.yaml
+*.yml
+
+# ============================================================================
 # OS Files
 # ============================================================================
 .DS_Store
@@ -157,3 +166,4 @@ luarocks
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+__MACOSX

@@ -26,6 +26,8 @@ tasks:
         mkdir -p "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
 
         cp {{.MANIFEST_FILE}} "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/"
+        # PC-only: remove stale console .addon if present from older installs
+        rm -f "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/{{.ADDON_NAME}}.addon"
 
         if [ -d "assets" ]; then
           cp -r assets/ "{{.ESO_LIVE_ADDONS}}/{{.ADDON_NAME}}/assets/"
@@ -52,6 +54,7 @@ tasks:
         mkdir -p "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
 
         cp {{.MANIFEST_FILE}} "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/"
+        rm -f "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.ADDON_NAME}}.addon"
         cp -r {{.SRC_DIR}}/ "{{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}/{{.SRC_DIR}}"
 
         echo "✅ Installed to {{.ESO_PTS_ADDONS}}/{{.ADDON_NAME}}"

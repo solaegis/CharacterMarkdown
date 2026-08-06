@@ -41,7 +41,152 @@ end
 
 -- =====================================================
 -- ZO_SAVEDVARS INITIALIZATION (PREFERRED)
+-- Server-scoped via GetWorldName() namespace (ESOUI best practice)
 -- =====================================================
+
+local SV_STRUCT_VERSION = 2
+
+local function GetWorldNameSafe()
+    if type(GetWorldName) == "function" then
+        local name = GetWorldName()
+        if name and name ~= "" then
+            return name
+        end
+    end
+    return "Unknown"
+end
+
+-- Flat (pre-server-scope) layout has settings keys at the SV root
+local function IsLegacyFlatSettings(raw)
+    if type(raw) ~= "table" or raw._serverSvMigrated then
+        return false
+    end
+    if raw.settingsVersion ~= nil or raw.includeChampionPoints ~= nil or raw.perCharacterData ~= nil then
+        return true
+    end
+    return false
+end
+
+local function ShallowCopyTable(src)
+    local copy = {}
+    if type(src) ~= "table" then
+        return copy
+    end
+    if ZO_ShallowTableCopy then
+        ZO_ShallowTableCopy(src, copy)
+    else
+        for k, v in pairs(src) do
+            copy[k] = v
+        end
+    end
+    copy._serverSvMigrated = nil
+    copy._legacyFlatSnapshot = nil
+    return copy
+end
+
+-- Build defaults for NewAccountWide: migrate flat root once; seed other servers from snapshot
+local function PrepareServerScopedDefaults(defaults)
+    local raw = CharacterMarkdownSettings
+    if type(raw) ~= "table" then
+        return defaults
+    end
+
+    if IsLegacyFlatSettings(raw) then
+        local snapshot = ShallowCopyTable(raw)
+        raw._legacyFlatSnapshot = snapshot
+        raw._serverSvMigrated = true
+        CM.DebugPrint("SETTINGS", "Migrating flat SavedVariables to server-scoped layout for " .. GetWorldNameSafe())
+        return snapshot
+    end
+
+    if raw._legacyFlatSnapshot and type(raw._legacyFlatSnapshot) == "table" then
+        -- First login on another megaserver: seed from pre-split snapshot
+        return ShallowCopyTable(raw._legacyFlatSnapshot)
+    end
+
+    return defaults
+end
+
+local function PruneLegacyRootKeys(raw)
+    if type(raw) ~= "table" or not raw._serverSvMigrated then
+        return
+    end
+    local defaults = CM.Settings.Defaults:GetAll()
+    for key, _ in pairs(defaults) do
+        raw[key] = nil
+    end
+    raw.perCharacterData = nil
+    raw.settingsVersion = nil
+    raw.profiles = nil
+    raw.activeProfile = nil
+    raw._initialized = nil
+    raw._lastModified = nil
+    raw.detectedOS = nil
+    raw.currentFormatter = nil
+    raw.filters = nil
+end
+
+local function ApplySettingsVersionMigrations(settings)
+    if not settings then
+        return
+    end
+
+    -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
+    if settings.settingsVersion and settings.settingsVersion < 2 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
+        settings.includeQuests = true
+        settings.showQuestsDetailed = true
+        settings.showAllQuests = true
+        settings.settingsVersion = 2
+        CM.Info("Quest tracking has been enabled in your settings!")
+    end
+
+    -- MIGRATION: Split Character Stats into Basic and Advanced (Version 2.2.0+)
+    if settings.settingsVersion and settings.settingsVersion < 3 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
+
+        local oldSetting = settings.includeCharacterStats
+        if oldSetting == nil then
+            settings.includeBasicCombatStats = true
+            settings.includeAdvancedStats = true
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was nil, enabling both new stats by default")
+        elseif oldSetting == true then
+            settings.includeBasicCombatStats = true
+            settings.includeAdvancedStats = true
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was true, enabling both new stats")
+        else
+            settings.includeBasicCombatStats = false
+            settings.includeAdvancedStats = false
+            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was false, disabling both new stats")
+        end
+
+        settings.settingsVersion = 3
+        CM.Info(
+            "Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats."
+        )
+    end
+
+    -- MIGRATION: Enable Crafting & Style Knowledge (Version 2.2.6+)
+    if settings.settingsVersion and settings.settingsVersion < 4 then
+        CM.DebugPrint("SETTINGS", "Migrating to settings version 4 - enabling crafting and style features")
+
+        settings.includeCrafting = true
+        settings.includeMotifs = true
+        settings.showMotifsDetailed = true
+        settings.includeStyles = true
+        settings.showStylesDetailed = true
+        settings.includeRecipes = true
+
+        settings.settingsVersion = 4
+        CM.Info(
+            "New Crafting & Style Knowledge features have been enabled! You can now see your character's motifs and unlocked styles in your profiles."
+        )
+    end
+
+    if settings.settingsVersion == nil then
+        settings.settingsVersion = 4
+    end
+end
 
 function CM.Settings.Initializer:TryZOSavedVars()
     -- Check if ZO_SavedVars is available
@@ -52,14 +197,16 @@ function CM.Settings.Initializer:TryZOSavedVars()
 
     -- Get defaults
     local defaults = CM.Settings.Defaults:GetAll()
+    local worldName = GetWorldNameSafe()
+    local initDefaults = PrepareServerScopedDefaults(defaults)
 
-    -- Initialize account-wide settings
+    -- Initialize account-wide settings, namespaced by megaserver (NA / EU / PTS)
     local success, result = pcall(function()
         CM.settings = ZO_SavedVars:NewAccountWide(
             "CharacterMarkdownSettings", -- SavedVariables name
-            1, -- Version (increment when changing structure)
-            nil, -- Namespace (nil = root)
-            defaults -- Default values
+            SV_STRUCT_VERSION, -- Structural version (server-scoped)
+            worldName, -- Namespace = GetWorldName() so NA/EU/PTS do not overwrite
+            initDefaults -- Defaults or migrated flat snapshot
         )
     end)
 
@@ -74,22 +221,15 @@ function CM.Settings.Initializer:TryZOSavedVars()
         return false
     end
 
-    -- CRITICAL: Verify that CM.settings and CharacterMarkdownSettings are the same table
-    -- ZO_SavedVars:NewAccountWide should return a reference to CharacterMarkdownSettings
-    if CM.settings ~= CharacterMarkdownSettings then
-        CM.DebugPrint("SETTINGS", "CM.settings and CharacterMarkdownSettings are different tables - forcing sync")
-        -- This shouldn't happen, but if it does, ensure they point to the same table
-        CM.settings = CharacterMarkdownSettings
-    end
+    -- CM.settings is the per-server $AccountWide table (NOT the global root).
+    -- Do not force-sync to CharacterMarkdownSettings — that would undo server scoping.
 
     -- CRITICAL: Ensure all defaults are applied to the actual SavedVariables table
     -- EXCEPTION: Never overwrite perCharacterData if it exists and has content
     for key, defaultValue in pairs(defaults) do
         if CM.settings[key] == nil then
-            -- Special handling for perCharacterData: preserve existing data
-            if key == "perCharacterData" and CharacterMarkdownSettings.perCharacterData then
+            if key == "perCharacterData" and CM.settings.perCharacterData then
                 CM.DebugPrint("SETTINGS", "Preserving existing perCharacterData (not applying default)")
-                -- Don't overwrite - keep the existing perCharacterData
             else
                 CM.settings[key] = defaultValue
                 CM.DebugPrint("SETTINGS", "Applied missing default: " .. key .. " = " .. tostring(defaultValue))
@@ -103,70 +243,14 @@ function CM.Settings.Initializer:TryZOSavedVars()
         CM.DebugPrint("SETTINGS", "Initialized perCharacterData as empty table")
     end
 
-    -- MIGRATION: Enable quest features for existing users (Version 2.1.8+)
-    if CharacterMarkdownSettings.settingsVersion and CharacterMarkdownSettings.settingsVersion < 2 then
-        CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
-        CharacterMarkdownSettings.includeQuests = true
-        CharacterMarkdownSettings.showQuestsDetailed = true
-        CharacterMarkdownSettings.showAllQuests = true
-        CharacterMarkdownSettings.settingsVersion = 2
-        CM.Info("Quest tracking has been enabled in your settings!")
-    end
+    ApplySettingsVersionMigrations(CM.settings)
 
-    -- MIGRATION: Split Character Stats into Basic and Advanced (Version 2.2.0+)
-    if CharacterMarkdownSettings.settingsVersion and CharacterMarkdownSettings.settingsVersion < 3 then
-        CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
-
-        -- If the old setting existed and was enabled, enable both new settings
-        -- If it didn't exist or was disabled, use defaults (true)
-        local oldSetting = CharacterMarkdownSettings.includeCharacterStats
-        if oldSetting == nil then
-            -- Setting never existed, use defaults
-            CharacterMarkdownSettings.includeBasicCombatStats = true
-            CharacterMarkdownSettings.includeAdvancedStats = true
-            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was nil, enabling both new stats by default")
-        elseif oldSetting == true then
-            -- Was enabled, keep enabled
-            CharacterMarkdownSettings.includeBasicCombatStats = true
-            CharacterMarkdownSettings.includeAdvancedStats = true
-            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was true, enabling both new stats")
-        else
-            -- Was explicitly disabled, respect that
-            CharacterMarkdownSettings.includeBasicCombatStats = false
-            CharacterMarkdownSettings.includeAdvancedStats = false
-            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was false, disabling both new stats")
-        end
-
-        CharacterMarkdownSettings.settingsVersion = 3
-        CM.Info(
-            "Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats."
-        )
-    end
-
-    -- MIGRATION: Enable Crafting & Style Knowledge (Version 2.2.6+)
-    if CharacterMarkdownSettings.settingsVersion and CharacterMarkdownSettings.settingsVersion < 4 then
-        CM.DebugPrint("SETTINGS", "Migrating to settings version 4 - enabling crafting and style features")
-
-        -- Enable the features
-        CharacterMarkdownSettings.includeCrafting = true
-        CharacterMarkdownSettings.includeMotifs = true
-        CharacterMarkdownSettings.showMotifsDetailed = true
-        CharacterMarkdownSettings.includeStyles = true
-        CharacterMarkdownSettings.showStylesDetailed = true
-        CharacterMarkdownSettings.includeRecipes = true
-
-        CharacterMarkdownSettings.settingsVersion = 4
-        CM.Info(
-            "New Crafting & Style Knowledge features have been enabled! You can now see your character's motifs and unlocked styles in your profiles."
-        )
-    end
-
-    if CharacterMarkdownSettings.settingsVersion == nil then
-        CharacterMarkdownSettings.settingsVersion = 4
+    if type(CharacterMarkdownSettings) == "table" then
+        PruneLegacyRootKeys(CharacterMarkdownSettings)
     end
 
     -- zo_savedvars_available = true -- luacheck: ignore
-    CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully")
+    CM.DebugPrint("SETTINGS", "✓ ZO_SavedVars initialized successfully (server=" .. worldName .. ")")
     return true
 end
 
@@ -183,11 +267,15 @@ function CM.Settings.Initializer:InitializeFallback()
         CharacterMarkdownSettings = {}
     end
 
-    -- Set reference
-    CM.settings = CharacterMarkdownSettings
-
-    -- Initialize settings with defaults
+    local worldName = GetWorldNameSafe()
     local defaults = CM.Settings.Defaults:GetAll()
+    local initDefaults = PrepareServerScopedDefaults(defaults)
+
+    -- Manual server namespace when ZO_SavedVars is unavailable
+    if type(CharacterMarkdownSettings[worldName]) ~= "table" then
+        CharacterMarkdownSettings[worldName] = ShallowCopyTable(initDefaults)
+    end
+    CM.settings = CharacterMarkdownSettings[worldName]
 
     -- Version tracking for fresh installs
     if CM.settings.settingsVersion == nil then
@@ -197,13 +285,10 @@ function CM.Settings.Initializer:InitializeFallback()
     end
 
     -- Apply defaults for any missing settings
-    -- EXCEPTION: Never overwrite perCharacterData if it exists and has content
     for key, defaultValue in pairs(defaults) do
         if CM.settings[key] == nil then
-            -- Special handling for perCharacterData: preserve existing data
-            if key == "perCharacterData" and CharacterMarkdownSettings.perCharacterData then
+            if key == "perCharacterData" and CM.settings.perCharacterData then
                 CM.DebugPrint("SETTINGS", "Preserving existing perCharacterData (not applying default)")
-                -- Don't overwrite - keep the existing perCharacterData
             else
                 CM.settings[key] = defaultValue
             end
@@ -216,60 +301,10 @@ function CM.Settings.Initializer:InitializeFallback()
         CM.DebugPrint("SETTINGS", "Initialized perCharacterData as empty table")
     end
 
-    if CM.settings.settingsVersion and CM.settings.settingsVersion < 2 then
-        CM.DebugPrint("SETTINGS", "Migrating to settings version 2 - enabling quest features")
-        CM.settings.includeQuests = true
-        CM.settings.showQuestsDetailed = true
-        CM.settings.showAllQuests = true
-        CM.settings.settingsVersion = 2
-        CM.Info("Quest tracking has been enabled in your settings!")
-    end
+    ApplySettingsVersionMigrations(CM.settings)
+    PruneLegacyRootKeys(CharacterMarkdownSettings)
 
-    if CM.settings.settingsVersion and CM.settings.settingsVersion < 3 then
-        CM.DebugPrint("SETTINGS", "Migrating to settings version 3 - splitting character stats")
-
-        -- If the old setting existed and was enabled, enable both new settings
-        -- If it didn't exist or was disabled, use defaults (true)
-        local oldSetting = CM.settings.includeCharacterStats
-        if oldSetting == nil then
-            -- Setting never existed, use defaults
-            CM.settings.includeBasicCombatStats = true
-            CM.settings.includeAdvancedStats = true
-            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was nil, enabling both new stats by default")
-        elseif oldSetting == true then
-            -- Was enabled, keep enabled
-            CM.settings.includeBasicCombatStats = true
-            CM.settings.includeAdvancedStats = true
-            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was true, enabling both new stats")
-        else
-            -- Was explicitly disabled, respect that
-            CM.settings.includeBasicCombatStats = false
-            CM.settings.includeAdvancedStats = false
-            CM.DebugPrint("SETTINGS", "Old includeCharacterStats was false, disabling both new stats")
-        end
-
-        CM.settings.settingsVersion = 3
-        CM.Info(
-            "Character stats settings have been updated! You now have separate toggles for Basic and Advanced stats."
-        )
-    end
-
-    if CM.settings.settingsVersion and CM.settings.settingsVersion < 4 then
-        CM.DebugPrint("SETTINGS", "Migrating (fallback) to settings version 4")
-        CM.settings.includeCrafting = true
-        CM.settings.includeMotifs = true
-        CM.settings.showMotifsDetailed = true
-        CM.settings.includeStyles = true
-        CM.settings.showStylesDetailed = true
-        CM.settings.includeRecipes = true
-        CM.settings.settingsVersion = 4
-    end
-
-    if CM.settings.settingsVersion == nil then
-        CM.settings.settingsVersion = 4
-    end
-
-    CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete")
+    CM.DebugPrint("SETTINGS", "✓ Fallback initialization complete (server=" .. worldName .. ")")
 end
 
 -- =====================================================
@@ -692,7 +727,7 @@ function CM.Settings.Initializer:ImportSettings(importString)
 end
 
 -- =====================================================
--- SERIALIZATION HELPERS
+-- SERIALIZATION HELPERS (safe — no loadstring)
 -- =====================================================
 
 function CM.Settings.Initializer:SerializeTable(tbl, indent)
@@ -703,7 +738,8 @@ function CM.Settings.Initializer:SerializeTable(tbl, indent)
     table.insert(output, "{\n")
 
     for k, v in pairs(tbl) do
-        local key = type(k) == "string" and ('["%s"]'):format(k) or ("[%d]"):format(k)
+        local key = type(k) == "string" and ('["%s"]'):format(k:gsub("\\", "\\\\"):gsub('"', '\\"'))
+            or ("[%d]"):format(k)
         local value
 
         if type(v) == "table" then
@@ -724,18 +760,206 @@ function CM.Settings.Initializer:SerializeTable(tbl, indent)
     return table.concat(output)
 end
 
+--- Parse Lua table literals produced by SerializeTable without executing code.
+-- Accepts only: nested tables, quoted strings, numbers, booleans, nil, and
+-- keys of the form ["string"] or [number]. Rejects function calls and identifiers.
 function CM.Settings.Initializer:DeserializeTable(str)
-    -- Wrap in return statement for loadstring
-    local funcStr = "return " .. str
-
-    -- Load as function
-    local func, err = loadstring(funcStr)
-    if not func then
-        error("Parse error: " .. tostring(err))
+    if type(str) ~= "string" then
+        error("Parse error: expected string")
     end
 
-    -- Execute and return table
-    return func()
+    -- Reject executable constructs (Lua 5.1-safe; our serializer never emits these)
+    if
+        str:find("function%s*%(")
+        or str:find("loadstring%s*%(")
+        or str:find("dofile%s*%(")
+        or str:find("loadfile%s*%(")
+        or str:find("getfenv%s*%(")
+        or str:find("setfenv%s*%(")
+    then
+        error("Parse error: disallowed keyword")
+    end
+
+    local i = 1
+    local len = #str
+
+    local function peek()
+        return str:sub(i, i)
+    end
+
+    local function skipWhitespace()
+        while i <= len do
+            local c = peek()
+            if c == " " or c == "\t" or c == "\n" or c == "\r" then
+                i = i + 1
+            else
+                break
+            end
+        end
+    end
+
+    local function parseError(msg)
+        error(string.format("Parse error at %d: %s", i, msg))
+    end
+
+    local parseValue -- forward decl
+
+    local function parseString()
+        if peek() ~= '"' then
+            parseError("expected string")
+        end
+        i = i + 1
+        local parts = {}
+        while i <= len do
+            local c = peek()
+            if c == '"' then
+                i = i + 1
+                return table.concat(parts)
+            elseif c == "\\" then
+                i = i + 1
+                local esc = peek()
+                if esc == "n" then
+                    table.insert(parts, "\n")
+                elseif esc == "t" then
+                    table.insert(parts, "\t")
+                elseif esc == "r" then
+                    table.insert(parts, "\r")
+                elseif esc == "\\" or esc == '"' then
+                    table.insert(parts, esc)
+                elseif esc == "a" then
+                    table.insert(parts, "\a")
+                elseif esc == "b" then
+                    table.insert(parts, "\b")
+                elseif esc == "f" then
+                    table.insert(parts, "\f")
+                elseif esc == "v" then
+                    table.insert(parts, "\v")
+                elseif esc == "0" then
+                    table.insert(parts, "\0")
+                else
+                    -- Lua %q may emit \ddd octal; accept decimal digits as literal fallthrough
+                    table.insert(parts, esc)
+                end
+                i = i + 1
+            else
+                table.insert(parts, c)
+                i = i + 1
+            end
+        end
+        parseError("unterminated string")
+    end
+
+    local function parseNumber()
+        local start = i
+        if peek() == "-" then
+            i = i + 1
+        end
+        while i <= len and peek():match("%d") do
+            i = i + 1
+        end
+        if peek() == "." then
+            i = i + 1
+            while i <= len and peek():match("%d") do
+                i = i + 1
+            end
+        end
+        if peek() == "e" or peek() == "E" then
+            i = i + 1
+            if peek() == "+" or peek() == "-" then
+                i = i + 1
+            end
+            while i <= len and peek():match("%d") do
+                i = i + 1
+            end
+        end
+        local numStr = str:sub(start, i - 1)
+        local num = tonumber(numStr)
+        if not num then
+            parseError("invalid number: " .. numStr)
+        end
+        return num
+    end
+
+    local function parseTable()
+        if peek() ~= "{" then
+            parseError("expected '{'")
+        end
+        i = i + 1
+        local tbl = {}
+        skipWhitespace()
+        while i <= len and peek() ~= "}" do
+            skipWhitespace()
+            if peek() == "}" then
+                break
+            end
+
+            -- Key: ["name"] or [123]
+            if peek() ~= "[" then
+                parseError("expected '[' for key")
+            end
+            i = i + 1
+            skipWhitespace()
+            local key
+            if peek() == '"' then
+                key = parseString()
+            else
+                key = parseNumber()
+            end
+            skipWhitespace()
+            if peek() ~= "]" then
+                parseError("expected ']' after key")
+            end
+            i = i + 1
+            skipWhitespace()
+            if peek() ~= "=" then
+                parseError("expected '=' after key")
+            end
+            i = i + 1
+            skipWhitespace()
+            tbl[key] = parseValue()
+            skipWhitespace()
+            if peek() == "," then
+                i = i + 1
+                skipWhitespace()
+            end
+        end
+        if peek() ~= "}" then
+            parseError("expected '}'")
+        end
+        i = i + 1
+        return tbl
+    end
+
+    parseValue = function()
+        skipWhitespace()
+        local c = peek()
+        if c == "{" then
+            return parseTable()
+        elseif c == '"' then
+            return parseString()
+        elseif c == "-" or c:match("%d") then
+            return parseNumber()
+        elseif str:sub(i, i + 3) == "true" and not str:sub(i + 4, i + 4):match("[%w_]") then
+            i = i + 4
+            return true
+        elseif str:sub(i, i + 4) == "false" and not str:sub(i + 5, i + 5):match("[%w_]") then
+            i = i + 5
+            return false
+        elseif str:sub(i, i + 2) == "nil" and not str:sub(i + 3, i + 3):match("[%w_]") then
+            i = i + 3
+            return nil
+        else
+            parseError("unexpected token near '" .. c .. "'")
+        end
+    end
+
+    skipWhitespace()
+    local result = parseValue()
+    skipWhitespace()
+    if i <= len then
+        parseError("trailing content")
+    end
+    return result
 end
 
 -- =====================================================

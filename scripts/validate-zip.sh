@@ -3,6 +3,7 @@
 # CharacterMarkdown - ZIP Package Validation Script
 # Validates ZIP structure meets ESOUI requirements before upload
 # Author: solaegis
+# PC-only: requires CharacterMarkdown.txt (not .addon)
 
 set -e
 
@@ -61,22 +62,32 @@ validate_zip_structure() {
     # Get list of files in ZIP
     local zip_contents=$(unzip -l "$zip_file")
     
-    # Check for required folder structure
-    if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/"; then
-        print_error "ZIP must contain '${ADDON_NAME}/' folder at root"
-        echo ""
-        echo "Current structure:"
-        unzip -l "$zip_file" | head -20
+    # Assert exactly one top-level folder matching ADDON_NAME
+    local top_entries
+    top_entries=$(unzip -l "$zip_file" | awk 'NR>3 && /\/$/ {print $4}' | awk -F/ 'NF==2 {print $1}' | sort -u)
+    local top_count
+    top_count=$(echo "$top_entries" | grep -c . || true)
+    if [ "$top_count" -ne 1 ] || [ "$top_entries" != "$ADDON_NAME" ]; then
+        print_error "ZIP must contain exactly one root folder named '${ADDON_NAME}/'"
+        echo "Top-level folders found:"
+        echo "$top_entries"
         return 1
     fi
     print_success "Root folder structure correct: ${ADDON_NAME}/"
     
-    # Check for manifest file (.addon)
-    if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/${ADDON_NAME}.addon"; then
-        print_error "Missing manifest file: ${ADDON_NAME}.addon"
+    # Check for PC manifest (.txt)
+    if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/${ADDON_NAME}.txt"; then
+        print_error "Missing manifest file: ${ADDON_NAME}.txt"
         return 1
     fi
-    print_success "Manifest file present: ${ADDON_NAME}.addon"
+    print_success "Manifest file present: ${ADDON_NAME}.txt"
+    
+    # Fail if console .addon manifest is present (PC-only addon)
+    if echo "$zip_contents" | grep -q "${ADDON_NAME}/${ADDON_NAME}.addon"; then
+        print_error "ZIP contains .addon manifest; PC-only releases must use ${ADDON_NAME}.txt only"
+        return 1
+    fi
+    print_success "PC manifest only: no .addon file present"
     
     # Check for XML file (now in src/ui/)
     if ! echo "$zip_contents" | grep -q "${ADDON_NAME}/src/ui/${ADDON_NAME}.xml"; then
@@ -113,35 +124,36 @@ validate_zip_structure() {
     echo ""
     
     local disallowed_extensions=(
-        "\.h$"      # C header files
-        "\.hpp$"    # C++ header files
-        "\.c$"      # C source files
-        "\.cpp$"    # C++ source files
-        "\.py$"     # Python scripts
-        "\.sh$"     # Shell scripts
-        "\.yaml$"   # YAML config files
-        "\.yml$"    # YAML config files (alternate)
-        "\.toml$"   # TOML config files
-        "\.json$"   # JSON files
-        "\.js$"     # JavaScript files
-        "\.ts$"     # TypeScript files
-        "\.css$"    # CSS files
-        "\.html$"   # HTML files
-        "\.dds$"    # DDS texture files
-        "\.zip$"    # Nested ZIP files
-        "\.backup$" # Backup files
-        "\.bak$"    # Backup files
-        "\.old$"    # Old files
-        "\.orig$"   # Original files
-        "\.tmp$"    # Temporary files
-        "\.log$"    # Log files
+        "\.h$"
+        "\.hpp$"
+        "\.c$"
+        "\.cpp$"
+        "\.py$"
+        "\.sh$"
+        "\.yaml$"
+        "\.yml$"
+        "\.toml$"
+        "\.json$"
+        "\.js$"
+        "\.ts$"
+        "\.css$"
+        "\.html$"
+        "\.dds$"
+        "\.zip$"
+        "\.backup$"
+        "\.bak$"
+        "\.old$"
+        "\.orig$"
+        "\.tmp$"
+        "\.log$"
     )
     
     local has_disallowed=0
     for ext in "${disallowed_extensions[@]}"; do
-        local matches=$(echo "$zip_contents" | grep -E "$ext" | grep -v "^Archive:" | grep -v "^  Length" | grep -v "^---------" | grep -v "files$")
+        local matches
+        matches=$(echo "$zip_contents" | grep -E "$ext" | grep -v "^Archive:" | grep -v "^  Length" | grep -v "^---------" | grep -v "files$" || true)
         if [ -n "$matches" ]; then
-            print_error "❌ CRITICAL: ZIP contains ESOUI-disallowed files with extension: $ext"
+            print_error "CRITICAL: ZIP contains ESOUI-disallowed files with extension: $ext"
             echo "$matches" | head -5
             has_disallowed=1
         fi
@@ -151,20 +163,21 @@ validate_zip_structure() {
         echo ""
         print_error "ESOUI COMPLIANCE FAILURE: Package contains disallowed file types!"
         print_error "ESOUI only allows: *.lua, *.xml, *.txt, *.addon, *.md"
-        print_error "All other file types will cause rejection by ESOUI staff"
         echo ""
         return 1
     else
-        print_success "✅ All files use ESOUI-allowed extensions"
+        print_success "All files use ESOUI-allowed extensions"
     fi
     
-    # Check for unwanted files/directories
+    # Fail on unwanted development / hidden paths (ESOUI upload rules)
     local unwanted_patterns=(
-        ".DS_Store"
+        "__MACOSX"
+        "MACOSX"
+        "\.DS_Store"
         "\.git/"
         "\.github/"
         "\.task/"
-        "\.lua/include"  # CRITICAL: Lua C header directory
+        "\.lua/include"
         "node_modules/"
         "__pycache__/"
         "test/"
@@ -181,30 +194,31 @@ validate_zip_structure() {
         "\.cursorrules"
         "\.stylua"
         "\.luacheckrc"
+        "\.pre-commit"
         "verify_"
         "debug_"
         "reproduce_"
         "test_"
         "_test\.lua"
-        "Tests\.lua"
         "issues_summary"
         "validation_report"
+        "ESOUIDocumentation"
     )
     
     local has_unwanted=0
     for pattern in "${unwanted_patterns[@]}"; do
         if echo "$zip_contents" | grep -q "$pattern"; then
-            print_warning "⚠️  ZIP contains unwanted files/directories: $pattern"
+            print_error "ZIP contains forbidden files/directories: $pattern"
             has_unwanted=1
         fi
     done
     
-    if [ $has_unwanted -eq 0 ]; then
-        print_success "✅ No unwanted development files detected"
-    else
+    if [ $has_unwanted -eq 1 ]; then
         echo ""
-        print_warning "Package contains development files that should be excluded"
-        print_warning "These files will increase package size unnecessarily"
+        print_error "ESOUI COMPLIANCE FAILURE: Package contains development or hidden files"
+        return 1
+    else
+        print_success "No unwanted development or hidden files detected"
     fi
     
     echo ""
@@ -218,9 +232,10 @@ validate_manifest_content() {
     echo ""
     
     # Extract manifest to temp location
-    local temp_dir=$(mktemp -d)
-    unzip -q "$zip_file" "${ADDON_NAME}/${ADDON_NAME}.addon" -d "$temp_dir"
-    local manifest_file="$temp_dir/${ADDON_NAME}/${ADDON_NAME}.addon"
+    local temp_dir
+    temp_dir=$(mktemp -d)
+    unzip -q "$zip_file" "${ADDON_NAME}/${ADDON_NAME}.txt" -d "$temp_dir"
+    local manifest_file="$temp_dir/${ADDON_NAME}/${ADDON_NAME}.txt"
     
     if [ ! -f "$manifest_file" ]; then
         print_error "Failed to extract manifest from ZIP"
@@ -248,9 +263,12 @@ validate_manifest_content() {
     print_success "All required manifest fields present"
     
     # Extract and display version info
-    local version=$(grep "^## Version:" "$manifest_file" | awk '{print $3}')
-    local api_version=$(grep "^## APIVersion:" "$manifest_file" | awk '{print $3}')
-    local addon_version=$(grep "^## AddOnVersion:" "$manifest_file" | awk '{print $3}')
+    local version
+    version=$(grep "^## Version:" "$manifest_file" | awk '{print $3}')
+    local api_version
+    api_version=$(grep "^## APIVersion:" "$manifest_file" | awk '{print $3}')
+    local addon_version
+    addon_version=$(grep "^## AddOnVersion:" "$manifest_file" | awk '{print $3}')
     
     echo ""
     echo "Version Information:"
@@ -259,12 +277,7 @@ validate_manifest_content() {
     echo "  AddOn Version: $addon_version"
     echo ""
     
-    # Check for console compatibility (no .txt file should exist)
-    if unzip -l "$zip_file" | grep -q "${ADDON_NAME}.txt"; then
-        print_warning "ZIP contains old .txt manifest (should only have .addon for console compat)"
-    else
-        print_success "Console-compatible: Using .addon manifest"
-    fi
+    print_success "PC-only: Using .txt manifest (not .addon)"
     
     rm -rf "$temp_dir"
     return 0
@@ -277,7 +290,8 @@ validate_size() {
     echo ""
     
     # Get file size
-    local size_bytes=$(stat -f%z "$zip_file" 2>/dev/null || stat -c%s "$zip_file" 2>/dev/null)
+    local size_bytes
+    size_bytes=$(stat -f%z "$zip_file" 2>/dev/null || stat -c%s "$zip_file" 2>/dev/null)
     local size_mb=$((size_bytes / 1024 / 1024))
     local size_kb=$((size_bytes / 1024))
     
@@ -306,8 +320,10 @@ validate_file_count() {
     echo "Analyzing file count..."
     echo ""
     
-    local file_count=$(unzip -l "$zip_file" | grep -c "${ADDON_NAME}/")
-    local lua_count=$(unzip -l "$zip_file" | grep -c "\.lua$")
+    local file_count
+    file_count=$(unzip -l "$zip_file" | grep -c "${ADDON_NAME}/" || true)
+    local lua_count
+    lua_count=$(unzip -l "$zip_file" | grep -c "\.lua$" || true)
     
     echo "Total files: $file_count"
     echo "Lua files:   $lua_count"

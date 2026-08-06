@@ -4,7 +4,7 @@
 ## AddOnVersion: 1.0.0
 ## APIVersion: 101050 101049
 ## SavedVariables: CharacterMarkdownSettings
-## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=250 LibSets>=86 LibSlashCommander>=4
+## OptionalDependsOn: LibAddonMenu-2.0>=40 LibDebugLogger>=250 LibSets>=86 LibSlashCommander>=4 LibChatMessage LibAsync LibCustomIcons
 ## Description: Exports comprehensive character data in enhanced markdown format. Generate copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Includes ESO Plus, DLC access, currencies, progression, riding skills, inventory, PvP, collectibles, and crafting knowledge. Use /markdown (or /cm) to generate.
 ## This file is AddOnVersion: 20250121
 ## Directive above to support LibAddonMenu version sorting
@@ -31,6 +31,9 @@ src/utils/SectionPresenceTests.lua
 src/utils/SkillsSlotTests.lua
 src/utils/EquipmentSetCountTests.lua
 src/utils/LibSetsIntegration.lua
+src/utils/LibCustomIconsIntegration.lua
+src/utils/LibAsyncIntegration.lua
+src/utils/Chat.lua
 
 ## API Layer (depends on Core, utils)
 src/api/Character.lua

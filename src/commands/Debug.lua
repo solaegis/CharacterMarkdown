@@ -10,14 +10,18 @@ CM.commands.debug = {}
 -- =====================================================
 
 -- CharacterMarkdownData: Legacy global from older addon versions (not in manifest).
--- Current addon uses CharacterMarkdownSettings.perCharacterData[characterId] (CM.charData).
+-- Current addon uses CM.settings.perCharacterData[characterId] (CM.charData),
+-- where CM.settings is the server-scoped ZO_SavedVars $AccountWide table.
 -- Debug checks for it for diagnostic/backward-compatibility visibility only.
 local function DebugSavedVarsState()
     CM.Info("|c00FFFF[CM] ===== SAVEDVARIABLES DEBUG INFO =====|r")
-    CM.Info("|c00FFFF[CM] CharacterMarkdownSettings exists: " .. tostring(_G.CharacterMarkdownSettings ~= nil) .. "|r")
+    CM.Info("|c00FFFF[CM] CharacterMarkdownSettings (SV root) exists: " .. tostring(_G.CharacterMarkdownSettings ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CharacterMarkdownData exists (legacy): " .. tostring(_G.CharacterMarkdownData ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.settings exists: " .. tostring(CM.settings ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.charData exists: " .. tostring(CM.charData ~= nil) .. "|r")
+    if type(GetWorldName) == "function" then
+        CM.Info("|c00FFFF[CM] GetWorldName: " .. tostring(GetWorldName()) .. "|r")
+    end
 
     if CM.settings then
         CM.Info("|c00FF00[CM] CM.settings type: " .. type(CM.settings) .. "|r")

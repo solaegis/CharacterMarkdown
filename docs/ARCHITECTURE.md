@@ -14,7 +14,7 @@ Data Collection → Markdown Generation → UI Display
 
 ```
 CharacterMarkdown/
-├── CharacterMarkdown.addon   # Manifest (load order)
+├── CharacterMarkdown.txt     # Manifest (load order, PC)
 ├── CharacterMarkdown.xml     # UI definition
 ├── src/
 │   ├── Core.lua             # Namespace & debug system
@@ -110,7 +110,7 @@ CharacterMarkdown/
 
 ## Load Order
 
-Defined in `CharacterMarkdown.addon`:
+Defined in `CharacterMarkdown.txt`:
 
 ```
 1. Core.lua              # Initialize namespace, debug system
@@ -407,3 +407,9 @@ Automated via Taskfile:
 - **ESO API**: https://wiki.esoui.com/
 - **Source Code**: https://github.com/esoui/esoui
 - **LibAddonMenu**: https://www.esoui.com/downloads/info7-LibAddonMenu.html
+- **LibChatMessage**: https://www.esoui.com/downloads/info2382-LibChatMessage.html
+- **LibAsync**: https://www.esoui.com/downloads/info2125-LibAsync.html
+- **LibCustomIcons**: https://www.esoui.com/downloads/info4161-LibCustomIcons.html
+- **LibSets**: https://www.esoui.com/downloads/info2202-LibSets.html
+- **LibDebugLogger**: https://www.esoui.com/downloads/info2275-LibDebugLogger.html
+- **LibSlashCommander**: https://www.esoui.com/downloads/info1508-LibSlashCommander.html

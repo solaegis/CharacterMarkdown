@@ -20,10 +20,10 @@ ALLOWED_EXTENSIONS=("lua" "xml" "txt" "addon" "md")
 # Create destination directory
 mkdir -p "$DEST_DIR"
 
-# Copy manifest file (required)
-if [ -f "$SOURCE_DIR/CharacterMarkdown.addon" ]; then
-    cp "$SOURCE_DIR/CharacterMarkdown.addon" "$DEST_DIR/"
-    echo "  ✓ Copied manifest: CharacterMarkdown.addon"
+# Copy manifest file (required) — PC uses .txt (not .addon)
+if [ -f "$SOURCE_DIR/CharacterMarkdown.txt" ]; then
+    cp "$SOURCE_DIR/CharacterMarkdown.txt" "$DEST_DIR/"
+    echo "  ✓ Copied manifest: CharacterMarkdown.txt"
 fi
 
 # Copy README_ESOUI.txt if it exists

@@ -1,3 +1,14 @@
+[B]AI disclosure:[/B] This addon was developed with AI-assisted tooling. The author has personally written, reviewed, tested, and maintains all shipped code.
+
+[B]Credits:[/B]
+[LIST]
+[*]Optional libraries: LibAddonMenu-2.0, LibDebugLogger, LibSets, LibSlashCommander, LibChatMessage, LibAsync, LibCustomIcons (see manifest OptionalDependsOn)
+[*]UESP wiki links and ESO API patterns used per community conventions
+[*][URL=https://github.com/solaegis/CharacterMarkdown]Source and issue tracker on GitHub[/URL]
+[/LIST]
+
+[center][color=da8a00]________________________________________________[/color][/center]
+
 [center][size=5][B][color=da8a00]CHARACTER MARKDOWN[/color][/B][/size][/center]
 
 Export comprehensive ESO character data as Markdown - built for sharing, forums, and AI-assisted build analysis.
@@ -100,7 +111,7 @@ Open via [B]/markdown settings[/B]:
 [/LIST]
 
 [B]Required[/B]: Elder Scrolls Online (Update 50+)
-[B]Optional libraries[/B]: LibAddonMenu-2.0, LibDebugLogger, LibSets, LibSlashCommander
+[B]Optional libraries[/B]: See Credits above (LibAddonMenu-2.0 and others)
 
 [center][color=da8a00]________________________________________________[/color][/center]
 

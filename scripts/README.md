@@ -83,7 +83,7 @@ Updates ESO API version in manifest file.
 Usage: `task version:api -- <API_VERSION>`
 
 ### validate-manifest.lua
-Validates CharacterMarkdown.addon manifest file structure.
+Validates CharacterMarkdown.txt manifest file structure.
 Used by build and validation tasks.
 
 ### validate-zip.sh

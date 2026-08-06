@@ -211,12 +211,42 @@ local function ShouldLogToLibDebugLogger()
     return true
 end
 
+local function PrintToChat(level, text)
+    local chat = CM.utils and CM.utils.chat
+    if chat then
+        if level == "warn" and chat.PrintWarn then
+            chat.PrintWarn(text)
+            return
+        elseif level == "error" and chat.PrintError then
+            chat.PrintError(text)
+            return
+        elseif level == "success" and chat.PrintSuccess then
+            chat.PrintSuccess(text)
+            return
+        elseif chat.PrintInfo then
+            chat.PrintInfo(text)
+            return
+        end
+    end
+
+    -- Fallback before Chat.lua loads, or when LibChatMessage is absent
+    if level == "warn" then
+        d("|cFFFF00[CharacterMarkdown] WARNING:|r " .. text)
+    elseif level == "error" then
+        d("|cFF0000[CharacterMarkdown] ERROR:|r " .. text)
+    elseif level == "success" then
+        d("|c00FF00[CharacterMarkdown]|r " .. text)
+    else
+        d("|cFFFFFF[CharacterMarkdown]|r " .. text)
+    end
+end
+
 function CM.Info(message)
     local text = NormalizeLogMessage(message)
     if ShouldLogToLibDebugLogger() then
         logger:Info(text)
     end
-    d("|cFFFFFF[CharacterMarkdown]|r " .. text)
+    PrintToChat("info", text)
 end
 
 function CM.Warn(message)
@@ -224,7 +254,7 @@ function CM.Warn(message)
     if ShouldLogToLibDebugLogger() then
         logger:Warn(text)
     end
-    d("|cFFFF00[CharacterMarkdown] WARNING:|r " .. tostring(text))
+    PrintToChat("warn", text)
 end
 
 function CM.Error(message)
@@ -232,7 +262,7 @@ function CM.Error(message)
     if ShouldLogToLibDebugLogger() then
         logger:Error(text)
     end
-    d("|cFF0000[CharacterMarkdown] ERROR:|r " .. tostring(text))
+    PrintToChat("error", text)
 end
 
 function CM.Success(message)
@@ -240,7 +270,7 @@ function CM.Success(message)
     if ShouldLogToLibDebugLogger() then
         logger:Info(text)
     end
-    d("|c00FF00[CharacterMarkdown]|r " .. text)
+    PrintToChat("success", text)
 end
 
 -- Cache frequently used globals for performance
@@ -349,7 +379,7 @@ end
 --
 -- USAGE PATTERN:
 --   - For READING settings: Always use CM.GetSettings() (this is the single source of truth)
---   - For WRITING settings: Write directly to CharacterMarkdownSettings[key] = value,
+--   - For WRITING settings: Write to CM.settings[key] = value (server-scoped $AccountWide),
 --     then update _lastModified timestamp and call CM.InvalidateSettingsCache()
 --
 -- Example (reading):
@@ -357,11 +387,11 @@ end
 --   if settings.includeChampionPoints then ...
 --
 -- Example (writing):
---   CharacterMarkdownSettings.includeChampionPoints = true
---   CharacterMarkdownSettings._lastModified = GetTimeStamp()
+--   CM.settings.includeChampionPoints = true
+--   CM.settings._lastModified = GetTimeStamp()
 --   CM.InvalidateSettingsCache()
 function CM.GetSettings()
-    local settings = CharacterMarkdownSettings
+    local settings = CM.settings
     if not settings then
         -- Return defaults if settings not available
         if CM.Settings and CM.Settings.Defaults then

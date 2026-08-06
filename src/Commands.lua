@@ -27,23 +27,12 @@ local function GenerateOutput(formatter)
             return
         end
 
-        -- Open window immediately so users see feedback before synchronous collection
+        -- Open window immediately so users see feedback before collection
         if CharacterMarkdown_ShowGeneratingPlaceholder then
             CharacterMarkdown_ShowGeneratingPlaceholder(formatter)
         end
 
-        -- Defer heavy work one frame so the placeholder can paint
-        zo_callLater(function()
-            local success, markdown = pcall(function()
-                return CM.generators.GenerateMarkdown()
-            end)
-
-            if not success then
-                CM.Error("Failed to generate markdown:")
-                CM.Error(tostring(markdown))
-                return
-            end
-
+        local function PresentMarkdown(markdown)
             if not markdown then
                 CM.Error("Generated markdown is nil")
                 return
@@ -112,7 +101,41 @@ local function GenerateOutput(formatter)
                 CM.Warn("Window display not available")
                 CM.Info("Markdown copied to clipboard")
             end
-        end, 50)
+        end
+
+        local function RunGeneration()
+            local asyncLib = CM.utils and CM.utils.LibAsyncIntegration
+            local useAsync = asyncLib
+                and asyncLib.IsLibAsyncAvailable
+                and asyncLib.IsLibAsyncAvailable()
+                and CM.generators.GenerateMarkdownAsync
+
+            if useAsync then
+                CM.DebugPrint("COMMAND", "Using LibAsync generation path")
+                CM.generators.GenerateMarkdownAsync(function(markdown)
+                    PresentMarkdown(markdown)
+                end, function(err)
+                    CM.Error("Failed to generate markdown:")
+                    CM.Error(tostring(err))
+                end)
+                return
+            end
+
+            local success, markdown = pcall(function()
+                return CM.generators.GenerateMarkdown()
+            end)
+
+            if not success then
+                CM.Error("Failed to generate markdown:")
+                CM.Error(tostring(markdown))
+                return
+            end
+
+            PresentMarkdown(markdown)
+        end
+
+        -- Defer one frame so the placeholder can paint
+        zo_callLater(RunGeneration, 0)
         return
     else
         CM.Error("Unknown formatter: " .. tostring(formatter))

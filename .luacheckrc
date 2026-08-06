@@ -54,6 +54,7 @@ read_globals = {
     "zo_iconFormatInheritColor",
     "zo_strjoin",
     "ZO_SavedVars",
+    "ZO_ShallowTableCopy",
     "ZO_ClearColor",
     "ZO_CreateStringId",
     "ZO_ColorDef",
@@ -778,6 +779,8 @@ read_globals = {
     "LibSets",
     "LibSlashCommander",
     "LibCustomIcons",
+    "LibChatMessage",
+    "LibAsync",
 
     -- ===========================================
     -- ESO UI GLOBALS

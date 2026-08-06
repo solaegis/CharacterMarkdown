@@ -40,7 +40,7 @@ Data flow: `Data Collection → Markdown Generation → UI Display`
 - **examples/**: Example markdown output — full profiles (Hadriān.md, Walsingham.md), build guides (Hadriān-build.md); templates in examples/templates/
 - **taskfiles/**: Dev, Build, Install, Release, Examples, Docs
 
-Load order in `CharacterMarkdown.addon`. See `docs/ARCHITECTURE.md` for full structure.
+Load order in `CharacterMarkdown.txt`. See `docs/ARCHITECTURE.md` for full structure.
 
 <!-- END AUTO-MANAGED -->
 

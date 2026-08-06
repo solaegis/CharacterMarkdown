@@ -61,17 +61,21 @@ if allValid then
 
     -- Check for optional dependencies and inform user
     if not LibDebugLogger then
-        CM.Info(
-            "|cFFFF00[CharacterMarkdown] INFO:|r LibDebugLogger not installed - diagnostic logging will show in chat instead"
-        )
-        CM.Info("|cFFFF00[CharacterMarkdown] INFO:|r For cleaner chat, install LibDebugLogger from ESOUI.com")
+        CM.Info("LibDebugLogger not installed - diagnostic logging will show in chat instead")
+        CM.Info("For cleaner chat, install LibDebugLogger from ESOUI.com")
     end
 
     if not LibSlashCommander then
-        CM.Info("|cFFFF00[CharacterMarkdown] INFO:|r LibSlashCommander not installed - basic command handling enabled")
-        CM.Info(
-            "|cFFFF00[CharacterMarkdown] INFO:|r For auto-completion and better help, install LibSlashCommander from ESOUI.com"
-        )
+        CM.Info("LibSlashCommander not installed - basic command handling enabled")
+        CM.Info("For auto-completion and better help, install LibSlashCommander from ESOUI.com")
+    end
+
+    if not LibChatMessage then
+        CM.Info("LibChatMessage not installed - using fallback chat output")
+    end
+
+    if not LibAsync then
+        CM.Info("LibAsync not installed - full exports may briefly pause the game")
     end
 else
     CM.Error("Initialization completed with errors")

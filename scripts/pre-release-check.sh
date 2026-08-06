@@ -100,7 +100,7 @@ validate_syntax() {
 validate_manifest() {
     print_section "3. Manifest Validation"
     
-    MANIFEST_FILE="CharacterMarkdown.addon"
+    MANIFEST_FILE="CharacterMarkdown.txt"
     
     if [ ! -f "$MANIFEST_FILE" ]; then
         print_error "Manifest file not found: $MANIFEST_FILE"
@@ -211,7 +211,7 @@ validate_readme() {
     print_section "7. README.md Validation"
     
     README_FILE="README.md"
-    MANIFEST_FILE="CharacterMarkdown.addon"
+    MANIFEST_FILE="CharacterMarkdown.txt"
     
     if [ ! -f "$README_FILE" ]; then
         print_error "README.md not found"

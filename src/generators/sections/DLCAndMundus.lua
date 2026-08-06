@@ -153,7 +153,7 @@ local function GenerateDLCAsCollectible(dlcData)
         end
 
         local esoPlusText = "ESO Plus Active"
-        local settings = CharacterMarkdownSettings or {}
+        local settings = CM.settings or {}
         if settings.esoPlusExpirationDate and settings.esoPlusExpirationDate ~= "" then
             esoPlusText = string_format("ESO Plus Active (exp %s)", settings.esoPlusExpirationDate)
         end
@@ -207,7 +207,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
 
     -- Check if we have detailed data enabled
     local hasDetailedData = collectiblesData.hasDetailedData
-    local settings = CharacterMarkdownSettings or {}
+    local settings = CM.settings or {}
     local includeDetailed = settings.showCollectiblesDetailed or false
 
     -- Only show section if there's content to display

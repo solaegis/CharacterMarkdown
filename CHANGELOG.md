@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Optional libraries**: LibChatMessage (chat pipeline), LibAsync (frame-yielding inventory/achievements collection), LibCustomIcons (formalized optional dep + integration helper)
+
+### Changed
+- **ESOUI PC packaging**: release manifest is `CharacterMarkdown.txt` (not `.addon`); CI and local builds share whitelist `build-copy.sh`; ZIP validation rejects hidden/dev paths
+- **Account SavedVariables**: server-scoped via `GetWorldName()` namespace so NA/EU/PTS settings do not overwrite each other (with flat-layout migration)
+- **ESOUI listing**: top-of-page AI disclosure and credits in `README_ESOUI.txt`
+- **Chat output**: `CM.Info` / `Warn` / `Error` / `Success` use LibChatMessage when installed (`src/utils/Chat.lua`)
+- **Settings import**: deserialize settings tables with a safe literal parser (no `loadstring`)
+
 ## [2.3.0] - 2026-08-03
 
 ### Added

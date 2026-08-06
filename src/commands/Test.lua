@@ -20,12 +20,19 @@ local function HandleTest(args)
     CM.Info(" ")
 
     if not CharacterMarkdownSettings then
-        CM.Error("CharacterMarkdownSettings is NIL!")
+        CM.Error("CharacterMarkdownSettings (SavedVariables root) is NIL!")
         CM.Info("  This means your settings aren't being saved")
         CM.Info("  Try: /reloadui")
         return
     end
-    CM.Success("✓ CharacterMarkdownSettings exists")
+    CM.Success("✓ CharacterMarkdownSettings (SV root) exists")
+
+    if not CM.settings then
+        CM.Error("CM.settings is NIL (server-scoped account table not initialized)!")
+        CM.Info("  Try: /reloadui")
+        return
+    end
+    CM.Success("✓ CM.settings (server-scoped) exists")
 
     if not CM.GetSettings then
         CM.Error("✗ CM.GetSettings() not available")
@@ -53,7 +60,7 @@ local function HandleTest(args)
     local hasMismatch = false
 
     for _, setting in ipairs(criticalSettings) do
-        local raw = CharacterMarkdownSettings[setting]
+        local raw = CM.settings[setting]
         local merged_val = merged[setting]
 
         if raw ~= merged_val then
@@ -160,8 +167,8 @@ local function HandleTest(args)
     CM.Info(string.format("  Total size: %d chars", #markdownString))
 
     local testSettings = {}
-    if CharacterMarkdownSettings then
-        for key, value in pairs(CharacterMarkdownSettings) do
+    if CM.settings then
+        for key, value in pairs(CM.settings) do
             if type(value) ~= "function" and key:sub(1, 1) ~= "_" then
                 testSettings[key] = value
             end

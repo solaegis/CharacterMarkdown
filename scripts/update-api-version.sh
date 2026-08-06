@@ -6,7 +6,7 @@
 set -e
 
 ADDON_NAME="CharacterMarkdown"
-MANIFEST_FILE="${ADDON_NAME}.addon"
+MANIFEST_FILE="${ADDON_NAME}.txt"
 
 # Check if API version was provided as argument
 if [ $# -eq 1 ]; then

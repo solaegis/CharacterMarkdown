@@ -64,7 +64,7 @@ task release           # or: task release:workflow
 - [ ] **Manifest Validation**
   ```bash
   task validate:manifest
-  # Or: lua scripts/validate-manifest.lua CharacterMarkdown.addon
+  # Or: lua scripts/validate-manifest.lua CharacterMarkdown.txt
   ```
   - ✅ Manifest file exists and is valid
   - ✅ Required fields present: Title, Author, Version, APIVersion
@@ -171,7 +171,7 @@ task release           # or: task release:workflow
 - [ ] **Version Consistency**
   ```bash
   # Check manifest version placeholder
-  grep -q "@project-version@" CharacterMarkdown.addon || echo "⚠️ Version should use @project-version@"
+  grep -q "@project-version@" CharacterMarkdown.txt || echo "⚠️ Version should use @project-version@"
   
   # Check CHANGELOG has version entry
   task version  # Shows current version info
@@ -225,13 +225,13 @@ task release           # or: task release:workflow
   scripts/validate-zip.sh dist/CharacterMarkdown-*.zip
   ```
   - ✅ ZIP structure correct (addon folder at root)
-  - ✅ Manifest file present (`.addon` format)
+  - ✅ Manifest file present (`.txt` format, PC-only)
   - ✅ XML file present
   - ✅ Source directory included
   - ✅ Critical files present (Core.lua, Init.lua, Commands.lua, Events.lua)
-  - ✅ No unwanted files (.git, .DS_Store, build artifacts)
+  - ✅ No unwanted files (.git, .DS_Store, build artifacts, `__MACOSX`)
   - ✅ Package size < 10MB (ESOUI recommendation)
-  - ✅ Console-compatible (uses `.addon` not `.txt`)
+  - ✅ PC-only (uses `.txt` not `.addon`)
 
 - [ ] **Manifest Content in ZIP**
   - ✅ All required fields present in built manifest
@@ -388,6 +388,7 @@ task release           # or: task release:workflow
   - [ ] LibAddonMenu-2.0 version requirement correct
   - [ ] LibDebugLogger version requirement correct (if used)
   - [ ] LibSets version requirement correct (if used)
+  - [ ] LibSlashCommander / LibChatMessage / LibAsync / LibCustomIcons listed when used
 
 - [ ] **License & Legal**
   - [ ] LICENSE file present and correct

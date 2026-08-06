@@ -13,7 +13,7 @@ CharacterMarkdown uses a **general-purpose version placeholder system** that wor
 ### 1. Use `@project-version@` Anywhere
 
 The placeholder can appear in:
-- ✅ **Manifest files** (`CharacterMarkdown.addon`)
+- ✅ **Manifest files** (`CharacterMarkdown.txt`)
 - ✅ **Source code** (`src/Core.lua`)
 - ✅ **Documentation** (`*.md` files)
 - ✅ **Text files** (`*.txt`)
@@ -25,7 +25,7 @@ The placeholder can appear in:
 -- src/Core.lua
 CM.version = "@project-version@" -- Replaced during build
 
--- CharacterMarkdown.addon
+-- CharacterMarkdown.txt
 ## Version: @project-version@
 
 -- README.md
@@ -81,7 +81,7 @@ Current version: @project-version@
 
 ### Currently Implemented
 
-1. **CharacterMarkdown.addon**
+1. **CharacterMarkdown.txt**
    ```
    ## Version: @project-version@
    ```
@@ -112,7 +112,7 @@ Any file where version should appear:
 **Usage**:
 ```bash
 # Single file
-./scripts/replace-version.sh CharacterMarkdown.addon 2.1.8
+./scripts/replace-version.sh CharacterMarkdown.txt 2.1.8
 
 # Entire directory (recursively processes all .lua, .md, .txt, .addon, .xml files)
 ./scripts/replace-version.sh src/ 2.1.8
@@ -330,7 +330,7 @@ grep -r "@project-version@" --include="*.lua" --include="*.md" --include="*.addo
 ```
 ./src/Core.lua:-- CharacterMarkdown v@project-version@ - Core Namespace
 ./src/Core.lua:CM.version = "@project-version@"
-./CharacterMarkdown.addon:## Version: @project-version@
+./CharacterMarkdown.txt:## Version: @project-version@
 ```
 
 ---
