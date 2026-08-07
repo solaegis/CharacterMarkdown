@@ -110,6 +110,7 @@ Open via [B]/markdown settings[/B]:
 [*][URL=https://www.esoui.com/downloads/info4279-CharacterMarkdown.html]ESOUI Download[/URL]
 [*][URL=https://github.com/solaegis/CharacterMarkdown]GitHub Source[/URL]
 [*][URL=https://github.com/solaegis/CharacterMarkdown/issues]Issue Tracker[/URL]
+[*][URL=https://solaegis.github.io/CharacterMarkdown/]User Guide and Documentation[/URL] - how the addon works (commands, settings, troubleshooting)
 [*][URL=https://en.uesp.net/wiki/Online:Main_Page]UESP Wiki[/URL]
 [/LIST]
 

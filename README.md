@@ -2,7 +2,7 @@
 
 [![API](https://img.shields.io/badge/ESO_API-101050-green.svg)](https://www.esoui.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-@project-version@-orange.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/github/v/release/solaegis/CharacterMarkdown?label=Version&color=green)](https://github.com/solaegis/CharacterMarkdown/releases/latest)
 
 **Export comprehensive ESO character data in beautiful Markdown format** with clickable UESP links for abilities, sets, races, classes, zones, and more.
 
@@ -125,10 +125,6 @@ MIT License - see [LICENSE](LICENSE)
 - **[GitHub Repository](https://github.com/solaegis/CharacterMarkdown)**
 - **[Issue Tracker](https://github.com/solaegis/CharacterMarkdown/issues)**
 - **[UESP Wiki](https://en.uesp.net/wiki/Online:Main_Page)**
-
-## 🙏 Credits & Attributions
-
-- **Diamond Metal Texture** - Thank you to [A2_GAMES](https://opengameart.org/content/diamond-metal-anti-slip-surface-stencil-grt6png) for the beautiful diamond metal texture (CC0 License) used in the UI
 
 ---
 
