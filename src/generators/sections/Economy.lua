@@ -4,7 +4,7 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, CreateCampaignLink, CreateCurrencyLink, markdown
+local FormatNumber, CreateCampaignLink, markdown
 local string_format = string.format
 local string_rep = string.rep
 
@@ -13,7 +13,6 @@ local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         CreateCampaignLink = CM.links.CreateCampaignLink
-        CreateCurrencyLink = CM.links.CreateCurrencyLink
         markdown = CM.utils.markdown
     end
 end
@@ -278,7 +277,6 @@ local function GenerateItemList(items, containerName)
         .. " unique items)</summary>\n\n"
 
     -- Generate a table for each category
-    local CreateStyledTable = CM.utils.markdown.CreateStyledTable
     local CreateResponsiveColumns = CM.utils.markdown.CreateResponsiveColumns
     local headers = { "Item", "Stack", "Quality" }
     local options = {

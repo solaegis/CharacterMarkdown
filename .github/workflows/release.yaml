@@ -142,7 +142,7 @@ jobs:
       - name: Run Luacheck
         run: |
           echo "🔍 Running Luacheck..."
-          luacheck src/ --exclude-files "*.backup" --ignore 212 || true
+          luacheck src/ --exclude-files "*.backup"
 
       - name: Validate manifest
         run: |

@@ -152,31 +152,12 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
     local outputParts = { "### Skill bars\n\n" }
 
     if skillBarData.activeWeaponPair and skillBarData.activeWeaponPair.label then
-        table_insert(
-            outputParts,
-            "*Active weapon pair: **" .. skillBarData.activeWeaponPair.label .. "***\n\n"
-        )
-    end
-
-    -- Determine weapon types from bar names for better labels
-    local barLabels = {
-        { emoji = "⚔️", suffix = "" },
-        { emoji = "🔮", suffix = "" },
-    }
-
-    -- Try to detect weapon types from bar names
-    for barIdx, bar in ipairs(bars) do
-        local barName = bar.name or ""
-        if barName:find("Backup") or barName:find("Back Bar") then
-            barLabels[barIdx].suffix = " (Backup)"
-        elseif barName:find("Main") or barName:find("Front") then
-            barLabels[barIdx].suffix = " (Main Hand)"
-        end
+        table_insert(outputParts, "*Active weapon pair: **" .. skillBarData.activeWeaponPair.label .. "***\n\n")
     end
 
     local hasBarContent = false
 
-    for barIdx, bar in ipairs(bars) do
+    for _, bar in ipairs(bars) do
         if bar and type(bar) == "table" then
             local barName = bar.name or "Unknown Bar"
             table_insert(outputParts, "### " .. barName .. "\n\n")
@@ -228,22 +209,7 @@ function skillbars.GenerateSkillBars(skillBarData, skillMorphsData, skillProgres
 
     output = output .. "## ⚔️ Combat Arsenal\n\n"
 
-    local barLabels = {
-        { emoji = "⚔️", suffix = "" },
-        { emoji = "🔮", suffix = "" },
-    }
-
-    -- Try to detect weapon types from bar names
-    for barIdx, bar in ipairs(bars) do
-        local barName = bar.name or ""
-        if barName:find("Backup") or barName:find("Back Bar") then
-            barLabels[barIdx].suffix = " (Backup)"
-        elseif barName:find("Main") or barName:find("Front") then
-            barLabels[barIdx].suffix = " (Main Hand)"
-        end
-    end
-
-    for barIdx, bar in ipairs(bars) do
+    for _, bar in ipairs(bars) do
         if bar and type(bar) == "table" then
             local barName = bar.name or "Unknown Bar"
             output = output .. "### " .. barName .. "\n\n"

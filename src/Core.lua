@@ -364,7 +364,6 @@ end
 -- Settings cache for merged settings (performance optimization)
 local settingsCache = nil
 local settingsCacheTimestamp = 0
-local SETTINGS_CACHE_VERSION = 1 -- Increment when cache structure changes
 
 -- Invalidate settings cache (call when settings change)
 function CM.InvalidateSettingsCache()

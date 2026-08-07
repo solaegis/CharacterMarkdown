@@ -22,7 +22,7 @@ function api.GetItemInfo(bagId, slotIndex)
         return nil
     end
 
-    local success_info, icon, _, _, _, _, _, _, quality = CM.SafeCallMulti(GetItemInfo, bagId, slotIndex)
+    local _, icon, _, _, _, _, _, _, quality = CM.SafeCallMulti(GetItemInfo, bagId, slotIndex)
     local name = CM.SafeCall(GetItemName, bagId, slotIndex)
 
     -- Trait
@@ -34,12 +34,11 @@ function api.GetItemInfo(bagId, slotIndex)
 
     -- Set Info: hasSet, setName, numBonuses, numNormalEquipped, maxEquipped, setId, numPerfectedEquipped
     -- Pass equipped=true so numNormalEquipped reflects currently worn pieces (2H weapons count as 2)
-    local success, hasSet, setName, _, numNormalEquipped, maxEquipped, setId =
+    local _, hasSet, setName, _, numNormalEquipped, maxEquipped, setId =
         CM.SafeCallMulti(GetItemLinkSetInfo, link, true)
 
     -- Enchant: hasCharges, enchantHeader, enchantDescription
-    local success_enchant, hasCharges, enchantHeader, enchantDescription =
-        CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
+    local _, hasCharges, enchantHeader, enchantDescription = CM.SafeCallMulti(GetItemLinkEnchantInfo, link)
 
     return {
         name = name or "Unknown",
@@ -69,7 +68,7 @@ function api.GetSetBonuses(itemLink)
         return {}
     end
 
-    local success, hasSet, setName, numBonuses, _, _, setId = CM.SafeCallMulti(GetItemLinkSetInfo, itemLink, false)
+    local success, hasSet, _, numBonuses, _, _, _ = CM.SafeCallMulti(GetItemLinkSetInfo, itemLink, false)
 
     if not success or not hasSet then
         return {}

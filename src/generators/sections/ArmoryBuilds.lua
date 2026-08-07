@@ -215,24 +215,15 @@ local function GenerateArmoryBuilds(armoryData)
 
     if not armoryData or not armoryData.armory then
         -- Show placeholder when enabled but no data available
-        if true then
-            local anchorId = GenerateAnchor and GenerateAnchor("🏰 Armory Builds") or "armory-builds"
-            return string.format(
-                '<a id="%s"></a>\n\n## 🏰 Armory Builds\n\n*No armory data available*\n\n---\n\n',
-                anchorId
-            )
-        end
-        return ""
+        local anchorId = GenerateAnchor and GenerateAnchor("🏰 Armory Builds") or "armory-builds"
+        return string.format(
+            '<a id="%s"></a>\n\n## 🏰 Armory Builds\n\n*No armory data available*\n\n---\n\n',
+            anchorId
+        )
     end
 
     local armory = armoryData.armory
-
-    if false then
-        -- Discord logic removed
-        return ""
-    else
-        return GenerateArmoryBuildsStandard(armory)
-    end
+    return GenerateArmoryBuildsStandard(armory)
 end
 
 -- =====================================================

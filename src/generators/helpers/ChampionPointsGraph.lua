@@ -1,7 +1,7 @@
 --[[
     ESO Champion Points Graph Data Structures
     Lua 5.1 Compatible
-    
+
     Each discipline contains:
     - nodes: table keyed by star name with node data and adjacency lists
     - getNode(name): returns node by name
@@ -23,12 +23,12 @@ local function createGraph(nodes)
     }
 
     -- Build ID index
-    for name, node in pairs(nodes) do
+    for _, node in pairs(nodes) do
         graph._byId[node.id] = node
     end
 
     -- Build adjacency lists (dependents)
-    for name, node in pairs(nodes) do
+    for _, node in pairs(nodes) do
         node.dependents = {}
     end
 
@@ -1685,7 +1685,7 @@ local function generateConnections(constellation)
     local lines = {}
     local processed = {}
 
-    for name, node in pairs(constellation.nodes) do
+    for _, node in pairs(constellation.nodes) do
         for _, prereq in ipairs(node.prerequisites) do
             local prereqNode = constellation.nodes[prereq.star]
             if prereqNode then
@@ -1756,12 +1756,12 @@ end
 function ChampionPointsGraph.generateMermaidDiagram(constellationName, characterPoints)
     --[[
         Generate a Mermaid flowchart diagram for a champion points constellation
-        
+
         Args:
             constellationName: "craft", "warfare", or "fitness"
             characterPoints: optional table of {starName = pointsAllocated}
                            If nil, all stars shown as unallocated
-        
+
         Returns:
             string: Complete Mermaid flowchart diagram
     ]]

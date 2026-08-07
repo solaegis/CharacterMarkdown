@@ -7,8 +7,6 @@ local CM = CharacterMarkdown
 -- CONSTANTS
 -- =====================================================
 
-local PROGRESS_BAR_WIDTH = 12
-
 -- Cache frequently used functions for performance
 local table_insert = table.insert
 local table_concat = table.concat
@@ -124,20 +122,14 @@ local function GenerateQuestSummary(questData)
     local parts = {}
     local summary = questData.summary
 
-    CM.DebugPrint(
-        "QUESTS",
-        string.format("Summary: active=%d", summary.activeQuests or 0)
-    )
+    CM.DebugPrint("QUESTS", string.format("Summary: active=%d", summary.activeQuests or 0))
 
     local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
     table_insert(parts, string.format('<a id="%s"></a>\n\n', anchorId))
     table_insert(parts, "## 📝 Quest Progress\n\n")
     table_insert(parts, "| **Active Quests (Journal)** |\n")
     table_insert(parts, "|-------------------------:|\n")
-    table_insert(
-        parts,
-        "| " .. CM.utils.FormatNumber(summary.activeQuests or summary.activeCount or 0) .. " |\n"
-    )
+    table_insert(parts, "| " .. CM.utils.FormatNumber(summary.activeQuests or summary.activeCount or 0) .. " |\n")
     table_insert(parts, "\n")
 
     return table_concat(parts)
@@ -346,13 +338,7 @@ local function GenerateQuests(questData)
     local activeQuestsDebug = (questData.summary and questData.summary.activeQuests)
         or (questData.summary and questData.summary.activeCount)
         or "nil"
-    CM.DebugPrint(
-        "QUESTS",
-        string.format(
-            "Summary - activeQuests/activeCount: %s",
-            tostring(activeQuestsDebug)
-        )
-    )
+    CM.DebugPrint("QUESTS", string.format("Summary - activeQuests/activeCount: %s", tostring(activeQuestsDebug)))
     CM.DebugPrint("QUESTS", string.format("Active quests count: %d", #(questData.active or {})))
 
     -- Check if there are any quests at all

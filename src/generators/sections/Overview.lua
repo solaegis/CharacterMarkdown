@@ -406,10 +406,6 @@ local function GenerateGeneral(
         local CreateClassLink = CM.links and CM.links.CreateClassLink
         local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
 
-        local CreateRaceLink = CM.links and CM.links.CreateRaceLink
-        local CreateClassLink = CM.links and CM.links.CreateClassLink
-        local CreateAllianceLink = CM.links and CM.links.CreateAllianceLink
-
         local raceText = (CreateRaceLink and CreateRaceLink(charData.race)) or (charData.race or "Unknown")
         local classText = (CreateClassLink and CreateClassLink(charData.class)) or (charData.class or "Unknown")
         local allianceText = (CreateAllianceLink and CreateAllianceLink(charData.alliance))

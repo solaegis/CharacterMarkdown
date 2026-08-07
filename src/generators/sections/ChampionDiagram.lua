@@ -162,21 +162,6 @@ local STAR_MAP = {
 }
 
 -- =====================================================
--- HELPER: Get color intensity based on points
--- =====================================================
-local function GetColorIntensity(points)
-    if points >= 50 then
-        return "high" -- Maxed or near-max
-    elseif points >= 30 then
-        return "medium-high"
-    elseif points >= 15 then
-        return "medium"
-    else
-        return "low"
-    end
-end
-
--- =====================================================
 -- HELPER: Get visual point indicator
 -- =====================================================
 local function GetPointIndicator(points, maxPoints)
@@ -233,65 +218,6 @@ local function SanitizeMermaidLabel(text)
 end
 
 -- =====================================================
--- HELPER: Generate node definition
--- =====================================================
-local function GenerateNode(skill, starData)
-    local nodeId = starData.node
-    local skillName = SanitizeMermaidLabel(skill.name)
-    local points = skill.points
-
-    -- Node shape based on type
-    local prefix, suffix
-    if starData.type == "slottable" then
-        prefix = "[["
-        suffix = "]]"
-    elseif starData.type == "base" then
-        prefix = "("
-        suffix = ")"
-    else -- passive
-        prefix = "("
-        suffix = ")"
-    end
-
-    -- Build node label with points
-    local label = string.format("%s%s<br/>%d pts%s", prefix, skillName, points, suffix)
-
-    return string.format("    %s%s", nodeId, label)
-end
-
--- =====================================================
--- HELPER: Get tree color with complementary pale palette
--- =====================================================
-local function GetTreeColor(tree, intensity)
-    -- Complementary color scheme with pale, harmonious backgrounds
-    -- Craft: Soft sage/teal greens (complementary to coral)
-    -- Warfare: Soft periwinkle/lavender blues (complementary to peach)
-    -- Fitness: Soft coral/peach (complementary to teal)
-    local colors = {
-        Craft = {
-            high = "#7fb3a8", -- Soft teal (maxed) - deeper but still pale
-            ["medium-high"] = "#9fc5bb", -- Medium teal
-            medium = "#b8d4cc", -- Light teal
-            low = "#d4e8e1", -- Very pale sage green
-        },
-        Warfare = {
-            high = "#8b9dc3", -- Soft periwinkle (maxed) - deeper but still pale
-            ["medium-high"] = "#a5b3d1", -- Medium periwinkle
-            medium = "#bfc9df", -- Light periwinkle
-            low = "#d9dfed", -- Very pale lavender blue
-        },
-        Fitness = {
-            high = "#d4a5a5", -- Soft coral (maxed) - deeper but still pale
-            ["medium-high"] = "#e0b8b8", -- Medium coral
-            medium = "#eccbcb", -- Light coral
-            low = "#f8dede", -- Very pale peach
-        },
-    }
-
-    return colors[tree] and colors[tree][intensity] or "#e8e8e8" -- Neutral pale gray fallback
-end
-
--- =====================================================
 -- HELPER: Get strong node color (for individual stars)
 -- =====================================================
 local function GetStrongNodeColor(tree)
@@ -312,29 +238,6 @@ local function GetSubgraphBackgroundColor(tree)
     -- Transparent backgrounds for subgraph containers
     -- This allows the diagram to blend with any background (GitHub, VS Code, Discord, etc.)
     return "transparent"
-end
-
--- =====================================================
--- HELPER: Get enhanced node shape based on points and star type
--- =====================================================
-local function GetNodeShape(starData, points, maxPoints)
-    maxPoints = maxPoints or 50 -- Default to 50 if not provided
-    local isMaxed = points >= maxPoints
-
-    -- Shape is determined by star type to ensure consistency
-    -- Slottables: squares, Passives: circles, Base: hexagons
-    if starData.type == "slottable" then
-        if isMaxed then
-            return "[[", "]]" -- Maxed slottable - double square brackets
-        else
-            return "[", "]" -- Partial slottable - single square brackets
-        end
-    elseif starData.type == "base" then
-        return "{", "}" -- Base stars - hexagon (curly braces)
-    else
-        -- Passive stars - always use circles for consistency
-        return "(", ")" -- Passive (maxed or partial) - circle (parentheses)
-    end
 end
 
 -- =====================================================
@@ -538,7 +441,6 @@ local function GenerateChampionDiagram(cpData)
     -- Generate nodes for each tree
     local treeOrder = { "Craft", "Warfare", "Fitness" } -- Ensure consistent order
     local MAX_POINTS_PER_CONSTELLATION = 564
-    local available = cpData.available or 0
 
     for _, treeName in ipairs(treeOrder) do
         local categories = treeSkills[treeName]

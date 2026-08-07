@@ -48,7 +48,7 @@ local function GenerateEquipmentInternal(equipmentData, noWrapper)
                     setTypeBadge = " " .. setTypeBadge
                 end
 
-                local progressText = ""
+                local progressText
                 if markdown_utils and markdown_utils.CreateProgressBar then
                     local success_pb, progressBar =
                         pcall(markdown_utils.CreateProgressBar, math.min(set.count or 0, maxPieces), maxPieces, 10)

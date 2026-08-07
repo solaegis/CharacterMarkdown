@@ -76,77 +76,6 @@ end
 -- HELPER FUNCTIONS
 -- =====================================================
 
-local function GetInvestmentLevelEmoji(level)
-    local emojis = {
-        ["very-high"] = "🔥",
-        ["high"] = "⭐",
-        ["medium-high"] = "💪",
-        ["medium"] = "📈",
-        ["low"] = "🌱",
-    }
-    return emojis[level] or "🌱"
-end
-
-local function GetInvestmentLevelDescription(level)
-    local descriptions = {
-        ["very-high"] = "Expert level (1500+ CP)",
-        ["high"] = "Advanced level (1200+ CP)",
-        ["medium-high"] = "Intermediate level (800+ CP)",
-        ["medium"] = "Developing level (400+ CP)",
-        ["low"] = "Beginner level (<400 CP)",
-    }
-    return descriptions[level] or "Beginner level"
-end
-
--- Calculate available CP breakdown by discipline (⚒️ Craft - ⚔️ Warfare - 💪 Fitness)
--- Unassigned CP is a shared pool, but we show it per discipline to indicate
--- "available capacity" (max - assigned) for each discipline
-local function GetAvailableCPBreakdown(cpData)
-    if not cpData or not cpData.disciplines then
-        return ""
-    end
-
-    local DisciplineType = CM.constants and CM.constants.DisciplineType
-    if not DisciplineType then
-        return ""
-    end
-
-    -- Get unassigned CP (shared pool)
-    local totalUnassigned = cpData.available or 0
-    if totalUnassigned == 0 and cpData.total and cpData.spent then
-        totalUnassigned = math.max(0, cpData.total - cpData.spent)
-    end
-
-    -- Get assigned points per discipline
-    local craftAssigned = 0
-    local warfareAssigned = 0
-    local fitnessAssigned = 0
-
-    for _, discipline in ipairs(cpData.disciplines) do
-        local name = discipline.name or ""
-        local assigned = discipline.assigned or discipline.total or 0
-
-        if name == DisciplineType.CRAFT then
-            craftAssigned = assigned
-        elseif name == DisciplineType.WARFARE then
-            warfareAssigned = assigned
-        elseif name == DisciplineType.FITNESS then
-            fitnessAssigned = assigned
-        end
-    end
-
-    -- Calculate "available capacity" per discipline
-    -- Max per discipline = assigned + unassigned (shared pool)
-    -- Available capacity = max - assigned = (assigned + unassigned) - assigned = unassigned
-    -- Since unassigned is shared, all disciplines show the same available capacity
-    -- This represents "how much more can be allocated to this discipline"
-    local unassignedCraft = totalUnassigned
-    local unassignedWarfare = totalUnassigned
-    local unassignedFitness = totalUnassigned
-
-    return string_format("⚒️ %d - ⚔️ %d - 💪 %d", unassignedCraft, unassignedWarfare, unassignedFitness)
-end
-
 local function GetSlottableStatus(skill, maxSlottable)
     if not skill.isSlottable then
         return "🔒 Passive"
@@ -167,33 +96,6 @@ end
 -- Get point text (singular/plural)
 local function GetPointText(points)
     return points == 1 and "point" or "points"
-end
-
--- Get slotted champion point skill IDs
-local function GetSlottedChampionSkillIds()
-    local slottedIds = {}
-
-    -- Check if HOTBAR_CATEGORY_CHAMPION exists (ESO API)
-    local success, category = pcall(function()
-        return HOTBAR_CATEGORY_CHAMPION
-    end)
-    if not success or not category then
-        -- Fallback: try alternative API methods
-        CM.DebugPrint("CP", "HOTBAR_CATEGORY_CHAMPION not available, trying alternative methods")
-        return slottedIds
-    end
-
-    -- Champion bar typically has slots 1-12 (3 per discipline, up to 4 per discipline at higher CP)
-    -- Check slots 1-12 for champion abilities
-    for slotIndex = 1, 12 do
-        local slotSuccess, abilityId = pcall(GetSlotBoundId, slotIndex, category)
-        if slotSuccess and abilityId and abilityId > 0 then
-            table.insert(slottedIds, abilityId)
-            CM.DebugPrint("CP", string_format("Found slotted CP skill ID %d in slot %d", abilityId, slotIndex))
-        end
-    end
-
-    return slottedIds
 end
 
 -- Get discipline skills (unified from multiple sources)
@@ -227,64 +129,6 @@ local function FormatDisciplineSummary(discipline)
     local total = CM.utils.FormatNumber(discipline.total)
 
     return string_format("### %s %s (%s CP)\n\n", emoji, name, total)
-end
-
--- =====================================================
--- OPTIMIZATION SUGGESTIONS (Currently Unused)
--- =====================================================
--- This function is implemented but not currently used in any generator.
--- It was part of the detailed Champion Points analysis feature that has been disabled.
--- Kept for potential future use.
-
-local function GenerateOptimizationSuggestions(cpData)
-    local suggestions = {}
-
-    -- Check for unspent points
-    if cpData.available and cpData.available > 0 then
-        table.insert(
-            suggestions,
-            "⚠️ You have " .. CM.utils.FormatNumber(cpData.available) .. " unspent Champion Points"
-        )
-    end
-
-    -- Check slottable allocation
-    if cpData.analysis then
-        local totalSlottable = (cpData.analysis and cpData.analysis.slottableSkills) or 0
-        local maxSlottable = (cpData.analysis and cpData.analysis.maxSlottablePerDiscipline) or 3
-        local totalMaxSlottable = maxSlottable * 3 -- 3 disciplines
-
-        if totalSlottable < totalMaxSlottable then
-            table.insert(
-                suggestions,
-                "💡 Consider investing in more slottable skills ("
-                    .. totalSlottable
-                    .. "/"
-                    .. totalMaxSlottable
-                    .. " used)"
-            )
-        end
-
-        -- Check for discipline balance
-        if cpData.disciplines then
-            local disciplineTotals = {}
-            for _, discipline in ipairs(cpData.disciplines) do
-                disciplineTotals[discipline.name] = discipline.total or 0
-            end
-
-            local craftTotal = disciplineTotals.Craft or 0
-            local warfareTotal = disciplineTotals.Warfare or 0
-            local fitnessTotal = disciplineTotals.Fitness or 0
-
-            local maxDiscipline = math.max(craftTotal, warfareTotal, fitnessTotal)
-            local minDiscipline = math.min(craftTotal, warfareTotal, fitnessTotal)
-
-            if maxDiscipline > 0 and (maxDiscipline - minDiscipline) > 200 then
-                table.insert(suggestions, "⚖️ Consider balancing CP allocation across disciplines")
-            end
-        end
-    end
-
-    return suggestions
 end
 
 -- =====================================================
@@ -463,7 +307,7 @@ local function GenerateDisciplineTable(discipline, unassignedCP)
                 local pointText = GetPointText(skill.points)
                 local skillType = skill.type or (skill.isSlottable and "slottable" or "passive")
 
-                local skillName = ""
+                local skillName
                 local pointsValue = string_format("%d %s", skill.points or 0, pointText)
 
                 if skillSource == "separated" then
@@ -669,7 +513,7 @@ local function GenerateChampionPoints(cpData)
                         markdown = markdown .. "*Points assigned but details not available*\n\n"
                     end
                 else
-                    local maxPerDiscipline = discipline.cap or (discipline.available or 0)
+                    maxPerDiscipline = discipline.cap or (discipline.available or 0)
                     if maxPerDiscipline == 0 then
                         maxPerDiscipline = unassignedCP
                     end

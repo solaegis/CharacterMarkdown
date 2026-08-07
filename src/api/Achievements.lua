@@ -25,8 +25,7 @@ function api.GetNumCategories()
 end
 
 function api.GetCategoryInfo(catIndex)
-    local success, name, numSubCats, numAch, earned, total, hidesPoints =
-        CM.SafeCallMulti(GetAchievementCategoryInfo, catIndex)
+    local _, name, numSubCats, numAch, earned, total, _ = CM.SafeCallMulti(GetAchievementCategoryInfo, catIndex)
 
     return {
         name = name,
@@ -38,7 +37,7 @@ function api.GetCategoryInfo(catIndex)
 end
 
 function api.GetSubCategoryInfo(catIndex, subCatIndex)
-    local success, name, numAch, earned, total = CM.SafeCallMulti(GetAchievementSubCategoryInfo, catIndex, subCatIndex)
+    local _, name, numAch, earned, total = CM.SafeCallMulti(GetAchievementSubCategoryInfo, catIndex, subCatIndex)
     return {
         name = name,
         earned = earned,
@@ -60,7 +59,7 @@ function api.GetRecent()
     local recent = {}
     for _, id in ipairs(ids) do
         if type(id) == "number" then
-            local ok, name, desc, points, icon, completed, date, time = CM.SafeCallMulti(GetAchievementInfo, id)
+            local _, name, _, _, _, _, date, time = CM.SafeCallMulti(GetAchievementInfo, id)
             if name then
                 table.insert(recent, {
                     id = id,
@@ -79,8 +78,7 @@ function api.GetAchievementDetail(achievementId)
     if not achievementId then
         return nil
     end
-    local ok, name, description, points, icon, completed =
-        CM.SafeCallMulti(GetAchievementInfo, achievementId)
+    local ok, name, description, points, _, completed = CM.SafeCallMulti(GetAchievementInfo, achievementId)
     if not ok or not name then
         return nil
     end

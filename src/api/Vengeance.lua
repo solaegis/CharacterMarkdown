@@ -28,7 +28,8 @@ function api.GetLoadoutSummary()
     result.available = true
 
     for roleIndex = 1, numRoles do
-        local roleName = CleanName(CM.SafeCall(GetVengeanceRoleNameAtIndex, roleIndex) or ("Role " .. tostring(roleIndex)))
+        local roleName =
+            CleanName(CM.SafeCall(GetVengeanceRoleNameAtIndex, roleIndex) or ("Role " .. tostring(roleIndex)))
         local isEquipped = CM.SafeCall(IsLoadoutRoleEquippedAtIndex, roleIndex) or false
 
         local perks = {}

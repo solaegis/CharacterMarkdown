@@ -79,7 +79,7 @@ function api.GetJournalInfo()
     local quests = {}
 
     for i = 1, numQuests do
-        local success, name, bgText, stepText, stepType, override, completed, tracked, level, pushed, questType =
+        local success, name, _, stepText, _, _, completed, tracked, level, _, questType =
             CM.SafeCallMulti(GetJournalQuestInfo, i)
         if success and name and type(name) == "string" then
             local typeLabel = GetQuestTypeLabel(questType)

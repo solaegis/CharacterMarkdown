@@ -257,7 +257,7 @@ function api.GetCadwellProgress()
         return nil
     end
 
-    local levelName = "Unknown"
+    local levelName
     if CADWELL_PROGRESSION_LEVEL_BRONZE and level == CADWELL_PROGRESSION_LEVEL_BRONZE then
         levelName = "Bronze"
     elseif CADWELL_PROGRESSION_LEVEL_SILVER and level == CADWELL_PROGRESSION_LEVEL_SILVER then
@@ -271,8 +271,7 @@ function api.GetCadwellProgress()
     local zones = {}
     local numZones = CM.SafeCall(GetNumZonesForCadwellProgressionLevel, level) or 0
     for zoneIndex = 1, numZones do
-        local success, zoneName, zoneDescription, zoneOrder =
-            CM.SafeCallMulti(GetCadwellZoneInfo, level, zoneIndex)
+        local success, zoneName, zoneDescription, zoneOrder = CM.SafeCallMulti(GetCadwellZoneInfo, level, zoneIndex)
         if success and zoneName then
             table.insert(zones, {
                 name = CleanName(zoneName),

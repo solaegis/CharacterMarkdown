@@ -49,13 +49,14 @@ local function AssertLayout(layout, testName, minColumns, maxColumns)
         return false, testName .. ": columnCount missing"
     end
     if layout.columnCount < minColumns or layout.columnCount > maxColumns then
-        return false, string_format(
-            "%s: columnCount %d outside expected range %d-%d",
-            testName,
-            layout.columnCount,
-            minColumns,
-            maxColumns
-        )
+        return false,
+            string_format(
+                "%s: columnCount %d outside expected range %d-%d",
+                testName,
+                layout.columnCount,
+                minColumns,
+                maxColumns
+            )
     end
     return true, testName .. " passed"
 end

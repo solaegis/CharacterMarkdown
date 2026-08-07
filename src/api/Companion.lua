@@ -167,8 +167,7 @@ function api.GetCompanionEquipment()
                 itemData.level = CM.SafeCall(GetItemLinkRequiredLevel, itemLink) or 0
 
                 -- Set information
-                local success, has, name, _, numEquipped, maxEquipped =
-                    pcall(GetItemLinkSetInfo, itemLink, false)
+                local success, has, name, _, _, _ = pcall(GetItemLinkSetInfo, itemLink, false)
                 if success then
                     itemData.hasSet = has
                     itemData.setName = name
@@ -182,8 +181,7 @@ function api.GetCompanionEquipment()
                 end
 
                 -- Enchantment information: hasCharges, enchantHeader, enchantDescription
-                local success3, hasCharges, enchantHeader, enchantDescription =
-                    pcall(GetItemLinkEnchantInfo, itemLink)
+                local success3, hasCharges, enchantHeader, enchantDescription = pcall(GetItemLinkEnchantInfo, itemLink)
                 if success3 then
                     if enchantHeader and enchantHeader ~= "" then
                         itemData.enchantName = enchantHeader

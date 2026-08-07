@@ -4,7 +4,7 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar, CreateZoneLink, CreateCollapsible
+local FormatNumber, GenerateProgressBar, CreateZoneLink
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
@@ -12,7 +12,6 @@ local function InitializeUtilities()
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
         CreateZoneLink = CM.links.CreateZoneLink
-        CreateCollapsible = (CM.utils and CM.utils.markdown and CM.utils.markdown.CreateCollapsible) or nil
     end
 end
 

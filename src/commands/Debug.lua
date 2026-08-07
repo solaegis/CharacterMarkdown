@@ -15,7 +15,11 @@ CM.commands.debug = {}
 -- Debug checks for it for diagnostic/backward-compatibility visibility only.
 local function DebugSavedVarsState()
     CM.Info("|c00FFFF[CM] ===== SAVEDVARIABLES DEBUG INFO =====|r")
-    CM.Info("|c00FFFF[CM] CharacterMarkdownSettings (SV root) exists: " .. tostring(_G.CharacterMarkdownSettings ~= nil) .. "|r")
+    CM.Info(
+        "|c00FFFF[CM] CharacterMarkdownSettings (SV root) exists: "
+            .. tostring(_G.CharacterMarkdownSettings ~= nil)
+            .. "|r"
+    )
     CM.Info("|c00FFFF[CM] CharacterMarkdownData exists (legacy): " .. tostring(_G.CharacterMarkdownData ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.settings exists: " .. tostring(CM.settings ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.charData exists: " .. tostring(CM.charData ~= nil) .. "|r")

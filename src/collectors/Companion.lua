@@ -25,13 +25,9 @@ local function CollectCompanionData()
 
     -- Active companion details (cross-API composition)
     if data.hasActive then
-        -- Try multiple approaches to get companion name
-        local name = nil
-        local level = 0
-
         -- Approach 1: Try GetUnitName("companion") - unit API
-        name = CM.SafeCall(GetUnitName, "companion")
-        level = CM.SafeCall(GetUnitLevel, "companion") or 0
+        local name = CM.SafeCall(GetUnitName, "companion")
+        local level = CM.SafeCall(GetUnitLevel, "companion") or 0
 
         -- Approach 2: If unit API fails, try to find active companion from list
         -- (This is a fallback - ideally we'd have GetActiveCompanionId())

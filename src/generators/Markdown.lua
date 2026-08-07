@@ -182,19 +182,6 @@ local GenerateAnchor = CM.utils.markdown and CM.utils.markdown.GenerateAnchor
         return anchor
     end
 
--- Helper function to create a section definition
--- This simplifies section creation and ensures consistent structure
-local function CreateSection(name, tocEntry, condition, generator, options)
-    options = options or {}
-    return {
-        name = name,
-        tocEntry = tocEntry,
-        condition = condition,
-        generator = generator,
-        dynamicTOC = options.dynamicTOC or false,
-    }
-end
-
 -- Section configuration: defines all sections with their conditions
 -- Settings parameter must be the flattened settings table
 --
@@ -642,7 +629,8 @@ local function GetSectionRegistry(settings, gen, data)
                     local titles = data.titlesHousing.titles
                     local housing = data.titlesHousing.housing
                     if IsSettingEnabled(settings, "includeTitlesHousing", false) then
-                        if (titles and (titles.total or 0) > 0)
+                        if
+                            (titles and (titles.total or 0) > 0)
                             or (titles and titles.current and titles.current ~= "")
                             or (titles and titles.owned and #titles.owned > 0)
                         then
@@ -736,8 +724,7 @@ local function GetSectionRegistry(settings, gen, data)
             tocEntry = {
                 title = "🌍 World Progress",
             },
-            condition = IsSettingEnabled(settings, "includeWorldProgress", false)
-                and data.worldProgress ~= nil,
+            condition = IsSettingEnabled(settings, "includeWorldProgress", false) and data.worldProgress ~= nil,
             generator = function()
                 return gen.GenerateWorldProgress(data.worldProgress) or ""
             end,
@@ -751,8 +738,7 @@ local function GetSectionRegistry(settings, gen, data)
             tocEntry = {
                 title = "🎨 Appearance",
             },
-            condition = IsSettingEnabled(settings, "includeAppearance", false)
-                and data.appearance ~= nil,
+            condition = IsSettingEnabled(settings, "includeAppearance", false) and data.appearance ~= nil,
             generator = function()
                 local GenerateAppearance = CM.generators.sections.GenerateAppearance
                 if GenerateAppearance then
@@ -815,13 +801,13 @@ local function GetSectionRegistry(settings, gen, data)
                 local showAllQuests = settings.showAllQuests ~= false
 
                 if showAllQuests then
-                    markdown = markdown .. gen.GenerateQuests(data.quests, format)
+                    markdown = markdown .. gen.GenerateQuests(data.quests)
                 else
                     local activeData = {
                         summary = data.quests.summary,
                         active = data.quests.active or {},
                     }
-                    markdown = markdown .. gen.GenerateQuests(activeData, format)
+                    markdown = markdown .. gen.GenerateQuests(activeData)
                 end
 
                 return markdown
@@ -951,7 +937,7 @@ local function ValidateCollectorsReady()
     if not CM.collectors.CollectCharacterData then
         CM.Error("Collectors not loaded!")
         CM.Error("Available in CM.collectors:")
-        for k, v in pairs(CM.collectors) do
+        for k, _ in pairs(CM.collectors) do
             CM.Error("  - " .. k)
         end
         return false, "ERROR: Collectors not loaded. Type /reloadui and try again."
@@ -984,8 +970,16 @@ local function CollectBaseData(settings, Need, MaybeCollect)
             "CollectDLCAccess",
             CM.collectors.CollectDLCAccess
         ),
-        mundus = MaybeCollect(needOverview or Need("includeBuffs"), "CollectMundusData", CM.collectors.CollectMundusData),
-        buffs = MaybeCollect(Need("includeBuffs") or needOverview, "CollectActiveBuffs", CM.collectors.CollectActiveBuffs),
+        mundus = MaybeCollect(
+            needOverview or Need("includeBuffs"),
+            "CollectMundusData",
+            CM.collectors.CollectMundusData
+        ),
+        buffs = MaybeCollect(
+            Need("includeBuffs") or needOverview,
+            "CollectActiveBuffs",
+            CM.collectors.CollectActiveBuffs
+        ),
         cp = MaybeCollect(needCp, "CollectChampionPointData", CM.collectors.CollectChampionPointData),
         skillBar = MaybeCollect(Need("includeSkillBars"), "CollectSkillBarData", CM.collectors.CollectSkillBarData),
         skillMorphs = MaybeCollect(
@@ -1026,11 +1020,7 @@ local function CollectBaseData(settings, Need, MaybeCollect)
             "CollectLocationData",
             CM.collectors.CollectLocationData
         ),
-        collectibles = MaybeCollect(
-            needCollectibles,
-            "CollectCollectiblesData",
-            CM.collectors.CollectCollectiblesData
-        ),
+        collectibles = MaybeCollect(needCollectibles, "CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
         crafting = MaybeCollect(needCrafting, "CollectCraftingData", CM.collectors.CollectCraftingData),
         styles = MaybeCollect(Need("includeStyles"), "CollectStylesData", CM.collectors.CollectStylesData),
         antiquities = MaybeCollect(
@@ -1151,9 +1141,7 @@ local function AssembleMarkdown(settings, collectedData)
             end
         end
 
-        local hasSeparator = result:match("%-%-%-%s*$")
-            or result:match("<hr>%s*$")
-            or result:match("<hr%s*/>%s*$")
+        local hasSeparator = result:match("%-%-%-%s*$") or result:match("<hr>%s*$") or result:match("<hr%s*/>%s*$")
 
         if not hasSeparator then
             local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
@@ -1172,7 +1160,7 @@ local function AssembleMarkdown(settings, collectedData)
 
     -- Pass 1: generate section bodies (TOC deferred until outputs are known)
     for _, section in ipairs(sections) do
-        local conditionMet = false
+        local conditionMet
         if type(section.condition) == "function" then
             conditionMet = section.condition()
         else
@@ -1232,7 +1220,7 @@ local function AssembleMarkdown(settings, collectedData)
     -- Pass 2: assemble markdown in registry order
     local markdownChunks = {}
     for _, section in ipairs(sections) do
-        local conditionMet = false
+        local conditionMet
         if type(section.condition) == "function" then
             conditionMet = section.condition()
         else
@@ -1251,10 +1239,7 @@ local function AssembleMarkdown(settings, collectedData)
             if formatted then
                 table.insert(markdownChunks, formatted)
             elseif not section.dynamicTOC then
-                CM.DebugPrint(
-                    "GENERATOR",
-                    string.format("%s returned EMPTY despite condition=true", section.name)
-                )
+                CM.DebugPrint("GENERATOR", string.format("%s returned EMPTY despite condition=true", section.name))
             end
         end
     end
@@ -1319,11 +1304,11 @@ local function AssembleMarkdown(settings, collectedData)
             end)
 
             -- Clear references to help GC before returning
-            collectedData = nil
-            settings = nil
-            gen = nil
-            sections = nil
-            completeMarkdown = nil
+            collectedData = nil -- luacheck: ignore 311
+            settings = nil -- luacheck: ignore 311
+            gen = nil -- luacheck: ignore 311
+            sections = nil -- luacheck: ignore 311
+            completeMarkdown = nil -- luacheck: ignore 311
 
             -- Hint to Lua GC that now is a good time to collect
             -- (Large markdown generation can create significant temporary string garbage)
@@ -1334,10 +1319,10 @@ local function AssembleMarkdown(settings, collectedData)
             CM.Error("Chunking utility not available - markdown may be truncated!")
 
             -- Clear references even on error path
-            collectedData = nil
-            settings = nil
-            gen = nil
-            sections = nil
+            collectedData = nil -- luacheck: ignore 311
+            settings = nil -- luacheck: ignore 311
+            gen = nil -- luacheck: ignore 311
+            sections = nil -- luacheck: ignore 311
 
             return completeMarkdown
         end
@@ -1345,10 +1330,10 @@ local function AssembleMarkdown(settings, collectedData)
 
     -- Markdown fits in one chunk - return as string
     -- Clear references to help GC
-    collectedData = nil
-    settings = nil
-    gen = nil
-    sections = nil
+    collectedData = nil -- luacheck: ignore 311
+    settings = nil -- luacheck: ignore 311
+    gen = nil -- luacheck: ignore 311
+    sections = nil -- luacheck: ignore 311
 
     -- Hint to Lua GC that now is a good time to collect
     -- (Large markdown generation can create significant temporary string garbage)
@@ -1377,10 +1362,7 @@ local function CollectHeavySync(collectedData, heavySteps)
                     })
                     CM.Error(string.format("[FAIL] Collect %s failed: %s", step.name, tostring(result)))
                 end
-                CM.DebugPrint(
-                    "LIBASYNC",
-                    string.format("Sync heavy collector %s took %dms", step.key, elapsed or 0)
-                )
+                CM.DebugPrint("LIBASYNC", string.format("Sync heavy collector %s took %dms", step.key, elapsed or 0))
             else
                 collectedData[step.key] = SafeCollect(step.name, step.fn)
             end
@@ -1474,8 +1456,53 @@ local function GenerateMarkdownAsync(onComplete, onError)
 end
 
 -- =====================================================
+-- SHARED RUN ENTRY (async when LibAsync present, else sync)
+-- =====================================================
+
+--- Run markdown generation and deliver the result via callbacks.
+-- Prefers LibAsync when available so heavy collectors yield between steps.
+-- @param onDone function(markdown) called with string or chunk array
+-- @param onError function(err) optional; defaults to CM.Error logging
+local function Run(onDone, onError)
+    if type(onDone) ~= "function" then
+        CM.Error("CM.generators.Run: onDone callback is required")
+        return
+    end
+
+    local function reportError(err)
+        if type(onError) == "function" then
+            onError(err)
+        else
+            CM.Error("Failed to generate markdown:")
+            CM.Error(tostring(err))
+        end
+    end
+
+    local asyncLib = CM.utils and CM.utils.LibAsyncIntegration
+    local useAsync = asyncLib
+        and asyncLib.IsLibAsyncAvailable
+        and asyncLib.IsLibAsyncAvailable()
+        and GenerateMarkdownAsync
+
+    if useAsync then
+        CM.DebugPrint("GENERATOR", "Using LibAsync generation path")
+        GenerateMarkdownAsync(onDone, reportError)
+        return
+    end
+
+    local success, markdown = pcall(GenerateMarkdown)
+    if not success then
+        reportError(markdown)
+        return
+    end
+
+    onDone(markdown)
+end
+
+-- =====================================================
 -- EXPORTS
 -- =====================================================
 
 CM.generators.GenerateMarkdown = GenerateMarkdown
 CM.generators.GenerateMarkdownAsync = GenerateMarkdownAsync
+CM.generators.Run = Run

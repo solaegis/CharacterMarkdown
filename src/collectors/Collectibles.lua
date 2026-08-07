@@ -173,8 +173,7 @@ local function CollectHousingData()
 
     if housingInfo then
         -- Primary house (id/houseId are housing-namespace IDs, not collectible IDs)
-        local primaryHouseId = housingInfo.primary
-            and (housingInfo.primary.houseId or housingInfo.primary.id)
+        local primaryHouseId = housingInfo.primary and (housingInfo.primary.houseId or housingInfo.primary.id)
         if primaryHouseId and primaryHouseId > 0 then
             data.primary = {
                 houseId = primaryHouseId,

@@ -40,7 +40,7 @@ tasks:
     cmds:
       - |
         echo "🔍 Running Luacheck..."
-        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --ignore 212 || true
+        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**"
       - echo "✅ Lint passed"
     silent: true
 
@@ -49,7 +49,7 @@ tasks:
     cmds:
       - |
         echo "🔧 Auto-fixing Luacheck issues..."
-        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --ignore 212 --fix || true
+        luacheck {{.SRC_DIR}} --exclude-files "*.backup" --exclude-files ".task/**" --fix
       - echo "✅ Auto-fix complete"
     silent: true
 

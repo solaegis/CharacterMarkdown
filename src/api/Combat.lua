@@ -259,8 +259,7 @@ end
 
 function api.GetUtilityStats()
     -- GetRidingStats: inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus
-    local inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus =
-        GetRidingStats()
+    local inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus = GetRidingStats()
 
     return {
         riding = {

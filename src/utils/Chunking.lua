@@ -1091,7 +1091,6 @@ local function BacktrackFromPartialMermaidFence(markdown, chunkEnd, pos, isLast,
     return nil
 end
 
-
 -- Split markdown into chunks with conservative padding to prevent truncation
 -- This is the consolidated, best implementation that handles:
 -- 1. Tables and lists properly (doesn't split in the middle)
@@ -1254,7 +1253,10 @@ local function SplitMarkdownIntoChunks(markdown)
             else
                 for i = potentialEnd, searchStart, -1 do
                     if string_sub(markdown, i, i) == "\n" then
-                        if not IsNewlineBeforeHeader(markdown, i, markdownLength) and not IsInsideMarkdownLink(markdown, i) then
+                        if
+                            not IsNewlineBeforeHeader(markdown, i, markdownLength)
+                            and not IsInsideMarkdownLink(markdown, i)
+                        then
                             chunkEnd = i
                             foundNewline = true
                             break
@@ -1272,7 +1274,10 @@ local function SplitMarkdownIntoChunks(markdown)
             else
                 for i = potentialEnd, extendedStart, -1 do
                     if string_sub(markdown, i, i) == "\n" then
-                        if not IsNewlineBeforeHeader(markdown, i, markdownLength) and not IsInsideMarkdownLink(markdown, i) then
+                        if
+                            not IsNewlineBeforeHeader(markdown, i, markdownLength)
+                            and not IsInsideMarkdownLink(markdown, i)
+                        then
                             chunkEnd = i
                             break
                         end

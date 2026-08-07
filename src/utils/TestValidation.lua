@@ -199,7 +199,11 @@ local function ValidateResourceValues(markdown)
         return false
     elseif not healthValue and not magickaValue and not staminaValue then
         -- Found patterns but all extracted values are nil
-        AddResult(testName, false, "Could not extract resource values from Quick Stats (check format or data collection)")
+        AddResult(
+            testName,
+            false,
+            "Could not extract resource values from Quick Stats (check format or data collection)"
+        )
         return false
     else
         AddResult(testName, true, "Resource values found and appear valid")

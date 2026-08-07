@@ -98,11 +98,8 @@ function api.GetBuildEquipment(buildIndex)
     }
 
     for _, slot in ipairs(equipSlots) do
-        local success, equipSlotState, bagId, slotIndex = CM.SafeCallMulti(
-            GetArmoryBuildEquipSlotInfo,
-            buildIndex,
-            slot
-        )
+        local success, equipSlotState, bagId, slotIndex =
+            CM.SafeCallMulti(GetArmoryBuildEquipSlotInfo, buildIndex, slot)
         if success and equipSlotState and bagId and slotIndex then
             local itemLink = CM.SafeCall(GetItemLink, bagId, slotIndex, LINK_STYLE_DEFAULT)
             if itemLink and itemLink ~= "" then

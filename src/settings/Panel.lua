@@ -29,11 +29,7 @@ local function EnsureCharacterData()
     end
     -- Initialize from account-wide settings perCharacterData
     local characterId = tostring(GetCurrentCharacterId())
-    if
-        CM.settings
-        and CM.settings.perCharacterData
-        and CM.settings.perCharacterData[characterId]
-    then
+    if CM.settings and CM.settings.perCharacterData and CM.settings.perCharacterData[characterId] then
         CM.charData = CM.settings.perCharacterData[characterId]
         return true
     end
@@ -162,11 +158,7 @@ function CM.Settings.Panel:Initialize()
             local preservedTextFields = nil
 
             -- Preserve text fields from current character
-            if
-                CM.settings
-                and CM.settings.perCharacterData
-                and CM.settings.perCharacterData[characterId]
-            then
+            if CM.settings and CM.settings.perCharacterData and CM.settings.perCharacterData[characterId] then
                 preservedTextFields = {
                     customNotes = CM.settings.perCharacterData[characterId].customNotes or "",
                     customTitle = CM.settings.perCharacterData[characterId].customTitle or "",
@@ -368,6 +360,58 @@ function CM.Settings.Panel:AddLayoutSection(options)
             return CM.settings.includeFooter
         end,
         setFunc = CreateSetFunc("includeFooter"),
+        width = "half",
+        default = true,
+    })
+
+    -- Table of Contents
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Table of Contents",
+        tooltip = "Show a linked table of contents near the top of the markdown (GitHub/VSCode-friendly).",
+        getFunc = function()
+            return CM.settings.includeTableOfContents
+        end,
+        setFunc = CreateSetFunc("includeTableOfContents"),
+        width = "half",
+        default = true,
+    })
+
+    -- Attention Needed
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Attention Needed",
+        tooltip = "Show an Attention Needed section highlighting incomplete or noteworthy items.",
+        getFunc = function()
+            return CM.settings.includeAttentionNeeded
+        end,
+        setFunc = CreateSetFunc("includeAttentionNeeded"),
+        width = "half",
+        default = true,
+    })
+
+    -- Quick Stats
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include Quick Stats",
+        tooltip = "Show a compact quick-stats summary near the top of the markdown.",
+        getFunc = function()
+            return CM.settings.includeQuickStats
+        end,
+        setFunc = CreateSetFunc("includeQuickStats"),
+        width = "half",
+        default = true,
+    })
+
+    -- General (Overview subsection)
+    table.insert(options, {
+        type = "checkbox",
+        name = "Include General Overview",
+        tooltip = "Show the General subsection in Overview (race, class, alliance, and related basics).",
+        getFunc = function()
+            return CM.settings.includeGeneral
+        end,
+        setFunc = CreateSetFunc("includeGeneral"),
         width = "half",
         default = true,
     })
@@ -1435,6 +1479,21 @@ function CM.Settings.Panel:AddCraftingSection(options)
         default = true,
         disabled = function()
             return not CM.settings.includeCrafting
+        end,
+    })
+
+    table.insert(controls, {
+        type = "checkbox",
+        name = "    Show Recipes Detailed",
+        tooltip = "Show individual recipe lists per category vs counts only.",
+        getFunc = function()
+            return CM.settings.showRecipesDetailed
+        end,
+        setFunc = CreateSetFunc("showRecipesDetailed"),
+        width = "half",
+        default = false,
+        disabled = function()
+            return not CM.settings.includeCrafting or not CM.settings.includeRecipes
         end,
     })
 
