@@ -406,7 +406,7 @@ Follow this transition list to unlock the full power of **{Archetype Name}**. Ge
 ### Finish
 
 10. **Companion:** Run **{primary now}** for current content; level **{goal companion}** toward **20/20**; farm or purchase **companion-only** gear per [Companion Strategy](#companion-strategy-{anchor-slug}) (separate from player Phase 2 craft); keep **{secondary}** rapport-ready for swap situations noted there.
-11. **Regenerate profile:** Run `/markdown` in-game and update [{slug}.md](../{account}/{location}/{slug}.md) when the build is live.
+11. **Regenerate profile:** Run `/cm` in-game and update [{slug}.md](../{account}/{location}/{slug}.md) when the build is live.
 
 {Closing flavor line.}
 

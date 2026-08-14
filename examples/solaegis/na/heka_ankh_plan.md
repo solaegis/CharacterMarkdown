@@ -439,7 +439,7 @@ Follow this transition list to activate **The Apex Executioner**.
 ### Finish
 
 13. **Companion:** Run **Mirri** and level **Isobel Veloise** toward **20/20**; farm **Companion's** traited gear (separate from player craft); fill empty ultimate slots. Use **Isobel** for world bosses; **Zerith-var** as secondary DPS escort.
-14. **Regenerate profile:** Run `/markdown` in-game and update [heka_ankh.md](heka_ankh.md) when the build is live.
+14. **Regenerate profile:** Run `/cm` in-game and update [heka_ankh.md](heka_ankh.md) when the build is live.
 
 ---
 

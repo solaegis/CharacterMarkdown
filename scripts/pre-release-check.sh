@@ -365,7 +365,7 @@ main() {
         echo ""
         echo "Next steps:"
         echo "  1. Review CHANGELOG.md and update if needed"
-        echo "  2. Test in-game: /markdown test"
+        echo "  2. Test in-game: /cm test"
         echo "  3. Create git tag: git tag -a v<version> -m 'Release v<version>'"
         echo "  4. Push tag: git push origin main --tags"
         echo ""

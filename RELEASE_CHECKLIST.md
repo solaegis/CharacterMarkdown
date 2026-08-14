@@ -274,19 +274,19 @@ task release           # or: task release:workflow
 - [ ] **Basic Functionality**
   ```lua
   -- In-game commands:
-  /markdown test        # Run validation tests
-  /markdown settings    # Open settings panel
+  /cm test              # Run validation tests
+  /cm settings          # Open settings panel
   ```
   - ✅ Addon loads without errors
   - ✅ No errors in chat on load
-  - ✅ `/markdown` command works
+  - ✅ `/cm` command works (alias `/markdown` OK)
   - ✅ Window displays correctly
   - ✅ Copy to clipboard works
   - ✅ Settings panel accessible
 
 - [ ] **Validation Tests**
   ```lua
-  /markdown test
+  /cm test
   ```
   - ✅ All validation tests pass
   - ✅ Settings diagnostic passes

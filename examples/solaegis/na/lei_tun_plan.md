@@ -428,7 +428,7 @@ Follow this transition list to unlock the full power of **Lei-Tun**. Gear progre
 ### Finish
 
 11. **Companion:** Run **Ember** during current leveling; unlock and train **Sharp-as-Night** as goal 20/20 tank companion; acquire Bolstered **Companion's** heavy armor pieces from drops.
-12. **Regenerate profile:** Run `/markdown` in-game and update [lei_tun.md](lei_tun.md) when the build is live.
+12. **Regenerate profile:** Run `/cm` in-game and update [lei_tun.md](lei_tun.md) when the build is live.
 
 *May the abyssal tides carry Lei-Tun to victory across the shores of Alinor!*
 

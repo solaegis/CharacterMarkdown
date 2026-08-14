@@ -214,6 +214,18 @@ local function HandleTest(args)
         CM.Warn("Equipment set count tests not available")
     end
 
+    if CM.tests.buildCoach and CM.tests.buildCoach.RunTests then
+        CM.tests.buildCoach.RunTests()
+    else
+        CM.Warn("Build coach tests not available")
+    end
+
+    if CM.tests.armoryBuilds and CM.tests.armoryBuilds.RunTests then
+        CM.tests.armoryBuilds.RunTests()
+    else
+        CM.Warn("Armory builds tests not available")
+    end
+
     if sectionResults and CM.tests.sectionPresence then
         CM.tests.sectionPresence.PrintSectionTestReport()
     end
@@ -247,7 +259,7 @@ local function HandleTest(args)
             )
         )
     end
-    CM.Info("Tip: Run '/markdown' to see the actual generated output")
+    CM.Info("Tip: Run '/cm' to see the actual generated output")
 end
 
 -- =====================================================

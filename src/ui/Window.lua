@@ -555,7 +555,7 @@ function CharacterMarkdown_CopyToClipboard()
         if markdownLength > EDITBOX_LIMIT then
             CM.Error(
                 string.format(
-                    "[ERR] Single chunk size %d exceeds limit %d — should have been split; report via /markdown test",
+                    "[ERR] Single chunk size %d exceeds limit %d — should have been split; report via /cm test",
                     markdownLength,
                     EDITBOX_LIMIT
                 )
@@ -733,7 +733,7 @@ function ShowChunk(chunkIndex)
     if chunkSize > COPY_LIMIT then
         CM.Error(
             string.format(
-                "[ERR] Chunk %d/%d size %d exceeds copy limit %d — chunking bug; report via /markdown test",
+                "[ERR] Chunk %d/%d size %d exceeds copy limit %d — chunking bug; report via /cm test",
                 chunkIndex,
                 #markdownChunks,
                 chunkSize,
@@ -1239,7 +1239,7 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
                 "CHUNKING",
                 string.format("⚠ Largest chunk (%d) is >95%% of limit (%d)", maxChunkSize, EDITBOX_LIMIT)
             )
-            CM.DebugPrint("CHUNKING", "This may cause issues. Please report with /markdown test output")
+            CM.DebugPrint("CHUNKING", "This may cause issues. Please report with /cm test output")
         end
 
         CM.DebugPrint("UI", "Use Next/Previous buttons or PageUp/PageDown to navigate chunks")

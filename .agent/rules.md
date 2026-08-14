@@ -115,7 +115,7 @@
   - **Subobject**: A compound noun that further specifies the object (import-export, validation-report)
   - Always validate subcommands and show helpful error messages for unknown subcommands
 - **Main Commands**:
-  - `/markdown [format|test|unittest|filter:clear|help|save]`
+  - `/cm [format|test|unittest|filter:clear|help|save]` (alias: `/markdown`)
   - `/cmdsettings [export|import|test:import-export]`
 - **Format Commands**: Standard markdown generation is the default.
 - Always validate arguments and show helpful error messages
@@ -210,8 +210,8 @@
   - This applies to all YAML configuration files, GitHub Actions workflows, etc.
 
 ### Testing
-- Unit tests: `/markdown unittest` (collector tests)
-- Validation tests: `/markdown test` (markdown validation)
+- Unit tests: `/cm unittest` (collector tests)
+- Validation tests: `/cm test` (markdown validation)
 - Export/Import tests: `/cmdsettings test:import-export`
 - Test files in `src/utils/*Tests.lua`
 

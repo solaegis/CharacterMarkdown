@@ -41,7 +41,7 @@ local function OnPlayerActivated(event, initial)
 
         if panelReady then
             CM.isInitialized = true
-            CM.Success("Ready! Use /markdown to generate character profile")
+            CM.Success("Ready! Use /cm to generate character profile")
         else
             CM.Error("Settings panel failed to initialize!")
         end

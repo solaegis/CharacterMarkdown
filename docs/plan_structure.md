@@ -199,7 +199,7 @@ Mount, pet, and visual identity **always** live here — never between Gear and 
 ### Next Steps & In-Game Action Checklist
 
 - **One** execution checklist only — gear phases are **labeled steps inside this H2**, not a separate “Gear Phases” H2.
-- Phases: 0 (today/functional) → 1 (interim craft) → 2 (target craft) → 3 (polish) → Finish (companion, `/markdown` profile sync).
+- Phases: 0 (today/functional) → 1 (interim craft) → 2 (target craft) → 3 (polish) → Finish (companion, `/cm` profile sync).
 
 ---
 

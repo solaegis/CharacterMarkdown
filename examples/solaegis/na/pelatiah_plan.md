@@ -400,7 +400,7 @@ Follow this transition list to activate **The Solar Dominion**.
 ### Finish
 
 9. **Companion:** Run **Bastian Hallix** through daily quests to reach Level 20, equipping Companion's Heavy Bolstered armor from drops.
-10. **Regenerate profile:** Run `/markdown` in-game and update [pelatiah.md](pelatiah.md) when the build is live.
+10. **Regenerate profile:** Run `/cm` in-game and update [pelatiah.md](pelatiah.md) when the build is live.
 
 ---
 

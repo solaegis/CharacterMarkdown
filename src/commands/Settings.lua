@@ -59,8 +59,8 @@ end
 
 local function HandleSettingsGet(args)
     if not args or args == "" then
-        CM.Error("Usage: /markdown settings get <key>")
-        CM.Info("Example: /markdown settings get includeChampionPoints")
+        CM.Error("Usage: /cm settings get <key>")
+        CM.Info("Example: /cm settings get includeChampionPoints")
         return
     end
 
@@ -91,14 +91,14 @@ end
 
 local function HandleSettingsSet(args)
     if not args or args == "" then
-        CM.Error("Usage: /markdown settings set <key> <value>")
-        CM.Info("Example: /markdown settings set includeChampionPoints true")
+        CM.Error("Usage: /cm settings set <key> <value>")
+        CM.Info("Example: /cm settings set includeChampionPoints true")
         return
     end
 
     local key, valueStr = args:match("^%s*(%S+)%s+(.+)$")
     if not key or not valueStr then
-        CM.Error("Invalid format. Use: /markdown settings set <key> <value>")
+        CM.Error("Invalid format. Use: /cm settings set <key> <value>")
         return
     end
 

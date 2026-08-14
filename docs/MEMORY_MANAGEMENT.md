@@ -97,7 +97,7 @@ end
 
 **Key Points**:
 - Collector data is NOT cached between generations
-- Each `/markdown` command creates fresh data snapshots
+- Each `/cm` command creates fresh data snapshots
 - Data is dereferenced immediately after use
 - This ensures stale data never accumulates
 
@@ -316,7 +316,7 @@ end
 
 ### Manual Testing
 
-1. Generate large profile: `/markdown`
+1. Generate large profile: `/cm`
 2. Check UI display (Task Manager / Activity Monitor)
 3. Close window
 4. Wait 10 seconds for GC to run
@@ -340,7 +340,7 @@ assert(math.abs(after - before) < 50)  -- 50 KB tolerance
 
 ### Symptoms of Memory Leaks
 
-- Memory usage grows with each `/markdown` command
+- Memory usage grows with each `/cm` command
 - Memory doesn't decrease after closing window
 - Game becomes sluggish after repeated use
 

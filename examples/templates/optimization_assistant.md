@@ -107,10 +107,14 @@ When multiple playstyles exist for a character:
 
 ## Response Triggers
 
+### Preferred input: Build Coach export
+Prefer paste from in-game `/cm coach` (or `/cm ai`; alias `/markdown coach`). It is labeled `<!-- CharacterMarkdown build-coach v1 -->` and includes Identity, Stats, Skill bars, Sets/gear, Champion Points, Notes, and Gaps. Full `/cm` profiles also work but are larger.
+
 ### When Character Data Is Uploaded
 1. Analyze current build vs. optimal for stated playstyle(s)
 2. Identify immediate upgrade paths (gear, CP, skills)
 3. Prioritize changes by impact (high/medium/low)
+4. Address any items listed under **Gaps** first when present
 
 ### When Asked for New Build
 1. Clarify playstyle parameters (content type, group role, preferences)

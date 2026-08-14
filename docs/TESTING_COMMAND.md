@@ -1,6 +1,8 @@
-# `/markdown test` - Comprehensive Diagnostic & Validation
+# `/cm test` - Comprehensive Diagnostic & Validation
 
-The `/markdown test` command has been significantly enhanced by merging the best diagnostic logic from both the original `test` and `diag` commands into a single comprehensive testing tool.
+(`/markdown` is an alias for `/cm`.)
+
+The `/cm test` command has been significantly enhanced by merging the best diagnostic logic from both the original `test` and `diag` commands into a single comprehensive testing tool.
 
 ## Overview
 
@@ -14,7 +16,7 @@ The improved test command runs through **4 phases** to thoroughly validate your 
 ## Usage
 
 ```
-/markdown test
+/cm test
 ```
 
 ## Output Example
@@ -69,7 +71,7 @@ Running section presence tests...
 === Test Summary ===
 ✓ ALL TESTS PASSED! (15 validation, 8 sections)
 
-Tip: Run '/markdown' to see the actual generated output
+Tip: Run '/cm' to see the actual generated output
 ```
 
 ## What Each Phase Tests
@@ -134,7 +136,7 @@ Tip: Run '/markdown' to see the actual generated output
 
 ## When to Use
 
-### ✅ Use `/markdown test` when:
+### ✅ Use `/cm test` when:
 - Troubleshooting missing sections
 - Verifying settings are working correctly
 - Debugging generation issues
@@ -143,16 +145,16 @@ Tip: Run '/markdown' to see the actual generated output
 - Validating a fresh installation
 
 ### ❌ Don't use when:
-- You just want to see the markdown output (use `/markdown`)
-- You want to copy the markdown (use `/markdown` then copy from window)
+- You just want to see the markdown output (use `/cm`)
+- You want to copy the markdown (use `/cm` then copy from window)
 
 ## Comparison with Other Commands
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
-| `/markdown test` | Comprehensive diagnostic + validation | Troubleshooting, debugging |
-| `/markdown` | Generate actual markdown output | Normal usage, getting markdown to copy |
-| `/markdown diag` | *(Legacy - redirects to test)* | Use `/markdown test` instead |
+| `/cm test` | Comprehensive diagnostic + validation | Troubleshooting, debugging |
+| `/cm` | Generate actual markdown output | Normal usage, getting markdown to copy |
+| `/cm diag` | *(Legacy - redirects to test)* | Use `/cm test` instead |
 
 ## Interpreting Results
 
@@ -209,17 +211,17 @@ Something is broken and needs attention.
 
 ## Legacy Command
 
-The old `/markdown diag` command has been merged into `/markdown test`. If you run `/markdown diag`, it will automatically redirect to the new comprehensive test command.
+The old `/cm diag` command has been merged into `/cm test`. If you run `/cm diag`, it will automatically redirect to the new comprehensive test command.
 
 ## Tips
 
-1. **Run test after changes** - Always run `/markdown test` after modifying settings to verify they took effect
+1. **Run test after changes** - Always run `/cm test` after modifying settings to verify they took effect
 
 2. **Check active filters** - Phase 1 shows if a filter is active. Filters override manual settings, which can be confusing.
 
-3. **Use for bug reports** - Include `/markdown test` output when reporting bugs. It provides comprehensive diagnostic info.
+3. **Use for bug reports** - Include `/cm test` output when reporting bugs. It provides comprehensive diagnostic info.
 
-4. **Compare with actual output** - After test passes, run `/markdown` to see the actual generated markdown and verify it looks correct.
+4. **Compare with actual output** - After test passes, run `/cm` to see the actual generated markdown and verify it looks correct.
 
 5. **Save output** - The test output is valuable for debugging. Consider taking a screenshot if issues occur.
 

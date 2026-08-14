@@ -548,6 +548,6 @@ Follow this transition list to unlock the full power of **The Storm Sovereign**.
 
 14. **Collectibles:** Equip **Flame Atronach Senche** as primary mount. Slot the **Golden Eagle** pet.
 15. **Companion:** Run **Zerith-var** for current content; level **Isobel Veloise** toward **20/20**; farm or purchase **companion-only** gear per [Companion Strategy](#-companion-strategy-the-divine-herald) (separate from player Phase 2 craft); keep **Isobel** rapport-ready for world-boss swaps noted there.
-16. **Regenerate Profile:** Run `/markdown` in-game and update [kellen_dysart.md](kellen_dysart.md) when bars, CP, Mundus, and gear match this plan.
+16. **Regenerate Profile:** Run `/cm` in-game and update [kellen_dysart.md](kellen_dysart.md) when bars, CP, Mundus, and gear match this plan.
 
 The storm answers only to its sovereign. Let Tamriel remember why.

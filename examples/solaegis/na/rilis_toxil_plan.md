@@ -1,10 +1,11 @@
 # Build Plan - Rilis Toxil: The Apocryphal Mystic (Magicka Necromancer Overland)
 
-> **Character profile:** [rilis_toxil.md](rilis_toxil.md) — Level 17 High Elf Necromancer, CP 1033, @SOLAEGIS (NA).
+> **Character profile:** [rilis_toxil.md](rilis_toxil.md) — Level 50 High Elf Necromancer, CP 1039, @SOLAEGIS (NA).  
+> **Gear comparison:** [rilis_toxil_gear_comparison.md](../../fixtures/rilis_toxil_gear_comparison.md) — locked **Approach 1**.
 
 Rilis Toxil is a **High Elf scholar of unmaking**—a magicka necromancer who treats death not as an ending but as a text to be read, annotated, and rewritten. This guide takes him from **leveling in Khenarthi's Roost** through **CP160** as **The Apocryphal Mystic**: a solo overland magicka DPS who opens every hard fight with **Major Vulnerability**, sustains through **Restoration Staff** heals and **Living Death**, and runs a **Grave Lord** corpse loop on a lightning destruction bar.
 
-**Necromancer first.** Keep all three native lines — **Grave Lord**, **Living Death**, and **Bone Tyrant** — by default. Subclass a slot **only** when a foreign line clearly outperforms the native line it would replace (documented DPS or sustain proof). At **Level 50**, unlock Bahtra's quest so subclassing is *available*; do **not** auto-swap. Target gear is **100% craftable**: **5 Law of Julianos + 5 Mother's Sorrow**, all Light Armor, coordinated with **@masisi**.
+**Necromancer first.** Keep all three native lines — **Grave Lord**, **Living Death**, and **Bone Tyrant** — by default. Subclass a slot **only** when a foreign line clearly outperforms the native line it would replace (documented DPS or sustain proof). At **Level 50**, unlock Bahtra's quest so subclassing is *available*; do **not** auto-swap. Target gear is **100% craftable**: **5 Order's Wrath + 5 Law of Julianos**, all Light Armor, coordinated with **@masisi**.
 
 ---
 
@@ -12,21 +13,21 @@ Rilis Toxil is a **High Elf scholar of unmaking**—a magicka necromancer who tr
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Primary Stat** | 64 points in **Magicka** — **live:** 20 Magicka / 0 Health / 0 Stamina @ L17 · **28,631** Magicka · **target:** 64 Magicka @ 50 |
-| **Mundus Stone** | **The Apprentice** (+Spell Damage) while leveling — **live:** The Apprentice ✅ · **optional @ CP160:** **The Thief** once Mother's Sorrow + Death Knell crit stacks |
+| **Primary Stat** | 64 points in **Magicka** — **live:** 64 Magicka / 0 Health / 0 Stamina @ L50 · **28,483** Magicka ✅ |
+| **Mundus Stone** | **The Apprentice** (+Spell Damage) until gold gear — **live:** The Apprentice ✅ · **after CP160 craft:** test **The Thief** once Order's Wrath + Death Knell crit stacks |
 | **Vampirism** | **Cured** — no stage; mystic scholar, not a blood cultist |
-| **Sets** | **5 Law of Julianos + 5 Mother's Sorrow** (100% craftable, all Light Armor) — **live:** Trainee 5/5 + Vanus 2/5 + Prisoner's Rags 1/5 (quest gear) · **target:** Julianos + Mother's Sorrow |
+| **Sets** | **5 Order's Wrath + 5 Law of Julianos** (100% craftable, all Light) — **live:** Trainee 5/5 + scrap · **open:** Phase 2 @masisi handoff |
 | **Bars** | Front: Lightning Destruction Staff ("The Unmaking") · Back: Restoration Staff ("The Mystic's Veil") |
 | **Food** | **Witty Blue Entremet** (Max Magicka + Recovery) or **Bewitched Sugar Skulls** on world bosses |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Crit) on every world boss; rank **Medicinal Use 3/3** |
+| **Potion** | **Essence of Spell Power** on every world boss — **live:** **Medicinal Use** still locked (Alchemy Phase 3) |
 | **Weapon Poisons** | **Gradual Ravage Health IX** on destruction bar between pulls |
 | **Staff/Weapon Enchant** | Front: **Shock Damage** (Infused) · Back: **Absorb Magicka** on long bosses, or **Reduce Spell Cost** for general overland |
-| **Companion** | **Primary (now):** **Sharp-as-Night** (bodyguard / ranged DPS) at CP **1033** + companion **9/20** · **Secondary:** **Bastian Hallix** (emergency heals) · **Goal (20/20 @ CP160):** **Sharp-as-Night** (bodyguard) |
+| **Companion** | **Primary (now):** **Sharp-as-Night** (bodyguard / ranged DPS) **16/20** @ CP **1039** · **Secondary:** **Bastian Hallix** (emergency heals) · **Goal:** Sharp **20/20** + Superior+ companion gear |
 | **Primary Mount** | **Sapiarchic Senche-Serval** (owned) · **Ideal:** **Sapiarchic Senche-Serval** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **Dwarven Spider** (owned) · **Ideal:** **Dwarven Spider** — see [Collectibles](#collectibles) |
 | **Subclass** | **Default: none** — keep Grave Lord + Living Death + Bone Tyrant · **Optional merit:** Storm Calling replacing Bone Tyrant only — see [Optional merit subclass](#optional-merit-subclass-storm-calling) |
 
-**Read next:** [Roleplay](#roleplay-the-apocryphal-mystic) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-scholars-reckoning) · [Gear and crafting](#gear-and-crafting-the-sapiarchs-scriptorium) · [Champion points](#champion-point-mapping-cp-1033) · [Companion](#companion-strategy-the-scholars-bodyguard) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-apocryphal-mystic) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-scholars-reckoning) · [Gear and crafting](#gear-and-crafting-the-sapiarchs-scriptorium) · [Champion points](#champion-point-mapping-cp-1039) · [Companion](#companion-strategy-the-scholars-bodyguard) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -43,7 +44,7 @@ Where lesser practitioners treat skulls as ammunition, Rilis treats them as **fo
 
 > [!NOTE]
 > **Build Notes (paste into LAM Custom Title / Build Notes):**
-> Rilis Toxil — Apocryphal Mystic. Magicka Necromancer solo overland. Necromancer-first: keep Grave Lord + Living Death + Bone Tyrant (no default subclass). 5 Law of Julianos + 5 Mother's Sorrow, craftable light. Front: Elemental Blockade, Ricochet Skull, Grave Lord's Sacrifice, Detonating Siphon, Inner Light, Pestilent Colossus. Back: Combat Prayer, Healing Springs, Consuming Trap, Render Flesh, Spirit Guardian (optional), Colossus. Corpse loop: Sacrifice/kill → Detonating Siphon → skull spam. 64 Magicka. Mundus: Apprentice (Thief optional @ CP160). Companion: Sharp-as-Night. @masisi crafts player gear only. Storm Calling only if Boundless Storm + Sorc passives beat Bone Tyrant on sustained bosses.
+> Rilis Toxil — Apocryphal Mystic. Magicka Necromancer solo overland. Necromancer-first: keep Grave Lord + Living Death + Bone Tyrant (no default subclass). Target: 5 Order's Wrath + 5 Law of Julianos (craftable light; still on Trainee). Front: Grave Lord's Sacrifice, Blockade of Storms, Ricochet Skull, Detonating Siphon, Inner Light, Pestilent Colossus. Back: Combat Prayer, Healing Springs, Consuming Trap, Resistant Flesh, Spirit Guardian, Colossus. Corpse loop: Sacrifice/kill → Detonating Siphon → skull spam. 64 Magicka. Mundus: Apprentice (Thief after gold OW+Julianos). Companion: Sharp-as-Night 16/20. @masisi crafts player gear only. Storm Calling only if Boundless Storm + Sorc passives beat Bone Tyrant on sustained bosses.
 
 > [!TIP]
 > **Flavor Pet:** **Dwarven Spider** from Collectibles. **Ideal (any source):** **Dwarven Spider** — clockwork familiar for an Altmer scholar; **Coldharbour Dremnaken Runt** (owned) is the best death-domain backup. See [Collectibles](#collectibles).
@@ -73,7 +74,7 @@ graph TD
     end
 
     subgraph DeathDomain ["Death"]
-        B1["Render Flesh"]
+        B1["Resistant Flesh"]
         B2["Spirit Guardian"]
     end
 
@@ -85,10 +86,10 @@ graph TD
 | **Pillar** | **Line** | **Origin** | **Slot action** | **Function** |
 | :--- | :--- | :--- | :--- | :--- |
 | **Annihilation** | **Grave Lord** | Necromancer (native) | **KEEP** | **Ricochet Skull** spammable; **Grave Lord's Sacrifice** self-buff + corpse; **Detonating Siphon** corpse drain; **Pestilent Colossus** Major Vulnerability |
-| **Death** | **Living Death** | Necromancer (native) | **KEEP** | **Render Flesh** Major Protection; **Spirit Guardian** mitigation + heal + corpse; Living Death passives (**Corpse Consumption**, **Undead Confederate**, etc.) |
+| **Death** | **Living Death** | Necromancer (native) | **KEEP** | **Resistant Flesh** (Render Flesh morph) Major Protection; **Spirit Guardian** mitigation + heal + corpse; Living Death passives (**Corpse Consumption**, **Undead Confederate**, etc.) |
 | **Fortress** | **Bone Tyrant** | Necromancer (native) | **KEEP** (default) | Defensive passives (**Death Gleaning**, **Disdain Harm**, **Health Avarice**, **Last Gasp**); actives optional (melee **Death Scythe** is low priority on this ranged layout) |
 
-**Weapon / guild lines (not subclass):** **Destruction Staff** (**Elemental Blockade**, interim **Force Pulse**), **Restoration Staff** (**Combat Prayer**, **Healing Springs**), **Mages Guild** (**Inner Light**), **Soul Magic** (**Consuming Trap**).
+**Weapon / guild lines (not subclass):** **Destruction Staff** (**Blockade of Storms** / Elemental Blockade), **Restoration Staff** (**Combat Prayer**, **Healing Springs**), **Mages Guild** (**Inner Light**), **Soul Magic** (**Consuming Trap**).
 
 > [!IMPORTANT]
 > **Do not subclass Restoring Light.** Combat Prayer and Healing Springs are **Restoration Staff** skills — any class with a resto staff can slot them. Replacing Living Death loses death-line actives and passives for no heal unlock.
@@ -117,17 +118,19 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 #### Front Bar (Lightning Destruction Staff): "The Unmaking"
 
+Live slot order from [rilis_toxil.md](rilis_toxil.md). **Blockade of Storms** is the shock morph of Elemental Blockade.
+
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Destruction Staff | Wall of Elements → **Elemental Blockade** | Shock ground DoT | **Target** |
-| **2** | Grave Lord (Necro) | Flame Skull → **Ricochet Skull** | Magicka spammable | **Live** ✅ |
-| **3** | Grave Lord (Necro) | Sacrificial Bones → **Grave Lord's Sacrifice** | Self-buff + corpse on death | **Live** ✅ |
-| **4** | Grave Lord (Necro) | Shocking Siphon → **Detonating Siphon** | Corpse drain + disease explosion | **Target** (default); **Mystic Siphon** if long-boss sustain needs recovery |
-| **5** | Mages Guild | Magelight → **Inner Light** | +5% Spell Damage; unlocks **Might of the Guild** | **Target** (one bar only) |
-| **6 (Ult)** | Grave Lord (Necro) | Frozen Colossus → **Pestilent Colossus** | Major Vulnerability | Respec from **Frozen Colossus** |
+| **1** | Grave Lord (Necro) | Sacrificial Bones → **Grave Lord's Sacrifice** | Self-buff + corpse on death | **Live** ✅ |
+| **2** | Destruction Staff | Wall of Elements → **Blockade of Storms** | Shock ground DoT | **Live** ✅ |
+| **3** | Grave Lord (Necro) | Flame Skull → **Ricochet Skull** | Magicka spammable | **Live** ✅ |
+| **4** | Grave Lord (Necro) | Shocking Siphon → **Detonating Siphon** | Corpse drain + disease explosion | **Live** ✅ (default); **Mystic Siphon** only if long-boss sustain needs recovery |
+| **5** | Mages Guild | Magelight → **Inner Light** | +5% Spell Damage; unlocks **Might of the Guild** | **Live** ✅ (front only) — MG rank 4; keep ranking for **Might of the Guild** |
+| **6 (Ult)** | Grave Lord (Necro) | Frozen Colossus → **Pestilent Colossus** | Major Vulnerability | **Live** ✅ |
 
 > [!NOTE]
-> **Leveling bar (L17–49):** Fix ult slot first (**Frozen Colossus** in ultimate, not slot 5). Front: **Render Flesh** · **Grave Lord's Sacrifice** · **Consuming Trap** · **Force Pulse** · **Ricochet Skull** · **Frozen Colossus** ult. Unlock **Restoration Staff** and move heals to the back bar **before** Level 50 — do not wait for subclass.
+> **Leveling history (done):** Ult fixed, resto back bar online before 50, Phase 1 bars locked. Do not revert to single-bar mirrored layouts.
 
 > [!TIP]
 > **Siphon morph:** **Detonating Siphon** is the default death-theme pick (disease DoT + corpse explosion). Swap to **Mystic Siphon** only if world bosses drain pools faster than resto heals can cover. Do **not** slot both siphon morphs. Do **not** also slot **Avid Boneyard** as a second primary corpse consumer — pick one corpse-spender for the main bar.
@@ -136,12 +139,12 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Restoration Staff | Blessing of Protection → **Combat Prayer** | Heal + Minor Berserk | **Target** (weapon line — no Templar needed) |
-| **2** | Restoration Staff | Grand Healing → **Healing Springs** | Ground HoT | **Target** |
+| **1** | Restoration Staff | Blessing of Protection → **Combat Prayer** | Heal + Minor Berserk | **Live** ✅ |
+| **2** | Restoration Staff | Grand Healing → **Healing Springs** | Ground HoT | **Live** ✅ |
 | **3** | Soul Magic | Soul Trap → **Consuming Trap** | Sustain + damage | **Live** ✅ |
-| **4** | Living Death (Necro) | Render Flesh → **Render Flesh** | Major Protection | **Live** ✅ — **keep after 50** |
-| **5** | Living Death (Necro) | Spirit Mender → **Spirit Guardian** | Mitigation + heal + corpse on expire | **Target** @ CP160 · **interim:** **Force Pulse** until Spirit Guardian unlocked |
-| **6 (Ult)** | Grave Lord (Necro) | Frozen Colossus → **Pestilent Colossus** | Major Vulnerability | Prefer back-bar open on bosses |
+| **4** | Living Death (Necro) | Render Flesh → **Resistant Flesh** | Major Protection (solo morph) | **Live** ✅ — keep; do not drop for resto-only healing |
+| **5** | Living Death (Necro) | Spirit Mender → **Spirit Guardian** | Mitigation + heal + corpse on expire | **Live** ✅ |
+| **6 (Ult)** | Grave Lord (Necro) | Frozen Colossus → **Pestilent Colossus** | Major Vulnerability | **Live** ✅ — prefer back-bar open on bosses |
 
 > [!NOTE]
 > **Spirit Guardian** is a Living Death conjure, **not** a Daedric summon — it does **not** require slot 5 on both bars. Duration ~16s; creates a corpse when it expires in combat. Refresh from the back bar when it falls.
@@ -156,10 +159,10 @@ flowchart TD
     classDef frontbar fill:#1A237E,stroke:#7986CB,color:#E8EAF6
     classDef corpse fill:#37474F,stroke:#90A4AE,color:#ECEFF1
 
-    A["Optional: Essence of Spell Power"]:::start --> B["Back: Pestilent Colossus + Combat Prayer + Healing Springs + Render Flesh"]:::backbar
-    B --> C["Spirit Guardian if unlocked"]:::backbar
+    A["Optional: Essence of Spell Power"]:::start --> B["Back: Pestilent Colossus + Combat Prayer + Healing Springs + Resistant Flesh"]:::backbar
+    B --> C["Spirit Guardian"]:::backbar
     C --> D["Swap to front bar"]:::swap
-    D --> E["Elemental Blockade + Grave Lord's Sacrifice"]:::frontbar
+    D --> E["Blockade of Storms + Grave Lord's Sacrifice"]:::frontbar
     E --> F{"Corpse available?"}:::corpse
     F -->|Yes| G["Detonating Siphon"]:::frontbar
     F -->|No| H["Ricochet Skull until corpse"]:::frontbar
@@ -179,22 +182,22 @@ flowchart TD
 #### Solo combat tips
 
 1. **Pestilent Colossus opens every boss.** Cast first on every world boss and elite for **Major Vulnerability**.
-2. **Elemental Blockade is your thesis.** Cast once per pull; feeds **Thaumaturge** and **Rapid Rot**.
+2. **Blockade of Storms is your thesis.** Cast once per pull; feeds **Thaumaturge** and **Rapid Rot**.
 3. **Grave Lord's Sacrifice before spam.** Apply after Blockade; refresh when it expires — buffs Necro + DoT damage and seeds a corpse.
 4. **Detonating Siphon is the footnote drain.** Spend corpses; default morph for death theme.
 5. **Ricochet Skull is the barrage.** Primary spammable; weave light attacks between casts for magicka return.
-6. **Render Flesh stays** — keep Major Protection up on hard fights after Level 50; resto staff heals do not replace it.
+6. **Resistant Flesh stays** — keep Major Protection up on hard fights; resto staff heals do not replace it.
 7. **Consuming Trap** on the back bar for magicka return; reapply when it expires.
-8. **Potion every world boss** once **Medicinal Use 3/3** is ranked.
+8. **Potion every world boss** once **Medicinal Use 3/3** is ranked (still locked — Alchemy priority).
 
 ### Passive skills
 
-You have **1 skill point** available (live). Spend in priority order. Rank II/III where noted.
+Phase 0 skill-point backlog is cleared (**Rapid Rot**, **Corpse Consumption**, **Undead Confederate** ranked ✅). Spend leftover points in priority order below. Rank II/III where noted.
 
 #### Necromancer — Grave Lord
 
-* **[Rapid Rot](https://en.uesp.net/wiki/Online:Rapid_Rot) (II):** +DoT duration — **spend next** (Dismember already ranked ✅).
-* **[Death Knell](https://en.uesp.net/wiki/Online:Death_Knell) (II):** +Critical Chance per Grave Lord skill slotted — scales with Sacrifice + Siphon + Colossus (+ Skull) on bars ✅ (already ranked; keep slotted GL count high).
+* **[Rapid Rot](https://en.uesp.net/wiki/Online:Rapid_Rot) (II):** +DoT duration — **ranked** ✅
+* **[Death Knell](https://en.uesp.net/wiki/Online:Death_Knell) (II):** +Critical Chance per Grave Lord skill slotted — scales with Sacrifice + Siphon + Colossus (+ Skull) on bars ✅ (keep slotted GL count high).
 * **[Dismember](https://en.uesp.net/wiki/Online:Dismember) (II):** +DoT / penetration while Grave Lord skills active — already ranked ✅
 * **[Reusable Parts](https://en.uesp.net/wiki/Online:Reusable_Parts) (II):** Cheaper next corpse skill after Sacrifice expires — already ranked ✅
 
@@ -202,8 +205,8 @@ You have **1 skill point** available (live). Spend in priority order. Rank II/II
 
 * **[Near-Death Experience](https://en.uesp.net/wiki/Online:Near-Death_Experience)** — already ranked ✅
 * **[Curative Curse](https://en.uesp.net/wiki/Online:Curative_Curse)** — already ranked ✅
-* **[Corpse Consumption](https://en.uesp.net/wiki/Online:Corpse_Consumption):** Ultimate return when consuming corpses — unlock after Rapid Rot.
-* **[Undead Confederate](https://en.uesp.net/wiki/Online:Undead_Confederate):** Recovery while a Living Death summon is active — rank with Spirit Guardian.
+* **[Corpse Consumption](https://en.uesp.net/wiki/Online:Corpse_Consumption):** Ultimate return when consuming corpses — **ranked** ✅
+* **[Undead Confederate](https://en.uesp.net/wiki/Online:Undead_Confederate):** Recovery while a Living Death summon is active — **ranked** ✅ (pairs with Spirit Guardian)
 
 #### Necromancer — Bone Tyrant
 
@@ -215,15 +218,15 @@ You have **1 skill point** available (live). Spend in priority order. Rank II/II
 
 #### Weapon — Restoration Staff
 
-* Rank Restoration passives when the back bar is active (**Essence Drain**, **Restoration Expert**, etc.).
+* Restoration passives largely online (**Essence Drain**, **Restoration Expert**, etc.) — finish any remaining ranks.
 
 #### Armor — Light Armor
 
-* Rank passives as you wear more light pieces toward the target loadout.
+* Rank passives as you wear more light pieces toward the target loadout (still mixed Trainee / scrap).
 
 #### Guild — Mages Guild
 
-* Join in **Phase 0**. Slot **Inner Light** for **Might of the Guild**. Rank **Everlasting Magic**, **Magicka Controller**, **Might of the Guild**, **Inner Light** line as points allow.
+* **Inner Light** slotted ✅. MG only **rank 4** — grind lore books / dailies until **Might of the Guild**, **Everlasting Magic**, and **Magicka Controller** unlock.
 
 #### World — Soul Magic
 
@@ -233,79 +236,110 @@ You have **1 skill point** available (live). Spend in priority order. Rank II/II
 
 * **Spell Recharge** and **Spell Attunement** — rank as points allow.
 
+#### Craft — Alchemy
+
+* Rank **[Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use) 3/3** next (still **locked** on live) so Spell Power pots last through world bosses.
+
 ---
 
 ## Gear and crafting: "The Sapiarch's Scriptorium"
 
-Everything is **crafted** — no overland farming for primary sets. **Julianos** supplies crit and spell damage; **Mother's Sorrow** stacks spell critical for skull and siphon crits. All **Light Armor** for magicka passives.
+Everything is **crafted** — no overland farming for primary sets. **Order's Wrath** stacks crit chance and **+8% crit damage**; **Julianos** supplies max magicka and spell damage. All **Light Armor** for magicka passives. Comparison: [rilis_toxil_gear_comparison.md](../../fixtures/rilis_toxil_gear_comparison.md).
 
 ### Set rationale
 
 ```mermaid
 graph LR
+    subgraph OW ["5pc Order's Wrath"]
+        O1["+Spell Crit"]
+        O2["+8% Crit Damage"]
+        O3["+Weapon/Spell Damage"]
+    end
     subgraph Julianos ["5pc Law of Julianos"]
         J1["+Spell Crit"]
         J2["+Max Magicka"]
         J3["+Weapon/Spell Damage"]
     end
-    subgraph Sorrow ["5pc Mother's Sorrow"]
-        S1["+Spell Crit"]
-        S2["+Max Magicka"]
-    end
-    Julianos -->|"Crit package"| Sorrow
-    Sorrow -->|"Skull and Siphon crits"| Julianos
+    OW -->|"Crit amp for skulls"| Julianos
+    Julianos -->|"Spell damage baseline"| OW
 ```
 
-| **Set** | **5-Piece Bonus** | **Role in the Build** |
+| **Set** | **5-Piece Bonus (CP160)** | **Role in the Build** |
 | :--- | :--- | :--- |
-| **Law of Julianos** | +Spell Critical; +Max Magicka; +Weapon and Spell Damage | Baseline mag DPS; staff and body slots |
-| **Mother's Sorrow** | +Spell Critical; +Max Magicka | Crit-stacking for **Ricochet Skull** and **Detonating Siphon** |
+| **Order's Wrath** | +2,257 crit (~10.3%); +129 Spell Damage; **+8% Critical Damage / Healing** | Crit package for **Ricochet Skull**, siphon, and Blockade |
+| **Law of Julianos** | +1,314 crit (~6.0%); +1,096 Max Magicka; +300 Spell Damage | Baseline mag DPS on body + both staves |
+
+**Combined set bonuses:** ~16.3% crit · **429** Spell Damage · **1,096** Magicka · **+8% crit damage** — fully craftable.
 
 > [!NOTE]
-> **Current gear (quest/starter):** **Armor of the Trainee**, **Wisdom of Vanus**, and **Prisoner's Rags** are fine through early Phase 0. Craft **purple Magnus's Gift or Julianos** pieces as traits unlock (L50–CP160 bridge) so you are not in Trainee until the gold gate.
+> **Current gear (live):** **Armor of the Trainee** 5/5 plus scrap (Veiled Heritance Training chest, Vampire Lord Invigorating gloves, Charged frost-enchant lightning staff, Absorb Stamina Trainee resto). Replace ASAP — Rilis is already **L50 / CP 1039**. Priority: purple **Order's Wrath** / **Julianos** bridge → gold CP160 Approach 1.
 
 ### Target loadout
 
 | **Slot** | **Set** | **Weight** | **Trait** | **Enchantment** | **Quality** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Head** | Mother's Sorrow | Light | Divines | Max Magicka | Gold |
-| **Shoulders** | Mother's Sorrow | Light | Divines | Max Magicka | Gold |
+| **Head** | Order's Wrath | Light | Divines | Max Magicka | Gold |
+| **Shoulders** | Order's Wrath | Light | Divines | Max Magicka | Gold |
 | **Chest** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Hands** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Waist** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Legs** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Feet** | Law of Julianos | Light | Divines | Max Magicka | Gold |
-| **Necklace** | Mother's Sorrow | Jewelry | Arcane | Spell Damage | Gold |
-| **Ring 1** | Mother's Sorrow | Jewelry | Arcane | Max Magicka | Gold |
-| **Ring 2** | Mother's Sorrow | Jewelry | Arcane | Max Magicka | Gold |
+| **Necklace** | Order's Wrath | Jewelry | Arcane | Spell Damage | Gold |
+| **Ring 1** | Order's Wrath | Jewelry | Arcane | Max Magicka | Gold |
+| **Ring 2** | Order's Wrath | Jewelry | Arcane | Max Magicka | Gold |
 | **Front Staff** | Law of Julianos | Lightning Destro | Infused | Shock Damage | Gold |
 | **Back Staff** | Law of Julianos | Restoration | Infused | Absorb Magicka | Gold |
 
-**Front bar — Lightning Destruction:** Infused + Shock for status synergy with lightning skills and Blockade.
+Counts: **Order's Wrath 5** (head, shoulders, jewelry) · **Julianos 7** (5 body + 2 staves) → both full 5pc bonuses.
 
-**Back bar — Restoration:** **Absorb Magicka** for long world-boss fights; swap to **Reduce Spell Cost** if overland spam feels magicka-starved between pulls.
+**Front bar — Lightning Destruction:** Infused + Shock for status synergy with lightning skills and Blockade. **Replace live:** Charged + Frozen Weapon yew staff.
+
+**Back bar — Restoration:** **Absorb Magicka** for long world-boss fights; swap to **Reduce Spell Cost** if overland spam feels magicka-starved between pulls. **Replace live:** Training + Absorb Stamina Trainee resto.
 
 ### Crafting handoff (@masisi)
+
+Paste this to **@masisi** (account crafter). Player gear only — never companion pieces.
+
+```text
+Rilis Toxil — Approach 1 craft (CP160 gold when ready; purple OK as bridge)
+
+Order's Wrath (Steadfast Hammer and Saw, High Isle) — Light / Divines / Max Magicka:
+  Head, Shoulders
+Order's Wrath jewelry — Arcane:
+  Necklace (Spell Damage enchant), Ring ×2 (Max Magicka enchant)
+
+Law of Julianos (Boreal Forge, Wrothgar) — Light / Divines / Max Magicka:
+  Chest, Hands, Waist, Legs, Feet
+Law of Julianos staves — Infused:
+  Lightning Destruction (Shock Damage enchant)
+  Restoration (Absorb Magicka enchant)
+
+Style: High Elf or Psijic Order body; Sapiarch trim on hands/feet if motif owned.
+Interim OK: purple OW or Julianos pieces to retire Trainee immediately.
+```
 
 | **Detail** | **Recommendation** |
 | :--- | :--- |
 | **Style** | **High Elf** or **Psijic Order** body; **Sapiarch** trim on hands/feet if motif owned |
-| **Set station** | Julianos: **Sunhold** (Summerset) — **6 traits** per slot · Mother's Sorrow: any clothing station — **8 traits** per slot |
+| **Set station** | Order's Wrath: **Steadfast Hammer and Saw** (High Isle) · Julianos: **Boreal Forge** (Wrothgar) — **6 traits** per slot each |
 | **Traits** | **Divines** armor · **Arcane** jewelry · **Infused** staves |
-| **Interim (L50–CP160)** | Purple **Magnus's Gift** or **Julianos** pieces as traits unlock — replace Trainee early |
-| **Quality path** | Purple bridge → gold at CP160 when research complete |
+| **Interim** | Purple **Order's Wrath** or **Julianos** pieces **now** — replace Trainee before gold |
+| **Quality path** | Purple bridge → gold CP160 (Masisi research already clears both sets) |
+| **Transmutes** | Rilis has **452 Transmute Crystals** for non-Divines / wrong-trait fixes after craft |
+| **Not craftable** | Do **not** request Mother's Sorrow (overland) — see [gear comparison](../../fixtures/rilis_toxil_gear_comparison.md) |
 
 > [!NOTE]
-> **Research gate:** Law of Julianos needs **6 traits** per slot. Check `examples/fixtures/karakedi_crafting.md` or @masisi before queueing gold-quality CP160 work.
+> **Research gate:** Both sets need **6 traits** per slot. Masisi clothing/jewelry/staves are at **8/9 or 9/9** — gold CP160 is craftable now.
 
 ---
 
-## Champion Point Mapping (CP 1033)
+## Champion Point Mapping (CP 1039)
 
 > [!NOTE]
 > **Star catalog:** Exact names and caps from [`champion_points_reference.md`](../../templates/champion_points_reference.md) (source: [`champion_points.yaml`](../../templates/champion_points.yaml)).
 
-Full CP budget: **~344 Warfare / ~345 Craft / ~344 Fitness** (1033 total). **Live account CP is already spent** and combat-viable. **No respec required** unless you want more **Liquid Efficiency** for potion-heavy play — optional Craft tweak only.
+Full CP budget: **~344 Warfare / ~345 Craft / ~344 Fitness** (~1033 plan template). **Live account CP is 1039** (1,035 spent / 4 available) and combat-viable. **No respec required** unless you want more **Liquid Efficiency** for potion-heavy play — optional Craft tweak only.
 
 ### Warfare (Blue — ~344 Points)
 
@@ -358,22 +392,22 @@ Full CP budget: **~344 Warfare / ~345 Craft / ~344 Fitness** (1033 total). **Liv
 
 ## Companion Strategy: "The Scholar's Bodyguard"
 
-**Sharp-as-Night** is Rilis's **bodyguard**—not a healer, not a second scholar, but the Argonian who holds the line while the mystic casts. Recommend companions in **three tiers** at **live** companion level from the profile. **Companion gear is separate from player gear** — only **Companion's** items with companion-only traits; no player sets or 5-piece bonuses. Buy white basics from merchants; farm **Superior+** drops while the companion is active.
+**Sharp-as-Night** is Rilis's **bodyguard**—not a healer, not a second scholar, but the Argonian who holds the line while the mystic casts. **Companion gear is separate from player gear** — only **Companion's** items with companion-only traits; no player sets or 5-piece bonuses. Buy white basics from merchants; farm **Superior+** drops while the companion is active.
 
 > [!NOTE]
-> **Live export:** **Sharp-as-Night** — Level **9/20**, **level 1 default gear, 2 empty ability slots**. Character **Level 17 / CP 1033**. Keep him summoned as bodyguard unless a fight explicitly calls for Bastian.
+> **Live export:** **Sharp-as-Night** — Level **16/20**, summoned as bodyguard. Bar: Piercing Arrow · Trick Shot · Infest · Snow Squall · Fungal Forage · **Empty ult**. All eight gear slots still **Level 1** defaults. Character **L50 / CP 1039**.
 
 ### Companion picks
 
-| **Tier** | **Companion** | **Role** | **Roleplay fit** | **Mechanical fit (at current stats)** |
+| **Tier** | **Companion** | **Role** | **Roleplay fit** | **Mechanical fit (live)** |
 | :--- | :--- | :--- | :--- | :--- |
-| **Primary (now)** | **Sharp-as-Night** | Bodyguard / ranged DPS | Silent Argonian retainer—blade and bow between the scholar and the world | Draws pressure off Rilis while you learn bars; **9/20** with starter gear |
+| **Primary (now)** | **Sharp-as-Night** | Bodyguard / ranged DPS | Silent Argonian retainer—blade and bow between the scholar and the world | **16/20** · Piercing Arrow slotted ✅ · still needs **Entombing Trap**, ult, and Superior+ gear |
 | **Secondary** | **Bastian Hallix** | Healer | Emergency court physician when the bodyguard alone is not enough | **Only** when Sharp dies repeatedly or you need heals without resto staff |
-| **Goal (20/20 @ CP160)** | **Sharp-as-Night** | Bodyguard / ranged DPS | End-state: full-time personal guard for the Apocryphal Mystic | **Quickened**/**Bolstered** companion gear + bow bar; **Entombing Trap** roots pursuers |
+| **Goal (20/20)** | **Sharp-as-Night** | Bodyguard / ranged DPS | End-state: full-time personal guard for the Apocryphal Mystic | **Quickened**/**Bolstered** companion medium + bow; **Entombing Trap** roots pursuers |
 
 ### Goal companion — Sharp-as-Night: The Scholar's Bodyguard
 
-When Rilis is CP160 and Sharp is **20/20**, he remains the **only** end-state companion: a ranged bodyguard who pins threats in place so the mystic never has to leave the destruction bar.
+When Sharp is **20/20**, he remains the **only** end-state companion: a ranged bodyguard who pins threats in place so the mystic never has to leave the destruction bar.
 
 | **Setting** | **Recommendation** |
 | :--- | :--- |
@@ -385,22 +419,26 @@ When Rilis is CP160 and Sharp is **20/20**, he remains the **only** end-state co
 
 #### Sharp's bodyguard skill bar (goal @ 20/20)
 
-1. **Entombing Trap** (Class → Nightblade): **Root** — primary bodyguard tool; stops rushers on the scholar.
-2. **Piercing Arrow** (Class → Nightblade): Ranged burst on whoever closes distance.
+1. **Entombing Trap** (Class → Nightblade): **Root** — primary bodyguard tool; stops rushers on the scholar. **Not slotted live — add next.**
+2. **Piercing Arrow** (Class → Nightblade): Ranged burst — **live** ✅
 3. **Rejuvenating Aura** (Class → Nightblade): Self-sustain so the bodyguard stays upright.
 4. **Rejuvenation** (Restoration Staff): HoT when the guard takes focus fire.
 5. **Vanish** (Class → Shadow): Threat drop when overwhelmed—bodyguard fades, Rilis finishes the fight.
-6. *Ultimate:* **Shooting Star** or class ult for boss burn when the scholar calls for covering fire.
+6. *Ultimate:* **Shooting Star** or class ult for boss burn — **empty live; fill immediately.**
 
-### Primary now — Sharp-as-Night
+### Primary now — Sharp-as-Night (open work)
 
-**Sharp-as-Night** is already active as Rilis's **bodyguard**. Finish leveling him toward **20/20**, fill his **2 empty ability slots** (prioritize **Entombing Trap** and **Piercing Arrow**), and replace level-1 defaults with **Superior+** **Companion's** medium armor (**Quickened**/**Bolstered**) and a **Companion's Bow** from drops. **Keep Sharp summoned by default**—only swap to Bastian when the bodyguard cannot keep you alive through a specific boss.
+1. Keep Sharp **summoned by default** until **20/20**.
+2. Slot **Entombing Trap** (replace a filler active such as Fungal Forage / Infest).
+3. Fill the **empty ultimate**.
+4. Farm **Companion's** Superior+ **medium** (**Quickened** / **Bolstered**) and a leveled **Companion's Bow** — retire Level 1 defaults.
+5. Swap to **Bastian** only for a specific boss that repeatedly kills Sharp; return to the bodyguard afterward.
 
 > [!TIP]
-> **Secondary — Bastian Hallix:** Emergency summon only. If Sharp dies repeatedly on a world boss, dismiss him, run Bastian for that pull, then return to the bodyguard for overland travel and normal content.
+> **Secondary — Bastian Hallix:** Emergency summon only.
 
 > [!NOTE]
-> **Rapport:** Sharp approves of efficiency, discretion, and completing Blackwood-related business. He disapproves of needless cruelty and sloppy work. The bodyguard serves a scholar who values precision—not chaos.
+> **Rapport:** Sharp approves of efficiency, discretion, and completing Blackwood-related business. He disapproves of needless cruelty and sloppy work.
 
 ---
 
@@ -416,7 +454,7 @@ When Rilis is CP160 and Sharp is **20/20**, he remains the **only** end-state co
 | **Attribute** | **Detail** |
 | :--- | :--- |
 | **Why** | Altmer **Sapiarch** aesthetic — scholarly authority on four legs; gold-and-white silhouette matches High Elf mystic fiction |
-| **Acquisition** | Owned ✅ |
+| **Acquisition** | Owned ✅ — **confirm equipped** as primary mount |
 | **Dye pass** | **Sapiarch gold** body · **Apocrypha ink** or **midnight sapphire** accents |
 
 #### Other owned options
@@ -434,7 +472,7 @@ When Rilis is CP160 and Sharp is **20/20**, he remains the **only** end-state co
 | **Attribute** | **Detail** |
 | :--- | :--- |
 | **Why** | Clockwork familiar for a scholar who treats necromancy as engineering |
-| **Acquisition** | Owned ✅ |
+| **Acquisition** | Owned ✅ — **confirm equipped** as non-combat pet |
 
 #### Other owned options
 
@@ -445,7 +483,7 @@ When Rilis is CP160 and Sharp is **20/20**, he remains the **only** end-state co
 
 ### Dye and style
 
-**The Sapiarch's Script** — High Elf academic necromancer.
+**The Sapiarch's Script** — High Elf academic necromancer. Apply after Phase 2 motifs are on the crafted set.
 
 | **Slot** | **Style** | **Visual Reasoning** |
 | :--- | :--- | :--- |
@@ -459,44 +497,44 @@ When Rilis is CP160 and Sharp is **20/20**, he remains the **only** end-state co
 
 ## Next Steps & In-Game Action Checklist
 
-Follow this list to unlock **The Apocryphal Mystic**. Gear phases are labeled inline. **Default: keep all three Necromancer lines.**
+Follow this list to finish **The Apocryphal Mystic**. Phase 0–1 are **done** on the live export. **Open work starts at Phase 2.** Default: keep all three Necromancer lines.
 
-### Phase 0 — Today (leveling)
+### Phase 0 — Leveling (done)
 
-1. **Finish starter zones:** Complete **Khenarthi's Roost** → **Auridon** main line; reach **Level 50**.
-2. **Attributes:** Put **every point into Magicka** (live: 20/64 @ L17).
-3. **Fix bar slots:** Move **Frozen Colossus** to **ultimate**; **Ricochet Skull** to a regular slot. Stop mirroring identical front/back bars — use single-bar leveling layout until Resto rank is higher.
-4. **Spend 1 skill point:** **Rapid Rot** (Grave Lord) — **Dismember** is already ranked.
-5. **Mages Guild:** Join now; unlock **Inner Light** path for **Might of the Guild** (do not wait for Phase 1).
-6. **Restoration Staff bridge:** Rank Restoration and slot **Combat Prayer** / **Healing Springs** on the back bar **before** Level 50 while keeping Living Death (**Render Flesh**).
-7. **Stable:** Train **riding skills** (live: 6/60) whenever you visit a stable.
-8. **Quest journal:** Clear clutter — focus one storyline instead of five simultaneous zone hops.
-9. **Companion (bodyguard):** Fill Sharp's **2 empty slots** (**Entombing Trap**, **Piercing Arrow**); keep him **summoned by default** for XP toward **20/20**.
+1. ~~Finish starter zones / reach Level 50~~ ✅ **L50**
+2. ~~Attributes: every point Magicka~~ ✅ **64/0/0**
+3. ~~Fix bar slots / Pestilent Colossus ult~~ ✅
+4. ~~Spend skill points (Rapid Rot, etc.)~~ ✅
+5. ~~Mages Guild + Inner Light~~ ✅ (continue MG ranks in Phase 3)
+6. ~~Restoration Staff bridge + Living Death ward~~ ✅ (**Resistant Flesh**)
+7. **Stable:** Keep training **riding skills** whenever you visit a stable (ongoing).
+8. **Quest journal:** Clear clutter as desired (ongoing).
+9. ~~Companion summoned~~ ✅ Sharp active — remaining work under Finish.
 
-### Phase 1 — Level 50 gate
+### Phase 1 — Level 50 gate (done)
 
-10. **[Phase 1]** Hit **Level 50**; complete **"A Study in Discipline"** with Bahtra at-Hunding so subclassing is **available**.
-11. **[Phase 1]** **Default: keep Grave Lord + Living Death + Bone Tyrant.** Do **not** auto-replace Living Death or Bone Tyrant. Only consider Storm Calling per [Optional merit subclass](#optional-merit-subclass-storm-calling) after corpse rotation and gear are correct.
-12. **[Phase 1]** Respec to **target bars** (front lightning / back resto). Morph **Pestilent Colossus** and **Detonating Siphon** (or **Mystic Siphon** if sustain-first). Keep **Render Flesh**.
-13. **[Phase 1]** Slot **Inner Light** on the **front bar only**.
+10. ~~Hit Level 50; Bahtra available~~ ✅
+11. ~~Keep Grave Lord + Living Death + Bone Tyrant~~ ✅ (no Storm Calling)
+12. ~~Target bars: lightning front / resto back; Pestilent Colossus; Detonating Siphon~~ ✅
+13. ~~Inner Light on front bar only~~ ✅
 
-### Phase 2 — Craft (target)
+### Phase 2 — Craft (open — do next)
 
-14. **[Phase 2]** Interim: craft purple **Magnus's Gift** or **Julianos** as traits unlock (replace Trainee).
-15. **[Phase 2]** Coordinate with **@masisi**: craft **5 Law of Julianos + 5 Mother's Sorrow**, all Light Armor, Divines, Max Magicka enchants, Arcane jewelry. Staves: Lightning Destro + Restoration, Infused.
-16. **[Phase 2]** Use **452 Transmute Crystals** to fix non-Divines armor traits.
+14. **[Phase 2]** Interim: craft purple **Order's Wrath** or **Julianos** **now** (retire Trainee 5/5 + scrap).
+15. **[Phase 2]** Paste the [Crafting handoff](#crafting-handoff-masisi) block to **@masisi**: **5 Order's Wrath + Law of Julianos** body/staves per Approach 1 table. Lightning Infused+Shock; Resto Infused+Absorb Magicka.
+16. **[Phase 2]** Spend **452 Transmute Crystals** to fix non-Divines / wrong traits after craft.
 
-### Phase 3 — Polish
+### Phase 3 — Polish (open)
 
-17. **[Phase 3]** Apply **High Elf** / **Psijic Order** motifs. Dye pass: Sapiarch gold, apocrypha indigo, bone-white trim.
-18. **[Phase 3]** Stock **Essence of Spell Power** for boss pulls. Rank **Medicinal Use 3/3**. Optional mundus: **The Thief** once crit package is online.
-19. **[Phase 3]** Morph **Spirit Guardian**; place on back bar slot 5 (replace interim Force Pulse). Rank Living Death passives (**Corpse Consumption**, **Undead Confederate**).
+17. **[Phase 3]** Apply **High Elf** / **Psijic Order** motifs. Dye: Sapiarch gold, apocrypha indigo, bone-white trim.
+18. **[Phase 3]** Rank **Medicinal Use 3/3** (still locked). Stock **Essence of Spell Power**. After gold OW+Julianos: test mundus **The Thief**.
+19. ~~Spirit Guardian on back bar~~ ✅ · Keep ranking Bone Tyrant / MG passives; grind MG past rank 4 for **Might of the Guild**.
 
-### Finish
+### Finish (open)
 
-20. **Companion:** Run **Sharp-as-Night** as **bodyguard**; level to **20/20**; farm **companion-only** gear per [Companion Strategy](#companion-strategy-the-scholars-bodyguard).
-21. **Collectibles:** Equip **Sapiarchic Senche-Serval** mount and **Dwarven Spider** pet.
-22. **Regenerate profile:** Run `/markdown` in-game and update [rilis_toxil.md](rilis_toxil.md) when bars, native lines, and gear match this plan.
+20. **Companion:** Sharp **16 → 20**; slot **Entombing Trap**; fill **empty ult**; farm **Companion's** Superior+ medium (**Quickened**/**Bolstered**) + bow — see [Companion Strategy](#companion-strategy-the-scholars-bodyguard).
+21. **Collectibles:** Equip **Sapiarchic Senche-Serval** mount and **Dwarven Spider** pet if not already active.
+22. **Regenerate profile:** Run `/cm` after Phase 2 gear lands and update [rilis_toxil.md](rilis_toxil.md) (plus live labels here) when Trainee is gone.
 
 Every corpse is a page. Rilis intends to read them all.
 

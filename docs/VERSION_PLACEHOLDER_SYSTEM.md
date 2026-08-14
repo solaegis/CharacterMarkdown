@@ -417,7 +417,7 @@ task build | grep "Replacing @project-version@"
 
 ### Issue: Version Shows Placeholder in ESO
 
-**Symptom**: `/markdown` shows version as "@project-version@"
+**Symptom**: `/cm` shows version as "@project-version@"
 
 **Cause**: Installed source files instead of built files
 

@@ -67,7 +67,7 @@ These templates help you:
    - Save the project
 
 2. **Upload character markdown:**
-   - Generate markdown in-game: `/markdown github`
+   - Generate markdown in-game: `/cm coach` (compact AI paste) or `/cm` (full profile; alias `/markdown`)
    - Copy the output
    - Paste it into Claude chat
    - Ask for analysis: "Analyze this character and suggest improvements"
@@ -93,7 +93,7 @@ These templates help you:
 ### Example 1: Quick Analysis
 
 ```
-1. Generate markdown: /markdown github
+1. Generate markdown: /cm coach
 2. Paste into Claude with system prompt active
 3. Ask: "What are the top 3 improvements I should make?"
 4. Get prioritized recommendations
@@ -102,7 +102,7 @@ These templates help you:
 ### Example 2: Build Optimization
 
 ```
-1. Generate markdown: /markdown github
+1. Generate markdown: /cm coach
 2. Fill out character_profile_template.md with goals
 3. Upload both to Claude
 4. Ask: "Optimize this character for veteran trial DPS"
@@ -112,7 +112,7 @@ These templates help you:
 ### Example 3: Playstyle Development
 
 ```
-1. Generate markdown: /markdown github
+1. Generate markdown: /cm coach
 2. Document playstyle using playstyle_strategy.md
 3. Upload both to Claude
 4. Ask: "Review this playstyle strategy and suggest improvements"

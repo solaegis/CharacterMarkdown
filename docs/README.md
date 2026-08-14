@@ -31,14 +31,14 @@
 
 ### Commands
 ```
-/markdown (or /cm) # Generate Markdown format
-/tonl              # Generate TONL data format
-/markdown help     # Show commands
-/markdown version  # Show version
+/cm (alias: /markdown) # Generate Markdown format
+/tonl                 # Generate TONL data format
+/cm help              # Show commands
+/cm version           # Show version
 ```
 
 ### Export Process
-1. **Run Command**: Type `/markdown` in chat
+1. **Run Command**: Type `/cm` in chat
 2. **Window Opens**: Generated markdown appears in window
 3. **Copy**: Click "Select All" button or Ctrl+A, then Ctrl+C
 4. **Paste**: Paste anywhere (Discord, GitHub, forums, etc.)
@@ -53,7 +53,7 @@
 ## Settings & Configuration
 
 ### Accessing Settings
-- **In-Game**: `/markdown` → Settings button
+- **In-Game**: `/cm` → Settings button
 - **Addon Menu**: ESC → AddOns → CharacterMarkdown
 
 ### Core Settings
@@ -125,9 +125,9 @@ Control which information appears in your markdown:
 Add personal build notes that appear in your markdown:
 
 ```
-/markdown notes "This is my main PvE DPS build for trials"
-/markdown notes "Updated for Gold Road - testing new sets"
-/markdown notes ""  # Clear notes
+/cm notes "This is my main PvE DPS build for trials"
+/cm notes "Updated for Gold Road - testing new sets"
+/cm notes ""  # Clear notes
 ```
 
 ### Settings Panel
@@ -149,7 +149,7 @@ CharacterMarkdown includes built-in validation tests to ensure markdown output i
 
 ### Run Tests
 ```
-/markdown test
+/cm test
 ```
 
 This validates:
@@ -174,7 +174,7 @@ For detailed testing information, see the [Testing Guide](TESTING_COMMAND.md).
 
 #### Empty Output
 - **Check**: You're logged in with a character (not character select)
-- **Try**: `/reloadui` then `/markdown` again
+- **Try**: `/reloadui` then `/cm` again
 - **Verify**: Character is level 1+ (some data requires level 1+)
 
 #### Missing Data
@@ -192,7 +192,7 @@ For detailed testing information, see the [Testing Guide](TESTING_COMMAND.md).
 
 #### Debug Information
 1. Enable Debug Mode in settings
-2. Run `/markdown` command
+2. Run `/cm` command
 3. Check chat for error messages
 4. Copy error messages when reporting issues
 

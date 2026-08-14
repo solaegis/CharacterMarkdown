@@ -20,4 +20,4 @@
 | **Account** | @SOLAEGIS |
 | **Server** | NA Megaserver |
 
-> **Regenerate:** Run `/markdown github` in-game on Alpha Top and replace this file with the full export.
+> **Regenerate:** Run `/cm github` in-game on Alpha Top and replace this file with the full export.

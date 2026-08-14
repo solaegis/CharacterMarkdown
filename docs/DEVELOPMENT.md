@@ -37,7 +37,7 @@ Edit files in `src/` directory
 ```bash
 # Changes are automatically reflected (symlinked)
 # In ESO: /reloadui
-# Test: /markdown github
+# Test: /cm github
 ```
 
 ### 3. Validate
@@ -49,7 +49,7 @@ task test    # Full validation
 
 **In-Game Testing:**
 ```
-/markdown test        # Run validation tests
+/cm test              # Run validation tests
 ```
 
 See [Testing Guide](TESTING_COMMAND.md) for detailed testing procedures.
@@ -101,7 +101,7 @@ GitHub Actions automatically:
 CharacterMarkdown/
 ├── src/
 │   ├── Core.lua              # Namespace initialization
-│   ├── Commands.lua          # /markdown command orchestrator
+│   ├── Commands.lua          # /cm command orchestrator (alias: /markdown)
 │   ├── commands/             # Command submodules
 │   │   ├── Debug.lua         # Debug/diagnostic commands
 │   │   ├── Settings.lua      # Settings import/export
@@ -207,14 +207,14 @@ local string_format = CM.cached.string_format
 ```bash
 task install:live    # Copy to ESO
 # Launch ESO
-# Test all formats: /markdown (default), /tonl, etc.
+# Test all formats: /cm (default; alias /markdown), /tonl, etc.
 # Test settings persistence: ESC → Settings → Add-Ons
 # /reloadui and verify settings saved
 ```
 
 ### Validation Commands
 ```
-/markdown test        # Run markdown validation tests
+/cm test              # Run markdown validation tests
 ```
 
 ### Automated Testing

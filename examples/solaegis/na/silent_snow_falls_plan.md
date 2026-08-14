@@ -479,6 +479,6 @@ Follow this transition list to unlock the full power of **The Verdant Venomancer
 ### Finish
 
 9. **Companion:** Level **Sharp-as-Night**, craft **Julianos** medium + bow, fill empty companion slots.
-10. **Regenerate profile:** Run `/markdown` in-game and update [silent_snow_falls.md](silent_snow_falls.md) when bars and CP match this plan.
+10. **Regenerate profile:** Run `/cm` in-game and update [silent_snow_falls.md](silent_snow_falls.md) when bars and CP match this plan.
 
 May the mycelium bloom beneath your snow, Apothecary.

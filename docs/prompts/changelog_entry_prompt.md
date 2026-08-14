@@ -51,7 +51,7 @@ Follow Keep a Changelog 1.0.0 format:
    - Bad: "Refactored TableToYAML() function"
 
 2. **Be Specific**: Include concrete details
-   - Good: "Added `/markdown settings:export` command for YAML export"
+   - Good: "Added `/cm settings:export` command for YAML export"
    - Bad: "Added export functionality"
 
 3. **Explain Impact**: Tell users why they should care
@@ -62,7 +62,7 @@ Follow Keep a Changelog 1.0.0 format:
    - **Settings System**, **Keyboard Handling**, **Champion Points Display**
 
 5. **Include Commands/APIs**: Show users how to use new features
-   - Example: "`/markdown test` - Run validation tests"
+   - Example: "`/cm test` - Run validation tests"
 
 6. **Group Related Changes**: Combine related items with sub-bullets
    - Not: 3 separate bullets for "Fixed X", "Fixed Y", "Fixed Z"
@@ -119,8 +119,8 @@ Example:
 
 ### Added
 - **Settings Export/Import**: New commands for managing settings
-  - `/markdown settings:export` - Export all settings to human-readable YAML format
-  - `/markdown settings:import` - Import settings from YAML (supports partial imports)
+  - `/cm settings:export` - Export all settings to human-readable YAML format
+  - `/cm settings:import` - Import settings from YAML (supports partial imports)
   - Grouped format with logical sections: core, links, visuals, content, etc.
   - Type validation and error reporting
   - Metadata header with version and export date
@@ -149,7 +149,7 @@ Example:
 - **Addon Type**: ESO (Elder Scrolls Online) addon written in Lua
 - **Purpose**: Export character builds in markdown format
 - **Target Users**: ESO players sharing builds
-- **Key Commands**: `/markdown`, `/markdown settings`, `/markdown test`
+- **Key Commands**: `/cm` (alias `/markdown`), `/cm settings`, `/cm test`
 - **Output Formats**: Markdown, TONL, VS Code, Quick
 
 ## Common Components to Watch For

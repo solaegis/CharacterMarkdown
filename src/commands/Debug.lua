@@ -15,7 +15,11 @@ CM.commands.debug = {}
 -- Debug checks for it for diagnostic/backward-compatibility visibility only.
 local function DebugSavedVarsState()
     CM.Info("|c00FFFF[CM] ===== SAVEDVARIABLES DEBUG INFO =====|r")
-    CM.Info("|c00FFFF[CM] CharacterMarkdownSettings (SV root) exists: " .. tostring(_G.CharacterMarkdownSettings ~= nil) .. "|r")
+    CM.Info(
+        "|c00FFFF[CM] CharacterMarkdownSettings (SV root) exists: "
+            .. tostring(_G.CharacterMarkdownSettings ~= nil)
+            .. "|r"
+    )
     CM.Info("|c00FFFF[CM] CharacterMarkdownData exists (legacy): " .. tostring(_G.CharacterMarkdownData ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.settings exists: " .. tostring(CM.settings ~= nil) .. "|r")
     CM.Info("|c00FFFF[CM] CM.charData exists: " .. tostring(CM.charData ~= nil) .. "|r")
@@ -62,7 +66,7 @@ local function HandleDebug(args)
     CM.debug = not CM.debug
     if CM.debug then
         CM.Success("Debug mode ENABLED - debug output will show in chat")
-        CM.Info("Run /markdown again to see debug output for quest collection")
+        CM.Info("Run /cm again to see debug output for quest collection")
     else
         CM.Success("Debug mode DISABLED")
     end

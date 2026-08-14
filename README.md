@@ -23,16 +23,16 @@
 
 ### Usage
 ```
-/markdown (or /cm)           # Generate Markdown format (default)
+/cm (alias: /markdown)        # Generate Markdown format (default)
 
 # Settings management
-/markdown help               # Show available commands
-/markdown version            # Show version
-/markdown settings           # Open settings panel
+/cm help                     # Show available commands
+/cm version                  # Show version
+/cm settings                 # Open settings panel
 ```
 
 ### Export Process
-1. Run `/markdown` command in-game
+1. Run `/cm` command in-game
 2. Window opens with generated output
 3. Click "Select All" → Copy (Ctrl+C)
 4. Paste anywhere (Markdown viewers, data tools, etc.)
@@ -64,7 +64,7 @@
 ## ⚙️ Settings & Customization
 
 Access settings via:
-- **In-game**: `/markdown` → Settings button
+- **In-game**: `/cm` → Settings button
 - **Addon Menu**: CharacterMarkdown settings panel
 
 ### Key Settings
@@ -83,7 +83,7 @@ Access settings via:
 ### Custom Notes
 Add personal build notes that appear in your markdown:
 ```
-/markdown notes "This is my main PvE DPS build for trials"
+/cm notes "This is my main PvE DPS build for trials"
 ```
 
 ### Profile Management

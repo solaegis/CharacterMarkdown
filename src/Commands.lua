@@ -137,6 +137,82 @@ local function GenerateOutput(formatter)
         -- Defer one frame so the placeholder can paint
         zo_callLater(RunGeneration, 0)
         return
+    elseif formatter == "coach" then
+        if not CM.generators or not CM.generators.GenerateBuildCoach then
+            CM.Error("Build coach generator not loaded!")
+            CM.Error("Try /reloadui to restart the addon")
+            return
+        end
+
+        if CharacterMarkdown_ShowGeneratingPlaceholder then
+            CharacterMarkdown_ShowGeneratingPlaceholder("markdown")
+        end
+
+        local function PresentCoach(markdown)
+            if not markdown then
+                CM.Error("Generated build-coach markdown is nil")
+                return
+            end
+
+            local isChunksArray = type(markdown) == "table"
+            local markdownSize = 0
+            local chunkCount = 1
+
+            if isChunksArray then
+                if #markdown == 0 then
+                    CM.Error("Generated build-coach chunks array is empty")
+                    return
+                end
+                chunkCount = #markdown
+                for _, chunk in ipairs(markdown) do
+                    markdownSize = markdownSize + string.len(chunk.content)
+                end
+            else
+                if markdown == "" then
+                    CM.Error("Generated build-coach markdown is empty")
+                    return
+                end
+                markdownSize = string.len(markdown)
+            end
+
+            CM.DebugPrint(
+                "COMMAND",
+                string.format(
+                    "Build coach generated: %d chars in %d chunk%s",
+                    markdownSize,
+                    chunkCount,
+                    chunkCount == 1 and "" or "s"
+                )
+            )
+
+            if CharacterMarkdown_ShowWindow then
+                CharacterMarkdown_ShowWindow(markdown, "markdown")
+                local sizeKb = math.floor((markdownSize / 1024) * 10 + 0.5) / 10
+                CM.Info(
+                    string.format(
+                        "Build coach ready — paste into ChatGPT/Claude (%d chunk%s, %.1f KB).",
+                        chunkCount,
+                        chunkCount == 1 and "" or "s",
+                        sizeKb
+                    )
+                )
+            else
+                CM.Warn("Window display not available")
+            end
+        end
+
+        zo_callLater(function()
+            local success, markdown = pcall(function()
+                return CM.generators.GenerateBuildCoach()
+            end)
+            if not success then
+                CM.Error("Failed to generate build coach export:")
+                CM.Error(tostring(markdown))
+                return
+            end
+            PresentCoach(markdown)
+        end, 0)
+        return
     else
         CM.Error("Unknown formatter: " .. tostring(formatter))
     end
@@ -156,8 +232,8 @@ local function InitializeCommands()
     if LibSlashCommander then
         CM.Info("Using LibSlashCommander for enhanced command handling")
 
-        -- Main Command: /markdown (and /cm)
-        local cmd = LibSlashCommander:Register({ "/markdown", "/cm" }, function(args)
+        -- Main Command: /cm (alias: /markdown)
+        local cmd = LibSlashCommander:Register({ "/cm", "/markdown" }, function(args)
             GenerateOutput("markdown")
         end, "Character Markdown")
 
@@ -217,10 +293,11 @@ local function InitializeCommands()
         local helpCmd = cmd:RegisterSubCommand()
         helpCmd:AddAlias("help")
         helpCmd:SetCallback(function()
-            CM.Info("/markdown - Generate Markdown profile (Alias: /cm)")
-            CM.Info("/markdown settings - Open settings")
-            CM.Info("/markdown version - Show version")
-            CM.Info("/markdown debug - Toggle debug")
+            CM.Info("/cm - Generate Markdown profile (alias: /markdown)")
+            CM.Info("/cm coach - Compact AI / build-coach export (aliases: ai, build-coach)")
+            CM.Info("/cm settings - Open settings")
+            CM.Info("/cm version - Show version")
+            CM.Info("/cm debug - Toggle debug")
         end)
         helpCmd:SetDescription("Show available commands")
 
@@ -231,6 +308,16 @@ local function InitializeCommands()
             GenerateOutput("markdown")
         end)
         mdCmd:SetDescription("Generate Markdown output")
+
+        -- Subcommand: coach / ai / build-coach
+        local coachCmd = cmd:RegisterSubCommand()
+        coachCmd:AddAlias("coach")
+        coachCmd:AddAlias("ai")
+        coachCmd:AddAlias("build-coach")
+        coachCmd:SetCallback(function()
+            GenerateOutput("coach")
+        end)
+        coachCmd:SetDescription("Generate compact AI / build-coach export")
 
         -- Subcommand: test
         local testCmd = cmd:RegisterSubCommand()
@@ -291,6 +378,8 @@ local function InitializeCommands()
 
             if command == "" then
                 GenerateOutput("markdown")
+            elseif command == "coach" or command == "ai" or command == "build-coach" then
+                GenerateOutput("coach")
             elseif command == "settings" or command == "s" then
                 if rest:match("^show") then
                     settings.HandleSettingsShow()
@@ -334,19 +423,20 @@ local function InitializeCommands()
             elseif command == "find" and rest == "names" then
                 debug.HandleFindNames()
             elseif command == "help" then
-                CM.Info("/markdown - Generate Markdown profile (Alias: /cm)")
-                CM.Info("/markdown settings - Open settings")
-                CM.Info("/markdown debug - Toggle debug")
-                CM.Info("/markdown version - Show version")
-                CM.Info("/markdown test - Run tests")
+                CM.Info("/cm - Generate Markdown profile (alias: /markdown)")
+                CM.Info("/cm coach - Compact AI / build-coach export (aliases: ai, build-coach)")
+                CM.Info("/cm settings - Open settings")
+                CM.Info("/cm debug - Toggle debug")
+                CM.Info("/cm version - Show version")
+                CM.Info("/cm test - Run tests")
             else
                 CM.Error("Unknown command: " .. command)
-                CM.Info("Type /markdown help for commands")
+                CM.Info("Type /cm help for commands")
             end
         end
 
-        SLASH_COMMANDS["/markdown"] = ManualHandler
         SLASH_COMMANDS["/cm"] = ManualHandler
+        SLASH_COMMANDS["/markdown"] = ManualHandler
     end
 end
 

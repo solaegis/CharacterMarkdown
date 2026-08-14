@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 <!-- AUTO-MANAGED: project-description -->
 ## Overview
 
-CharacterMarkdown is an ESO (Elder Scrolls Online) addon that exports comprehensive character data in enhanced markdown format. Generates copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Use `/markdown` (or `/cm`) to generate. ESO Lua 5.1 addon; no `goto` statements.
+CharacterMarkdown is an ESO (Elder Scrolls Online) addon that exports comprehensive character data in enhanced markdown format. Generates copyable profiles with clickable UESP links for abilities, sets, races, classes, zones, campaigns, and more. Use `/cm` (alias: `/markdown`) to generate. ESO Lua 5.1 addon; no `goto` statements.
 
 <!-- END AUTO-MANAGED -->
 

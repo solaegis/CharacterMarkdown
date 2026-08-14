@@ -48,16 +48,16 @@ if not allValid then
 end
 
 -- Validate slash command registered (LibSlashCommander registers without SLASH_COMMANDS entry)
-local slashCommandRegistered = SLASH_COMMANDS["/markdown"] ~= nil
+local slashCommandRegistered = SLASH_COMMANDS["/cm"] ~= nil or SLASH_COMMANDS["/markdown"] ~= nil
 local libSlashCommanderAvailable = LibSlashCommander ~= nil
 if not slashCommandRegistered and not libSlashCommanderAvailable then
-    CM.Error("/markdown command not registered!")
+    CM.Error("/cm command not registered!")
     allValid = false
 end
 
 if allValid then
     CM.Success("CharacterMarkdown v" .. CM.version .. " loaded successfully")
-    CM.Success("Type /markdown to generate a character profile")
+    CM.Success("Type /cm to generate a character profile")
 
     -- Check for optional dependencies and inform user
     if not LibDebugLogger then

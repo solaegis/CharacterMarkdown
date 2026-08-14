@@ -18,7 +18,7 @@ CharacterMarkdown/
 ├── CharacterMarkdown.xml     # UI definition
 ├── src/
 │   ├── Core.lua             # Namespace & debug system
-│   ├── Commands.lua         # /markdown command (orchestrator)
+│   ├── Commands.lua         # /cm command (orchestrator; alias: /markdown)
 │   ├── Events.lua           # Event management
 │   ├── Init.lua             # Final validation
 │   │
@@ -123,7 +123,7 @@ Defined in `CharacterMarkdown.txt`:
 8. generators/Markdown.lua  # Main markdown orchestrator
 9. formatters/*          # Output formatters (Markdown.lua, TONL.lua)
 10. commands/*          # Command submodules
-11. Commands.lua         # /markdown, /tonl command orchestration
+11. Commands.lua         # /cm (alias /markdown), /tonl command orchestration
 12. Events.lua           # Event handlers
 13. settings/*           # Configuration (Defaults, Initializer, Panel)
 14. CharacterMarkdown.xml   # UI definition
@@ -287,7 +287,7 @@ end
 ### User Executes Command
 
 ```
-1. User: /markdown github  (or /tonl)
+1. User: /cm github  (or /tonl; alias /markdown)
 2. Commands.lua: Parse argument → format name or "tonl"
 3. Formatter: formatters/Markdown.lua or formatters/TONL.lua
 4. Formatter: Call collectors to gather data (conditionally based on settings)
@@ -379,7 +379,7 @@ Test individual collectors in-game:
 
 Test full generation:
 ```lua
-/markdown github
+/cm github
 -- Verify all sections present
 -- Check UESP links functional
 -- Test with different characters

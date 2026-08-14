@@ -9,9 +9,9 @@ The PvP Stats feature provides comprehensive Alliance War and Battlegrounds data
 ## Quick Start
 
 ### Enable PvP Stats
-1. Type `/markdown settings` in chat
+1. Type `/cm settings` in chat
 2. Check "Include PvP Statistics"
-3. Type `/markdown` to generate
+3. Type `/cm` to generate
 
 ### Display Level Presets
 
