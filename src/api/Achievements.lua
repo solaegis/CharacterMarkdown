@@ -79,8 +79,7 @@ function api.GetAchievementDetail(achievementId)
     if not achievementId then
         return nil
     end
-    local ok, name, description, points, icon, completed =
-        CM.SafeCallMulti(GetAchievementInfo, achievementId)
+    local ok, name, description, points, icon, completed = CM.SafeCallMulti(GetAchievementInfo, achievementId)
     if not ok or not name then
         return nil
     end

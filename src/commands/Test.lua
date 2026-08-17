@@ -220,6 +220,18 @@ local function HandleTest(args)
         CM.Warn("Build coach tests not available")
     end
 
+    if CM.tests.collectiblesHasContent and CM.tests.collectiblesHasContent.RunTests then
+        CM.tests.collectiblesHasContent.RunTests()
+    else
+        CM.Warn("CollectiblesHasContent tests not available")
+    end
+
+    if CM.tests.settingsTocLogic and CM.tests.settingsTocLogic.RunTests then
+        CM.tests.settingsTocLogic.RunTests()
+    else
+        CM.Warn("SettingsTocLogic tests not available")
+    end
+
     if CM.tests.armoryBuilds and CM.tests.armoryBuilds.RunTests then
         CM.tests.armoryBuilds.RunTests()
     else

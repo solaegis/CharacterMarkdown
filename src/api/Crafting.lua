@@ -17,8 +17,7 @@ function api.GetResearchInfo(craftingType)
     local lines = {}
 
     for i = 1, numLines do
-        local success, name, icon, numTraits, timeSecs =
-            CM.SafeCallMulti(GetSmithingResearchLineInfo, craftingType, i)
+        local success, name, icon, numTraits, timeSecs = CM.SafeCallMulti(GetSmithingResearchLineInfo, craftingType, i)
         if success and name then
             local traits = {}
             numTraits = numTraits or 9

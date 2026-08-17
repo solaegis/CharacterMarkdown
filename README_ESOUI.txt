@@ -26,16 +26,18 @@ Paste your export into an AI chat or IDE for build-specific answers.
 
 [B]Chatbot Workflow[/B]
 [LIST=1]
-[*]Type [B]/markdown[/B] in-game
+[*]Type [B]/cm coach[/B] (or [B]/cm ai[/B]; alias [B]/markdown coach[/B]) for a compact build-coach dump -- usually one chunk
 [*]Click [B]Select All[/B] and Copy
-[*]Paste the entire output into Claude, ChatGPT, or your favorite AI
+[*]Paste into Claude, ChatGPT, or your favorite AI
 [*]Ask: [I]"How can I optimize this for the new trial?"[/I] or [I]"What's the best rotation for this setup?"[/I]
 [*]Get specific, math-backed recommendations based on [B]your[/B] gear, skills, and CP
 [/LIST]
 
+Full profiles still work with [B]/cm[/B] (alias [B]/markdown[/B]). For advice-sized normal exports (pretty markdown, fewer sections), use settings [B]Preset: AI / Build Coach[/B].
+
 [B]IDE Workflow[/B]
 [LIST=1]
-[*]Run [B]/markdown[/B] - large profiles auto-split into chunks in the copy window
+[*]Run [B]/cm[/B] - large profiles auto-split into chunks in the copy window
 [*]Navigate chunks with [B]Previous[/B]/[B]Next[/B] (or arrow keys, comma/period, Page Up/Down)
 [*][B]Select All[/B] and copy each chunk ([B]Ctrl+C[/B])
 [*]Paste into your favorite IDE (VS Code, Cursor, etc.) and open Markdown preview
@@ -58,6 +60,7 @@ Paste your export into an AI chat or IDE for build-specific answers.
 [*]World progress: skyshards, zone completion, dungeons, lorebooks
 [*]Appearance: outfit, mount, costume, dyes
 [*]Companion: active companion stats and gear
+[*]Armory builds: alternate loadouts (gear and skill bars) without restoring in-game
 [*]PvP: Alliance War rank, campaigns, optional Vengeance loadout
 [/LIST]
 [/LIST]
@@ -74,18 +77,18 @@ Paste your export into an AI chat or IDE for build-specific answers.
 
 [B]Commands[/B]
 [LIST]
-[*][B]/markdown[/B] (or [B]/cm[/B]) - Generate Markdown (default)
-[*][B]/markdown help[/B] - Show commands
-[*][B]/markdown version[/B] - Show version
-[*][B]/markdown notes "text"[/B] - Set custom build notes
-[*][B]/markdown settings[/B] - Open configuration panel
+[*][B]/cm[/B] (alias [B]/markdown[/B]) - Generate Markdown (default)
+[*][B]/cm help[/B] - Show commands
+[*][B]/cm version[/B] - Show version
+[*][B]/cm notes "text"[/B] - Set custom build notes
+[*][B]/cm settings[/B] - Open configuration panel
 [/LIST]
 
 [center][color=da8a00]________________________________________________[/color][/center]
 
 [B][size=4][color=da8a00]SETTINGS AND CUSTOMIZATION[/color][/size][/B]
 
-Open via [B]/markdown settings[/B]:
+Open via [B]/cm settings[/B]:
 [LIST]
 [*]Toggle sections on or off
 [*]Filter minimum skill ranks or equipment quality thresholds
@@ -115,7 +118,7 @@ Open via [B]/markdown settings[/B]:
 [/LIST]
 
 [B]Required[/B]: Elder Scrolls Online (Update 50+)
-[B]Optional libraries[/B]: See Credits above (LibAddonMenu-2.0 and others). [B]/markdown[/B] works without them; the settings UI needs LibAddonMenu-2.0.
+[B]Optional libraries[/B]: See Credits above (LibAddonMenu-2.0 and others). [B]/cm[/B] works without them; the settings UI needs LibAddonMenu-2.0.
 
 [center][color=da8a00]________________________________________________[/color][/center]
 

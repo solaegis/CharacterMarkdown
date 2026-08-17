@@ -271,8 +271,7 @@ function api.GetCadwellProgress()
     local zones = {}
     local numZones = CM.SafeCall(GetNumZonesForCadwellProgressionLevel, level) or 0
     for zoneIndex = 1, numZones do
-        local success, zoneName, zoneDescription, zoneOrder =
-            CM.SafeCallMulti(GetCadwellZoneInfo, level, zoneIndex)
+        local success, zoneName, zoneDescription, zoneOrder = CM.SafeCallMulti(GetCadwellZoneInfo, level, zoneIndex)
         if success and zoneName then
             table.insert(zones, {
                 name = CleanName(zoneName),

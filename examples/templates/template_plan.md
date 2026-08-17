@@ -22,6 +22,7 @@
 | **Companion** | **Primary (now):** **{Name}** ({role}) at live CP **{budget}** + companion **{N}/20** · **Secondary:** **{Name}** ({one-line why}) · **Goal (20/20 @ CP160):** **{Name}** ({role}) |
 | **Primary Mount** | **{Owned mount}** (owned) · **Ideal:** **{Ideal mount}** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **{Owned pet}** (owned) · **Ideal:** **{Ideal pet}** — see [Collectibles](#collectibles) |
+| **Costume** | **{Primary costume}** (owned / acquire) · **Alt:** **{Alt costume}** — see [Collectibles](#collectibles) |
 
 **Read next:** [Roleplay](#roleplay-{anchor-slug}) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-{anchor-slug}) · [Gear and crafting](#gear-and-crafting-{anchor-slug}) · [Champion points](#champion-point-mapping-cp-{budget}) · [Companion](#companion-strategy-{anchor-slug}) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
@@ -39,7 +40,10 @@
 > {≤1,900 character summary: archetype, sets, bars, subclass lines, attributes, mundus, companion, crafter, CP focus — single paragraph or tight bullets.}
 
 > [!TIP]
-> **Flavor Pet:** **{Best owned pet}** from the character's Collectibles export. **Ideal (any source):** **{Ideal pet}** — see [Collectibles](#collectibles) for mount, pet, and dye details.
+> **Flavor Pet:** **{Best owned pet}** from the character's Collectibles export. **Ideal (any source):** **{Ideal pet}** — see [Collectibles](#collectibles) for mount, pet, costume, and dye details.
+
+> [!TIP]
+> **Costume:** **{Primary costume}** — {one-line roleplay why}. **Alt:** **{Alt costume}**. Full picks under [Collectibles](#collectibles).
 
 ---
 
@@ -366,9 +370,31 @@ Vanity pets are **cosmetic only** — pick the **best owned pet** for roleplay f
 > [!TIP]
 > **Ideal pet (any source):** **{Pet Name}** — {why this is the perfect thematic pick across **all** ESO vanity pets, even if not owned}. **Acquisition:** {Crown Store, achievement, daily login, DLC collector's edition, etc.}.
 
+### Costume
+
+Full-body **costumes** (Collections → Appearance → Costumes) override worn armor appearance. Pick for **roleplay silhouette**, not stats. Prefer an **owned** costume when the profile/account has a strong thematic match; otherwise name the ideal Crown Store / crate / quest costume and a dyeable alt. Do **not** confuse costumes with **Outfit Station** motif styles (those live under Dye and style).
+
+#### Primary: {Costume Name}
+
+| **Attribute** | **Detail** |
+| :--- | :--- |
+| **Why** | {Strongest fiction match — culture, class fantasy, title, dual-armory vibe} |
+| **Acquisition** | Owned ✅ / Crown Store / crate / quest — {how to get it} |
+| **Dye notes** | {which channels to hit with the build palette, or "limited / not dyeable"} |
+
+#### Alt / situational
+
+| **Costume** | **When to wear** |
+| :--- | :--- |
+| **{Alt costume}** | {second thematic read — e.g. overland vs group, ritual vs court} |
+| **None (Outfit Station only)** | {when showing crafted motif armor / 5-1-1 weights matters more than a full costume} |
+
+> [!TIP]
+> **Ideal costume (any source):** **{Costume Name}** — {why this is the perfect thematic pick across **all** ESO costumes}. **Acquisition:** {Crown Store price band, crate, event}.
+
 ### Dye and style
 
-**{Visual theme name}**
+**{Visual theme name}** — Outfit Station motif loadout when **not** wearing a full costume (or under costume if the client shows weapons only).
 
 | **Slot** | **Style** | **Visual reasoning** |
 | :--- | :--- | :--- |

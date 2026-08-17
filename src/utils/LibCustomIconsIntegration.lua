@@ -6,9 +6,7 @@ local CM = CharacterMarkdown
 local GITHUB_RAW_BASE = "https://raw.githubusercontent.com/m00nyONE/LibCustomIcons/main/"
 
 local function IsLibCustomIconsAvailable()
-    return LibCustomIcons ~= nil
-        and type(LibCustomIcons) == "table"
-        and type(LibCustomIcons.GetStatic) == "function"
+    return LibCustomIcons ~= nil and type(LibCustomIcons) == "table" and type(LibCustomIcons.GetStatic) == "function"
 end
 
 --- Return texture path for the current (or given) @account, or nil.

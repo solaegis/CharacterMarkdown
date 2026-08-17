@@ -15,6 +15,7 @@ local function GetGenerators()
         GenerateOverviewSection = CM.generators.sections.GenerateOverviewSection,
         GenerateCharacterStats = CM.generators.sections.GenerateCharacterStats,
         GenerateCustomNotes = CM.generators.sections.GenerateCustomNotes,
+        GenerateAttentionNeeded = CM.generators.sections.GenerateAttentionNeeded,
         GenerateDynamicTableOfContents = CM.generators.sections.GenerateDynamicTableOfContents,
 
         -- Economy sections
@@ -259,9 +260,16 @@ local function GetSectionRegistry(settings, gen, data)
                 subsections = { "General", "Currency" },
             },
             condition = function()
-                -- Check if any subsection is enabled
+                -- Open Overview when any Overview-only toggle is enabled
                 return IsSettingEnabled(settings, "includeGeneral", true)
                     or IsSettingEnabled(settings, "includeCurrency", true)
+                    or IsSettingEnabled(settings, "includeQuickStats", true)
+                    or IsSettingEnabled(settings, "includeBuffs", true)
+                    or IsSettingEnabled(settings, "includeLocation", true)
+                    or IsSettingEnabled(settings, "includeAttributes", true)
+                    or IsSettingEnabled(settings, "includeCharacterAttributes", true)
+                    or IsSettingEnabled(settings, "includeProgression", false)
+                    or IsSettingEnabled(settings, "includeRidingSkills", false)
             end,
             generator = function()
                 -- Pass attributes data through settings for GenerateGeneral
@@ -303,6 +311,28 @@ local function GetSectionRegistry(settings, gen, data)
                 and data.customNotes ~= "",
             generator = function()
                 return gen.GenerateCustomNotes(data.customNotes, nil, data.equipment, data.skillBar)
+            end,
+        },
+
+        -- 1b. Attention Needed (warnings; omitted from TOC when generator returns empty)
+        {
+            name = "AttentionNeeded",
+            tocEntry = {
+                title = "⚠️ Attention Needed",
+            },
+            condition = IsSettingEnabled(settings, "includeAttentionNeeded", true),
+            generator = function()
+                if not gen.GenerateAttentionNeeded then
+                    return ""
+                end
+                return gen.GenerateAttentionNeeded(
+                    data.progression,
+                    data.inventory,
+                    data.riding,
+                    data.companion,
+                    data.currency,
+                    nil
+                ) or ""
             end,
         },
 
@@ -602,60 +632,24 @@ local function GetSectionRegistry(settings, gen, data)
                 title = "🎨 Collectibles",
             },
             condition = function()
-                if not IsSettingEnabled(settings, "includeCollectibles", true) then
+                -- Parent Collectibles or nested DLC/Housing (titles use Titles section when Collectibles Off)
+                local parentOrNested = IsSettingEnabled(settings, "includeCollectibles", true)
+                    or IsSettingEnabled(settings, "includeDLCAccess", false)
+                    or IsSettingEnabled(settings, "includeHousing", false)
+                if not parentOrNested then
                     return false
                 end
-                -- Check if there is any collectible data to show
-                local hasData = false
-                if data.collectibles then
-                    -- Check for simple counts
-                    if
-                        (data.collectibles.mounts and data.collectibles.mounts > 0)
-                        or (data.collectibles.pets and data.collectibles.pets > 0)
-                        or (data.collectibles.costumes and data.collectibles.costumes > 0)
-                        or (data.collectibles.houses and data.collectibles.houses > 0)
-                    then
-                        hasData = true
-                    end
-                    -- Check for detailed categories
-                    if not hasData and data.collectibles.categories then
-                        for _, cat in pairs(data.collectibles.categories) do
-                            if cat and cat.total and cat.total > 0 then
-                                hasData = true
-                                break
-                            end
-                        end
+                -- Honor setting: run when any collectibles-related payload was collected.
+                -- Content shape is validated by CollectiblesHasContent / GenerateCollectibles
+                -- (collector uses collections.<key>.count, not legacy flat mounts/pets numbers).
+                local HasContent = CM.generators.sections and CM.generators.sections.CollectiblesHasContent
+                if HasContent then
+                    if HasContent(data.collectibles, data.dlc, data.titlesHousing, settings) then
+                        return true
                     end
                 end
-                -- Check for DLC data if enabled
-                if not hasData and IsSettingEnabled(settings, "includeDLCAccess", false) and data.dlc then
-                    if
-                        (data.dlc.accessible and #data.dlc.accessible > 0)
-                        or (data.dlc.locked and #data.dlc.locked > 0)
-                        or data.dlc.hasESOPlus
-                    then
-                        hasData = true
-                    end
-                end
-                -- Check for Titles/Housing if those toggles are enabled
-                if not hasData and data.titlesHousing then
-                    local titles = data.titlesHousing.titles
-                    local housing = data.titlesHousing.housing
-                    if IsSettingEnabled(settings, "includeTitlesHousing", false) then
-                        if (titles and (titles.total or 0) > 0)
-                            or (titles and titles.current and titles.current ~= "")
-                            or (titles and titles.owned and #titles.owned > 0)
-                        then
-                            hasData = true
-                        end
-                    end
-                    if not hasData and IsSettingEnabled(settings, "includeHousing", false) then
-                        if housing and (housing.total or 0) > 0 then
-                            hasData = true
-                        end
-                    end
-                end
-                return hasData
+                -- Still attempt if the collector ran (empty body → TOC omit via sectionHasContent)
+                return data.collectibles ~= nil or data.dlc ~= nil or data.titlesHousing ~= nil
             end,
             generator = function()
                 local lorebooksData = (data.worldProgress and data.worldProgress.lorebooks) or nil
@@ -736,8 +730,10 @@ local function GetSectionRegistry(settings, gen, data)
             tocEntry = {
                 title = "🌍 World Progress",
             },
-            condition = IsSettingEnabled(settings, "includeWorldProgress", false)
-                and data.worldProgress ~= nil,
+            condition = (
+                    IsSettingEnabled(settings, "includeWorldProgress", false)
+                    or IsSettingEnabled(settings, "includeEndlessDungeon", false)
+                ) and data.worldProgress ~= nil,
             generator = function()
                 return gen.GenerateWorldProgress(data.worldProgress) or ""
             end,
@@ -751,8 +747,7 @@ local function GetSectionRegistry(settings, gen, data)
             tocEntry = {
                 title = "🎨 Appearance",
             },
-            condition = IsSettingEnabled(settings, "includeAppearance", false)
-                and data.appearance ~= nil,
+            condition = IsSettingEnabled(settings, "includeAppearance", false) and data.appearance ~= nil,
             generator = function()
                 local GenerateAppearance = CM.generators.sections.GenerateAppearance
                 if GenerateAppearance then
@@ -898,10 +893,11 @@ local function GetSectionRegistry(settings, gen, data)
             tocEntry = {
                 title = "🏰 Guild Membership",
             },
-            condition = IsSettingEnabled(settings, "includeGuilds", true),
+            condition = IsSettingEnabled(settings, "includeGuilds", true)
+                or IsSettingEnabled(settings, "includeUndauntedPledges", false),
             generator = function()
                 local undauntedPledgesData = nil
-                if IsSettingEnabled(settings, "includeUndauntedPledges", true) then
+                if IsSettingEnabled(settings, "includeUndauntedPledges", false) then
                     undauntedPledgesData = data.undauntedPledges
                 end
                 return gen.GenerateGuilds(data.guilds, undauntedPledgesData)
@@ -962,15 +958,26 @@ end
 
 --- Collect all sections except inventory/achievements (deferred for LibAsync spike).
 local function CollectBaseData(settings, Need, MaybeCollect)
-    local needOverview = Need("includeGeneral", "includeCurrency", "includeQuickStats")
+    local needOverview = Need(
+        "includeGeneral",
+        "includeCurrency",
+        "includeQuickStats",
+        "includeBuffs",
+        "includeLocation",
+        "includeAttributes",
+        "includeCharacterAttributes",
+        "includeProgression",
+        "includeRidingSkills"
+    )
     local needCombat = Need("includeBasicCombatStats", "includeAdvancedStats", "includeSkillBars")
-    local needSkills = Need("includeSkills", "includeSkillMorphs")
+    local needSkills = Need("includeSkills", "includeSkillMorphs", "showAllianceWarSkills")
     local needCp = Need("includeChampionPoints", "includeChampionDiagram") or needOverview
     local needPvp = Need("includePvP", "includePvPStats", "showAllianceWarSkills", "includeVengeance")
     local needTitlesHousing = Need("includeTitlesHousing", "includeHousing")
-    local needCollectibles = Need("includeCollectibles") or needTitlesHousing
+    local needCollectibles = Need("includeCollectibles", "includeDLCAccess") or needTitlesHousing
     local needCrafting = Need("includeCrafting", "includeMotifs", "includeRecipes", "includeItemSetCollection")
     local needGuilds = Need("includeGuilds", "includeUndauntedPledges")
+    local needAttention = Need("includeAttentionNeeded")
 
     return {
         character = SafeCollect("CollectCharacterData", CM.collectors.CollectCharacterData),
@@ -984,8 +991,16 @@ local function CollectBaseData(settings, Need, MaybeCollect)
             "CollectDLCAccess",
             CM.collectors.CollectDLCAccess
         ),
-        mundus = MaybeCollect(needOverview or Need("includeBuffs"), "CollectMundusData", CM.collectors.CollectMundusData),
-        buffs = MaybeCollect(Need("includeBuffs") or needOverview, "CollectActiveBuffs", CM.collectors.CollectActiveBuffs),
+        mundus = MaybeCollect(
+            needOverview or Need("includeBuffs"),
+            "CollectMundusData",
+            CM.collectors.CollectMundusData
+        ),
+        buffs = MaybeCollect(
+            Need("includeBuffs") or needOverview,
+            "CollectActiveBuffs",
+            CM.collectors.CollectActiveBuffs
+        ),
         cp = MaybeCollect(needCp, "CollectChampionPointData", CM.collectors.CollectChampionPointData),
         skillBar = MaybeCollect(Need("includeSkillBars"), "CollectSkillBarData", CM.collectors.CollectSkillBarData),
         skillMorphs = MaybeCollect(
@@ -1000,19 +1015,23 @@ local function CollectBaseData(settings, Need, MaybeCollect)
             CM.collectors.CollectEquipmentData
         ),
         skill = MaybeCollect(needSkills, "CollectSkillProgressionData", CM.collectors.CollectSkillProgressionData),
-        companion = MaybeCollect(Need("includeCompanion"), "CollectCompanionData", CM.collectors.CollectCompanionData),
+        companion = MaybeCollect(
+            Need("includeCompanion") or needAttention,
+            "CollectCompanionData",
+            CM.collectors.CollectCompanionData
+        ),
         currency = MaybeCollect(
-            Need("includeCurrency") or needOverview,
+            Need("includeCurrency") or needOverview or needAttention,
             "CollectCurrencyData",
             CM.collectors.CollectCurrencyData
         ),
         progression = MaybeCollect(
-            Need("includeProgression") or needOverview,
+            Need("includeProgression") or needOverview or needAttention,
             "CollectProgressionData",
             CM.collectors.CollectProgressionData
         ),
         riding = MaybeCollect(
-            Need("includeRidingSkills") or needCollectibles,
+            Need("includeRidingSkills") or needCollectibles or needAttention,
             "CollectRidingSkillsData",
             CM.collectors.CollectRidingSkillsData
         ),
@@ -1026,11 +1045,7 @@ local function CollectBaseData(settings, Need, MaybeCollect)
             "CollectLocationData",
             CM.collectors.CollectLocationData
         ),
-        collectibles = MaybeCollect(
-            needCollectibles,
-            "CollectCollectiblesData",
-            CM.collectors.CollectCollectiblesData
-        ),
+        collectibles = MaybeCollect(needCollectibles, "CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
         crafting = MaybeCollect(needCrafting, "CollectCraftingData", CM.collectors.CollectCraftingData),
         styles = MaybeCollect(Need("includeStyles"), "CollectStylesData", CM.collectors.CollectStylesData),
         antiquities = MaybeCollect(
@@ -1074,7 +1089,7 @@ local function BuildHeavyCollectorSteps(settings, Need)
         {
             key = "inventory",
             name = "CollectInventoryData",
-            enabled = Need("includeInventory") and CM.collectors.CollectInventoryData ~= nil,
+            enabled = Need("includeInventory", "includeAttentionNeeded") and CM.collectors.CollectInventoryData ~= nil,
             fn = CM.collectors.CollectInventoryData,
         },
         {
@@ -1151,9 +1166,7 @@ local function AssembleMarkdown(settings, collectedData)
             end
         end
 
-        local hasSeparator = result:match("%-%-%-%s*$")
-            or result:match("<hr>%s*$")
-            or result:match("<hr%s*/>%s*$")
+        local hasSeparator = result:match("%-%-%-%s*$") or result:match("<hr>%s*$") or result:match("<hr%s*/>%s*$")
 
         if not hasSeparator then
             local CreateSeparator = CM.utils and CM.utils.markdown and CM.utils.markdown.CreateSeparator
@@ -1251,10 +1264,7 @@ local function AssembleMarkdown(settings, collectedData)
             if formatted then
                 table.insert(markdownChunks, formatted)
             elseif not section.dynamicTOC then
-                CM.DebugPrint(
-                    "GENERATOR",
-                    string.format("%s returned EMPTY despite condition=true", section.name)
-                )
+                CM.DebugPrint("GENERATOR", string.format("%s returned EMPTY despite condition=true", section.name))
             end
         end
     end
@@ -1266,7 +1276,7 @@ local function AssembleMarkdown(settings, collectedData)
     if finalMarkdown == "" or #finalMarkdown == 0 then
         CM.Error("[ERR] Markdown is EMPTY after section generation!")
         CM.Error("All sections returned empty content or were skipped.")
-        CM.Error("Check settings and data collectors; use /markdown debug on for details.")
+        CM.Error("Check settings and data collectors; use /cm debug on for details.")
     end
 
     -- Footer (controlled by includeFooter setting)
@@ -1377,10 +1387,7 @@ local function CollectHeavySync(collectedData, heavySteps)
                     })
                     CM.Error(string.format("[FAIL] Collect %s failed: %s", step.name, tostring(result)))
                 end
-                CM.DebugPrint(
-                    "LIBASYNC",
-                    string.format("Sync heavy collector %s took %dms", step.key, elapsed or 0)
-                )
+                CM.DebugPrint("LIBASYNC", string.format("Sync heavy collector %s took %dms", step.key, elapsed or 0))
             else
                 collectedData[step.key] = SafeCollect(step.name, step.fn)
             end
@@ -1474,8 +1481,104 @@ local function GenerateMarkdownAsync(onComplete, onError)
 end
 
 -- =====================================================
+-- BUILD COACH (compact AI paste export)
+-- =====================================================
+
+local function MaybeChunkMarkdown(completeMarkdown)
+    local markdownLength = string.len(completeMarkdown)
+    local CHUNKING = CM.constants and CM.constants.CHUNKING
+    local DEFAULTS = CM.constants and CM.constants.DEFAULTS
+    local EDITBOX_LIMIT = (CHUNKING and CHUNKING.EDITBOX_LIMIT)
+        or (DEFAULTS and DEFAULTS.EDITBOX_LIMIT_FALLBACK)
+        or 10000
+
+    if markdownLength <= EDITBOX_LIMIT then
+        return completeMarkdown
+    end
+
+    CM.DebugPrint("GENERATOR", function()
+        return string.format(
+            "Build coach markdown exceeds EditBox limit (%d > %d), chunking...",
+            markdownLength,
+            EDITBOX_LIMIT
+        )
+    end)
+
+    local Chunking = CM.utils and CM.utils.Chunking
+    local SplitMarkdownIntoChunks = Chunking and Chunking.SplitMarkdownIntoChunks
+    if SplitMarkdownIntoChunks then
+        local chunks = SplitMarkdownIntoChunks(completeMarkdown)
+        collectgarbage("step", 1000)
+        return chunks
+    end
+
+    CM.Error("Chunking utility not available - coach markdown may be truncated!")
+    return completeMarkdown
+end
+
+local function CollectBuildCoachData()
+    return {
+        character = SafeCollect("CollectCharacterData", CM.collectors.CollectCharacterData),
+        mundus = MaybeCollect(true, "CollectMundusData", CM.collectors.CollectMundusData),
+        cp = MaybeCollect(true, "CollectChampionPointData", CM.collectors.CollectChampionPointData),
+        skillBar = MaybeCollect(true, "CollectSkillBarData", CM.collectors.CollectSkillBarData),
+        stats = MaybeCollect(true, "CollectCombatStatsData", CM.collectors.CollectCombatStatsData),
+        equipment = MaybeCollect(true, "CollectEquipmentData", CM.collectors.CollectEquipmentData),
+        role = MaybeCollect(true, "CollectRoleData", CM.collectors.CollectRoleData),
+        progression = MaybeCollect(true, "CollectProgressionData", CM.collectors.CollectProgressionData),
+        customNotes = (CM.charData and CM.charData.customNotes) or "",
+        customTitle = (CM.charData and CM.charData.customTitle) or "",
+        playStyle = (CM.charData and CM.charData.playStyle) or "",
+    }
+end
+
+local function GenerateBuildCoach()
+    ResetCollectionErrors()
+
+    local ready, errMsg = ValidateCollectorsReady()
+    if not ready then
+        return errMsg
+    end
+
+    CM.DebugPrint("GENERATOR", "Starting build-coach data collection...")
+
+    local collectedData = CollectBuildCoachData()
+    ReportCollectionErrors()
+
+    local generateFn = CM.generators.GenerateBuildCoachMarkdown
+    if not generateFn then
+        CM.Error("Build coach generator not loaded")
+        return "Build coach generator not loaded. Try /reloadui."
+    end
+
+    local success, markdown = pcall(generateFn, collectedData)
+    collectedData = nil
+    if not success then
+        CM.Error("Build coach generation failed: " .. tostring(markdown))
+        return "Build coach generation failed: " .. tostring(markdown)
+    end
+
+    if not markdown or markdown == "" then
+        CM.Error("Build coach markdown is empty")
+        return "Build coach markdown is empty"
+    end
+
+    CM.DebugPrint("GENERATOR", function()
+        return string.format("Build coach generation complete: %d bytes", string.len(markdown))
+    end)
+
+    if CM.charData then
+        CM.charData._lastModified = GetTimeStamp()
+    end
+
+    return MaybeChunkMarkdown(markdown)
+end
+
+-- =====================================================
 -- EXPORTS
 -- =====================================================
 
 CM.generators.GenerateMarkdown = GenerateMarkdown
 CM.generators.GenerateMarkdownAsync = GenerateMarkdownAsync
+CM.generators.GenerateBuildCoach = GenerateBuildCoach
+CM.generators.CollectBuildCoachData = CollectBuildCoachData

@@ -20,10 +20,7 @@ local function TimedCall(label, fn)
     end
 
     if CM.DebugPrint then
-        CM.DebugPrint(
-            "LIBASYNC",
-            string_format("%s: %s in %dms", label or "call", success and "ok" or "FAIL", elapsed)
-        )
+        CM.DebugPrint("LIBASYNC", string_format("%s: %s in %dms", label or "call", success and "ok" or "FAIL", elapsed))
     end
 
     return success, result, elapsed

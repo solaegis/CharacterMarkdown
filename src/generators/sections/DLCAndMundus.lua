@@ -202,39 +202,52 @@ local function GenerateDLCAsCollectible(dlcData)
     return "<details>\n<summary>" .. summaryText .. "</summary>\n\n" .. content .. "\n</details>\n\n"
 end
 
-local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData, titlesHousingData, ridingData)
-    local markdown = ""
+-- =====================================================
+-- COLLECTIBLES HAS-CONTENT (shared by registry condition + generator)
+-- =====================================================
 
-    -- Check if we have detailed data enabled
-    local hasDetailedData = collectiblesData.hasDetailedData
-    local settings = CM.settings or {}
-    local includeDetailed = settings.showCollectiblesDetailed or false
+--- True when collectibles / DLC / titles / housing payloads have something to render.
+--- Matches CollectCollectiblesData shape: collections.<key>.count|total, summary.unlocked.
+local function CollectiblesHasContent(collectiblesData, dlcData, titlesHousingData, settings)
+    settings = settings or CM.settings or {}
 
-    -- Only show section if there's content to display
-    -- Check if we should show anything
-    local hasContent = false
+    if collectiblesData then
+        local summary = collectiblesData.summary
+        if summary and summary.unlocked and summary.unlocked > 0 then
+            return true
+        end
 
-    -- Check if detailed mode has content
-    if includeDetailed and hasDetailedData and collectiblesData.categories then
-        hasContent = true
-    end
-
-    -- Check if fallback mode has content (any counts > 0)
-    if not hasContent then
         local collections = collectiblesData.collections or {}
+        for _, collection in pairs(collections) do
+            if collection then
+                local count = collection.count or 0
+                local total = collection.total or 0
+                if count > 0 or total > 0 then
+                    return true
+                end
+            end
+        end
+
+        -- Legacy flat counts (older fixtures / exports)
         if
-            (collections.mounts and collections.mounts.count and collections.mounts.count > 0)
-            or (collections.pets and collections.pets.count and collections.pets.count > 0)
-            or (collections.costumes and collections.costumes.count and collections.costumes.count > 0)
-            or (collections.skins and collections.skins.count and collections.skins.count > 0)
-            or (collections.polymorphs and collections.polymorphs.count and collections.polymorphs.count > 0)
+            (type(collectiblesData.mounts) == "number" and collectiblesData.mounts > 0)
+            or (type(collectiblesData.pets) == "number" and collectiblesData.pets > 0)
+            or (type(collectiblesData.costumes) == "number" and collectiblesData.costumes > 0)
+            or (type(collectiblesData.houses) == "number" and collectiblesData.houses > 0)
         then
-            hasContent = true
+            return true
+        end
+
+        if collectiblesData.categories then
+            for _, cat in pairs(collectiblesData.categories) do
+                if cat and cat.total and cat.total > 0 then
+                    return true
+                end
+            end
         end
     end
 
-    -- Check if titles/housing would add content (respect section toggles)
-    if not hasContent and titlesHousingData then
+    if titlesHousingData then
         local titlesData = titlesHousingData.titles or {}
         local housingData = titlesHousingData.housing or {}
 
@@ -243,56 +256,51 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
                 or (titlesData.summary and titlesData.summary.totalAvailable and titlesData.summary.totalAvailable > 0)
                 or (titlesData.summary and titlesData.summary.totalOwned and titlesData.summary.totalOwned > 0)
                 or (titlesData.owned and #titlesData.owned > 0)
+                or (titlesData.list and #titlesData.list > 0)
                 or (titlesData.current and titlesData.current ~= "")
-
             if hasTitles then
-                hasContent = true
+                return true
             end
         end
 
-        if not hasContent and settings.includeHousing then
+        if settings.includeHousing then
             local hasHousing = (housingData.total and housingData.total > 0)
                 or (housingData.summary and housingData.summary.totalOwned and housingData.summary.totalOwned > 0)
                 or (housingData.summary and housingData.summary.totalAvailable and housingData.summary.totalAvailable > 0)
                 or (housingData.owned and #housingData.owned > 0)
                 or (housingData.primary and housingData.primary.name)
-
             if hasHousing then
-                hasContent = true
+                return true
             end
         end
     end
 
-    -- Check if DLC would add content
-    if not hasContent and dlcData and settings.includeDLCAccess then
+    if dlcData and settings.includeDLCAccess then
         if
             (dlcData.accessible and #dlcData.accessible > 0)
             or (dlcData.locked and #dlcData.locked > 0)
             or dlcData.hasESOPlus
         then
-            hasContent = true
+            return true
         end
     end
 
-    -- Check if DLC would add content
-    if not hasContent and dlcData and settings.includeDLCAccess then
-        if
-            (dlcData.accessible and #dlcData.accessible > 0)
-            or (dlcData.locked and #dlcData.locked > 0)
-            or dlcData.hasESOPlus
-        then
-            hasContent = true
-        end
-    end
+    return false
+end
 
-    -- Only create section if we have content to show
-    if not hasContent then
+local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData, titlesHousingData, ridingData)
+    collectiblesData = collectiblesData or {}
+    local settings = CM.settings or {}
+    local includeDetailed = settings.showCollectiblesDetailed == true
+
+    -- Do not require missing hasDetailedData / categories; use collector collections shape
+    if not CollectiblesHasContent(collectiblesData, dlcData, titlesHousingData, settings) then
         return ""
     end
 
     -- GitHub/VSCode: Show collapsible detailed lists
     InitializeUtilities()
-    markdown = markdown .. "## 🎨 Collectibles\n\n"
+    local markdown = "## 🎨 Collectibles\n\n"
 
     -- List to hold all sections for sorting
     local sections = {}
@@ -372,8 +380,8 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
                 .. total
                 .. ") |\n\n"
 
-            -- List owned collectibles (alphabetically sorted)
-            if owned > 0 and collection.list then
+            -- List owned collectibles when Detailed Collectibles Lists is on
+            if includeDetailed and owned > 0 and collection.list then
                 -- Sort in-place to ensure consistent ordering
                 table.sort(collection.list, function(a, b)
                     local nameA = (a.name or ""):lower()
@@ -394,7 +402,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
                     end
                     sectionContent = sectionContent .. "\n"
                 end
-            else
+            elseif owned == 0 then
                 sectionContent = sectionContent .. "*No " .. cat.name:lower() .. " owned*\n"
             end
 
@@ -537,3 +545,4 @@ CM.generators.sections = CM.generators.sections or {}
 CM.generators.sections.GenerateDLCAccess = GenerateDLCAccess
 CM.generators.sections.GenerateMundus = GenerateMundus
 CM.generators.sections.GenerateCollectibles = GenerateCollectibles
+CM.generators.sections.CollectiblesHasContent = CollectiblesHasContent

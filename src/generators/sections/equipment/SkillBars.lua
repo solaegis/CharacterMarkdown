@@ -152,10 +152,7 @@ function skillbars.GenerateSkillBarsOnly(skillBarData)
     local outputParts = { "### Skill bars\n\n" }
 
     if skillBarData.activeWeaponPair and skillBarData.activeWeaponPair.label then
-        table_insert(
-            outputParts,
-            "*Active weapon pair: **" .. skillBarData.activeWeaponPair.label .. "***\n\n"
-        )
+        table_insert(outputParts, "*Active weapon pair: **" .. skillBarData.activeWeaponPair.label .. "***\n\n")
     end
 
     -- Determine weapon types from bar names for better labels

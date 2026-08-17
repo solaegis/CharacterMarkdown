@@ -4,14 +4,13 @@
 local CM = CharacterMarkdown
 
 local function CollectArmoryBuildsData()
-    -- Use API layer granular functions (composition at collector level)
     local unlocked = CM.api.armoryBuilds.GetNumUnlocked()
+    local maxBuilds = CM.api.armoryBuilds.GetMaxBuilds and CM.api.armoryBuilds.GetMaxBuilds() or 10
 
-    local data = {}
-
-    -- Transform API data to expected format (backward compatibility)
-    data.unlocked = unlocked or 0
-    data.builds = {}
+    local data = {
+        unlocked = unlocked or 0,
+        builds = {},
+    }
 
     if data.unlocked > 0 then
         for buildIndex = 1, data.unlocked do
@@ -21,17 +20,17 @@ local function CollectArmoryBuildsData()
             end
         end
 
-        -- Sort builds by name
         table.sort(data.builds, function(a, b)
             return (a.name or "") < (b.name or "")
         end)
     end
 
-    -- Add computed summary
+    local maxSlots = maxBuilds > 0 and maxBuilds or 10
     data.summary = {
-        totalBuilds = data.unlocked,
-        maxBuilds = 10, -- Standard armory slot limit
-        utilizationPercent = math.floor((data.unlocked / 10) * 100),
+        totalBuilds = #data.builds,
+        unlockedSlots = data.unlocked,
+        maxBuilds = maxSlots,
+        utilizationPercent = math.floor((data.unlocked / maxSlots) * 100),
     }
 
     return data

@@ -68,20 +68,13 @@ function api.GetDisciplineInfo(disciplineIndex)
         savedPointsTotal = CM.SafeCall(GetNumSpentChampionPoints, disciplineId) or 0
         CM.DebugPrint(
             "CP_API",
-            string.format(
-                "Discipline %s: Fallback GetNumSpentChampionPoints=%d",
-                name or "Unknown",
-                savedPointsTotal
-            )
+            string.format("Discipline %s: Fallback GetNumSpentChampionPoints=%d", name or "Unknown", savedPointsTotal)
         )
     end
 
     -- Get unspent points for this discipline
     local unspent = CM.SafeCall(GetNumUnspentChampionPoints, disciplineId) or 0
-    CM.DebugPrint(
-        "CP_API",
-        string.format("Discipline %s: GetNumUnspentChampionPoints=%d", name or "Unknown", unspent)
-    )
+    CM.DebugPrint("CP_API", string.format("Discipline %s: GetNumUnspentChampionPoints=%d", name or "Unknown", unspent))
 
     return {
         id = disciplineId,
@@ -134,14 +127,7 @@ function api.GetEnlightenmentInfo()
     -- Get remaining enlightenment pool (XP bonus remaining)
     local poolRemaining = CM.SafeCall(GetEnlightenedPool) or 0
 
-    CM.DebugPrint(
-        "CP_API",
-        string.format(
-            "Enlightenment: active=%s, pool=%d",
-            tostring(isEnlightened),
-            poolRemaining
-        )
-    )
+    CM.DebugPrint("CP_API", string.format("Enlightenment: active=%s, pool=%d", tostring(isEnlightened), poolRemaining))
 
     return {
         isEnlightened = isEnlightened,

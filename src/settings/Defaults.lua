@@ -95,7 +95,7 @@ function CM.Settings.Defaults:GetAll()
         includeTitlesHousing = false, -- Titles and housing
         includeHousing = false, -- Housing information (owned houses, primary residence)
         includePvPStats = false, -- PvP statistics
-        includeArmoryBuilds = false, -- Armory builds
+        includeArmoryBuilds = false, -- Armory builds (saved loadouts; off by default)
         includeUndauntedPledges = false, -- Undaunted pledges
         includeGuilds = true, -- Guild membership (social context, minimal size ~200-400 chars)
         includeMail = false, -- Mail information (unread count, attachments)

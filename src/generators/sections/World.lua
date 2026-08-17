@@ -247,6 +247,8 @@ local function GenerateWorldProgress(worldProgressData)
         hasData = true
     elseif worldProgressData.cadwell and worldProgressData.cadwell.levelName then
         hasData = true
+    elseif worldProgressData.endlessDungeon then
+        hasData = true
     end
 
     if not hasData then

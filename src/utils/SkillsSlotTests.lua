@@ -157,11 +157,7 @@ local function TestCollectorSplitMapping()
 
     if ultimateName ~= "AbilityAtSlot8" or ultimateId ~= 800 then
         return Fail(
-            string.format(
-                "ultimate should be slot 8, got name=%s id=%s",
-                tostring(ultimateName),
-                tostring(ultimateId)
-            )
+            string.format("ultimate should be slot 8, got name=%s id=%s", tostring(ultimateName), tostring(ultimateId))
         )
     end
 

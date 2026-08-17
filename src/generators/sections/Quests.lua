@@ -124,20 +124,14 @@ local function GenerateQuestSummary(questData)
     local parts = {}
     local summary = questData.summary
 
-    CM.DebugPrint(
-        "QUESTS",
-        string.format("Summary: active=%d", summary.activeQuests or 0)
-    )
+    CM.DebugPrint("QUESTS", string.format("Summary: active=%d", summary.activeQuests or 0))
 
     local anchorId = CM.utils.GenerateAnchor and CM.utils.GenerateAnchor("📝 Quest Progress") or "quest-progress"
     table_insert(parts, string.format('<a id="%s"></a>\n\n', anchorId))
     table_insert(parts, "## 📝 Quest Progress\n\n")
     table_insert(parts, "| **Active Quests (Journal)** |\n")
     table_insert(parts, "|-------------------------:|\n")
-    table_insert(
-        parts,
-        "| " .. CM.utils.FormatNumber(summary.activeQuests or summary.activeCount or 0) .. " |\n"
-    )
+    table_insert(parts, "| " .. CM.utils.FormatNumber(summary.activeQuests or summary.activeCount or 0) .. " |\n")
     table_insert(parts, "\n")
 
     return table_concat(parts)
@@ -346,13 +340,7 @@ local function GenerateQuests(questData)
     local activeQuestsDebug = (questData.summary and questData.summary.activeQuests)
         or (questData.summary and questData.summary.activeCount)
         or "nil"
-    CM.DebugPrint(
-        "QUESTS",
-        string.format(
-            "Summary - activeQuests/activeCount: %s",
-            tostring(activeQuestsDebug)
-        )
-    )
+    CM.DebugPrint("QUESTS", string.format("Summary - activeQuests/activeCount: %s", tostring(activeQuestsDebug)))
     CM.DebugPrint("QUESTS", string.format("Active quests count: %d", #(questData.active or {})))
 
     -- Check if there are any quests at all
@@ -374,8 +362,10 @@ local function GenerateQuests(questData)
     -- Always show summary
     table_insert(parts, GenerateQuestSummary(questData))
 
+    local showDetailed = CM.settings and CM.settings.showQuestsDetailed == true
+
     -- Show categories if detailed mode is enabled
-    if questData.categories then
+    if showDetailed and questData.categories then
         table_insert(parts, GenerateQuestCategories(questData))
     end
 
@@ -385,7 +375,7 @@ local function GenerateQuests(questData)
     end
 
     -- Show zone breakdown if detailed mode is enabled
-    if questData.zones then
+    if showDetailed and questData.zones then
         table_insert(parts, GenerateZoneQuests(questData))
     end
 

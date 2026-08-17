@@ -9,13 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Optional libraries**: LibChatMessage (chat pipeline), LibAsync (frame-yielding inventory/achievements collection), LibCustomIcons (formalized optional dep + integration helper)
+- **AI / Build Coach export**: `/cm coach` (aliases `ai`, `build-coach`; `/markdown` is an alias for `/cm`) emits a compact paste schema (identity, bars, sets, CP, notes, gaps) for ChatGPT/Claude; LAM **Preset: AI / Build Coach** for lean normal exports
+- **Armory Builds (first-class)**: saved loadouts export gear (sets, traits, quality, slot state), skill bars (front/back with ultimates), attributes, and mundus without restoring the build; CP discipline totals only
 
 ### Changed
+- **Slash command**: `/cm` is preferred; `/markdown` remains a full alias for the same command
 - **ESOUI PC packaging**: release manifest is `CharacterMarkdown.txt` (not `.addon`); CI and local builds share whitelist `build-copy.sh`; ZIP validation rejects hidden/dev paths
 - **Account SavedVariables**: server-scoped via `GetWorldName()` namespace so NA/EU/PTS settings do not overwrite each other (with flat-layout migration)
 - **ESOUI listing**: top-of-page AI disclosure and credits in `README_ESOUI.txt`
 - **Chat output**: `CM.Info` / `Warn` / `Error` / `Success` use LibChatMessage when installed (`src/utils/Chat.lua`)
 - **Settings import**: deserialize settings tables with a safe literal parser (no `loadstring`)
+- **Armory Builds**: graduated from BETA; Solo PvE / PvP presets still enable `includeArmoryBuilds` (factory default remains Off)
+
+### Fixed
+- **Armory Builds**: section no longer always shows "No armory data available" (flat collector payload now accepted by the generator)
 
 ## [2.3.0] - 2026-08-03
 
@@ -51,7 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Subclass** row in Overview (foreign class skill lines via `GetSkillLineClassId`)
 - Generating placeholder window + chat confirmation when export completes
-- `EquipmentSetCountTests` (run via `/markdown unittest`)
+- `EquipmentSetCountTests` (run via `/cm unittest`)
 - Conditional collectors: skip heavy collectors when their sections are disabled
 
 ### Changed

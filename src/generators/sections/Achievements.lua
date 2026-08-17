@@ -65,12 +65,7 @@ local function GetProgressText(achievement)
     if achievement.completed then
         return "Completed"
     elseif progress.totalRequired > 0 then
-        return string.format(
-            "%d/%d (%d%%)",
-            progress.totalProgress,
-            progress.totalRequired,
-            progress.progressPercent
-        )
+        return string.format("%d/%d (%d%%)", progress.totalProgress, progress.totalRequired, progress.progressPercent)
     else
         return "Not Started"
     end
@@ -702,12 +697,9 @@ local function GenerateSkyshardAchievements(skyshardData, format)
     markdown = markdown .. "| **Total** | " .. skyshardData.total .. " |\n"
     markdown = markdown .. "| **Skill Points Earned** | " .. skyshardData.skillPoints .. " |\n"
     local skyshardPct = (skyshardData.total and skyshardData.total > 0)
-        and math.floor((skyshardData.collected / skyshardData.total) * 100)
+            and math.floor((skyshardData.collected / skyshardData.total) * 100)
         or 0
-    markdown = markdown
-        .. "| **Progress** | "
-        .. CM.utils.GenerateProgressBar(skyshardPct, 12)
-        .. " |\n"
+    markdown = markdown .. "| **Progress** | " .. CM.utils.GenerateProgressBar(skyshardPct, 12) .. " |\n"
     markdown = markdown .. "\n"
 
     return markdown

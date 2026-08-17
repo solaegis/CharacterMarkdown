@@ -48,6 +48,7 @@ H2  Roleplay: {Identity Title}
     > [!TIP] Suggested Custom Title (≤100 chars)
     > [!NOTE] Build Notes paste block (≤1,900 chars)
     > [!TIP] Flavor Pet (optional; detail in Collectibles)
+    > [!TIP] Costume (optional tip; required H3 under Collectibles)
     ---
 
 H2  Trinity configuration
@@ -95,6 +96,8 @@ H2  Collectibles
     H3  Mount
         Primary + backups + avoid-thematically tables
     H3  Pet
+    H3  Costume
+        Primary + alt / situational; distinguish from Outfit Station motifs
     H3  Dye and style
     ---
 
@@ -132,6 +135,8 @@ Single summary table. Include **live** vs **target** labels when the profile exp
 | Food / Potion / Poisons / Enchants | Consumables and bar enchants |
 | Companion | Primary + fallback |
 | Primary Mount | Name + anchor to Collectibles |
+| Flavor Pet | Owned + ideal; detail under Collectibles |
+| Costume | Primary full-body costume + alt; detail under Collectibles |
 
 Follow with **Read next:** inline anchor links to every major H2.
 
@@ -142,7 +147,8 @@ Follow with **Read next:** inline anchor links to every major H2.
 | Identity prose | Yes | Who the character is in fiction; how the build reads |
 | Suggested Custom Title | Yes | ≤100 characters; backtick-wrapped for LAM Custom Title |
 | Build Notes | Yes | ≤1,900 characters; single paste block for LAM Build Notes |
-| Flavor Pet | Optional | Short tip; full mount/pet/dye detail lives under Collectibles |
+| Flavor Pet | Optional tip | Short tip; full mount/pet/costume/dye detail lives under Collectibles |
+| Costume | Yes (Collectibles H3) | Primary + alt; glance row recommended; distinguish from Outfit Station motifs |
 
 ### Trinity configuration
 
@@ -194,7 +200,8 @@ Mount, pet, and visual identity **always** live here — never between Gear and 
 | :--- | :--- |
 | **Mount** | Primary, backups, avoid-thematically |
 | **Pet** | Thematic matches |
-| **Dye and style** | Motif table + dye palette |
+| **Costume** | Primary full-body costume + alt; owned vs ideal; not Outfit Station motifs |
+| **Dye and style** | Motif table + dye palette (when not in costume, or weapons) |
 
 ### Next Steps & In-Game Action Checklist
 
@@ -286,7 +293,7 @@ When reviewing any `{slug}_plan.md`:
 - [ ] Gear is craftable; crafting handoff references @masisi
 - [ ] CP recommendations use [`champion_points_reference.md`](../examples/templates/champion_points_reference.md) names, max points, and slottable/passive type
 - [ ] Companion gear is companion-specific
-- [ ] Mount / pet / dye under Collectibles only
+- [ ] Mount / pet / costume / dye under Collectibles only
 - [ ] Single phased checklist at end
 - [ ] Plan file not edited when implementing from an attached plan (update profile + artifacts only)
 

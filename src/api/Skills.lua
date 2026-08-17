@@ -141,8 +141,7 @@ function api.GetSlotAbility(slotIndex, hotbarCategory)
         name = CM.SafeCall(GetCraftedAbilityDisplayName, abilityId)
         icon = CM.SafeCall(GetCraftedAbilityIcon, abilityId)
         if GetCraftedAbilityActiveScriptIds then
-            local ok, primaryId, secondaryId, tertiaryId =
-                CM.SafeCallMulti(GetCraftedAbilityActiveScriptIds, abilityId)
+            local ok, primaryId, secondaryId, tertiaryId = CM.SafeCallMulti(GetCraftedAbilityActiveScriptIds, abilityId)
             if ok then
                 scripts = {}
                 for _, scriptId in ipairs({ primaryId, secondaryId, tertiaryId }) do
@@ -286,8 +285,7 @@ function api.GetSkillLinesByType(skillType)
     local lines = {}
 
     for skillLineIndex = 1, numSkillLines do
-        local success, rank, _, _, discovered =
-            CM.SafeCallMulti(GetSkillLineDynamicInfo, skillType, skillLineIndex)
+        local success, rank, _, _, discovered = CM.SafeCallMulti(GetSkillLineDynamicInfo, skillType, skillLineIndex)
         local skillLineId = CM.SafeCall(GetSkillLineId, skillType, skillLineIndex)
         local name = skillLineId and CM.SafeCall(GetSkillLineNameById, skillLineId) or nil
         if success and name and discovered then

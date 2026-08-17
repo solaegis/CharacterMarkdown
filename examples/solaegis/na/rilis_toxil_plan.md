@@ -1,6 +1,6 @@
 # Build Plan - Rilis Toxil: The Apocryphal Mystic (Magicka Necromancer Overland)
 
-> **Character profile:** [rilis_toxil.md](rilis_toxil.md) — Level 50 High Elf Necromancer, CP 1039, @SOLAEGIS (NA).  
+> **Character profile:** [rilis_toxil.md](rilis_toxil.md) — Level 50 High Elf Necromancer, CP 1039, @SOLAEGIS (NA).
 > **Gear comparison:** [rilis_toxil_gear_comparison.md](../../fixtures/rilis_toxil_gear_comparison.md) — locked **Approach 1**.
 
 Rilis Toxil is a **High Elf scholar of unmaking**—a magicka necromancer who treats death not as an ending but as a text to be read, annotated, and rewritten. This guide takes him from **leveling in Khenarthi's Roost** through **CP160** as **The Apocryphal Mystic**: a solo overland magicka DPS who opens every hard fight with **Major Vulnerability**, sustains through **Restoration Staff** heals and **Living Death**, and runs a **Grave Lord** corpse loop on a lightning destruction bar.

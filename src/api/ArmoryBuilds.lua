@@ -6,6 +6,154 @@ CM.api = CM.api or {}
 CM.api.armoryBuilds = {}
 
 local api = CM.api.armoryBuilds
+local table_insert = table.insert
+
+-- =====================================================
+-- HELPERS
+-- =====================================================
+
+local function MapEquipSlotState(equipSlotState)
+    if not equipSlotState then
+        return "UNKNOWN"
+    end
+    if ARMORY_BUILD_EQUIP_SLOT_STATE_VALID and equipSlotState == ARMORY_BUILD_EQUIP_SLOT_STATE_VALID then
+        return "VALID"
+    end
+    if ARMORY_BUILD_EQUIP_SLOT_STATE_EMPTY and equipSlotState == ARMORY_BUILD_EQUIP_SLOT_STATE_EMPTY then
+        return "EMPTY"
+    end
+    if ARMORY_BUILD_EQUIP_SLOT_STATE_MISSING and equipSlotState == ARMORY_BUILD_EQUIP_SLOT_STATE_MISSING then
+        return "MISSING"
+    end
+    if ARMORY_BUILD_EQUIP_SLOT_STATE_INACCESSIBLE and equipSlotState == ARMORY_BUILD_EQUIP_SLOT_STATE_INACCESSIBLE then
+        return "INACCESSIBLE"
+    end
+    return "UNKNOWN"
+end
+
+local function GetMundusStoneName(stoneId)
+    if not stoneId or stoneId <= 0 then
+        return nil
+    end
+    local name = CM.SafeCall(GetString, "SI_MUNDUSSTONE", stoneId)
+    if name and name ~= "" then
+        return name
+    end
+    return "Mundus Stone " .. tostring(stoneId)
+end
+
+local function ResolveAbilityInfo(abilityId, buildIndex, hotbarCategory)
+    if not abilityId or abilityId <= 0 then
+        return nil
+    end
+
+    local displayId = abilityId
+    if GetEffectiveAbilityIdForAbilityOnHotbarForArmoryBuild then
+        local effectiveId =
+            CM.SafeCall(GetEffectiveAbilityIdForAbilityOnHotbarForArmoryBuild, abilityId, buildIndex, hotbarCategory)
+        if effectiveId and effectiveId > 0 then
+            displayId = effectiveId
+        end
+    end
+
+    local name = CM.SafeCall(GetAbilityName, displayId, "player")
+    local isCrafted = false
+    local scripts = nil
+
+    if (not name or name == "") and GetCraftedAbilityDisplayName then
+        local craftedName = CM.SafeCall(GetCraftedAbilityDisplayName, displayId)
+        if craftedName and craftedName ~= "" then
+            name = craftedName
+            isCrafted = true
+            if GetCraftedAbilityActiveScriptIds then
+                local ok, primaryId, secondaryId, tertiaryId =
+                    CM.SafeCallMulti(GetCraftedAbilityActiveScriptIds, displayId)
+                if ok then
+                    scripts = {}
+                    for _, scriptId in ipairs({ primaryId, secondaryId, tertiaryId }) do
+                        if scriptId and scriptId > 0 then
+                            local scriptName = CM.SafeCall(GetCraftedAbilityScriptDisplayName, scriptId)
+                            table_insert(scripts, {
+                                id = scriptId,
+                                name = scriptName or ("Script " .. tostring(scriptId)),
+                            })
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    if not name or name == "" then
+        name = "Unknown"
+    end
+
+    return {
+        id = displayId,
+        name = name,
+        isCrafted = isCrafted,
+        scripts = scripts,
+    }
+end
+
+local function EnrichItemFromBagSlot(bagId, slotIndex)
+    local itemInfo = CM.api.equipment and CM.api.equipment.GetItemInfo and CM.api.equipment.GetItemInfo(bagId, slotIndex)
+    if not itemInfo then
+        local link = CM.SafeCall(GetItemLink, bagId, slotIndex, LINK_STYLE_DEFAULT)
+        if not link or link == "" then
+            return nil
+        end
+        local itemName = CM.SafeCall(GetItemLinkName, link)
+        return {
+            name = itemName or "Unknown",
+            link = link,
+            setName = "-",
+            quality = "Normal",
+            qualityNumeric = 0,
+            qualityEmoji = "⚪",
+            trait = "None",
+            enchantment = false,
+            armorType = nil,
+            weaponType = nil,
+        }
+    end
+
+    local qualityNumeric = itemInfo.quality or 0
+    local setName = "-"
+    if itemInfo.set and itemInfo.set.hasSet and itemInfo.set.name and itemInfo.set.name ~= "" then
+        setName = itemInfo.set.name
+    end
+
+    local traitName = "None"
+    if itemInfo.trait and itemInfo.trait.name and itemInfo.trait.name ~= "" then
+        traitName = itemInfo.trait.name
+    end
+
+    local enchantment = false
+    if itemInfo.enchant and itemInfo.enchant.hasEnchant and itemInfo.enchant.name and itemInfo.enchant.name ~= "" then
+        enchantment = itemInfo.enchant.name
+    end
+
+    local armorType = nil
+    local weaponType = nil
+    if itemInfo.link and itemInfo.link ~= "" then
+        armorType = CM.SafeCall(GetItemLinkArmorType, itemInfo.link)
+        weaponType = CM.SafeCall(GetItemLinkWeaponType, itemInfo.link)
+    end
+
+    return {
+        name = itemInfo.name or "Unknown",
+        link = itemInfo.link or "",
+        setName = setName,
+        quality = (CM.utils and CM.utils.GetQualityColor and CM.utils.GetQualityColor(qualityNumeric)) or "Normal",
+        qualityNumeric = qualityNumeric,
+        qualityEmoji = (CM.utils and CM.utils.GetQualityEmoji and CM.utils.GetQualityEmoji(qualityNumeric)) or "⚪",
+        trait = traitName,
+        enchantment = enchantment,
+        armorType = armorType,
+        weaponType = weaponType,
+    }
+end
 
 -- =====================================================
 -- GRANULAR GETTERS
@@ -13,6 +161,19 @@ local api = CM.api.armoryBuilds
 
 function api.GetNumUnlocked()
     return CM.SafeCall(GetNumUnlockedArmoryBuilds) or 0
+end
+
+function api.GetMaxBuilds()
+    if MAX_NUM_ARMORY_BUILDS and type(MAX_NUM_ARMORY_BUILDS) == "number" and MAX_NUM_ARMORY_BUILDS > 0 then
+        return MAX_NUM_ARMORY_BUILDS
+    end
+    local maxBuilds = CM.SafeCall(function()
+        return MAX_NUM_ARMORY_BUILDS
+    end)
+    if maxBuilds and type(maxBuilds) == "number" and maxBuilds > 0 then
+        return maxBuilds
+    end
+    return 10
 end
 
 function api.GetBuildName(buildIndex)
@@ -67,19 +228,9 @@ function api.GetBuildChampionPoints(buildIndex)
     return {}
 end
 
-local function GetMundusStoneName(stoneId)
-    if not stoneId or stoneId <= 0 then
-        return nil
-    end
-    local name = CM.SafeCall(GetString, "SI_MUNDUSSTONE", stoneId)
-    if name and name ~= "" then
-        return name
-    end
-    return "Mundus Stone " .. tostring(stoneId)
-end
-
 function api.GetBuildEquipment(buildIndex)
     local equipment = {}
+    local setCounts = {}
     local equipSlots = {
         EQUIP_SLOT_HEAD,
         EQUIP_SLOT_NECK,
@@ -98,74 +249,161 @@ function api.GetBuildEquipment(buildIndex)
     }
 
     for _, slot in ipairs(equipSlots) do
-        local success, equipSlotState, bagId, slotIndex = CM.SafeCallMulti(
-            GetArmoryBuildEquipSlotInfo,
-            buildIndex,
-            slot
-        )
-        if success and equipSlotState and bagId and slotIndex then
-            local itemLink = CM.SafeCall(GetItemLink, bagId, slotIndex, LINK_STYLE_DEFAULT)
-            if itemLink and itemLink ~= "" then
-                local itemName = CM.SafeCall(GetItemLinkName, itemLink)
-                if itemName and itemName ~= "" then
-                    table.insert(equipment, {
-                        slot = slot,
-                        name = itemName,
-                        link = itemLink,
-                    })
+        local success, equipSlotState, bagId, slotIndex =
+            CM.SafeCallMulti(GetArmoryBuildEquipSlotInfo, buildIndex, slot)
+        local state = success and MapEquipSlotState(equipSlotState) or "UNKNOWN"
+        local slotName = (CM.utils and CM.utils.GetEquipSlotName and CM.utils.GetEquipSlotName(slot)) or ("Slot " .. tostring(slot))
+        local emoji = (CM.utils and CM.utils.GetSlotEmoji and CM.utils.GetSlotEmoji(slot)) or "📦"
+
+        local entry = {
+            slot = slot,
+            slotName = slotName,
+            emoji = emoji,
+            state = state,
+            bagId = bagId,
+            slotIndex = slotIndex,
+        }
+
+        if state == "VALID" and bagId and slotIndex then
+            local enriched = EnrichItemFromBagSlot(bagId, slotIndex)
+            if enriched then
+                entry.name = enriched.name
+                entry.link = enriched.link
+                entry.setName = enriched.setName
+                entry.quality = enriched.quality
+                entry.qualityNumeric = enriched.qualityNumeric
+                entry.qualityEmoji = enriched.qualityEmoji
+                entry.trait = enriched.trait
+                entry.enchantment = enriched.enchantment
+                entry.armorType = enriched.armorType
+                entry.weaponType = enriched.weaponType
+
+                if enriched.setName and enriched.setName ~= "-" then
+                    setCounts[enriched.setName] = (setCounts[enriched.setName] or 0) + 1
                 end
+            else
+                entry.name = "(Unresolved item)"
+                entry.setName = "-"
+                entry.trait = "None"
+                entry.quality = "Normal"
+                entry.qualityEmoji = "⚪"
             end
+        elseif state == "EMPTY" then
+            entry.name = "[Empty]"
+            entry.setName = "-"
+            entry.trait = "-"
+            entry.quality = "-"
+            entry.qualityEmoji = "⚪"
+        elseif state == "MISSING" then
+            entry.name = "[Missing]"
+            entry.setName = "-"
+            entry.trait = "-"
+            entry.quality = "-"
+            entry.qualityEmoji = "⚪"
+        elseif state == "INACCESSIBLE" then
+            entry.name = "[Inaccessible]"
+            entry.setName = "-"
+            entry.trait = "-"
+            entry.quality = "-"
+            entry.qualityEmoji = "⚪"
+        else
+            entry.name = "[Unavailable]"
+            entry.setName = "-"
+            entry.trait = "-"
+            entry.quality = "-"
+            entry.qualityEmoji = "⚪"
         end
+
+        table_insert(equipment, entry)
     end
 
-    return equipment
+    local sets = {}
+    for setName, count in pairs(setCounts) do
+        table_insert(sets, { name = setName, count = count })
+    end
+    table.sort(sets, function(a, b)
+        if (a.count or 0) == (b.count or 0) then
+            return (a.name or "") < (b.name or "")
+        end
+        return (a.count or 0) > (b.count or 0)
+    end)
+
+    return equipment, sets
 end
 
 function api.GetBuildHotbars(buildIndex)
     local hotbars = {}
 
-    -- Primary bar
-    local primaryBar = {
-        category = HOTBAR_CATEGORY_PRIMARY,
-        abilities = {},
-    }
-    for slotIndex = 3, 8 do
-        local abilityId = CM.SafeCall(GetArmoryBuildSlotBoundId, buildIndex, slotIndex, HOTBAR_CATEGORY_PRIMARY)
-        if abilityId and abilityId > 0 then
-            local abilityName = CM.SafeCall(GetAbilityName, abilityId, "player")
-            if abilityName and abilityName ~= "" then
-                table.insert(primaryBar.abilities, {
-                    slot = slotIndex,
-                    id = abilityId,
-                    name = abilityName,
-                })
-            end
+    local firstNormal = 3
+    local ultimateSlot = 8
+    if CM.api.skills then
+        if CM.api.skills.GetFirstNormalActionBarSlotIndex then
+            firstNormal = CM.api.skills.GetFirstNormalActionBarSlotIndex() or firstNormal
         end
-    end
-    if #primaryBar.abilities > 0 then
-        table.insert(hotbars, primaryBar)
+        if CM.api.skills.GetUltimateActionBarSlotIndex then
+            ultimateSlot = CM.api.skills.GetUltimateActionBarSlotIndex() or ultimateSlot
+        end
     end
 
-    -- Backup bar
-    local backupBar = {
-        category = HOTBAR_CATEGORY_BACKUP,
-        abilities = {},
+    local barConfigs = {
+        {
+            id = 0,
+            name = (CM.Constants and CM.Constants.BAR_NAMES and CM.Constants.BAR_NAMES.PRIMARY)
+                or "Front Bar (Main Hand)",
+            hotbarCategory = HOTBAR_CATEGORY_PRIMARY,
+        },
+        {
+            id = 1,
+            name = (CM.Constants and CM.Constants.BAR_NAMES and CM.Constants.BAR_NAMES.BACKUP)
+                or "Back Bar (Backup)",
+            hotbarCategory = HOTBAR_CATEGORY_BACKUP,
+        },
     }
-    for slotIndex = 3, 8 do
-        local abilityId = CM.SafeCall(GetArmoryBuildSlotBoundId, buildIndex, slotIndex, HOTBAR_CATEGORY_BACKUP)
-        if abilityId and abilityId > 0 then
-            local abilityName = CM.SafeCall(GetAbilityName, abilityId, "player")
-            if abilityName and abilityName ~= "" then
-                table.insert(backupBar.abilities, {
+
+    for _, config in ipairs(barConfigs) do
+        local bar = {
+            id = config.id,
+            name = config.name,
+            category = config.hotbarCategory,
+            abilities = {},
+        }
+
+        local displayIndex = 0
+        for slotIndex = firstNormal, ultimateSlot - 1 do
+            displayIndex = displayIndex + 1
+            local abilityId = CM.SafeCall(GetArmoryBuildSlotBoundId, buildIndex, slotIndex, config.hotbarCategory)
+            local abilityInfo = ResolveAbilityInfo(abilityId, buildIndex, config.hotbarCategory)
+            if abilityInfo then
+                table_insert(bar.abilities, {
+                    index = displayIndex,
                     slot = slotIndex,
-                    id = abilityId,
-                    name = abilityName,
+                    name = abilityInfo.name,
+                    id = abilityInfo.id,
+                    isUltimate = false,
+                    isCrafted = abilityInfo.isCrafted or false,
+                    scripts = abilityInfo.scripts,
+                })
+            else
+                table_insert(bar.abilities, {
+                    index = displayIndex,
+                    slot = slotIndex,
+                    name = "[Empty Slot]",
+                    id = nil,
+                    isUltimate = false,
                 })
             end
         end
-    end
-    if #backupBar.abilities > 0 then
-        table.insert(hotbars, backupBar)
+
+        local ultAbilityId = CM.SafeCall(GetArmoryBuildSlotBoundId, buildIndex, ultimateSlot, config.hotbarCategory)
+        local ultInfo = ResolveAbilityInfo(ultAbilityId, buildIndex, config.hotbarCategory)
+        if ultInfo then
+            bar.ultimate = ultInfo.name
+            bar.ultimateId = ultInfo.id
+            bar.ultimateIsCrafted = ultInfo.isCrafted or false
+            bar.ultimateScripts = ultInfo.scripts
+        end
+
+        table_insert(hotbars, bar)
     end
 
     return hotbars
@@ -211,13 +449,16 @@ function api.GetBuildInfo(buildIndex)
         return nil
     end
 
+    local equipment, sets = api.GetBuildEquipment(buildIndex)
+
     return {
         index = buildIndex,
         name = name,
         iconIndex = api.GetBuildIconIndex(buildIndex),
         attributes = api.GetBuildAttributePoints(buildIndex),
         champion = api.GetBuildChampionPoints(buildIndex),
-        equipment = api.GetBuildEquipment(buildIndex),
+        equipment = equipment,
+        sets = sets,
         hotbars = api.GetBuildHotbars(buildIndex),
         mundus = api.GetBuildMundusStones(buildIndex),
         curse = api.GetBuildCurse(buildIndex),
@@ -225,7 +466,5 @@ function api.GetBuildInfo(buildIndex)
         outfitIndex = CM.SafeCall(GetArmoryBuildEquippedOutfitIndex, buildIndex) or 0,
     }
 end
-
--- Composition functions moved to collector level
 
 CM.DebugPrint("API", "ArmoryBuilds API module loaded")

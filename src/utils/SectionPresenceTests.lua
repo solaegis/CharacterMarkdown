@@ -206,7 +206,7 @@ local SECTION_PATTERNS = {
     {
         name = "Armory Builds",
         patterns = {
-            github = { "##.*🎯.*Armory", "Armory Builds", "Armory" },
+            github = { "##.*🏰.*Armory", "Armory Builds", "Armory" },
             fallback = { "Armory" },
         },
     },

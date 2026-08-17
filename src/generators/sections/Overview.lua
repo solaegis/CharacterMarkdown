@@ -33,8 +33,14 @@ local function GenerateGeneral(
 
     -- Check if character attributes should be included
     local includeCharacterAttributes = true
+    local includeAttributes = true
+    local includeBuffs = true
+    local includeLocation = true
     if settings then
         includeCharacterAttributes = settings.includeCharacterAttributes ~= false
+        includeAttributes = settings.includeAttributes ~= false
+        includeBuffs = settings.includeBuffs ~= false
+        includeLocation = settings.includeLocation ~= false
     end
 
     local formatNumber = CM.utils and CM.utils.FormatNumber
@@ -104,12 +110,14 @@ local function GenerateGeneral(
             table_insert(allRows, { "**Champion Points**", tostring(charData.cp) })
         end
 
-        -- Attributes
-        local attrs = charData.attributes or {}
-        table_insert(allRows, {
-            "**Attributes**",
-            string_format("🔵 %d / ❤️ %d / ⚡ %d", attrs.magicka or 0, attrs.health or 0, attrs.stamina or 0),
-        })
+        -- Attributes (magicka / health / stamina distribution)
+        if includeAttributes then
+            local attrs = charData.attributes or {}
+            table_insert(allRows, {
+                "**Attributes**",
+                string_format("🔵 %d / ❤️ %d / ⚡ %d", attrs.magicka or 0, attrs.health or 0, attrs.stamina or 0),
+            })
+        end
 
         -- Available Champion Points (breakdown by discipline)
         if cpData and cpData.disciplines then
@@ -255,7 +263,11 @@ local function GenerateGeneral(
         end
 
         -- Active Buffs
-        if buffsData and (buffsData.food or buffsData.potion or (buffsData.other and #buffsData.other > 0)) then
+        if
+            includeBuffs
+            and buffsData
+            and (buffsData.food or buffsData.potion or (buffsData.other and #buffsData.other > 0))
+        then
             local CreateBuffLink = CM.links and CM.links.CreateBuffLink
             local buffLines = {}
 
@@ -284,7 +296,7 @@ local function GenerateGeneral(
         end
 
         -- Location
-        if locationData then
+        if includeLocation and locationData then
             local zone = locationData.zone or "Unknown"
             local subzone = locationData.subzone
             local zoneIndex = locationData.zoneIndex or 0
@@ -449,14 +461,16 @@ local function GenerateGeneral(
             result = result .. "|| **ESO Plus** | ✅ Active |\n"
         end
 
-        local attrs = charData.attributes or {}
-        result = result
-            .. string_format(
-                "|| **Attributes** | 🔵 %d / ❤️ %d / ⚡ %d |\n",
-                attrs.magicka or 0,
-                attrs.health or 0,
-                attrs.stamina or 0
-            )
+        if includeAttributes then
+            local attrs = charData.attributes or {}
+            result = result
+                .. string_format(
+                    "|| **Attributes** | 🔵 %d / ❤️ %d / ⚡ %d |\n",
+                    attrs.magicka or 0,
+                    attrs.health or 0,
+                    attrs.stamina or 0
+                )
+        end
 
         -- Available Champion Points (breakdown by discipline)
         if cpData and cpData.disciplines then
@@ -573,7 +587,11 @@ local function GenerateGeneral(
             result = result .. string_format("|| **🪨 Mundus Stone** | %s |\n", mundusText)
         end
 
-        if buffsData and (buffsData.food or buffsData.potion or (buffsData.other and #buffsData.other > 0)) then
+        if
+            includeBuffs
+            and buffsData
+            and (buffsData.food or buffsData.potion or (buffsData.other and #buffsData.other > 0))
+        then
             local CreateBuffLink = CM.links and CM.links.CreateBuffLink
             local buffLines = {}
 
@@ -601,7 +619,7 @@ local function GenerateGeneral(
             end
         end
 
-        if locationData then
+        if includeLocation and locationData then
             local zone = locationData.zone or "Unknown"
             local subzone = locationData.subzone
             local zoneIndex = locationData.zoneIndex or 0
@@ -691,16 +709,18 @@ local function GenerateGeneral(
             table.insert(lines, "**ESO Plus:** ✅ Active")
         end
 
-        local attrs = charData.attributes or {}
-        table.insert(
-            lines,
-            string_format(
-                "**Attributes:** 🔵 %d / ❤️ %d / ⚡ %d",
-                attrs.magicka or 0,
-                attrs.health or 0,
-                attrs.stamina or 0
+        if includeAttributes then
+            local attrs = charData.attributes or {}
+            table.insert(
+                lines,
+                string_format(
+                    "**Attributes:** 🔵 %d / ❤️ %d / ⚡ %d",
+                    attrs.magicka or 0,
+                    attrs.health or 0,
+                    attrs.stamina or 0
+                )
             )
-        )
+        end
 
         -- Available Champion Points (breakdown by discipline)
         if cpData and cpData.disciplines then
@@ -821,7 +841,11 @@ local function GenerateGeneral(
             table.insert(lines, string_format("**Mundus Stone:** %s", mundusText))
         end
 
-        if buffsData and (buffsData.food or buffsData.potion or (buffsData.other and #buffsData.other > 0)) then
+        if
+            includeBuffs
+            and buffsData
+            and (buffsData.food or buffsData.potion or (buffsData.other and #buffsData.other > 0))
+        then
             local CreateBuffLink = CM.links and CM.links.CreateBuffLink
             local buffLines = {}
 
@@ -849,7 +873,7 @@ local function GenerateGeneral(
             end
         end
 
-        if locationData then
+        if includeLocation and locationData then
             local zone = locationData.zone or "Unknown"
             local subzone = locationData.subzone
             local zoneIndex = locationData.zoneIndex or 0

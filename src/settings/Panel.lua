@@ -29,11 +29,7 @@ local function EnsureCharacterData()
     end
     -- Initialize from account-wide settings perCharacterData
     local characterId = tostring(GetCurrentCharacterId())
-    if
-        CM.settings
-        and CM.settings.perCharacterData
-        and CM.settings.perCharacterData[characterId]
-    then
+    if CM.settings and CM.settings.perCharacterData and CM.settings.perCharacterData[characterId] then
         CM.charData = CM.settings.perCharacterData[characterId]
         return true
     end
@@ -124,7 +120,7 @@ function CM.Settings.Panel:Initialize()
         CM.Info("  1. Download from: https://www.esoui.com/downloads/info7-LibAddonMenu.html")
         CM.Info("  2. Extract to: Documents/Elder Scrolls Online/live/AddOns/")
         CM.Info("  3. Reload UI with /reloadui")
-        CM.Info("The /markdown command still works without settings UI")
+        CM.Info("The /cm command still works without settings UI")
         return false
     end
 
@@ -162,11 +158,7 @@ function CM.Settings.Panel:Initialize()
             local preservedTextFields = nil
 
             -- Preserve text fields from current character
-            if
-                CM.settings
-                and CM.settings.perCharacterData
-                and CM.settings.perCharacterData[characterId]
-            then
+            if CM.settings and CM.settings.perCharacterData and CM.settings.perCharacterData[characterId] then
                 preservedTextFields = {
                     customNotes = CM.settings.perCharacterData[characterId].customNotes or "",
                     customTitle = CM.settings.perCharacterData[characterId].customTitle or "",
@@ -1316,8 +1308,8 @@ function CM.Settings.Panel:AddArmoryBuildsSection(options)
     -- Armory Builds (CollectArmoryBuildsData)
     table.insert(controls, {
         type = "checkbox",
-        name = "[BETA] Include Armory Builds",
-        tooltip = "|cFFD700EXPERIMENTAL|r: Armory export is under active development.\n\nShow saved armory builds and configurations.",
+        name = "Include Armory Builds",
+        tooltip = "Export saved armory loadouts (gear, skill bars, attributes, mundus) without restoring them in-game. Champion Points show discipline totals only.",
         getFunc = function()
             return CM.settings.includeArmoryBuilds
         end,
@@ -1328,7 +1320,7 @@ function CM.Settings.Panel:AddArmoryBuildsSection(options)
 
     table.insert(options, {
         type = "submenu",
-        name = "Armory Builds [BETA]",
+        name = "Armory Builds",
         tooltip = "Saved armory builds and configurations.",
         controls = controls,
     })
@@ -1806,6 +1798,8 @@ function CM.Settings.Panel:AddActions(options)
         func = function()
             if CM.commands and CM.commands.GenerateOutput then
                 CM.commands.GenerateOutput("markdown")
+            elseif SLASH_COMMANDS and type(SLASH_COMMANDS["/cm"]) == "function" then
+                SLASH_COMMANDS["/cm"]("")
             elseif SLASH_COMMANDS and type(SLASH_COMMANDS["/markdown"]) == "function" then
                 SLASH_COMMANDS["/markdown"]("")
             else
@@ -2010,6 +2004,35 @@ function CM.Settings.Panel:AddActions(options)
         RefreshSettingsPanel()
     end
 
+    -- AI / Build Coach preset: leaner than Minimal for advice-sized normal exports
+    -- (Pair with /cm coach for the compact schema dump.)
+    local function ApplyAIBuildCoachPreset()
+        ToggleAllSections(false)
+        CM.settings.includeHeader = false
+        CM.settings.includeFooter = false
+        CM.settings.includeTableOfContents = false
+        CM.settings.includeBasicCombatStats = true
+        CM.settings.includeAdvancedStats = true
+        CM.settings.includeRole = true
+        CM.settings.includeAttributes = true
+        CM.settings.includeChampionPoints = true
+        CM.settings.includeChampionDiagram = false
+        CM.settings.includeSkillBars = true
+        CM.settings.includeSkills = true
+        CM.settings.includeEquipment = true
+        CM.settings.includeBuildNotes = true
+        CM.settings.includeQuickStats = true
+        CM.settings.includeGeneral = true
+        CM.settings.includeCharacterAttributes = true
+        CM.settings.includeLocation = true
+        CM.settings.enableAbilityLinks = false
+        CM.settings.enableSetLinks = false
+        CM.settings._lastModified = GetTimeStamp()
+        CM.InvalidateSettingsCache()
+        CM.Info("AI / Build Coach preset applied (use /cm coach for compact paste schema)")
+        RefreshSettingsPanel()
+    end
+
     -- PvP Build preset: Minimal + PvP info and Alliance War Skills
     local function ApplyPvPBuildPreset()
         ApplyMinimalPreset()
@@ -2139,8 +2162,16 @@ function CM.Settings.Panel:AddActions(options)
 
     table.insert(options, {
         type = "button",
+        name = "Preset: AI / Build Coach",
+        tooltip = "Leaner than Minimal for advice-sized profile exports (no header/footer/TOC/links/CP diagram). For the compact ChatGPT/Claude paste schema, use /cm coach (does not change settings).",
+        func = ApplyAIBuildCoachPreset,
+        width = "half",
+    })
+
+    table.insert(options, {
+        type = "button",
         name = "Preset: Solo PvE",
-        tooltip = "Minimal plus full Quests [BETA], Armory [BETA], Social, Progression, Riding, Companion, skill morphs, CP diagram, titles, Collectibles, and PvP.",
+        tooltip = "Minimal plus full Quests [BETA], Armory Builds, Social, Progression, Riding, Companion, skill morphs, CP diagram, titles, Collectibles, and PvP.",
         func = ApplySoloPvEPreset,
         width = "half",
     })
@@ -2148,7 +2179,7 @@ function CM.Settings.Panel:AddActions(options)
     table.insert(options, {
         type = "button",
         name = "Preset: PvP Build",
-        tooltip = "Minimal plus PvP info, stats, Alliance War skills, skill morphs, CP diagram, titles, Armory [BETA], and Social.",
+        tooltip = "Minimal plus PvP info, stats, Alliance War skills, skill morphs, CP diagram, titles, Armory Builds, and Social.",
         func = ApplyPvPBuildPreset,
         width = "half",
     })

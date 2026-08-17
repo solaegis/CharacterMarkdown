@@ -171,10 +171,7 @@ local function GenerateHousing(housingData)
             local primaryLink = (CreateHouseLink and CreateHouseLink(primaryName)) or primaryName
             markdown = markdown .. "**Primary Residence:** " .. primaryLink .. "\n\n"
             if housingData.primary.furnitureCount then
-                markdown = markdown
-                    .. "**Furniture Count:** "
-                    .. tostring(housingData.primary.furnitureCount)
-                    .. "\n\n"
+                markdown = markdown .. "**Furniture Count:** " .. tostring(housingData.primary.furnitureCount) .. "\n\n"
             end
             if housingData.primary.isListedOnTours ~= nil then
                 markdown = markdown
