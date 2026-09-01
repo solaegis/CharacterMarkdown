@@ -61,7 +61,7 @@
                         <Button name="$(parent)Close" inherits="ZO_CloseButton">
                             <Anchor point="TOPRIGHT" offsetX="-10" offsetY="5" />
                             <OnClicked>
-                                CharacterMarkdownWindow:SetHidden(true)
+                                CharacterMarkdown_CloseWindow()
                             </OnClicked>
                         </Button>
                     </Controls>
@@ -194,7 +194,7 @@
                             <Dimensions x="165" y="32" />
                             <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-120" />
                             <OnClicked>
-                                CharacterMarkdownWindow:SetHidden(true)
+                                CharacterMarkdown_CloseWindow()
                             </OnClicked>
                             <Controls>
                                 <Label name="$(parent)Label" font="ZoFontGame" text="[X] Dismiss" color="FFFFFFFF">

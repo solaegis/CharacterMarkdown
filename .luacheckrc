@@ -32,6 +32,7 @@ read_globals = {
     "CALLBACK_MANAGER",
     "WINDOW_MANAGER",
     "SCENE_MANAGER",
+    "SCENE_SHOWN",
     "LINK_HANDLER",
 
     -- ===========================================

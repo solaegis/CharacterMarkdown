@@ -19,11 +19,17 @@ local currentMarkdown = ""
 local markdownChunks = {} -- Array of markdown chunks
 local currentChunkIndex = 1
 local globalKeyboardRegistered = false
+-- Invalidumped to cancel staggered TakeFocus / SelectAll when focus should not be re-stolen
+local focusSessionId = 0
+local sceneLifecycleRegistered = false
 
 -- Forward declarations
 local ShowChunk
 local RegisterGlobalKeyboardHandler
 local UnregisterGlobalKeyboardHandler
+local RegisterSceneLifecycle
+local PauseKeyboardCapture
+local ResumeKeyboardCaptureIfVisible
 
 -- Clear chunks to prevent memory leak
 local function ClearChunks()
@@ -33,7 +39,20 @@ local function ClearChunks()
     CM.DebugPrint("UI", "Chunks cleared")
 end
 
+local function BumpFocusSession()
+    focusSessionId = focusSessionId + 1
+    return focusSessionId
+end
+
+local function ReleaseEditBoxFocus()
+    if editBoxControl and editBoxControl.LoseFocus then
+        editBoxControl:LoseFocus()
+    end
+end
+
 local function CleanupWindowState()
+    BumpFocusSession()
+    ReleaseEditBoxFocus()
     ClearChunks()
     EVENT_MANAGER:UnregisterForUpdate("CharacterMarkdown_SelectionCheck")
     UnregisterGlobalKeyboardHandler()
@@ -129,13 +148,17 @@ end
 -- Wraps the operation in zo_callLater with window/editBox checks
 local function SelectAll(delayMs)
     delayMs = delayMs or 150 -- Default delay
+    local session = focusSessionId
     zo_callLater(function()
-        if not windowControl:IsHidden() and editBoxControl then
-            editBoxControl:TakeFocus()
-            editBoxControl:SelectAll()
-            SetSelectionState()
-            -- LoseFocus(delayMs)
+        if session ~= focusSessionId then
+            return
         end
+        if not windowControl or windowControl:IsHidden() or not editBoxControl then
+            return
+        end
+        editBoxControl:TakeFocus()
+        editBoxControl:SelectAll()
+        SetSelectionState()
     end, delayMs)
 end
 
@@ -591,6 +614,9 @@ function CharacterMarkdown_OpenSettings()
         CM.Info("To access settings: ESC → Settings → Add-Ons → CharacterMarkdown")
         return
     end
+
+    -- Pause capture so LAM / game menu typing is not re-stolen by the markdown EditBox
+    PauseKeyboardCapture()
 
     -- Use the /markdownsettings command that LAM registered for our panel
     -- This is the most reliable way to open our specific panel
@@ -1256,6 +1282,8 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
     -- Show window
     windowControl:SetHidden(false)
 
+    local focusSession = BumpFocusSession()
+
     -- Immediate TakeFocus so EditBox grabs focus as soon as window is visible
     if editBoxControl then
         editBoxControl:TakeFocus()
@@ -1263,8 +1291,12 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
 
     -- Staggered TakeFocus (0, 50, 100, 200, 300, 400ms) to overcome chat/game focus races
     -- Chat often retains focus after Enter; longer delays ensure EditBox wins
+    -- Cancelled via focusSessionId when settings/scene leave/close bumps the session
     for _, delayMs in ipairs({ 0, 50, 100, 200, 300, 400 }) do
         zo_callLater(function()
+            if focusSession ~= focusSessionId then
+                return
+            end
             if not windowControl:IsHidden() and editBoxControl then
                 editBoxControl:TakeFocus()
             end
@@ -1275,6 +1307,7 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
     EVENT_MANAGER:RegisterForUpdate("CharacterMarkdown_SelectionCheck", 200, UpdateSelectAllButtonColor)
 
     RegisterGlobalKeyboardHandler()
+    RegisterSceneLifecycle()
 
     -- Bring window to top and activate
     if windowControl.SetTopmost then
@@ -1306,6 +1339,9 @@ function CharacterMarkdown_ShowWindow(markdown, formatter)
 
     -- Auto-select text and give EditBox focus for keyboard handling
     zo_callLater(function()
+        if focusSession ~= focusSessionId then
+            return
+        end
         -- Ensure window is still visible
         if not windowControl:IsHidden() then
             -- Enable keyboard on EditBox (needed for keyboard shortcuts)
@@ -1434,9 +1470,8 @@ RegisterGlobalKeyboardHandler = function()
                 return
             end
 
-            if editBoxControl then
-                editBoxControl:TakeFocus()
-            end
+            -- Do not TakeFocus on unmatched keys — that re-steals focus from LAM / other UI
+            -- while the markdown window remains visible.
         end
     )
 
@@ -1450,6 +1485,49 @@ UnregisterGlobalKeyboardHandler = function()
 
     EVENT_MANAGER:UnregisterForEvent("CharacterMarkdown_GlobalKeyboard", EVENT_KEY_DOWN)
     globalKeyboardRegistered = false
+end
+
+PauseKeyboardCapture = function()
+    BumpFocusSession()
+    ReleaseEditBoxFocus()
+    UnregisterGlobalKeyboardHandler()
+end
+
+ResumeKeyboardCaptureIfVisible = function()
+    if not windowControl or windowControl:IsHidden() then
+        return
+    end
+    RegisterGlobalKeyboardHandler()
+end
+
+--- Pause capture when a non-HUD scene is shown (inventory, map, settings); resume on HUD.
+RegisterSceneLifecycle = function()
+    if sceneLifecycleRegistered then
+        return
+    end
+    if not SCENE_MANAGER or not SCENE_MANAGER.RegisterCallback then
+        return
+    end
+
+    SCENE_MANAGER:RegisterCallback("SceneStateChanged", function(scene, _oldState, newState)
+        if not windowControl or windowControl:IsHidden() then
+            return
+        end
+        if newState ~= SCENE_SHOWN then
+            return
+        end
+        local name = ""
+        if scene and scene.GetName then
+            name = scene:GetName() or ""
+        end
+        if name == "hud" or name == "hudui" then
+            ResumeKeyboardCaptureIfVisible()
+        else
+            PauseKeyboardCapture()
+        end
+    end)
+
+    sceneLifecycleRegistered = true
 end
 
 -- =====================================================
