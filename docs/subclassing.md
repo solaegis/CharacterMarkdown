@@ -28,8 +28,9 @@ The ability to generate resources (Health, Magicka, Stamina) faster than they ar
 ### 2. The Fortress (Mitigation)
 The ability to survive direct hits and sustained pressure.
 - **Top Picks:**
-    - **Draconic Power (Dragonknight):** For **Iron Skin** (Block Mitigation) and **Hardened Armor**.
+    - **Draconic Power (Dragonknight):** For **Burnished Scales** (block mitigation) and tools such as **Wing Buffet**, **Blood of the Green Dragon**, or **Disintegrating Dragonfire** (Major Breach). Do **not** cite pre-U49 **Hardened Armor** / **Iron Skin** — see [dragonknight_u49.md](dragonknight_u49.md). (**Earthshield Mantle** is **Earthen Heart**, not Draconic.)
     - **Shadow (Nightblade):** For **Refreshing Shadows** (Recovery) and **Shadowy Disguise** (Stealth/Crit).
+    - **Earthen Heart (Dragonknight):** For **Earthspike Mantle** / **Earthshield Mantle** when keeping the stone line.
 
 ### 3. The Weapon (Damage)
 The primary method of eliminating threats.

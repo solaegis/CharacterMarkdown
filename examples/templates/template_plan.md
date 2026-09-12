@@ -2,7 +2,7 @@
 
 > **Character profile:** [{slug}.md](../{account}/{location}/{slug}.md) — Level {N} {Race} {Class}, CP {budget}, @{Account} ({Server}).
 
-{One to two paragraphs: elevator pitch — what this build is, which subclass lines merge, what content it targets (solo overland, PvP, tank, etc.), and any live-vs-target transition note.}
+{One to two paragraphs: elevator pitch — what this build is, **subclassing decision** (KEEP all three native with rationale, or which foreign lines SUBCLASS and why they clearly beat the natives they replace), what content it targets (solo overland, PvP, tank, etc.), and any live-vs-target transition note.}
 
 ---
 
@@ -13,6 +13,7 @@
 | **Primary Stat** | 64 points in **{Stat}** — **live:** {current spread/pools} · **target:** {pools at CP160} |
 | **Mundus Stone** | **{Mundus}** — {why}; **live:** {equipped or changing} |
 | **Vampirism** | **{Cured / Stage N / N/A}** — {rationale if relevant} |
+| **Trinity** | **{Line A}** + **{Line B}** KEEP · **{Line C}** {KEEP / SUBCLASS (replaces **{Native}**)} — **live:** {current lines} · **decision:** {one-line why} |
 | **Sets** | **{Set A + Set B}** (100% craftable unless exception documented) — **live:** {current} · **target:** {end state} |
 | **Bars** | Front: {weapon} ("{bar name}") · Back: {weapon} ("{bar name}") |
 | **Food** | **{Food}** |
@@ -23,6 +24,8 @@
 | **Primary Mount** | **{Owned mount}** (owned) · **Ideal:** **{Ideal mount}** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **{Owned pet}** (owned) · **Ideal:** **{Ideal pet}** — see [Collectibles](#collectibles) |
 | **Costume** | **{Primary costume}** (owned / acquire) · **Alt:** **{Alt costume}** — see [Collectibles](#collectibles) |
+
+<!-- Authors: before locking Primary Mount / Flavor Pet / Costume, consult docs/collectibles_companion_ledger.md (same megaserver). Diversify when roughly equal. Companions: always best-fit Primary / Secondary / Goal; update the ledger after edits. -->
 
 **Read next:** [Roleplay](#roleplay-{anchor-slug}) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-{anchor-slug}) · [Gear and crafting](#gear-and-crafting-{anchor-slug}) · [Champion points](#champion-point-mapping-cp-{budget}) · [Companion](#companion-strategy-{anchor-slug}) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
@@ -49,21 +52,42 @@
 
 ## Trinity configuration
 
-By completing Bahtra at-Hunding's milestone quest **"A Study in Discipline"** at Level 50, {CharacterName} unlocks the **Uber Tier (Triple Hybrid)** architecture. {One sentence: which native lines are kept vs replaced.} See [docs/subclassing.md](../../../docs/subclassing.md) for the Solaegis Trinity / subclassing model.
+### Subclassing decision (required)
+
+Subclass unlocks at **Level 50** via Bahtra at-Hunding (**"A Study in Discipline"**). Unlocking the quest makes subclassing *available* — it does **not** mean you must swap lines. **Default = class-identity-first:** keep all three native class lines unless a foreign line **clearly outperforms** the native pillar it would replace on this content with craftable gear. See [docs/subclassing.md](../../../docs/subclassing.md).
+
+For **each** of the three pillars, choose **KEEP** or **SUBCLASS** and document it in the table below:
+
+| Decision | When to use |
+| :--- | :--- |
+| **KEEP** | Native line still wins (or ties) for this archetype — state why in Function / a callout |
+| **SUBCLASS** | Foreign line clearly beats the named native replacement — one-sentence proof required |
+
+Allowed outcomes: **0–2** SUBCLASS rows (KEEP-all is valid; Uber / two-subclass is optional, not default).
+
+**This build's decision:** {KEEP all three native — rationale} **or** {SUBCLASS **{Foreign}** replaces **{Native}** because {proof}; KEEP **{Line}** and **{Line}**}.
 
 ```mermaid
 graph TD
-    %% Three lines → archetype. Replace nodes with your lines and signature skills.
-    A["{Line 1} - {Class}"] --> D["{Archetype Name}"]
-    B["{Line 2} - subclass"] --> D
-    C["{Line 3} - subclass"] --> D
+    %% Three lines → archetype. Label each node KEEP or subclass origin.
+    A["{Line 1} - {Class native / subclass}"] --> D["{Archetype Name}"]
+    B["{Line 2} - {Class native / subclass}"] --> D
+    C["{Line 3} - {Class native / subclass}"] --> D
 ```
 
 | **Pillar** | **Line** | **Origin** | **Slot action** | **Function** |
 | :--- | :--- | :--- | :--- | :--- |
-| **{Pillar 1}** | **{Line}** | {Class} (native) | **KEEP** | {function} |
-| **{Pillar 2}** | **{Line}** | {Class} (subclass) | **SUBCLASS** (replaces **{Native line}**) | {function} |
-| **{Pillar 3}** | **{Line}** | {Class} (subclass) | **SUBCLASS** (replaces **{Native line}**) | {function} |
+| **{Pillar 1}** | **{Line}** | {Class} (native) | **KEEP** | {function + why native stays, if relevant} |
+| **{Pillar 2}** | **{Line}** | {Class} (native **or** subclass) | **KEEP** **or** **SUBCLASS** (replaces **{Native line}**) | {function + proof if SUBCLASS} |
+| **{Pillar 3}** | **{Line}** | {Class} (native **or** subclass) | **KEEP** **or** **SUBCLASS** (replaces **{Native line}**) | {function + proof if SUBCLASS} |
+
+<!-- When any SUBCLASS is planned: -->
+<!-- > [!IMPORTANT] -->
+<!-- > **Pre-50 bridge:** Keep native **{Line}** until Bahtra. **At Level 50:** subclass **{Foreign}**, unslot replaced-line actives, and take the new morphs. -->
+
+<!-- When KEEP-all: -->
+<!-- > [!IMPORTANT] -->
+<!-- > **Do not subclass by default.** Only replace a native line later if a foreign line clearly outperforms it on the same content with craftable gear already correct. -->
 
 ---
 

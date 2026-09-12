@@ -20,6 +20,9 @@
 
 - [Testing](TESTING_COMMAND.md)
 - [Publishing](PUBLISHING.md)
+- [Build plan structure](plan_structure.md)
+- [Dragonknight Update 49](dragonknight_u49.md)
+- [Collectibles & companion ledger](collectibles_companion_ledger.md)
 
 # Reference
 

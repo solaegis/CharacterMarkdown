@@ -4,7 +4,8 @@ Canonical layout for Solaegis character build plans under `examples/{account}/{l
 
 **Working template:** [`examples/templates/template_plan.md`](../examples/templates/template_plan.md)  
 **Exemplar (filled):** [`examples/solaegis/na/silent_snow_falls_plan.md`](../examples/solaegis/na/silent_snow_falls_plan.md)  
-**Subclassing theory:** [`docs/subclassing.md`](subclassing.md)
+**Subclassing theory:** [`docs/subclassing.md`](subclassing.md)  
+**Collectibles / companion ledger:** [`docs/collectibles_companion_ledger.md`](collectibles_companion_ledger.md) — before locking primary mount/pet/costume, consult **account tiers → character shortlist → primary table** (same megaserver); update the ledger when glance rows change or after re-running the collectibles tier skill.
 
 ---
 
@@ -22,7 +23,8 @@ Canonical layout for Solaegis character build plans under `examples/{account}/{l
 | `talon_valois_plan.md` | Walkthrough | Legacy | Incomplete CP; dye under gear |
 | `karakum_plan.md` | Walkthrough | Legacy | Werewolf alt bar; no Collectibles H2 |
 | `nekhtarhebi_plan.md` | Walkthrough | Legacy | Gear-first; no Collectibles H2 |
-| `masisi_plan.md` | Walkthrough | **Crafter variant** | No combat trinity; resource/farming focus |
+| `masisi_plan.md` | Build Plan | **Canonical** | Hybrid farmer-DPS (Hunding’s + Order’s Wrath; Assassination subclass) |
+| `dolu_tanesi_plan.md` (EU) | Build Plan | **Canonical** | Magicka life-broker NB; KEEP all native; Julianos + Clever Alchemist; distinct from NA `dolu_tenasi` |
 
 **Alignment goal:** New plans and heavy revisions use the **Canonical** layout. Legacy files are migrated opportunistically — do not bulk-reformat unless explicitly requested.
 
@@ -52,9 +54,11 @@ H2  Roleplay: {Identity Title}
     ---
 
 H2  Trinity configuration
-    Bahtra / Uber Tier intro + link to subclassing.md
+    Subclassing decision (required) — class-identity-first; 0–2 SUBCLASS
+    Bahtra unlock note + link to subclassing.md
     ```mermaid``` graph (three lines → archetype)
     | Pillar | Line | Origin | Slot action | Function | unified table ONLY
+    Pre-50 bridge or KEEP-all callout
     ---
 
 H2  Combat kit: {Cycle Name}
@@ -119,7 +123,7 @@ H2  Next Steps & In-Game Action Checklist
 | :--- | :---: | :--- |
 | Title | Yes | `Build Plan - {Name}: {Archetype} ({Tag})` — prefer over legacy `Walkthrough -` |
 | Profile link | Yes | Blockquote linking to paired `{slug}.md` with level, race, class, CP, account |
-| Pitch | Yes | 1–2 paragraphs: subclass merge, content target, playstyle hook |
+| Pitch | Yes | 1–2 paragraphs: **subclassing decision** (KEEP-all with rationale, or which lines SUBCLASS and why), content target, playstyle hook |
 
 ### Build at a glance
 
@@ -130,6 +134,7 @@ Single summary table. Include **live** vs **target** labels when the profile exp
 | Primary Stat | Attribute spread + key pools at CP160 |
 | Mundus Stone | Target; note if live differs |
 | Vampirism | Cured / Stage N / N/A |
+| Trinity | Three lines with KEEP / SUBCLASS; live vs target; one-line decision |
 | Sets | Craftable pairing; **100% craftable** unless documented exception |
 | Bars | Front + back weapon types and bar nicknames |
 | Food / Potion / Poisons / Enchants | Consumables and bar enchants |
@@ -152,10 +157,16 @@ Follow with **Read next:** inline anchor links to every major H2.
 
 ### Trinity configuration
 
+- **Always evaluate subclassing** — do not skip this section or assume Uber by default.
+- **Subclassing decision (required):** Unlock Bahtra at Level 50 so subclassing is *available*. **Default = class-identity-first** (keep all three native class lines). For each pillar, choose **KEEP** or **SUBCLASS** and document it.
+- **SUBCLASS** only when a foreign line **clearly outperforms** the named native replacement on this content with craftable gear — one-sentence proof in Function or a callout.
+- **KEEP-all is valid** only with rationale (why no foreign line beats a native pillar yet).
+- Allowed outcomes: **0–2** SUBCLASS rows (not forced double-subclass).
+- When any SUBCLASS is planned: include a **pre-50 bridge** callout (which native line stays until Bahtra).
 - **One** mermaid diagram: three skill lines converging on the archetype name.
 - **One** unified pillar table — no separate third “slot-only” table.
 - Columns: Pillar, Line, Origin, Slot action (KEEP / SUBCLASS), Function.
-- Reference [`docs/subclassing.md`](subclassing.md) for Uber Tier / Bahtra quest context.
+- Reference [`docs/subclassing.md`](subclassing.md) for Trinity / Bahtra / Uber context.
 
 ### Combat kit
 
@@ -165,7 +176,7 @@ Follow with **Read next:** inline anchor links to every major H2.
 | **Rotation and combat tips** | Opener → setup → swap → loop. Mermaid flowchart encouraged. Numbered tips for solo, bosses, etc. |
 | **Passive skills** | Priority-ordered by skill line. Rank II/III notation. Group by class, weapon, armor, guild, race, world soul. |
 
-**Mechanical rules:** Bars must match equipped weapon types. Each morph at most once across bars. Use real ESO ability lines only (base → sibling morphs). **Daedric summons:** when used, the same summon occupies **slot 5 on both bars** (bar swap otherwise despawns it); if slot 5 cannot be dedicated on both bars, omit Daedric summons and use other skills in slot 5 — never plan a summon on only one bar or outside slot 5.
+**Mechanical rules:** Bars must match equipped weapon types. Each morph at most once across bars. Use real ESO ability lines only (base → sibling morphs). Default: **offense on front**, healing/support on back. When a build uses **both melee and ranged** weapons, **melee is front** and **ranged is back** (e.g. Dual Wield / Two-Handed front, Bow back). **Daedric summons:** when used, the same summon occupies **slot 5 on both bars** (bar swap otherwise despawns it); if slot 5 cannot be dedicated on both bars, omit Daedric summons and use other skills in slot 5 — never plan a summon on only one bar or outside slot 5.
 
 ### Gear and crafting
 
@@ -191,6 +202,7 @@ Follow with **Read next:** inline anchor links to every major H2.
 - No fictional **"Companion's {player set}"** names, player sets (Julianos, Clever Alchemist, Divines), or **5-piece set bonuses** on companions.
 - Acquisition: merchant white basics + **Superior+** drops while companion is active — **not** player crafting handoff from Gear and crafting.
 - Include role, gear weight, trait, loadout, acquisition, and a numbered support skill bar.
+- **Stage recommendations are mandatory** on new/heavily revised plans: **Primary (now)**, **Secondary**, and **Goal (20/20 @ CP160)** — always best mechanical + RP fit for that stage. Reuse across plans is fine (no diversity soft-cap). Record all three in [`collectibles_companion_ledger.md`](collectibles_companion_ledger.md).
 
 ### Collectibles
 
@@ -202,6 +214,8 @@ Mount, pet, and visual identity **always** live here — never between Gear and 
 | **Pet** | Thematic matches |
 | **Costume** | Primary full-body costume + alt; owned vs ideal; not Outfit Station motifs |
 | **Dye and style** | Motif table + dye palette (when not in costume, or weapons) |
+
+Before locking **primaries**, read [`collectibles_companion_ledger.md`](collectibles_companion_ledger.md) for that megaserver: **account collectible tiers**, then the character’s **shortlist**, then the **primary** table. Prefer the most appropriate **owned** pick; when two options are roughly equal, prefer one that is not already a primary on that megaserver. Alts/ideals may share popular picks. Update the ledger row when the plan is created or heavily revised; do not mass-rebalance other plans solely for diversity.
 
 ### Next Steps & In-Game Action Checklist
 
@@ -288,12 +302,13 @@ When reviewing any `{slug}_plan.md`:
 - [ ] Profile link and paired `{slug}.md` exist
 - [ ] Build at a glance labels **live** vs **target** where they differ
 - [ ] Roleplay includes Custom Title (≤100) and Build Notes (≤1,900)
-- [ ] Trinity = one mermaid + one table
+- [ ] Trinity = one mermaid + one table; **subclassing evaluated and documented** (KEEP-all is valid only with rationale; SUBCLASS needs proof + replaced native)
 - [ ] Skill bars match equipped weapons; ultimates on slot 6; summons on slot 5 (both bars, same ability) when used; morph names from UI
+- [ ] Glance table includes **Trinity** row (live vs target)
 - [ ] Gear is craftable; crafting handoff references @masisi
 - [ ] CP recommendations use [`champion_points_reference.md`](../examples/templates/champion_points_reference.md) names, max points, and slottable/passive type
-- [ ] Companion gear is companion-specific
-- [ ] Mount / pet / costume / dye under Collectibles only
+- [ ] Companion gear is companion-specific; Companion Primary / Secondary / Goal stages present
+- [ ] Mount / pet / costume / dye under Collectibles only; primaries owned; ledger tiers + shortlist + primary table consulted/updated ([`collectibles_companion_ledger.md`](collectibles_companion_ledger.md))
 - [ ] Single phased checklist at end
 - [ ] Plan file not edited when implementing from an attached plan (update profile + artifacts only)
 
