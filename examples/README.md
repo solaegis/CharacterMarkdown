@@ -40,7 +40,6 @@ All live under `examples/solaegis/na/`:
 | `nekhtarhebi` | Nekhtarhebi |
 | `pelatiah` | Pelatiah |
 | `silent_snow_falls` | Silent-Snow-Falls (Solo PvE preset export; see below) |
-| `sjelhosteren` | Sjelhøsteren |
 | `stoirmgheal` | Stoirmgheal |
 | `tziyad` | Tziyad |
 | `zirhli` | Zirhli |
