@@ -2025,6 +2025,9 @@ function CM.Settings.Panel:AddActions(options)
         CM.settings.includeGeneral = true
         CM.settings.includeCharacterAttributes = true
         CM.settings.includeLocation = true
+        CM.settings.includeCollectibles = true
+        CM.settings.showCollectiblesDetailed = true
+        CM.settings.includeAppearance = true
         CM.settings.enableAbilityLinks = false
         CM.settings.enableSetLinks = false
         CM.settings._lastModified = GetTimeStamp()

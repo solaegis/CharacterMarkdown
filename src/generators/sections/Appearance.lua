@@ -39,9 +39,10 @@ local function GenerateAppearance(appearanceData)
         if not hasContent then
             markdown = markdown .. "| Field | Value |\n|:------|:------|\n"
         end
-        local order = { "costume", "personality", "polymorph", "skin", "hat", "hair" }
+        local order = { "costume", "pet", "personality", "polymorph", "skin", "hat", "hair" }
         local labels = {
             costume = "Costume",
+            pet = "Pet",
             personality = "Personality",
             polymorph = "Polymorph",
             skin = "Skin",

@@ -1526,6 +1526,8 @@ local function CollectBuildCoachData()
         equipment = MaybeCollect(true, "CollectEquipmentData", CM.collectors.CollectEquipmentData),
         role = MaybeCollect(true, "CollectRoleData", CM.collectors.CollectRoleData),
         progression = MaybeCollect(true, "CollectProgressionData", CM.collectors.CollectProgressionData),
+        appearance = MaybeCollect(true, "CollectAppearanceData", CM.collectors.CollectAppearanceData),
+        collectibles = MaybeCollect(true, "CollectCollectiblesData", CM.collectors.CollectCollectiblesData),
         customNotes = (CM.charData and CM.charData.customNotes) or "",
         customTitle = (CM.charData and CM.charData.customTitle) or "",
         playStyle = (CM.charData and CM.charData.playStyle) or "",

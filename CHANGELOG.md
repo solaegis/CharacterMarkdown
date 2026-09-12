@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Optional libraries**: LibChatMessage (chat pipeline), LibAsync (frame-yielding inventory/achievements collection), LibCustomIcons (formalized optional dep + integration helper)
-- **AI / Build Coach export**: `/cm coach` (aliases `ai`, `build-coach`; `/markdown` is an alias for `/cm`) emits a compact paste schema (identity, bars, sets, CP, notes, gaps) for ChatGPT/Claude; LAM **Preset: AI / Build Coach** for lean normal exports
+- **AI / Build Coach export**: `/cm coach` (aliases `ai`, `build-coach`; `/markdown` is an alias for `/cm`) emits a compact paste schema (identity, bars, sets, collectibles, CP, notes, gaps) for ChatGPT/Claude; LAM **Preset: AI / Build Coach** for lean normal exports
+- **Build Coach Collectibles**: `/cm coach` includes active mount/costume/pet/personality plus owned mounts, pets, and costumes; Appearance API reports active vanity pet; AI / Build Coach preset enables `includeCollectibles`, `showCollectiblesDetailed`, and `includeAppearance`
 - **Armory Builds (first-class)**: saved loadouts export gear (sets, traits, quality, slot state), skill bars (front/back with ultimates), attributes, and mundus without restoring the build; CP discipline totals only
 
 ### Changed

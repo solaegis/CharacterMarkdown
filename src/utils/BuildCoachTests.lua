@@ -124,6 +124,43 @@ local function SampleData(overrides)
             unspentSkillPoints = 0,
             unspentAttributePoints = 0,
         },
+        appearance = {
+            mount = { name = "Nightmare Senche" },
+            active = {
+                costume = { name = "Imperial Chancellor" },
+                pet = { name = "Golden Eagle" },
+                personality = { name = "Assassin" },
+            },
+        },
+        collectibles = {
+            collections = {
+                mounts = {
+                    count = 3,
+                    list = {
+                        { name = "Nightmare Senche" },
+                        { name = "Sorrel Horse" },
+                        { name = "Dwarven War Horse" },
+                    },
+                },
+                pets = {
+                    count = 3,
+                    list = {
+                        { name = "Golden Eagle" },
+                        { name = "Blue Dragon Imp" },
+                        { name = "Long-Winged Bat" },
+                    },
+                },
+                costumes = {
+                    count = 4,
+                    list = {
+                        { name = "Imperial Chancellor" },
+                        { name = "Lion Guard Knight" },
+                        { name = "Covenant Scout" },
+                        { name = "Mannimarco" },
+                    },
+                },
+            },
+        },
     }
 
     if overrides then
@@ -209,6 +246,7 @@ local function TestSchemaHeadings()
         "## Stats snapshot",
         "## Skill bars",
         "## Sets / gear",
+        "## Collectibles",
         "## Champion Points",
         "## Notes",
         "## Gaps",

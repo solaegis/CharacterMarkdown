@@ -108,7 +108,7 @@ When multiple playstyles exist for a character:
 ## Response Triggers
 
 ### Preferred input: Build Coach export
-Prefer paste from in-game `/cm coach` (or `/cm ai`; alias `/markdown coach`). It is labeled `<!-- CharacterMarkdown build-coach v1 -->` and includes Identity, Stats, Skill bars, Sets/gear, Champion Points, Notes, and Gaps. Full `/cm` profiles also work but are larger.
+Prefer paste from in-game `/cm coach` (or `/cm ai`; alias `/markdown coach`). It is labeled `<!-- CharacterMarkdown build-coach v1 -->` and includes Identity, Stats, Skill bars, Sets/gear, Collectibles (active mount/costume/pet plus owned mounts/pets/costumes), Champion Points, Notes, and Gaps. Full `/cm` profiles also work but are larger.
 
 ### When Character Data Is Uploaded
 1. Analyze current build vs. optimal for stated playstyle(s)

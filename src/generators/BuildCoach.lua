@@ -326,6 +326,73 @@ local function AppendSetsGear(parts, data)
     end
 end
 
+local function CollectibleNamesList(collection)
+    if not collection or not collection.list or #collection.list == 0 then
+        return nil, 0
+    end
+    local names = {}
+    for _, entry in ipairs(collection.list) do
+        local name = entry and (entry.name or entry.fullName)
+        if name and name ~= "" then
+            table_insert(names, name)
+        end
+    end
+    table.sort(names)
+    return names, #names
+end
+
+local function AppendOwnedCollectibleLine(parts, label, collection)
+    local names, count = CollectibleNamesList(collection)
+    if not names or count == 0 then
+        local reported = collection and (collection.count or 0) or 0
+        table_insert(parts, string_format("- **%s (%d):** (none listed)\n", label, reported))
+        return
+    end
+    table_insert(parts, string_format("- **%s (%d):** %s\n", label, count, table_concat(names, ", ")))
+end
+
+local function AppendCollectibles(parts, data)
+    table_insert(parts, "## Collectibles\n\n")
+
+    local appearance = data.appearance or {}
+    local active = appearance.active or {}
+    local mount = appearance.mount
+    local hasActive = false
+
+    table_insert(parts, "### Active\n\n")
+    if mount and mount.name and mount.name ~= "" then
+        table_insert(parts, string_format("- **Mount:** %s\n", mount.name))
+        hasActive = true
+    end
+    if active.costume and active.costume.name and active.costume.name ~= "" then
+        table_insert(parts, string_format("- **Costume:** %s\n", active.costume.name))
+        hasActive = true
+    end
+    if active.pet and active.pet.name and active.pet.name ~= "" then
+        table_insert(parts, string_format("- **Pet:** %s\n", active.pet.name))
+        hasActive = true
+    end
+    if active.personality and active.personality.name and active.personality.name ~= "" then
+        table_insert(parts, string_format("- **Personality:** %s\n", active.personality.name))
+        hasActive = true
+    end
+    if not hasActive then
+        table_insert(parts, "- (none reported)\n")
+    end
+    table_insert(parts, "\n")
+
+    table_insert(parts, "### Owned (build-relevant)\n\n")
+    local collections = data.collectibles and data.collectibles.collections or nil
+    if not collections then
+        table_insert(parts, "*No collectibles data*\n\n")
+        return
+    end
+    AppendOwnedCollectibleLine(parts, "Mounts", collections.mounts)
+    AppendOwnedCollectibleLine(parts, "Pets", collections.pets)
+    AppendOwnedCollectibleLine(parts, "Costumes", collections.costumes)
+    table_insert(parts, "\n")
+end
+
 local function AppendChampionPoints(parts, data)
     table_insert(parts, "## Champion Points\n\n")
     local cp = data.cp
@@ -453,6 +520,7 @@ function CM.generators.GenerateBuildCoachMarkdown(data)
     AppendStats(parts, data)
     AppendSkillBars(parts, data)
     AppendSetsGear(parts, data)
+    AppendCollectibles(parts, data)
     AppendChampionPoints(parts, data)
     AppendNotes(parts, data)
     AppendGaps(parts, data)

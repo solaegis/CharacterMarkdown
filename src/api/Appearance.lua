@@ -133,6 +133,7 @@ function api.GetActiveCollectibles()
     local actorCategory = GetActorCategory()
     local categories = {
         { key = "costume", type = COLLECTIBLE_CATEGORY_TYPE_COSTUME },
+        { key = "pet", type = COLLECTIBLE_CATEGORY_TYPE_VANITY_PET },
         { key = "personality", type = COLLECTIBLE_CATEGORY_TYPE_PERSONALITY },
         { key = "polymorph", type = COLLECTIBLE_CATEGORY_TYPE_POLYMORPH },
         { key = "skin", type = COLLECTIBLE_CATEGORY_TYPE_SKIN },

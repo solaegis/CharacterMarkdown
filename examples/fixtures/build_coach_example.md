@@ -75,6 +75,21 @@
 | Backup Main | Briarheart | Infused | Weapon Damage |
 | Backup Off | - | - | - |
 
+## Collectibles
+
+### Active
+
+- **Mount:** Nightmare Senche
+- **Costume:** Imperial Chancellor
+- **Pet:** Golden Eagle
+- **Personality:** Assassin
+
+### Owned (build-relevant)
+
+- **Mounts (3):** Dwarven War Horse, Nightmare Senche, Sorrel Horse
+- **Pets (3):** Blue Dragon Imp, Golden Eagle, Long-Winged Bat
+- **Costumes (4):** Covenant Scout, Imperial Chancellor, Lion Guard Knight, Mannimarco
+
 ## Champion Points
 
 - **Total:** 1200

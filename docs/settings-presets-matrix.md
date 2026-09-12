@@ -19,7 +19,7 @@ Settings panel labels from **LibAddonMenu** (`/cm settings`), with **Reset to De
 | **Reset to Defaults** | Factory `Defaults.lua`; preserves build notes, custom title, play style text |
 | **Enable All Sections** | Every toggle **On** (not the same as factory defaults) |
 | **Minimal** | Lean build share (Build Export): header, combat, gear, skills, CP, currency, overview helpers — **no UESP links** |
-| **AI / Build Coach** | Leaner than Minimal for advice-sized normal exports: combat, gear, skills, CP, build notes, overview helpers — **no header/footer/TOC/currency/buffs/UESP links**; pair with `/cm coach` for compact schema |
+| **AI / Build Coach** | Leaner than Minimal for advice-sized normal exports: combat, gear, skills, CP, build notes, overview helpers, **collectibles (detailed) + appearance** — **no header/footer/TOC/currency/buffs/UESP links**; pair with `/cm coach` for compact schema |
 | **Solo PvE** | Minimal + UESP links + quests [BETA] + world progress + armory builds + social + progression + riding + companion + morphs + CP diagram + titles + appearance + collectibles + item set collection + full PvP |
 | **PvP Build** | Minimal + UESP links + core PvP + Vengeance + Alliance War skills + skill morphs + CP diagram + titles + armory builds + social |
 | **Achievement Hunter** | Minimal + UESP links + full achievements + criteria detail + antiquities + collectibles + world progress + full crafting + crafting UESP links |
@@ -119,8 +119,8 @@ When **Include Collectibles** is on, titles appear inside the Collectibles secti
 
 | Setting | Saved variable | Default | Minimal | AI Coach | Solo PvE | PvP Build | Ach. Hunter | Crafter |
 |----------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|
-| Include Collectibles | `includeCollectibles` | On | Off | Off | On | Off | On | On |
-| Detailed Collectibles Lists | `showCollectiblesDetailed` | Off | Off | Off | On | Off | Off | On |
+| Include Collectibles | `includeCollectibles` | On | Off | On | On | Off | On | On |
+| Detailed Collectibles Lists | `showCollectiblesDetailed` | Off | Off | On | On | Off | Off | On |
 | Include DLC/Chapter Access | `includeDLCAccess` | Off | Off | Off | On | Off | Off | On |
 | Include Housing | `includeHousing` | Off | Off | Off | On | Off | Off | On |
 
@@ -184,7 +184,7 @@ When **Include Collectibles** is on, titles appear inside the Collectibles secti
 
 | Setting | Saved variable | Default | Minimal | AI Coach | Solo PvE | PvP Build | Ach. Hunter | Crafter |
 |----------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|
-| Include Appearance | `includeAppearance` | Off | Off | Off | On | Off | Off | Off |
+| Include Appearance | `includeAppearance` | Off | Off | On | On | Off | Off | Off |
 
 ---
 
