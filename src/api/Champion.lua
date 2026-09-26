@@ -36,14 +36,11 @@ function api.GetDisciplineInfo(disciplineIndex)
 
     local name = CM.SafeCall(GetChampionDisciplineName, disciplineId)
 
-    -- Try to get the discipline data object (ZO_ChampionDisciplineData)
-    local disciplineData = nil
-    local savedPointsTotal = 0
-
     -- Attempt to access CHAMPION_DATA_MANAGER if available
     -- NOTE: Disabled ZO_ChampionDisciplineData usage as it appears to return incorrect values
     -- (data shifting between disciplines) when accessed by ID in this context.
     -- Falling back to native API GetChampionPointsInDiscipline which is reliable.
+    local savedPointsTotal = 0
     local success, manager = pcall(function()
         -- return CHAMPION_DATA_MANAGER -- Disabled for now
         return nil

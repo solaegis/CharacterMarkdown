@@ -17,12 +17,12 @@ function api.GetResearchInfo(craftingType)
     local lines = {}
 
     for i = 1, numLines do
-        local success, name, icon, numTraits, timeSecs = CM.SafeCallMulti(GetSmithingResearchLineInfo, craftingType, i)
+        local success, name, _, numTraits, timeSecs = CM.SafeCallMulti(GetSmithingResearchLineInfo, craftingType, i)
         if success and name then
             local traits = {}
             numTraits = numTraits or 9
             for j = 1, numTraits do
-                local successTrait, traitType, traitDesc, known =
+                local successTrait, traitType, _, known =
                     CM.SafeCallMulti(GetSmithingResearchLineTraitInfo, craftingType, i, j)
                 if successTrait then
                     table.insert(traits, {

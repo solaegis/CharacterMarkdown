@@ -37,7 +37,7 @@ Edit files in `src/` directory
 ```bash
 # Changes are automatically reflected (symlinked)
 # In ESO: /reloadui
-# Test: /cm github
+# Test: /cm
 ```
 
 ### 3. Validate

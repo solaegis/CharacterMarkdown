@@ -257,7 +257,7 @@ function api.GetCadwellProgress()
         return nil
     end
 
-    local levelName = "Unknown"
+    local levelName
     if CADWELL_PROGRESSION_LEVEL_BRONZE and level == CADWELL_PROGRESSION_LEVEL_BRONZE then
         levelName = "Bronze"
     elseif CADWELL_PROGRESSION_LEVEL_SILVER and level == CADWELL_PROGRESSION_LEVEL_SILVER then

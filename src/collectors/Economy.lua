@@ -26,9 +26,6 @@ local function CollectEconomyData()
     economy.archivalFortunes = currencies.archivalFortunes or 0
     economy.imperialFragments = currencies.imperialFragments or 0
 
-    -- Add computed summary
-    local totalValue = economy.gold -- Primary currency
-
     -- Helper to check if any other currency has value
     local function HasValue(val)
         return (val or 0) > 0

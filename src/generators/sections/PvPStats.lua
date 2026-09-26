@@ -4,14 +4,13 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local FormatNumber, GenerateProgressBar, FormatTime
+local FormatNumber, GenerateProgressBar
 
 -- Lazy initialization of cached references
 local function InitializeUtilities()
     if not FormatNumber then
         FormatNumber = CM.utils.FormatNumber
         GenerateProgressBar = CM.generators.helpers.GenerateProgressBar
-        FormatTime = CM.utils.FormatTime
     end
 end
 
@@ -128,7 +127,6 @@ local function GenerateCampaignColumn(pvp, settings)
     local markdown = ""
     local CreateCampaignLink = CM.links and CM.links.CreateCampaignLink
     local showCampaignRewards = settings.showCampaignRewards or false
-    local detailedPvP = settings.showDetailedPvP or false
 
     if not pvp.campaign or not pvp.campaign.name or pvp.campaign.name == "" then
         return markdown

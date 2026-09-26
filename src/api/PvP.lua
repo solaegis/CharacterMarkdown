@@ -45,7 +45,7 @@ function api.GetCampaign()
     local hasEmperor = CM.SafeCall(DoesCampaignHaveEmperor, campaignId)
     local empInfo = nil
     if hasEmperor then
-        local success, alliance, characterName, displayName = CM.SafeCallMulti(GetCampaignEmperorInfo, campaignId)
+        local _, alliance, characterName, displayName = CM.SafeCallMulti(GetCampaignEmperorInfo, campaignId)
         empInfo = {
             name = characterName,
             account = displayName,

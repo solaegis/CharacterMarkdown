@@ -71,9 +71,7 @@ local function GenerateTitles(titlesData)
     end
 
     -- Always show section if we have a current title, even if collector failed
-    if titlesData.current and titlesData.current ~= "" then
-        -- We have a title, show the section - continue below
-    elseif totalAvailable == 0 and totalOwned == 0 then
+    if (not titlesData.current or titlesData.current == "") and totalAvailable == 0 and totalOwned == 0 then
         -- No titles data available at all
         markdown = markdown .. "### 👑 Titles\n\n"
         markdown = markdown .. "*No titles available*\n\n"
@@ -324,12 +322,10 @@ local function GenerateTitlesHousing(titlesHousingData)
     -- Ensure we have data structures even if collector failed
     local titlesData = titlesHousingData and titlesHousingData.titles or {}
     local housingData = titlesHousingData and titlesHousingData.housing or {}
-    local collectionsData = titlesHousingData and titlesHousingData.collections or {}
 
     markdown = markdown .. GenerateTitles(titlesData)
     markdown = markdown .. GenerateHousing(housingData)
     -- Housing Collections removed per user request
-    -- markdown = markdown .. GenerateHousingCollections(collectionsData)
 
     -- Add divider for GitHub/VSCode format
     if true then

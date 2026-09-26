@@ -287,11 +287,11 @@ end
 ### User Executes Command
 
 ```
-1. User: /cm github  (or /tonl; alias /markdown)
-2. Commands.lua: Parse argument → format name or "tonl"
-3. Formatter: formatters/Markdown.lua or formatters/TONL.lua
-4. Formatter: Call collectors to gather data (conditionally based on settings)
-5. Markdown: Call section generators; TONL: MinimizeForTONL then Encode
+1. User: /cm (alias /markdown)
+2. Commands.lua: Generate markdown via CM.generators.Run (LibAsync when available)
+3. Formatter redirect: formatters/Markdown.lua → generators/Markdown.lua
+4. Collectors gather data (conditionally based on settings)
+5. Section generators build markdown
 6. Chunking: If output exceeds limit, split into chunks
 7. Commands.lua: Call CharacterMarkdown_ShowWindow(content, format)
 8. Window.lua: Display in EditBox, auto-select for copy
@@ -379,7 +379,7 @@ Test individual collectors in-game:
 
 Test full generation:
 ```lua
-/cm github
+/cm
 -- Verify all sections present
 -- Check UESP links functional
 -- Test with different characters

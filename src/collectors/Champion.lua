@@ -2,7 +2,6 @@
 -- Extracted from Progression.lua, refactored to use API layer
 
 local CM = CharacterMarkdown
-local string_format = string.format
 
 -- =====================================================
 -- CHAMPION POINTS CONSTANTS
@@ -43,20 +42,18 @@ end
 
 -- Get discipline type constant safely
 local function GetDisciplineTypeConstant(disciplineId)
-    local constSuccess, constValue = false, nil
-
     if disciplineId == 1 then
-        constSuccess, constValue = pcall(function()
+        local constSuccess, constValue = pcall(function()
             return CHAMPION_DISCIPLINE_TYPE_COMBAT
         end)
         return (constSuccess and constValue) and constValue or 1
     elseif disciplineId == 2 then
-        constSuccess, constValue = pcall(function()
+        local constSuccess, constValue = pcall(function()
             return CHAMPION_DISCIPLINE_TYPE_CONDITIONING
         end)
         return (constSuccess and constValue) and constValue or 2
     elseif disciplineId == 3 then
-        constSuccess, constValue = pcall(function()
+        local constSuccess, constValue = pcall(function()
             return CHAMPION_DISCIPLINE_TYPE_WORLD
         end)
         return (constSuccess and constValue) and constValue or 3
@@ -163,7 +160,6 @@ local function CollectChampionPointData()
             local apiDiscipline = CM.api.champion.GetDisciplineInfo(i)
             if apiDiscipline then
                 local disciplineId = apiDiscipline.id
-                local disciplineName = apiDiscipline.name or "Unknown"
                 local emoji, displayName = GetDisciplineInfo(disciplineId)
                 local disciplineTypeConstant = GetDisciplineTypeConstant(disciplineId)
 
@@ -268,13 +264,11 @@ local function CollectChampionPointData()
         end
 
         -- Calculate discipline balance metrics
-        local disciplineTotals = {}
         local maxDisciplineTotal = 0
         local minDisciplineTotal = math.huge
 
         for _, disc in ipairs(disciplines) do
             local total = disc.total or 0
-            disciplineTotals[disc.name] = total
             if total > maxDisciplineTotal then
                 maxDisciplineTotal = total
             end

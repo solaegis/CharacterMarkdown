@@ -184,10 +184,9 @@ local function GenerateDLCAsCollectible(dlcData)
     end
 
     -- Count total DLCs
-    local totalDLCs = 0
     local accessibleCount = (dlcData.accessible and #dlcData.accessible) or 0
     local lockedCount = (dlcData.locked and #dlcData.locked) or 0
-    totalDLCs = accessibleCount + lockedCount
+    local totalDLCs = accessibleCount + lockedCount
 
     -- Create collapsible details block
     local summaryText = "🗺️ DLC & Chapter Access"
@@ -454,7 +453,7 @@ local function GenerateCollectibles(collectiblesData, _, dlcData, lorebooksData,
 
                 if titlesContent ~= "" then
                     -- Count owned titles
-                    local owned = 0
+                    local owned
                     if titlesData.summary and titlesData.summary.totalOwned then
                         owned = titlesData.summary.totalOwned
                     elseif titlesData.owned and type(titlesData.owned) == "table" then

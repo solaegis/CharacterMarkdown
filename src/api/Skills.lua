@@ -237,7 +237,6 @@ function api.GetSkillTypes()
         return _skillCache.types
     end
 
-    local numSkillTypes = CM.SafeCall(GetNumSkillTypes) or 0
     local types = {}
 
     local skillTypeNames = CM.Constants.SKILL_TYPE_NAMES
@@ -267,7 +266,6 @@ function api.GetSkillTypes()
 
     -- Cache the result
     _skillCache.types = types
-    -- CM.Warn("GetSkillTypes found " .. tostring(numSkillTypes) .. " types")
     return types
 end
 
@@ -345,18 +343,16 @@ function api.GetSkillAbilitiesWithMorphs(skillType, skillLineIndex)
     local abilities = {}
 
     for abilityIndex = 1, numAbilities do
-        local success, abilityName, icon, earnedRank, passive, ultimate, purchased, progressionIndex, rankIndex =
+        local success, abilityName, _, earnedRank, passive, ultimate, purchased, progressionIndex, _ =
             CM.SafeCallMulti(GetSkillAbilityInfo, skillType, skillLineIndex, abilityIndex)
 
         if success and abilityName and not passive and progressionIndex then
             -- Get progression info
-            local success_prog, progName, currentMorph, currentRank =
-                CM.SafeCallMulti(GetAbilityProgressionInfo, progressionIndex)
+            local _, progName, currentMorph, currentRank = CM.SafeCallMulti(GetAbilityProgressionInfo, progressionIndex)
 
             if progName then
                 -- Get XP info to check if at morph level
-                local success_xp, lastXP, nextXP, currXP, atMorph =
-                    CM.SafeCallMulti(GetAbilityProgressionXPInfo, progressionIndex)
+                local _, _, _, _, atMorph = CM.SafeCallMulti(GetAbilityProgressionXPInfo, progressionIndex)
 
                 local ability = {
                     name = abilityName,
@@ -419,18 +415,17 @@ function api.GetSkillPassives(skillType, skillLineIndex)
     local passives = {}
 
     for abilityIndex = 1, numAbilities do
-        local success, abilityName, icon, earnedRank, passive, ultimate, purchased, progressionIndex, rankIndex =
+        local success, abilityName, icon, _, passive, _, purchased, _, _ =
             CM.SafeCallMulti(GetSkillAbilityInfo, skillType, skillLineIndex, abilityIndex)
 
         if success and abilityName and passive then
             local currentRank = 0
-            local maxRank = 0
 
             -- For passives, we need to check if they are purchased and their rank
             if purchased then
-                local successUpgrade, currentRank, maxRank =
+                local successUpgrade, upgradeRank, _ =
                     CM.SafeCallMulti(GetSkillAbilityUpgradeInfo, skillType, skillLineIndex, abilityIndex)
-                currentRank = (successUpgrade and currentRank) or 0
+                currentRank = (successUpgrade and upgradeRank) or 0
             end
 
             -- Get max rank for the passive
@@ -483,10 +478,7 @@ end
 -- playerClass: Optional parameter - should be passed from collector level
 --             Defaults to "Unknown" if not provided (for backward compatibility)
 function api._GetMorphsData(playerClass)
-    playerClass = playerClass or "Unknown"
-
-    -- Class skill line mapping for filtering
-    local classSkillLines = CM.Constants.CLASS_SKILL_LINES
+    -- playerClass reserved for future class filtering (currently unused; callers may pass it)
     local invalidSkillTypes = CM.Constants.INVALID_SKILL_TYPES
     local invalidSkillLines = CM.Constants.INVALID_SKILL_LINES
     local skillTypeEmojis = CM.Constants.SKILL_TYPE_EMOJIS

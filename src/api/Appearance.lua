@@ -41,7 +41,7 @@ function api.GetOutfitSlots()
 
     -- Common outfit slots (enum values vary; iterate a safe range)
     for outfitSlot = 0, 31 do
-        local success, collectibleId, itemLink, primaryDye, secondaryDye, accentDye =
+        local success, collectibleId, _, primaryDye, secondaryDye, accentDye =
             CM.SafeCallMulti(GetOutfitSlotInfo, actorCategory, outfit.index, outfitSlot)
         if success and collectibleId and collectibleId > 0 then
             local name = CleanName(CM.SafeCall(GetCollectibleName, collectibleId) or "")

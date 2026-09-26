@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Subclass** row in Overview (foreign class skill lines via `GetSkillLineClassId`)
 - Generating placeholder window + chat confirmation when export completes
-- `EquipmentSetCountTests` (run via `/cm unittest`)
+- `EquipmentSetCountTests` (run via `/cm test`)
 - Conditional collectors: skip heavy collectors when their sections are disabled
 
 ### Changed

@@ -59,7 +59,7 @@ function morphs.GenerateSkillMorphs(skillMorphsData)
 
             for _, ability in ipairs(skillLine.abilities) do
                 local baseText = cache.CreateAbilityLink(ability.name)
-                local statusIcon = ""
+                local statusIcon
 
                 if ability.purchased then
                     if ability.currentMorph > 0 then

@@ -91,7 +91,7 @@ local function GenerateOutput(formatter)
                 local sizeKb = math.floor((markdownSize / 1024) * 10 + 0.5) / 10
                 CM.Info(
                     string.format(
-                        "CharacterMarkdown ready — window opened (%d chunk%s, %.1f KB). Select All + Copy to paste.",
+                        "CharacterMarkdown ready — window opened (%d chunk%s, %.1f KB). Select text + Ctrl+C to paste.",
                         chunkCount,
                         chunkCount == 1 and "" or "s",
                         sizeKb
@@ -104,34 +104,14 @@ local function GenerateOutput(formatter)
         end
 
         local function RunGeneration()
-            local asyncLib = CM.utils and CM.utils.LibAsyncIntegration
-            local useAsync = asyncLib
-                and asyncLib.IsLibAsyncAvailable
-                and asyncLib.IsLibAsyncAvailable()
-                and CM.generators.GenerateMarkdownAsync
-
-            if useAsync then
-                CM.DebugPrint("COMMAND", "Using LibAsync generation path")
-                CM.generators.GenerateMarkdownAsync(function(markdown)
-                    PresentMarkdown(markdown)
-                end, function(err)
-                    CM.Error("Failed to generate markdown:")
-                    CM.Error(tostring(err))
-                end)
+            if not CM.generators.Run then
+                CM.Error("Markdown generator Run entry not loaded!")
                 return
             end
-
-            local success, markdown = pcall(function()
-                return CM.generators.GenerateMarkdown()
-            end)
-
-            if not success then
+            CM.generators.Run(PresentMarkdown, function(err)
                 CM.Error("Failed to generate markdown:")
-                CM.Error(tostring(markdown))
-                return
-            end
-
-            PresentMarkdown(markdown)
+                CM.Error(tostring(err))
+            end)
         end
 
         -- Defer one frame so the placeholder can paint
@@ -403,11 +383,11 @@ local function InitializeCommands()
                 if rest:match("^show") then
                     settings.HandleSettingsShow()
                 elseif rest:match("^get") then
-                    local args = rest:match("^get%s*(.*)$") or ""
-                    settings.HandleSettingsGet(args)
+                    local getArgs = rest:match("^get%s*(.*)$") or ""
+                    settings.HandleSettingsGet(getArgs)
                 elseif rest:match("^set") then
-                    local args = rest:match("^set%s*(.*)$") or ""
-                    settings.HandleSettingsSet(args)
+                    local setArgs = rest:match("^set%s*(.*)$") or ""
+                    settings.HandleSettingsSet(setArgs)
                 elseif rest:match("^reset") then
                     settings.HandleSettingsReset()
                 elseif rest:match("^enable%-all") then

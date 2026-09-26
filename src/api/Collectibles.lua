@@ -28,7 +28,7 @@ function api.CheckDLCAccess(zoneId)
     -- DLC Check logic using CanJumpToPlayerInZone as proxy for "Do I have access?"
     -- CanJumpToPlayerInZone(zoneId) returns (canJump: bool, result: JumpToPlayerResult)
     -- pcall returns (success, canJump, result)
-    local success, canJump, result = pcall(CanJumpToPlayerInZone, zoneId)
+    local success, _, result = pcall(CanJumpToPlayerInZone, zoneId)
 
     local isLocked = false
     if success and result == JUMP_TO_PLAYER_RESULT_ZONE_COLLECTIBLE_LOCKED then

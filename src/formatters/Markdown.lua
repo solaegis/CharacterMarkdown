@@ -14,3 +14,15 @@ CM.formatters.GenerateMarkdown = function(...)
         return ""
     end
 end
+
+-- Shared async-aware entry (same as CM.generators.Run)
+CM.formatters.Run = function(onDone, onError)
+    if CM.generators and CM.generators.Run then
+        return CM.generators.Run(onDone, onError)
+    else
+        CM.Error("Modular generator engine not loaded!")
+        if type(onError) == "function" then
+            onError("Modular generator engine not loaded!")
+        end
+    end
+end

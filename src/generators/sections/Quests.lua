@@ -7,8 +7,6 @@ local CM = CharacterMarkdown
 -- CONSTANTS
 -- =====================================================
 
-local PROGRESS_BAR_WIDTH = 12
-
 -- Cache frequently used functions for performance
 local table_insert = table.insert
 local table_concat = table.concat

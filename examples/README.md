@@ -68,7 +68,7 @@ python3 scripts/validate_example_preset.py --profile factory-defaults examples/s
 
 ### Preset vs factory defaults
 
-Most `examples/solaegis/na/*.md` files are **GitHub format** exports from in-game `/cm github`. They are **not** necessarily generated with **Reset to Defaults** — many match a LAM preset (e.g. **Solo PvE**).
+Most `examples/solaegis/na/*.md` files are **markdown** exports from in-game `/cm`. They are **not** necessarily generated with **Reset to Defaults** — many match a LAM preset (e.g. **Solo PvE**).
 
 | Profile | `silent_snow_falls.md` |
 | --- | --- |
@@ -81,7 +81,7 @@ When saving multi-chunk output, copy each chunk once in order; overlapping paste
 
 ## Generating your own
 
-1. In-game, run: `/cm github`
+1. In-game, run: `/cm`
 2. Copy the output from the window
 3. Save as `examples/{account}/{location}/{slug}.md`
 

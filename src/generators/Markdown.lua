@@ -183,19 +183,6 @@ local GenerateAnchor = CM.utils.markdown and CM.utils.markdown.GenerateAnchor
         return anchor
     end
 
--- Helper function to create a section definition
--- This simplifies section creation and ensures consistent structure
-local function CreateSection(name, tocEntry, condition, generator, options)
-    options = options or {}
-    return {
-        name = name,
-        tocEntry = tocEntry,
-        condition = condition,
-        generator = generator,
-        dynamicTOC = options.dynamicTOC or false,
-    }
-end
-
 -- Section configuration: defines all sections with their conditions
 -- Settings parameter must be the flattened settings table
 --
@@ -810,13 +797,13 @@ local function GetSectionRegistry(settings, gen, data)
                 local showAllQuests = settings.showAllQuests ~= false
 
                 if showAllQuests then
-                    markdown = markdown .. gen.GenerateQuests(data.quests, format)
+                    markdown = markdown .. gen.GenerateQuests(data.quests)
                 else
                     local activeData = {
                         summary = data.quests.summary,
                         active = data.quests.active or {},
                     }
-                    markdown = markdown .. gen.GenerateQuests(activeData, format)
+                    markdown = markdown .. gen.GenerateQuests(activeData)
                 end
 
                 return markdown
@@ -947,7 +934,7 @@ local function ValidateCollectorsReady()
     if not CM.collectors.CollectCharacterData then
         CM.Error("Collectors not loaded!")
         CM.Error("Available in CM.collectors:")
-        for k, v in pairs(CM.collectors) do
+        for k, _ in pairs(CM.collectors) do
             CM.Error("  - " .. k)
         end
         return false, "ERROR: Collectors not loaded. Type /reloadui and try again."
@@ -1185,7 +1172,7 @@ local function AssembleMarkdown(settings, collectedData)
 
     -- Pass 1: generate section bodies (TOC deferred until outputs are known)
     for _, section in ipairs(sections) do
-        local conditionMet = false
+        local conditionMet
         if type(section.condition) == "function" then
             conditionMet = section.condition()
         else
@@ -1245,7 +1232,7 @@ local function AssembleMarkdown(settings, collectedData)
     -- Pass 2: assemble markdown in registry order
     local markdownChunks = {}
     for _, section in ipairs(sections) do
-        local conditionMet = false
+        local conditionMet
         if type(section.condition) == "function" then
             conditionMet = section.condition()
         else
@@ -1329,11 +1316,11 @@ local function AssembleMarkdown(settings, collectedData)
             end)
 
             -- Clear references to help GC before returning
-            collectedData = nil
-            settings = nil
-            gen = nil
-            sections = nil
-            completeMarkdown = nil
+            collectedData = nil -- luacheck: ignore 311
+            settings = nil -- luacheck: ignore 311
+            gen = nil -- luacheck: ignore 311
+            sections = nil -- luacheck: ignore 311
+            completeMarkdown = nil -- luacheck: ignore 311
 
             -- Hint to Lua GC that now is a good time to collect
             -- (Large markdown generation can create significant temporary string garbage)
@@ -1344,10 +1331,10 @@ local function AssembleMarkdown(settings, collectedData)
             CM.Error("Chunking utility not available - markdown may be truncated!")
 
             -- Clear references even on error path
-            collectedData = nil
-            settings = nil
-            gen = nil
-            sections = nil
+            collectedData = nil -- luacheck: ignore 311
+            settings = nil -- luacheck: ignore 311
+            gen = nil -- luacheck: ignore 311
+            sections = nil -- luacheck: ignore 311
 
             return completeMarkdown
         end
@@ -1355,10 +1342,10 @@ local function AssembleMarkdown(settings, collectedData)
 
     -- Markdown fits in one chunk - return as string
     -- Clear references to help GC
-    collectedData = nil
-    settings = nil
-    gen = nil
-    sections = nil
+    collectedData = nil -- luacheck: ignore 311
+    settings = nil -- luacheck: ignore 311
+    gen = nil -- luacheck: ignore 311
+    sections = nil -- luacheck: ignore 311
 
     -- Hint to Lua GC that now is a good time to collect
     -- (Large markdown generation can create significant temporary string garbage)
@@ -1554,7 +1541,7 @@ local function GenerateBuildCoach()
     end
 
     local success, markdown = pcall(generateFn, collectedData)
-    collectedData = nil
+    collectedData = nil -- luacheck: ignore 311
     if not success then
         CM.Error("Build coach generation failed: " .. tostring(markdown))
         return "Build coach generation failed: " .. tostring(markdown)
@@ -1577,6 +1564,50 @@ local function GenerateBuildCoach()
 end
 
 -- =====================================================
+-- SHARED RUN ENTRY (async when LibAsync present, else sync)
+-- =====================================================
+
+--- Run markdown generation and deliver the result via callbacks.
+-- Prefers LibAsync when available so heavy collectors yield between steps.
+-- @param onDone function(markdown) called with string or chunk array
+-- @param onError function(err) optional; defaults to CM.Error logging
+local function Run(onDone, onError)
+    if type(onDone) ~= "function" then
+        CM.Error("CM.generators.Run: onDone callback is required")
+        return
+    end
+
+    local function reportError(err)
+        if type(onError) == "function" then
+            onError(err)
+        else
+            CM.Error("Failed to generate markdown:")
+            CM.Error(tostring(err))
+        end
+    end
+
+    local asyncLib = CM.utils and CM.utils.LibAsyncIntegration
+    local useAsync = asyncLib
+        and asyncLib.IsLibAsyncAvailable
+        and asyncLib.IsLibAsyncAvailable()
+        and GenerateMarkdownAsync
+
+    if useAsync then
+        CM.DebugPrint("GENERATOR", "Using LibAsync generation path")
+        GenerateMarkdownAsync(onDone, reportError)
+        return
+    end
+
+    local success, markdown = pcall(GenerateMarkdown)
+    if not success then
+        reportError(markdown)
+        return
+    end
+
+    onDone(markdown)
+end
+
+-- =====================================================
 -- EXPORTS
 -- =====================================================
 
@@ -1584,3 +1615,4 @@ CM.generators.GenerateMarkdown = GenerateMarkdown
 CM.generators.GenerateMarkdownAsync = GenerateMarkdownAsync
 CM.generators.GenerateBuildCoach = GenerateBuildCoach
 CM.generators.CollectBuildCoachData = CollectBuildCoachData
+CM.generators.Run = Run

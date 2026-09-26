@@ -224,7 +224,7 @@ local function GenerateAchievementCategories(achievementData, format)
                     { "Progress", subBar .. " " .. subPercent .. "%" },
                 }
 
-                local tableContent = ""
+                local tableContent
                 if CreateStyledTable then
                     local options = {
                         alignment = { "left", "right" },
@@ -256,7 +256,7 @@ local function GenerateAchievementCategories(achievementData, format)
                 { "Progress", progressBar .. " " .. percent .. "%" },
             }
 
-            local tableContent = ""
+            local tableContent
             if CreateStyledTable then
                 local options = {
                     alignment = { "left", "right" },

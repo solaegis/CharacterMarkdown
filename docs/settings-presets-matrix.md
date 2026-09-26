@@ -33,6 +33,10 @@ Settings panel labels from **LibAddonMenu** (`/cm settings`), with **Reset to De
 |----------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|
 | Include Header | `includeHeader` | On | On | Off | On | On | On | On |
 | Include Footer | `includeFooter` | On | On | Off | On | On | On | On |
+| Include Table of Contents | `includeTableOfContents` | On | On | Off | On | On | On | On |
+| Include Attention Needed | `includeAttentionNeeded` | On | Off | Off | Off | Off | Off | Off |
+| Include Quick Stats | `includeQuickStats` | On | On | On | On | On | On | On |
+| Include General Overview | `includeGeneral` | On | On | On | On | On | On | On |
 
 ---
 
@@ -239,7 +243,7 @@ When **Include Collectibles** is on, titles appear inside the Collectibles secti
 | Include Outfit Styles | `includeStyles` | On | Off | Off | Off | Off | On | On |
 | Show Styles Detailed | `showStylesDetailed` | Off | Off | Off | Off | Off | On | On |
 | Include Recipes | `includeRecipes` | On | Off | Off | Off | Off | On | On |
-| Show Recipes Detailed *(no menu checkbox)* | `showRecipesDetailed` | Off | Off | Off | Off | Off | On | On |
+| Show Recipes Detailed | `showRecipesDetailed` | Off | Off | Off | Off | Off | On | On |
 
 ---
 
@@ -262,19 +266,6 @@ When **Include Collectibles** is on, titles appear inside the Collectibles secti
 | Recipe UESP Links | `enableRecipeLinks` | On | Off | Off | Off | Off | On | On |
 
 The **Enable UESP Links** checkbox sets ability and set links together. Motif, style, and recipe links are separate checkboxes in the same section.
-
----
-
-## Hidden toggles (no menu checkbox)
-
-These are changed by **Enable All Sections**, **Reset to Defaults**, and presets, but do not appear as separate LAM controls.
-
-| Internal setting | Default | Minimal | AI Coach | Solo PvE | PvP Build | Ach. Hunter | Crafter |
-|----------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|
-| `includeTableOfContents` | On | On | Off | On | On | On | On |
-| `includeQuickStats` | On | On | On | On | On | On | On |
-| `includeGeneral` | On | On | On | On | On | On | On |
-| `includeAttentionNeeded` | On | Off | Off | Off | Off | Off | Off |
 
 ---
 

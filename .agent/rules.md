@@ -108,22 +108,31 @@
   - Pattern: `command object:action` or `command object:subobject`
   - The main noun/object comes before the colon, the action/verb or subobject comes after
   - Examples:
-    - `filter:clear` - perform **clear** action on **filter** object
-    - `test:import-export` - test the **import-export** subsystem
-    - `profile:save` - perform **save** action on **profile** object
-  - **Action**: A verb that operates on the object (clear, save, delete, apply)
-  - **Subobject**: A compound noun that further specifies the object (import-export, validation-report)
+    - `test layout` - run layout calculator tests (space-separated args under `/markdown test`)
+    - `settings get <key>` / `settings set <key> <value>` - read or write a setting
+    - `cache clear` - clear API module caches
   - Always validate subcommands and show helpful error messages for unknown subcommands
 - **Main Commands**:
-  - `/cm [format|test|unittest|filter:clear|help|save]` (alias: `/markdown`)
-  - `/cmdsettings [export|import|test:import-export]`
-- **Format Commands**: Standard markdown generation is the default.
+  - `/cm` (alias `/cm`) — generate markdown and open the copy window
+  - `/markdown_settings` — open the LibAddonMenu settings panel (also `/cm settings` or `/cm s`)
+- **`/cm` subcommands** (`/markdown` is an alias) (LibSlashCommander when present; manual fallback otherwise):
+  - `settings` / `s` — open settings; also `settings show|get|set|reset|enable-all`
+  - `debug` `[on|off]` — toggle debug logging
+  - `version` — print addon version
+  - `help` — list main commands
+  - `test` — full diagnostic suite (settings, collectors, validation, unit tests including chunking)
+  - `test layout` — LayoutCalculator tests only
+  - `test constants` — ability cost / stat ID debug
+  - `scan stats` — scan `GetPlayerStat` 1–200
+  - `cache clear` — clear API module caches
+  - `find names` — `GetAdvancedStatValue` debug
+- Output is markdown-only (no separate github/vscode/discord/quick format subcommands)
 - Always validate arguments and show helpful error messages
 
 ### Settings Management
 - Access settings via `CM.GetSettings()` (handles defaults automatically)
 - Defaults defined in `src/settings/Defaults.lua`
-- Export/Import: Use `CM.utils.TableToYAML()` and `CM.utils.YAMLToTable()`
+- Settings export/import backends live in `CM.Settings.Initializer` (`ExportSettings` / `ImportSettings`); wire UI/commands before documenting as user-facing
 - Settings validation: Check against defaults, validate types
 
 ### SavedVariables Management
@@ -210,10 +219,10 @@
   - This applies to all YAML configuration files, GitHub Actions workflows, etc.
 
 ### Testing
-- Unit tests: `/cm unittest` (collector tests)
-- Validation tests: `/cm test` (markdown validation)
-- Export/Import tests: `/cmdsettings test:import-export`
-- Test files in `src/utils/*Tests.lua`
+- Full suite: `/cm test` (settings diagnostic, collectors, generation, validation, section presence, unit tests including chunking)
+- Layout calculator: `/cm test layout`
+- Test files in `src/utils/*Tests.lua` and `src/utils/Test*.lua` (must be listed in `CharacterMarkdown.txt`)
+- Chunking tests: `src/utils/TestChunking.lua` (loaded after `Chunking.lua`)
 
 ### Chunking & Display
 

@@ -148,7 +148,7 @@
                         </EditBox>
                         
                         <!-- Overlay Instructions (centered on top of EditBox) - Brighter color, hidden when content exists -->
-                        <Label name="$(parent)OverlayInstructions" font="ZoFontGame" text="Press [Space] or Ctrl+A then Ctrl+C to copy" color="E0E0E0FF" verticalAlignment="CENTER" horizontalAlignment="CENTER" mouseEnabled="false">
+                        <Label name="$(parent)OverlayInstructions" font="ZoFontGame" text="Press [Space] to copy, or Ctrl+A then Ctrl+C" color="E0E0E0FF" verticalAlignment="CENTER" horizontalAlignment="CENTER" mouseEnabled="false">
                             <Dimensions x="940" y="60" />
                             <Anchor point="CENTER" />
                         </Label>
@@ -175,7 +175,7 @@
                             </Controls>
                         </Button>
                         
-                        <!-- Select All Button (Center) - Anchored to CENTER for perfect symmetry -->
+                        <!-- Copy Button (Center) - Anchored to CENTER for perfect symmetry -->
                         <Button name="$(parent)SelectAllButton" inherits="ZO_DefaultButton">
                             <Dimensions x="165" y="32" />
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" />
@@ -183,7 +183,7 @@
                                 CharacterMarkdown_CopyToClipboard()
                             </OnClicked>
                             <Controls>
-                                <Label name="$(parent)Label" font="ZoFontGame" text="[Space] Select All" color="FFFFFFFF">
+                                <Label name="$(parent)Label" font="ZoFontGame" text="[Space] Copy" color="FFFFFFFF">
                                     <Anchor point="CENTER" />
                                 </Label>
                             </Controls>

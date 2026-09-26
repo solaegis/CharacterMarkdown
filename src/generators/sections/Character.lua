@@ -184,8 +184,8 @@ local function GenerateQuickStats(
 
     local currencySection = ""
     if IsSettingEnabled("includeCurrency", true) and currencyData then
-        local markdown = CM.utils and CM.utils.markdown
-        local CreateStyledTable = markdown and markdown.CreateStyledTable
+        local markdownUtils = CM.utils and CM.utils.markdown
+        local CreateStyledTable = markdownUtils and markdownUtils.CreateStyledTable
 
         -- Define all currency types with their emojis and labels
         local currencyItems = {
@@ -604,7 +604,7 @@ local function GenerateDynamicTableOfContents(registry, format, sectionOutputs)
     for _, section in ipairs(registry) do
         -- Check if section has TOC entry and condition is met
         if section.tocEntry then
-            local shouldInclude = false
+            local shouldInclude
 
             -- Evaluate condition (can be boolean or function)
             if type(section.condition) == "function" then

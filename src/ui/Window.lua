@@ -653,7 +653,7 @@ end
 -- =====================================================
 
 function CharacterMarkdown_RegenerateMarkdown()
-    if not CM or not CM.formatters or not CM.formatters.GenerateMarkdown then
+    if not CM or not CM.formatters or not (CM.formatters.Run or CM.formatters.GenerateMarkdown) then
         CM.Error("Formatter not available")
         return
     end
@@ -673,15 +673,7 @@ function CharacterMarkdown_RegenerateMarkdown()
         end
     end
 
-    -- Defer generation so the placeholder can paint
-    zo_callLater(function()
-        local success, markdown = pcall(CM.formatters.GenerateMarkdown)
-
-        if not success then
-            CM.Error("Failed to regenerate markdown: " .. tostring(markdown))
-            return
-        end
-
+    local function PresentRegenerated(markdown)
         if not markdown then
             CM.Error("Generated markdown is nil")
             return
@@ -718,6 +710,23 @@ function CharacterMarkdown_RegenerateMarkdown()
                 sizeKb
             )
         )
+    end
+
+    -- Defer generation so the placeholder can paint; prefer shared async-aware Run
+    zo_callLater(function()
+        if CM.formatters.Run then
+            CM.formatters.Run(PresentRegenerated, function(err)
+                CM.Error("Failed to regenerate markdown: " .. tostring(err))
+            end)
+            return
+        end
+
+        local success, markdown = pcall(CM.formatters.GenerateMarkdown)
+        if not success then
+            CM.Error("Failed to regenerate markdown: " .. tostring(markdown))
+            return
+        end
+        PresentRegenerated(markdown)
     end, 50)
 end
 
@@ -748,7 +757,8 @@ function ShowChunk(chunkIndex)
         return false
     end
 
-    -- ASSERTION: Validate chunk size doesn't exceed EditBox limit
+    -- ASSERTION: Validate chunk size doesn't exceed EditBox / copy limits
+    -- (EDITBOX_LIMIT and COPY_LIMIT must stay equal; both are checked for clarity)
     local chunkContent = chunk.content
     local chunkSize = string.len(chunkContent)
     local CHUNKING = CM.constants and CM.constants.CHUNKING
@@ -756,13 +766,14 @@ function ShowChunk(chunkIndex)
     local COPY_LIMIT = (CHUNKING and CHUNKING.COPY_LIMIT) or 21500
 
     -- This should never happen if chunking algorithm is working correctly
-    if chunkSize > COPY_LIMIT then
+    if chunkSize > EDITBOX_LIMIT or chunkSize > COPY_LIMIT then
         CM.Error(
             string.format(
-                "[ERR] Chunk %d/%d size %d exceeds copy limit %d — chunking bug; report via /cm test",
+                "[ERR] Chunk %d/%d size %d exceeds limit (editbox %d / copy %d) — chunking bug; report via /cm test",
                 chunkIndex,
                 #markdownChunks,
                 chunkSize,
+                EDITBOX_LIMIT,
                 COPY_LIMIT
             )
         )
@@ -976,7 +987,7 @@ function CharacterMarkdown_ShowGeneratingPlaceholder(formatter)
         "Please wait while character data is collected and formatted.",
         "The export will appear here when ready.",
         "",
-        "Tip: Use Select All + Copy to paste into AI tools or forums.",
+        "Tip: Use [Space] Copy (or Ctrl+A then Ctrl+C) to paste into AI tools or forums.",
     }, "\n")
 
     markdownChunks = { { content = placeholder } }

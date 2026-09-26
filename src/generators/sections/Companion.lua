@@ -4,7 +4,7 @@
 local CM = CharacterMarkdown
 
 -- Cache for utility functions (lazy-initialized on first use)
-local CreateAbilityLink, CreateCompanionLink, Pluralize, GenerateAnchor
+local CreateAbilityLink, CreateCompanionLink, Pluralize
 local string_format = string.format
 local table_insert = table.insert
 
@@ -18,7 +18,6 @@ local function InitializeUtilities()
         if CM.generators and CM.generators.helpers then
             Pluralize = CM.generators.helpers.Pluralize
         end
-        GenerateAnchor = CM.utils and CM.utils.markdown and CM.utils.markdown.GenerateAnchor
     end
 end
 
@@ -206,7 +205,7 @@ local function GenerateCompanion(companionData)
 
                 -- Generate table with styled headers
                 local alignment = {}
-                for i = 1, #headers do
+                for _ = 1, #headers do
                     table_insert(alignment, "center")
                 end
                 local options = {
@@ -299,7 +298,6 @@ local function GenerateCompanion(companionData)
                     traitText = "-"
                 end
 
-                local qualityDisplay = (item.qualityEmoji or "⚪") .. " " .. (item.quality or "Normal")
                 table_insert(rows, { slotText, itemText, qualityDisplay, traitText })
             end
 
