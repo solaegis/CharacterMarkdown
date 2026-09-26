@@ -196,15 +196,14 @@ Arrow Spray, Blade Cloak, Blessing of Protection, Burning Heart, Burning Light, 
 
 ### Prowler's Talisman (1pc, mythic) — none
 
-> While Battle Spirit is inactive, bracing while crouching turns you invisible for 10 seconds. This can occur once every 45 seconds.
-Increase your chances of successfully Pickpocketing by 5%. On dealing Critical Damage, increase your Max Magicka and Max Stamina for 10 seconds, up to 1900 at 10 stacks.
-On dealing non-Critical Damage, increase your Health, Magicka, and Stamina Recovery for 10 seconds, up to 160 at 10 stacks. Either effect can occur up to once every 1 second.
+> While Battle Spirit is inactive, bracing while crouching turns you invisible for 10 seconds. This can occur once every 45 seconds. Increase your chances of successfully Pickpocketing by 5%. On dealing Critical Damage, increase your Max Magicka and Max Stamina for 10 seconds, up to 1900 at 10 stacks. On dealing non-Critical Damage, increase your Health, Magicka, and Stamina Recovery for 10 seconds, up to 160 at 10 stacks. Either effect can occur up to once every 1 second. Talisman upgrades: 0
 
 - no payload: While Battle Spirit is inactive, bracing while crouching turns you invisible for 10 second
 - no payload: Increase your chances of successfully Pickpocketing by 5%.
 - no payload: On dealing Critical Damage, increase your Max Magicka and Max Stamina for 10 seconds, up t
 - no payload: On dealing non-Critical Damage, increase your Health, Magicka, and Stamina Recovery for 10
 - no payload: Either effect can occur up to once every 1 second.
+- no payload: Talisman upgrades: 0
 
 ### Ring of the Pale Order (1pc, mythic) — none
 
@@ -317,6 +316,12 @@ On dealing non-Critical Damage, increase your Health, Magicka, and Stamina Recov
 
 - no payload: Your melee Light Attacks place a ring on the ground that explodes after 1.3 seconds, apply
 
+### Unflinching Ultimate (5pc, pvp) — none
+
+> Gain 1 second of immunity to crowd control effects after casting an Ultimate for each 20 Ultimate spent.
+
+- no payload: Gain 1 second of immunity to crowd control effects after casting an Ultimate for each 20 U
+
 ### Vanguard's Challenge (5pc, pvp) — none
 
 > When you taunt an enemy player, they deal 35% less damage to all other players but 35% more damage to you for 15 seconds. This effect is lost if you enter Sneak, invisibility, or move further than 28 meters away from them.
@@ -331,12 +336,6 @@ On dealing non-Critical Damage, increase your Health, Magicka, and Stamina Recov
 - no payload: Whenever you gather resources from a harvesting node, gain 1 stack of Harvester, up to 20 
 - no payload: Each stack of Harvester increases your chance of gathering bonus materials by 10%.
 - no payload: Harvester does not affect resources gathered with Crafting Surveys or bonus resources rece
-
-### Unflinching Ultimate (5pc, special) — none
-
-> Gain 1 second of immunity to crowd control effects after casting an Ultimate for each 20 Ultimate spent.
-
-- no payload: Gain 1 second of immunity to crowd control effects after casting an Ultimate for each 20 U
 
 ### Lunar Bastion (5pc, trial) — none
 
@@ -617,7 +616,7 @@ On dealing non-Critical Damage, increase your Health, Magicka, and Stamina Recov
 
 ### Kagrenac's Hope (5pc, crafted) — partial
 
-> Decreases the time it takes to resurrect an ally by 25%. When you successfully resurrect an ally, you restore 40-1720 Magicka.
+> Decreases the time it takes to resurrect an ally by 25%. When you successfully resurrect an ally, you restore 1500 Magicka.
 
 - no payload: Decreases the time it takes to resurrect an ally by 25%.
 

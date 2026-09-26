@@ -2,6 +2,7 @@
 
 Commands:
   fetch     download / refresh cached wiki pages (network)
+  import    copy the in-game /cm sets:dump from SavedVariables [path]
   parse     cached pages -> data/sets/*.json + reports (offline)
   validate  check data/sets/*.json against schema.json (offline)
   build     parse + validate
@@ -18,6 +19,10 @@ def main(argv: list[str]) -> int:
         from . import fetch
 
         return fetch.run()
+    if cmd == "import":
+        from . import reconcile
+
+        return reconcile.run_import(argv[1:])
     if cmd == "parse":
         from . import parse
 

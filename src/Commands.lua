@@ -227,6 +227,7 @@ local function InitializeCommands()
     local debug = CM.commands.debug or {}
     local settings = CM.commands.settings or {}
     local test = CM.commands.test or {}
+    local sets = CM.commands.sets or {}
 
     -- Check for LibSlashCommander
     if LibSlashCommander then
@@ -298,6 +299,7 @@ local function InitializeCommands()
             CM.Info("/cm settings - Open settings")
             CM.Info("/cm version - Show version")
             CM.Info("/cm debug - Toggle debug")
+            CM.Info("/cm sets:dump - Scan every item set into SavedVariables (/cm sets:clear removes it)")
         end)
         helpCmd:SetDescription("Show available commands")
 
@@ -366,6 +368,23 @@ local function InitializeCommands()
         end)
         findCmd:SetDescription("Find IDs (debug)")
         findCmd:SetAutoComplete({ "names" })
+
+        -- Subcommands: sets / sets:dump / sets:clear (set database, Phase 3)
+        local setsCmd = cmd:RegisterSubCommand()
+        setsCmd:AddAlias("sets")
+        setsCmd:SetCallback(sets.HandleSets)
+        setsCmd:SetDescription("Set dump status (dump | clear)")
+        setsCmd:SetAutoComplete({ "dump", "clear" })
+
+        local setsDumpCmd = cmd:RegisterSubCommand()
+        setsDumpCmd:AddAlias("sets:dump")
+        setsDumpCmd:SetCallback(sets.HandleDump)
+        setsDumpCmd:SetDescription("Scan every item set into SavedVariables")
+
+        local setsClearCmd = cmd:RegisterSubCommand()
+        setsClearCmd:AddAlias("sets:clear")
+        setsClearCmd:SetCallback(sets.HandleClear)
+        setsClearCmd:SetDescription("Remove the item set dump")
     else
         -- Fallback: Manual parsing
         CM.Info("LibSlashCommander not found - using basic command handling")
@@ -422,6 +441,12 @@ local function InitializeCommands()
                 debug.HandleCacheClear()
             elseif command == "find" and rest == "names" then
                 debug.HandleFindNames()
+            elseif command == "sets" then
+                sets.HandleSets(rest)
+            elseif command == "sets:dump" then
+                sets.HandleDump()
+            elseif command == "sets:clear" then
+                sets.HandleClear()
             elseif command == "help" then
                 CM.Info("/cm - Generate Markdown profile (alias: /markdown)")
                 CM.Info("/cm coach - Compact AI / build-coach export (aliases: ai, build-coach)")
@@ -429,6 +454,7 @@ local function InitializeCommands()
                 CM.Info("/cm debug - Toggle debug")
                 CM.Info("/cm version - Show version")
                 CM.Info("/cm test - Run tests")
+                CM.Info("/cm sets:dump - Scan every item set into SavedVariables (/cm sets:clear removes it)")
             else
                 CM.Error("Unknown command: " .. command)
                 CM.Info("Type /cm help for commands")

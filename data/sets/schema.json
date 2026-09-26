@@ -199,23 +199,37 @@
           "minLength": 1
         },
         "uesp": {
-          "type": "string",
-          "pattern": "^https://en\\.uesp\\.net/wiki/Online:"
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^https://en\\.uesp\\.net/wiki/Online:"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "wiki": {
-          "type": "object",
-          "required": [
-            "pageid",
-            "revid"
-          ],
-          "properties": {
-            "pageid": {
-              "type": "integer"
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "pageid",
+                "revid"
+              ],
+              "properties": {
+                "pageid": {
+                  "type": "integer"
+                },
+                "revid": {
+                  "type": "integer"
+                }
+              }
             },
-            "revid": {
-              "type": "integer"
+            {
+              "type": "null"
             }
-          }
+          ]
         },
         "type": {
           "enum": [
@@ -265,7 +279,8 @@
           "items": {
             "enum": [
               "pre_release",
-              "incomplete"
+              "incomplete",
+              "not_on_wiki"
             ]
           }
         },
@@ -385,6 +400,43 @@
             "auto",
             "reviewed"
           ]
+        },
+        "game": {
+          "type": "object",
+          "description": "From the in-game /cm sets:dump (Phase 3).",
+          "properties": {
+            "api_type": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "category": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "libsets_type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "max_equipped": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "tier": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Ratio of in-game (default quality) to CP160 gold values."
+            }
+          }
         }
       }
     },
@@ -436,6 +488,32 @@
             "none"
           ],
           "description": "How completely `effects` models the text (see normalize.py honesty check)."
+        },
+        "source": {
+          "enum": [
+            "wiki",
+            "game"
+          ],
+          "description": "'game' when the in-game text replaced the wiki's."
+        },
+        "game_check": {
+          "enum": [
+            "verified",
+            "mismatch",
+            "structure_diff"
+          ],
+          "description": "Result of checking this wiki line against the in-game dump."
+        },
+        "game_text": {
+          "type": "string",
+          "description": "In-game text (default quality) when game_check is not 'verified'."
+        },
+        "game_values": {
+          "enum": [
+            "mapped_to_gold",
+            "as_rendered"
+          ],
+          "description": "For source 'game': whether level-scaled values were mapped to CP160 gold."
         }
       }
     },

@@ -35,9 +35,46 @@ the example `*_plan.md` files consume it.
 | 0 — Scaffold | ✅ done | `tools/setdb/`, `data/sets/schema.json`, `taskfiles/SetDB.yaml`, `uv` group `setdb` |
 | 1 — Fetch & parse | ✅ done | 713 sets (8 deprecated, 12 provisional), 76 buffs, 38 traits, 13 mundus, 38 glyphs; 0 cross-check failures |
 | 2 — Normalize effects | ✅ done | 3,956 effects. Stat lines 99.7% full (target 95%); signature lines 70.4% full (target 70%). Queue in `reports/unmodeled.md` |
-| 3 — In-game reconciliation | next | `/cm sets:dump` |
+| 3 — In-game reconciliation | ✅ done | 702 sets matched to IDs; 2,485 / 2,490 bonus lines verified against the game; 5 flagged in `reports/reconcile.md` |
 | 4 — Uptime & curation | pending | Start with mythics (41.5% full) and class sets (28.6%) |
 | 5–6 | pending | |
+
+### Phase 3 workflow
+
+1. In game, with the client set to English: `/cm sets:dump`. Wait for
+   "Set dump complete", then `/reloadui` so the client writes SavedVariables.
+2. `task setdb:import` reads `CharacterMarkdownSetDump` from
+   `~/Documents/Elder Scrolls Online/live/SavedVariables/CharacterMarkdown.lua` (pass a path with
+   `task setdb:import -- <path>`, or set `ESO_SV`) into `data/sets/raw/game/setdump.json`. That
+   file is gitignored because it's game client text.
+3. `task setdb:build` reconciles before normalizing. See `reports/reconcile.md`.
+
+**What the first real dump taught us (2026-09-26, API 101050).** The game doesn't render
+set bonuses at CP160 gold, whatever the character's CP. Without an item, it renders each
+set at its **default drop quality**, so every level-scaled value in a set sits at one ratio
+("tier") to the wiki's gold value. The median tiers were crafted 0.872, overland 0.907,
+dungeon/arena/trial/PvP ~0.94, and monster/arena weapon ~0.965. 639 of 643 checkable sets
+sit on exactly one tier. Proc damage, heals and restores are computed from the dumping
+character's stats, and "Current bonus" values are live readouts.
+
+So reconciliation **verifies** the wiki rather than replacing it:
+- IDs and tiers are assigned (`set.game.tier`).
+- Each line gets `bonus.game_check`: `verified`, `mismatch` (with `game_text`) or
+  `structure_diff`. Level-scaled values must sit on the set's tier (±1 for integer rounding).
+  Fixed values must match unless they're character-scaled or a live readout.
+- Lines are paired in order within each piece count, since a set can have two 5pc lines.
+- The wiki's gold text is always kept. Only provisional pages and game-only sets use game
+  text, with values mapped back to gold via the observed game→gold pairs
+  (`bonus.game_values`).
+
+My first design had the game's numbers overwrite the wiki's. That would have replaced correct
+CP160 values with default-quality ones, and it was caught on the first real run.
+4. `/cm sets:clear` + `/reloadui` removes the dump from SavedVariables.
+
+Afterwards, `/cm sets:clear` + `/reloadui` removes the dump, so it isn't loaded on every login.
+The dump uses its own SavedVariables global rather than `CM.settings`. Every bonus is a separate
+string (the longest known is about 500 characters), and any string over 1,900 characters is split
+into `textParts`, because ESO silently drops SavedVariables strings of 2,000+ characters.
 
 ### Phase 2 notes
 

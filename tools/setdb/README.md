@@ -8,7 +8,8 @@ This lives outside `src/`, so it is never shipped in the addon zip.
 ```bash
 task setdb:refresh    # fetch (network, incremental) + parse + validate
 task setdb:build      # parse + normalize + validate from the local cache only
-task setdb:test       # normalizer regression tests
+task setdb:import     # in-game dump: /cm sets:dump, /reloadui, then this
+task setdb:test       # normalizer + reconciler tests
 ```
 
 | Stage | Module | Input → output |
@@ -16,6 +17,7 @@ task setdb:test       # normalizer regression tests
 | fetch | `fetch.py`, `wiki.py` | `en.uesp.net/w/api.php` → `data/sets/raw/wiki/` (gitignored cache, keyed by revid) |
 | parse | `parse.py`, `wikitext.py` | cache → `data/sets/{sets,buffs,traits,mundus,enchants}.json` + `reports/parse_report.md` |
 | normalize | `normalize.py` | bonus text → typed `effects[]` + `coverage`; queue in `reports/unmodeled.md` |
+| reconcile | `reconcile.py` | SavedVariables `/cm sets:dump` → set IDs, game-verified text (`reports/reconcile.md`) |
 | validate | `validate.py` | JSON → `schema.json` + cross-file checks |
 
 ## Fetch behaviour

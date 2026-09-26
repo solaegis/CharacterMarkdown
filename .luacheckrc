@@ -13,6 +13,7 @@ globals = {
     "CharacterMarkdown",
     "CharacterMarkdownSettings",
     "CharacterMarkdownData",
+    "CharacterMarkdownSetDump",
     "CharacterMarkdown_RegenerateMarkdown",
     "CharacterMarkdown_OpenSettings",
     "CharacterMarkdown_CopyToClipboard",
@@ -24,6 +25,18 @@ globals = {
 
 -- ESO API globals (read-only)
 read_globals = {
+    -- Item set API (src/commands/SetDump.lua)
+    "GetItemSetInfo",
+    "GetItemSetBonusInfo",
+    "GetItemSetType",
+    "GetItemSetUnperfectedSetId",
+    "GetItemSetClassRestrictions",
+    "GetItemSetCollectionCategoryId",
+    "GetItemSetCollectionCategoryName",
+    "GetItemSetCollectionCategoryParentId",
+    "GetNumItemSetCollectionPieces",
+    "GetESOVersionString",
+    "GetCVar",
     -- ===========================================
     -- ESO CORE OBJECTS
     -- ===========================================

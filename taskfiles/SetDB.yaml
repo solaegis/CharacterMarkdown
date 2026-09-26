@@ -16,6 +16,11 @@ tasks:
       - sh: command -v uv
         msg: "uv is not installed. See https://github.com/astral-sh/uv"
 
+  import:
+    desc: "Import the in-game dump (/cm sets:dump + /reloadui) from SavedVariables. Optional: -- <path>"
+    cmds:
+      - "{{.SETDB}} import {{.CLI_ARGS}}"
+
   parse:
     desc: Parse cached pages into data/sets/*.json (offline)
     cmds:
@@ -27,9 +32,9 @@ tasks:
       - "{{.SETDB}} validate"
 
   test:
-    desc: Run set DB regression tests (normalizer grammar)
+    desc: Run set DB tests (normalizer grammar, SavedVariables reader, reconciliation)
     cmds:
-      - uv run --group setdb python -m unittest tools.setdb.test_normalize
+      - uv run --group setdb python -m unittest tools.setdb.test_normalize tools.setdb.test_reconcile
 
   build:
     desc: Parse + validate (offline; run setdb:fetch first to refresh)

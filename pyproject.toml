@@ -30,3 +30,4 @@ ignore = []
 # Regex grammar and verbatim in-game bonus text don't wrap readably
 "tools/setdb/normalize.py" = ["T20", "E501"]
 "tools/setdb/test_normalize.py" = ["E501"]
+"tools/setdb/test_reconcile.py" = ["E501"]
