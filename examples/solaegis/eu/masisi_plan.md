@@ -1,12 +1,14 @@
 # Build Plan - Masisi: The Ra Gada Artisan (Hybrid Farmer / Craftable DPS)
 
-> **Character profile:** [masisi.md](masisi.md) — Level 50 Redguard Dragonknight, CP 303, @SOLAEGIS (EU).
+> **Character profile:** [masisi.md](masisi.md) — Level 50 Redguard Dragonknight, CP 336, @SOLAEGIS (EU).
 
 Masisi remains the EU account’s **Primary Artisan, Master Farmer, and Resource Scout** — the forge behind craftable loadouts for the roster (including [Lord Elric of Melniboné](lord_elric_of_melnibone_plan.md)). Farmer and crafter stay first: surveys, writs, Keen Eye, hirelings, and the motif library still define the day. Combat is no longer “poke and leave only.” One hybrid kit must clear **node packs**, finish **public-dungeon / casual dungeon filler** when a route goes there, then return to the vein.
 
 **Subclassing:** Keep **Ardent Flame** and **Earthen Heart**. **SUBCLASS Assassination** (Nightblade) in place of **Draconic Power** — stam execute and front-bar damage clearly beat native Draconic for pack and public-dungeon filler on craftable gear. See [docs/subclassing.md](../../../docs/subclassing.md) and [docs/dragonknight_u49.md](../../../docs/dragonknight_u49.md).
 
-**Live → target:** CP **303** Redguard DK in Auridon with **Assassination [Full]** (Rank 25), **The Steed**, **Dual Wield front · Bow back**, Weapon Power ~2.8k. **Live sets:** Order’s Wrath **5/5** (jewelry + DW + bow) · Hunding’s Rage **3/5** (head/chest/hands Divines) · Trainee heavy legs · scrap shoulders/waist · feet missing from export. **Craft CP still gold passives** (Fortune’s Favor / Gilded Fingers) — respec to farmer stars next. Target: finish **5 Hunding’s** medium body (legs + feet), keep Order’s on weapons + jewelry, morph remaining bar bases, Style Master progress so he can supply every EU character from one motif library.
+**End-game gear goal (set DB):** craftable only — **5 Hunding’s Rage (body) + 5 Night Mother’s Gaze (jewelry + weapons)**, replacing Order’s Wrath. Hunding 5pc is **+300 Weapon/Spell Damage** (always on). Night Mother’s Gaze has the **same 2/3/4pc** as Order’s (+657 crit / +129 WD/SD / +657 crit); only the 5pc changes: **Major Breach** (−5,948 enemy Physical/Spell Resistance for 4 s on crit) instead of Order’s +943 crit / +8% Critical Damage. With live **1,930 pen** vs **18,200** enemy resistance, Breach is worth **≈ +12%** damage at full uptime vs **≈ +5.4%** for Order’s 5pc — see [Set rationale](#set-rationale). Both bars keep the full 5pc: jewelry 3 + Dual Wield 2 front, jewelry 3 + **bow 2** back (two-handers count as 2 pieces). All values `coverage: full`, `game_check: verified` in `data/sets/`.
+
+**Live → target:** CP **336** Redguard DK (Summerset) with **Assassination [Full]**, **The Steed**, **Dual Wield front · Bow back**, Weapon Power ~2.8k. **Live sets:** Order’s Wrath **5/5** on both bars (jewelry + DW front; jewelry + bow back — a bow counts as 2) · Hunding’s Rage **4/5** (head/chest/hands/feet Divines — **feet done**) · Trainee heavy legs · scrap Well-fitted shoulders/waist · **almost all crafted slots unenchanted**. **Craft CP still gold passives** (Fortune’s Favor 50 / Gilded Fingers 50) — respec to farmer stars next. Target: craft **Hunding legs** for 5pc, craft **Night Mother’s Gaze** jewelry + daggers + bow (glyphed at craft — don’t glyph the Order’s pieces being replaced), **Bloodthirsty** neck, fill shoulders/waist, gold temper, Style Master so he can supply every EU character from one motif library.
 
 ---
 
@@ -16,22 +18,22 @@ Masisi remains the EU account’s **Primary Artisan, Master Farmer, and Resource
 | **Attribute**            | **Recommendation**                                                                                                                                                                                                              |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Primary Stat**         | 64 points in **Stamina** — **live:** 0 Mag / 0 Health / 64 Stam · **target:** keep 64 Stam                                                                                                                                      |
-| **Mundus Stone**         | **The Steed** (movement speed + Health Recovery; Divines amplifies it) — **live:** The Steed (**done** — keep; do not return to Tower)                                                                                          |
+| **Mundus Stone**         | **The Steed** end-game (not Thief/Warrior) — base **10% move / 238 HP rec**; full Divines → **~16% / 389** (`data/sets/mundus.json`). **live:** The Steed (**done** — keep)                                                      |
 | **Vampirism**            | **Cured / N/A** — daylight node routes and writ hubs                                                                                                                                                                            |
 | **Trinity**              | **Ardent Flame** KEEP · **Earthen Heart** KEEP · **Assassination** SUBCLASS (replaces **Draconic Power**) — **live:** Assassination [Full]; drop Draconic actives (already unslotted)                                           |
-| **Sets**                 | **5 Hunding’s Rage + 5 Order’s Wrath** (100% craftable, medium preferred) — **live:** Order’s 5 (weapons + jewelry) + Hunding 3 (head/chest/hands) · **next:** Hunding legs + feet Divines; retire Trainee legs + scrap pieces |
-| **Bars**                 | Front: **Dual Wield** ("Forge Blade") · Back: **Bow** ("Survey Path") — replace live **Charging Maneuver** (slot 5) with **Endless Hail**; unlock Assault **Continuous Attack** for permanent Gallop                                                                 |
+| **Sets**                 | **End-game:** **5 Hunding’s (body) + 5 Night Mother’s Gaze (jewelry + weapons)**, all craftable — **live:** Order’s 5 (both bars) + Hunding **4/5** · **next:** Hunding **legs** Divines (+300 WD), then NMG jewelry/daggers/bow replace Order’s |
+| **Bars**                 | Front: **Dual Wield** ("Forge Blade") · Back: **Bow** ("Survey Path") — **Endless Hail** + **Incapacitating Strike** live; unlock Assault **Continuous Attack** for Gallop; morph **Inferno → Flames of Oblivion** |
 | **Food**                 | **Artaeum Takeaway Broth** or dual-resource stew — assume **EsoAutoProvision** keeps food/drink up from backpack                                                                                                                |
 | **Potion**               | **Essence of Weapon Power** for packs/PD; **Essence of Speed** between dense node stretches                                                                                                                                     |
 | **Weapon Poisons**       | Optional **Damage Health** / **Escapist’s** on DW for public-dungeon trash                                                                                                                                                      |
-| **Staff/Weapon Enchant** | DW: **Weapon Damage** / **Absorb Stamina** · Bow: **Absorb Stamina** or **Weapon Damage**                                                                                                                                       |
+| **Staff/Weapon Enchant** | **Priority:** glyph all blank slots (glyph NMG pieces as they’re crafted, not the Order’s pieces they replace). Jewelry: **Increase Physical Harm** (174 WD; Infused rings ≈ **+278 WD** each). Armor: **Max Stamina** (868 head/chest/legs, 347 on the four small slots). DW: **Weapon Damage** / **Absorb Stamina**. Bow: Absorb Stam or WD |
 | **Companion**            | **Primary (now):** **Tanlorin** (support / CC) at companion **9/20** · **Secondary:** **Mirri Elendis** (loot rapport) · **Goal (20/20):** **Zerith-var** (DPS escort for filler pulls)                                         |
 | **Primary Mount**        | **Psijic Escort Charger** (owned) · **Ideal:** same — see [Collectibles](#collectibles)                                                                                                                                         |
 | **Flavor Pet**           | **Psijic Mascot Bear Cub** (owned) · **Ideal:** same — see [Collectibles](#collectibles)                                                                                                                                        |
 | **Costume**              | **Imperial Chancellor** (owned) · **Alt:** **Crown Dishdasha** / **Court of Bedlam** — see [Collectibles](#collectibles)                                                                                                        |
 
 
-**Read next:** [Roleplay](#roleplay-the-ra-gada-artisan) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-forge-and-survey-cycle) · [Gear and crafting](#gear-and-crafting-the-tempered-caravan) · [Champion points](#champion-point-mapping-cp-303) · [Companion](#companion-strategy-the-scholarly-escort) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-ra-gada-artisan) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-forge-and-survey-cycle) · [Gear and crafting](#gear-and-crafting-the-tempered-caravan) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-scholarly-escort) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -44,9 +46,9 @@ Masisi does not treat Summerset as a battlefield — but he will not leave a sur
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Masisi — The Ra Gada Artisan. EU @SOLAEGIS master crafter and hybrid scout: Hunding’s Rage + Order’s Wrath, 64 Stamina, The Steed, Divines, Dual Wield front / Bow back, Endless Hail on Survey Path, Continuous Attack (Gallop). Trinity: Ardent Flame + Assassination + Earthen Heart. Craft CP: Steed’s Blessing, Master Gatherer, Gifted Rider — grow into Plentiful Harvest and Meticulous Disassembly. EsoAutoProvision keeps food/drink up. Supplies roster gear (Elric and others). Tanlorin now · Zerith-var Goal. Psijic Escort Charger · Psijic Mascot Bear Cub · Imperial Chancellor.
+> Masisi — The Ra Gada Artisan. EU @SOLAEGIS master crafter and hybrid scout: end-game **5 Hunding’s Rage + 5 Night Mother’s Gaze** (craftable), 64 Stamina, The Steed, Divines, Dual Wield front / Bow back, Endless Hail, Continuous Attack (Gallop). Trinity: Ardent Flame + Assassination + Earthen Heart. Next: Hunding legs (+300 WD), NMG jewelry/weapons + Bloodthirsty neck, full glyphs, Craft CP Steed’s Blessing / Master Gatherer / Gifted Rider → Plentiful Harvest / Meticulous Disassembly. EsoAutoProvision keeps food/drink up. Supplies roster gear (Elric and others). Tanlorin now · Zerith-var Goal. Psijic Escort Charger · Psijic Mascot Bear Cub · Imperial Chancellor.
 >
-> **Live:** pre-hybrid Build Notes are still pasted — replace with the hybrid text above.
+> **Live:** replace any older Build Notes with the hybrid text above.
 
 > [!TIP]
 > **Flavor Pet:** **Psijic Mascot Bear Cub** — scholarly prestige on the road. **Alt:** **Golden Eagle** / **Psijic Mascot Pony**.
@@ -104,7 +106,7 @@ Clear the camp, harvest the node, remount. Melee is always **front**; Bow is alw
 | **3**       | Ardent Flame  | Searing Strike → **Searing Claw**        | Stam flame DoT + Burning for Combustion   | **Live** (not Venomous Claw)                     |
 | **4**       | Dual Wield    | Flurry → **Rapid Strikes**               | Stam spammable                            | **Live**                                         |
 | **5**       | Medium Armor  | **Resolving Vigor**                      | Stam HoT for scrap fights                 | **Live**                                         |
-| **6 (Ult)** | Assassination | Death Stroke → **Incapacitating Strike** | Execute / burst ult for packs and PD      | **Live:** Death Stroke — morph                   |
+| **6 (Ult)** | Assassination | Death Stroke → **Incapacitating Strike** | Execute / burst ult for packs and PD      | **Live**                                         |
 
 
 > [!NOTE]
@@ -115,16 +117,16 @@ Clear the camp, harvest the node, remount. Melee is always **front**; Bow is alw
 
 | **Slot**    | **Line**      | **Base → Morph**                                                  | **Role**                                | **Profile**                                      |
 | ----------- | ------------- | ----------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------ |
-| **1**       | Bow           | Snipe → **Lethal Arrow**                                          | Ranged poke / opener                    | **Live**                                         |
-| **2**       | Earthen Heart | Obsidian Shield → **Igneous Shield**                              | Burst shield before harvest or pull     | **Live**                                         |
-| **3**       | Ardent Flame  | Inferno → **Flames of Oblivion**                                  | Major Prophecy / Savagery while slotted | **Live:** Inferno — morph                        |
-| **4**       | Soul Magic    | Soul Trap → **Consuming Trap**                                    | Resource return on kill                 | **Live**                                         |
-| **5**       | Bow           | Volley → **Endless Hail**                                         | Ground AoE rain for packs / PD filler   | **Replace live Charging Maneuver** (slot 5)      |
+| **1**       | Earthen Heart | Obsidian Shield → **Igneous Shield**                              | Burst shield before harvest or pull     | **Live**                                         |
+| **2**       | Soul Magic    | Soul Trap → **Consuming Trap**                                    | Resource return on kill                 | **Live**                                         |
+| **3**       | Bow           | Snipe → **Lethal Arrow**                                          | Ranged poke / opener                    | **Live**                                         |
+| **4**       | Bow           | Volley → **Endless Hail**                                         | Ground AoE rain for packs / PD filler   | **Live**                                         |
+| **5**       | Ardent Flame  | Inferno → **Flames of Oblivion**                                  | Major Prophecy / Savagery while slotted | **Live:** Inferno — morph                        |
 | **6 (Ult)** | Ardent Flame  | Dragonknight Standard → **Standard of Might**                     | Support banner (WD/SD + DR) while clearing | **Live** preferred (alt: Shifting Standard for AoE) |
 
 
 > [!IMPORTANT]
-> **Slot 5 target:** drop live **Charging Maneuver** for **Endless Hail** — better ranged clear for overland packs, delves, and public dungeons. Mount speed stays from Assault **Continuous Attack** (permanent Gallop once unlocked; does **not** require Maneuver slotted). Foot speed between nodes: Steed + Steed’s Blessing + remount.
+> **Slot order matches live** ([masisi.md](masisi.md)). Keep **Endless Hail**. Morph **Inferno → Flames of Oblivion** when ready. Mount speed from Assault **Continuous Attack** (permanent Gallop; no Maneuver on bar). Foot speed: Steed + Steed’s Blessing + remount.
 >
 > Keep every **Draconic Power** skill off the bars. Heal with **Resolving Vigor** + companion.
 
@@ -149,16 +151,16 @@ flowchart TD
 
 ### Passive skills
 
-Spend skill points in this order (live: **1** SP free; Twin Blade and Blunt / Keen Eye / hirelings / Assassination passives still locked).
+Spend skill points in this order (live: **6** SP free; Keen Eye / hirelings / Assassination passives still locked; Twin Blade and Blunt **unlocked**).
 
 #### Dual Wield (line maxed)
 
-1. **Twin Blade and Blunt** — last DW passive still locked; spend the free SP here first.
+1. **Twin Blade and Blunt** — **done**. No further DW passive spend.
 
 #### Assassination (subclass Rank 25)
 
 1. Unlock **Master Assassin**, **Executioner**, **Pressure Points**, **Hemorrhage** as points allow.
-2. Morph **Death Stroke → Incapacitating Strike** before luxury passives.
+2. **Incapacitating Strike** — **live**; keep.
 
 #### Ardent Flame / Earthen Heart
 
@@ -181,79 +183,105 @@ Spend skill points in this order (live: **1** SP free; Twin Blade and Blunt / Ke
 
 #### Bow
 
-1. Passives already unlocked live — keep them; morph **Volley → Endless Hail** for Survey Path slot 5.
+1. Passives already unlocked live — keep them; **Endless Hail** already slotted.
 
 ---
 
 ## Gear and crafting: "The Tempered Caravan"
 
-One hybrid loadout: craftable **Weapon Damage + crit** for packs and filler; farm pace from **The Steed**, Divines, Craft CP, mount, and Continuous Attack Gallop — **not** Night’s Silence / Adept Rider.
+One hybrid loadout: craftable **Weapon Damage + crit** for packs and filler; farm pace from **The Steed**, Divines, Craft CP, mount, and Continuous Attack Gallop — **not** Night’s Silence / Adept Rider. Set bonuses below are CP160 gold values from `data/sets/sets.json` (`coverage: full`, `game_check: verified` unless noted).
 
 ### Set rationale
 
 
-| **Set**            | **Why**                                                        |
-| ------------------ | -------------------------------------------------------------- |
-| **Hunding’s Rage** | Craftable Weapon Damage / stam package for Dual Wield clears   |
-| **Order’s Wrath**  | Craftable crit chance + crit damage for pack and PD kill speed |
+| **Set**            | **5pc package (gold)**                                                                                          | **Why end-game**                                                                 |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Hunding’s Rage** | 2/4pc +657 crit each · 3pc +1,096 Max Stam · **5pc +300 WD/SD** (uptime 1.0)                                    | Craftable flat power for Dual Wield clears — **largest live gap** (still on 4pc) |
+| **Night Mother’s Gaze** | 2/4pc +657 crit each · 3pc +129 WD/SD · **5pc Major Breach on crit** (−5,948 enemy resistance, 4 s) | Same 2–4pc as Order’s; 5pc is the build’s biggest damage gain — **jewelry + weapons** |
+| ~~Order’s Wrath~~  | 2/4pc +657 crit each · 3pc +129 WD/SD · 5pc +943 crit + 8% crit damage / healing                                | Live; replaced by NMG (only the 5pc differs)                                     |
 
+
+**Bar math:** a bow is two-handed and counts as **2 set pieces**, so both bars carry the full jewelry/weapon set.
+
+| Bar | Hunding pieces | NMG pieces | Active bonuses |
+| --- | -------------- | ---------- | -------------- |
+| **Front (DW)** | 5 body (after legs) | jewelry 3 + 2 daggers = **5** | Hunding 5 + NMG 5 |
+| **Back (Bow)** | 5 body | jewelry 3 + bow (2) = **5** | Hunding 5 + NMG 5 |
+
+**Why NMG over Order’s (5pc only — 2/3/4pc are identical):**
+
+- **Order’s 5pc** (+943 crit ≈ +4.3% crit chance, +8% crit damage) at live 48.5% crit / 88% crit damage: 1 + 0.485 × 0.88 = 1.427 vs 1.354 without → **≈ +5.4%** damage.
+- **NMG 5pc** (Major Breach −5,948): pen 1,930 → 7,878 vs 18,200 resistance; mitigation 24.7% → 15.6% (1% per 660) → **≈ +12%** damage while the target has Breach. At ~44% crit with AoE DoT ticks, a 4 s debuff stays up on most of a pack.
+- **Net ≈ +6%** for solo farming and public dungeons. Assumes standard 18,200 PvE resistance; worth **zero** in groups where a tank/support already applies Major Breach — swap back to Order’s for group content if that happens.
 
 > [!WARNING]
-> **Rejected as primary:** **Night’s Silence** and **Adept Rider** — excellent pure scout sets, but they do not fix filler DPS. Do not dual-Armory them; this plan is one kit.
+> **Rejected as primary (set DB):**
+> - **Adept Rider** (Shimmerene Dockworks) — 5pc Major Expedition + Gallop; **0 Weapon Damage**. Pure scout only.
+> - **Night’s Silence** — 5pc coverage **`none`** / unmodeled in set DB; do not value from wiki text alone.
+> - **New Moon Acolyte** (Fur-Forge Cove) — 5pc +401 WD/SD but **+5% ability cost**; worse for long survey days than Hunding’s free +300.
+>
+> Do **not** dual-Armory scout sets; this plan is one kit.
 
 > [!NOTE]
-> **Live set split (prefer character):** Order’s Wrath is already on **weapons + jewelry** (5). Finish Hunding’s on **body** (legs + feet next; head/chest/hands done). Do **not** rip Order’s off weapons to force Order’s onto shoulders/waist — scrap shoulders/waist can become Hunding later or stay filler.
+> **Live set split:** Order’s on **weapons + jewelry** (5 on both bars — the bow counts 2). Hunding **4/5** — head/chest/hands/**feet** Divines done; **legs** still Trainee. Free slots after Hunding 5: **shoulders + waist**.
+>
+> **Shoulders + waist options:** the live Trainee piece is **heavy legs** — it can’t move to shoulders. Either get a **Trainee shoulder** (starter-island drop or set-collection reconstruct; 1pc +1,454 Max Health) plus a plain Divines waist, or craft **2pc Threads of War** (Deserter’s Lagoon, Gold Road) for **+1,487 Offensive Penetration** (≈ +3% damage at live pen). Threads is the damage pick; Trainee is the survivability pick.
 
 ### Target loadout
 
 
-| **Slot**      | **Set**        | **Weight** | **Trait** | **Enchantment** | **Quality**   | **Live**                          |
-| ------------- | -------------- | ---------- | --------- | --------------- | ------------- | --------------------------------- |
-| **Head**      | Hunding’s Rage | Medium     | Divines   | Max Stamina     | Purple → Gold | **Done**                          |
-| **Chest**     | Hunding’s Rage | Medium     | Divines   | Max Stamina     | Purple → Gold | **Done**                          |
-| **Hands**     | Hunding’s Rage | Medium     | Divines   | Max Stamina     | Purple → Gold | **Done**                          |
-| **Legs**      | Hunding’s Rage | Medium     | Divines   | Max Stamina     | Purple → Gold | Replace Trainee heavy             |
-| **Feet**      | Hunding’s Rage | Medium     | Divines   | Max Stamina     | Purple → Gold | Craft / equip (missing in export) |
-| **Shoulders** | Hunding’s or filler → optional later | Medium | Divines | Max Stamina | Purple → Gold | Scrap Well-fitted                 |
-| **Waist**     | Hunding’s or filler → optional later | Medium | Divines | Max Stamina | Purple → Gold | Scrap Well-fitted                 |
-| **Necklace**  | Order’s Wrath  | —          | Robust    | Weapon Damage   | Purple → Gold | **Done**                          |
-| **Ring 1**    | Order’s Wrath  | —          | Infused   | Weapon Damage   | Purple → Gold | **Done**                          |
-| **Ring 2**    | Order’s Wrath  | —          | Infused   | Weapon Damage   | Purple → Gold | **Done**                          |
+| **Slot**      | **Set**              | **Weight** | **Trait** | **Enchantment**                         | **Quality**   | **Live**                                      |
+| ------------- | -------------------- | ---------- | --------- | --------------------------------------- | ------------- | --------------------------------------------- |
+| **Head**      | Hunding’s Rage       | Medium     | Divines   | Max Stamina (868)                       | Purple → Gold | **Done** set/trait — **glyph missing**        |
+| **Chest**     | Hunding’s Rage       | Medium     | Divines   | Max Stamina                             | Purple → Gold | **Done** set/trait — **glyph missing**        |
+| **Hands**     | Hunding’s Rage       | Medium     | Divines   | Max Stamina                             | Purple → Gold | **Done** set/trait — **glyph missing**        |
+| **Legs**      | Hunding’s Rage       | Medium     | Divines   | Max Stamina                             | Purple → Gold | **Replace Trainee heavy** (unlocks +300 WD)   |
+| **Feet**      | Hunding’s Rage       | Medium     | Divines   | Max Stamina                             | Purple → Gold | **Done** set/trait — **glyph missing**        |
+| **Shoulders** | **Trainee** (1pc) *or* **Threads of War** | Medium | Divines | Max Stamina (347)              | Purple → Gold | New piece needed (live Trainee is legs)       |
+| **Waist**     | Plain medium *or* **Threads of War** | Medium | Divines | Max Stamina (347)                 | Purple → Gold | Replace scrap Well-fitted                     |
+| **Necklace**  | **Night Mother’s Gaze** | —       | **Bloodthirsty** | **Increase Physical Harm** (174 WD) | Purple → Gold | **Craft new** (replaces Order’s Robust)  |
+| **Ring 1**    | **Night Mother’s Gaze** | —       | Infused   | Increase Physical Harm (×1.60 Infused)  | Purple → Gold | **Craft new** (replaces Order’s)              |
+| **Ring 2**    | **Night Mother’s Gaze** | —       | Infused   | Increase Physical Harm                  | Purple → Gold | **Craft new** (replaces Order’s)              |
 
 
-| **Slot**     | **Item**                         | **Trait**            | **Enchantment**                 | **Live**        |
-| ------------ | -------------------------------- | -------------------- | ------------------------------- | --------------- |
-| **Front DW** | Order’s Wrath daggers (live)     | Sharpened / Precise  | Weapon Damage / Absorb Stamina  | **Done** purple |
-| **Back Bow** | Order’s Wrath bow (live)         | Decisive             | Absorb Stamina or Weapon Damage | **Done** purple |
+| **Slot**     | **Item**                         | **Trait**            | **Enchantment**                         | **Live**                          |
+| ------------ | -------------------------------- | -------------------- | --------------------------------------- | --------------------------------- |
+| **Front DW** | **Night Mother’s Gaze** daggers  | Sharpened / Precise  | Weapon Damage (348/5s) / Absorb Stamina | **Craft new** (live: Order’s)     |
+| **Back Bow** | **Night Mother’s Gaze** bow      | Decisive             | Absorb Stamina or Weapon Damage         | **Craft new** (live: Order’s)     |
 
 
 > [!NOTE]
-> **Divines + Steed:** Divines amplifies Steed move speed and Health Recovery — it is not a Thief/Warrior damage trait. **EsoAutoProvision** covers food Stam recovery, so full Divines body is preferred over Well-fitted.
+> **Divines + Steed:** Divines amplifies Steed move speed and Health Recovery (+9.1% legendary) — it is not a Thief/Warrior damage trait. Keep Steed as **end-game mundus** for the Artisan; Thief/Shadow are parse mundus for other characters.
 >
-> **Transmute (176 crystals live):** prioritize Divines on Hunding legs/feet/shoulders/waist once crafted. Do not waste crystals on Trainee or scrap.
+> **Glyphs are end-game, not polish:** live purple Order’s/Hunding pieces show **no enchant**. Two Infused rings with Physical Harm ≈ **+557 WD** alone. Armor Stam glyphs give full value (868) only on head/chest/legs and 40% (347) on shoulders/hands/waist/feet — seven glyphs ≈ **+3,993 Max Stam**. Glyph Hunding body now; glyph NMG pieces as they’re crafted, **not** the Order’s pieces they replace.
+>
+> **Bloodthirsty neck:** up to **+350 WD/SD** against enemies under 90% Health (scales up as they lose Health — assume ~half on average) vs Robust’s +877 Max Stam ≈ 83 WD-equivalent. Even at half value Bloodthirsty is ~2× the damage; a bigger stamina pool doesn’t add sustain — recovery does. Needs the trait researched and **Slaughterstone** (writs / weekly trial rewards).
+>
+> **Transmute (176 crystals live):** Divines on Hunding legs + shoulders/waist once crafted. Do not waste crystals on Trainee Training trait or Fine scrap.
 
 ### Crafting handoff
 
 Masisi crafts this kit **for himself** — no external crafter.
 
 
-| **Item**         | **Detail**                                                                                                       |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **Stations**     | Hunding’s Rage (Glenumbra crafting site) · Order’s Wrath (High Isle — Steadfast Hammer and Saw)                  |
-| **Traits**       | Research toward 9/9; Divines / Robust / Infused / Sharpened or Precise as above                                  |
-| **Interim**      | Craft Hunding **legs + feet** purple Divines **now** — retire Trainee legs before gold temper                    |
-| **Roster forge** | Keep supplying EU combat plans (e.g. Elric’s Julianos / Clever Alchemist) from Masisi stations and motif library |
+| **Item**         | **Detail**                                                                                                                         |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Stations**     | Hunding’s Rage — Broken Arch / Wethers’ Cleft / Trollslayer’s Gully · **Night Mother’s Gaze — Old Town Cavern / Silaseli Ruins / Eldbjorg’s Hideaway** · Threads of War (optional) — Deserter’s Lagoon (Gold Road) |
+| **Traits**       | Research toward 9/9; Divines / **Bloodthirsty** / Infused / Sharpened or Precise / Decisive as above                              |
+| **Interim now**  | Craft Hunding **legs** purple Divines + Stam glyph; glyph Hunding body; craft **NMG** neck (Bloodthirsty) + rings + daggers + bow with glyphs; retire scrap waist |
+| **End-game kit** | 5 Hunding + 5 NMG; **gold** temper; every slot glyphed; all body Divines                                                          |
+| **Roster forge** | Keep supplying EU combat plans (e.g. Elric’s Julianos / Clever Alchemist) from Masisi stations and motif library                   |
 
 
 **Style Master track (unchanged priority):** finish 9/9 research; motif fragments **Psijic**, **Sapiarch**, **Dwemer**, **Assassins League**, then **Ra Gada**; learn chapters on Masisi only; attunable stations when roster set targets settle.
 
 ---
 
-## Champion Point Mapping (CP 303)
+## Champion Point Mapping (CP 336)
 
-Budget ≈ **97–101** per constellation (live pools 101 with 4/6/4 unspent). **Live:** Craft still Fortune’s Favor 47 + Gilded Fingers 50; Warfare Fighting Finesse 50 / Master-at-Arms 25 / Precision 10 / Piercing 10; Fitness Boundless Vitality 47 / Rejuvenation 50.
+Budget ≈ **100–112** per constellation with **44** unspent live. **Live:** Craft Fortune’s Favor **50** + Gilded Fingers **50**; Warfare Fighting Finesse **50** / Master-at-Arms **25** / Precision **10** / Piercing **10**; Fitness Boundless Vitality **47** / Rejuvenation **50**.
 
-### Craft (Green — 97 Points)
+### Craft (Green — farmer end-game)
 
 
 | **Star**             | **Type**  | **Respec now**  | **Grow into**           | **Notes**          |
@@ -261,14 +289,14 @@ Budget ≈ **97–101** per constellation (live pools 101 with 4/6/4 unspent). *
 | **Steed’s Blessing** | Slottable | **50**          | Keep slotted            | Between-node speed |
 | **Master Gatherer**  | Slottable | **30** (2 × 15) | **75**                  | Harvest speed      |
 | **Gifted Rider**     | Slottable | **10**          | Keep or replace later   | Mount speed filler |
-| *(unspent)*          | —         | **7**           | Master Gatherer stage 3 | Bank toward 15     |
+| *(unspent)*          | —         | **7+**          | Master Gatherer stage 3 | Use live unspent   |
 
 
-Then: **Plentiful Harvest (50)** → **Meticulous Disassembly (50)** → Inspiration Boost while leveling Alchemy / Enchanting / Provisioning → gold passives late.
+Then: **Plentiful Harvest (50)** → **Meticulous Disassembly (50)** → Inspiration Boost while leveling Alchemy / Enchanting / Provisioning → gold passives (**Fortune’s Favor / Gilded Fingers**) only after farmer stars are funded.
 
-**Drop live:** Fortune’s Favor (47) and Gilded Fingers (50) until crafts are capped and farmer stars are funded. This is the highest-priority remaining farmer fix.
+**Drop live:** Fortune’s Favor (50) and Gilded Fingers (50) until crafts are capped and farmer stars are funded. This remains the highest-priority farmer fix — set DB does not change Craft CP; gold passives still do nothing for nodes.
 
-### Warfare (Blue — 97 Points)
+### Warfare (Blue — filler end-game)
 
 
 | **Star**             | **Type**  | **Target**    | **Notes**                   |
@@ -279,9 +307,9 @@ Then: **Plentiful Harvest (50)** → **Meticulous Disassembly (50)** → Inspira
 | **Piercing**         | Passive   | **10**→**20** | Pen — **live** 10           |
 
 
-As CP grows: finish Master-at-Arms 50; add **Wrathful Strikes** or **Deadly Aim** when a third/fourth slot opens (still under 900 CP = 3 slots).
+As CP grows: finish Master-at-Arms 50; add **Wrathful Strikes** or **Deadly Aim** when a third/fourth slot opens (still under 900 CP = 3 slots). Live pen ~1,930 / 18,200 cap — Piercing is fine; do not chase Lover mundus over Steed for this kit.
 
-### Fitness (Red — 97 Points)
+### Fitness (Red — 97+ Points)
 
 
 | **Star**                           | **Type**  | **Target** | **Notes**                                         |
@@ -385,30 +413,33 @@ Tanlorin’s alchemy bent matches a crafter’s road life. Keep Tanlorin as the 
 
 ### Phase 0 — Today (remaining foundation)
 
-Live snapshot (CP **303**): bank **237/480 (49%)**; Steed + Assassination + DW front / Bow back **done**; Order’s 5 + Hunding 3; Craft CP still gold; Tanlorin **9/20**; **1** SP free.
+Live snapshot (CP **336**): Steed + Assassination + DW front / Bow back / Endless Hail / Incapacitating Strike **done**; Order’s 5 (both bars) + Hunding **4/5** (feet done); Craft CP still gold; Tanlorin **9/20**; **6** SP free; **glyphs blank** on crafted pieces.
 
-1. **Craft CP respec** (pool **97**; spend **90**, leave **7**) — remove Fortune’s Favor / Gilded Fingers; slot **Steed’s Blessing 50**, **Master Gatherer 30**, **Gifted Rider 10**.
-2. **Spend 1 SP** — **Twin Blade and Blunt** first; then Keen Eye Ore / Continuous Attack / Assassination passives as points appear.
-3. **Finish Hunding’s 5** — craft medium Divines **legs + feet**; replace Trainee heavy legs; leave Order’s on weapons + jewelry.
-4. **Bar polish** — morph **Death Stroke → Incapacitating Strike**; **Inferno → Flames of Oblivion**; replace back slot 5 **Charging Maneuver → Endless Hail**; keep front live order (Cloak · Lotus Fan · Searing Claw · Rapid Strikes · Vigor).
-5. **Tanlorin** — keep Primary; XP toward **20/20**; fill empty skill + ult; upgrade **Companion’s** gear (merchant whites / Superior+ while active — not player crafting); staff support kit remains the goal vs live dual daggers.
-6. **LAM Build Notes** — paste hybrid text from Roleplay note above.
-7. **Smoke check** — one node loop + one public-dungeon wing trash pull after Craft CP respec.
+1. **Craft CP respec** — remove Fortune’s Favor / Gilded Fingers; slot **Steed’s Blessing 50**, **Master Gatherer 30**, **Gifted Rider 10** (use live unspent for the rest).
+2. **Spend SP** — Keen Eye Ore / Continuous Attack / Assassination passives (Master Assassin first); Twin Blade **already done**.
+3. **Finish Hunding’s 5** — craft medium Divines **legs** + Max Stam glyph; replace Trainee heavy legs (**+300 WD**).
+4. **Glyph Hunding body** — Max Stam on all five. Leave Order’s jewelry/weapons unglyphed; they’re being replaced.
+5. **Craft Night Mother’s Gaze** — neck (**Bloodthirsty**), 2 rings (Infused), 2 daggers (Sharpened / Precise), bow (Decisive), each with its glyph (Physical Harm / Weapon Damage / Absorb Stam). Replaces Order’s on both bars (≈ +6% damage solo).
+6. **Bar polish** — morph **Inferno → Flames of Oblivion** if still base; keep Endless Hail / Incapacitating / front live order.
+7. **Tanlorin** — keep Primary; XP toward **20/20**; fill empty skill + ult; upgrade **Companion’s** gear (merchant whites / Superior+ while active — not player crafting).
+8. **LAM Build Notes** — paste hybrid text from Roleplay note above.
+9. **Smoke check** — one node loop + one public-dungeon wing trash pull after Craft CP respec + Hunding legs + NMG.
 
-**Already done (do not redo):** The Steed mundus, Assassination subclass, bar flip, Deadly Cloak / Rapid Strikes / Searing Claw / Lotus Fan, Order’s Wrath 5 interim, Custom Title. (**Charging Maneuver** was live — drop it for Endless Hail.)
+**Already done (do not redo):** The Steed mundus, Assassination subclass, bar flip, Deadly Cloak / Rapid Strikes / Searing Claw / Lotus Fan / Endless Hail / Incapacitating Strike, Hunding head/chest/hands/**feet**, Twin Blade and Blunt, Custom Title. (Order’s Wrath 5 is live but is being replaced by NMG.)
 
-### Phase 1 — Craft finish + farmer SP
+### Phase 1 — Glyph + farmer SP + scrap retire
 
-1. Optional: replace scrap shoulders/waist with medium Divines Hunding or leave until transmute budget.
-2. Add weapon enchants if missing (Weapon Damage / Absorb Stamina).
+1. Fill shoulders + waist: Trainee shoulder + plain Divines waist, **or** 2pc Threads of War (pen); transmute Well-fitted → Divines.
+2. Confirm every combat slot is glyphed (jewelry Physical Harm on Infused rings especially).
 3. Daily writs on Masisi; Keen Eye + first hirelings; push Alchemy / Enchanting / Provisioning.
 4. Confirm Divines + Steed + Steed’s Blessing feel on survey routes.
 
-### Phase 2 — CP grow + rotation polish
+### Phase 2 — CP grow + gold temper (end-game kit)
 
 1. Push **Master Gatherer to 75**; fund **Plentiful Harvest** then **Meticulous Disassembly**.
 2. Finish Assassination passives; Boundless Vitality 50; Master-at-Arms toward 50.
-3. Transmute leftover wrong traits to **Divines** / jewelry **Infused** / **Robust**.
+3. Gold-temper Hunding body + NMG jewelry/weapons; no migration to New Moon / dungeon / trial sets.
+4. Transmute leftover wrong traits to **Divines** / jewelry **Infused** / **Bloodthirsty**.
 
 ### Phase 3 — Polish (Style Master + companions)
 
@@ -421,6 +452,6 @@ Live snapshot (CP **303**): bank **237/480 (49%)**; Steed + Assassination + DW f
 ### Finish
 
 1. Confirm Masisi can craft Elric (and future EU) handoffs at CP160 gold.
-2. Regenerate [masisi.md](masisi.md) after Craft CP / Hunding legs+feet / morph polish; re-check live vs target.
+2. Regenerate [masisi.md](masisi.md) after Craft CP / Hunding legs / full glyphs / gold temper; re-check live vs target — expect Hunding **5/5**, Night Mother’s Gaze **5/5** on both bars, shoulders/waist filled, no blank enchants.
 
 Keep your eye on the node and your steel on the path, Artisan.
