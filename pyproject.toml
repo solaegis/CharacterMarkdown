@@ -31,3 +31,6 @@ ignore = []
 "tools/setdb/normalize.py" = ["T20", "E501"]
 "tools/setdb/test_normalize.py" = ["E501"]
 "tools/setdb/test_reconcile.py" = ["E501"]
+"tools/setdb/test_digest.py" = ["E501"]
+# Legend strings are read verbatim by the LLM
+"tools/setdb/digest.py" = ["T20", "E501"]
