@@ -1,0 +1,582 @@
+{
+ "schema_version": 1,
+ "kind": "traits",
+ "source": {
+  "wiki": "en.uesp.net",
+  "max_revid": 3542151,
+  "pages": 1
+ },
+ "count": 38,
+ "items": [
+  {
+   "key": "weapon_powered_1h",
+   "trait": "Powered",
+   "category": "weapon",
+   "variant": "1H",
+   "description": "Increase healing done by …",
+   "legendary": 4.5,
+   "by_quality": {
+    "normal": 2.5,
+    "fine": 3,
+    "superior": 3.5,
+    "epic": 4,
+    "legendary": 4.5
+   }
+  },
+  {
+   "key": "weapon_powered_2h",
+   "trait": "Powered",
+   "category": "weapon",
+   "variant": "2H",
+   "description": "Increase healing done by …",
+   "legendary": 9,
+   "by_quality": {
+    "normal": 5,
+    "fine": 6,
+    "superior": 7,
+    "epic": 8,
+    "legendary": 9
+   }
+  },
+  {
+   "key": "weapon_charged_1h",
+   "trait": "Charged",
+   "category": "weapon",
+   "variant": "1H",
+   "description": "Increase your chance to apply status effects by …",
+   "legendary": 117.5,
+   "by_quality": {
+    "normal": 97.5,
+    "fine": 102.5,
+    "superior": 107.5,
+    "epic": 112.5,
+    "legendary": 117.5
+   }
+  },
+  {
+   "key": "weapon_charged_2h",
+   "trait": "Charged",
+   "category": "weapon",
+   "variant": "2H",
+   "description": "Increase your chance to apply status effects by …",
+   "legendary": 235,
+   "by_quality": {
+    "normal": 195,
+    "fine": 205,
+    "superior": 215,
+    "epic": 225,
+    "legendary": 235
+   }
+  },
+  {
+   "key": "weapon_precise_1h",
+   "trait": "Precise",
+   "category": "weapon",
+   "variant": "1H",
+   "description": "Increases Weapon and Spell Critical values by …",
+   "legendary": 3.6,
+   "by_quality": {
+    "normal": 1.6,
+    "fine": 2.1,
+    "superior": 2.6,
+    "epic": 3.1,
+    "legendary": 3.6
+   }
+  },
+  {
+   "key": "weapon_precise_2h",
+   "trait": "Precise",
+   "category": "weapon",
+   "variant": "2H",
+   "description": "Increases Weapon and Spell Critical values by …",
+   "legendary": 7.2,
+   "by_quality": {
+    "normal": 3.2,
+    "fine": 4.2,
+    "superior": 5.2,
+    "epic": 6.2,
+    "legendary": 7.2
+   }
+  },
+  {
+   "key": "weapon_infused",
+   "trait": "Infused",
+   "category": "weapon",
+   "variant": null,
+   "description": "Increase weapon enchantment effect by … and reduces enchantment cooldown by 50%",
+   "legendary": 30,
+   "by_quality": {
+    "normal": 10,
+    "fine": 15,
+    "superior": 20,
+    "epic": 25,
+    "legendary": 30
+   }
+  },
+  {
+   "key": "weapon_defending_1h",
+   "trait": "Defending",
+   "category": "weapon",
+   "variant": "1H",
+   "description": "Increases Physical and Spell Resistance by …",
+   "legendary": 1638,
+   "by_quality": {
+    "normal": 1428,
+    "fine": 1485,
+    "superior": 1542,
+    "epic": 1580,
+    "legendary": 1638
+   }
+  },
+  {
+   "key": "weapon_defending_2h",
+   "trait": "Defending",
+   "category": "weapon",
+   "variant": "2H",
+   "description": "Increases Physical and Spell Resistance by …",
+   "legendary": 3276,
+   "by_quality": {
+    "normal": 2856,
+    "fine": 2971,
+    "superior": 3085,
+    "epic": 3161,
+    "legendary": 3276
+   }
+  },
+  {
+   "key": "weapon_training_1h",
+   "trait": "Training",
+   "category": "weapon",
+   "variant": "1H",
+   "description": "Increase experience gained from kills by …",
+   "legendary": 4.5,
+   "by_quality": {
+    "normal": 2.5,
+    "fine": 3,
+    "superior": 3.5,
+    "epic": 4,
+    "legendary": 4.5
+   }
+  },
+  {
+   "key": "weapon_training_2h",
+   "trait": "Training",
+   "category": "weapon",
+   "variant": "2H",
+   "description": "Increase experience gained from kills by …",
+   "legendary": 9,
+   "by_quality": {
+    "normal": 5,
+    "fine": 6,
+    "superior": 7,
+    "epic": 8,
+    "legendary": 9
+   }
+  },
+  {
+   "key": "weapon_sharpened_1h",
+   "trait": "Sharpened",
+   "category": "weapon",
+   "variant": "1H",
+   "description": "Increase Physical and Spell Penetration by …",
+   "legendary": 1638,
+   "by_quality": {
+    "normal": 1428,
+    "fine": 1485,
+    "superior": 1542,
+    "epic": 1580,
+    "legendary": 1638
+   }
+  },
+  {
+   "key": "weapon_sharpened_2h",
+   "trait": "Sharpened",
+   "category": "weapon",
+   "variant": "2H",
+   "description": "Increase Physical and Spell Penetration by …",
+   "legendary": 3276,
+   "by_quality": {
+    "normal": 2856,
+    "fine": 2971,
+    "superior": 3085,
+    "epic": 3161,
+    "legendary": 3276
+   }
+  },
+  {
+   "key": "weapon_decisive_1h",
+   "trait": "Decisive",
+   "category": "weapon",
+   "variant": "1H",
+   "description": "When you gain Ultimate you have a … chance to gain 1 additional ultimate.",
+   "legendary": 27.5,
+   "by_quality": {
+    "normal": 19.1,
+    "fine": 21.2,
+    "superior": 23.2,
+    "epic": 25.4,
+    "legendary": 27.5
+   }
+  },
+  {
+   "key": "weapon_decisive_2h",
+   "trait": "Decisive",
+   "category": "weapon",
+   "variant": "2H",
+   "description": "When you gain Ultimate you have a … chance to gain 1 additional ultimate.",
+   "legendary": 55,
+   "by_quality": {
+    "normal": 38.2,
+    "fine": 42.4,
+    "superior": 46.4,
+    "epic": 50.8,
+    "legendary": 55
+   }
+  },
+  {
+   "key": "weapon_nirnhoned",
+   "trait": "Nirnhoned",
+   "category": "weapon",
+   "variant": null,
+   "description": "Increases Damage of this weapon by …",
+   "legendary": 15,
+   "by_quality": {
+    "normal": 11,
+    "fine": 12,
+    "superior": 13,
+    "epic": 14,
+    "legendary": 15
+   }
+  },
+  {
+   "key": "armor_sturdy",
+   "trait": "Sturdy",
+   "category": "armor",
+   "variant": null,
+   "description": "Reduce block cost by …",
+   "legendary": 4,
+   "by_quality": {
+    "normal": 2,
+    "fine": 2.5,
+    "superior": 3,
+    "epic": 3.5,
+    "legendary": 4
+   }
+  },
+  {
+   "key": "armor_impenetrable",
+   "trait": "Impenetrable",
+   "category": "armor",
+   "variant": null,
+   "description": "Increase your Critical Resistance by … and this item takes 50% less durability damage.",
+   "legendary": 132,
+   "by_quality": {
+    "normal": 121,
+    "fine": 124,
+    "superior": 127,
+    "epic": 129,
+    "legendary": 132
+   }
+  },
+  {
+   "key": "armor_reinforced",
+   "trait": "Reinforced",
+   "category": "armor",
+   "variant": null,
+   "description": "Increases this item's armor value by …",
+   "legendary": 16,
+   "by_quality": {
+    "normal": 12,
+    "fine": 13,
+    "superior": 14,
+    "epic": 15,
+    "legendary": 16
+   }
+  },
+  {
+   "key": "armor_well_fitted",
+   "trait": "Well-fitted",
+   "category": "armor",
+   "variant": null,
+   "description": "Reduces the cost of sprinting and Roll Dodging by …",
+   "legendary": 6,
+   "by_quality": {
+    "normal": 1.2,
+    "fine": 2.4,
+    "superior": 3.6,
+    "epic": 4.8,
+    "legendary": 6
+   }
+  },
+  {
+   "key": "armor_training",
+   "trait": "Training",
+   "category": "armor",
+   "variant": null,
+   "description": "Increase experience gained from kills by …",
+   "legendary": 11,
+   "by_quality": {
+    "normal": 7,
+    "fine": 8,
+    "superior": 9,
+    "epic": 10,
+    "legendary": 11
+   }
+  },
+  {
+   "key": "armor_infused",
+   "trait": "Infused",
+   "category": "armor",
+   "variant": null,
+   "description": "Increase armor enchantment effect by …",
+   "legendary": 25,
+   "by_quality": {
+    "normal": 9,
+    "fine": 13,
+    "superior": 17,
+    "epic": 21,
+    "legendary": 25
+   }
+  },
+  {
+   "key": "armor_invigorating",
+   "trait": "Invigorating",
+   "category": "armor",
+   "variant": null,
+   "description": "Increase Health, Magicka, and Stamina by …",
+   "legendary": 16,
+   "by_quality": {
+    "normal": 8,
+    "fine": 10,
+    "superior": 12,
+    "epic": 14,
+    "legendary": 16
+   }
+  },
+  {
+   "key": "armor_divines",
+   "trait": "Divines",
+   "category": "armor",
+   "variant": null,
+   "description": "Increases Mundus Stone effects by …",
+   "legendary": 9.1,
+   "by_quality": {
+    "normal": 5.1,
+    "fine": 6.1,
+    "superior": 7.1,
+    "epic": 8.1,
+    "legendary": 9.1
+   }
+  },
+  {
+   "key": "armor_nirnhoned",
+   "trait": "Nirnhoned",
+   "category": "armor",
+   "variant": null,
+   "description": "Increases Physical and Spell Resistance by …",
+   "legendary": 253,
+   "by_quality": {
+    "normal": 220,
+    "fine": 228,
+    "superior": 236,
+    "epic": 244,
+    "legendary": 253
+   }
+  },
+  {
+   "key": "jewelry_healthy",
+   "trait": "Healthy",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Increase Maximum Health by …",
+   "legendary": 965,
+   "by_quality": {
+    "normal": 844,
+    "fine": 877,
+    "superior": 910,
+    "epic": 932,
+    "legendary": 965
+   }
+  },
+  {
+   "key": "jewelry_arcane",
+   "trait": "Arcane",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Increase Maximum Magicka by …",
+   "legendary": 877,
+   "by_quality": {
+    "normal": 767,
+    "fine": 797,
+    "superior": 827,
+    "epic": 847,
+    "legendary": 877
+   }
+  },
+  {
+   "key": "jewelry_robust",
+   "trait": "Robust",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Increase Maximum Stamina by …",
+   "legendary": 877,
+   "by_quality": {
+    "normal": 767,
+    "fine": 797,
+    "superior": 827,
+    "epic": 847,
+    "legendary": 877
+   }
+  },
+  {
+   "key": "jewelry_bloodthirsty",
+   "trait": "Bloodthirsty",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Increase Weapon and Spell Damage against enemies under 90% health by up to …",
+   "legendary": 350,
+   "by_quality": {
+    "normal": 210,
+    "fine": 245,
+    "superior": 280,
+    "epic": 315,
+    "legendary": 350
+   }
+  },
+  {
+   "key": "jewelry_harmony",
+   "trait": "Harmony",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Activating a Synergy restores ... Health, Magicka, and Stamina.",
+   "legendary": 880,
+   "by_quality": {
+    "normal": 770,
+    "fine": 800,
+    "superior": 830,
+    "epic": 850,
+    "legendary": 880
+   }
+  },
+  {
+   "key": "jewelry_infused",
+   "trait": "Infused",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Increase the effect of the enchantment by …%",
+   "legendary": 60,
+   "by_quality": {
+    "normal": 24,
+    "fine": 33,
+    "superior": 42,
+    "epic": 51,
+    "legendary": 60
+   }
+  },
+  {
+   "key": "jewelry_triune_part1",
+   "trait": "Triune",
+   "category": "jewelry",
+   "variant": "part1",
+   "description": "Increase Maximum Health by …",
+   "legendary": 482,
+   "by_quality": {
+    "normal": 422,
+    "fine": 438,
+    "superior": 455,
+    "epic": 466,
+    "legendary": 482
+   }
+  },
+  {
+   "key": "jewelry_triune_part2",
+   "trait": "Triune",
+   "category": "jewelry",
+   "variant": "part2",
+   "description": "and Maximum Magicka and Maximum Stamina by …",
+   "legendary": 439,
+   "by_quality": {
+    "normal": 384,
+    "fine": 399,
+    "superior": 414,
+    "epic": 424,
+    "legendary": 439
+   }
+  },
+  {
+   "key": "jewelry_protective",
+   "trait": "Protective",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Increase Spell Resistance and Physical Resistance by …",
+   "legendary": 1190,
+   "by_quality": {
+    "normal": 1053,
+    "fine": 1091,
+    "superior": 1128,
+    "epic": 1153,
+    "legendary": 1190
+   }
+  },
+  {
+   "key": "jewelry_swift",
+   "trait": "Swift",
+   "category": "jewelry",
+   "variant": null,
+   "description": "Increase Movement Speed by …%",
+   "legendary": 7,
+   "by_quality": {
+    "normal": 3,
+    "fine": 4,
+    "superior": 5,
+    "epic": 6,
+    "legendary": 7
+   }
+  },
+  {
+   "key": "common_ornate",
+   "trait": "Ornate",
+   "category": "common",
+   "variant": null,
+   "description": "This item sells to merchants for …% more.",
+   "legendary": 300,
+   "by_quality": {
+    "normal": 280,
+    "fine": 285,
+    "superior": 290,
+    "epic": 295,
+    "legendary": 300
+   }
+  },
+  {
+   "key": "common_intricate_armor_weapons",
+   "trait": "Intricate",
+   "category": "common",
+   "variant": "Armor/Weapons",
+   "description": "Increase inspiration gained from deconstruction of this item by …, and gain additional refined material upon deconstruction of this item.",
+   "legendary": 300,
+   "by_quality": {
+    "normal": 280,
+    "fine": 285,
+    "superior": 290,
+    "epic": 295,
+    "legendary": 300
+   }
+  },
+  {
+   "key": "common_intricate_jewelry",
+   "trait": "Intricate",
+   "category": "common",
+   "variant": "Jewelry",
+   "description": "Increase inspiration gained from deconstruction of this item by …, and gain additional refined material upon deconstruction of this item.",
+   "legendary": 400,
+   "by_quality": {
+    "normal": 300,
+    "fine": 325,
+    "superior": 350,
+    "epic": 375,
+    "legendary": 400
+   }
+  }
+ ]
+}

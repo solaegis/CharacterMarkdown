@@ -11,6 +11,10 @@ dev = [
     "ruff>=0.3.0",
     "pre-commit>=3.6.0",
 ]
+# Set database pipeline (tools/setdb) — see docs/SET_DATABASE_PLAN.md
+setdb = [
+    "jsonschema>=4.20",
+]
 
 [tool.ruff]
 line-length = 100
@@ -19,3 +23,10 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "RET", "T20"]
 ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+# CLI pipeline: progress and errors go to stderr by design
+"tools/setdb/*" = ["T20"]
+# Regex grammar and verbatim in-game bonus text don't wrap readably
+"tools/setdb/normalize.py" = ["T20", "E501"]
+"tools/setdb/test_normalize.py" = ["E501"]

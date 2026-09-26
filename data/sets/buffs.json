@@ -1,0 +1,1898 @@
+{
+ "schema_version": 1,
+ "kind": "buffs",
+ "source": {
+  "wiki": "en.uesp.net",
+  "max_revid": 3639482,
+  "pages": 1
+ },
+ "count": 76,
+ "items": [
+  {
+   "key": "minor_aegis",
+   "name": "Minor Aegis",
+   "group": "Aegis",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Take 5% less damage from Dungeon, Trial and Arena Monsters.",
+   "value": 5,
+   "unit": "pct",
+   "sources": {
+    "sets": [
+     "Aegis of Galenwe",
+     "Automated Defense",
+     "Claw of Yolnahkriin",
+     "Eternal Warrior",
+     "Eye of Nahviintaas",
+     "Inventor's Guard",
+     "Kyne's Wind",
+     "Lucent Echoes",
+     "Lunar Bastion",
+     "Oakensoul Ring",
+     "Pearlescent Ward",
+     "Pillager's Profit",
+     "Saxhleel Champion",
+     "Stone-Talker's Oath",
+     "Test of Resolve",
+     "Transformative Hope",
+     "Twilight Remedy",
+     "Vestment of Olorime",
+     "Vrol's Command",
+     "Xoryn's Masterpiece"
+    ]
+   }
+  },
+  {
+   "key": "major_aegis",
+   "name": "Major Aegis",
+   "group": "Aegis",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Take 10% less damage from Dungeon, Trial and Arena Monsters.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "sets": [
+     "Automated Defense",
+     "Inventor's Guard",
+     "Ironblood",
+     "Test of Resolve",
+     "Vrol's Command"
+    ]
+   }
+  },
+  {
+   "key": "minor_berserk",
+   "name": "Minor Berserk",
+   "group": "Berserk",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases all damage done by 5%.",
+   "value": 5,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Ambush",
+     "Bird of Prey",
+     "Camouflaged Hunter",
+     "Combat Prayer",
+     "Dark Exchange",
+     "Spear Wall"
+    ],
+    "sets": [
+     "Kinras's Wrath",
+     "Oakensoul Ring",
+     "Slimecraw",
+     "Stone's Accord"
+    ],
+    "scribing": [
+     "Berserk on Banner Bearer",
+     "Smash",
+     "Traveling Knife",
+     "Vault"
+    ]
+   }
+  },
+  {
+   "key": "major_berserk",
+   "name": "Major Berserk",
+   "group": "Berserk",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases all damage done by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Chains of Devastation",
+     "Lead From the Front",
+     "Reaper's Mark",
+     "Summon Storm Atronach",
+     "Werewolf Berserker",
+     "Wrecking Blow"
+    ],
+    "sets": [
+     "Heem-Jas' Retribution",
+     "Kinras's Wrath",
+     "The Saint and the Seducer",
+     "Sea-Serpent's Coil",
+     "Tharriker's Strike",
+     "Unchained Aggressor"
+    ]
+   }
+  },
+  {
+   "key": "minor_brutality",
+   "name": "Minor Brutality",
+   "group": "Brutality",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases weapon damage by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Elder Dragon"
+    ],
+    "potions": [
+     "Increase Weapon Power Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_brutality",
+   "name": "Major Brutality",
+   "group": "Brutality",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases weapon damage by 20%.",
+   "value": 20,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Betty Netch",
+     "Biting Jabs",
+     "Degeneration",
+     "Drain Power",
+     "Hidden Blade",
+     "Hircine's Bounty",
+     "Molten Weapons",
+     "Momentum",
+     "Skeletal Mage",
+     "Surge",
+     "Pariah's Resolve",
+     "Tome-Bearer's Inspiration",
+     "Venom Arrow"
+    ],
+    "sets": [
+     "Dreugh King Slayer",
+     "Oakensoul Ring",
+     "Rattlecage"
+    ],
+    "scribing": [
+     "Brutality and Sorcery on Banner Bearer",
+     "Elemental Explosion",
+     "Smash",
+     "Soul Burst",
+     "Torchbearer",
+     "Trample",
+     "Traveling Knife",
+     "Ulfsild's Contingency",
+     "Vault",
+     "Wield Soul"
+    ],
+    "potions": [
+     "Increase Weapon Power Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_courage",
+   "name": "Minor Courage",
+   "group": "Courage",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increase your Weapon and Spell Damage by 215",
+   "value": 215,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Arcanist's Domain",
+     "Blood of the Elder Dragon",
+     "Power Extraction",
+     "Pack Leader"
+    ],
+    "sets": [
+     "Claw of Yolnahkriin",
+     "Crusader",
+     "Magma Incarnate",
+     "Oakensoul Ring",
+     "Pangrit Denmother",
+     "Phoenix Moth Theurge"
+    ],
+    "scribing": [
+     "Courage on Banner Bearer",
+     "Mender's Bond",
+     "Soul Burst"
+    ]
+   }
+  },
+  {
+   "key": "major_courage",
+   "name": "Major Courage",
+   "group": "Courage",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increase your Weapon and Spell Damage by 430",
+   "value": 430,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Ferocious Roar",
+     "Ambush",
+     "Empowering Grasp",
+     "Might of the Guild",
+     "Molten Armaments",
+     "Solar Flare",
+     "Wrecking Blow"
+    ],
+    "sets": [
+     "Nix-Hound's Howl",
+     "The Saint and the Seducer",
+     "Sea-Serpent's Coil",
+     "Spell Power Cure",
+     "Vestment of Olorime",
+     "Aegis of Galenwe",
+     "Grisly Gourmet",
+     "Might of the Lost Legion",
+     "Oakensoul Ring",
+     "Queen's Elegance",
+     "Rage of the Ursauk"
+    ],
+    "scribing": [
+     "Empower on Mender's Bond",
+     "Wield Soul"
+    ]
+   }
+  },
+  {
+   "key": "minor_endurance",
+   "name": "Minor Endurance",
+   "group": "Endurance",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases stamina recovery by 15%.",
+   "value": 15,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Arcanist's Domain",
+     "Circle of Protection",
+     "Enchanted Growth",
+     "Momentum",
+     "Refreshing Path",
+     "Regenerative Ward",
+     "Restoring Aura"
+    ],
+    "sets": [
+     "Oakensoul Ring"
+    ],
+    "scribing": [
+     "Intellect and Endurance on Banner Bearer",
+     "Mender's Bond",
+     "Soul Burst",
+     "Ulfsild's Contingency",
+     "Vault"
+    ]
+   }
+  },
+  {
+   "key": "major_endurance",
+   "name": "Major Endurance",
+   "group": "Endurance",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases stamina recovery by 30%.",
+   "value": 30,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Blood of the Green Dragon",
+     "Pariah's Resolve"
+    ],
+    "sets": [
+     "Apocryphal Inspiration"
+    ],
+    "scribing": [
+     "Intellect and Endurance on Wield Soul"
+    ],
+    "potions": [
+     "Restore Stamina Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_evasion",
+   "name": "Minor Evasion",
+   "group": "Evasion",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Reduces damage from area attacks by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Circumvented Fate",
+     "Deceptive Predator"
+    ],
+    "sets": [
+     "Abyssal Brace"
+    ],
+    "scribing": [
+     "Evasion on Mender's Bond",
+     "Torchbearer"
+    ]
+   }
+  },
+  {
+   "key": "major_evasion",
+   "name": "Major Evasion",
+   "group": "Evasion",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Reduces damage from area attacks by 20%.",
+   "value": 20,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Blade Cloak",
+     "Blur",
+     "Chains of Devastation",
+     "Deafening Roar",
+     "Elusive Mist",
+     "Evasion"
+    ],
+    "sets": [
+     "Gossamer",
+     "Grace of Gloom",
+     "Hist Bark",
+     "Leki's Focus",
+     "The Saint and the Seducer",
+     "Spectre's Eye"
+    ],
+    "scribing": [
+     "Evasion on Shield Throw",
+     "Vault"
+    ]
+   }
+  },
+  {
+   "key": "minor_expedition",
+   "name": "Minor Expedition",
+   "group": "Expedition",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases movement speed by 15%.",
+   "value": 15,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Charging Maneuver",
+     "Concealed Weapon",
+     "Hasty Prayer",
+     "Hurricane",
+     "Quick Siphon"
+    ],
+    "sets": [
+     "Gryphon's Ferocity",
+     "Jailbreaker"
+    ],
+    "scribing": [
+     "Expedition on Smash",
+     "Soul Burst",
+     "Traveling Knife",
+     "Vault"
+    ]
+   }
+  },
+  {
+   "key": "major_expedition",
+   "name": "Major Expedition",
+   "group": "Expedition",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases movement speed by 30%.",
+   "value": 30,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Accelerate",
+     "Boundless Storm",
+     "Elude",
+     "Elusive Mist",
+     "Falcon's Swiftness",
+     "Fleet-Footed Gate",
+     "Frozen Retreat",
+     "Hasty Retreat",
+     "Padomaic Sprint",
+     "Pariah's Resolve",
+     "Path of Darkness",
+     "Quick Cloak",
+     "Rapid Maneuver",
+     "Wing Buffet"
+    ],
+    "sets": [
+     "Adept Rider",
+     "Coward's Gear",
+     "Daedric Trickery",
+     "Dreugh King Slayer",
+     "False God's Devotion",
+     "Quick Serpent",
+     "Skooma Smuggler",
+     "Vicious Serpent"
+    ],
+    "scribing": [
+     "Expedition on Trample"
+    ],
+    "potions": [
+     "Speed Potion or Poison"
+    ]
+   }
+  },
+  {
+   "key": "minor_force",
+   "name": "Minor Force",
+   "group": "Force",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases critical damage done by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Accelerate",
+     "Roar",
+     "Stalwart Guard",
+     "Trap Beast"
+    ],
+    "sets": [
+     "The Blind (set)",
+     "Grave Inevitability",
+     "Gryphon's Ferocity",
+     "Medusa",
+     "Oakensoul Ring",
+     "Phoenix Moth Theurge",
+     "Twilight Remedy",
+     "Tzogvin's Warband",
+     "Velothi Ur-Mage's Amulet"
+    ],
+    "scribing": [
+     "Force on Mender's Bond",
+     "Smash",
+     "Traveling Knife",
+     "Ulfsild's Contingency",
+     "Vault"
+    ]
+   }
+  },
+  {
+   "key": "major_force",
+   "name": "Major Force",
+   "group": "Force",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases critical damage done by 20%.",
+   "value": 20,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Aggressive Horn",
+     "Ink-Scribe's Verve",
+     "Light's Champion"
+    ],
+    "sets": [
+     "Grave Inevitability",
+     "Grisly Gourmet",
+     "The Saint and the Seducer",
+     "Saxhleel Champion"
+    ]
+   }
+  },
+  {
+   "key": "minor_fortitude",
+   "name": "Minor Fortitude",
+   "group": "Fortitude",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases health recovery by 15%.",
+   "value": 15,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Arcanist's Domain",
+     "Hearthfire",
+     "Restoring Aura"
+    ],
+    "sets": [
+     "Oakensoul Ring"
+    ]
+   }
+  },
+  {
+   "key": "major_fortitude",
+   "name": "Major Fortitude",
+   "group": "Fortitude",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases health recovery by 30%.",
+   "value": 30,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Dragon Blood",
+     "Continuous Attack"
+    ],
+    "sets": [
+     "Apocryphal Inspiration",
+     "Adept Rider"
+    ],
+    "potions": [
+     "Restore Health Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_heroism",
+   "name": "Minor Heroism",
+   "group": "Heroism",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Generates 1 Ultimate every 1.5 seconds. (Only while in combat)",
+   "value": 1,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Audacious Runemend",
+     "Hearthfire",
+     "Heroic Slash"
+    ],
+    "sets": [
+     "Champion of the Hist",
+     "Cryptcanon Vestments",
+     "Daring Corsair",
+     "Gardener of Seasons",
+     "Indomitable Fury",
+     "Oakensoul Ring",
+     "Reawakened Hierophant",
+     "Ritemaster's Bond",
+     "Shalk Exoskeleton"
+    ],
+    "scribing": [
+     "Heroism on Banner Bearer",
+     "Mender's Bond",
+     "Torchbearer"
+    ],
+    "potions": [
+     "Heroism Potion"
+    ]
+   }
+  },
+  {
+   "key": "major_heroism",
+   "name": "Major Heroism",
+   "group": "Heroism",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Generates 3 Ultimate every 1.5 seconds. (Only while in combat)",
+   "value": 3,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Bountiful Harvest",
+     "Shimmering Shield"
+    ],
+    "sets": [
+     "Basalt-Blooded Warrior",
+     "Daedric Trickery",
+     "Drake's Rush",
+     "Hanu's Compassion",
+     "Transformative Hope"
+    ],
+    "scribing": [
+     "Heroism on Trample"
+    ],
+    "champion": [
+     "Last Stand"
+    ]
+   }
+  },
+  {
+   "key": "minor_intellect",
+   "name": "Minor Intellect",
+   "group": "Intellect",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases magicka recovery by 15%.",
+   "value": 15,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Arcanist's Domain",
+     "Enchanted Growth",
+     "Refreshing Path",
+     "Regenerative Ward",
+     "Restoring Aura"
+    ],
+    "sets": [
+     "Oakensoul Ring"
+    ],
+    "scribing": [
+     "Intellect and Endurance on Banner Bearer",
+     "Mender's Bond",
+     "Soul Burst",
+     "Ulfsild's Contingency",
+     "Vault"
+    ]
+   }
+  },
+  {
+   "key": "major_intellect",
+   "name": "Major Intellect",
+   "group": "Intellect",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases magicka recovery by 30%.",
+   "value": 30,
+   "unit": "pct",
+   "sources": {
+    "sets": [
+     "Apocryphal Inspiration"
+    ],
+    "scribing": [
+     "Intellect and Endurance on Wield Soul"
+    ],
+    "potions": [
+     "Restore Magicka Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_mending",
+   "name": "Minor Mending",
+   "group": "Mending",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases healing done by 8%.",
+   "value": 8,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Healthy Offering",
+     "Sacred Ground"
+    ],
+    "sets": [
+     "Healer's Habit",
+     "Naga Shaman",
+     "Oakensoul Ring"
+    ]
+   }
+  },
+  {
+   "key": "major_mending",
+   "name": "Major Mending",
+   "group": "Mending",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases healing done by 16%.",
+   "value": 16,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Accelerated Growth",
+     "Essence Drain",
+     "Obsidian Shield"
+    ],
+    "sets": [
+     "Daedric Trickery",
+     "Wisdom of Vanus"
+    ],
+    "potions": [
+     "Increase Armor Poison",
+     "Increase Armor Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_prophecy",
+   "name": "Minor Prophecy",
+   "group": "Prophecy",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases spell critical by 1314.",
+   "value": 1314,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Exploitation"
+    ],
+    "potions": [
+     "Spell Critical Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_prophecy",
+   "name": "Major Prophecy",
+   "group": "Prophecy",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases spell critical by 2629.",
+   "value": 2629,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Bound Armaments",
+     "Expert Hunter",
+     "Grim Focus",
+     "Inferno",
+     "Lotus Flower",
+     "Magelight",
+     "Roar",
+     "Shocking Siphon",
+     "Sun Fire"
+    ],
+    "sets": [
+     "Oakensoul Ring",
+     "Toothrow",
+     "Treasure Hunter"
+    ],
+    "scribing": [
+     "Savagery and Prophecy on Banner Bearer",
+     "Elemental Explosion",
+     "Smash",
+     "Soul Burst",
+     "Torchbearer",
+     "Trample",
+     "Traveling Knife",
+     "Ulfsild's Contingency",
+     "Vault",
+     "Wield Soul"
+    ],
+    "potions": [
+     "Spell Critical Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_protection",
+   "name": "Minor Protection",
+   "group": "Protection",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Reduces damage taken by 5%.",
+   "value": 5,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Bone Totem",
+     "Bound Armor",
+     "Circle of Protection",
+     "Deafening Roar",
+     "Frost Impulse",
+     "Ice Fortress",
+     "Protect the Brood",
+     "Ransack",
+     "Runic Defense",
+     "Shadow Cloak",
+     "Spear Wall",
+     "Temporal Guard"
+    ],
+    "sets": [
+     "Indomitable Fury",
+     "Ironblood",
+     "Oakensoul Ring",
+     "Vampire Cloak"
+    ],
+    "scribing": [
+     "Protection on Banner Bearer",
+     "Mender's Bond",
+     "Ulfsild's Contingency"
+    ],
+    "potions": [
+     "Protection Potion or Poison"
+    ],
+    "verses": [
+     "Apocryphal Emissary 1st stack"
+    ]
+   }
+  },
+  {
+   "key": "major_protection",
+   "name": "Major Protection",
+   "group": "Protection",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Reduces damage taken by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Consuming Darkness",
+     "Deaden Pain",
+     "Focused Charge",
+     "Glyphic of the Tides",
+     "Hearth and Home",
+     "Lead From the Front",
+     "Pack Leader",
+     "Remembrance",
+     "Revealing Flare",
+     "Sleet Storm"
+    ],
+    "sets": [
+     "Coward's Gear",
+     "Daedric Trickery",
+     "Hagraven's Garden",
+     "Immortal Warrior",
+     "Ironblood",
+     "Pirate Skeleton",
+     "Reawakened Hierophant",
+     "Steadfast Hero",
+     "Test of Resolve"
+    ],
+    "scribing": [
+     "Protection on Trample"
+    ]
+   }
+  },
+  {
+   "key": "minor_resolve",
+   "name": "Minor Resolve",
+   "group": "Resolve",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases physical and spell resistance by 2974.",
+   "value": 2974,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Blessing of Protection",
+     "Bone Armor",
+     "Bound Aegis",
+     "Mirage",
+     "Resolving Vigor",
+     "Runic Defense"
+    ],
+    "sets": [
+     "Magma Incarnate",
+     "Stone's Accord"
+    ],
+    "scribing": [
+     "Resolve on Banner Bearer",
+     "Soul Burst",
+     "Torchbearer",
+     "Ulfsild's Contingency"
+    ],
+    "verses": [
+     "Apocryphal Emissary 2nd stack"
+    ]
+   }
+  },
+  {
+   "key": "major_resolve",
+   "name": "Major Resolve",
+   "group": "Resolve",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases physical and spell resistance by 5948.",
+   "value": 5948,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Balance",
+     "Bone Armor",
+     "Earthspike Mantle",
+     "Fatewoven Armor",
+     "Feral Cruelty",
+     "Frost Cloak",
+     "Lightning Form",
+     "Mend Spirit",
+     "Rune Focus",
+     "Shadow Barrier",
+     "Unstoppable"
+    ],
+    "sets": [
+     "Mighty Chudan",
+     "Mighty Glacier",
+     "Oakensoul Ring",
+     "The Saint and the Seducer"
+    ],
+    "scribing": [
+     "Resolve on Shield Throw",
+     "Wield Soul"
+    ]
+   }
+  },
+  {
+   "key": "minor_savagery",
+   "name": "Minor Savagery",
+   "group": "Savagery",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases weapon critical by 1314.",
+   "value": 1314,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Hemorrhage"
+    ],
+    "potions": [
+     "Weapon Critical Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_savagery",
+   "name": "Major Savagery",
+   "group": "Savagery",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases weapon critical by 2629.",
+   "value": 2629,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Bound Armaments",
+     "Expert Hunter",
+     "Grim Focus",
+     "Inferno",
+     "Lotus Flower",
+     "Magelight",
+     "Roar",
+     "Shocking Siphon",
+     "Sun Fire"
+    ],
+    "sets": [
+     "Oakensoul Ring",
+     "Toothrow",
+     "Treasure Hunter"
+    ],
+    "scribing": [
+     "Savagery and Prophecy on Banner Bearer",
+     "Elemental Explosion",
+     "Smash",
+     "Soul Burst",
+     "Torchbearer",
+     "Trample",
+     "Traveling Knife",
+     "Ulfsild's Contingency",
+     "Vault",
+     "Wield Soul"
+    ],
+    "potions": [
+     "Weapon Critical Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_slayer",
+   "name": "Minor Slayer",
+   "group": "Slayer",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases damage done to Dungeon, Trial and Arena Monsters by 5%.",
+   "value": 5,
+   "unit": "pct",
+   "sources": {
+    "sets": [
+     "Ansuul's Torment",
+     "Arms of Relequen",
+     "Bahsei's Mania",
+     "Coral Riptide",
+     "False God's Devotion",
+     "Infallible Mage",
+     "Mantle of Siroria",
+     "Master Architect",
+     "Moondancer",
+     "Mora Scribe's Thesis",
+     "Oakensoul Ring",
+     "Peace and Serenity",
+     "Roaring Opportunist",
+     "Roar of Alkosh",
+     "Slivers of the Null Arca",
+     "Sul-Xan's Torment",
+     "Tooth of Lokkestiiz",
+     "Vicious Serpent",
+     "War Machine",
+     "Whorl of the Depths",
+     "Yandir's Might"
+    ]
+   }
+  },
+  {
+   "key": "major_slayer",
+   "name": "Major Slayer",
+   "group": "Slayer",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases damage done to Dungeon, Trial and Arena Monsters by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "sets": [
+     "Master Architect",
+     "Roaring Opportunist",
+     "Tooth of Lokkestiiz",
+     "War Machine"
+    ]
+   }
+  },
+  {
+   "key": "minor_sorcery",
+   "name": "Minor Sorcery",
+   "group": "Sorcery",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases spell damage by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Illuminate"
+    ],
+    "potions": [
+     "Increase Spell Power Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_sorcery",
+   "name": "Major Sorcery",
+   "group": "Sorcery",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases spell damage by 20%.",
+   "value": 20,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Betty Netch",
+     "Biting Jabs",
+     "Degeneration",
+     "Drain Power",
+     "Hidden Blade",
+     "Hircine's Bounty",
+     "Molten Weapons",
+     "Momentum",
+     "Pariah's Resolve",
+     "Skeletal Mage",
+     "Surge",
+     "Tome-Bearer's Inspiration",
+     "Venom Arrow"
+    ],
+    "sets": [
+     "Dreugh King Slayer",
+     "Oakensoul Ring",
+     "Rattlecage"
+    ],
+    "scribing": [
+     "Brutality and Sorcery on Banner Bearer",
+     "Elemental Explosion",
+     "Smash",
+     "Soul Burst",
+     "Torchbearer",
+     "Trample",
+     "Traveling Knife",
+     "Ulfsild's Contingency",
+     "Vault",
+     "Wield Soul"
+    ],
+    "potions": [
+     "Increase Spell Power Potion",
+     "Increase Spell Resist Poison",
+     "Increase Spell Resist Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_toughness",
+   "name": "Minor Toughness",
+   "group": "Toughness",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases maximum health by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Maturation"
+    ],
+    "sets": [
+     "Warrior-Poet"
+    ],
+    "verses": [
+     "Apocryphal Emissary 3rd stack"
+    ]
+   }
+  },
+  {
+   "key": "minor_vitality",
+   "name": "Minor Vitality",
+   "group": "Vitality",
+   "tier": "minor",
+   "kind": "buff",
+   "description": "Increases healing received and shield Strength by 6%.",
+   "value": 6,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Blood of the Green Dragon",
+     "Mystic Guard",
+     "Vibrant Shroud"
+    ],
+    "sets": [
+     "Gardener of Seasons",
+     "Hollowfang Thirst",
+     "Naga Shaman",
+     "Order of Diagna",
+     "Ozezan the Inferno"
+    ],
+    "scribing": [
+     "Vitality on Mender's Bond",
+     "Smash",
+     "Torchbearer"
+    ],
+    "potions": [
+     "Vitality Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_vitality",
+   "name": "Major Vitality",
+   "group": "Vitality",
+   "tier": "major",
+   "kind": "buff",
+   "description": "Increases healing received and Shield Strength by 12%.",
+   "value": 12,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Bone Surge",
+     "Erudite's Rigor",
+     "Hircine's Fortitude",
+     "Soul Siphon"
+    ],
+    "sets": [
+     "Bani's Torment",
+     "Daedric Trickery",
+     "Jailer's Tenacity",
+     "Mender's Ward",
+     "Scourge Harvester"
+    ],
+    "scribing": [
+     "Vitality on Shield Throw",
+     "Wield Soul"
+    ],
+    "potions": [
+     "Vitality Potion"
+    ]
+   }
+  },
+  {
+   "key": "minor_breach",
+   "name": "Minor Breach",
+   "group": "Breach",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Decreases target's physical and spell resistance by 2974.",
+   "value": 2974,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Deep Fissure",
+     "Fatewoven Armor",
+     "Petrify",
+     "Pierce Armor",
+     "Sundered (Physical damage status)",
+     "Wall of Frost against Chilled enemies"
+    ],
+    "sets": [
+     "Corpseburster",
+     "Dragon's Defilement",
+     "Hand of Mephala",
+     "The Saint and the Seducer",
+     "Sunderflame",
+     "Tarnished Nightmare (applies Sundered Status)"
+    ],
+    "scribing": [
+     "Breach on Mender's Bond",
+     "Smash",
+     "Soul Burst",
+     "Torchbearer",
+     "Ulfsild's Contingency"
+    ],
+    "potions": [
+     "Breach Potion or Poison",
+     "Increase Spell Resist Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_breach",
+   "name": "Major Breach",
+   "group": "Breach",
+   "tier": "major",
+   "kind": "debuff",
+   "description": "Decrease target's physical and spell resistance by 5948.",
+   "value": 5948,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Crushing Weapon",
+     "Deep Fissure",
+     "Disintegrating Dragonfire",
+     "Mark Target",
+     "Puncture",
+     "Razor Caltrops",
+     "Rip and Tear",
+     "Unnerving Boneyard",
+     "Weakness to Elements"
+    ],
+    "sets": [
+     "Kynmarcher's Cruelty",
+     "Night Mother's Gaze"
+    ],
+    "scribing": [
+     "Breach on Wield Soul"
+    ]
+   }
+  },
+  {
+   "key": "minor_brittle",
+   "name": "Minor Brittle",
+   "group": "Brittle",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Increases target's Crit Damage Taken by 10%",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Chilled (Frost damage status) with an Ice Staff equipped",
+     "Rune of the Colorless Pool"
+    ],
+    "sets": [
+     "The Saint and the Seducer",
+     "Glittering Goad"
+    ],
+    "scribing": [
+     "Brittle on Elemental Explosion",
+     "Mender's Bond"
+    ]
+   }
+  },
+  {
+   "key": "major_brittle",
+   "name": "Major Brittle",
+   "group": "Brittle",
+   "tier": "major",
+   "kind": "debuff",
+   "description": "Increases target's Crit Damage Taken by 20%",
+   "value": 20,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Tundra's Maw"
+    ],
+    "sets": [
+     "Nunatak"
+    ]
+   }
+  },
+  {
+   "key": "minor_cowardice",
+   "name": "Minor Cowardice",
+   "group": "Cowardice",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduces the target's Weapon and Spell Damage by 215",
+   "value": 215,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Corrupting Pollen",
+     "Erudite's Rigor",
+     "Power Extraction"
+    ],
+    "sets": [
+     "Healing Mage",
+     "The Saint and the Seducer"
+    ],
+    "scribing": [
+     "Cowardice on Elemental Explosion",
+     "Torchbearer",
+     "Trample"
+    ],
+    "potions": [
+     "Cowardice Potion or Poison",
+     "Increase Spell Power Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_cowardice",
+   "name": "Major Cowardice",
+   "group": "Cowardice",
+   "tier": "major",
+   "kind": "debuff",
+   "description": "Reduces the target's Weapon and Spell Damage by 430",
+   "value": 430,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Aspect of Terror",
+     "Bone Totem",
+     "Chains of Flame",
+     "Deafening Roar"
+    ],
+    "sets": [
+     "Kynmarcher's Cruelty",
+     "Nix-Hound's Howl",
+     "Gardener of Seasons",
+     "Vykosa"
+    ],
+    "scribing": [
+     "Cowardice on Shield Throw",
+     "Wield Soul"
+    ]
+   }
+  },
+  {
+   "key": "minor_defile",
+   "name": "Minor Defile",
+   "group": "Defile",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduces target's Healing Taken and Shield Strength by 6%.",
+   "value": 6,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Diseased (Disease damage status)",
+     "Lethal Arrow",
+     "Render Flesh (applies to self)"
+    ],
+    "sets": [
+     "Affliction",
+     "Fasalla's Guile",
+     "Pirate Skeleton (applies to self)",
+     "Thurvokun (set) (applies Diseased Status)"
+    ],
+    "scribing": [
+     "Defile on Elemental Explosion and Trample"
+    ],
+    "potions": [
+     "Defile Potion or Poison",
+     "Vitality Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_defile",
+   "name": "Major Defile",
+   "group": "Defile",
+   "tier": "major",
+   "kind": "debuff",
+   "description": "Reduces target's Healing Taken and Shield Strength by 12%.",
+   "value": 12,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Blighted Blastbones",
+     "Corrupting Pollen",
+     "Dark Flare",
+     "Shifting Standard",
+     "Soul Harvest"
+    ],
+    "sets": [
+     "Durok's Bane",
+     "Kynmarcher's Cruelty",
+     "Ward of Cyrodiil"
+    ],
+    "scribing": [
+     "Defile on Wield Soul"
+    ]
+   }
+  },
+  {
+   "key": "minor_enervation",
+   "name": "Minor Enervation",
+   "group": "Enervation",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduce Critical Damage by 10%",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "sets": [
+     "Blunted Blades",
+     "Critical Riposte",
+     "Lady Malygda",
+     "Wizard's Riposte"
+    ],
+    "scribing": [
+     "Enervation on Elemental Explosion",
+     "Shield Throw",
+     "Ulfsild's Contingency"
+    ],
+    "potions": [
+     "Enervation Potion or Poison",
+     "Weapon Critical Poison"
+    ]
+   }
+  },
+  {
+   "key": "minor_fracture",
+   "name": "Minor Fracture",
+   "group": "Fracture",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduce Physical Resistance by 1320",
+   "value": 1320,
+   "unit": "flat",
+   "sources": {
+    "potions": [
+     "Fracture Potion or Poison",
+     "Increase Armor Poison"
+    ]
+   }
+  },
+  {
+   "key": "minor_hindrance",
+   "name": "Minor Hindrance",
+   "group": "Hindrance",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduce Movement Speed by 40%",
+   "value": 40,
+   "unit": "pct",
+   "sources": {
+    "potions": [
+     "Hindrance Potion or Poison",
+     "Speed Poison"
+    ]
+   }
+  },
+  {
+   "key": "minor_lifesteal",
+   "name": "Minor Lifesteal",
+   "group": "Lifesteal",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Attacking the enemy restores 600 health per second",
+   "value": 600,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Blood Altar",
+     "Force Siphon",
+     "Leeching Vines",
+     "Runic Embrace"
+    ],
+    "sets": [
+     "Call of the Undertaker"
+    ],
+    "scribing": [
+     "Lifesteal on Elemental Explosion",
+     "Traveling Knife",
+     "Vault"
+    ]
+   }
+  },
+  {
+   "key": "minor_magickasteal",
+   "name": "Minor Magickasteal",
+   "group": "Magickasteal",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Attacking the enemy restores 168 magicka per second",
+   "value": 168,
+   "unit": "flat",
+   "sources": {
+    "abilities": [
+     "Elemental Drain",
+     "Overcharged (Magic damage status)",
+     "Siphon Spirit"
+    ],
+    "scribing": [
+     "Magickasteal on Elemental Explosion",
+     "Soul Burst",
+     "Ulfsild's Contingency"
+    ]
+   }
+  },
+  {
+   "key": "minor_maim",
+   "name": "Minor Maim",
+   "group": "Maim",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduce Damage dealt by 5%",
+   "value": 5,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Chilled (Frost damage status)",
+     "Choking Talons",
+     "Grave Grasp",
+     "Inner Beast",
+     "Low Slash",
+     "Runic Jolt",
+     "Summon Shade",
+     "Sun Shield"
+    ],
+    "sets": [
+     "Knightmare",
+     "The Saint and the Seducer",
+     "Shadowrend",
+     "Thurvokun"
+    ],
+    "scribing": [
+     "Maim on Mender's Bond",
+     "Smash",
+     "Soul Burst",
+     "Traveling Knife",
+     "Vault"
+    ],
+    "potions": [
+     "Maim Potion or Poison",
+     "Increase Weapon Power Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_maim",
+   "name": "Major Maim",
+   "group": "Maim",
+   "tier": "major",
+   "kind": "debuff",
+   "description": "Reduce Damage dealt by 10%",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Deafening Roar",
+     "Empowering Grasp",
+     "Encase",
+     "Frost Clench",
+     "Frozen Device",
+     "Icy Aura",
+     "Nova"
+    ],
+    "sets": [
+     "Bani's Torment",
+     "Kynmarcher's Cruelty",
+     "Lady Thorn",
+     "Reflected Fury",
+     "Silver Rose Vigil",
+     "Void Bash"
+    ],
+    "scribing": [
+     "Maim on Shield Throw",
+     "Wield Soul"
+    ]
+   }
+  },
+  {
+   "key": "minor_mangle",
+   "name": "Minor Mangle",
+   "group": "Mangle",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduces target's max health by 10%.",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Pulsar"
+    ],
+    "scribing": [
+     "Mangle on Smash",
+     "Torchbearer",
+     "Trample"
+    ],
+    "verse": [
+     "Tomefoolery"
+    ]
+   }
+  },
+  {
+   "key": "minor_timidity",
+   "name": "Minor Timidity",
+   "group": "Timidity",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Drains 1 Ultimate every 1.5 seconds.",
+   "value": 1,
+   "unit": "flat",
+   "sources": {
+    "sets": [
+     "Baron Thirsk"
+    ]
+   }
+  },
+  {
+   "key": "minor_uncertainty",
+   "name": "Minor Uncertainty",
+   "group": "Uncertainty",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Reduces weapon/spell critical by 1314.",
+   "value": 1314,
+   "unit": "flat",
+   "sources": {
+    "sets": [
+     "Critical Riposte"
+    ],
+    "scribing": [
+     "Uncertainty on Torchbearer",
+     "Traveling Knife"
+    ],
+    "potions": [
+     "Uncertainty Potion or Poison",
+     "Weapon Critical Poison",
+     "Spell Critical Poison"
+    ]
+   }
+  },
+  {
+   "key": "minor_vulnerability",
+   "name": "Minor Vulnerability",
+   "group": "Vulnerability",
+   "tier": "minor",
+   "kind": "debuff",
+   "description": "Increase damage taken by 5%",
+   "value": 5,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Boneyard",
+     "Concussed status (Shock damage status)",
+     "Fossilize",
+     "Inner Beast",
+     "Rune of Eldritch Horror",
+     "Swarm",
+     "Teleport Strike"
+    ],
+    "sets": [
+     "Infallible Mage",
+     "Noble's Conquest",
+     "The Saint and the Seducer",
+     "Scavenging Demise",
+     "Wise Mage"
+    ],
+    "scribing": [
+     "Vulnerability on Mender's Bond",
+     "Trample",
+     "Traveling Knife",
+     "Ulfsild's Contingency",
+     "Vault"
+    ],
+    "potions": [
+     "Vulnerability Potion or Poison",
+     "Protection Poison"
+    ]
+   }
+  },
+  {
+   "key": "major_vulnerability",
+   "name": "Major Vulnerability",
+   "group": "Vulnerability",
+   "tier": "major",
+   "kind": "debuff",
+   "description": "Increase damage taken by 10%",
+   "value": 10,
+   "unit": "pct",
+   "sources": {
+    "abilities": [
+     "Frozen Colossus"
+    ],
+    "sets": [
+     "Archdruid Devyric",
+     "Kynmarcher's Cruelty",
+     "Turning Tide",
+     "Umbral Edge",
+     "Coup De Grâce",
+     "Stonehulk Domination"
+    ]
+   }
+  },
+  {
+   "key": "ayleid_health_bonus",
+   "name": "Ayleid Health Bonus",
+   "group": "Ayleid Health Bonus",
+   "tier": null,
+   "kind": "misc",
+   "description": "Gain 10% health for 10 minutes (30 minutes if in Cyrodiil)",
+   "value": null,
+   "unit": null,
+   "sources": {}
+  },
+  {
+   "key": "batashas_brew",
+   "name": "Batasha's Brew",
+   "group": "Batasha's Brew",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increase idle stamina regeneration by 5% for 30 minutes. (Despite stating \"idle\", it works both in and out of combat, and both moving and standing still)",
+   "value": 5,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "blessing_of_war",
+   "name": "Blessing of War",
+   "group": "Blessing of War",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increase Alliance Points gained by 20% for 1 hour. Only active while in Cyrodiil or Cyrodiil delves.",
+   "value": 20,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "firelight",
+   "name": "Firelight",
+   "group": "Firelight",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases your Max Stamina by 5% for 30 minutes.",
+   "value": 5,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "looking_for_group",
+   "name": "Looking for Group",
+   "group": "Looking for Group",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases your Max Health by 25% and your Weapon Damage and Spell Damage by 20%.",
+   "value": 25,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "magicka_attunement",
+   "name": "Magicka Attunement",
+   "group": "Magicka Attunement",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases your Spell Resistance by 6600 in Craglorn. Not effective in Trials or in Dragonstar Arena. for 1 hour.",
+   "value": 6600,
+   "unit": "flat",
+   "sources": {}
+  },
+  {
+   "key": "malacaths_blessing",
+   "name": "Malacath's Blessing",
+   "group": "Malacath's Blessing",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases critical resistance by 1% for 30 minutes.",
+   "value": 1,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "nirncrux_infusion",
+   "name": "Nirncrux Infusion",
+   "group": "Nirncrux Infusion",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases your Physical Resistance by 6600 in Craglorn. Not effective in Trials or in Dragonstar Arena. for 1 hour.",
+   "value": 6600,
+   "unit": "flat",
+   "sources": {}
+  },
+  {
+   "key": "revealed",
+   "name": "Revealed",
+   "group": "Revealed",
+   "tier": null,
+   "kind": "misc",
+   "description": "There's no place to hide in the arena for 1 second, every second. You cannot crouch, go in stealth or go invisible. Despite giving negative effects, it is considered a buff.",
+   "value": null,
+   "unit": null,
+   "sources": {}
+  },
+  {
+   "key": "scuttle_sprint",
+   "name": "Scuttle Sprint",
+   "group": "Scuttle Sprint",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases Movement Speed by 20% for 3 minutes.",
+   "value": 20,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "trinimacs_blessing",
+   "name": "Trinimac's Blessing",
+   "group": "Trinimac's Blessing",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases critical chance by 1% for 30 minutes.",
+   "value": 1,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "yokudan_might",
+   "name": "Yokudan Might",
+   "group": "Yokudan Might",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases your damage done by 5% in Craglorn. Not effective in Trials or in Dragonstar Arena for 1 hour.",
+   "value": 5,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "blacksaps_brew",
+   "name": "Blacksap's Brew",
+   "group": "Blacksap's Brew",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases Movement Speed by 4%. Decreases Damage Taken by 10%",
+   "value": 4,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "blessing_of_arkay",
+   "name": "Blessing of Arkay",
+   "group": "Blessing of Arkay",
+   "tier": null,
+   "kind": "misc",
+   "description": "Reduces damage from Daedra by 5% for 5 minutes",
+   "value": 5,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "snake_scales",
+   "name": "Snake Scales",
+   "group": "Snake Scales",
+   "tier": null,
+   "kind": "misc",
+   "description": "Decreases Damage Taken by 5% and Increases Damage Done by 5% while in Grahtwood for 1 hour",
+   "value": 5,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "tigers_fur",
+   "name": "Tiger's Fur",
+   "group": "Tiger's Fur",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases Movement Speed by 4% and Decreases Damage Taken by 5% while in Grahtwood for 1 hour",
+   "value": 4,
+   "unit": "pct",
+   "sources": {}
+  },
+  {
+   "key": "wolfs_pelt",
+   "name": "Wolf's Pelt",
+   "group": "Wolf's Pelt",
+   "tier": null,
+   "kind": "misc",
+   "description": "Increases Movement Speed by 4% and Increases Damage Done by 5% while in Grahtwood for 1 hour",
+   "value": 4,
+   "unit": "pct",
+   "sources": {}
+  }
+ ]
+}

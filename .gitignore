@@ -40,3 +40,6 @@ __pycache__/
 
 # mdBook build output
 book/
+
+# Set database: cached wiki pages (regenerate with `task setdb:fetch`)
+data/sets/raw/

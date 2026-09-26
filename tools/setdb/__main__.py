@@ -1,0 +1,38 @@
+"""CLI: `uv run python -m tools.setdb <command>`.
+
+Commands:
+  fetch     download / refresh cached wiki pages (network)
+  parse     cached pages -> data/sets/*.json + reports (offline)
+  validate  check data/sets/*.json against schema.json (offline)
+  build     parse + validate
+"""
+
+from __future__ import annotations
+
+import sys
+
+
+def main(argv: list[str]) -> int:
+    cmd = argv[0] if argv else "help"
+    if cmd == "fetch":
+        from . import fetch
+
+        return fetch.run()
+    if cmd == "parse":
+        from . import parse
+
+        return parse.run()
+    if cmd == "validate":
+        from . import validate
+
+        return validate.run()
+    if cmd == "build":
+        from . import parse, validate
+
+        return parse.run() or validate.run()
+    print(__doc__, file=sys.stderr)
+    return 0 if cmd in ("help", "-h", "--help") else 2
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

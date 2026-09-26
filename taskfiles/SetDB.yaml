@@ -1,0 +1,43 @@
+version: "3"
+
+# Set Database Tasks - Taskfile Module
+# Included from main Taskfile.yaml
+# Pipeline: UESP wiki -> data/sets/*.json. See docs/SET_DATABASE_PLAN.md
+
+vars:
+  SETDB: uv run --group setdb python -m tools.setdb
+
+tasks:
+  fetch:
+    desc: Download/refresh cached UESP set pages (incremental, network)
+    cmds:
+      - "{{.SETDB}} fetch"
+    preconditions:
+      - sh: command -v uv
+        msg: "uv is not installed. See https://github.com/astral-sh/uv"
+
+  parse:
+    desc: Parse cached pages into data/sets/*.json (offline)
+    cmds:
+      - "{{.SETDB}} parse"
+
+  validate:
+    desc: Validate data/sets/*.json against the schema (offline)
+    cmds:
+      - "{{.SETDB}} validate"
+
+  test:
+    desc: Run set DB regression tests (normalizer grammar)
+    cmds:
+      - uv run --group setdb python -m unittest tools.setdb.test_normalize
+
+  build:
+    desc: Parse + validate (offline; run setdb:fetch first to refresh)
+    cmds:
+      - "{{.SETDB}} build"
+
+  refresh:
+    desc: Fetch, parse and validate in one go
+    cmds:
+      - task: fetch
+      - task: build

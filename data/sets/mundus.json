@@ -1,0 +1,109 @@
+{
+ "schema_version": 1,
+ "kind": "mundus",
+ "source": {
+  "wiki": "en.uesp.net",
+  "max_revid": 3590732,
+  "pages": 1
+ },
+ "count": 13,
+ "items": [
+  {
+   "key": "the_apprentice",
+   "stone": "The Apprentice",
+   "effect": "Increases Spell Damage",
+   "value": 238,
+   "full_divines_value": 389
+  },
+  {
+   "key": "the_atronach",
+   "stone": "The Atronach",
+   "effect": "Increases Magicka Recovery",
+   "value": 310,
+   "full_divines_value": 507
+  },
+  {
+   "key": "the_lady",
+   "stone": "The Lady",
+   "effect": "Increases Physical and Spell Resistance",
+   "value": 2744,
+   "full_divines_value": 4489
+  },
+  {
+   "key": "the_lord",
+   "stone": "The Lord",
+   "effect": "Increases Maximum Health",
+   "value": 2225,
+   "full_divines_value": 3639
+  },
+  {
+   "key": "the_lover",
+   "stone": "The Lover",
+   "effect": "Increases Physical and Spell Penetration",
+   "value": 2744,
+   "full_divines_value": 4489
+  },
+  {
+   "key": "the_mage",
+   "stone": "The Mage",
+   "effect": "Increases Maximum Magicka",
+   "value": 2023,
+   "full_divines_value": 3309
+  },
+  {
+   "key": "the_ritual",
+   "stone": "The Ritual",
+   "effect": "Increases Healing Done",
+   "value": 8,
+   "full_divines_value": 13
+  },
+  {
+   "key": "the_serpent",
+   "stone": "The Serpent",
+   "effect": "Increases Stamina Recovery",
+   "value": 310,
+   "full_divines_value": 507
+  },
+  {
+   "key": "the_shadow",
+   "stone": "The Shadow",
+   "effect": "Increases Critical Damage and Healing done",
+   "value": 11,
+   "full_divines_value": 17
+  },
+  {
+   "key": "the_steed",
+   "stone": "The Steed",
+   "effect": "Increases Health Recovery and Movement Speed",
+   "value": [
+    238,
+    10
+   ],
+   "full_divines_value": [
+    389,
+    16
+   ]
+  },
+  {
+   "key": "the_thief",
+   "stone": "The Thief",
+   "effect": "Increases Weapon and Spell Critical Strike ratings",
+   "value": 1212,
+   "full_divines_value": 1982
+  },
+  {
+   "key": "the_tower",
+   "stone": "The Tower",
+   "effect": "Increases Maximum Stamina",
+   "value": 2023,
+   "full_divines_value": 3309
+  },
+  {
+   "key": "the_warrior",
+   "stone": "The Warrior",
+   "effect": "Increases Weapon Damage",
+   "value": 238,
+   "full_divines_value": 389
+  }
+ ]
+}

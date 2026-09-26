@@ -1,0 +1,360 @@
+{
+ "schema_version": 1,
+ "kind": "enchants",
+ "source": {
+  "wiki": "en.uesp.net",
+  "max_revid": 3532649,
+  "pages": 39
+ },
+ "count": 38,
+ "items": [
+  {
+   "key": "glyph_of_frost",
+   "glyph": "Glyph of Frost",
+   "slot": "weapon",
+   "effect": "Deals X Frost Damage",
+   "cp160_legendary": [
+    2534
+   ]
+  },
+  {
+   "key": "glyph_of_absorb_stamina",
+   "glyph": "Glyph of Absorb Stamina",
+   "slot": "weapon",
+   "effect": "Deals X Physical Damage and recovers Y Stamina",
+   "cp160_legendary": [
+    1900,
+    354
+   ]
+  },
+  {
+   "key": "glyph_of_hardening",
+   "glyph": "Glyph of Hardening",
+   "slot": "weapon",
+   "effect": "Grants a X point Damage Shield for 5 seconds",
+   "cp160_legendary": [
+    3290
+   ]
+  },
+  {
+   "key": "glyph_of_crushing",
+   "glyph": "Glyph of Crushing",
+   "slot": "weapon",
+   "effect": "Reduce the target's Physical Resistance and Spell Resistance by X for 5 seconds",
+   "cp160_legendary": [
+    1622
+   ]
+  },
+  {
+   "key": "glyph_of_prismatic_onslaught",
+   "glyph": "Glyph of Prismatic Onslaught",
+   "slot": "weapon",
+   "effect": "Deals X Magic Damage and recovers Y Health and Z Magicka and Stamina",
+   "cp160_legendary": [
+    1900,
+    430,
+    177
+   ]
+  },
+  {
+   "key": "glyph_of_foulness",
+   "glyph": "Glyph of Foulness",
+   "slot": "weapon",
+   "effect": "Deals X Disease Damage",
+   "cp160_legendary": [
+    2534
+   ]
+  },
+  {
+   "key": "glyph_of_poison",
+   "glyph": "Glyph of Poison",
+   "slot": "weapon",
+   "effect": "Deals X Poison Damage",
+   "cp160_legendary": [
+    2534
+   ]
+  },
+  {
+   "key": "glyph_of_absorb_magicka",
+   "glyph": "Glyph of Absorb Magicka",
+   "slot": "weapon",
+   "effect": "Deals X Magic Damage and recovers Y Magicka",
+   "cp160_legendary": [
+    1900,
+    354
+   ]
+  },
+  {
+   "key": "glyph_of_shock",
+   "glyph": "Glyph of Shock",
+   "slot": "weapon",
+   "effect": "Deals X Shock Damage",
+   "cp160_legendary": [
+    2534
+   ]
+  },
+  {
+   "key": "glyph_of_absorb_health",
+   "glyph": "Glyph of Absorb Health",
+   "slot": "weapon",
+   "effect": "Deals X Magic Damage and recovers Y Health",
+   "cp160_legendary": [
+    1900,
+    861
+   ]
+  },
+  {
+   "key": "glyph_of_decrease_health",
+   "glyph": "Glyph of Decrease Health",
+   "slot": "weapon",
+   "effect": "Deals X Oblivion Damage",
+   "cp160_legendary": [
+    4875
+   ]
+  },
+  {
+   "key": "glyph_of_weapon_damage",
+   "glyph": "Glyph of Weapon Damage",
+   "slot": "weapon",
+   "effect": "Increase your Weapon Damage and Spell Damage by X for 5 seconds",
+   "cp160_legendary": [
+    348
+   ]
+  },
+  {
+   "key": "glyph_of_weakening",
+   "glyph": "Glyph of Weakening",
+   "slot": "weapon",
+   "effect": "Reduce the target's Weapon Damage and Spell Damage by X for 5 seconds",
+   "cp160_legendary": [
+    348
+   ]
+  },
+  {
+   "key": "glyph_of_flame",
+   "glyph": "Glyph of Flame",
+   "slot": "weapon",
+   "effect": "Deals X Fire Damage",
+   "cp160_legendary": [
+    2534
+   ]
+  },
+  {
+   "key": "glyph_of_stamina",
+   "glyph": "Glyph of Stamina",
+   "slot": "armor",
+   "effect": "Adds X Maximum Stamina",
+   "cp160_legendary": [
+    868
+   ]
+  },
+  {
+   "key": "glyph_of_prismatic_defense",
+   "glyph": "Glyph of Prismatic Defense",
+   "slot": "armor",
+   "effect": "Adds X Maximum Health, Magicka and Stamina",
+   "cp160_legendary": [
+    477,
+    434
+   ]
+  },
+  {
+   "key": "glyph_of_magicka",
+   "glyph": "Glyph of Magicka",
+   "slot": "armor",
+   "effect": "Adds X Maximum Magicka",
+   "cp160_legendary": [
+    868
+   ]
+  },
+  {
+   "key": "glyph_of_health",
+   "glyph": "Glyph of Health",
+   "slot": "armor",
+   "effect": "Adds X Maximum Health",
+   "cp160_legendary": [
+    954
+   ]
+  },
+  {
+   "key": "glyph_of_frost_resist",
+   "glyph": "Glyph of Frost Resist",
+   "slot": "jewelry",
+   "effect": "Adds X Frost Resistance",
+   "cp160_legendary": [
+    3520
+   ]
+  },
+  {
+   "key": "glyph_of_stamina_recovery",
+   "glyph": "Glyph of Stamina Recovery",
+   "slot": "jewelry",
+   "effect": "Adds X Stamina",
+   "cp160_legendary": [
+    169
+   ]
+  },
+  {
+   "key": "glyph_of_reduce_feat_cost",
+   "glyph": "Glyph of Reduce Feat Cost",
+   "slot": "jewelry",
+   "effect": "Reduce Stamina cost of abilities by X",
+   "cp160_legendary": [
+    203
+   ]
+  },
+  {
+   "key": "glyph_of_disease_resist",
+   "glyph": "Glyph of Disease Resist",
+   "slot": "jewelry",
+   "effect": "Adds X Disease Resistance",
+   "cp160_legendary": [
+    3520
+   ]
+  },
+  {
+   "key": "glyph_of_bashing",
+   "glyph": "Glyph of Bashing",
+   "slot": "jewelry",
+   "effect": "Increase Bash damage by X",
+   "cp160_legendary": [
+    348
+   ]
+  },
+  {
+   "key": "glyph_of_bracing",
+   "glyph": "Glyph of Bracing",
+   "slot": "jewelry",
+   "effect": "Reduce cost of Blocking by X",
+   "cp160_legendary": [
+    203
+   ]
+  },
+  {
+   "key": "glyph_of_poison_resist",
+   "glyph": "Glyph of Poison Resist",
+   "slot": "jewelry",
+   "effect": "Adds X Poison Resistance",
+   "cp160_legendary": [
+    3520
+   ]
+  },
+  {
+   "key": "glyph_of_increase_magical_harm",
+   "glyph": "Glyph of Increase Magical Harm",
+   "slot": "jewelry",
+   "effect": "Adds X Spell Damage and Weapon Damage and 10 Magicka",
+   "cp160_legendary": [
+    174
+   ]
+  },
+  {
+   "key": "glyph_of_decrease_spell_harm",
+   "glyph": "Glyph of Decrease Spell Harm",
+   "slot": "jewelry",
+   "effect": "Adds X Spell Resistance",
+   "cp160_legendary": [
+    927
+   ]
+  },
+  {
+   "key": "glyph_of_magicka_recovery",
+   "glyph": "Glyph of Magicka Recovery",
+   "slot": "jewelry",
+   "effect": "Adds X Magicka",
+   "cp160_legendary": [
+    169
+   ]
+  },
+  {
+   "key": "glyph_of_reduce_spell_cost",
+   "glyph": "Glyph of Reduce Spell Cost",
+   "slot": "jewelry",
+   "effect": "Reduce Magicka cost of abilities by X",
+   "cp160_legendary": [
+    203
+   ]
+  },
+  {
+   "key": "glyph_of_shock_resist",
+   "glyph": "Glyph of Shock Resist",
+   "slot": "jewelry",
+   "effect": "Adds X Shock Resistance",
+   "cp160_legendary": [
+    3520
+   ]
+  },
+  {
+   "key": "glyph_of_health_recovery",
+   "glyph": "Glyph of Health Recovery",
+   "slot": "jewelry",
+   "effect": "Adds X Health",
+   "cp160_legendary": [
+    169
+   ]
+  },
+  {
+   "key": "glyph_of_potion_boost",
+   "glyph": "Glyph of Potion Boost",
+   "slot": "jewelry",
+   "effect": "Increase the duration of Potion effects by X seconds",
+   "cp160_legendary": [
+    3.6
+   ]
+  },
+  {
+   "key": "glyph_of_potion_speed",
+   "glyph": "Glyph of Potion Speed",
+   "slot": "jewelry",
+   "effect": "Reduce the cooldown of Potions below this item's level by X seconds",
+   "cp160_legendary": [
+    5
+   ]
+  },
+  {
+   "key": "glyph_of_flame_resist",
+   "glyph": "Glyph of Flame Resist",
+   "slot": "jewelry",
+   "effect": "Adds X Fire Resistance",
+   "cp160_legendary": [
+    3520
+   ]
+  },
+  {
+   "key": "glyph_of_increase_physical_harm",
+   "glyph": "Glyph of Increase Physical Harm",
+   "slot": "jewelry",
+   "effect": "Adds X Weapon Damage and Spell Damage and 10 Stamina",
+   "cp160_legendary": [
+    174
+   ]
+  },
+  {
+   "key": "glyph_of_decrease_physical_harm",
+   "glyph": "Glyph of Decrease Physical Harm",
+   "slot": "jewelry",
+   "effect": "Adds X Physical Resistance",
+   "cp160_legendary": [
+    927
+   ]
+  },
+  {
+   "key": "glyph_of_prismatic_recovery",
+   "glyph": "Glyph of Prismatic Recovery",
+   "slot": "jewelry",
+   "effect": "Adds X Health, Magicka and Stamina",
+   "cp160_legendary": [
+    84
+   ]
+  },
+  {
+   "key": "glyph_of_reduce_skill_cost",
+   "glyph": "Glyph of Reduce Skill Cost",
+   "slot": "jewelry",
+   "effect": "Reduce Health, Magicka and Stamina cost of abilities by X",
+   "cp160_legendary": [
+    133
+   ]
+  }
+ ]
+}

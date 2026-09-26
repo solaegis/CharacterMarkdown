@@ -1,0 +1,806 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/solaegis/CharacterMarkdown/data/sets/schema.json",
+  "title": "CharacterMarkdown set database",
+  "description": "Envelope for data/sets/{sets,buffs,traits,mundus,enchants}.json. See docs/SET_DATABASE_PLAN.md.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "source",
+    "count",
+    "items"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "kind": {
+      "enum": [
+        "sets",
+        "buffs",
+        "traits",
+        "mundus",
+        "enchants"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "wiki",
+        "max_revid",
+        "pages"
+      ],
+      "properties": {
+        "wiki": {
+          "type": "string"
+        },
+        "max_revid": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "pages": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "items": {
+      "type": "array"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "sets"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/set"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "buffs"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/buff"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "traits"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/trait"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "mundus"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/mundus"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "enchants"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/enchant"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "number": {
+      "type": "number"
+    },
+    "set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "slug",
+        "name",
+        "uesp",
+        "wiki",
+        "type",
+        "class",
+        "source",
+        "dlc",
+        "added_in",
+        "deprecated",
+        "wiki_status",
+        "slots",
+        "max_pieces",
+        "perfected_of",
+        "perfected_variant",
+        "tags",
+        "bonuses",
+        "roles",
+        "pros",
+        "cons",
+        "confidence"
+      ],
+      "properties": {
+        "id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "In-game setId; filled by Phase 3 reconciliation."
+        },
+        "slug": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uesp": {
+          "type": "string",
+          "pattern": "^https://en\\.uesp\\.net/wiki/Online:"
+        },
+        "wiki": {
+          "type": "object",
+          "required": [
+            "pageid",
+            "revid"
+          ],
+          "properties": {
+            "pageid": {
+              "type": "integer"
+            },
+            "revid": {
+              "type": "integer"
+            }
+          }
+        },
+        "type": {
+          "enum": [
+            "overland",
+            "dungeon",
+            "trial",
+            "arena",
+            "arena_weapon",
+            "monster",
+            "mythic",
+            "crafted",
+            "pvp",
+            "class",
+            "leveling",
+            "special"
+          ]
+        },
+        "class": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dlc": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "added_in": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
+        "wiki_status": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "pre_release",
+              "incomplete"
+            ]
+          }
+        },
+        "slots": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "settype",
+            "weights",
+            "weapons",
+            "jewelry",
+            "head_shoulders"
+          ],
+          "properties": {
+            "settype": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "weights": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "light",
+                  "medium",
+                  "heavy"
+                ]
+              }
+            },
+            "weapons": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "any",
+                  "one_handed",
+                  "two_handed",
+                  "bow",
+                  "destruction_staff",
+                  "restoration_staff",
+                  "shield"
+                ]
+              }
+            },
+            "jewelry": {
+              "type": "boolean"
+            },
+            "head_shoulders": {
+              "type": "boolean"
+            }
+          }
+        },
+        "max_pieces": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "perfected_of": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/slug"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "perfected_variant": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/slug"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bonuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/bonus"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "dps",
+              "tank",
+              "healer",
+              "support",
+              "pvp",
+              "utility"
+            ]
+          }
+        },
+        "pros": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confidence": {
+          "enum": [
+            "auto",
+            "reviewed"
+          ]
+        }
+      }
+    },
+    "bonus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pieces",
+        "perfected",
+        "text",
+        "wikitext",
+        "links",
+        "effects",
+        "coverage"
+      ],
+      "properties": {
+        "pieces": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "perfected": {
+          "type": "boolean",
+          "description": "Line only active on the perfected variant."
+        },
+        "text": {
+          "type": "string"
+        },
+        "wikitext": {
+          "type": "string",
+          "description": "Template-expanded source, for re-parsing without a fetch."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect"
+          }
+        },
+        "coverage": {
+          "enum": [
+            "full",
+            "partial",
+            "none"
+          ],
+          "description": "How completely `effects` models the text (see normalize.py honesty check)."
+        }
+      }
+    },
+    "effect": {
+      "description": "Phase 2 contract: one typed, numeric consequence of a bonus line.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stat",
+        "value",
+        "unit",
+        "scope",
+        "kind",
+        "condition",
+        "trigger",
+        "duration_s",
+        "stacks",
+        "damage",
+        "buff_ref",
+        "uptime_est",
+        "uptime_source",
+        "raw"
+      ],
+      "properties": {
+        "stat": {
+          "type": "string",
+          "description": "Controlled vocabulary; see plan. 'unmodeled' when not decomposed."
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unit": {
+          "enum": [
+            "flat",
+            "pct",
+            "seconds",
+            null
+          ]
+        },
+        "scope": {
+          "enum": [
+            "self",
+            "group",
+            "ally",
+            "target",
+            "target_debuff",
+            "enemy_aoe"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "static",
+            "conditional",
+            "proc",
+            "buff_grant",
+            "debuff_apply",
+            "damage",
+            "heal",
+            "shield",
+            "resource_restore",
+            "unmodeled"
+          ]
+        },
+        "condition": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string"
+            }
+          }
+        },
+        "trigger": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "on": {
+              "type": "string"
+            },
+            "chance": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 1
+            },
+            "cooldown_s": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "text": {
+              "type": "string"
+            }
+          }
+        },
+        "duration_s": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "stacks": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "damage": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "buff_ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/slug"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uptime_est": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "uptime_source": {
+          "enum": [
+            "static",
+            "heuristic",
+            "override",
+            "sim",
+            null
+          ]
+        },
+        "raw": {
+          "type": "string"
+        },
+        "extra": {
+          "type": "object",
+          "description": "Secondary numbers: interval, radius, targets, delay, scales_off, pvp_* ..."
+        }
+      }
+    },
+    "buff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "name",
+        "group",
+        "tier",
+        "kind",
+        "description",
+        "value",
+        "unit",
+        "sources"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string"
+        },
+        "group": {
+          "type": "string"
+        },
+        "tier": {
+          "enum": [
+            "minor",
+            "major",
+            null
+          ]
+        },
+        "kind": {
+          "enum": [
+            "buff",
+            "debuff",
+            "misc"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unit": {
+          "enum": [
+            "flat",
+            "pct",
+            null
+          ]
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "trait": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "trait",
+        "category",
+        "variant",
+        "description",
+        "legendary",
+        "by_quality"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "trait": {
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "weapon",
+            "armor",
+            "jewelry",
+            "common"
+          ]
+        },
+        "variant": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "legendary": {
+          "type": "number"
+        },
+        "by_quality": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "mundus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "stone",
+        "effect",
+        "value",
+        "full_divines_value"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "stone": {
+          "type": "string"
+        },
+        "effect": {
+          "type": "string"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        },
+        "full_divines_value": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "enchant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "glyph",
+        "slot",
+        "effect",
+        "cp160_legendary"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "glyph": {
+          "type": "string"
+        },
+        "slot": {
+          "enum": [
+            "weapon",
+            "armor",
+            "jewelry"
+          ]
+        },
+        "effect": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cp160_legendary": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

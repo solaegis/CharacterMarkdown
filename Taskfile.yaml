@@ -33,6 +33,9 @@ includes:
   docs:
     taskfile: ./taskfiles/Docs.yaml
     internal: false
+  setdb:
+    taskfile: ./taskfiles/SetDB.yaml
+    internal: false
 
 tasks:
   # ----------------------------------------------------------------------------
