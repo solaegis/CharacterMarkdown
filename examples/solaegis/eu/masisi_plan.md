@@ -1,6 +1,6 @@
 # Build Plan - Masisi: The Ra Gada Artisan (Hybrid Farmer / Craftable DPS)
 
-> **Character profile:** [masisi.md](masisi.md) — Level 50 Redguard Dragonknight, CP 336, @SOLAEGIS (EU).
+> **Character profile:** [masisi.md](masisi.md) — Level 50 Redguard Dragonknight, CP 337, @SOLAEGIS (EU).
 
 Masisi remains the EU account’s **Primary Artisan, Master Farmer, and Resource Scout** — the forge behind craftable loadouts for the roster (including [Lord Elric of Melniboné](lord_elric_of_melnibone_plan.md)). Farmer and crafter stay first: surveys, writs, Keen Eye, hirelings, and the motif library still define the day. Combat is no longer “poke and leave only.” One hybrid kit must clear **node packs**, finish **public-dungeon / casual dungeon filler** when a route goes there, then return to the vein.
 
@@ -8,7 +8,7 @@ Masisi remains the EU account’s **Primary Artisan, Master Farmer, and Resource
 
 **End-game gear goal (set DB):** craftable only — **5 Hunding’s Rage (body) + 5 Night Mother’s Gaze (jewelry + weapons)**, replacing Order’s Wrath. Hunding 5pc is **+300 Weapon/Spell Damage** (always on). Night Mother’s Gaze has the **same 2/3/4pc** as Order’s (+657 crit / +129 WD/SD / +657 crit); only the 5pc changes: **Major Breach** (−5,948 enemy Physical/Spell Resistance for 4 s on crit) instead of Order’s +943 crit / +8% Critical Damage. With live **1,930 pen** vs **18,200** enemy resistance, Breach is worth **≈ +12%** damage at full uptime vs **≈ +5.4%** for Order’s 5pc — see [Set rationale](#set-rationale). Both bars keep the full 5pc: jewelry 3 + Dual Wield 2 front, jewelry 3 + **bow 2** back (two-handers count as 2 pieces). All values `coverage: full`, `game_check: verified` in `data/sets/`.
 
-**Live → target:** CP **336** Redguard DK (Summerset) with **Assassination [Full]**, **The Steed**, **Dual Wield front · Bow back**, Weapon Power ~2.8k. **Live sets:** Order’s Wrath **5/5** on both bars (jewelry + DW front; jewelry + bow back — a bow counts as 2) · Hunding’s Rage **4/5** (head/chest/hands/feet Divines — **feet done**) · Trainee heavy legs · scrap Well-fitted shoulders/waist · **almost all crafted slots unenchanted**. **Craft CP still gold passives** (Fortune’s Favor 50 / Gilded Fingers 50) — respec to farmer stars next. Target: craft **Hunding legs** for 5pc, craft **Night Mother’s Gaze** jewelry + daggers + bow (glyphed at craft — don’t glyph the Order’s pieces being replaced), **Bloodthirsty** neck, fill shoulders/waist, gold temper, Style Master so he can supply every EU character from one motif library.
+**Live → target:** CP **337** Redguard DK (Summerset) with **Assassination [Full]**, **The Steed**, **Dual Wield front · Bow back**, Weapon Power ~2.8k. **Live sets:** Order’s Wrath **5/5** on both bars (jewelry + DW front; jewelry + bow back — a bow counts as 2) · Hunding’s Rage **4/5** (head/chest/hands/feet Divines — **feet done**) · Trainee heavy legs · scrap Well-fitted shoulders/waist · **almost all crafted slots unenchanted**. **Craft CP still gold passives** (Fortune’s Favor 50 / Gilded Fingers 50) — respec to farmer stars next. Target: craft **Hunding legs** for 5pc, craft **Night Mother’s Gaze** jewelry + daggers + bow (glyphed at craft — don’t glyph the Order’s pieces being replaced), **Bloodthirsty** neck, fill shoulders/waist, gold temper, Style Master so he can supply every EU character from one motif library.
 
 ---
 
@@ -33,7 +33,7 @@ Masisi remains the EU account’s **Primary Artisan, Master Farmer, and Resource
 | **Costume**              | **Imperial Chancellor** (owned) · **Alt:** **Crown Dishdasha** / **Court of Bedlam** — see [Collectibles](#collectibles)                                                                                                        |
 
 
-**Read next:** [Roleplay](#roleplay-the-ra-gada-artisan) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-forge-and-survey-cycle) · [Gear and crafting](#gear-and-crafting-the-tempered-caravan) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-scholarly-escort) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-ra-gada-artisan) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-forge-and-survey-cycle) · [Gear and crafting](#gear-and-crafting-the-tempered-caravan) · [Champion points](#champion-point-mapping-cp-337) · [Companion](#companion-strategy-the-scholarly-escort) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -86,7 +86,7 @@ graph TD
 | **Stone ward**    | **Earthen Heart** | Dragonknight (native) | **KEEP**                                   | Igneous Shield, Earthshield Mantle, stone sustain while harvesting       |
 
 
-**Live:** Assassination [Full] (Rank 25). All Assassination passives still locked — spend SP into Master Assassin / Executioner / Pressure Points / Hemorrhage as points allow. Keep Draconic actives off the bars.
+**Live:** Assassination [Full] (Rank 25). **Master Assassin / Executioner / Pressure Points** unlocked; **Hemorrhage** (+10% Critical Damage, ≈ +3.3% damage) is the next SP. Keep Draconic actives off the bars.
 
 ---
 
@@ -151,7 +151,7 @@ flowchart TD
 
 ### Passive skills
 
-Spend skill points in this order (live: **6** SP free; Keen Eye / hirelings / Assassination passives still locked; Twin Blade and Blunt **unlocked**).
+Spend skill points in this order (live: **7** SP free; Keen Eye / hirelings / **Hemorrhage** still locked; Twin Blade and Blunt **unlocked**).
 
 #### Dual Wield (line maxed)
 
@@ -159,7 +159,7 @@ Spend skill points in this order (live: **6** SP free; Keen Eye / hirelings / As
 
 #### Assassination (subclass Rank 25)
 
-1. Unlock **Master Assassin**, **Executioner**, **Pressure Points**, **Hemorrhage** as points allow.
+1. **Master Assassin**, **Executioner**, **Pressure Points** — **done**. Unlock **Hemorrhage** next.
 2. **Incapacitating Strike** — **live**; keep.
 
 #### Ardent Flame / Earthen Heart
@@ -212,7 +212,7 @@ One hybrid loadout: craftable **Weapon Damage + crit** for packs and filler; far
 
 - **Order’s 5pc** (+943 crit ≈ +4.3% crit chance, +8% crit damage) at live 48.5% crit / 88% crit damage: 1 + 0.485 × 0.88 = 1.427 vs 1.354 without → **≈ +5.4%** damage.
 - **NMG 5pc** (Major Breach −5,948): pen 1,930 → 7,878 vs 18,200 resistance; mitigation 24.7% → 15.6% (1% per 660) → **≈ +12%** damage while the target has Breach. At ~44% crit with AoE DoT ticks, a 4 s debuff stays up on most of a pack.
-- **Net ≈ +6%** for solo farming and public dungeons. Assumes standard 18,200 PvE resistance; worth **zero** in groups where a tank/support already applies Major Breach — swap back to Order’s for group content if that happens.
+- **Net ≈ +6%** at full Breach uptime, **≈ +4%** at 80% (`value_calc.py`; overland trash often dies before Breach lands, so treat +4% as the realistic figure — still a win). Solo farming and public dungeons. Assumes standard 18,200 PvE resistance; worth **zero** in groups where a tank/support already applies Major Breach — swap back to Order’s for group content if that happens.
 
 > [!WARNING]
 > **Rejected as primary (set DB):**
@@ -277,9 +277,9 @@ Masisi crafts this kit **for himself** — no external crafter.
 
 ---
 
-## Champion Point Mapping (CP 336)
+## Champion Point Mapping (CP 337)
 
-Budget ≈ **100–112** per constellation with **44** unspent live. **Live:** Craft Fortune’s Favor **50** + Gilded Fingers **50**; Warfare Fighting Finesse **50** / Master-at-Arms **25** / Precision **10** / Piercing **10**; Fitness Boundless Vitality **47** / Rejuvenation **50**.
+Budget ≈ **100–112** per constellation with **45** unspent live. **Live:** Craft Fortune’s Favor **50** + Gilded Fingers **50**; Warfare Fighting Finesse **50** / Master-at-Arms **25** / Precision **10** / Piercing **10**; Fitness Boundless Vitality **47** / Rejuvenation **50**.
 
 ### Craft (Green — farmer end-game)
 
@@ -413,10 +413,10 @@ Tanlorin’s alchemy bent matches a crafter’s road life. Keep Tanlorin as the 
 
 ### Phase 0 — Today (remaining foundation)
 
-Live snapshot (CP **336**): Steed + Assassination + DW front / Bow back / Endless Hail / Incapacitating Strike **done**; Order’s 5 (both bars) + Hunding **4/5** (feet done); Craft CP still gold; Tanlorin **9/20**; **6** SP free; **glyphs blank** on crafted pieces.
+Live snapshot (CP **337**): Steed + Assassination + DW front / Bow back / Endless Hail / Incapacitating Strike **done**; Order’s 5 (both bars) + Hunding **4/5** (feet done); Craft CP still gold; Tanlorin **9/20**; **7** SP free; **glyphs blank** on crafted pieces.
 
 1. **Craft CP respec** — remove Fortune’s Favor / Gilded Fingers; slot **Steed’s Blessing 50**, **Master Gatherer 30**, **Gifted Rider 10** (use live unspent for the rest).
-2. **Spend SP** — Keen Eye Ore / Continuous Attack / Assassination passives (Master Assassin first); Twin Blade **already done**.
+2. **Spend SP** — **Hemorrhage** first (+10% Critical Damage ≈ +3.3%), then Keen Eye Ore / Continuous Attack; Twin Blade, Master Assassin, Executioner, Pressure Points **already done**.
 3. **Finish Hunding’s 5** — craft medium Divines **legs** + Max Stam glyph; replace Trainee heavy legs (**+300 WD**).
 4. **Glyph Hunding body** — Max Stam on all five. Leave Order’s jewelry/weapons unglyphed; they’re being replaced.
 5. **Craft Night Mother’s Gaze** — neck (**Bloodthirsty**), 2 rings (Infused), 2 daggers (Sharpened / Precise), bow (Decisive), each with its glyph (Physical Harm / Weapon Damage / Absorb Stam). Replaces Order’s on both bars (≈ +6% damage solo).
@@ -425,7 +425,7 @@ Live snapshot (CP **336**): Steed + Assassination + DW front / Bow back / Endles
 8. **LAM Build Notes** — paste hybrid text from Roleplay note above.
 9. **Smoke check** — one node loop + one public-dungeon wing trash pull after Craft CP respec + Hunding legs + NMG.
 
-**Already done (do not redo):** The Steed mundus, Assassination subclass, bar flip, Deadly Cloak / Rapid Strikes / Searing Claw / Lotus Fan / Endless Hail / Incapacitating Strike, Hunding head/chest/hands/**feet**, Twin Blade and Blunt, Custom Title. (Order’s Wrath 5 is live but is being replaced by NMG.)
+**Already done (do not redo):** The Steed mundus, Assassination subclass, bar flip, Deadly Cloak / Rapid Strikes / Searing Claw / Lotus Fan / Endless Hail / Incapacitating Strike, Hunding head/chest/hands/**feet**, Twin Blade and Blunt, Master Assassin / Executioner / Pressure Points, Custom Title. (Order’s Wrath 5 is live but is being replaced by NMG.)
 
 ### Phase 1 — Glyph + farmer SP + scrap retire
 
@@ -437,7 +437,7 @@ Live snapshot (CP **336**): Steed + Assassination + DW front / Bow back / Endles
 ### Phase 2 — CP grow + gold temper (end-game kit)
 
 1. Push **Master Gatherer to 75**; fund **Plentiful Harvest** then **Meticulous Disassembly**.
-2. Finish Assassination passives; Boundless Vitality 50; Master-at-Arms toward 50.
+2. Finish Assassination passives (Hemorrhage if not yet taken); Boundless Vitality 50; Master-at-Arms toward 50.
 3. Gold-temper Hunding body + NMG jewelry/weapons; no migration to New Moon / dungeon / trial sets.
 4. Transmute leftover wrong traits to **Divines** / jewelry **Infused** / **Bloodthirsty**.
 
