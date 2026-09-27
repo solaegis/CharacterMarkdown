@@ -108,12 +108,12 @@
   - Pattern: `command object:action` or `command object:subobject`
   - The main noun/object comes before the colon, the action/verb or subobject comes after
   - Examples:
-    - `test layout` - run layout calculator tests (space-separated args under `/markdown test`)
+    - `test layout` - run layout calculator tests (space-separated args under `/cm test`)
     - `settings get <key>` / `settings set <key> <value>` - read or write a setting
     - `cache clear` - clear API module caches
   - Always validate subcommands and show helpful error messages for unknown subcommands
 - **Main Commands**:
-  - `/cm` (alias `/cm`) — generate markdown and open the copy window
+  - `/cm` (alias `/markdown`) — generate markdown and open the copy window
   - `/markdown_settings` — open the LibAddonMenu settings panel (also `/cm settings` or `/cm s`)
 - **`/cm` subcommands** (`/markdown` is an alias) (LibSlashCommander when present; manual fallback otherwise):
   - `settings` / `s` — open settings; also `settings show|get|set|reset|enable-all`
