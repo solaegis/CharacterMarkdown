@@ -1,8 +1,8 @@
 # Build Plan - Alpha Top: The Independent Marshal (Stamina Warden Overland)
 
-> **Character profile:** [alpha_top.md](alpha_top.md) — Level 41 Breton Warden, CP 289, @SOLAEGIS (EU). Title: Legionary.
+> **Character profile:** [alpha_top.md](alpha_top.md) — Level 42 Breton Warden, CP 336, @SOLAEGIS (EU). Title: Legionary.
 
-**Alpha Top** was a Covenant staff-college prodigy — a military genius who could win campaigns on parchment before the first arrow flew. He walked away from the chain of command and now runs his own war: beasts as companies, frost as armor, bow as fire discipline. This guide turns the live Level 41 kit (**Dual Wield** Main / **Bow** Backup, **Wilderqueen's Arch** bridge, morphs online) into **The Independent Marshal**: a **class-identity-first** stamina Warden who keeps all three native lines (**Animal Companions**, **Green Balance**, **Winter's Embrace**).
+**Alpha Top** was a Covenant staff-college prodigy — a military genius who could win campaigns on parchment before the first arrow flew. He walked away from the chain of command and now runs his own war: beasts as companies, frost as armor, bow as fire discipline. This guide turns the live Level 42 kit (**Dual Wield** Main / **Bow** Backup, **Wilderqueen's Arch** bridge, morphs online) into **The Independent Marshal**: a **class-identity-first** stamina Warden who keeps all three native lines (**Animal Companions**, **Green Balance**, **Winter's Embrace**).
 
 Designed for solo overland and public dungeons on craftable gear. Unlock Bahtra at Level 50 for subclass *availability*; **do not** auto-subclass — foreign lines only later with proof they beat a native pillar.
 
@@ -12,13 +12,13 @@ Designed for solo overland and public dungeons on craftable gear. Unlock Bahtra 
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Primary Stat** | 64 points in **Stamina** — **live:** 0 Mag / 0 Health / **52 Stam** · pools **28,446** HP / **24,496** Mag / **29,301** Stam · **target:** 64 Stam at CP160 |
-| **Mundus Stone** | **The Thief** (+Critical Chance) — **live:** The Ritual; swap when sustain is comfortable |
+| **Primary Stat** | 64 points in **Stamina** — **live:** 0 Mag / 0 Health / **53 Stam** · pools **29,335** HP / **23,455** Mag / **27,439** Stam · **target:** 64 Stam at CP160 |
+| **Mundus Stone** | **The Thief** (+Critical Chance) — ✅ **live** |
 | **Vampirism** | **Cured** — frost armor and overland fire fights reject the crawl |
-| **Sets** | **5 Order's Wrath + 5 Hunding's Rage** (100% craftable, all Medium) — **live:** Wilderqueen's Arch 4/5 + Beekeeper / Trainee / Prophet scrap · **target:** OW + Hunding's |
+| **Sets** | **5 Order's Wrath + 5 Hunding's Rage** (100% craftable, all Medium) — **live:** Wilderqueen's Arch 3/5 + Beekeeper 2 / Prophet bow (2) / Trainee / Shadow Dancer / Twin Sisters scrap · **target:** OW + Hunding's |
 | **Bars** | Front: **Dual Wield** ("Close Quarters") · Back: **Bow** ("Fire Discipline") — **live:** DW Main / Bow Backup (weapon order correct) |
 | **Food** | **Dubious Camoran Throne** (Max Health + Max Stam + Stam Recovery) or **Artaeum Pickled Fish Bowl** while leveling |
-| **Potion** | **Essence of Weapon Power** (Weapon Damage + Crit + Stam) |
+| **Potion** | **Essence of Weapon Power** (Stam restore + Major Savagery; its Major Brutality duplicates Blue Betty, so only the crit is new: +2,629 rating ≈ **+7.5%** damage at live stats) |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** / **Escapist's Poison** between pulls |
 | **Staff/Weapon Enchant** | Front swords: **Poison** / **Absorb Stamina** / **Flame** · Back bow: **Disease Damage** or **Weapon Damage** |
 | **Companion** | **Primary (now):** **Bastian Hallix** (tank / adjutant) · **Secondary:** **Mirri Elendis** · **Goal (20/20 @ CP160):** **Tanlorin** |
@@ -26,7 +26,7 @@ Designed for solo overland and public dungeons on craftable gear. Unlock Bahtra 
 | **Flavor Pet** | **Golden Eagle** (owned) · **Alt:** **Alik'r Dune-Hound** — see [Collectibles](#collectibles) |
 | **Costume** | **Covenant Scout** (owned) · **Alt:** **Red Rook Armor** / **Austere Warden Outfit** / **Shrouded Armor** — see [Collectibles](#collectibles) |
 
-**Read next:** [Roleplay](#roleplay-the-independent-marshal) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-close-quarters-cycle) · [Gear and crafting](#gear-and-crafting-the-field-marshal-kit) · [Champion points](#champion-point-mapping-cp-289) · [Companion](#companion-strategy-the-staff-office) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-independent-marshal) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-close-quarters-cycle) · [Gear and crafting](#gear-and-crafting-the-field-marshal-kit) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-staff-office) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -43,7 +43,7 @@ He travels light in **Covenant Scout** kit — staff-college doctrine without pa
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Alpha Top — The Independent Marshal. Covenant prodigy gone independent hunter — beasts as companies, frost as kit, swords on the front, bow as back-bar artillery. Native Warden only (Animal Companions / Green Balance / Winter's Embrace) — unlock Bahtra at 50, do not auto-subclass. Target: 5 Order's Wrath + 5 Hunding's Rage (medium), @masisi. Front Dual Wield: Expansive Frost Cloak, Deep Fissure, Cutting Dive, Rending Slashes, Blue Betty (slot 5); ult Eternal Guardian. Back Bow: Endless Hail, Poison Injection, Fetcher Infection, Budding Seeds, Blue Betty (slot 5); ult Eternal Guardian (Guardian's Wrath = bear special). 64 Stam. Mundus: The Thief (live Ritual). Companion: Bastian now; Tanlorin @ 20/20. Costume: Covenant Scout / Skulltooth Coastal Durzog / Golden Eagle.
+> Alpha Top — The Independent Marshal. Covenant prodigy gone independent hunter — beasts as companies, frost as kit, swords on the front, bow as back-bar artillery. Native Warden only (Animal Companions / Green Balance / Winter's Embrace) — unlock Bahtra at 50, do not auto-subclass. Target: 5 Order's Wrath + 5 Hunding's Rage (medium), @masisi. Front Dual Wield: Expansive Frost Cloak, Deep Fissure, Cutting Dive, Rending Slashes, Blue Betty (slot 5); ult Eternal Guardian. Back Bow: Endless Hail, Poison Injection, Fetcher Infection, Budding Seeds, Blue Betty (slot 5); ult Eternal Guardian (Guardian's Wrath = bear special). 64 Stam. Mundus: The Thief. Companion: Bastian now; Tanlorin @ 20/20. Costume: Covenant Scout / Skulltooth Coastal Durzog / Golden Eagle.
 
 > [!TIP]
 > **Flavor Pet:** **Golden Eagle** (owned) — falconer's eye over the hunting ground. **Alt:** **Alik'r Dune-Hound** for pack hunts. See [Collectibles](#collectibles).
@@ -133,7 +133,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 > **Feral Guardian is an Ultimate**, not a regular Animal Companions skill. Morphs are **Eternal Guardian** (respawn + stronger Wrath execute) and **Wild Guardian** (bleed / Guardian's Savagery). **Guardian's Wrath** is the bear's special activate (75 Ultimate while the pet is out) — not a separate morph. Slot it as ult on **both** bars or the bear despawns on weapon swap.
 
 > [!WARNING]
-> **Morphs and bar layout are done** on the live export. **Keep Blue Betty in slot 5 on both bars** and **Eternal Guardian as Ultimate on both bars.** Do **not** morph Twin Slashes into Bloodthirst — that morph belongs to **Flurry**. Spend the remaining **6 skill points** into Dual Wield / Green Balance / Winter's Embrace passives (see Passive skills).
+> **Morphs and bar layout are done** on the live export. **Keep Blue Betty in slot 5 on both bars** and **Eternal Guardian as Ultimate on both bars.** Do **not** morph Twin Slashes into Bloodthirst — that morph belongs to **Flurry**. Spend the remaining **7 skill points** into Dual Wield / Green Balance / Winter's Embrace passives (see Passive skills).
 
 ### Rotation and combat tips
 
@@ -158,7 +158,7 @@ flowchart TD
 
 ### Passive skills
 
-**Live:** **6 skill points** available · morphs and bars online. Spend remaining points in this priority; fully rank where noted.
+**Live:** **7 skill points** available · morphs and bars online. Spend remaining points in this priority; fully rank where noted.
 
 #### Warden — Animal Companions
 
@@ -167,12 +167,12 @@ flowchart TD
 
 #### Warden — Green Balance
 
-* Unlock **[Nature's Gift](https://en.uesp.net/wiki/Online:Nature's_Gift)**, **[Emerald Moss](https://en.uesp.net/wiki/Online:Emerald_Moss)**, **[Maturation](https://en.uesp.net/wiki/Online:Maturation)** as ranks allow.
+* **[Accelerated Growth](https://en.uesp.net/wiki/Online:Accelerated_Growth)** / **[Nature's Gift](https://en.uesp.net/wiki/Online:Nature's_Gift)** / **[Emerald Moss](https://en.uesp.net/wiki/Online:Emerald_Moss)**: ✅ Live. Unlock **[Maturation](https://en.uesp.net/wiki/Online:Maturation)** as ranks allow (line rank 37).
 * Morph **Budding Seeds** — ✅ Live.
 
 #### Warden — Winter's Embrace
 
-* Unlock **[Glacial Presence](https://en.uesp.net/wiki/Online:Glacial_Presence)**, **[Icy Aura](https://en.uesp.net/wiki/Online:Icy_Aura)**, **[Piercing Cold](https://en.uesp.net/wiki/Online:Piercing_Cold)** as ranks allow.
+* **[Glacial Presence](https://en.uesp.net/wiki/Online:Glacial_Presence)** / **[Icy Aura](https://en.uesp.net/wiki/Online:Icy_Aura)**: ✅ Live. Unlock **[Piercing Cold](https://en.uesp.net/wiki/Online:Piercing_Cold)** as ranks allow (line rank 37).
 * **[Frozen Armor](https://en.uesp.net/wiki/Online:Frozen_Armor):** ✅ Live.
 * Morph **Expansive Frost Cloak** — ✅ Live.
 
@@ -188,7 +188,7 @@ flowchart TD
 
 #### Armor — Medium
 
-* Wear medium to train the line. Unlock **Dexterity**, **Wind Runner**, **Improved Sneak**, **Agility**, **Athletics** toward full medium passives.
+* ✅ **Maxed** — all six passives live (Medium Armor Bonuses, Dexterity, Wind Walker, Improved Sneak, Agility, Athletics). Light shoulders (Trainee) and light feet (Shadow Dancer) are the only non-medium body pieces; replace when a medium piece drops.
 
 #### Race — Breton
 
@@ -228,10 +228,13 @@ graph LR
 | **Order's Wrath** | Crit chance + **+8% Critical Damage** | Amplifies Poison Injection, Rending Slashes, Deep Fissure crits |
 
 > [!NOTE]
+> **Why Hunding's and not a penetration set?** Live pen is **700** (Piercing) + **8,922** from Deep Fissure's Major + Minor Breach (solo assumption) = **9,622 / 18,200** vs a boss. The crafted pen alternative, **Stuhn's Favor** (129+129 WD, +1,487 pen, +5,312 pen for 10s on Off Balance targets), calculates at **+12.2%** (Off Balance uptime 0.45) vs **+12.2%** for Hunding's 5pc (+1,314 crit rating, +1,096 Stam, +300 WD) at target-state stats. It only wins (+15.6%) at 0.8 Off Balance uptime, which Cutting Dive alone won't give, and overland mobs sit below 18,200 resistance. **Keep Hunding's.** Night Mother's Gaze is a trap here: Deep Fissure already applies Major Breach.
+
+> [!NOTE]
 > **Why not Briarheart jewelry?** Wrothgar **overland drop** — not craftable. Reject as *target*. Live Wilderqueen's Arch is a fine **bridge** only.
 
 > [!NOTE]
-> **Live gear bridge:** Keep **Wilderqueen's Arch 4/5** plus **Beekeeper's** / **Trainee** / **Prophet** scrap while leveling. Prefer **medium** pieces. Do not farm more overland sets for the primary loadout.
+> **Live gear bridge:** Keep **Wilderqueen's Arch 3/5** (waist, hands, ring) plus **Beekeeper's** / **Trainee** / **Prophet** scrap while leveling. Prefer **medium** pieces. Do not farm more overland sets for the primary loadout.
 
 ### Target loadout
 
@@ -251,7 +254,7 @@ graph LR
 | **Front — Off** | Hunding's Rage | Sword | Charged / Infused | Flame / Poison | Gold |
 | **Back — Bow** | Hunding's Rage | Bow | Precise / Infused | Disease Damage or Weapon Damage | Gold |
 
-**Piece counts for bonuses:** **Order's Wrath 5** (head, shoulders, necklace, both rings) · **Hunding's Rage 5** (chest, hands, waist, legs, feet). Weapons are extra Hunding's pieces for traits/enchants — they do not replace the body five.
+**Piece counts for bonuses:** **Order's Wrath 5** (head, shoulders, necklace, both rings) · **Hunding's Rage 5** (chest, hands, waist, legs, feet). Weapons are extra Hunding's pieces for traits/enchants only — a 6th/7th piece adds nothing, and a weapon-only 2pc of another set would not hold on both bars, so the weapon set is free choice.
 
 **Front swords:** Precise + Charged (status) or Nirnhoned on main hand when transmute allows.
 **Back bow:** Precise for crit with Order's Wrath / Thief; Infused if using Weapon Damage enchant.
@@ -264,43 +267,40 @@ graph LR
 | **Style** | **Breton** / **Daggerfall Covenant** / **Lion Guard** body; military trim (Outfit Station — not primary costume) |
 | **Set station** | Order's Wrath: **Steadfast Hammer and Saw** (High Isle) — 3 traits · Hunding's Rage: classic crafted set — 6 traits |
 | **Traits** | **Divines** armor · **Bloodthirsty** / **Robust** jewelry · **Precise** / **Infused** / **Charged** weapons |
-| **Interim** | Live Wilderqueen's Arch 4/5 + Beekeeper / Trainee / Prophet scrap; ask @masisi for **level-scaled** Hunding's / Order's Wrath purple while under CP160 |
+| **Interim** | Live Wilderqueen's Arch 3/5 + Beekeeper / Trainee / Prophet scrap; ask @masisi for **level-scaled** Hunding's / Order's Wrath purple while under CP160 |
 | **Quality** | Purple bridge → **gold at CP160** when traits ready |
 
 ---
 
-## Champion Point Mapping (CP 289)
+## Champion Point Mapping (CP 336)
 
-Budget: **96 Warfare / 97 Craft / 96 Fitness** (289 total). **Live: 281 spent / 8 available** (Warfare 90/96 · Craft 96/97 · Fitness 95/96). Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); walk prerequisites from `champion_points.yaml`.
+Budget: **112 Warfare / 112 Craft / 112 Fitness** (336 total). **Live: 281 spent / 55 available** (Warfare 90/112, **22 free** · Craft 96/112, **16 free** · Fitness 95/112, **17 free**). Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); prerequisites from `champion_points.yaml`.
+
+> [!IMPORTANT]
+> **Empty slots are the biggest CP gap.** Live has only **1 of 3** Warfare slots filled (Master-at-Arms), **2 of 3** Fitness and **1 of 3** Craft. Fill them before adding more passive points.
 
 > [!NOTE]
-> **Live Warfare is Master-at-Arms, not Thaumaturge** — Precision 20 / Piercing 20 / Master-at-Arms 50. That favors direct damage (Rending Slashes, Cutting Dive, Betty hits). Keep it for now; a later DoT-heavy respec can walk Piercing → **Thaumaturge** if Endless Hail / Fetcher / Injection feel like the main damage.
+> **Live Warfare is Master-at-Arms, not Thaumaturge** (Precision 20 / Piercing 20 / Master-at-Arms 50). This kit is DoT-heavy (Endless Hail, Poison Injection, Fetcher Infection, the Rending Slashes bleed), so a later respec to **Thaumaturge** is worth testing on a dummy. Keep Master-at-Arms until then.
 
-> [!NOTE]
-> **When CP grows (≈810+):** Cap Warfare at Master-at-Arms / Deadly Aim / Fighting Finesse (and optionally Thaumaturge) at 50 each; Fitness Boundless Vitality / Fortified / Rejuvenation / Bloody Renewal; finish Craft **Liquid Efficiency (50)** after Steadfast Enchantment + Rationer.
-
-### Warfare (Blue — live 90 / 96)
-
-**Live (keep):**
+### Warfare (Blue — live 90 / 112)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
-| **Precision** | Passive | 20 | Crit Chance |
-| **Piercing** | Passive | 20 | Offensive Penetration |
-| **Master-at-Arms** | Slotted | 50 | Direct damage (Rending Slashes, Dive, Betty) |
-| *(available)* | — | 6 | Bank or start Tireless Discipline / Fighting Finesse path |
+| **Precision** | Passive | 20 | Crit Chance — **live** |
+| **Piercing** | Passive | 20 | Offensive Penetration — **live** |
+| **Master-at-Arms** | Slotted | 50 | Direct damage — **live** |
+| **Fighting Finesse** | Slotted | 25 → 50 | +Critical Damage (prereq Precision 10 ✅). Stage 1 needs 25 points: **22 free now, 25 at CP 339** — or pull 3 from Precision. 25 pts ≈ **+0.9%**, 50 pts ≈ **+1.7%** damage at live stats |
+| **Deadly Aim** | Slotted | 50 | Third slot next (prereq Piercing 10 ✅) |
 
-*Optional later respec (DoT lean):* Tireless Discipline / Eldritch Insight / Precision / Piercing → **Thaumaturge 50** for Hail / Fissure / Fetcher / Injection.
-
-### Fitness (Red — live 95 / 96)
+### Fitness (Red — live 95 / 112)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
-| **Boundless Vitality** | Slotted | 45 | Max Health — **live** (top to 50 with next Fitness point) |
-| **Rejuvenation** | Slotted | 50 | Recovery |
-| *(available)* | — | 1 | Finish Boundless Vitality → 50 |
+| **Boundless Vitality** | Slotted | 45 → 50 | Max Health — finish with 5 of the 17 free |
+| **Rejuvenation** | Slotted | 50 | Recovery — **live** |
+| **Fortified** | Slotted | 12 | Third slot: +34.6 Armor per point (no prereq); remaining 12 free points |
 
-### Craft (Green — live 96 / 97)
+### Craft (Green — live 96 / 112)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
@@ -309,7 +309,7 @@ Budget: **96 Warfare / 97 Craft / 96 Fitness** (289 total). **Live: 281 spent / 
 | **Fortune's Favor** | Passive | 10 | Gold find while banked |
 | **Gilded Fingers** | Passive | 10 | Gold find |
 | **Fleet Phantom** | Passive | 6 | Move while stealthed |
-| *(available)* | — | 1 | Toward Steadfast Enchantment / Rationer / Liquid Efficiency |
+| *(available)* | — | 16 | Toward Steadfast Enchantment / Rationer / Liquid Efficiency; fill the 2 empty Craft slots with QoL stars |
 
 > [!IMPORTANT]
 > **Liquid Efficiency** is automatic once purchased (no Craft slot). Buy after Steadfast Enchantment + Rationer when Craft budget allows — live Craft is QoL / stealth heavy; reallocate toward Liquid Efficiency when ready.
@@ -407,16 +407,16 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 
 1. ✅ **Morphs online** — Blue Betty, Expansive Frost Cloak, Budding Seeds, Endless Hail, Poison Injection, Deep Fissure, Cutting Dive, Fetcher Infection, Rending Slashes, Eternal Guardian.
 2. ✅ **Bars match plan** — Dual Wield **front**, Bow **back**, order Cloak / Deep Fissure / Cutting Dive / Rending Slashes / Blue Betty · Endless Hail / Poison Injection / Fetcher / Seeds / Blue Betty · Eternal Guardian ult both bars.
-3. **Spend the remaining 6 skill points** into Dual Wield (**Twin Blade and Blunt**), Green Balance, and Winter's Embrace passives.
-4. **Attributes:** keep dumping into **Stamina** toward **64** (live **52**).
-5. **Spend leftover CP** (8 available) — e.g. Boundless Vitality → 50; bank Warfare 6; Craft toward Steadfast Enchantment path. Keep **Master-at-Arms** unless you deliberately respec to Thaumaturge.
-6. **Mundus:** stay on Ritual until sustain feels fine, then swap to **The Thief**.
+3. **Spend the remaining 7 skill points** into Dual Wield (**Twin Blade and Blunt**), Green Balance, and Winter's Embrace passives.
+4. **Attributes:** keep dumping into **Stamina** toward **64** (live **53**).
+5. **Spend leftover CP** (55 available) — **slot Fighting Finesse** in Warfare as soon as it has 25 points (22 free now); Fitness: Boundless Vitality → 50, then **Fortified** in the empty third slot; Craft 16 toward Steadfast Enchantment. Keep **Master-at-Arms** unless you deliberately respec to Thaumaturge.
+6. ✅ **Mundus:** The Thief is live.
 7. **Bastian:** Companion's gear; fill empty slots; keep summoned for XP.
 8. **Collectibles:** equip **Covenant Scout**, **Skulltooth Coastal Durzog**, **Golden Eagle** (Lion Guard = Outfit motif only).
 
 ### Phase 1 — Level to 50 (interim)
 
-9. Keep **Wilderqueen's Arch 4/5** bridge (+ Beekeeper / Trainee / Prophet scrap); prefer medium armor to train Medium passives.
+9. Keep **Wilderqueen's Arch 3/5** bridge (+ Beekeeper / Trainee / Prophet scrap); prefer medium armor to train Medium passives.
 10. Rank **Dual Wield**, **Bow**, **Animal Companions**, **Green Balance**, **Winter's Embrace**, Medium Armor.
 11. Practice back-bar Fire Discipline DoTs → swap front Close Quarters **Rending Slashes** weave.
 12. Optional: commission @masisi for **level-scaled** purple Hunding's / Order's Wrath.
@@ -425,7 +425,7 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 
 13. **Level 50:** complete Bahtra **"A Study in Discipline"** so subclassing is *available* — **keep all three native lines** unless a foreign line later proves better.
 14. **@masisi:** craft **5 Order's Wrath + 5 Hunding's Rage** (medium, Divines, Bloodthirsty jewelry, Precise/Infused weapons) at CP160 gold.
-15. Mundus → **The Thief** if not already swapped.
+15. Add **Divines** on all seven armor pieces to boost The Thief.
 16. Expand Warfare toward Fighting Finesse / Deadly Aim (or Thaumaturge if DoT-respeccing) as CP grows.
 
 ### Phase 3 — Polish

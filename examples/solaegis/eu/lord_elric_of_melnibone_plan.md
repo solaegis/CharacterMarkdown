@@ -1,8 +1,8 @@
 # Build Plan - Lord Elric of Melniboné: The Pale Emperor (Chaos Overland)
 
-> **Character profile:** [lord_elric_of_melnibone.md](lord_elric_of_melnibone.md) — Level 31 High Elf Sorcerer, CP 282, @SOLAEGIS (EU).
+> **Character profile:** [lord_elric_of_melnibone.md](lord_elric_of_melnibone.md) — Level 40 High Elf Sorcerer, CP 336, @SOLAEGIS (EU).
 
-Lord Elric of Melniboné is not a hedge-wizard playing at power — he is the last pale sovereign of a dying empire, translated into Tamriel under the title **Abyssal Champion**. This guide turns the live Level 31 kit (greatsword + lightning staff, heavy scrap, unspent CP) into **The Pale Emperor**: a magicka pet Sorcerer who still **wields Stormbringer** — a Two-Handed greatsword on the front bar — while commanding storm, Daedra, and death from the back-bar lightning staff.
+Lord Elric of Melniboné is not a hedge-wizard playing at power — he is the last pale sovereign of a dying empire, translated into Tamriel under the title **Abyssal Champion**. This guide turns the live Level 40 kit (greatsword + lightning staff, Trainee leveling gear, bridge bars already slotted) into **The Pale Emperor**: a magicka pet Sorcerer who still **wields Stormbringer** — a Two-Handed greatsword on the front bar — while commanding storm, Daedra, and death from the back-bar lightning staff.
 
 Through Level 49 he levels on all three **native** Sorcerer lines (Storm Calling, Daedric Summoning, Dark Magic). At Level 50, Bahtra’s **"A Study in Discipline"** unlocks the Uber Tier: **Grave Lord** replaces **Dark Magic**. Damage is Magicka class skills on the sword bar (no stamina 2H spam); Destruction Staff skills live on the lightning back bar. Matriarch is the heal — there is no restoration staff.
 
@@ -14,21 +14,22 @@ Built on **craftable** sets for solo overland and public dungeons.
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Primary Stat** | 64 points in **Magicka** — **live:** 39 Magicka / 0 Health / 0 Stamina · **27,189** Magicka · **24,287** Health · **target:** 64 Magicka at CP160 |
-| **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** The Atronach; swap when sustain is comfortable |
+| **Primary Stat** | 64 points in **Magicka** — **live:** 51 Magicka / 0 Health / 0 Stamina · **26,866** Magicka · **23,834** Health · **target:** 64 Magicka at CP160 |
+| **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** The Apprentice ✅ |
 | **Vampirism** | **Cured** — overland fire and Pale Emperor fiction both reject the crawl |
-| **Sets** | **5 Law of Julianos + 5 Clever Alchemist** (100% craftable, all Light) — **live:** Withered Hand jewelry + Grace of Gloom / heavy scrap · **target:** Julianos + Clever Alchemist |
-| **Bars** | Front: **Two-Handed Greatsword** ("Stormbringer") · Back: Lightning Destruction ("The Dreaming City") — **keep the sword; fix the skills** |
+| **Sets** | **5 Law of Julianos** (both weapons + 3 jewelry) **+ 5 Night Mother's Gaze** (Light body) — 100% craftable · **live:** 5 Armor of the Trainee + 1 Wisdom of Vanus (fine while leveling) |
+| **Penetration** | **Live: 350** Spell Penetration — far below an 18,200-resistance target. Unlock **Light Armor → Concentration** first (≈ **+13.7%** damage with 7 light pieces), then Night Mother's Gaze Major Breach |
+| **Bars** | Front: **Two-Handed Greatsword** ("Stormbringer") · Back: Lightning Destruction ("The Dreaming City") — **live:** bridge bars slotted ✅ |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Health + Magicka Recovery) or **Witty Blue Entremet** while leveling |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Crit) — procs Clever Alchemist on pull once Phase 2 gear is on |
+| **Potion** | **Essence of Spell Power** — its Major Sorcery duplicates **Critical Surge**, so the value is Major Prophecy (Spell Crit); tri-stat potions are equally fine |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** on Stormbringer between pulls |
-| **Staff/Weapon Enchant** | Front greatsword: **Absorb Magicka** or **Shock Damage** (Crusher) · Back staff: **Shock Damage** (Crusher) |
-| **Companion** | **Primary (now):** **Mirri Elendis** (DPS) at companion **4/20** · **Secondary:** **Tanlorin** · **Goal (20/20 @ CP160):** **Zerith-var** (death-aspect lieutenant) |
+| **Staff/Weapon Enchant** | Front greatsword: **Absorb Magicka** or **Shock** · Back staff: **Crusher** (Minor Breach, stacks with the Major Breach from Night Mother's Gaze) |
+| **Companion** | **Primary (now):** **Mirri Elendis** (DPS) at companion **8/20** · **Secondary:** **Tanlorin** · **Goal (20/20 @ CP160):** **Zerith-var** (death-aspect lieutenant) |
 | **Primary Mount** | **Nightmare Senche** (owned) · **Ideal:** **Nightmare Senche** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **Long-Winged Bat** (owned) · **Ideal:** **Long-Winged Bat** — see [Collectibles](#collectibles) |
 | **Costume** | **Mannimarco** (owned) · **Alt:** **Court of Bedlam** — see [Collectibles](#collectibles) |
 
-**Read next:** [Roleplay](#roleplay-the-pale-emperor) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-stormbringer-cycle) · [Gear and crafting](#gear-and-crafting-the-ruby-throne-regalia) · [Champion points](#champion-point-mapping-cp-282) · [Companion](#companion-strategy-the-imperial-retinue) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-pale-emperor) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-stormbringer-cycle) · [Gear and crafting](#gear-and-crafting-the-ruby-throne-regalia) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-imperial-retinue) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -43,7 +44,7 @@ Elric carries **Abyssal Champion** the way other men carry scars — earned, not
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Lord Elric of Melniboné — The Pale Emperor. Solo overland magicka pet Sorcerer; Stormbringer = front Two-Handed greatsword (Magicka class skills only — no stam 2H spam). Back: Lightning staff. Matriarch slot 5 both bars (no resto). Bridge: Boundless Storm, Critical Surge, Crystal Fragments, Daedric Prey, Matriarch. Uber: Grave Lord replaces Dark Magic — Boundless Storm, Critical Surge, Grave Lord's Sacrifice, Daedric Prey, Matriarch, Greater Storm Atronach / back Blockade, Crushing Shock, Inner Light, Endless Fury, Pestilent Colossus. 5 Julianos + 5 Clever Alchemist (light), @masisi. 64 Mag. Mundus: The Apprentice. Mirri now; Zerith-var @ 20/20. Mannimarco / Nightmare Senche / Long-Winged Bat.
+> Lord Elric of Melniboné — The Pale Emperor. Solo overland magicka pet Sorcerer; Stormbringer = front Two-Handed greatsword (Magicka class skills only — no stam 2H spam). Back: Lightning staff. Matriarch slot 5 both bars (no resto). Bridge: Boundless Storm, Critical Surge, Crystal Fragments, Daedric Prey, Matriarch. Uber: Grave Lord replaces Dark Magic — Boundless Storm, Critical Surge, Grave Lord's Sacrifice, Daedric Prey, Matriarch, Greater Storm Atronach / back Blockade, Crushing Shock, Inner Light, Endless Fury, Pestilent Colossus. 5 Julianos (greatsword + staff + jewelry) + 5 Night Mother's Gaze (light body), @masisi. 64 Mag. Mundus: The Apprentice. Mirri now; Zerith-var @ 20/20. Mannimarco / Nightmare Senche / Long-Winged Bat.
 
 > [!TIP]
 > **Flavor Pet:** **Long-Winged Bat** (owned) — nocturnal familiar of a twilight emperor. **Alt:** **Blue Dragon Imp**. See [Collectibles](#collectibles).
@@ -55,7 +56,7 @@ Elric carries **Abyssal Champion** the way other men carry scars — earned, not
 
 ## Trinity configuration
 
-Leveling (L31–49) keeps all three **native** Sorcerer lines. At Level 50, complete Bahtra at-Hunding’s **"A Study in Discipline"** (Adventure Camp outside Riften, Evermore, or Dune) and replace **Dark Magic** with **Grave Lord**. See [docs/subclassing.md](../../../docs/subclassing.md).
+Leveling (L40–49) keeps all three **native** Sorcerer lines. At Level 50, complete Bahtra at-Hunding’s **"A Study in Discipline"** (Adventure Camp outside Riften, Evermore, or Dune) and replace **Dark Magic** with **Grave Lord**. See [docs/subclassing.md](../../../docs/subclassing.md).
 
 ```mermaid
 graph TD
@@ -112,34 +113,34 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 > [!IMPORTANT]
 > **Stormbringer rule:** Front bar weapon is always a **greatsword**. Destruction Staff skills (**Elemental Blockade**, **Crushing Shock**) cannot be slotted on the 2H bar — they live on the lightning back bar.
 
-#### Bridge bars (Level 31–49) — before Grave Lord
+#### Bridge bars (Level 40–49) — before Grave Lord
 
-**Keep** the greatsword. Replace stamina 2H skills with Magicka Sorc skills. Move the shock Wall to the lightning back bar.
+**Live export: both bridge bars are already slotted.** Keep them as they are until Level 50. Only the ultimate on the back bar changes at Uber (Greater Storm Atronach → Pestilent Colossus), plus Crystal Fragments → Grave Lord's Sacrifice on the front.
 
 ##### Front Bar (Two-Handed Greatsword): "Stormbringer" *(bridge)*
 
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Storm Calling | Lightning Form → **Boundless Storm** | Major Resolve, AoE shock, Minor Expedition | **Respec now** — live **Hurricane** is the stamina morph |
-| **2** | Storm Calling | Surge → **Critical Surge** | Major Sorcery + heal on crit | Unlock / morph while leveling |
-| **3** | Dark Magic | Crystal Blast → **Crystal Fragments** | Magicka burst / proc | Live — move from back if needed; bridge until Uber |
-| **4** | Daedric Summoning | Daedric Curse → **Daedric Prey** | Damage amp | Live |
-| **5** | Daedric Summoning | Summon Twilight Matriarch → **Twilight Matriarch Restore** | **Summon** (same slot 5 both bars) | Live — keep |
-| **6 (Ult)** | Daedric Summoning | Summon Storm Atronach → **Greater Storm Atronach** | Ranged DPS ult | Morph when available |
+| **1** | Storm Calling | Lightning Form → **Boundless Storm** | Major Resolve, AoE shock, Minor Expedition | ✅ Live |
+| **2** | Storm Calling | Surge → **Critical Surge** | Major Sorcery + heal on crit | ✅ Live |
+| **3** | Daedric Summoning | Daedric Curse → **Daedric Prey** | Damage amp | ✅ Live |
+| **4** | Dark Magic | Crystal Blast → **Crystal Fragments** | Magicka burst / proc | ✅ Live — bridge until Uber |
+| **5** | Daedric Summoning | Summon Twilight Matriarch → **Twilight Matriarch Restore** | **Summon** (same slot 5 both bars) | ✅ Live |
+| **6 (Ult)** | Daedric Summoning | Summon Storm Atronach → **Greater Storm Atronach** | Ranged DPS ult | ✅ Live |
 
 ##### Back Bar (Lightning Destruction Staff): "The Dreaming City" *(bridge)*
 
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Destruction Staff | Wall of Elements → **Unstable Wall of Elements** / **Elemental Blockade** | Shock ground DoT | Live Unstable Wall of Storms — keep on **back** |
-| **2** | Destruction Staff | Force Shock → **Crushing Shock** | Magicka spammable + interrupt | Unlock / morph |
-| **3** | Dark Magic / Light Armor | Dark Deal → **Dark Conversion** *or* Annulment → **Harness Magicka** | Magicka sustain / panic shield | Bridge flex |
-| **4** | Storm Calling | Mages' Fury → **Endless Fury** | Execute below 20% | Live **Mages' Wrath** — morph when ready |
-| **5** | Daedric Summoning | Summon Twilight Matriarch → **Twilight Matriarch Restore** | **Summon** (same slot 5 both bars) | Keep |
-| **6 (Ult)** | Daedric Summoning | Summon Storm Atronach → **Greater Storm Atronach** | Same ult both bars until Uber Colossus | Temporary |
+| **1** | Destruction Staff | Wall of Elements → **Elemental Blockade** | Shock ground DoT | ✅ Live |
+| **2** | Destruction Staff | Force Shock → **Crushing Shock** | Magicka spammable + interrupt | ✅ Live |
+| **3** | Storm Calling | Mages' Fury → **Endless Fury** | Execute below 20% | ✅ Live |
+| **4** | Mages Guild | Magelight → **Inner Light** | +Spell Damage slotted | ✅ Live |
+| **5** | Daedric Summoning | Summon Twilight Matriarch → **Twilight Matriarch Restore** | **Summon** (same slot 5 both bars) | ✅ Live |
+| **6 (Ult)** | Daedric Summoning | Summon Storm Atronach → **Greater Storm Atronach** | Same ult both bars until Uber Colossus | ✅ Live — temporary |
 
 > [!WARNING]
-> **Unslot immediately from the front bar:** Critical Charge, Uppercut, Reverse Slash (and any other stamina Two Handed actives). Stormbringer stays equipped; those skills do not.
+> **Stay pure Magicka on the front bar:** no Critical Charge, Uppercut, Reverse Slash or other stamina Two Handed actives. Stormbringer stays equipped; those skills do not.
 
 #### Target bars (Level 50+ Uber) — Grave Lord online
 
@@ -190,12 +191,12 @@ flowchart TD
 4. **Twilight Matriarch never leaves.** Slot 5 both bars; press her heal when you or Mirri dip.
 5. **Elemental Blockade** lives on the lightning bar — drop it, swap to Stormbringer, refresh when it expires.
 6. **Grave Lord's Sacrifice** on Stormbringer after buffs; Magicka-only — no Blighted Blastbones.
-7. **Potion on boss pulls** once Clever Alchemist is equipped; rank **Medicinal Use** toward 3/3.
+7. **Crit feeds the Breach.** Once Night Mother's Gaze is on, every critical hit applies Major Breach (4s) — keep Boundless Storm and Blockade ticking so it rarely drops. Potion on boss pulls for Major Prophecy.
 8. **Endless Fury / Crushing Shock** from the lightning bar as needed; **Greater Storm Atronach** from Stormbringer mid-fight.
 
 ### Passive skills
 
-**Live:** 2 skill points available. Spend while leveling in this order; fully rank where noted.
+**Live:** 3 skill points available. **First point goes to Light Armor → Concentration** the moment it unlocks (see below). Then spend in this order; fully rank where noted.
 
 #### Necromancer — Grave Lord *(Uber — spend after Bahtra)*
 
@@ -209,7 +210,7 @@ flowchart TD
 * **[Capacitor](https://en.uesp.net/wiki/Online:Capacitor) (II):** ✅ Live.
 * **[Energized](https://en.uesp.net/wiki/Online:Energized) (II):** ✅ Live.
 * **[Amplitude](https://en.uesp.net/wiki/Online:Amplitude) (II):** ✅ Live.
-* **[Expert Mage](https://en.uesp.net/wiki/Online:Expert_Mage) (II):** 🔒 Unlock — priority once Storm Calling rank allows.
+* **[Expert Mage](https://en.uesp.net/wiki/Online:Expert_Mage) (II):** ✅ Live.
 
 #### Sorcerer — Daedric Summoning
 
@@ -229,11 +230,12 @@ flowchart TD
 #### Weapon — Destruction Staff *(lightning back bar)*
 
 * **[Tri Focus](https://en.uesp.net/wiki/Online:Tri_Focus)** / **[Penetrating Magic](https://en.uesp.net/wiki/Online:Penetrating_Magic):** ✅ Live.
-* Unlock **Elemental Force**, **Ancient Knowledge**, **Destruction Expert** as ranks allow.
+* **Elemental Force**, **Ancient Knowledge:** ✅ Live. Unlock **Destruction Expert** as rank allows.
 
 #### Armor — Light Armor
 
-* Live Light Armor is only Rank 11 — wear light pieces to level it. Unlock **Grace**, **Evocation**, **Spell Warding**, **Prodigy**, **Concentration**.
+* **Grace**, **Evocation**, **Spell Warding**, **Prodigy:** ✅ Live (Light Armor rank 39).
+* **[Concentration](https://en.uesp.net/wiki/Online:Concentration):** 🔒 **Top priority.** Penetration per Light Armor piece worn. Live Spell Penetration is only **350** against an 18,200-resistance target; 7 light pieces ≈ **+13.7%** damage (`value_calc`: pen 350 → 6,923). Keep 7 body pieces **Light** so it stays at full value.
 
 #### Guild — Mages Guild
 
@@ -241,7 +243,7 @@ flowchart TD
 
 #### Guild — Alchemy
 
-* **[Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use) (III):** Mandatory for Clever Alchemist uptime.
+* **[Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use):** Nice-to-have (longer potion buffs) — no set depends on it.
 
 #### Race — High Elf
 
@@ -251,119 +253,132 @@ flowchart TD
 
 ## Gear and crafting: "The Ruby Throne Regalia"
 
-Everything end-state is **crafted** — no overland farming, no dungeon drops required. Target: **5 Law of Julianos + 5 Clever Alchemist**, all Light. Julianos = Spell Crit + Critical Damage; Clever Alchemist = +675 Weapon and Spell Damage for 20s after drinking a potion in combat. High Elf magicka passives + Matriarch sustain the loop.
+Everything end-state is **crafted** — no overland farming, no dungeon drops required. Target: **5 Law of Julianos** on the weapons and jewelry, **5 Night Mother's Gaze** on the body, all armor **Light**. Julianos is crit and flat damage; Night Mother's Gaze adds more crit and turns every critical hit into **Major Breach**, which is what a character with 350 Spell Penetration needs most.
 
 ### Set rationale
 
 ```mermaid
 graph LR
-    subgraph CleverAlchemist ["5pc Clever Alchemist"]
-        C1["Head"]
-        C2["Shoulders"]
-        C3["Chest"]
-        C4["Legs"]
-        C5["Waist"]
+    subgraph NMG ["5pc Night Mother's Gaze (Light body)"]
+        N1["Chest"]
+        N2["Hands"]
+        N3["Waist"]
+        N4["Legs"]
+        N5["Feet"]
     end
-    subgraph Julianos ["5pc Law of Julianos"]
-        J1["Hands"]
-        J2["Feet"]
-        J3["Necklace"]
-        J4["Ring 1"]
-        J5["Ring 2"]
+    subgraph Julianos ["5pc Law of Julianos (per bar)"]
+        J1["Greatsword or Staff (2 pieces)"]
+        J2["Necklace"]
+        J3["Ring 1"]
+        J4["Ring 2"]
     end
-    CleverAlchemist -->|"Potion +675 Spell Dmg"| Julianos
-    Julianos -->|"Crit amplifies storm + Colossus"| Weapons["Stormbringer greatsword + Lightning staff"]
+    Julianos -->|"Crit + 300 Spell Damage"| NMG
+    NMG -->|"Crits apply Major Breach"| Target["Enemy resistance -5,948"]
 ```
 
-| **Set** | **5-Piece Bonus** | **Role** |
+| **Set** | **Bonuses (CP160, set database)** | **Role** |
 | :--- | :--- | :--- |
-| **Clever Alchemist** | Potion in combat → +675 Weapon/Spell Damage (20s) | Boss open with Essence of Spell Power |
-| **Law of Julianos** | +300 Spell Critical; +10% Critical Damage | Baseline burst for Stormbringer + lightning |
+| **Law of Julianos** | 2pc +657 Crit · 3pc +1,096 Max Magicka · 4pc +657 Crit · 5pc **+300 Weapon and Spell Damage** | Flat damage and crit on both bars |
+| **Night Mother's Gaze** | 2pc +657 Crit · 3pc +129 Weapon/Spell Damage · 4pc +657 Crit · 5pc **Major Breach (−5,948 resistance, 4s) on critical damage** | Penetration fix; solo means nobody else applies Major Breach |
+
+**Why Julianos sits on the weapons:** a two-hander and a staff each count as **2 pieces** on their own bar. Greatsword + 3 jewelry = 5 on the front; staff + 3 jewelry = 5 on the back. That frees the whole body for the second set, with head and shoulders left over.
+
+**Why Night Mother's Gaze over Clever Alchemist** (with Julianos on; crit 20.1%, crit damage 58%, target 18,200 resistance):
+
+| **Body 5pc** | **Pen 350 (now)** | **Pen ~6,900 (after Concentration)** |
+| :--- | ---: | ---: |
+| Clever Alchemist — 45s potion cooldown, 20s buff (~44% uptime) | +6.8% | +6.8% |
+| Clever Alchemist — short pulls (80% uptime) | +10.7% | +10.7% |
+| Order's Wrath | +9.8% | +9.8% |
+| **Night Mother's Gaze — Major Breach 60–80% uptime** | **+13.0–15.6%** | **+12.1–14.4%** |
+
+Night Mother's Gaze wins at 60% Breach uptime either way. Clever Alchemist's 2pc/3pc are Max Health, which a DPS doesn't use. *Caps and conversions are general ESO knowledge — re-check after patches.*
 
 > [!NOTE]
-> **Why not Necropotence?** Rivenspire overland — not craftable. Pet Magicka bonus also fights Colossus / Atronach ult windows.
-
-> [!TIP]
-> **Lower-trait fallback:** If Clever Alchemist 7-trait research is not ready on @masisi, craft **5 Shacklebreaker** (6 traits) on body slots as a bridge.
+> **Why not Necropotence or Mother's Sorrow?** Overland drops — not craftable.
 
 > [!NOTE]
-> **Live gear:** Keep a **greatsword** on the front bar (upgrade toward CP160 Julianos). Withered Hand jewelry + Grace of Gloom / scrap is fine through leveling. Prefer **light** body pieces to train Light Armor.
+> **Live gear (Level 40):** 5 Armor of the Trainee + 1 Wisdom of Vanus, Frost greatsword, Shock staff. That is fine until CP160 — don't spend crafting mats before then. Keep body pieces **Light** so Concentration counts all seven.
 
 ### Target loadout
 
 | **Slot** | **Set** | **Weight** | **Trait** | **Enchantment** | **Quality** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Head** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Shoulders** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Chest** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Legs** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Waist** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Hands** | Law of Julianos | Light | Divines | Max Magicka | Gold |
-| **Feet** | Law of Julianos | Light | Divines | Max Magicka | Gold |
+| **Head** | Any (no set needed) | Light | Divines | Max Magicka | Gold |
+| **Shoulders** | Any (no set needed) | Light | Divines | Max Magicka (40% glyph) | Gold |
+| **Chest** | Night Mother's Gaze | Light | Divines | Max Magicka | Gold |
+| **Hands** | Night Mother's Gaze | Light | Divines | Max Magicka (40% glyph) | Gold |
+| **Waist** | Night Mother's Gaze | Light | Divines | Max Magicka (40% glyph) | Gold |
+| **Legs** | Night Mother's Gaze | Light | Divines | Max Magicka | Gold |
+| **Feet** | Night Mother's Gaze | Light | Divines | Max Magicka (40% glyph) | Gold |
 | **Necklace** | Law of Julianos | Jewelry | Arcane | Spell Damage | Gold |
-| **Ring 1** | Law of Julianos | Jewelry | Arcane | Max Magicka | Gold |
-| **Ring 2** | Law of Julianos | Jewelry | Arcane | Max Magicka | Gold |
-| **Front — Stormbringer** | Law of Julianos | Two-Handed Greatsword | Infused | Absorb Magicka or Shock (Crusher) | Gold |
-| **Back Staff** | Law of Julianos | Lightning Destro | Infused | Shock Damage (Crusher) | Gold |
+| **Ring 1** | Law of Julianos | Jewelry | Arcane | Spell Damage | Gold |
+| **Ring 2** | Law of Julianos | Jewelry | Arcane | Spell Damage | Gold |
+| **Front — Stormbringer** | Law of Julianos (counts 2) | Two-Handed Greatsword | Infused | Absorb Magicka or Shock | Gold |
+| **Back Staff** | Law of Julianos (counts 2) | Lightning Destro | Infused | Crusher (Minor Breach) | Gold |
 
-**Stormbringer:** Infused greatsword — Absorb Magicka for sustain while weaving, or Shock/Crusher for Breach. Style/motif black-and-ruby; this is the named sword in fiction.
-**Back staff:** Shock for Blockade synergy; Crusher → Minor Breach when on lightning bar.
+**Stormbringer:** Infused greatsword — Absorb Magicka for sustain while weaving, or Shock for damage. Style/motif black-and-ruby; this is the named sword in fiction.
+**Back staff:** Crusher's Minor Breach stacks with Night Mother's Gaze's Major Breach.
+**Head/shoulders:** left open. A monster set is optional later, but a non-Light monster piece costs two pieces of Concentration.
 
 ### Crafting handoff (@masisi)
 
 | **Detail** | **Recommendation** |
 | :--- | :--- |
 | **Style** | **Altmer** or **Ancient Elf** body (pale imperial); **Daedric** / **Ebony** motif on **Stormbringer**; **Psijic** / **Sapiarch** trim on Julianos jewelry |
-| **Set station** | Clever Alchemist: **No Shira Workshop** (Hew's Bane) — 7 traits · Julianos: **Sunhold** (Summerset) — 6 traits |
+| **Set station** | Night Mother's Gaze: **Old Town Cavern**, **Silaseli Ruins** or **Eldbjorg's Hideaway** · Julianos: **Boreal Forge** (per the set database — confirm in game) |
 | **Traits** | **Divines** armor · **Arcane** jewelry · **Infused** weapons · transmute as crystals allow |
-| **Interim** | Live greatsword + lightning staff + Withered Hand jewelry + any light body; **Shacklebreaker** if Alchemist traits lag |
-| **Quality** | Purple first if mats tight; gold at CP160 when traits ready |
+| **Interim** | Live Trainee / Vanus pieces + greatsword + lightning staff through Level 49 |
+| **Quality** | Purple first if mats are tight; gold at CP160 when traits are ready |
 
 > [!NOTE]
 > Check `examples/fixtures/karakedi_crafting.md` for @masisi trait research before queueing gold CP160 work.
 
 ---
 
-## Champion Point Mapping (CP 282)
+## Champion Point Mapping (CP 336)
 
-Budget: **94 Warfare / 94 Craft / 94 Fitness** (282 total). **Live: 0 spent** — allocate everything below. Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md).
+Budget: **112 Warfare / 112 Craft / 112 Fitness** (336 total). **Live: 287 spent — 16 Warfare / 16 Craft / 17 Fitness unspent.** Check the in-game slot count before planning slottables. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md).
 
 > [!NOTE]
-> **When CP grows (≈810+):** Cap Warfare slotted stars at Fighting Finesse / Master-at-Arms / Deadly Aim / Thaumaturge (50 each); Fitness Boundless Vitality / Fortified / Rejuvenation / Siphoning Spells; finish Craft **Liquid Efficiency (50)** after Steadfast Enchantment + Rationer. Do not invent alternate star names.
+> **When CP grows (≈810+):** Cap Warfare slotted stars at Fighting Finesse / Master-at-Arms / Deadly Aim / Thaumaturge (50 each); Fitness Boundless Vitality / Fortified / Rejuvenation / Siphoning Spells. Do not invent alternate star names.
 
-### Warfare (Blue — 94 Points)
+### Warfare (Blue — 112 Points)
 
-| **Star** | **Type** | **Spend** | **Benefit** |
-| :--- | :--- | :--- | :--- |
-| **Fighting Finesse** | Slotted | 50 | +Critical Damage / Critical Healing |
-| **Thaumaturge** | Slotted | 25 | +DoT (Blockade, Boundless Storm) — first stage |
-| **Precision** | Passive | 20 | Critical Chance |
-| *(unspent)* | — | 1 | Bank until next Warfare CP (or put into Eldritch Insight when you can afford a 10-point stage) |
+| **Star** | **Type** | **Live** | **Target** | **Benefit** |
+| :--- | :--- | ---: | ---: | :--- |
+| **Fighting Finesse** | Slotted | 50 | 50 | +Critical Damage / Critical Healing |
+| **Thaumaturge** | Slotted | 26 | 32 | +DoT damage (Blockade, Boundless Storm) |
+| **Piercing** | Passive | 10 | 20 | +Penetration — the stat this character is shortest on |
+| **Precision** | Passive | 10 | 10 | Critical Chance |
 
-*Next Warfare tranche:* Eldritch Insight **20**, Piercing **20**, then Master-at-Arms / Deadly Aim toward 50 each.
+*Spend the 16 unspent:* **Piercing +10** first, then **Thaumaturge +6**. *Next tranche:* Eldritch Insight, then Master-at-Arms / Deadly Aim toward 50 each.
 
-### Fitness (Red — 94 Points)
+### Fitness (Red — 112 Points)
 
-| **Star** | **Type** | **Spend** | **Benefit** |
-| :--- | :--- | :--- | :--- |
-| **Boundless Vitality** | Slotted | 50 | Max Health |
-| **Rejuvenation** | Slotted | 30 | Recovery (3×10 stages) |
-| **Hero's Vigor** | Passive | 10 | Max Health |
-| *(bank)* | — | 4 | Hold for next Hero's Vigor stage or Tumbling |
+| **Star** | **Type** | **Live** | **Target** | **Benefit** |
+| :--- | :--- | ---: | ---: | :--- |
+| **Rejuvenation** | Slotted | 50 | 50 | Recovery |
+| **Boundless Vitality** | Slotted | 45 | 50 | Max Health |
+| **Hero's Vigor** | Passive | 0 | 10 | Max Health |
+| *(bank)* | — | — | 2 | Toward Fortified or Tumbling |
 
-### Craft (Green — 94 Points)
+*Spend the 17 unspent:* **Boundless Vitality +5**, **Hero's Vigor +10**, bank 2.
 
-| **Star** | **Type** | **Spend** | **Benefit** |
-| :--- | :--- | :--- | :--- |
-| **Steed's Blessing** | Slotted | 50 | Out-of-combat move speed |
-| **Steadfast Enchantment** | Passive | 10 | Path to Rationer / Liquid Efficiency |
-| **Rationer** | Passive | 10 | Food/drink duration; unlocks Liquid Efficiency path |
-| **Gilded Fingers** | Passive | 10 | Gold find |
-| **Breakfall** | Passive | 10 | Fall damage reduction |
-| *(bank)* | — | 4 | Toward **Liquid Efficiency (50)** next Craft tranche |
+### Craft (Green — 112 Points)
 
-> [!IMPORTANT]
-> **Liquid Efficiency** is an automatic passive once purchased (does not use a Craft slot). Buy it as soon as Craft budget allows after Steadfast Enchantment + Rationer — critical for Clever Alchemist.
+| **Star** | **Type** | **Live** | **Target** | **Benefit** |
+| :--- | :--- | ---: | ---: | :--- |
+| **Steed's Blessing** | Slotted | 50 | 50 | Out-of-combat move speed |
+| **Fortune's Favor** | Passive | 36 | 36 | More gold from containers — fine for an overland farmer; put no more into it |
+| **Gilded Fingers** | Passive | 10 | 10 | Gold find |
+| **Steadfast Enchantment** | Passive | 0 | 10 | Path to Rationer / Liquid Efficiency |
+| *(bank)* | — | — | 6 | Toward Rationer |
+
+*Spend the 16 unspent:* **Steadfast Enchantment +10**, bank 6 toward **Rationer**.
+
+> [!NOTE]
+> **Liquid Efficiency** is a chance not to consume a potion. It saves gold; it doesn't shorten the potion cooldown, and no set in this plan depends on potions.
 
 ---
 
@@ -372,7 +387,7 @@ Budget: **94 Warfare / 94 Craft / 94 Fitness** (282 total). **Live: 0 spent** �
 Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bolstered, etc.) — never player sets (no Julianos, no Divines). Buy white basics from vendors; farm Superior+ while the companion is summoned.
 
 > [!NOTE]
-> **Live export:** **Mirri Elendis** Level **4/20**, level-1 white gear, **3 empty ability slots**. Character Level **31 / CP 282**.
+> **Live export:** **Mirri Elendis** Level **8/20**, level-1 white gear (8 pieces below level), **2 empty ability slots** (slot 5 + ultimate). Character Level **40 / CP 336**.
 
 ### Companion picks
 
@@ -389,17 +404,17 @@ Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bo
 | **Role** | **DPS** (Bow or Dual Wield) |
 | **Gear Weight** | **Medium** (or mixed Superior+ drops) |
 | **Gear Trait** | **Aggressive** / **Shattering** for damage; **Quickened** if cooldowns feel slow |
-| **Loadout** | Full **Companion's** set — replace all nine level-1 whites |
+| **Loadout** | Full **Companion's** set — replace all eight level-1 whites (bow + seven armor) |
 | **Acquisition** | Vendor whites now; Superior+ from bosses/overland with Mirri active |
 
 #### Mirri skill bar (fill empty slots)
 
 1. **Piercing Arrow** (live) — keep ranged pressure.
 2. **Warp Strike** (live) — gap close / damage.
-3. **Life Absorption** (live) — self sustain.
-4. **Impending Doom** or class DPS skill — fill empty slot.
-5. **Sniper's Mark** or second damage skill — fill empty slot.
-6. *Ultimate:* class DPS ultimate — fill empty ult.
+3. **Masque of Torment** (live) — keep.
+4. **Blood Transfusion** (live) — self sustain.
+5. *Empty* — slot a second damage skill as soon as one unlocks.
+6. *Ultimate:* *empty* — slot her first DPS ultimate when she unlocks it.
 
 Level Mirri toward **20/20** while Elric levels; start **Zerith-var** XP in parallel for the goal tier.
 
@@ -458,37 +473,36 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 
 ### Phase 0 — Today (functional build)
 
-1. **Keep Stormbringer.** Front bar stays a **greatsword**; back bar stays a **Lightning Destruction Staff**. Upgrade either when you find better pieces — do not respec to dual staff.
-2. **Respec front bar (bridge):** Boundless Storm · Critical Surge · Crystal Fragments · Daedric Prey · Twilight Matriarch Restore · Storm Atronach ult. **Unslot** Critical Charge, Uppercut, Reverse Slash, and **Hurricane** (use Boundless Storm).
-3. **Respec back bar (bridge):** Unstable Wall / Elemental Blockade · Crushing Shock (or Force Shock) · Dark Conversion or Harness Magicka · Mages' Wrath / Endless Fury · Matriarch Restore · Storm Atronach ult.
-4. **Attributes:** Keep dumping into **Magicka** toward **64** (live 39).
-5. **Spend CP 282** per [Champion Point Mapping](#champion-point-mapping-cp-282).
-6. **Mirri:** Replace level-1 whites with Companion's gear; fill **3 empty** ability slots; keep her summoned for XP.
+1. **Keep Stormbringer.** Front bar stays a **greatsword**; back bar stays a **Lightning Destruction Staff**. Bridge bars are already slotted — leave them.
+2. **Light Armor → Concentration:** spend a skill point the moment it unlocks (rank 39 now). Biggest single gain available (≈ +13.7%).
+3. **Spend the other skill points:** Might of the Guild once Mages Guild allows it, then Destruction Expert and Battle Rush.
+4. **Attributes:** Keep dumping into **Magicka** toward **64** (live 51).
+5. **Spend the 49 unspent CP** per [Champion Point Mapping](#champion-point-mapping-cp-336) — Piercing first.
+6. **Mirri:** Replace level-1 whites with Companion's gear; fill slot 5 and the ultimate; keep her summoned for XP.
 7. **Collectibles:** Equip **Nightmare Senche**, **Long-Winged Bat**, **Mannimarco** costume.
 
 ### Phase 1 — Level to 50 (interim)
 
-8. Wear **light** armor pieces to train Light Armor; keep Withered Hand jewelry until CP160 craft.
-9. Rank **Two Handed** (already strong), **Destruction Staff**, **Light Armor**, **Mages Guild** (Inner Light), **Medicinal Use**.
-10. Morph Boundless Storm, Critical Surge, Endless Fury, Greater Storm Atronach, Elemental Blockade as ranks allow.
-11. Practice Matriarch-safe bar swaps (slot 5 both bars) — sword ↔ lightning.
+8. Keep all seven body pieces **Light**; Trainee / Vanus gear is fine until CP160.
+9. Rank **Light Armor** (→ Concentration), **Destruction Staff**, **Mages Guild** (Might of the Guild), **Two Handed** (Battle Rush).
+10. Practice Matriarch-safe bar swaps (slot 5 both bars) — sword ↔ lightning.
 
 ### Phase 2 — Bahtra Uber + craft target
 
-12. **Level 50:** Bahtra at-Hunding — subclass **Grave Lord**, replace **Dark Magic**.
-13. **Respec to Uber bars:** Front (Stormbringer) Boundless Storm · Critical Surge · Grave Lord's Sacrifice · Daedric Prey · Matriarch · Greater Storm Atronach. Back (Lightning) Elemental Blockade · Crushing Shock · Inner Light · Endless Fury · Matriarch · Pestilent Colossus.
-14. Spend skill points on Grave Lord passives (**Reusable Parts**, **Death Knell** first).
-15. **@masisi:** craft **5 Clever Alchemist + 5 Law of Julianos** (light, Divines, Arcane jewelry, **Julianos greatsword** + **Julianos lightning staff**) at CP160.
-16. Mundus → **The Apprentice** when sustain feels fine.
+11. **Level 50:** Bahtra at-Hunding — subclass **Grave Lord**, replace **Dark Magic**.
+12. **Respec to Uber bars:** Front — swap Crystal Fragments for **Grave Lord's Sacrifice**. Back — swap the ultimate for **Pestilent Colossus**.
+13. Spend skill points on Grave Lord passives (**Reusable Parts**, **Death Knell** first).
+14. **@masisi (CP160):** craft **5 Night Mother's Gaze** (Light chest, hands, waist, legs, feet; Divines) and **Law of Julianos** on the **greatsword**, **lightning staff**, necklace and both rings (Infused weapons, Arcane jewelry, Spell Damage jewelry glyphs). Head/shoulders: any Light Divines pieces.
+15. Check Major Breach uptime on a target dummy; if it's well under 60%, reconsider Order's Wrath (+9.8%).
 
 ### Phase 3 — Polish
 
-17. Motifs / dyes: Altmer pale body; **Daedric/Ebony** Stormbringer; ruby-black throne palette.
-18. Level **Zerith-var** to **20/20**; farm Companion's Aggressive gear.
-19. Finish Craft **Liquid Efficiency**; expand Warfare/Fitness slotted stars as CP grows.
+16. Motifs / dyes: Altmer pale body; **Daedric/Ebony** Stormbringer; ruby-black throne palette.
+17. Level **Zerith-var** to **20/20**; farm Companion's Aggressive gear.
+18. Expand Warfare/Fitness slotted stars as CP grows.
 
 ### Finish
 
-20. Regenerate profile with `/cm` and update [lord_elric_of_melnibone.md](lord_elric_of_melnibone.md) when bars, CP, Mundus, and gear match this plan.
+19. Regenerate profile with `/cm` and update [lord_elric_of_melnibone.md](lord_elric_of_melnibone.md) when bars, CP, Mundus, and gear match this plan.
 
 The Dreaming City is ash. Stormbringer still drinks. The storm still answers its emperor.
