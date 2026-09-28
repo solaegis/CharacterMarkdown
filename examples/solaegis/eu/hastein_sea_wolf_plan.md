@@ -23,7 +23,7 @@
 | **Potion** | **Tri-stat** restore |
 | **Weapon Enchants** | Sword: **Crushing** (−1,622 enemy armor, 5 s) · Ice Staff: **Absorb Magicka** |
 | **Companion** | **Primary (now):** **Mirri Elendis** (ship's mender) · **Secondary:** **Tanlorin** (DPS) · **Goal (20/20 @ CP160):** **Mirri Elendis** |
-| **Primary Mount** | **Skulltooth Coastal Durzog** (owned): a shore-running pack beast, the nearest thing to a wolf in the stable. See [Collectibles](#collectibles) |
+| **Primary Mount** | **Bleakrock Snowdog** (owned): a wolf-hound from the Nord isle of Bleakrock · **Alt:** **Skulltooth Coastal Durzog**. See [Collectibles](#collectibles) |
 | **Flavor Pet** | **Nenalata Ayleid Wolf Pup** (owned): the pack's youngest · **Alt:** **Abecean Ratter Cat** (the ship's cat) |
 | **Costume** | **Sea Drake Garb** (owned): sea-raider's kit · **Alt:** **Noble Clan-Chief** (the jarl at home) · **Markings:** Skald's Face Branding + Windcaller Body Markings |
 
@@ -37,14 +37,14 @@ The Bretons of the Iliac Bay learned to watch the horizon for a striped sail. Wh
 
 A wolf hunts as a pack, and the pack lives while the strongest stands at the front. That's the whole of Hastein's philosophy, and the whole of his job. **Draconic Power** is the dragon-prow: scales, the chains that drag the enemy onto his shields, dragon blood that closes his wounds. **Winter's Embrace** is the northern sea he was born on: ice armor, shields of frost, the sleet storm that breaks over the whole field. **Bone Tyrant** is the drowned crews who follow his wake: bone mail, and a grave-grip that gives his pack its courage.
 
-He wears the salt-stained garb of a sea-raider, the skald's brand on his face and the wind-caller's marks on his skin. A wolf pup from the forests of the Covenant rides in his pack, and the ship's cat keeps the rats honest. Ashore he rides a coastal durzog, a snapping shore-runner that hunts in packs. He blows a dragonhorn to call his crew to the wall. When the enemy hesitates, he tells them to *come get some*.
+He wears the salt-stained garb of a sea-raider, the skald's brand on his face and the wind-caller's marks on his skin. A wolf pup from the forests of the Covenant rides in his pack, and the ship's cat keeps the rats honest. Ashore he rides a Bleakrock snowdog, a wolf-hound bred on a northern island and carried south on the longship. He blows a dragonhorn to call his crew to the wall. When the enemy hesitates, he tells them to *come get some*.
 
 > [!TIP]
 > **Suggested Custom Title:** `Sea-Wolf of the Iliac Bay`
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Hastein Sea-Wolf — Wolf of the Iliac Bay. Nord longship captain who raided the Breton coast, now the Covenant's sea-wolf (Hastein-coded). Uber DK tank: KEEP Draconic Power; at 50 SUBCLASS Winter's Embrace (replaces Ardent Flame) + Bone Tyrant (replaces Earthen Heart). Pre-50 all-native DK bridge (Hearth and Home, Earthshield Mantle, Igneous Shield, Magma Armor). Front 1H+Shield "Shield Wall": Pierce Armor, Ice Fortress, Chains of Devastation, Empowering Grasp, Bone Armor; ult Bone Goliath Transformation. Back Ice Staff "Northern Sea": Frost Clench, Shimmering Shield, Blood of the Elder Dragon, Inner Beast, Bone Surge; ult Sleet Storm (later Aggressive Horn). Gear @masisi: 12 Fellowship's Fortitude (heavy, Sturdy, Healthy jewelry, Defending sword, Decisive Ice Staff). 64 Health, The Lord. Companion Mirri as ship's mender. Mount Skulltooth Coastal Durzog · pet Nenalata Ayleid Wolf Pup · costume Sea Drake Garb · Skald's Face Branding + Windcaller Body Markings · memento Dragonhorn Curio.
+> Hastein Sea-Wolf — Wolf of the Iliac Bay. Nord longship captain who raided the Breton coast, now the Covenant's sea-wolf (Hastein-coded). Uber DK tank: KEEP Draconic Power; at 50 SUBCLASS Winter's Embrace (replaces Ardent Flame) + Bone Tyrant (replaces Earthen Heart). Pre-50 all-native DK bridge (Hearth and Home, Earthshield Mantle, Igneous Shield, Magma Armor). Front 1H+Shield "Shield Wall": Pierce Armor, Ice Fortress, Chains of Devastation, Empowering Grasp, Bone Armor; ult Bone Goliath Transformation. Back Ice Staff "Northern Sea": Frost Clench, Shimmering Shield, Blood of the Elder Dragon, Inner Beast, Bone Surge; ult Sleet Storm (later Aggressive Horn). Gear @masisi: 12 Fellowship's Fortitude (heavy, Sturdy, Healthy jewelry, Defending sword, Decisive Ice Staff). 64 Health, The Lord. Companion Mirri as ship's mender. Mount Bleakrock Snowdog · pet Nenalata Ayleid Wolf Pup · costume Sea Drake Garb · Skald's Face Branding + Windcaller Body Markings · memento Dragonhorn Curio.
 
 > [!TIP]
 > **Flavor Pet:** **Nenalata Ayleid Wolf Pup** (owned), the pack's youngest. **Alt:** **Abecean Ratter Cat**, the ship's cat. See [Collectibles](#collectibles).
@@ -362,9 +362,9 @@ Every pick is **owned** and comes from the EU account pool (`sabir_al_rih.md`, p
 
 | **Pick** | **Mount** | **Notes** |
 | :--- | :--- | :--- |
-| **Primary** | **Skulltooth Coastal Durzog** | Owned. A coastal pack-hunter, the closest owned mount to a wolf. Alpha Top moved to the Snow Bear, so it's his alone |
-| **Backup** | **Sorrel Horse** | Owned. A plain horse "borrowed" from a Breton stable |
-| **Ideal (unowned)** | A **wolf** mount | The account owns no wolf mount. If you buy one, it takes the primary slot |
+| **Primary** | **Bleakrock Snowdog** | Owned (bought 2026-09-27). The sea-wolf's wolf: a snow-hound from Bleakrock Isle, a Nord island off Skyrim's coast. Not a primary on any other EU plan |
+| **Backup** | **Skulltooth Coastal Durzog** | Owned. A coastal pack-hunter for shore raids |
+| **Alt** | **Sorrel Horse** | Owned. A plain horse "borrowed" from a Breton stable |
 | **Avoid thematically** | **Psijic Escort Charger** / **Dwarven War Horse** | Too orderly and too landlocked for a raider |
 
 ### Pet
@@ -416,7 +416,7 @@ Outfit Station motifs on the crafted Fellowship's Fortitude pieces are separate 
 1. Confirm a **free character slot** on EU (there are already nine characters).
 2. Create **Hastein Sea-Wolf**: a **Nord Dragonknight** in the **Daggerfall Covenant**.
 3. Put every attribute point into **Health**.
-4. Equip **Sea Drake Garb**, **Skald's Face Branding**, **Windcaller Body Markings**, **Skulltooth Coastal Durzog** and **Nenalata Ayleid Wolf Pup**.
+4. Equip **Sea Drake Garb**, **Skald's Face Branding**, **Windcaller Body Markings**, **Bleakrock Snowdog** and **Nenalata Ayleid Wolf Pup**.
 5. Spend the CP per [Champion Point Mapping](#champion-point-mapping-cp-338).
 6. Export with `/cm` and save as [hastein_sea_wolf.md](hastein_sea_wolf.md).
 

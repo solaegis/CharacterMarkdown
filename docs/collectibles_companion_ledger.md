@@ -29,7 +29,7 @@ When locking primaries: consult **account tiers → character shortlist → prim
 
 | Slug | Primary Mount | Flavor Pet | Costume | Companion Primary | Companion Secondary | Companion Goal | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| alpha_top | Snow Bear | Golden Eagle | Covenant Scout | Bastian Hallix | Mirri Elendis | Tanlorin | Mount moved to Snow Bear 2026-09-27 (newly owned); Durzog freed for hastein_sea_wolf |
+| alpha_top | Snow Bear | Golden Eagle | Covenant Scout | Bastian Hallix | Mirri Elendis | Tanlorin | Mount moved to Snow Bear 2026-09-27 (newly owned) |
 | karakadin | Pyrodraconic Camel-Lizard | Alik'r Dune-Hound | Forebear Dishdasha | Bastian Hallix | Mirri Elendis | Zerith-var | Shortlist S aligns |
 | lord_elric_of_melnibone | Nightmare Senche | Long-Winged Bat | Mannimarco | Mirri Elendis | Tanlorin | Zerith-var | Profile Collectibles incomplete; ownership from account pool |
 | masisi | Psijic Escort Charger | Psijic Mascot Bear Cub | Imperial Chancellor | Tanlorin | Mirri Elendis | Zerith-var | Hybrid farmer-DPS; Goal Zerith for PD filler; primary Psijic kit retained (theme over diversity with taranis) |
@@ -38,7 +38,7 @@ When locking primaries: consult **account tiers → character shortlist → prim
 | sabir_al_rih | Hammerfell Camel (Ideal) | Fennec Fox (Ideal) | Claw-Dance Acolyte Style (Ideal) | Ember | Mirri Elendis | Zerith-var | Greenfield Ideals **not** in EU owned pool; best owned bridges: Pyrodraconic Camel-Lizard / Alik'r Dune-Hound / Forebear Dishdasha; alt costume Priest of the Green unowned |
 | dolu_tanesi | Noweyr Steed | Haunted House Cat | Austere Warden Outfit | Mirri Elendis | Bastian Hallix | Tanlorin | Magicka life-broker NB; Snape-coded; profile Collectibles incomplete; distinct from NA dolu_tenasi |
 | s_katib_asrar | Dwarven War Horse | Scintillant Dovah-Fly | Court of Bedlam | Mirri Elendis | Bastian Hallix | Tanlorin | Greenfield Mag Arcanist Lexarch; diversified off Psijic/Mannimarco; stub profile until /cm |
-| hastein_sea_wolf | Skulltooth Coastal Durzog | Nenalata Ayleid Wolf Pup | Sea Drake Garb | Mirri Elendis | Tanlorin | Mirri Elendis | Greenfield Nord DK Uber tank (DC, sea-wolf raider); sole Durzog primary (alpha_top moved to Snow Bear); no wolf mount owned; pet + costume unused primaries; stub until /cm |
+| hastein_sea_wolf | Bleakrock Snowdog | Nenalata Ayleid Wolf Pup | Sea Drake Garb | Mirri Elendis | Tanlorin | Mirri Elendis | Greenfield Nord DK Uber tank (DC, sea-wolf raider); Bleakrock Snowdog bought 2026-09-27 as the wolf mount (Durzog backup); pet + costume unused primaries; stub until /cm |
 
 ### EU frequency (primaries appearing more than once)
 
@@ -49,13 +49,13 @@ When locking primaries: consult **account tiers → character shortlist → prim
 
 ### Account collectible tiers
 
-Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (seen in `s_katib_asrar.md`, 2026-09-27 export). Shared across @SOLAEGIS EU.
+Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (seen in `s_katib_asrar.md`, 2026-09-27 export) + **Bleakrock Snowdog** (bought 2026-09-27; not yet in an export). Shared across @SOLAEGIS EU.
 
 #### Mounts
 
 | Tier | Names |
 | :--- | :--- |
-| S | Nightmare Senche, Psijic Escort Charger, Pyrodraconic Camel-Lizard, Rahd-m'Athra |
+| S | Bleakrock Snowdog, Nightmare Senche, Psijic Escort Charger, Pyrodraconic Camel-Lizard, Rahd-m'Athra |
 | A | Dwarven War Horse, Noweyr Steed, Skulltooth Coastal Durzog, Snow Bear |
 | B | — |
 | C | Sorrel Horse |
@@ -156,7 +156,7 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
-| Mount | — | Skulltooth Coastal Durzog (primary); C: Sorrel Horse | Sea-wolf theme; ideal wolf mount unowned |
+| Mount | Bleakrock Snowdog (primary) | Skulltooth Coastal Durzog; C: Sorrel Horse | Sea-wolf theme: Nord-isle wolf-hound |
 | Pet | — | Nenalata Ayleid Wolf Pup (primary); B: Abecean Ratter Cat, Hay-Crown Chub Loon, Tan Morthal Mastiff | Pack + ship's cat |
 | Costume | — | Noble Clan-Chief; B: Sea Drake Garb (primary), Vulkhel Guard Marine Armor | Theme over tier: Sea Drake Garb is the raider |
 
