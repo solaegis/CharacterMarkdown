@@ -38,7 +38,7 @@ When locking primaries: consult **account tiers → character shortlist → prim
 | sabir_al_rih | Hammerfell Camel | Fennec Fox (Ideal) | Claw-Dance Acolyte Style (Ideal) | Ember | Mirri Elendis | Zerith-var | Hammerfell Camel owned 2026-09-27 and now primary; pet/costume Ideals still unowned, bridges Alik'r Dune-Hound / Forebear Dishdasha; alt costume Priest of the Green unowned |
 | dolu_tanesi | Noweyr Steed | Haunted House Cat | Austere Warden Outfit | Mirri Elendis | Bastian Hallix | Tanlorin | Magicka life-broker NB; Snape-coded; profile Collectibles incomplete; distinct from NA dolu_tenasi |
 | s_katib_asrar | Dwarven War Horse | Scintillant Dovah-Fly | Court of Bedlam | Mirri Elendis | Bastian Hallix | Tanlorin | Greenfield Mag Arcanist Lexarch; diversified off Psijic/Mannimarco; stub profile until /cm |
-| sea_wolf | Bleakrock Snowdog | Nenalata Ayleid Wolf Pup | Sea Drake Garb | Mirri Elendis | Tanlorin | Mirri Elendis | Nord DK Uber tank (EP, sea-wolf raider; saga name Hastein); Bleakrock Snowdog bought 2026-09-27 (Durzog backup); pet + costume unused primaries |
+| sea_wolf | Bleakrock Snowdog | Nenalata Ayleid Wolf Pup | Sea Drake Garb | Mirri Elendis | Tanlorin | Mirri Elendis | Nord **Warden** Uber tank (DC, sea-wolf raider; saga name Hastein; recreated from the Level 5 EP DK 2026-09-28); Bleakrock Snowdog bought 2026-09-27 (Durzog backup); pet + costume unused primaries |
 
 ### EU frequency (primaries appearing more than once)
 

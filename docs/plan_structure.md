@@ -25,7 +25,7 @@ Canonical layout for Solaegis character build plans under `examples/{account}/{l
 | `nekhtarhebi_plan.md` | Walkthrough | Legacy | Gear-first; no Collectibles H2 |
 | `masisi_plan.md` | Build Plan | **Canonical** | Hybrid farmer-DPS (Hunding’s + Night Mother’s Gaze, craftable; Assassination subclass) |
 | `dolu_tanesi_plan.md` (EU) | Build Plan | **Canonical** | Magicka life-broker NB; KEEP all native; Julianos + Clever Alchemist; distinct from NA `dolu_tenasi` |
-| `sea_wolf_plan.md` (EU) | Build Plan | **Canonical** | Nord DK Uber tank (EP, sea-wolf); KEEP Draconic, SUBCLASS Winter's Embrace + Bone Tyrant; 12 Fellowship's Fortitude, 100% craftable |
+| `sea_wolf_plan.md` (EU) | Build Plan | **Canonical** | Nord Warden Uber tank (DC, sea-wolf); KEEP Winter's Embrace, SUBCLASS Draconic Power + Bone Tyrant; 12 Fellowship's Fortitude, 100% craftable |
 
 **Alignment goal:** New plans and heavy revisions use the **Canonical** layout. Legacy files are migrated opportunistically — do not bulk-reformat unless explicitly requested.
 
