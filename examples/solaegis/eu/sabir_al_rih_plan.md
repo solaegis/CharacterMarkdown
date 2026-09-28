@@ -26,7 +26,7 @@
 | **Weapon Poisons**       | Optional **Damage Health** on both dagger pairs for elites                                                                                                                                   |
 | **Staff/Weapon Enchant** | Front DW: **Weapon Damage** / **Absorb Stamina** · Back DW: **Weapon Damage** / **Absorb Stamina**                                                                                           |
 | **Companion**            | **Primary (now):** **Ember** (DPS sparring partner) · **Secondary:** **Mirri Elendis** (loot / rapport) · **Goal (20/20 @ CP160):** **Zerith-var** (DPS escort)                              |
-| **Primary Mount**        | **Ideal:** **Hammerfell Camel** — see [Collectibles](#collectibles) (owned TBD after export)                                                                                                 |
+| **Primary Mount**        | **Hammerfell Camel** (owned) — see [Collectibles](#collectibles) |
 | **Flavor Pet**           | **Ideal:** **Fennec Fox** — see [Collectibles](#collectibles) (owned TBD)                                                                                                                    |
 | **Costume**              | **Ideal:** **Claw-Dance Acolyte Style** · **Alt:** **Priest of the Green** — see [Collectibles](#collectibles)                                                                               |
 
@@ -344,19 +344,13 @@ Level Ember on every overland circuit from character creation. Farm **Companion'
 
 ### Mount
 
-No owned list yet (greenfield). Prefer Hammerfell / wind-pilgrim silhouette; diversify vs current EU primaries (Psijic Escort Charger, Nightmare Senche, Rahd-m'Athra, Pyrodraconic Camel-Lizard).
+#### Primary (owned): Hammerfell Camel
 
-#### Primary (owned): *TBD after `/cm` export*
-
-
-| **Attribute**   | **Detail**                                                     |
-| --------------- | -------------------------------------------------------------- |
-| **Why**         | Best owned Redguard / desert / wind-road mount from the export |
-| **Acquisition** | Pending                                                        |
-
-
-> [!TIP]
-> **Ideal mount (any source):** **Hammerfell Camel** — Alik'r pilgrim silhouette; buyable from Sentinel / Abah's Landing stablemasters (50,000 gold) or Crown Store history. **Alt Ideal:** **Psijic Camel Exemplar** (Ra Gada camel lore) if crowns/crates allow — avoid duplicating Psijic Escort Charger as primary.
+| **Attribute**   | **Detail**                                                                 |
+| --------------- | -------------------------------------------------------------------------- |
+| **Why**         | Alik'r pilgrim silhouette: the road-camel of a Claw-Dance wanderer. Not a primary on any other EU plan |
+| **Acquisition** | Owned (seen in the 2026-09-27 EU export, `sea_wolf.md`)                   |
+| **Backup**      | **Pyrodraconic Camel-Lizard** (owned) — the previous desert bridge          |
 
 ### Pet
 
@@ -428,7 +422,7 @@ No owned list yet (greenfield). Prefer Hammerfell / wind-pilgrim silhouette; div
 ### Phase 3 — Polish
 
 1. **[Phase 3]** Costume: acquire **Claw-Dance Acolyte Style**; alt **Priest of the Green**.
-2. **Mount:** **Hammerfell Camel** from Sentinel/Abah's Landing stables if not owned.
+2. **Mount:** equip the **Hammerfell Camel** (owned).
 3. **CP:** Grow Warfare into Master-at-Arms 50 / Deadly Aim 50 / Fighting Finesse; Fitness sustain; keep Steed's Blessing for roads.
 4. **Werewolf polish:** Keep WW ranked for dense overland; default still Open Hand / Wind Form — transform only for packs.
 5. **Optional only:** farmed Pillar of Nirn / Aegis Caller / Selene as ceiling polish — never block craftable target.

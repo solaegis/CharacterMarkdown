@@ -1,8 +1,8 @@
-# Build Plan - Hastein Sea-Wolf: The Wolf of the Iliac Bay (Uber Dragonknight Tank, Craftable)
+# Build Plan - Sea-Wolf: The Wolf of the Iliac Bay (Uber Dragonknight Tank, Craftable)
 
-> **Character profile:** *pending*: `hastein_sea_wolf.md` doesn't exist yet. Create the character (Nord Dragonknight, Daggerfall Covenant, @SOLAEGIS EU), then export with `/cm` and save as [hastein_sea_wolf.md](hastein_sea_wolf.md).
+> **Character profile:** [sea_wolf.md](sea_wolf.md) — Level 5 Nord Dragonknight, CP 339, @SOLAEGIS (EU), Ebonheart Pact.
 
-**Hastein Sea-Wolf** is a Nord longship captain who raids the coasts of the Iliac Bay and sells his shield wall to the Breton kings who pay best. He's Tamriel's answer to **Hastein**, the Viking chief who raided the Frankish coast for thirty years and fought alongside the Breton king Salomon against the Franks. The build is an **Uber-tier group tank**. The one native line it keeps is **Draconic Power**. At Level 50 it **subclasses Winter's Embrace** (replacing Ardent Flame) and **Bone Tyrant** (replacing Earthen Heart). That combination won a scored search of all **1,330** three-line combinations (see [Trinity](#trinity-configuration)).
+**Sea-Wolf** (saga name **Hastein**) is a Nord longship captain of the Ebonheart Pact who raids the Covenant's coasts around the Iliac Bay. He's Tamriel's answer to **Hastein**, the Viking chief who raided the Frankish coast for thirty years. The build is an **Uber-tier group tank**. The one native line it keeps is **Draconic Power**. At Level 50 it **subclasses Winter's Embrace** (replacing Ardent Flame) and **Bone Tyrant** (replacing Earthen Heart). That combination won a scored search of all **1,330** three-line combinations (see [Trinity](#trinity-configuration)).
 
 **Content target:** 4-player group dungeons (normal → veteran) and world bosses. **Gear rule:** **100% crafted** by @masisi, **12 pieces of Fellowship's Fortitude**, with no monster, trial or dungeon exceptions. Below Level 50 the advice is **best-now**, not a gap against the target.
 
@@ -12,13 +12,13 @@
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Race / Alliance** | **Nord** · **Daggerfall Covenant**: a sea-wolf who fights for the Breton kings, like Hastein with Salomon (account has Any Race, Any Alliance) |
-| **Primary Stat** | 64 points in **Health**. Move up to 15 into Stamina only if block sustain runs dry in veteran content |
+| **Race / Alliance** | **Nord** · **Ebonheart Pact** (live): a Pact sea-wolf who hunts in Covenant waters |
+| **Primary Stat** | 64 points in **Health** — **live:** 5 / 5 in Health ✅. Move up to 15 into Stamina only if block sustain runs dry in veteran content |
 | **Mundus Stone** | **The Lord** (+2,225 Max Health). Armor uses Sturdy, not Divines |
 | **Vampirism** | **Cured / N/A** |
-| **Trinity** | **Draconic Power** KEEP · **Winter's Embrace** SUBCLASS (replaces Ardent Flame) · **Bone Tyrant** SUBCLASS (replaces Earthen Heart), both at Level 50. **Pre-50:** all three native DK lines |
+| **Trinity** | **Draconic Power** KEEP · **Winter's Embrace** SUBCLASS (replaces Ardent Flame) · **Bone Tyrant** SUBCLASS (replaces Earthen Heart), both at Level 50 — **live:** all native, Draconic Power rank 5 |
 | **Sets** | **12 Fellowship's Fortitude** (crafted): +7,425 armor, +6,020 Max Health, **Major Protection** |
-| **Bars** | Front: **One Hand and Shield** ("The Shield Wall") · Back: **Ice Staff** ("The Northern Sea") |
+| **Bars** | Front: **One Hand and Shield** ("The Shield Wall") · Back: **Ice Staff** ("The Northern Sea") — **live:** lightning staff front, back bar empty |
 | **Food** | Tri-stat food (Health / Magicka / Stamina); a Max Health + recovery drink when sustain is fine |
 | **Potion** | **Tri-stat** restore |
 | **Weapon Enchants** | Sword: **Crushing** (−1,622 enemy armor, 5 s) · Ice Staff: **Absorb Magicka** |
@@ -27,24 +27,24 @@
 | **Flavor Pet** | **Nenalata Ayleid Wolf Pup** (owned): the pack's youngest · **Alt:** **Abecean Ratter Cat** (the ship's cat) |
 | **Costume** | **Sea Drake Garb** (owned): sea-raider's kit · **Alt:** **Noble Clan-Chief** (the jarl at home) · **Markings:** Skald's Face Branding + Windcaller Body Markings |
 
-**Read next:** [Roleplay](#roleplay-the-sea-wolf) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-shield-wall-and-northern-sea) · [Gear and crafting](#gear-and-crafting-the-fellowship-hauberk) · [Champion points](#champion-point-mapping-cp-338) · [Companion](#companion-strategy-the-ships-mender) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-sea-wolf) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-shield-wall-and-northern-sea) · [Gear and crafting](#gear-and-crafting-the-fellowship-hauberk) · [Champion points](#champion-point-mapping-cp-339) · [Companion](#companion-strategy-the-ships-mender) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
 ## Roleplay: The Sea-Wolf
 
-The Bretons of the Iliac Bay learned to watch the horizon for a striped sail. When it came, it came with forty oars, a wolf's head on the prow, and a Nord who didn't want their gold so much as their war. **Hastein** raided their coasts for twenty summers. Then a Breton king made him a better offer: *raid my enemies instead*. He's been the Covenant's sea-wolf ever since. He's loyal to the contract, the crew and the shield wall, in that order.
+The Bretons of the Iliac Bay learned to watch the horizon for a striped sail. When it came, it came with forty oars, a wolf's head on the prow, and a Nord who didn't want their gold so much as their war. **Hastein**, called **Sea-Wolf**, has raided their coasts for twenty summers under the Pact's banner, or near enough to it. The Pact doesn't ask where its sea-wolves hunt, as long as it's Covenant water. He's loyal to the contract, the crew and the shield wall, in that order.
 
 A wolf hunts as a pack, and the pack lives while the strongest stands at the front. That's the whole of Hastein's philosophy, and the whole of his job. **Draconic Power** is the dragon-prow: scales, the chains that drag the enemy onto his shields, dragon blood that closes his wounds. **Winter's Embrace** is the northern sea he was born on: ice armor, shields of frost, the sleet storm that breaks over the whole field. **Bone Tyrant** is the drowned crews who follow his wake: bone mail, and a grave-grip that gives his pack its courage.
 
-He wears the salt-stained garb of a sea-raider, the skald's brand on his face and the wind-caller's marks on his skin. A wolf pup from the forests of the Covenant rides in his pack, and the ship's cat keeps the rats honest. Ashore he rides a Bleakrock snowdog, a wolf-hound bred on a northern island and carried south on the longship. He blows a dragonhorn to call his crew to the wall. When the enemy hesitates, he tells them to *come get some*.
+He wears the salt-stained garb of a sea-raider, the skald's brand on his face and the wind-caller's marks on his skin. A wolf pup taken on a raid in the Covenant's forests rides in his pack, and the ship's cat keeps the rats honest. Ashore he rides a Bleakrock snowdog, a wolf-hound bred on a northern island and carried south on the longship. He blows a dragonhorn to call his crew to the wall. When the enemy hesitates, he tells them to *come get some*.
 
 > [!TIP]
 > **Suggested Custom Title:** `Sea-Wolf of the Iliac Bay`
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Hastein Sea-Wolf — Wolf of the Iliac Bay. Nord longship captain who raided the Breton coast, now the Covenant's sea-wolf (Hastein-coded). Uber DK tank: KEEP Draconic Power; at 50 SUBCLASS Winter's Embrace (replaces Ardent Flame) + Bone Tyrant (replaces Earthen Heart). Pre-50 all-native DK bridge (Hearth and Home, Earthshield Mantle, Igneous Shield, Magma Armor). Front 1H+Shield "Shield Wall": Pierce Armor, Ice Fortress, Chains of Devastation, Empowering Grasp, Bone Armor; ult Bone Goliath Transformation. Back Ice Staff "Northern Sea": Frost Clench, Shimmering Shield, Blood of the Elder Dragon, Inner Beast, Bone Surge; ult Sleet Storm (later Aggressive Horn). Gear @masisi: 12 Fellowship's Fortitude (heavy, Sturdy, Healthy jewelry, Defending sword, Decisive Ice Staff). 64 Health, The Lord. Companion Mirri as ship's mender. Mount Bleakrock Snowdog · pet Nenalata Ayleid Wolf Pup · costume Sea Drake Garb · Skald's Face Branding + Windcaller Body Markings · memento Dragonhorn Curio.
+> Sea-Wolf (saga name Hastein) — Wolf of the Iliac Bay. Nord longship captain of the Pact who raids the Covenant's Breton coast (Hastein-coded). Uber DK tank: KEEP Draconic Power; at 50 SUBCLASS Winter's Embrace (replaces Ardent Flame) + Bone Tyrant (replaces Earthen Heart). Pre-50 all-native DK bridge (Hearth and Home, Earthshield Mantle, Igneous Shield, Magma Armor). Front 1H+Shield "Shield Wall": Pierce Armor, Ice Fortress, Chains of Devastation, Empowering Grasp, Bone Armor; ult Bone Goliath Transformation. Back Ice Staff "Northern Sea": Frost Clench, Shimmering Shield, Blood of the Elder Dragon, Inner Beast, Bone Surge; ult Sleet Storm (later Aggressive Horn). Gear @masisi: 12 Fellowship's Fortitude (heavy, Sturdy, Healthy jewelry, Defending sword, Decisive Ice Staff). 64 Health, The Lord. Companion Mirri as ship's mender. Mount Bleakrock Snowdog · pet Nenalata Ayleid Wolf Pup · costume Sea Drake Garb · Skald's Face Branding + Windcaller Body Markings · memento Dragonhorn Curio.
 
 > [!TIP]
 > **Flavor Pet:** **Nenalata Ayleid Wolf Pup** (owned), the pack's youngest. **Alt:** **Abecean Ratter Cat**, the ship's cat. See [Collectibles](#collectibles).
@@ -54,7 +54,7 @@ He wears the salt-stained garb of a sea-raider, the skald's brand on his face an
 
 ### Name origin
 
-**Hastein** (Old Norse *Hásteinn*) was one of the great Viking sea-kings of the 9th century. He raided the Loire and the Frankish coast, took service with the Breton king **Salomon** against the Franks, and (by legend) sailed into the Mediterranean. "Sea-Wolf" is the saga epithet for exactly that kind of raider. The name is 16 characters and fits ESO's rules (letters, spaces, hyphens).
+**Hastein** (Old Norse *Hásteinn*) was one of the great Viking sea-kings of the 9th century. He raided the Loire and the Frankish coast, took service with the Breton king **Salomon** against the Franks, and (by legend) sailed into the Mediterranean. "Sea-Wolf" is the saga epithet for exactly that kind of raider. The in-game name is **Sea-Wolf**. Hastein is his saga name in roleplay.
 
 ---
 
@@ -250,7 +250,7 @@ A tank needs **resistances to the cap**, **Max Health** so healers have room to 
 > These caps are general ESO knowledge, not yet in the verified dataset.
 
 > [!NOTE]
-> **Why not the trial/dungeon tank sets?** Claw of Yolnahkriin, Pearlescent Ward, Saxhleel Champion and Lucent Echoes are trial drops. Turning Tide, Crimson Oath's Rive and the Tremorscale monster set are dungeon drops. They're stronger for trial groups, but this plan is craftable-only by design. Treat them as a separate decision once Hastein runs veteran content.
+> **Why not the trial/dungeon tank sets?** Claw of Yolnahkriin, Pearlescent Ward, Saxhleel Champion and Lucent Echoes are trial drops. Turning Tide, Crimson Oath's Rive and the Tremorscale monster set are dungeon drops. They're stronger for trial groups, but this plan is craftable-only by design. Treat them as a separate decision once Sea-Wolf runs veteran content.
 
 ### Target loadout
 
@@ -292,9 +292,9 @@ A tank needs **resistances to the cap**, **Max Health** so healers have room to 
 
 ---
 
-## Champion Point Mapping (CP 338)
+## Champion Point Mapping (CP 339)
 
-Budget: **113 Warfare / 113 Fitness / 112 Craft** (338 total; EU account CP from the most recent exports). Below 900 CP there are **3 slottable stars per discipline**. Star names, max points and stage sizes come from [champion_points_reference.md](../../templates/champion_points_reference.md). Walk the prerequisites in-game.
+Budget: **113 Warfare / 113 Fitness / 113 Craft** (339 total). **Live: 0 spent, all 339 available.** Below 900 CP there are **3 slottable stars per discipline**. Star names, max points and stage sizes come from [champion_points_reference.md](../../templates/champion_points_reference.md). Walk the prerequisites in-game.
 
 ### Warfare (Blue — 110 of 113)
 
@@ -317,7 +317,7 @@ Budget: **113 Warfare / 113 Fitness / 112 Craft** (338 total; EU account CP from
 
 *Next:* top **Bastion** to 50 (+15%), then **Hero's Vigor** (+560 Max Health) and **Juggernaut**.
 
-### Craft (Green — 110 of 112)
+### Craft (Green — 110 of 113)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
@@ -411,14 +411,17 @@ Outfit Station motifs on the crafted Fellowship's Fortitude pieces are separate 
 
 ## Next Steps & In-Game Action Checklist
 
-### Phase 0 — Today (create the character)
+### Phase 0 — Today (Level 5, from the live export)
 
-1. Confirm a **free character slot** on EU (there are already nine characters).
-2. Create **Hastein Sea-Wolf**: a **Nord Dragonknight** in the **Daggerfall Covenant**.
-3. Put every attribute point into **Health**.
-4. Equip **Sea Drake Garb**, **Skald's Face Branding**, **Windcaller Body Markings**, **Bleakrock Snowdog** and **Nenalata Ayleid Wolf Pup**.
-5. Spend the CP per [Champion Point Mapping](#champion-point-mapping-cp-338).
-6. Export with `/cm` and save as [hastein_sea_wolf.md](hastein_sea_wolf.md).
+The export shows Level 5 with all **339 CP unspent**, **4 skill points** free, a lightning staff in the main hand, **no back bar** and Trainee / heavy starter gear. At this level the gear is fine: the Training trait speeds up levelling. The goal is to get the kit pointing the right way.
+
+1. **Spend all 339 CP now** per [Champion Point Mapping](#champion-point-mapping-cp-339). It's the biggest power gain available at Level 5.
+2. **Get a sword and shield** (any vendor or drop) and equip them on the front bar. **One Hand and Shield** only ranks while equipped, and **Puncture** is the taunt.
+3. **Swap the lightning staff for an Ice Staff** on the back bar. Destruction Staff rank 5 and **Tri Focus** carry over, since it's one skill line.
+4. **Spend the 4 skill points:** **Puncture** first, then Draconic Power (**Dragon Blood**), then Earthen Heart and Ardent Flame actives as their ranks unlock. **Soul Trap** can leave the bar.
+5. Keep every attribute point in **Health** (live: 5 / 5).
+6. **Riding:** train **Speed** first while levelling, then **Stamina**.
+7. Equip **Sea Drake Garb**, **Skald's Face Branding**, **Windcaller Body Markings**, **Bleakrock Snowdog** and **Nenalata Ayleid Wolf Pup**.
 
 ### Phase 1 — Level to 50 (native DK bridge)
 
@@ -443,6 +446,6 @@ Outfit Station motifs on the crafted Fellowship's Fortitude pieces are separate 
 
 ### Finish
 
-19. Regenerate the profile with `/cm`, update [hastein_sea_wolf.md](hastein_sea_wolf.md), and re-check the plan against the live stats.
+19. Regenerate the profile with `/cm`, update [sea_wolf.md](sea_wolf.md), and re-check the plan against the live stats.
 
 The pack lives while the strongest stands at the front.

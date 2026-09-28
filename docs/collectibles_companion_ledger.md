@@ -35,10 +35,10 @@ When locking primaries: consult **account tiers → character shortlist → prim
 | masisi | Psijic Escort Charger | Psijic Mascot Bear Cub | Imperial Chancellor | Tanlorin | Mirri Elendis | Zerith-var | Hybrid farmer-DPS; Goal Zerith for PD filler; primary Psijic kit retained (theme over diversity with taranis) |
 | taranis_kotu | Psijic Escort Charger | Coldharbour Bantam Guar | Mannimarco | Bastian Hallix | Mirri Elendis | Tanlorin | Shares mount+costume primaries with masisi / elric — revisit when next touched |
 | zirhli | Rahd-m'Athra | Verdigris Haj Mota | Shrouded Armor | Tanlorin | Bastian Hallix | Tanlorin | Diversified 2026-09-06 off Nightmare Senche / Dune-Hound |
-| sabir_al_rih | Hammerfell Camel (Ideal) | Fennec Fox (Ideal) | Claw-Dance Acolyte Style (Ideal) | Ember | Mirri Elendis | Zerith-var | Greenfield Ideals **not** in EU owned pool; best owned bridges: Pyrodraconic Camel-Lizard / Alik'r Dune-Hound / Forebear Dishdasha; alt costume Priest of the Green unowned |
+| sabir_al_rih | Hammerfell Camel | Fennec Fox (Ideal) | Claw-Dance Acolyte Style (Ideal) | Ember | Mirri Elendis | Zerith-var | Hammerfell Camel owned 2026-09-27 and now primary; pet/costume Ideals still unowned, bridges Alik'r Dune-Hound / Forebear Dishdasha; alt costume Priest of the Green unowned |
 | dolu_tanesi | Noweyr Steed | Haunted House Cat | Austere Warden Outfit | Mirri Elendis | Bastian Hallix | Tanlorin | Magicka life-broker NB; Snape-coded; profile Collectibles incomplete; distinct from NA dolu_tenasi |
 | s_katib_asrar | Dwarven War Horse | Scintillant Dovah-Fly | Court of Bedlam | Mirri Elendis | Bastian Hallix | Tanlorin | Greenfield Mag Arcanist Lexarch; diversified off Psijic/Mannimarco; stub profile until /cm |
-| hastein_sea_wolf | Bleakrock Snowdog | Nenalata Ayleid Wolf Pup | Sea Drake Garb | Mirri Elendis | Tanlorin | Mirri Elendis | Greenfield Nord DK Uber tank (DC, sea-wolf raider); Bleakrock Snowdog bought 2026-09-27 as the wolf mount (Durzog backup); pet + costume unused primaries; stub until /cm |
+| sea_wolf | Bleakrock Snowdog | Nenalata Ayleid Wolf Pup | Sea Drake Garb | Mirri Elendis | Tanlorin | Mirri Elendis | Nord DK Uber tank (EP, sea-wolf raider; saga name Hastein); Bleakrock Snowdog bought 2026-09-27 (Durzog backup); pet + costume unused primaries |
 
 ### EU frequency (primaries appearing more than once)
 
@@ -49,7 +49,7 @@ When locking primaries: consult **account tiers → character shortlist → prim
 
 ### Account collectible tiers
 
-Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (seen in `s_katib_asrar.md`, 2026-09-27 export) + **Bleakrock Snowdog** (bought 2026-09-27; not yet in an export). Shared across @SOLAEGIS EU.
+Pool SoT: `sea_wolf.md` (2026-09-27 export: 11 mounts / 38 pets / 25 costumes; supersedes `sabir_al_rih.md`). New since the last snapshot: mounts **Bleakrock Snowdog**, **Hammerfell Camel**, **Snow Bear**; costumes **Phaer Mercenary Armor**, **Quendelunn Veiled Heritance Garb**; pets **Aurora Firepot Spider**, **Stonefire Scamp**. Shared across @SOLAEGIS EU.
 
 #### Mounts
 
@@ -57,7 +57,7 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (
 | :--- | :--- |
 | S | Bleakrock Snowdog, Nightmare Senche, Psijic Escort Charger, Pyrodraconic Camel-Lizard, Rahd-m'Athra |
 | A | Dwarven War Horse, Noweyr Steed, Skulltooth Coastal Durzog, Snow Bear |
-| B | — |
+| B | Hammerfell Camel |
 | C | Sorrel Horse |
 
 #### Pets
@@ -124,7 +124,7 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
-| Mount | Pyrodraconic Camel-Lizard (owned bridge) | Rahd-m'Athra, Skulltooth Coastal Durzog | Ideal Hammerfell Camel **unowned**; keep Ideal in primary until acquired |
+| Mount | Pyrodraconic Camel-Lizard (backup) | Rahd-m'Athra, Skulltooth Coastal Durzog; B: Hammerfell Camel (primary) | Hammerfell Camel owned 2026-09-27 and now primary |
 | Pet | Alik'r Dune-Hound (owned bridge) | Jackal, Ringtail Jerboa | Ideal Fennec Fox **unowned** |
 | Costume | Forebear Dishdasha (owned bridge) | Crown Dishdasha, Wood Elf Vanguard | Ideal Claw-Dance / Priest of the Green **unowned** |
 
@@ -152,7 +152,7 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (
 | Pet | Scintillant Dovah-Fly | Blue Dragon Imp, Haunted House Cat | Ink-mote scribe familiar |
 | Costume | Court of Bedlam | Bloodthorn Robes, Mages Guild Formal Robes | Apocrypha-court; not Misrule |
 
-#### hastein_sea_wolf
+#### sea_wolf
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
@@ -162,7 +162,7 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes) + **Snow Bear** (
 
 ### Incomplete collectibles exports (EU)
 
-Profiles with no parseable Mounts/Pets/Costumes details (ownership still account-wide via SoT export): `dolu_tanesi`, `lord_elric_of_melnibone`, `s_katib_asrar` (greenfield stub until `/cm`), `hastein_sea_wolf` (plan only; character not yet created).
+Profiles with no parseable Mounts/Pets/Costumes details (ownership still account-wide via SoT export): `dolu_tanesi`, `lord_elric_of_melnibone`, `s_katib_asrar` (greenfield stub until `/cm`).
 
 ---
 

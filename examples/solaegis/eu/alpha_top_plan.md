@@ -365,7 +365,7 @@ All picks are **owned** on the live [alpha_top.md](alpha_top.md) export.
 | **Primary (owned)** | **[Snow Bear](https://en.uesp.net/wiki/Online:Snow_Bear)** — frost-country beast for a Winter's Embrace hunter; the biggest animal in his company |
 | **Alt (owned)** | **[Sorrel Horse](https://en.uesp.net/wiki/Online:Sorrel_Horse)** — quiet field hunter's horse for long stalks |
 | **Backup (owned)** | **[Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)** — heavy chase when the quarry is armored |
-| **Former primary** | **[Skulltooth Coastal Durzog](https://en.uesp.net/wiki/Online:Skulltooth_Coastal_Durzog)** — handed to [Hastein Sea-Wolf](hastein_sea_wolf_plan.md) as his coastal pack-hunter |
+| **Former primary** | **[Skulltooth Coastal Durzog](https://en.uesp.net/wiki/Online:Skulltooth_Coastal_Durzog)** — handed to [Sea-Wolf](sea_wolf_plan.md) as his coastal pack-hunter |
 | **Avoid (thematically)** | **Nightmare Senche** / **Rahd-m'Athra** / **Noweyr Steed** — void-festival cats and carnival mounts fight the hunter fiction (and Senche is already overused on this account) |
 
 ### Pet
