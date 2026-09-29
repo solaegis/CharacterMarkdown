@@ -1,10 +1,10 @@
 # Build Plan - Taranis Kotu: The Pale Ascendant (Magicka Sorcerer Overland)
 
-> **Character profile:** [taranis_kotu.md](taranis_kotu.md) — Level 30 High Elf Sorcerer, CP 289, @SOLAEGIS (EU).
+> **Character profile:** [taranis_kotu.md](taranis_kotu.md) — Level 31 High Elf Sorcerer, CP 336, @SOLAEGIS (EU).
 
-**Taranis Kotu** is a frail-bodied High Elf with immense magical talent — a ruthless, cold, ambitious anti-hero who would sacrifice anything, even his own humanity, in an obsessive quest for godlike power. This guide turns the live Level 30 kit (**Dest** Main / **Resto** Backup, **Wisdom of Vanus** bridge, duplicate **Crystal Fragments** / **Mages' Wrath** / **Hurricane** / **Magelight**, **Summon Charged Atronach**) into **The Pale Ascendant**: a Dark Magic control MagSorc who keeps **Dark Magic** and **Storm Calling**, then at Level 50 subclasses **Grave Lord** in place of petless **Daedric Summoning** — **Crystal Weapon** and **Suppression Field** as signature control, **Glacial Colossus** as Major Vulnerability open.
+**Taranis Kotu** is a frail-bodied High Elf with immense magical talent — a ruthless, cold, ambitious anti-hero who would sacrifice anything, even his own humanity, in an obsessive quest for godlike power. This guide turns the live Level 31 kit (**Dest** Main / **Resto** Backup, **Wisdom of Vanus** bridge, duplicate **Crystal Fragments** / **Mages' Wrath** / **Hurricane** / **Magelight**, **Summon Charged Atronach**) into **The Pale Ascendant**: a Dark Magic control MagSorc who keeps **Dark Magic** and **Storm Calling**, then at Level 50 subclasses **Grave Lord** in place of petless **Daedric Summoning** — **Crystal Weapon** and **Suppression Field** as signature control, **Glacial Colossus** as Major Vulnerability open.
 
-Designed for solo overland and public dungeons on craftable gear. **Stage 3 Vampire** is recommended **only** as a Mag DPS power gain (Undeath + vampire passives), not as costume lore. Pre-50 uses a native bridge (Bound Aegis OK); post-50 the foreign line is locked because Grave Lord clearly beats Bound-Aegis-only Summoning on this content.
+Designed for solo overland and public dungeons on craftable gear. **Stage 3 Vampire** is recommended for survivability (**Undeath** mitigation when low) and the vampire skill line, not as costume lore. Pre-50 uses a native bridge (Bound Aegis OK); post-50 the foreign line is locked because Grave Lord clearly beats Bound-Aegis-only Summoning on this content.
 
 ---
 
@@ -12,22 +12,22 @@ Designed for solo overland and public dungeons on craftable gear. **Stage 3 Vamp
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Primary Stat** | 64 points in **Magicka** — **live:** **38 Mag** / 0 Health / 0 Stam · pools **19,815** HP / **29,698** Mag / **16,101** Stam · **target:** 64 Mag at CP160 |
+| **Primary Stat** | 64 points in **Magicka** — **live:** **38 Mag** / 0 Health / 0 Stam · pools **23,632** HP / **29,138** Mag / **15,976** Stam · **1 unspent point** · **target:** 64 Mag at CP160 |
 | **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** already Apprentice; keep |
-| **Vampirism** | **Stage 3 Vampire** — Mag DPS power (Undeath); accept fire vulnerability |
+| **Vampirism** | **Stage 3 Vampire** — Undeath survivability; accept fire vulnerability |
 | **Trinity** | **Dark Magic** + **Storm Calling** KEEP · **Grave Lord** SUBCLASS (replaces **Daedric Summoning**) at Level 50 — **live:** all three native (bridge) |
-| **Sets** | **5 Law of Julianos + 5 Clever Alchemist** (100% craftable, all Light) — **live:** Wisdom of Vanus 5/5 (+ scrap) · **target:** Julianos + Clever Alchemist |
+| **Sets** | **5 New Moon Acolyte + 5 Law of Julianos** (100% craftable, all Light) + **Oblivion's Foe** staves — **live:** Wisdom of Vanus 5/5 (+ scrap) · **target:** New Moon Acolyte + Julianos |
 | **Bars** | Front: **Lightning Dest** ("Crystal Verdict") · Back: **Inferno Dest** ("Black Mandate") — **live:** Dest Main / **Resto** Backup (**replace resto with Inferno Dest**) |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Magicka Recovery) or **Witty Blue Entremet** while leveling |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Crit + Mag) — procs Clever Alchemist |
+| **Potion** | **Essence of Spell Power** — the value is **Major Sorcery**; its Major Prophecy is already covered by Inner Light |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** between pulls |
-| **Staff/Weapon Enchant** | Front Lightning: **Shock Damage** (Infused / Crusher) · Back Inferno: **Flame Damage** or **Absorb Magicka** |
+| **Staff/Weapon Enchant** | Front Lightning: **Shock** (Infused) · Back Inferno: **Flame** or **Absorb Magicka** |
 | **Companion** | **Primary (now):** **Bastian Hallix** (tank) · **Secondary:** **Mirri Elendis** · **Goal (20/20 @ CP160):** **Tanlorin** |
 | **Primary Mount** | **Psijic Escort Charger** (owned) · **Alt:** **Noweyr Steed** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **Coldharbour Bantam Guar** (owned) · **Alt:** **Blue Dragon Imp** — see [Collectibles](#collectibles) |
 | **Costume** | **Mannimarco** (owned) · **Alt:** **Court of Bedlam** / **Bloodthorn Robes** — see [Collectibles](#collectibles) |
 
-**Read next:** [Roleplay](#roleplay-the-pale-ascendant) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-crystal-mandate) · [Gear and crafting](#gear-and-crafting-the-pale-regalia) · [Champion points](#champion-point-mapping-cp-289) · [Companion](#companion-strategy-the-soft-wall) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-pale-ascendant) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-crystal-mandate) · [Gear and crafting](#gear-and-crafting-the-pale-regalia) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-soft-wall) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -48,7 +48,7 @@ He is a frail High Elf who decided the only cure for a weak body is to become so
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Taranis Kotu — The Pale Ascendant. Frail-bodied High Elf MagSorc; ruthless, cold, ambitious anti-hero seeking godlike power at any cost — even humanity. Stage 3 Vampire for Mag DPS (Undeath), not theater. Keep Dark Magic + Storm Calling; at 50 subclass Grave Lord (replaces Daedric Summoning — petless Bound Aegis bridge only until then). Target: 5 Law of Julianos + 5 Clever Alchemist (light), @masisi. Front Lightning Dest: Blockade of Storms, Crystal Weapon, Haunting Curse, Endless Fury, Grave Lord's Sacrifice; ult Suppression Field. Back Inferno Dest: Lightning Flood, Hurricane, Inner Light, Dark Conversion, Crushing Shock; ult Glacial Colossus. 64 Mag. Mundus: The Apprentice. Companion: Bastian now; Tanlorin @ 20/20. Costume: Mannimarco / Psijic Escort Charger / Coldharbour Bantam Guar.
+> Taranis Kotu — The Pale Ascendant. Frail-bodied High Elf MagSorc; ruthless, cold, ambitious anti-hero seeking godlike power at any cost — even humanity. Stage 3 Vampire for Undeath survivability, not theater. Keep Dark Magic + Storm Calling; at 50 subclass Grave Lord (replaces Daedric Summoning — petless Bound Aegis bridge only until then). Target: 5 New Moon Acolyte + 5 Law of Julianos (light) + Oblivion's Foe staves, @masisi. Front Lightning Dest: Blockade of Storms, Crystal Weapon, Haunting Curse, Endless Fury, Grave Lord's Sacrifice; ult Suppression Field. Back Inferno Dest: Lightning Flood, Hurricane, Inner Light, Dark Conversion, Crushing Shock; ult Glacial Colossus. 64 Mag. Mundus: The Apprentice. Companion: Bastian now; Tanlorin @ 20/20. Costume: Mannimarco / Psijic Escort Charger / Coldharbour Bantam Guar.
 
 > [!TIP]
 > **Flavor Pet:** **Coldharbour Bantam Guar** (owned) — Coldharbour familiar for a man bargaining with inhuman power. **Alt:** **Blue Dragon Imp**. See [Collectibles](#collectibles).
@@ -142,13 +142,13 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 | :--- | :--- | :--- | :--- | :--- |
 | **1** | Storm Calling | Lightning Splash → **Lightning Flood** | AoE shock DoT | **Unlock/morph** |
 | **2** | Storm Calling | Lightning Form → **Hurricane** | Major Resolve + AoE shock (replaces Bound Aegis) | **Post-50 target** — bridge may use Boundless Storm |
-| **3** | Mages Guild | Magelight → **Inner Light** | +5% Spell Damage; Might of the Guild path | **Live** — keep **one** copy here |
+| **3** | Mages Guild | Magelight → **Inner Light** | +Max Magicka, Major Prophecy + Savagery; Might of the Guild path | **Live** — keep **one** copy here |
 | **4** | Dark Magic | Dark Exchange → **Dark Conversion** | Magicka sustain | **Unlock/morph** |
 | **5** | Destruction Staff | Force Shock → **Crushing Shock** | Interrupt / weave filler | **Respec** — move Force Shock morph here |
 | **6 (Ult)** | Grave Lord (subclass) | Frozen Colossus → **Glacial Colossus** | Major Vulnerability open | **Post-50** — bridge: Suppression Field |
 
 > [!NOTE]
-> **Sibling morphs (do not take on this build):** **Crystal Fragments** · **Daedric Prey** · **Mages' Wrath** (keep Endless Fury) · **Boundless Storm** on the target kit (prefer **Hurricane** for Resolve after subclass) · **Bound Aegis** post-50 · **Absorption Field** (prefer Suppression Field) · **Pestilent Colossus** (Stamina) · **Dark Deal** (Stamina) · **Liquid Lightning** (prefer Lightning Flood) · combat pets.
+> **Sibling morphs (do not take on this build):** **Crystal Fragments** · **Daedric Prey** · **Mages' Wrath** (keep Endless Fury) · **Boundless Storm** on the target kit (prefer **Hurricane** for Resolve after subclass) · **Bound Aegis** post-50 · **Absorption Field** (prefer Suppression Field) · **Pestilent Colossus** (prefer Glacial's stun for control) · **Dark Deal** (Stamina) · **Liquid Lightning** (prefer Lightning Flood) · combat pets.
 
 > [!TIP]
 > **Inner Light** once only (back bar). **Grave Lord's Sacrifice** is not a summon — no dual-bar slot-5 rule.
@@ -157,7 +157,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 ```mermaid
 flowchart TD
-    potion["Optional: Essence of Spell Power"] --> colo["Back: Glacial Colossus"]
+    potion["Optional: Essence of Spell Power (Major Sorcery)"] --> colo["Back: Glacial Colossus"]
     colo --> back["Hurricane + Lightning Flood + Inner Light"]
     back --> sustain["Dark Conversion if Mag dips"]
     sustain --> swap["Swap front Crystal Verdict"]
@@ -183,12 +183,12 @@ flowchart TD
 6. **Endless Fury** on low targets — do not waste it on full-health trash.
 7. **Suppression Field** when adds overwhelm or a dangerous cast must die mid-cast.
 8. **Dark Conversion** between pulls or mid-fight if Mag dips; food + Dest heavies still matter.
-9. **Potion on hard pulls** once Clever Alchemist is on — Essence of Spell Power procs the 5-piece.
-10. **Vampire Stage 3:** use Undeath; respect fire vulnerability.
+9. **Potion on hard pulls** — Essence of Spell Power for Major Sorcery; New Moon Acolyte's +5% ability cost makes the magicka restore matter too.
+10. **Vampire Stage 3:** Undeath cuts damage taken at low health; respect fire vulnerability.
 
 ### Passive skills
 
-**Live:** **7 skill points** available. Morphs mostly missing for the target kit. Spend in this priority; fully rank (Rank II/III) where noted.
+**Live:** **8 skill points** available. Morphs mostly missing for the target kit. Spend in this priority; fully rank (Rank II/III) where noted.
 
 #### Sorcerer — Dark Magic
 
@@ -229,24 +229,24 @@ flowchart TD
 
 #### Vampire (Stage 3)
 
-* Unlock and rank **[Undeath](https://en.uesp.net/wiki/Online:Undeath)**, **[Supernatural Recovery](https://en.uesp.net/wiki/Online:Supernatural_Recovery)**, **[Dark Stalker](https://en.uesp.net/wiki/Online:Dark_Stalker)**, **[Strike from the Shadows](https://en.uesp.net/wiki/Online:Strike_from_the_Shadows)** as available — power path only.
+* Unlock and rank **[Undeath](https://en.uesp.net/wiki/Online:Undeath)**, **[Supernatural Recovery](https://en.uesp.net/wiki/Online:Supernatural_Recovery)**, **[Dark Stalker](https://en.uesp.net/wiki/Online:Dark_Stalker)**, **[Strike from the Shadows](https://en.uesp.net/wiki/Online:Strike_from_the_Shadows)** as available — survivability path, not damage.
 
 ---
 
 ## Gear and crafting: "The Pale Regalia"
 
-Everything end-state is **crafted** — no overland farming for the primary loadout, no dungeon monster sets. Target: **5 Law of Julianos + 5 Clever Alchemist**, all **Light**. Julianos = Spell Crit + **+10% Critical Damage**; Clever Alchemist = +675 Spell Damage for 20s on potion.
+Everything end-state is **crafted** — no overland farming for the primary loadout, no dungeon monster sets. Target: **5 New Moon Acolyte + 5 Law of Julianos**, all **Light**, with **Oblivion's Foe** staves. The build's biggest gap is **penetration** (live sheet: 0 Spell Penetration), so the body set carries it.
 
 ### Set rationale
 
 ```mermaid
 graph LR
-    subgraph CleverAlchemist ["5pc Clever Alchemist"]
-        C1["Head"]
-        C2["Shoulders"]
-        C3["Chest"]
-        C4["Legs"]
-        C5["Waist"]
+    subgraph NewMoon ["5pc New Moon Acolyte"]
+        N1["Head"]
+        N2["Shoulders"]
+        N3["Chest"]
+        N4["Legs"]
+        N5["Waist"]
     end
     subgraph Julianos ["5pc Law of Julianos"]
         J1["Hands"]
@@ -255,39 +255,57 @@ graph LR
         J4["Ring 1"]
         J5["Ring 2"]
     end
-    CleverAlchemist -->|"Potion +675 Spell Dmg"| Julianos
-    Julianos -->|"Crit amplifies Crystal Weapon + Blockade"| Staves["Lightning front + Inferno back"]
+    subgraph Foe ["2pc Oblivion's Foe"]
+        F1["Staff (active bar)"]
+    end
+    NewMoon -->|"+1487 pen, +401 Spell Dmg"| Julianos
+    Julianos -->|"+1314 crit rating, +300 Spell Dmg"| Foe
+    Foe -->|"+129 Spell Dmg on either bar"| Staves["Lightning front + Inferno back"]
 ```
 
-| **Set** | **5-Piece Bonus** | **Role** |
+| **Set** | **Bonuses (CP160 gold)** | **Role** |
 | :--- | :--- | :--- |
-| **Clever Alchemist** | Potion in combat → +675 Weapon/Spell Damage (20s) | Boss open with Essence of Spell Power |
-| **Law of Julianos** | +300 Spell Critical; +10% Critical Damage | Baseline burst for Crystal Weapon, Blockade, Flood, Colossus |
+| **New Moon Acolyte** | 2pc +657 crit rating · 3pc +129 Spell Dmg · 4pc **+1,487 Penetration** · 5pc **+401 Spell Dmg, abilities cost +5%** | Penetration + damage for every skill |
+| **Law of Julianos** | 2pc +657 crit rating · 3pc +1,096 Max Magicka · 4pc +657 crit rating · 5pc **+300 Weapon/Spell Damage** | Baseline crit and damage |
+| **Oblivion's Foe** (staves) | 2pc +129 Weapon/Spell Damage | A staff counts as 2 pieces, so each staff gives the 2pc on its own bar |
+
+**Why New Moon Acolyte over Clever Alchemist** (value calculator, live stats: 21.9% crit, 50% crit damage, 2,515 Spell Damage, 29,138 Magicka; target resistance 18,200):
+
+| **Body 5pc** | **Gain** | **Notes** |
+| :--- | ---: | :--- |
+| **New Moon Acolyte** | **+15.0%** | Holds at +14.8% if passives already give ~3,000 pen |
+| Order's Wrath | +9.6% | Fallback — @masisi already crafts it |
+| Clever Alchemist | +6.3% | Potion in 30% of fights; +8.1% at the 44% maximum (20s buff, 45s potion cooldown). Its 2pc/3pc give +2,412 Max Health instead of damage |
+
+Staves: **Oblivion's Foe** 2pc adds **+2.2%**; Julianos staves (the old plan) add **0%**, because Julianos is already 5/5 from hands, feet and jewelry.
+
+> [!WARNING]
+> **New Moon Acolyte raises ability costs by 5%.** Keep **Dark Conversion** slotted, weave light attacks, and use **Witchmother's Potent Brew**. If magicka runs dry on long overland pulls, swap the body to **Order's Wrath** (no cost penalty, about 5 points less gain: +9.6% vs +15.0%).
 
 > [!NOTE]
 > **Live gear bridge:** Keep **Wisdom of Vanus 5/5** plus scrap shoulders/waist/ring while leveling. Prefer **light** pieces. Do not farm more overland sets for the primary loadout.
 
 > [!TIP]
-> **Lower-trait fallback:** If Clever Alchemist 7-trait research is not ready on @masisi, craft **5 Shacklebreaker** (6 traits, Vvardenfell) on body slots as a bridge.
+> **Research fallback:** New Moon Acolyte needs **9 traits** at the station (general game knowledge — not in the set database; confirm in-game). @masisi is at 7–8/9 on light armor. Until it's 9/9, craft the body in **Order's Wrath**, which Masisi already makes.
 
 ### Target loadout
 
 | **Slot** | **Set** | **Weight** | **Trait** | **Enchantment** | **Quality** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Head** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Shoulders** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Chest** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Legs** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
-| **Waist** | Clever Alchemist | Light | Divines | Max Magicka | Gold |
+| **Head** | New Moon Acolyte | Light | Divines | Max Magicka | Gold |
+| **Shoulders** | New Moon Acolyte | Light | Divines | Max Magicka | Gold |
+| **Chest** | New Moon Acolyte | Light | Divines | Max Magicka | Gold |
+| **Legs** | New Moon Acolyte | Light | Divines | Max Magicka | Gold |
+| **Waist** | New Moon Acolyte | Light | Divines | Max Magicka | Gold |
 | **Hands** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Feet** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Necklace** | Law of Julianos | Jewelry | Arcane | Spell Damage | Gold |
 | **Ring 1** | Law of Julianos | Jewelry | Arcane | Max Magicka | Gold |
 | **Ring 2** | Law of Julianos | Jewelry | Arcane | Max Magicka | Gold |
-| **Front Staff** | Law of Julianos | Lightning Destro | Infused | Shock Damage (Crusher) | Gold |
-| **Back Staff** | Law of Julianos | Inferno Destro | Infused | Flame Damage or Absorb Magicka | Gold |
+| **Front Staff** | Oblivion's Foe | Lightning Destro | Infused | Shock | Gold |
+| **Back Staff** | Oblivion's Foe | Inferno Destro | Infused | Flame or Absorb Magicka | Gold |
 
-**Piece counts:** **Clever Alchemist 5** (head, shoulders, chest, legs, waist) · **Law of Julianos 5** (hands, feet, necklace, both rings). Staves are extra Julianos pieces for traits/enchants.
+**Piece counts:** **New Moon Acolyte 5** (head, shoulders, chest, legs, waist) · **Law of Julianos 5** (hands, feet, necklace, both rings) · **Oblivion's Foe 2** on each bar (a staff counts as 2 pieces; only the active bar's staff counts). If Oblivion's Foe isn't researched, Julianos staves are fine — they just add nothing.
 
 ### Crafting handoff (@masisi)
 
@@ -295,24 +313,24 @@ graph LR
 | :--- | :--- |
 | **Crafter** | EU account artisan **[Masisi](masisi.md)** / [masisi_plan.md](masisi_plan.md) |
 | **Style** | **High Elf** / **Ancient Elf** / **Psijic Order** body; cold crystal trim (Outfit Station — not primary costume) |
-| **Set station** | Clever Alchemist: **No Shira Workshop** (Hew's Bane) — 7 traits · Julianos: **Sunhold** (Summerset) — 6 traits |
+| **Set station** | New Moon Acolyte: **Fur-Forge Cove** · Julianos: **Boreal Forge** · Oblivion's Foe: **Font of Schemes** · fallback Order's Wrath: **Steadfast Hammer and Saw** |
 | **Traits** | **Divines** armor · **Arcane** jewelry · **Infused** staves |
-| **Interim** | Live Vanus 5/5 + scrap; ask @masisi for **level-scaled** purple Julianos / Clever Alchemist (or Shacklebreaker) while under CP160 |
+| **Interim** | Live Vanus 5/5 + scrap; ask @masisi for **level-scaled** purple Julianos / Order's Wrath while under CP160 |
 | **Quality** | Purple bridge → **gold at CP160** when traits ready |
 
 ---
 
-## Champion Point Mapping (CP 289)
+## Champion Point Mapping (CP 336)
 
-Budget: **96 Warfare / 97 Craft / 96 Fitness** (289 total). **Live: 0 spent / 289 available** — allocate everything below. Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); walk prerequisites from `champion_points.yaml`.
+Budget: **112 Warfare / 112 Craft / 112 Fitness** (336 total). **Live: 0 spent / 336 available** — allocate everything below. Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); walk prerequisites from `champion_points.yaml`.
 
 > [!NOTE]
-> **Warfare prereqs:** Fighting Finesse needs **Precision 10**. Thaumaturge / Master-at-Arms need **Piercing 10**, which needs Precision + **Eldritch Insight 10** + **Tireless Discipline 10**. At 96 CP, finish the gate path and bank into Fighting Finesse; complete Thaumaturge on the next Warfare tranche (Blockade / Flood / Sacrifice DoTs).
+> **Warfare prereqs:** Fighting Finesse needs **Precision 10**. Thaumaturge / Master-at-Arms need **Piercing 10**, which needs Precision + **Eldritch Insight 10** + **Tireless Discipline 10**. At 112 CP, finish the gate path and cap Fighting Finesse; start Thaumaturge on the next Warfare tranche (Blockade / Flood / Sacrifice DoTs).
 
 > [!NOTE]
 > **When CP grows (≈810+):** Cap Warfare at Fighting Finesse / Thaumaturge / Master-at-Arms / Deadly Aim (50 each); Fitness Boundless Vitality / Fortified / Rejuvenation / Ironclad; finish Craft **Liquid Efficiency (50)** after Steadfast Enchantment + Rationer.
 
-### Warfare (Blue — 96 Points)
+### Warfare (Blue — 112 Points)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
@@ -320,20 +338,22 @@ Budget: **96 Warfare / 97 Craft / 96 Fitness** (289 total). **Live: 0 spent / 28
 | **Eldritch Insight** | Passive | 20 | Max Magicka (gates Piercing) |
 | **Tireless Discipline** | Passive | 10 | Weapon/Spell Damage (gates Piercing) |
 | **Piercing** | Passive | 10 | Penetration (gates Thaumaturge / Master-at-Arms) |
-| **Fighting Finesse** | Slotted | 36 | +Critical Damage / Critical Healing (finish to 50 next) |
+| **Fighting Finesse** | Slotted | 50 | +Critical Damage / Critical Healing (capped) |
+| *(unspent)* | — | 2 | Bank toward **Thaumaturge** |
 
-*Next Warfare tranche:* Finish Fighting Finesse **50**, then **Thaumaturge 25→50**, **Master-at-Arms 25→50**, **Deadly Aim** as budget allows.
+*Next Warfare tranche:* **Thaumaturge 25→50**, **Master-at-Arms 25→50**, **Deadly Aim** as budget allows.
 
-### Fitness (Red — 96 Points)
+### Fitness (Red — 112 Points)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
 | **Boundless Vitality** | Slotted | 50 | Max Health (frail body needs the pool) |
-| **Rejuvenation** | Slotted | 46 | Recovery (finish to 50 with next Fitness points) |
+| **Rejuvenation** | Slotted | 50 | Recovery |
+| **Fortified** | Slotted | 12 | Armor (no prerequisite; finish to 50 next) |
 
 *Later:* Fortified 50; walk Quick Recovery → Preparation → Ironclad when budget allows.
 
-### Craft (Green — 97 Points)
+### Craft (Green — 112 Points)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
@@ -341,8 +361,8 @@ Budget: **96 Warfare / 97 Craft / 96 Fitness** (289 total). **Live: 0 spent / 28
 | **Fortune's Favor** | Passive | 10 | Gold find |
 | **Gilded Fingers** | Passive | 10 | Gold find |
 | **Wanderer** | Passive | 10 | Wayshrine cost (gate for Steadfast Enchantment) |
-| **Steadfast Enchantment** | Passive | 10 | Enchant charge save (start) |
-| *(unspent)* | — | 7 | Toward Steadfast Enchantment 50 → Rationer → **Liquid Efficiency** |
+| **Steadfast Enchantment** | Passive | 30 | Enchant charge save (10-point stages; finish to 50 next) |
+| *(unspent)* | — | 2 | Toward Steadfast Enchantment 50 → Rationer → **Liquid Efficiency** |
 
 > [!IMPORTANT]
 > **Liquid Efficiency** is automatic once purchased (no Craft slot). Buy after Steadfast Enchantment + Rationer when Craft budget allows.
@@ -444,10 +464,10 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 5. **Ult:** Negate Magic → **Suppression Field** both bars for now; unslot **Summon Charged Atronach**.
 6. Keep **one** **Inner Light** on back; clear Magelight duplicates.
 7. **Spend remaining skill points** — Exploitation, Expert Mage, Dest Destruction Expert, Light Prodigy / Concentration as needed.
-8. **Attributes:** keep dumping into **Magicka** toward **64**.
-9. **Allocate CP** per [Champion Point Mapping](#champion-point-mapping-cp-289) (live is 0 spent).
+8. **Attributes:** spend the **1 unspent point** and keep dumping into **Magicka** toward **64**.
+9. **Allocate CP** per [Champion Point Mapping](#champion-point-mapping-cp-336) (live is 0 spent).
 10. **Mundus:** keep **The Apprentice**.
-11. **Vampire Stage 3** — take the bite for Mag DPS (Undeath); note fire vulnerability.
+11. **Vampire Stage 3** — take the bite for Undeath survivability; note fire vulnerability.
 12. **Bastian:** Companion's gear upgrades; fill empty slots; keep summoned for XP.
 13. **Collectibles:** equip **Mannimarco**, **Psijic Escort Charger**, **Coldharbour Bantam Guar**.
 14. Paste **Custom Title** `Pale Ascendant` and Build Notes into LAM.
@@ -458,14 +478,14 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 16. Keep **Wisdom of Vanus 5/5** bridge; prefer light armor to train Light passives.
 17. Rank **Destruction Staff**, **Dark Magic**, **Storm Calling**, Light Armor, Mages Guild, Vampire; keep Summoning only for Bound Aegis until Bahtra.
 18. Practice Dest/Dest Crystal Weapon loop; **Suppression Field** on demand.
-19. Optional: commission @masisi for **level-scaled** purple Julianos / Clever Alchemist (or Shacklebreaker).
+19. Optional: commission @masisi for **level-scaled** purple Julianos / **Order's Wrath** body while New Moon Acolyte research finishes.
 
 ### Phase 2 — CP160 craft + subclass target
 
 20. **Level 50:** complete Bahtra **"A Study in Discipline"**; subclass **Grave Lord** replacing **Daedric Summoning**.
 21. **Respec bars to target:** front slot 5 **Grave Lord's Sacrifice**; back **Hurricane**; back ult **Glacial Colossus**; front ult **Suppression Field**; unslot Bound Aegis / Summoning actives.
 22. Unlock Grave Lord passives (**Reusable Parts**, **Death Knell**, **Dismember**, **Rapid Rot**).
-23. **@masisi:** craft **5 Clever Alchemist + 5 Law of Julianos** (light, Divines, Arcane jewelry, Infused staves) at CP160 gold.
+23. **@masisi:** craft **5 New Moon Acolyte + 5 Law of Julianos** + **2 Oblivion's Foe** staves (light, Divines, Arcane jewelry, Infused staves) at CP160 gold.
 24. Expand Warfare: finish Fighting Finesse → Thaumaturge → Master-at-Arms as CP grows.
 
 ### Phase 3 — Polish

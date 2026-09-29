@@ -25,6 +25,8 @@ Canonical layout for Solaegis character build plans under `examples/{account}/{l
 | `nekhtarhebi_plan.md` | Walkthrough | Legacy | Gear-first; no Collectibles H2 |
 | `masisi_plan.md` | Build Plan | **Canonical** | Hybrid farmer-DPS (Hunding’s + Night Mother’s Gaze, craftable; Assassination subclass) |
 | `dolu_tanesi_plan.md` (EU) | Build Plan | **Canonical** | Magicka life-broker NB; KEEP all native; Julianos + Clever Alchemist; distinct from NA `dolu_tenasi` |
+| `lord_elric_of_melnibone_plan.md` (EU) | Build Plan | **Canonical** | Magicka pet Sorc with 2H front bar; Grave Lord at 50; Julianos (weapons + jewelry) + Night Mother's Gaze, craftable |
+| `taranis_kotu_plan.md` (EU) | Build Plan | **Canonical** | Magicka control Sorc, Dest/Dest; Grave Lord at 50; New Moon Acolyte + Julianos + Oblivion's Foe staves, craftable |
 
 **Alignment goal:** New plans and heavy revisions use the **Canonical** layout. Legacy files are migrated opportunistically — do not bulk-reformat unless explicitly requested.
 

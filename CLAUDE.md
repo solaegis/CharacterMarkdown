@@ -52,7 +52,7 @@ Load order in `CharacterMarkdown.txt`. See `docs/ARCHITECTURE.md` for full struc
 - **Debug**: `CM.DebugPrint`, `CM.Info`, `CM.Warn`, `CM.Error` - never `d()` directly
 - **Performance**: Cache globals at module level; use `table.concat()` for string building
 - **Settings**: Access via `CM.GetSettings()`; defaults in `CM.Settings.Defaults:GetAll()`
-- **Commands**: `/markdown` (alias `/cm`); subcommands include `settings`, `test`, `debug`, `version`, `help`, `cache clear` (see `.cursorrules`)
+- **Commands**: `/cm` (alias `/markdown`); subcommands include `settings`, `test`, `debug`, `version`, `help`, `cache clear` (see `.cursorrules`)
 
 <!-- END AUTO-MANAGED -->
 

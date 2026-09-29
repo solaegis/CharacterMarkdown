@@ -1,10 +1,10 @@
 # Build Plan - Zirhli: The Serpent Clan Enforcer (Stamina Stealth Hunter)
 
-> **Character profile:** [zirhli.md](zirhli.md) — Level 19 Argonian Dragonknight, CP 289, @SOLAEGIS (EU). Title: Dragon Master-at-Arms.
+> **Character profile:** [zirhli.md](zirhli.md) — Level 27 Argonian Dragonknight, CP 336, @SOLAEGIS (EU). Title: Locksmith.
 
-**Zirhli** is a loyal mid-tier enforcer for the Serpent Society — grim professionalism, persistence, and organized super-crime muscle who does not waste words. Under that Argonian mask he hunts like a **Yautja of the Serpent Clan**: stealth first, cunning second, the kill only when the trail is owned. This guide turns the live Level 19 kit (**One Hand and Shield** Main / **Bow** Backup, all-Health attributes, Grace of Gloom scraps, no subclass) into **The Serpent Clan Enforcer**: a stamina Dragonknight who **keeps Ardent Flame and Draconic Power**, then at Level 50 **subclasses Shadow** in place of **Earthen Heart** — cloak, path, and crit for the hunt that stone-and-magma utility cannot match.
+**Zirhli** is a loyal mid-tier enforcer for the Serpent Society — grim professionalism, persistence, and organized super-crime muscle who does not waste words. Under that Argonian mask he hunts like a **Yautja of the Serpent Clan**: stealth first, cunning second, the kill only when the trail is owned. The live Level 27 kit is already **The Serpent Clan Enforcer** in shape: a stamina Dragonknight who **keeps Ardent Flame and Draconic Power** and has **subclassed Shadow** in place of **Earthen Heart** — cloak, path, and crit for the hunt that stone-and-magma utility cannot match. **Dual Wield** Main / **Bow** Backup, all-Stamina attributes, The Lover mundus. What remains is morphs, passives, and the CP160 crafted gear.
 
-Designed for solo overland and public dungeons on craftable gear. Pre-50 stays all-native DK; Bahtra unlocks the Shadow swap. **Dual Wield front / Bow back** — melee claim, ranged trail.
+Designed for solo overland and public dungeons on craftable gear. Until CP160, levelling gear is whatever drops — the crafted loadout is the destination, not a requirement. **Dual Wield front / Bow back** — melee claim, ranged trail.
 
 ---
 
@@ -12,14 +12,14 @@ Designed for solo overland and public dungeons on craftable gear. Pre-50 stays a
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Primary Stat** | 64 points in **Stamina** — **live:** 0 Mag / **22 Health** / 0 Stam · pools **30,285** HP / **17,844** Mag / **20,432** Stam · **target:** 64 Stam at CP160 |
-| **Mundus Stone** | **The Thief** (+Critical Chance) — **live:** The Lady; swap when the stealth-crit loop is online |
+| **Primary Stat** | 64 points in **Stamina** — **live:** 0 Mag / 0 Health / **33 Stam** · pools **25,605** HP / **20,162** Mag / **24,895** Stam · **target:** 64 Stam at CP160 |
+| **Mundus Stone** | **The Lover** (+Penetration) — **live:** The Lover ✓ · beats The Thief by ~+2% now and ~+3.5% at CP160 (4,489 pen vs 1,982 crit rating with 7 gold Divines); Shadowy Disguise already guarantees the opener crit |
 | **Vampirism** | **Cured / N/A** — predator kit does not need the crawl; fire fights reject it |
-| **Trinity** | **Ardent Flame** + **Draconic Power** KEEP · **Shadow** SUBCLASS (replaces **Earthen Heart**) at Level 50 — **live:** all three native · **decision:** Shadow cloak/crit beats Earthen utility for this hunter |
-| **Sets** | **5 Hunding's Rage + 5 Order's Wrath** (100% craftable, all Medium) — **live:** Grace of Gloom 3/5 + heavy/shield scrap · **target:** Hunding's + Order's Wrath |
-| **Bars** | Front: **Dual Wield** ("The Claim") · Back: **Bow** ("The Trail") — **live:** 1H+Shield Main / Bow Backup (**replace shield with Dual Wield**) |
+| **Trinity** | **Ardent Flame** + **Draconic Power** KEEP · **Shadow** SUBCLASS (replaces **Earthen Heart**) — **live:** Shadow subclassed (rank 27) ✓ · **decision:** Shadow cloak/crit beats Earthen utility for this hunter |
+| **Sets** | **5 Hunding's Rage + 5 Order's Wrath** (100% craftable, all Medium) — **live:** levelling drops (fine until CP160) · **target:** Hunding's + Order's Wrath at CP160 gold |
+| **Bars** | Front: **Dual Wield** ("The Claim") · Back: **Bow** ("The Trail") — **live:** Dual Wield Main / Bow Backup ✓ |
 | **Food** | **Dubious Camoran Throne** (Max Health + Max Stam + Stam Recovery) or **Artaeum Pickled Fish Bowl** while leveling |
-| **Potion** | **Essence of Weapon Power** (Weapon Damage + Crit + Stam) |
+| **Potion** | **Essence of Weapon Power** (Major Brutality + Stam; its Major Savagery duplicates **Camouflaged Hunter** once that is slotted) |
 | **Weapon Poisons** | **Crown Lethal Poison** / **Gradual Ravage Health** — trail damage; DK **Combustion** refunds only on **Burning** from a slotted Ardent Flame ability (not Poisoned) |
 | **Staff/Weapon Enchant** | Front daggers/swords: **Poison** / **Absorb Stamina** / **Flame** · Back bow: **Disease Damage** or **Weapon Damage** |
 | **Companion** | **Primary (now):** **Tanlorin** (DPS / unbound agent) at live Level **5/20** · **Secondary:** **Bastian Hallix** (soft wall) · **Goal (20/20 @ CP160):** **Tanlorin** fully geared |
@@ -27,7 +27,7 @@ Designed for solo overland and public dungeons on craftable gear. Pre-50 stays a
 | **Flavor Pet** | **Verdigris Haj Mota** (owned) · **Alt:** **Alik'r Dune-Hound** / **Blue Dragon Imp** — see [Collectibles](#collectibles) |
 | **Costume** | **Shrouded Armor** (owned) · **Alt:** **Red Rook Armor** / **Bloodthorn Robes** — see [Collectibles](#collectibles) |
 
-**Read next:** [Roleplay](#roleplay-the-serpent-clan-enforcer) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-claim-and-trail) · [Gear and crafting](#gear-and-crafting-the-serpents-contract) · [Champion points](#champion-point-mapping-cp-289) · [Companion](#companion-strategy-the-unbound-agent) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-serpent-clan-enforcer) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-claim-and-trail) · [Gear and crafting](#gear-and-crafting-the-serpents-contract) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-unbound-agent) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -37,7 +37,7 @@ He does not speechify. He does not swagger. He arrives, confirms the contract, a
 
 **Zirhli** is the Serpent Society's mid-tier answer to problems that need a professional: witnesses who talk too freely, rivals who forgot the hierarchy, packages that must move through hostile streets without a parade. Loyalty is not romance — it is the ledger. Persistence is not rage — it is the trail that does not break. Under the Argonian scales of Tamriel he still hunts like a **Yautja of the Serpent Clan**: cloaked approach, patient angle, one clean claim when the prey has nowhere left to run.
 
-**Ardent Flame** is the Society's quiet toxin — **Searing Claw** and a **Standard of Might** planted like a territorial mark (support banner, not a DoT puddle). **Draconic Power** is the armor of a hunter who expects the prey to fight back — **Disintegrating Dragonfire** for the Breach, **Blood of the Green Dragon**, scales that do not apologize. **Shadow** is the Serpent Clan gift taken at fifty: Shadowy Disguise as the cloak, Refreshing Path as the trail through darkness. Earthen Heart (live **Earthspike Mantle**) was useful stone for a young enforcer with a shield; it leaves the kit when Shadow arrives.
+**Ardent Flame** is the Society's quiet toxin — **Searing Claw** and a **Standard of Might** planted like a territorial mark (support banner, not a DoT puddle). **Draconic Power** is the armor of a hunter who expects the prey to fight back — **Disintegrating Dragonfire** for the Breach, **Blood of the Green Dragon**, scales that do not apologize. **Shadow** is the Serpent Clan gift, taken early: Shadowy Disguise as the cloak, Refreshing Path as the trail through darkness. Earthen Heart was useful stone for a young enforcer with a shield; it left the kit when Shadow arrived.
 
 Companions are assets. Tanlorin is the unbound agent who understands jobs that never make the guild board. Bastian is a soft wall when the contract goes loud. **Rahd-m'Athra** is the void-cat of night contracts; a **Verdigris Haj Mota** rides the trail like a Saxhleel hunting partner. Shrouded Armor is the silhouette of work done between lanterns.
 
@@ -48,7 +48,7 @@ He is a loyal enforcer. He is also something older and colder that learned to we
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Zirhli — Serpent Clan Enforcer. Mid-tier Serpent Society professional: grim, persistent, organized crime muscle who hunts like a Yautja Serpent Clan predator — stealth and cunning before the kill. Keep Ardent Flame + Draconic Power; at 50 subclass Shadow (replaces Earthen Heart — cloak/crit beats stone utility; drop Earthshield Mantle). Target: 5 Hunding's Rage + 5 Order's Wrath (medium), @masisi. Front Dual Wield: Bloodthirst, Shadowy Disguise, Rending Slashes, Disintegrating Dragonfire, Camouflaged Hunter; ult Standard of Might. Back Bow: Endless Hail, Poison Injection, Refreshing Path, Searing Claw, Blood of the Green Dragon; ult Take Flight. 64 Stam. Mundus: The Thief (live Lady). Companion: Tanlorin now; Bastian soft wall. Costume: Shrouded Armor · mount Rahd-m'Athra · pet Verdigris Haj Mota.
+> Zirhli — Serpent Clan Enforcer. Mid-tier Serpent Society professional: grim, persistent, organized crime muscle who hunts like a Yautja Serpent Clan predator — stealth and cunning before the kill. Keep Ardent Flame + Draconic Power; Shadow subclass (replaces Earthen Heart — cloak/crit beats stone utility). Target: 5 Hunding's Rage + 5 Order's Wrath (medium), @masisi. Front Dual Wield: Bloodthirst, Shadowy Disguise, Rending Slashes, Disintegrating Dragonfire, Camouflaged Hunter; ult Standard of Might. Back Bow: Endless Hail, Poison Injection, Refreshing Path, Searing Claw, Blood of the Green Dragon; ult Take Flight. 64 Stam. Mundus: The Lover. Companion: Tanlorin now; Bastian soft wall. Costume: Shrouded Armor · mount Rahd-m'Athra · pet Verdigris Haj Mota.
 
 > [!TIP]
 > **Flavor Pet:** **Verdigris Haj Mota** (owned) — Argonian swamp-serpent hunting partner. **Alt:** **Alik'r Dune-Hound** or **Blue Dragon Imp**. See [Collectibles](#collectibles).
@@ -62,7 +62,7 @@ He is a loyal enforcer. He is also something older and colder that learned to we
 
 ### Subclassing decision (required)
 
-Subclass unlocks at **Level 50** via Bahtra at-Hunding (**"A Study in Discipline"**). Unlocking the quest makes subclassing *available* — it does **not** mean you must swap two lines. **Default = class-identity-first:** keep native Dragonknight lines unless a foreign line clearly outperforms the pillar it replaces. See [docs/subclassing.md](../../../docs/subclassing.md).
+**Live:** Zirhli already runs **Shadow** as his subclass (taken before Level 50; line rank 27). Subclassing does **not** mean you must swap two lines. **Default = class-identity-first:** keep native Dragonknight lines unless a foreign line clearly outperforms the pillar it replaces. See [docs/subclassing.md](../../../docs/subclassing.md).
 
 **This build's decision:** **KEEP Ardent Flame** and **Draconic Power** (flame toxin + armored predator are the DK identity of the hunt). **SUBCLASS Shadow** replaces **Earthen Heart** because Shadowy Disguise + Refreshing Path + Shadow passives deliver stealth, guaranteed crit, and recovery that stone utility does not for a Dual Wield + Bow stalker. See [docs/dragonknight_u49.md](../../../docs/dragonknight_u49.md) for post–Update 49 DK names and line ownership.
 
@@ -103,48 +103,45 @@ graph TD
 
 **Weapon / guild lines (not subclass):** **Dual Wield** (**Bloodthirst**, **Rending Slashes**) · **Bow** (**Endless Hail**, **Poison Injection**) · **Fighters Guild** (**Camouflaged Hunter**).
 
-> [!IMPORTANT]
-> **Pre-50 bridge only:** Keep all three native DK lines. Use live **Earthspike Mantle** (morph **Earthshield Mantle** if you want) and **Molten Weapons** as temporary Earthen fillers while you level Dual Wield. **At Level 50:** subclass **Shadow**, **unslot every Earthen Heart active** (including **Earthshield Mantle** — it cannot stay on the target kit), slot **Disintegrating Dragonfire** on The Claim and **Searing Claw** on The Trail, and take Shadowy Disguise + Refreshing Path.
+> [!NOTE]
+> **Done:** Shadow subclassed, Earthen Heart actives off the bars, **Disintegrating Dragonfire** on The Claim, **Searing Claw** on The Trail, **Shadowy Disguise** slotted. Remaining: morph **Path of Darkness → Refreshing Path**.
 
 ---
 
 ## Combat kit: The Claim and Trail
 
-**Target (post-50):** Plant DoTs on the **Bow** back bar ("The Trail"), swap to **Dual Wield** front ("The Claim"), cloak for a guaranteed-crit open, then Bloodthirst / Rending Slashes weave with **Disintegrating Dragonfire** Breach up. Plant **Standard of Might** and stand in the banner for WD/SD + damage reduction; **Take Flight** on the back for engage / finish. **No Earthen Heart skills on these bars.**
+**Target:** Plant DoTs on the **Bow** back bar ("The Trail"), swap to **Dual Wield** front ("The Claim"), cloak for a guaranteed-crit open, then Bloodthirst / Rending Slashes weave with **Disintegrating Dragonfire** Breach up. Plant **Standard of Might** and stand in the banner for WD/SD + damage reduction; **Take Flight** on the back for engage / finish. **No Earthen Heart skills on these bars.**
 
-**Bridge (pre-50):** Stay on live 1H+Shield / Bow until Dual Wield ranks up; keep Earthen / Ardent / Draconic native skills (live **Earthspike Mantle**, **Molten Weapons**, **Dragonfire Breath**); no Shadow morphs yet.
+**Live (Level 27):** Bars already follow this shape. Differences from target: **Blood of the Green Dragon** on both bars (fine for solo levelling) until **Camouflaged Hunter** is available, **Lethal Arrow** until **Poison Injection**, and three unmorphed skills (Path of Darkness, Dragonknight Standard, Dragon Leap).
 
 ### Skill bars
 
-Document **slotted morph names as shown in the skills UI**. Each morph appears at most once across bars. Bars must match equipped weapon types — **live has 1H+Shield Main / Bow Backup; target is Dual Wield / Bow**.
+Document **slotted morph names as shown in the skills UI**. Each morph appears at most once across bars. Bars must match equipped weapon types — **live and target are Dual Wield / Bow**.
 
 #### Front Bar (Dual Wield): "The Claim"
 
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Dual Wield | Flurry → **Bloodthirst** | Stam spammable + heal on hit | **Respec** — unlock DW |
-| **2** | Shadow | Shadow Cloak → **Shadowy Disguise** | Stealth / guaranteed crit open | **Respec @50** |
-| **3** | Dual Wield | Twin Slashes → **Rending Slashes** | Melee bleed DoT + LA weave | **Respec** |
-| **4** | Draconic Power | Dragonfire Breath → **Disintegrating Dragonfire** | AoE flame + Major Breach on the claim | **Live** — morph; move to front @50 |
-| **5** | Fighters Guild | Expert Hunter → **Camouflaged Hunter** | Major Savagery / Prophecy + stealth synergy | **Respec** |
-| **6 (Ult)** | Ardent Flame | Dragonknight Standard → **Standard of Might** | Support banner — WD/SD + DR; stand in it | **Live** — Standard (morph to Might) |
+| **1** | Draconic Power | Dragonfire Breath → **Disintegrating Dragonfire** | AoE flame + Major Breach on the claim | **Live** ✓ |
+| **2** | Shadow | Shadow Cloak → **Shadowy Disguise** | Stealth / guaranteed crit open | **Live** ✓ |
+| **3** | Dual Wield | Twin Slashes → **Rending Slashes** | Melee bleed DoT + LA weave | **Live** ✓ |
+| **4** | Dual Wield | Flurry → **Bloodthirst** | Stam spammable + heal on hit | **Live** ✓ |
+| **5** | Fighters Guild | Expert Hunter → **Camouflaged Hunter** | Major Savagery / Prophecy + stealth synergy | **Later** — Fighters Guild rank 5; live slot: **Blood of the Green Dragon** |
+| **6 (Ult)** | Ardent Flame | Dragonknight Standard → **Standard of Might** | Support banner — WD/SD + DR; stand in it | **Live** — Dragonknight Standard (morph to Might) |
 
 #### Back Bar (Bow): "The Trail"
 
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Bow | Volley → **Endless Hail** | Ground AoE DoT | **Respec** — morph from Volley |
-| **2** | Bow | Poison Arrow → **Poison Injection** | Single-target DoT / execute | **Respec** (live has Focused Aim — replace) |
-| **3** | Shadow | Path of Darkness → **Refreshing Path** | Path HoT / speed / recovery | **Respec @50** |
-| **4** | Ardent Flame | Searing Strike → **Searing Claw** | Flame DoT + Combustion fuel | **Respec** |
-| **5** | Draconic Power | Dragon Blood → **Blood of the Green Dragon** | Heal + Major Fortitude | **Respec** |
-| **6 (Ult)** | Draconic Power | Dragon Leap → **Take Flight** | Gap close / burst engage | **Respec** |
+| **1** | Bow | Volley → **Endless Hail** | Ground AoE DoT | **Live** ✓ |
+| **2** | Bow | Poison Arrow → **Poison Injection** | Single-target DoT / execute | **Later** — live slot: **Lethal Arrow** |
+| **3** | Ardent Flame | Searing Strike → **Searing Claw** | Flame DoT + Combustion fuel | **Live** ✓ |
+| **4** | Draconic Power | Dragon Blood → **Blood of the Green Dragon** | Heal + Major Fortitude | **Live** ✓ |
+| **5** | Shadow | Path of Darkness → **Refreshing Path** | Path HoT / speed / recovery | **Live** — Path of Darkness (morph) |
+| **6 (Ult)** | Draconic Power | Dragon Leap → **Take Flight** | Gap close / burst engage | **Live** — Dragon Leap (morph) |
 
 > [!NOTE]
-> **Pre-50 bridge skills (not on target bars):** live **Earthspike Mantle** / optional **Earthshield Mantle**, **Molten Weapons**, shield kit. Drop all Earthen Heart actives when Shadow replaces Earthen Heart — do not leave **Earthshield Mantle** on The Claim.
-
-> [!WARNING]
-> **Live bars are shield-tank / bow hybrid** with duplicate skills across bars. Do **not** keep **Shield Charge** or duplicate **Earthspike Mantle** / **Molten Weapons** on the target kit. Level Dual Wield before dropping the shield for hard content.
+> **Combustion:** both bars carry an Ardent Flame ability (Dragonknight Standard front, Searing Claw back), so Burning refunds on either bar.
 
 ### Rotation and combat tips
 
@@ -169,7 +166,7 @@ flowchart TD
 
 ### Passive skills
 
-**Live:** **3 skill points** available · Dual Wield rank 2 · Bow rank 13 · heavy shield kit. Spend in this priority; fully rank (II/III) where noted.
+**Live:** **1 skill point** available · Dual Wield rank 28 · Bow rank 30 · Medium Armor rank 27 · Shadow rank 27. Spend in this priority: morphs first as skills hit rank IV (Refreshing Path → Standard of Might → Take Flight), then **Twin Blade and Blunt**, **Agility**, **Shadow Barrier / Dark Vigor**, **Hawk Eye**.
 
 #### Dragonknight — Ardent Flame
 
@@ -181,28 +178,28 @@ flowchart TD
 * **Burnished Scales** / **World in Ruin** / **Elder Dragon** / **The Storm Voice** — unlock as ranks allow (live already has Burnished Scales, World in Ruin).
 * Morphs **Disintegrating Dragonfire**, **Blood of the Green Dragon**, ultimate **Take Flight**.
 
-#### Dragonknight — Earthen Heart (pre-50 bridge only)
+#### Dragonknight — Earthen Heart (retired)
 
-* Optional morph **Earthshield Mantle** from live **Earthspike Mantle**; **unslot with Earthen Heart at Level 50** — not on the target kit.
+* Replaced by the Shadow subclass — no Earthen Heart actives on the bars.
 
-#### Nightblade — Shadow (post-50)
+#### Nightblade — Shadow (subclass)
 
-* **Refreshing Shadows** / **Shadow Barrier** / **Dark Veil** / **Dark Sluice** / **Dark Shadow** — take with the subclass.
+* **Refreshing Shadows** (live) · next **Shadow Barrier** / **Dark Vigor** / **Dark Veil**.
 * Morphs **Shadowy Disguise**, **Refreshing Path**.
 
 #### Weapon — Dual Wield
 
-* **Dual Wield Expert** / **Controlled Fury** / **Ruffian** / **Twin Blade and Blunt** — priority while leveling DW from rank 2.
+* Live: **Focused Killer** / **Ambidextrous** / **Controlled Fury** / **Ruffian** · next **Twin Blade and Blunt**.
 * Morphs **Bloodthirst**, **Rending Slashes**.
 
 #### Weapon — Bow
 
-* **Accuracy** / **Ranger** / **Hawk Eye** / **Hasty Retreat** — continue from live Vinedusk Training.
+* Live: **Vinedusk Training** / **Accuracy** · next **Ranger** / **Hawk Eye** / **Hasty Retreat**.
 * Morphs **Endless Hail**, **Poison Injection**.
 
 #### Armor — Medium
 
-* **Dexterity** / **Wind Walker** / **Improved Sneak** / **Agility** / **Athletics** — train by wearing medium (live is mostly heavy).
+* Live: **Dexterity** / **Wind Walker** / **Improved Sneak** · next **Agility** / **Athletics** (live 6 medium + 1 light).
 
 #### Guild — Fighters Guild
 
@@ -221,7 +218,7 @@ flowchart TD
 
 ## Gear and crafting: "The Serpent's Contract"
 
-Everything is **crafted** — no overland farming for the primary loadout. **Hunding's Rage** supplies weapon damage / stamina; **Order's Wrath** stacks crit and **+8% critical damage** so Shadowy Disguise opens and DoTs hit harder. All **Medium** for stamina armor passives.
+Everything is **crafted** at CP160 — no overland farming for the primary loadout. Both sets give **+657 crit** at 2 and 4 pieces; **Hunding's Rage** adds Max Stamina (3pc) and **+300 Weapon Damage** (5pc); **Order's Wrath** adds +129 Weapon Damage (3pc) and **+943 crit / +8% Critical Damage** (5pc). Before CP160, whatever drops is fine. All **Medium** for stamina armor passives.
 
 ### Set rationale
 
@@ -237,17 +234,17 @@ graph LR
 
 | **Set** | **5-Piece Bonus** | **Role in the Build** |
 | :--- | :--- | :--- |
-| **Hunding's Rage** | Weapon Damage / Stam package | Baseline stamina DPS for Claim + Trail |
-| **Order's Wrath** | Crit chance + **+8% Critical Damage** | Amplifies cloak crits, Bloodthirst, Injection, Breath |
+| **Hunding's Rage** | +300 Weapon Damage (2/4pc +657 crit each, 3pc +1,096 Max Stam) | Baseline stamina DPS for Claim + Trail — losing the 5pc costs ~5.3% |
+| **Order's Wrath** | +943 crit + **+8% Critical Damage** (2/4pc +657 crit each, 3pc +129 WD) | Amplifies Bloodthirst, Injection, Breath — losing the 5pc costs ~4.9% |
 
 > [!NOTE]
-> **Why not Grace of Gloom?** Live **3/5** is a fine **bridge** only — dungeon drop, not craftable target. Do not farm the rest for the primary loadout.
+> **Why not Night Mother's Gaze?** Its 5pc is Major Breach, which **Disintegrating Dragonfire** already applies — worth 0 while Dragonfire is up.
 
 > [!NOTE]
 > **Why not Briarheart jewelry?** Wrothgar **overland drop** — not craftable. Reject as *target*.
 
 > [!TIP]
-> **Live gear bridge:** Keep Grace of Gloom scraps + any medium you find while leveling Dual Wield. Prefer medium pieces to train Medium passives. Ask @masisi for level-scaled purple Hunding's / Order's Wrath under CP160.
+> **Levelling gear (pre-CP160):** Wear the best drops you have; prefer medium pieces and Max Stamina glyphs when they are cheap to swap. Optional: ask @masisi for level-scaled Hunding's / Order's Wrath.
 
 ### Target loadout
 
@@ -260,17 +257,17 @@ graph LR
 | **Waist** | Hunding's Rage | Medium | Divines | Max Stamina | Gold |
 | **Legs** | Hunding's Rage | Medium | Divines | Max Stamina | Gold |
 | **Feet** | Hunding's Rage | Medium | Divines | Max Stamina | Gold |
-| **Necklace** | Order's Wrath | Jewelry | Robust / Bloodthirsty | Weapon Damage | Gold |
+| **Necklace** | Order's Wrath | Jewelry | Bloodthirsty | Weapon Damage | Gold |
 | **Ring 1** | Order's Wrath | Jewelry | Bloodthirsty | Weapon Damage | Gold |
 | **Ring 2** | Order's Wrath | Jewelry | Bloodthirsty | Weapon Damage | Gold |
-| **Front — Main** | Hunding's Rage | Dagger / Sword | Precise / Nirnhoned | Poison / Absorb Stamina | Gold |
-| **Front — Off** | Hunding's Rage | Dagger / Sword | Charged / Infused | Flame / Poison | Gold |
-| **Back — Bow** | Hunding's Rage | Bow | Precise / Infused | Disease Damage or Weapon Damage | Gold |
+| **Front — Main** | Hunding's Rage | Dagger / Sword | Sharpened / Precise | Poison / Absorb Stamina | Gold |
+| **Front — Off** | Hunding's Rage | Dagger / Sword | Sharpened | Flame / Poison | Gold |
+| **Back — Bow** | Hunding's Rage | Bow | Sharpened | Disease Damage or Weapon Damage | Gold |
 
-**Piece counts for bonuses:** **Order's Wrath 5** (head, shoulders, necklace, both rings) · **Hunding's Rage 5** (chest, hands, waist, legs, feet). Weapons are extra Hunding's pieces for traits/enchants — they do not replace the body five.
+**Piece counts for bonuses:** **Order's Wrath 5** (head, shoulders, necklace, both rings) · **Hunding's Rage 5** (chest, hands, waist, legs, feet). Weapons add nothing to set counts (front and back each reach 7/5 Hunding's) — craft them in either set for traits/enchants.
 
-**Front daggers:** Precise + Charged (status for Combustion) or Nirnhoned on main hand when transmute allows.
-**Back bow:** Precise for crit with Order's Wrath / Thief; Infused if using Weapon Damage enchant.
+**Front daggers:** **Sharpened** off hand (+2.8% vs Charged — Combustion refunds on Burning from Ardent Flame skills, so Charged is not needed). Main hand Sharpened or Precise is within ~0.8%.
+**Back bow:** **Sharpened** (+1.65% vs Precise). Penetration check at CP160: Lover 4,489 + Major Breach 5,948 + Piercing ~700 + Sharpened 3,276 ≈ **14,400 / 18,200** — still under the cap.
 
 ### Crafting handoff (@masisi)
 
@@ -279,8 +276,8 @@ graph LR
 | **Crafter** | EU account artisan **[Masisi](masisi.md)** / [masisi_plan.md](masisi_plan.md) |
 | **Style** | **Argonian** / **Dark Brotherhood** / **Assassin** trim if known — Outfit Station motifs; costume stays **Shrouded Armor** |
 | **Set station** | Order's Wrath: **Steadfast Hammer and Saw** (High Isle) — 3 traits · Hunding's Rage: classic crafted set — 6 traits |
-| **Traits** | **Divines** armor · **Bloodthirsty** / **Robust** jewelry · **Precise** / **Infused** / **Charged** weapons |
-| **Interim (pre-CP160)** | Live Gloom scraps + medium; ask @masisi for **level-scaled** purple Hunding's / Order's Wrath |
+| **Traits** | **Divines** armor (boosts The Lover) · **Bloodthirsty** jewelry · **Sharpened** weapons |
+| **Interim (pre-CP160)** | Levelling drops are fine; optional **level-scaled** Hunding's / Order's Wrath from @masisi |
 | **Quality path** | Purple bridge → **gold at CP160** when traits ready |
 
 > [!NOTE]
@@ -288,47 +285,41 @@ graph LR
 
 ---
 
-## Champion Point Mapping (CP 289)
+## Champion Point Mapping (CP 336)
 
-Budget: **96 Warfare / 97 Craft / 96 Fitness** (289 total). **Live: 273 spent / 16 available** (Warfare 91 · Craft 91 · Fitness 91). Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); walk prerequisites from `champion_points.yaml`.
-
-> [!NOTE]
-> **Live Warfare is tanky** — Ironclad 36 / Unassailable 25 / Tireless Discipline 20 / Quick Recovery 10. Respec toward **crit + DoT** for the hunter kit once Dual Wield and Shadow are online.
+Budget: **112 Warfare / 112 Craft / 112 Fitness** (336 total). **Live: 334 spent / 2 available** (Warfare 2). Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); walk prerequisites from `champion_points.yaml`.
 
 > [!NOTE]
 > **When CP grows (≈810+):** Cap Warfare Fighting Finesse / Thaumaturge / Deadly Aim (or Master-at-Arms) at 50 each; Fitness Boundless Vitality / Fortified / Rejuvenation; finish Craft **Liquid Efficiency (50)** after Steadfast Enchantment + Rationer; keep **Sustaining Shadows** for stealth.
 
-### Warfare (Blue — target ~96)
+### Warfare (Blue — 112)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
-| **Precision** | Passive | 20 | Crit Chance |
-| **Piercing** | Passive | 20 | Offensive Penetration |
-| **Tireless Discipline** | Passive | 20 | Max Stamina — **keep from live** |
-| **Fighting Finesse** | Slotted | 36 | Critical Damage — **top toward 50** as CP grows |
-| *(available / reallocate)* | — | — | Drop Ironclad / Unassailable for this path; bank leftovers toward Thaumaturge / Deadly Aim |
+| **Precision** | Passive | 20 | Crit Chance — **live ✓** |
+| **Piercing** | Passive | 20 | Offensive Penetration — **live ✓** |
+| **Tireless Discipline** | Passive | 20 | Max Stamina — **live ✓** |
+| **Fighting Finesse** | Slotted | 50 | Critical Damage — **live ✓ (capped)** |
+| *(available)* | — | 2 | Next points into **Deadly Aim** (single-target) or **Thaumaturge** (DoTs) |
 
-*Optional later:* **Thaumaturge 50** for Hail / Breath / Injection / Claw DoTs; **Deadly Aim 50** for Bloodthirst / Leap singles.
-
-### Fitness (Red — target ~96)
+### Fitness (Red — 112)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
-| **Rejuvenation** | Slotted | 50 | Recovery — **live 41 → top to 50** |
-| **Fortified** | Slotted | 46 | Armor — **live 50; trim or keep** |
-| *(available)* | — | — | Start **Boundless Vitality** when Fitness budget allows |
+| **Rejuvenation** | Slotted | 50 | Recovery — **live ✓** |
+| **Boundless Vitality** | Slotted | 50 | Max Health — **live ✓** |
+| **Fortified** | Slotted | 12 | Armor — **live ✓; grow toward 50** |
 
 **Passives (as points allow):** Hero's Vigor · Tumbling (dodge cost for cloak dances).
 
-### Craft (Green — target ~97)
+### Craft (Green — 112)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
 | :--- | :--- | :--- | :--- |
-| **Steed's Blessing** | Slotted | 50 | Out-of-combat move speed — **live keep** |
-| **Sustaining Shadows** | Slotted | 47 | Sneak cost — **essential for Serpent Clan; top to 50** |
-| *(reallocate)* | — | — | Trim **Gilded Fingers** (live 41) into Sustaining Shadows |
-
-**Passives (as points allow):** Out of Sight · Fleet Phantom · Treasure Hunter path toward Liquid Efficiency later.
+| **Steed's Blessing** | Slotted | 50 | Out-of-combat move speed — **live ✓** |
+| **Out of Sight** | Passive | 30 | Sneak detection — **live ✓** |
+| **Fleet Phantom** | Passive | 24 | Sneak speed — **live ✓** |
+| **Sustaining Shadows** | Slotted | 8 | Sneak cost — **live; grow toward 50** |
 
 ---
 
@@ -337,7 +328,7 @@ Budget: **96 Warfare / 97 Craft / 96 Fitness** (289 total). **Live: 273 spent / 
 Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bolstered, etc.) — never player sets (no Hunding's, no Divines). Buy white basics from vendors; farm Superior+ while the companion is summoned. **Not** part of the @masisi player-gear handoff.
 
 > [!NOTE]
-> **Live export:** **Tanlorin** active at **Level 5/20** with **level 1 Companion's gear**, **three empty ability slots**. Prioritize companion XP, gear upgrades, and bar fill per [Checklist](#next-steps--in-game-action-checklist).
+> **Live export:** no companion summoned (latest export) — Tanlorin was **Level 5/20** with **level 1 Companion's gear** and **three empty ability slots** when last seen. Prioritize companion XP, gear upgrades, and bar fill per [Checklist](#next-steps--in-game-action-checklist).
 
 ### Companion picks
 
@@ -421,39 +412,38 @@ Outfit Station motifs on crafted Hunding's / Order's Wrath are separate from the
 
 ## Next Steps & In-Game Action Checklist
 
-### Phase 0 — Today (functional build)
+### Phase 0 — Today (Level 27, CP 336)
 
-1. **Spend the 3 skill points** into Dual Wield unlocks / Bow passives / Ardent or Draconic ranks.
-2. **Attributes:** start dumping into **Stamina** (stop stacking Health) toward **64**.
-3. **Food:** Dubious Camoran Throne or leveling fish bowl; equip **weapon poisons**.
-4. **Begin Dual Wield** — craft or buy cheap daggers; park the shield for overland training pulls.
-5. **Spend leftover CP** (16 available) — top Rejuvenation → 50; bank Warfare toward Precision / Fighting Finesse; start reallocating Craft from Gilded Fingers toward **Sustaining Shadows**.
-6. **Tanlorin:** keep summoned; fill empty ability slots; upgrade Companion's gear from vendors / drops.
+Done: Stamina attributes · Dual Wield / Bow · Shadow subclass · The Lover · Rending Slashes morph · CP 334/336 spent.
+
+1. **Spend the last 2 Warfare CP** → **Deadly Aim** (or Thaumaturge).
+2. **Spend the 1 skill point:** a morph as soon as a skill hits rank IV — **Path of Darkness → Refreshing Path**, then **Dragonknight Standard → Standard of Might**, then **Dragon Leap → Take Flight**. If none is ready: **Twin Blade and Blunt** → **Agility** → **Shadow Barrier / Dark Vigor** → **Hawk Eye**.
+3. **Attributes:** keep every point in **Stamina**.
+4. **Open every pull with Disintegrating Dragonfire** — its Major Breach is the biggest single damage lever at 4,872 live pen (~+10%). Then Shadowy Disguise → Bow bar Endless Hail + Searing Claw → swap and Bloodthirst weave.
+5. **Food:** Max Stamina + Max Health (bi-/tri-stat) · **potions:** Weapon Power for hard pulls · **weapon poisons** on both bars.
+6. **Optional, only if cheap:** Max Stamina glyphs on armor, **Absorb Stamina** in place of Absorb Magicka on the off hand, Sharpened on the next weapon you craft or keep.
 7. **Collectibles:** equip **Shrouded Armor**, **Rahd-m'Athra**, **Verdigris Haj Mota**; enable **Assassin** personality.
 
 ### Phase 1 — Level to 50 (interim)
 
-8. Keep **Grace of Gloom** scraps as bridge only; prefer **medium** armor.
-9. Rank **Dual Wield**, **Bow**, **Ardent Flame**, **Draconic Power**, Medium Armor, Fighters Guild.
-10. Morph toward **Bloodthirst**, **Rending Slashes**, **Endless Hail**, **Poison Injection**, **Disintegrating Dragonfire**, **Searing Claw**, **Blood of the Green Dragon**, **Standard of Might**, **Take Flight**, **Camouflaged Hunter**. Optional bridge only: **Earthshield Mantle**.
-11. Practice Trail DoTs → Claim weave (without Shadow until 50); keep Earthen fillers off the mental target kit.
-12. Optional: commission @masisi for **level-scaled** purple Hunding's / Order's Wrath.
+8. Wear the best drops you find; prefer **medium**. No need to chase sets before CP160.
+9. Rank **Dual Wield**, **Bow**, **Ardent Flame**, **Draconic Power**, **Shadow**, Medium Armor, **Fighters Guild** (for Camouflaged Hunter).
+10. Morph toward **Refreshing Path**, **Standard of Might**, **Take Flight**, **Poison Injection**, **Camouflaged Hunter**; then swap Camouflaged Hunter into front slot 5 and Poison Injection into back slot 2.
+11. Optional: commission @masisi for **level-scaled** Hunding's / Order's Wrath.
 
-### Phase 2 — Craft (target)
+### Phase 2 — Craft (target, CP160)
 
-13. **Level 50:** complete Bahtra **"A Study in Discipline"**; **subclass Shadow** (replace Earthen Heart); **drop all Earthen Heart actives**; take **Shadowy Disguise** + **Refreshing Path**; slot **Disintegrating Dragonfire** front / **Searing Claw** back.
-14. **@masisi:** craft **5 Hunding's Rage + 5 Order's Wrath** (medium, Divines, Bloodthirsty jewelry, Precise/Charged/Infused weapons) at CP160 gold.
-15. Mundus → **The Thief**.
-16. Respec Warfare off Ironclad / Unassailable into Precision / Piercing / Fighting Finesse (then Thaumaturge / Deadly Aim as CP grows).
+12. **@masisi:** craft **5 Hunding's Rage + 5 Order's Wrath** (medium, Divines, Bloodthirsty jewelry, Sharpened weapons) at CP160 gold.
+13. Grow Warfare into **Thaumaturge / Deadly Aim** and Fitness **Fortified** as CP rises.
 
 ### Phase 3 — Polish
 
-17. Motifs / dyes: charcoal + serpent green on Outfit Station; keep **Shrouded Armor** as costume.
-18. Level **Tanlorin** to **20/20**; farm Companion's Aggressive / Bolstered / Quickened gear (Bow kit).
-19. Finish Craft **Sustaining Shadows 50**; later **Liquid Efficiency**; re-export with `/cm` or `/cm coach` when live matches this plan.
+14. Motifs / dyes: charcoal + serpent green on Outfit Station; keep **Shrouded Armor** as costume.
+15. Level **Tanlorin** to **20/20**; farm Companion's Aggressive / Bolstered / Quickened gear (Bow kit).
+16. Finish Craft **Sustaining Shadows 50**; later **Liquid Efficiency**; re-export with `/cm` or `/cm coach` when live matches this plan.
 
 ### Finish
 
-20. Regenerate profile with `/cm` and update [zirhli.md](zirhli.md) when attributes, subclass, Mundus, gear, bars, and costume match this plan.
+17. Regenerate profile with `/cm` and update [zirhli.md](zirhli.md) when attributes, subclass, Mundus, gear, bars, and costume match this plan.
 
 The contract is clear. The trail does not break.

@@ -1,12 +1,12 @@
 # Build Plan - Dolu-tanesi: The Life Broker (Magicka Siphon Hybrid)
 
-> **Character profile:** [dolu_tanesi.md](dolu_tanesi.md) — Level 19 Dark Elf Nightblade, CP 313, @SOLAEGIS (EU).
+> **Character profile:** [dolu_tanesi.md](dolu_tanesi.md) — Level 22 Dark Elf Nightblade, CP 336, @SOLAEGIS (EU).
 
 **Dolu-tanesi** is a Dunmer **life-energy mage**: he **steals** vitality from enemies and **gives** it to those he chooses to protect. Live kit already points the way — **Lightning Dest** Main / **Restoration** Backup, **Strife** and resto heals, Magicka attributes — this guide locks that fantasy as **The Life Broker**, Severus-coded: austere potions professor, dual loyalty, black-robe severity without carnival Misrule framing.
 
 **Subclassing:** **KEEP** all three native Nightblade lines — **Assassination**, **Shadow**, and **Siphoning**. Siphoning is the steal/give engine; Shadow is the black-robe fortress; Assassination is the severing edge. No foreign line clearly beats those pillars for this hybrid on craftable gear. Unlock Bahtra at Level 50 for *availability* only — do not auto-subclass. See [docs/subclassing.md](../../../docs/subclassing.md).
 
-**Live → target:** Level 19 / CP 313 with Grace of Gloom / Gryphon / Trainee scrap, empty ultimates, duplicate **Blur** / **Strife** on both bars. Bridge from unlocked skills; morph Funnel Health; Dest front / Resto back stays through CP160.
+**Live → target:** Level 22 / CP 336 with unset linen + Marauder's Haste / Order of Diagna / Trainee scrap. Front bar is already on target skills (Mirage, Blockade of Storms, Force Pulse, Funnel Health); ultimates are slotted but unmorphed and back slot 5 is empty. Dest front / Resto back stays through CP160.
 
 Distinct from NA **Dolu-tenasi** (Sandstorm Reaper necromancer) — different megaserver identity and fantasy.
 
@@ -16,22 +16,22 @@ Distinct from NA **Dolu-tenasi** (Sandstorm Reaper necromancer) — different me
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Primary Stat** | 64 points in **Magicka** — **live:** **22 Mag** / 0 Health / 0 Stam · pools **33,223** HP / **24,369** Mag / **22,552** Stam · **target:** 64 Mag at CP160 |
-| **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** not shown / changing · take Apprentice for Julianos + Clever Alchemist Spell Damage |
+| **Primary Stat** | 64 points in **Magicka** — **live:** **27 Mag** / 0 Health / 0 Stam · pools **31,422** HP / **26,407** Mag / **21,721** Stam · **target:** 64 Mag at CP160 |
+| **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** not shown · +238 Spell Damage, **+389** with 7× Divines. Calc: +6.7% vs Thief +4.7% / Shadow +3.1% at est. CP160 stats |
 | **Vampirism** | **Cured / N/A** — life-broker identity is living siphon, not undeath; keep daylight roads |
 | **Trinity** | **Assassination** + **Shadow** + **Siphoning** KEEP — **live:** all three native · **decision:** class-identity life broker; Siphoning is the theme |
-| **Sets** | **5 Law of Julianos + 5 Clever Alchemist** (100% craftable, all Light) — **live:** Grace of Gloom 5/5 + Gryphon 4/5 + Trainee 2/5 · **target:** Julianos + Clever Alchemist |
+| **Sets** | **5 Law of Julianos + 5 Clever Alchemist** (100% craftable, all Light) — **live:** Order of Diagna 2/5 + Marauder's Haste 1/5 + Trainee 1/5 (no live bonuses worth keeping) · **target:** Julianos + Clever Alchemist on armor + jewelry; staves any set |
 | **Bars** | Front: **Lightning Dest** ("Black Quill") · Back: **Restoration** ("Mercy Draft") |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Magicka Recovery) or **Witty Blue Entremet** while leveling |
 | **Potion** | **Essence of Spell Power** (Spell Damage + Crit + Mag) — procs Clever Alchemist |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** on Dest between pulls |
-| **Staff/Weapon Enchant** | Front Lightning: **Shock Damage** (Infused / Crusher) · Back Resto: **Absorb Magicka** or **Reduce Spell Cost** — **live:** Life Drain both bars (bridge OK) |
+| **Staff/Weapon Enchant** | Front Lightning: **Shock** glyph (Sharpened trait) · Back Resto: **Absorb Magicka** — **live:** Charged staves with Shock glyphs (bridge OK) |
 | **Companion** | **Primary (now):** **Mirri Elendis** (DPS peer) · **Secondary:** **Bastian Hallix** (ward / tank-heal) · **Goal (20/20 @ CP160):** **Tanlorin** |
 | **Primary Mount** | **Noweyr Steed** (owned) · **Alt:** **Sorrel Horse** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **Haunted House Cat** (owned) · **Alt:** **Housecat** — see [Collectibles](#collectibles) |
 | **Costume** | **Austere Warden Outfit** (owned) · **Alt:** **Mages Guild Formal Robes** — see [Collectibles](#collectibles) |
 
-**Read next:** [Roleplay](#roleplay-the-life-broker) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-quill-and-draft) · [Gear and crafting](#gear-and-crafting-the-potions-classroom) · [Champion points](#champion-point-mapping-cp-313) · [Companion](#companion-strategy-the-reluctant-ward) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-life-broker) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-quill-and-draft) · [Gear and crafting](#gear-and-crafting-the-potions-classroom) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-reluctant-ward) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -50,7 +50,7 @@ He is not a carnival prophet. He is a life broker in austere robes, and the quil
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Dolu-tanesi — The Life Broker. Dunmer Magicka Nightblade who steals and gives life; Severus-coded austere potions professor (not Misrule). KEEP Assassination + Shadow + Siphoning — no subclass. Dest Lightning front ("Black Quill"): Funnel Health, Force Pulse, Ambush when unlocked, Blockade of Storms, Mirage; ult Incapacitating Strike. Resto back ("Mercy Draft"): Radiating Regeneration, Illustrious Healing, Overflowing Altar, Dark Cloak, Siphon Spirit; ult Soul Siphon. 64 Mag, The Apprentice. Target: 5 Law of Julianos + 5 Clever Alchemist (light) via @masisi. Costume: Austere Warden · Noweyr Steed · Haunted House Cat. Companion: Mirri now · Tanlorin Goal.
+> Dolu-tanesi — The Life Broker. Dunmer Magicka Nightblade who steals and gives life; Severus-coded austere potions professor (not Misrule). KEEP Assassination + Shadow + Siphoning — no subclass. Dest Lightning front ("Black Quill"): Funnel Health, Force Pulse, Ambush when unlocked, Blockade of Storms, Mirage; ult Incapacitating Strike. Resto back ("Mercy Draft"): Radiating Regeneration, Illustrious Healing, Overflowing Altar, Dark Cloak, Siphoning Attacks; ult Soul Siphon. 64 Mag, The Apprentice. Target: 5 Law of Julianos + 5 Clever Alchemist (light) via @masisi. Costume: Austere Warden · Noweyr Steed · Haunted House Cat. Companion: Mirri now · Tanlorin Goal.
 
 > [!TIP]
 > **Flavor Pet:** **Haunted House Cat** (owned) — potions-classroom familiar. **Alt:** **Housecat**. See [Collectibles](#collectibles).
@@ -82,7 +82,7 @@ graph TD
 
 | **Pillar** | **Line** | **Origin** | **Slot action** | **Function** |
 | :--- | :--- | :--- | :--- | :--- |
-| **Engine** | **Siphoning** | Nightblade (native) | **KEEP** | Funnel Health (steal → give); Siphon Spirit; Soul Siphon (group life draft) |
+| **Engine** | **Siphoning** | Nightblade (native) | **KEEP** | Funnel Health (steal → give); Siphoning Attacks; Soul Siphon (group life draft) |
 | **Fortress** | **Shadow** | Nightblade (native) | **KEEP** | Mirage (Major Resolve); Dark Cloak; Refreshing Path when unlocked |
 | **Weapon** | **Assassination** | Nightblade (native) | **KEEP** | Ambush / Lotus Fan gap-close; Incapacitating Strike execute — not Grim Focus until rank ~42 |
 
@@ -92,7 +92,7 @@ graph TD
 > **Do not subclass by default.** Only replace a native line later if a foreign line clearly outperforms it on the same content with craftable gear already correct. Bahtra at 50 unlocks the option — keep the ledger native.
 
 > [!IMPORTANT]
-> **Pre-50 / live bridge:** Live ranks — Assassination **26**, Shadow **17**, Siphoning **19**. Use unlocked skills only. Do **not** recommend **Grim Focus** / **Relentless Focus** until Assassination rank allows (~42). Empty ultimates today — prioritize **Soul Siphon** and **Death Stroke → Incapacitating Strike** as soon as available.
+> **Pre-50 / live bridge:** Live ranks — Assassination **28**, Shadow **24**, Siphoning **25**. Use unlocked skills only. Do **not** recommend **Grim Focus** / **Relentless Focus** until Assassination rank allows (~42). Ultimates are slotted unmorphed (Death Stroke / Soul Shred) — morph to **Incapacitating Strike** and **Soul Siphon** next.
 
 ---
 
@@ -105,35 +105,35 @@ graph TD
 Document **slotted morph names as shown in the skills UI**. Each morph appears at most once across both bars. Bars match equipped weapons — **Lightning Dest** / **Restoration**.
 
 > [!WARNING]
-> **Live bar bugs to fix (Phase 0):** **Blur** and **Strife** are duplicated on both bars. Morph **Strife → Funnel Health** once (front). Unslot the second Strife. Morph **Blur → Mirage** once (front). Put **Dark Cloak** (or Pathing when unlocked) on back instead of a second Blur. Slot ultimates when purchased — do not leave Empty.
+> **Live bar gaps (Phase 0):** Front bar matches target except **Teleport Strike** (morph Ambush) and the unmorphed **Death Stroke**. Back bar: morph **Shadow Cloak → Dark Cloak**, **Blood Altar → Overflowing Altar**, **Regeneration** / **Grand Healing**, **Soul Shred → Soul Siphon**; slot **Siphoning Attacks** in the empty slot 5.
 
 #### Front Bar (Lightning Dest): "Black Quill"
 
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Shadow | Blur → **Mirage** | Major Resolve / evasion fortress | **Morph** — live Blur both bars |
+| **1** | Shadow | Blur → **Mirage** | Major Resolve / evasion fortress | **Live** — keep |
 | **2** | Destruction Staff | Force Shock → **Force Pulse** | Magicka spammable (tri-element) | **Live** — keep |
 | **3** | Assassination | Teleport Strike → **Ambush** (or **Lotus Fan** for packs) | Gap-close / reposition | **Live Teleport Strike** → morph when ready |
-| **4** | Destruction Staff | Wall of Elements → **Blockade of Storms** | Shock ground DoT | **Unlock/morph** — live Shock Touch is bridge filler |
-| **5** | Siphoning | Strife → **Funnel Health** | **Steal → give** (damage + ally heal) | **Morph** — live Strife |
-| **6 (Ult)** | Assassination | Death Stroke → **Incapacitating Strike** | Execute / stun on elites | **Unlock** — live Empty; bridge: Soul Siphon if Assassination ult not ready |
+| **4** | Destruction Staff | Wall of Elements → **Blockade of Storms** | Shock ground DoT | **Live** — keep |
+| **5** | Siphoning | Strife → **Funnel Health** | **Steal → give** (damage + ally heal) | **Live** — keep |
+| **6 (Ult)** | Assassination | Death Stroke → **Incapacitating Strike** | Execute / stun on elites | **Morph** — live Death Stroke |
 
 #### Back Bar (Restoration): "Mercy Draft"
 
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
-| **1** | Restoration Staff | Regeneration → **Radiating Regeneration** | Hot HoT on group | **Morph** — live Regeneration |
+| **1** | Restoration Staff | Regeneration → **Radiating Regeneration** | Group HoT | **Morph** — live Regeneration |
 | **2** | Restoration Staff | Grand Healing → **Illustrious Healing** | Ground burst heal | **Morph** — live Grand Healing |
 | **3** | Siphoning | Blood Altar → **Overflowing Altar** (or **Sanguine Altar**) | Synergy heal / blood fountain | **Morph** — live Blood Altar |
-| **4** | Shadow | Shadow Cloak → **Dark Cloak** (or Pathing → **Refreshing Path**) | Mitigation / path utility — **not** a second Mirage | **Unlock** — replace duplicate Blur |
-| **5** | Siphoning | Siphoning Strikes → **Siphon Spirit** | Drain + heal (distinct from Funnel) | **Unlock/morph** — do not restack Funnel |
-| **6 (Ult)** | Siphoning | Soul Shred → **Soul Siphon** | **Give life** — group heal ult | **Unlock** — live Empty; signature life-broker ult |
+| **4** | Shadow | Shadow Cloak → **Dark Cloak** (or Pathing → **Refreshing Path**) | Mitigation / path utility — **not** a second Mirage | **Morph** — live Shadow Cloak |
+| **5** | Siphoning | Siphoning Strikes → **Siphoning Attacks** | Drain + heal (distinct from Funnel) | **Unlock/morph** — live Empty; verify morph name in skills UI |
+| **6 (Ult)** | Siphoning | Soul Shred → **Soul Siphon** | **Give life** — group heal ult | **Morph** — live Soul Shred; signature life-broker ult |
 
 > [!NOTE]
-> **Sibling morphs (do not take on this build):** **Swallow Soul** (prefer Funnel Health for ally give) · **Double Take** (prefer Mirage) · **Lotus Fan** and **Ambush** — pick **one** Teleport Strike morph · **Malevolent Offering** (Stamina path) · **Debilitate** if Siphon Spirit is slotted · **Absorb Magic** altar sibling if Overflowing/Sanguine taken.
+> **Sibling morphs (do not take on this build):** **Swallow Soul** (prefer Funnel Health for ally give) · **Double Take** (prefer Mirage) · **Lotus Fan** and **Ambush** — pick **one** Teleport Strike morph · **Malevolent Offering** (Stamina path) · **Leeching Strikes** (Stamina sibling of Siphoning Attacks) · **Sanguine Altar** / **Overflowing Altar** — pick one.
 
 > [!TIP]
-> **Bridge (L19):** Keep **Shock Touch** in front slot 4 until Wall of Elements / Blockade unlocks. Keep unmorphed skills until skill points allow. Prefer Magicka morphs only.
+> **Bridge (L22):** Keep unmorphed skills until skill points allow (1 point banked live). Prefer Magicka morphs only.
 
 ### Rotation and combat tips
 
@@ -174,13 +174,14 @@ Spend skill points in this priority; fully rank (Rank II/III) where noted. Honor
 
 #### Nightblade — Siphoning
 
-* **[Magicka Flood](https://en.uesp.net/wiki/Online:Magicka_Flood):** ✅ Live — keep ranked.
-* Unlock **[Catalyst](https://en.uesp.net/wiki/Online:Catalyst)**, **[Soul Siphoner](https://en.uesp.net/wiki/Online:Soul_Siphoner)**, **[Transfer](https://en.uesp.net/wiki/Online:Transfer)** as ranks allow.
-* Morph **Funnel Health**, **Siphon Spirit**, **Overflowing Altar**, **Soul Siphon**.
+* **[Magicka Flood](https://en.uesp.net/wiki/Online:Magicka_Flood)** / **[Catalyst](https://en.uesp.net/wiki/Online:Catalyst)** / **[Soul Siphoner](https://en.uesp.net/wiki/Online:Soul_Siphoner):** ✅ Live — keep ranked.
+* Unlock **[Transfer](https://en.uesp.net/wiki/Online:Transfer)** as ranks allow.
+* Morph **Siphoning Attacks**, **Overflowing Altar**, **Soul Siphon**.
 
 #### Nightblade — Shadow
 
-* Unlock **[Refreshing Shadows](https://en.uesp.net/wiki/Online:Refreshing_Shadows)**, **[Shadow Barrier](https://en.uesp.net/wiki/Online:Shadow_Barrier)**, **[Dark Vigor](https://en.uesp.net/wiki/Online:Dark_Vigor)**, **[Dark Veil](https://en.uesp.net/wiki/Online:Dark_Veil)** as ranks allow.
+* **[Refreshing Shadows](https://en.uesp.net/wiki/Online:Refreshing_Shadows)** / **[Shadow Barrier](https://en.uesp.net/wiki/Online:Shadow_Barrier):** ✅ Live.
+* Unlock **[Dark Vigor](https://en.uesp.net/wiki/Online:Dark_Vigor)**, **[Dark Veil](https://en.uesp.net/wiki/Online:Dark_Veil)** as ranks allow.
 * Morph **Mirage**; unlock **Dark Cloak** / **Refreshing Path**.
 
 #### Nightblade — Assassination
@@ -188,7 +189,7 @@ Spend skill points in this priority; fully rank (Rank II/III) where noted. Honor
 * **[Master Assassin](https://en.uesp.net/wiki/Online:Master_Assassin)** / **[Executioner](https://en.uesp.net/wiki/Online:Executioner)** / **[Pressure Points](https://en.uesp.net/wiki/Online:Pressure_Points):** ✅ Live.
 * Unlock **[Hemorrhage](https://en.uesp.net/wiki/Online:Hemorrhage)** when available.
 * Morph **Ambush** (or Lotus Fan); **Incapacitating Strike**.
-* **Defer Grim Focus** until Assassination skill-line rank unlocks it (~42) — do not plan Relentless Focus on the L19 bridge.
+* **Defer Grim Focus** until Assassination skill-line rank unlocks it (~42) — do not plan Relentless Focus on the L22 bridge.
 
 #### Weapon — Destruction Staff
 
@@ -212,7 +213,7 @@ Spend skill points in this priority; fully rank (Rank II/III) where noted. Honor
 
 ## Gear and crafting: "The Potions Classroom"
 
-Everything end-state is **crafted** — no overland farming for the primary loadout, no dungeon monster sets. Target: **5 Law of Julianos + 5 Clever Alchemist**, all **Light**. Julianos = Spell Crit + **+10% Critical Damage**; Clever Alchemist = +675 Spell Damage for 20s on potion — the Snape potions-bench proc.
+Everything end-state is **crafted** — no overland farming for the primary loadout, no dungeon monster sets. Target: **5 Law of Julianos + 5 Clever Alchemist**, all **Light**, on armor + jewelry (counts on both bars). Julianos = +1,314 Crit rating, +1,096 Max Magicka, **+300 Weapon/Spell Damage**; Clever Alchemist = +2,412 Max Health, +129 Damage, **+675 Weapon/Spell Damage for 20s on potion** — the Snape potions-bench proc.
 
 ### Set rationale
 
@@ -233,22 +234,24 @@ graph LR
         J5["Ring 2"]
     end
     CleverAlchemist -->|"Potion +675 Spell Dmg"| Julianos
-    Julianos -->|"Crit amplifies Funnel + Force Pulse + Blockade"| Staves["Lightning front + Resto back"]
+    Julianos -->|"Crit + flat damage for Funnel + Force Pulse + Blockade"| Staves["Lightning front + Resto back"]
 ```
 
-| **Set** | **5-Piece Bonus** | **Role** |
+| **Set** | **Bonuses (CP160 gold)** | **Role** |
 | :--- | :--- | :--- |
-| **Clever Alchemist** | Potion in combat → +675 Weapon/Spell Damage (20s) | Potions-classroom proc with Essence of Spell Power |
-| **Law of Julianos** | +300 Spell Critical; +10% Critical Damage | Baseline burst for Funnel Health, Force Pulse, Blockade |
+| **Clever Alchemist** | 2pc +1,206 Max Health · 3pc +1,206 Max Health · 4pc +129 W/S Damage · **5pc** potion in combat → +675 W/S Damage (20s) | Potions-classroom proc with Essence of Spell Power |
+| **Law of Julianos** | 2pc +657 Crit · 3pc +1,096 Max Magicka · 4pc +657 Crit · **5pc +300 W/S Damage** | Always-on baseline for Funnel Health, Force Pulse, Blockade |
+
+**Value (calc, est. CP160 stats):** Julianos 5pc **+5.1%** always on · Clever Alchemist 5pc **+5.2%** at ~45% uptime (20s buff on a ~45s potion cooldown), **+9.2%** if kept near 80%.
 
 > [!NOTE]
-> **Live gear bridge:** Keep **Grace of Gloom 5/5** + Gryphon / Trainee scrap while leveling. Prefer **light** replacements as they drop or are crafted. Do not farm more overland sets for the primary loadout.
+> **Live gear bridge:** Current pieces (linen unset + Order of Diagna 2 / Marauder's Haste 1 / Trainee 1) give no bonus worth keeping. Prefer **light** Max Magicka replacements as they drop or are crafted. Do not farm more overland sets for the primary loadout.
 
 > [!TIP]
 > **Why not Mother's Sorrow?** Strong Mag crit set, but **overland drop** — not craftable. Reject as *target*. Clever Alchemist carries the potion fantasy and is craftable.
 
 > [!TIP]
-> **Lower-trait fallback:** If Clever Alchemist 7-trait research is not ready on @masisi, craft **5 Shacklebreaker** (6 traits, Vvardenfell) on body slots as a bridge.
+> **Research fallback:** If Clever Alchemist traits are not researched on @masisi yet, craft **Julianos first** (its 5pc works alone) and fill the five body slots with light Max Magicka pieces until Clever Alchemist is ready.
 
 ### Target loadout
 
@@ -262,12 +265,14 @@ graph LR
 | **Hands** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Feet** | Law of Julianos | Light | Divines | Max Magicka | Gold |
 | **Necklace** | Law of Julianos | Jewelry | Arcane | Spell Damage | Gold |
-| **Ring 1** | Law of Julianos | Jewelry | Arcane | Max Magicka | Gold |
-| **Ring 2** | Law of Julianos | Jewelry | Arcane | Max Magicka | Gold |
-| **Front Staff** | Law of Julianos | Lightning Destro | Infused | Shock Damage (Crusher) | Gold |
-| **Back Staff** | Law of Julianos | Restoration | Infused | Absorb Magicka or Reduce Spell Cost | Gold |
+| **Ring 1** | Law of Julianos | Jewelry | Arcane | Spell Damage | Gold |
+| **Ring 2** | Law of Julianos | Jewelry | Arcane | Spell Damage | Gold |
+| **Front Staff** | Any (set irrelevant) | Lightning Destro | **Sharpened** | Shock | Gold |
+| **Back Staff** | Any (set irrelevant) | Restoration | Powered | Absorb Magicka | Gold |
 
-**Piece counts:** **Clever Alchemist 5** (head, shoulders, chest, legs, waist) · **Law of Julianos 5** (hands, feet, necklace, both rings). Staves are extra Julianos pieces for traits/enchants.
+**Piece counts:** **Clever Alchemist 5** (head, shoulders, chest, legs, waist) · **Law of Julianos 5** (hands, feet, necklace, both rings). Armor and jewelry count on **both** bars, so both 5pc bonuses stay up after swapping. Each staff counts as **2** pieces of its set, so a Julianos staff would make 7/5 and add nothing — pick staves for trait and glyph only.
+
+**Why Sharpened:** live displayed Spell Penetration is **0**. +3,276 pen on the front bar (~75% of damage) = **+5.1%** vs Precise **+2.8%**; Infused only adds 30% to one Shock glyph. Re-check displayed pen with the Destruction staff equipped (Penetrating Magic may not show on the sheet).
 
 ### Crafting handoff (@masisi)
 
@@ -275,58 +280,57 @@ graph LR
 | :--- | :--- |
 | **Crafter** | EU account artisan **[Masisi](masisi.md)** / [masisi_plan.md](masisi_plan.md) |
 | **Style** | **Dark Elf** / **Morag Tong** / **Ancient Elf** body; austere black-green trim (Outfit Station — not primary costume) |
-| **Set station** | Clever Alchemist: **No Shira Workshop** (Hew's Bane) — 7 traits · Julianos: **Sunhold** (Summerset) — 6 traits |
-| **Traits** | **Divines** armor · **Arcane** jewelry · **Infused** staves |
-| **Interim** | Live Gloom / Gryphon / Trainee; ask @masisi for **level-scaled** purple Julianos / Clever Alchemist (or Shacklebreaker) while under CP160 |
+| **Set station** | Clever Alchemist: **No Shira Workshop** (Hew's Bane) — 7 traits · Julianos: **Boreal Forge** (Wrothgar) — 6 traits |
+| **Traits** | **Divines** armor (7× boosts Apprentice 238 → 389) · **Arcane** jewelry · **Sharpened** front staff · **Powered** back staff |
+| **Interim** | Live linen + scrap; ask @masisi for **level-scaled** purple Julianos (then Clever Alchemist) while under CP160 |
 | **Quality** | Purple bridge → **gold at CP160** when traits ready |
 
 ---
 
-## Champion Point Mapping (CP 313)
+## Champion Point Mapping (CP 336)
 
-Budget: **104 Warfare / 105 Craft / 104 Fitness** (313 total). **Live: 0 spent / 313 available** — allocate everything below. Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); walk prerequisites from `champion_points.yaml`.
+Budget: **112 Warfare / 112 Craft / 112 Fitness** (336 total). **Live: 309 spent / 27 available** (8 Warfare · 7 Craft · 12 Fitness). Under 900 total CP you have **3 slotted stars** per discipline. Star names match [champion_points_reference.md](../../templates/champion_points_reference.md); prerequisites from `champion_points.yaml`.
 
 > [!NOTE]
-> **Warfare prereqs:** Fighting Finesse needs **Precision 10**. Thaumaturge / Master-at-Arms need **Piercing 10**, which needs Precision + **Eldritch Insight 10** + **Tireless Discipline 10**. At 104 CP, finish the gate path and bank into Fighting Finesse; complete Thaumaturge next (Funnel / Blockade / Siphon DoTs and HoT pressure).
+> **Stages:** most passives buy in 10-point stages, so a partial stage (e.g. Precision 14) gives only the completed stages. Spend loose points to finish a stage, not to start a new star you can't complete.
 
 > [!NOTE]
 > **When CP grows (≈810+):** Cap Warfare at Fighting Finesse / Thaumaturge / Master-at-Arms / Deadly Aim (50 each); Fitness Boundless Vitality / Fortified / Rejuvenation / Ironclad; finish Craft **Liquid Efficiency (50)** after Steadfast Enchantment + Rationer.
 
-### Warfare (Blue — 104 Points)
+### Warfare (Blue — 112 Points)
 
-| **Star** | **Type** | **Spend** | **Benefit** |
-| :--- | :--- | :--- | :--- |
-| **Precision** | Passive | 20 | Critical Chance (gates Fighting Finesse / Piercing path) |
-| **Eldritch Insight** | Passive | 20 | Max Magicka (gates Piercing) |
-| **Tireless Discipline** | Passive | 10 | Weapon/Spell Damage (gates Piercing) |
-| **Piercing** | Passive | 10 | Penetration (gates Thaumaturge / Master-at-Arms) |
-| **Fighting Finesse** | Slotted | 44 | +Critical Damage / Critical Healing (finish to 50 next) |
+| **Star** | **Type** | **Live** | **Target now** | **Benefit** |
+| :--- | :--- | ---: | ---: | :--- |
+| **Precision** | Passive | 14 | **20** (+6) | Critical Chance — finishes stage 2 |
+| **Eldritch Insight** | Passive | 20 | 20 | Max Magicka (Piercing gate ✅) |
+| **Tireless Discipline** | Passive | 20 | 20 | Weapon/Spell Damage (Piercing gate ✅) |
+| **Fighting Finesse** | Slotted | 50 | 50 | +Critical Damage / Critical Healing ✅ capped |
+| *(banked)* | — | — | 2 | Toward **Piercing 10** |
 
-*Next Warfare tranche:* Finish Fighting Finesse **50**, then **Thaumaturge 25→50**, **Master-at-Arms 25→50**, **Deadly Aim** as budget allows.
+*Next Warfare tranche:* **Piercing 10** (pen — live displayed pen is 0) → **Thaumaturge 50** (slot 2) → **Master-at-Arms** (slot 3).
 
-### Fitness (Red — 104 Points)
+### Fitness (Red — 112 Points)
 
-| **Star** | **Type** | **Spend** | **Benefit** |
-| :--- | :--- | :--- | :--- |
-| **Boundless Vitality** | Slotted | 50 | Max Health (siphon broker still needs a pool) |
-| **Rejuvenation** | Slotted | 50 | Recovery |
-| *(unspent)* | — | 4 | Toward Fortified / Ironclad path |
+| **Star** | **Type** | **Live** | **Target now** | **Benefit** |
+| :--- | :--- | ---: | ---: | :--- |
+| **Boundless Vitality** | Slotted | 50 | 50 | Max Health ✅ |
+| **Rejuvenation** | Slotted | 50 | 50 | Recovery ✅ |
+| **Quick Recovery** | Passive | 0 | **10** (+10) | Gate for Preparation / Ironclad |
+| *(banked)* | — | — | 2 | Toward Fortified / Preparation |
 
-*Later:* Fortified 50; walk Quick Recovery → Preparation → Ironclad when budget allows.
+*Later:* Fortified 50 (slot 3); Preparation → Ironclad when budget allows.
 
-### Craft (Green — 105 Points)
+### Craft (Green — 112 Points)
 
-| **Star** | **Type** | **Spend** | **Benefit** |
-| :--- | :--- | :--- | :--- |
-| **Steed's Blessing** | Slotted | 50 | Out-of-combat move speed |
-| **Fortune's Favor** | Passive | 10 | Gold find |
-| **Gilded Fingers** | Passive | 10 | Gold find |
-| **Wanderer** | Passive | 10 | Wayshrine cost (gate for Steadfast Enchantment) |
-| **Steadfast Enchantment** | Passive | 20 | Enchant charge save (start toward 50) |
-| *(unspent)* | — | 5 | Toward Steadfast Enchantment 50 → Rationer → **Liquid Efficiency** |
+| **Star** | **Type** | **Live** | **Target now** | **Benefit** |
+| :--- | :--- | ---: | ---: | :--- |
+| **Steed's Blessing** | Slotted | 50 | 50 | Out-of-combat move speed ✅ |
+| **Fortune's Favor** | Passive | 10 | 10 | Gold find (Wanderer gate ✅) |
+| **Gilded Fingers** | Passive | 45 | **50** (+5) | Gold find — finishes last stage |
+| *(banked)* | — | — | 2 | Toward **Wanderer 10** → Steadfast Enchantment → Rationer → **Liquid Efficiency** |
 
 > [!IMPORTANT]
-> **Liquid Efficiency** is automatic once purchased (no Craft slot). Buy after Steadfast Enchantment + Rationer when Craft budget allows.
+> **Liquid Efficiency** is a passive (no Craft slot). Buy after Steadfast Enchantment + Rationer when Craft budget allows.
 
 ---
 
@@ -418,14 +422,14 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 
 ### Phase 0 — Today (functional build)
 
-1. **Morph Strife → Funnel Health** on front; unslot duplicate Strife on back.
-2. **Morph Blur → Mirage** on front; replace back Blur with **Dark Cloak** (or Pathing when unlocked).
+1. ✅ Front bar on target: **Mirage**, **Force Pulse**, **Blockade of Storms**, **Funnel Health** (duplicates cleared).
+2. Morph **Shadow Cloak → Dark Cloak** on back.
 3. Morph **Radiating Regeneration**, **Illustrious Healing**, **Overflowing Altar** (or Sanguine) on Mercy Draft.
-4. Unlock/slot **Soul Siphon** and **Death Stroke → Incapacitating Strike** as soon as available — clear Empty ults.
-5. Keep **Force Pulse** and **Teleport Strike** (morph Ambush when ready); bridge **Shock Touch** until **Blockade of Storms**.
-6. Unlock **Siphon Spirit** for back slot 5 — do not duplicate Funnel Health.
-7. **Attributes:** keep dumping into **Magicka** toward **64**.
-8. **Allocate CP** per [Champion Point Mapping](#champion-point-mapping-cp-313) (live is 0 spent).
+4. Morph ults: **Death Stroke → Incapacitating Strike** (front), **Soul Shred → Soul Siphon** (back).
+5. Keep **Teleport Strike** (morph Ambush when ready).
+6. Unlock **Siphoning Attacks** for the empty back slot 5 — do not duplicate Funnel Health.
+7. **Attributes:** keep dumping into **Magicka** toward **64** (live 27).
+8. **Spend the 27 banked CP** per [Champion Point Mapping](#champion-point-mapping-cp-336): Precision +6, Gilded Fingers +5, Quick Recovery +10.
 9. **Mundus:** take **The Apprentice**.
 10. **Mirri:** Companion's gear upgrades; fill empty slots; keep summoned for XP.
 11. **Collectibles:** equip **Austere Warden Outfit**, **Noweyr Steed**, **Haunted House Cat**.
@@ -438,14 +442,14 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 15. Prefer **light** armor while leveling; keep Dest / Resto trained.
 16. Rank Siphoning / Shadow / Assassination / Dest / Resto passives per Passive skills section.
 17. Practice Quill and Draft loop: Mercy setup → Funnel + Force Pulse → Soul Siphon / execute.
-18. Optional: commission @masisi for **level-scaled** purple Julianos / Clever Alchemist (or Shacklebreaker).
+18. Optional: commission @masisi for **level-scaled** purple Julianos first (armor hands/feet + jewelry), then Clever Alchemist body. Don't glyph the linen pieces being replaced.
 
 ### Phase 2 — Craft (target)
 
 19. **Level 50:** complete Bahtra **"A Study in Discipline"** for subclass *availability* — **still KEEP** all three native lines unless a later proof demands otherwise.
-20. **@masisi:** craft **5 Clever Alchemist + 5 Law of Julianos** (light, Divines, Arcane jewelry, Infused Lightning Dest + Resto) at CP160 gold.
-21. Replace live Life Drain enchants with target Shock / Absorb Magicka (or Reduce Spell Cost on resto).
-22. Expand Warfare: finish Fighting Finesse → Thaumaturge → Master-at-Arms as CP grows.
+20. **@masisi:** craft **5 Clever Alchemist + 5 Law of Julianos** on armor + jewelry (light, Divines, Arcane jewelry), plus a **Sharpened** Lightning Dest and **Powered** Resto of any set at CP160 gold.
+21. Glyph the gold staves: **Shock** on the Lightning Dest, **Absorb Magicka** on the Resto. Glyph jewelry with **Spell Damage** (Max Magicka glyphs are armor-only).
+22. Expand Warfare: Piercing 10 → Thaumaturge → Master-at-Arms as CP grows.
 23. When Assassination rank allows: evaluate **Grim Focus → Relentless Focus** as a later Ambush replacement only if the life-broker bars still have room — not required for Phase 2.
 
 ### Phase 3 — Polish
