@@ -27,6 +27,8 @@ Canonical layout for Solaegis character build plans under `examples/{account}/{l
 | `dolu_tanesi_plan.md` (EU) | Build Plan | **Canonical** | Magicka life-broker NB; KEEP all native; Julianos + Clever Alchemist; distinct from NA `dolu_tenasi` |
 | `lord_elric_of_melnibone_plan.md` (EU) | Build Plan | **Canonical** | Magicka pet Sorc with 2H front bar; Grave Lord at 50; Julianos (weapons + jewelry) + Night Mother's Gaze, craftable |
 | `taranis_kotu_plan.md` (EU) | Build Plan | **Canonical** | Magicka control Sorc, Dest/Dest; Grave Lord at 50; New Moon Acolyte + Julianos + Oblivion's Foe staves, craftable |
+| `s_katib_asrar_plan.md` (EU) | Build Plan | **Canonical** | Group AoE magicka Arcanist; KEEP all native; craftable Tide-Born Wildstalker + Order's Wrath, Slimecraw end goal |
+| `sea_wolf_plan.md` (EU) | Build Plan | **Canonical** | Nord Warden Uber tank (DC, sea-wolf); KEEP Winter's Embrace, SUBCLASS Draconic Power + Bone Tyrant; 12 Fellowship's Fortitude, 100% craftable |
 
 **Alignment goal:** New plans and heavy revisions use the **Canonical** layout. Legacy files are migrated opportunistically — do not bulk-reformat unless explicitly requested.
 
@@ -204,7 +206,7 @@ Follow with **Read next:** inline anchor links to every major H2.
 - No fictional **"Companion's {player set}"** names, player sets (Julianos, Clever Alchemist, Divines), or **5-piece set bonuses** on companions.
 - Acquisition: merchant white basics + **Superior+** drops while companion is active — **not** player crafting handoff from Gear and crafting.
 - Include role, gear weight, trait, loadout, acquisition, and a numbered support skill bar.
-- **Stage recommendations are mandatory** on new/heavily revised plans: **Primary (now)**, **Secondary**, and **Goal (20/20 @ CP160)** — always best mechanical + RP fit for that stage. Reuse across plans is fine (no diversity soft-cap). Record all three in [`collectibles_companion_ledger.md`](collectibles_companion_ledger.md).
+- **Stage recommendations are mandatory** on new/heavily revised plans: **Primary (now)**, **Secondary**, and **Goal (20/20 @ CP160)** — always best mechanical + RP fit for that stage. **Account has access to all companions** — never filter or defer picks for unlock/ownership. Reuse across plans is fine (no diversity soft-cap). Record all three in [`collectibles_companion_ledger.md`](collectibles_companion_ledger.md).
 
 ### Collectibles
 

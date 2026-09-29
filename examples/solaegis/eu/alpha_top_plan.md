@@ -22,7 +22,7 @@ Designed for solo overland and public dungeons on craftable gear. Unlock Bahtra 
 | **Weapon Poisons** | Optional **Gradual Ravage Health** / **Escapist's Poison** between pulls |
 | **Staff/Weapon Enchant** | Front swords: **Poison** / **Absorb Stamina** / **Flame** · Back bow: **Disease Damage** or **Weapon Damage** |
 | **Companion** | **Primary (now):** **Bastian Hallix** (tank / adjutant) · **Secondary:** **Mirri Elendis** · **Goal (20/20 @ CP160):** **Tanlorin** |
-| **Primary Mount** | **Skulltooth Coastal Durzog** (owned) · **Alt:** **Sorrel Horse** — see [Collectibles](#collectibles) |
+| **Primary Mount** | **Snow Bear** (owned) · **Alt:** **Sorrel Horse** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **Golden Eagle** (owned) · **Alt:** **Alik'r Dune-Hound** — see [Collectibles](#collectibles) |
 | **Costume** | **Covenant Scout** (owned) · **Alt:** **Red Rook Armor** / **Austere Warden Outfit** / **Shrouded Armor** — see [Collectibles](#collectibles) |
 
@@ -43,7 +43,7 @@ He travels light in **Covenant Scout** kit — staff-college doctrine without pa
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Alpha Top — The Independent Marshal. Covenant prodigy gone independent hunter — beasts as companies, frost as kit, swords on the front, bow as back-bar artillery. Native Warden only (Animal Companions / Green Balance / Winter's Embrace) — unlock Bahtra at 50, do not auto-subclass. Target: 5 Order's Wrath + 5 Hunding's Rage (medium), @masisi. Front Dual Wield: Expansive Frost Cloak, Deep Fissure, Cutting Dive, Rending Slashes, Blue Betty (slot 5); ult Eternal Guardian. Back Bow: Endless Hail, Poison Injection, Fetcher Infection, Budding Seeds, Blue Betty (slot 5); ult Eternal Guardian (Guardian's Wrath = bear special). 64 Stam. Mundus: The Thief. Companion: Bastian now; Tanlorin @ 20/20. Costume: Covenant Scout / Skulltooth Coastal Durzog / Golden Eagle.
+> Alpha Top — The Independent Marshal. Covenant prodigy gone independent hunter — beasts as companies, frost as kit, swords on the front, bow as back-bar artillery. Native Warden only (Animal Companions / Green Balance / Winter's Embrace) — unlock Bahtra at 50, do not auto-subclass. Target: 5 Order's Wrath + 5 Hunding's Rage (medium), @masisi. Front Dual Wield: Expansive Frost Cloak, Deep Fissure, Cutting Dive, Rending Slashes, Blue Betty (slot 5); ult Eternal Guardian. Back Bow: Endless Hail, Poison Injection, Fetcher Infection, Budding Seeds, Blue Betty (slot 5); ult Eternal Guardian (Guardian's Wrath = bear special). 64 Stam. Mundus: The Thief. Companion: Bastian now; Tanlorin @ 20/20. Costume: Covenant Scout / Snow Bear / Golden Eagle.
 
 > [!TIP]
 > **Flavor Pet:** **Golden Eagle** (owned) — falconer's eye over the hunting ground. **Alt:** **Alik'r Dune-Hound** for pack hunts. See [Collectibles](#collectibles).
@@ -362,9 +362,10 @@ All picks are **owned** on the live [alpha_top.md](alpha_top.md) export.
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Primary (owned)** | **[Skulltooth Coastal Durzog](https://en.uesp.net/wiki/Online:Skulltooth_Coastal_Durzog)** — hunting-beast mount; tracks and tears, not parade steel |
+| **Primary (owned)** | **[Snow Bear](https://en.uesp.net/wiki/Online:Snow_Bear)** — frost-country beast for a Winter's Embrace hunter; the biggest animal in his company |
 | **Alt (owned)** | **[Sorrel Horse](https://en.uesp.net/wiki/Online:Sorrel_Horse)** — quiet field hunter's horse for long stalks |
 | **Backup (owned)** | **[Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)** — heavy chase when the quarry is armored |
+| **Former primary** | **[Skulltooth Coastal Durzog](https://en.uesp.net/wiki/Online:Skulltooth_Coastal_Durzog)** — handed to [Sea-Wolf](sea_wolf_plan.md) as his coastal pack-hunter |
 | **Avoid (thematically)** | **Nightmare Senche** / **Rahd-m'Athra** / **Noweyr Steed** — void-festival cats and carnival mounts fight the hunter fiction (and Senche is already overused on this account) |
 
 ### Pet
@@ -412,7 +413,7 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 5. **Spend leftover CP** (55 available) — **slot Fighting Finesse** in Warfare as soon as it has 25 points (22 free now); Fitness: Boundless Vitality → 50, then **Fortified** in the empty third slot; Craft 16 toward Steadfast Enchantment. Keep **Master-at-Arms** unless you deliberately respec to Thaumaturge.
 6. ✅ **Mundus:** The Thief is live.
 7. **Bastian:** Companion's gear; fill empty slots; keep summoned for XP.
-8. **Collectibles:** equip **Covenant Scout**, **Skulltooth Coastal Durzog**, **Golden Eagle** (Lion Guard = Outfit motif only).
+8. **Collectibles:** equip **Covenant Scout**, **Snow Bear**, **Golden Eagle** (Lion Guard = Outfit motif only).
 
 ### Phase 1 — Level to 50 (interim)
 

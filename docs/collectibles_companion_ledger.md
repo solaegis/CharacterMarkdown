@@ -29,15 +29,16 @@ When locking primaries: consult **account tiers → character shortlist → prim
 
 | Slug | Primary Mount | Flavor Pet | Costume | Companion Primary | Companion Secondary | Companion Goal | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| alpha_top | Skulltooth Coastal Durzog | Golden Eagle | Covenant Scout | Bastian Hallix | Mirri Elendis | Tanlorin | Shortlist S aligns |
+| alpha_top | Snow Bear | Golden Eagle | Covenant Scout | Bastian Hallix | Mirri Elendis | Tanlorin | Mount moved to Snow Bear 2026-09-27 (newly owned) |
 | karakadin | Pyrodraconic Camel-Lizard | Alik'r Dune-Hound | Forebear Dishdasha | Bastian Hallix | Mirri Elendis | Zerith-var | Shortlist S aligns |
 | lord_elric_of_melnibone | Nightmare Senche | Long-Winged Bat | Mannimarco | Mirri Elendis | Tanlorin | Zerith-var | Profile Collectibles incomplete; ownership from account pool |
 | masisi | Psijic Escort Charger | Psijic Mascot Bear Cub | Imperial Chancellor | Tanlorin | Mirri Elendis | Zerith-var | Hybrid farmer-DPS; Goal Zerith for PD filler; primary Psijic kit retained (theme over diversity with taranis) |
 | taranis_kotu | Psijic Escort Charger | Coldharbour Bantam Guar | Mannimarco | Bastian Hallix | Mirri Elendis | Tanlorin | Shares mount+costume primaries with masisi / elric — revisit when next touched |
 | zirhli | Rahd-m'Athra | Verdigris Haj Mota | Shrouded Armor | Tanlorin | Bastian Hallix | Tanlorin | Diversified 2026-09-06 off Nightmare Senche / Dune-Hound |
-| sabir_al_rih | Hammerfell Camel (Ideal) | Fennec Fox (Ideal) | Claw-Dance Acolyte Style (Ideal) | Ember | Mirri Elendis | Zerith-var | Greenfield Ideals **not** in EU owned pool; best owned bridges: Pyrodraconic Camel-Lizard / Alik'r Dune-Hound / Forebear Dishdasha; alt costume Priest of the Green unowned |
+| sabir_al_rih | Hammerfell Camel | Fennec Fox (Ideal) | Claw-Dance Acolyte Style (Ideal) | Ember | Mirri Elendis | Zerith-var | Hammerfell Camel owned 2026-09-27 and now primary; pet/costume Ideals still unowned, bridges Alik'r Dune-Hound / Forebear Dishdasha; alt costume Priest of the Green unowned |
 | dolu_tanesi | Noweyr Steed | Haunted House Cat | Austere Warden Outfit | Mirri Elendis | Bastian Hallix | Tanlorin | Magicka life-broker NB; Snape-coded; profile Collectibles incomplete; distinct from NA dolu_tenasi |
 | s_katib_asrar | Dwarven War Horse | Scintillant Dovah-Fly | Court of Bedlam | Mirri Elendis | Bastian Hallix | Tanlorin | Greenfield Mag Arcanist Lexarch; diversified off Psijic/Mannimarco; stub profile until /cm |
+| sea_wolf | Bleakrock Snowdog | Nenalata Ayleid Wolf Pup | Sea Drake Garb | Mirri Elendis | Tanlorin | Mirri Elendis | Nord **Warden** Uber tank (DC, sea-wolf raider; saga name Hastein; recreated from the Level 5 EP DK 2026-09-28); Bleakrock Snowdog bought 2026-09-27 (Durzog backup); pet + costume unused primaries |
 
 ### EU frequency (primaries appearing more than once)
 
@@ -48,15 +49,15 @@ When locking primaries: consult **account tiers → character shortlist → prim
 
 ### Account collectible tiers
 
-Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes). Shared across @SOLAEGIS EU.
+Pool SoT: `sea_wolf.md` (2026-09-27 export: 11 mounts / 38 pets / 25 costumes; supersedes `sabir_al_rih.md`). New since the last snapshot: mounts **Bleakrock Snowdog**, **Hammerfell Camel**, **Snow Bear**; costumes **Phaer Mercenary Armor**, **Quendelunn Veiled Heritance Garb**; pets **Aurora Firepot Spider**, **Stonefire Scamp**. Shared across @SOLAEGIS EU.
 
 #### Mounts
 
 | Tier | Names |
 | :--- | :--- |
-| S | Nightmare Senche, Psijic Escort Charger, Pyrodraconic Camel-Lizard, Rahd-m'Athra |
-| A | Dwarven War Horse, Noweyr Steed, Skulltooth Coastal Durzog |
-| B | — |
+| S | Bleakrock Snowdog, Nightmare Senche, Psijic Escort Charger, Pyrodraconic Camel-Lizard, Rahd-m'Athra |
+| A | Dwarven War Horse, Noweyr Steed, Skulltooth Coastal Durzog, Snow Bear |
+| B | Hammerfell Camel |
 | C | Sorrel Horse |
 
 #### Pets
@@ -83,7 +84,7 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes). Shared across @S
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
-| Mount | Skulltooth Coastal Durzog | Noweyr Steed, Sorrel Horse | Breton Warden / DC; primary locked |
+| Mount | Snow Bear (A, primary) | Skulltooth Coastal Durzog, Sorrel Horse | Breton Warden / DC; Snow Bear fits Winter's Embrace frost kit |
 | Pet | Golden Eagle | Alik'r Dune-Hound, Blue Dragon Imp | |
 | Costume | Covenant Scout | Austere Warden Outfit, Red Rook Armor, Shrouded Armor | |
 
@@ -123,7 +124,7 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes). Shared across @S
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
-| Mount | Pyrodraconic Camel-Lizard (owned bridge) | Rahd-m'Athra, Skulltooth Coastal Durzog | Ideal Hammerfell Camel **unowned**; keep Ideal in primary until acquired |
+| Mount | Pyrodraconic Camel-Lizard (backup) | Rahd-m'Athra, Skulltooth Coastal Durzog; B: Hammerfell Camel (primary) | Hammerfell Camel owned 2026-09-27 and now primary |
 | Pet | Alik'r Dune-Hound (owned bridge) | Jackal, Ringtail Jerboa | Ideal Fennec Fox **unowned** |
 | Costume | Forebear Dishdasha (owned bridge) | Crown Dishdasha, Wood Elf Vanguard | Ideal Claw-Dance / Priest of the Green **unowned** |
 
@@ -150,6 +151,14 @@ Pool SoT: `sabir_al_rih.md` (8 mounts / 36 pets / 23 costumes). Shared across @S
 | Mount | Dwarven War Horse | Noweyr Steed, Sorrel Horse | Khajiit Mag Arcanist; unused mount primary |
 | Pet | Scintillant Dovah-Fly | Blue Dragon Imp, Haunted House Cat | Ink-mote scribe familiar |
 | Costume | Court of Bedlam | Bloodthorn Robes, Mages Guild Formal Robes | Apocrypha-court; not Misrule |
+
+#### sea_wolf
+
+| Kind | S | A | Notes |
+| :--- | :--- | :--- | :--- |
+| Mount | Bleakrock Snowdog (primary) | Skulltooth Coastal Durzog; C: Sorrel Horse | Sea-wolf theme: Nord-isle wolf-hound |
+| Pet | — | Nenalata Ayleid Wolf Pup (primary); B: Abecean Ratter Cat, Hay-Crown Chub Loon, Tan Morthal Mastiff | Pack + ship's cat |
+| Costume | — | Noble Clan-Chief; B: Sea Drake Garb (primary), Vulkhel Guard Marine Armor | Theme over tier: Sea Drake Garb is the raider |
 
 ### Incomplete collectibles exports (EU)
 
