@@ -45,6 +45,12 @@
         "pages": {
           "type": "integer",
           "minimum": 0
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -823,6 +829,9 @@
               "items": {
                 "type": "number"
               }
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -836,6 +845,9 @@
               "items": {
                 "type": "number"
               }
+            },
+            {
+              "type": "null"
             }
           ]
         }

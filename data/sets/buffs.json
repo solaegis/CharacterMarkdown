@@ -3,10 +3,13 @@
  "kind": "buffs",
  "source": {
   "wiki": "en.uesp.net",
-  "max_revid": 3639482,
-  "pages": 1
+  "max_revid": 3642434,
+  "pages": 1,
+  "patches": [
+   "u51"
+  ]
  },
- "count": 76,
+ "count": 72,
  "items": [
   {
    "key": "minor_aegis",
@@ -127,7 +130,7 @@
    "group": "Brutality",
    "tier": "minor",
    "kind": "buff",
-   "description": "Increases weapon damage by 10%.",
+   "description": "Increases Weapon and Spell Damage by 10%.",
    "value": 10,
    "unit": "pct",
    "sources": {
@@ -135,7 +138,8 @@
      "Elder Dragon"
     ],
     "potions": [
-     "Increase Weapon Power Poison"
+     "Increase Weapon Power Poison",
+     "Increase Spell Power Poison"
     ]
    }
   },
@@ -145,7 +149,7 @@
    "group": "Brutality",
    "tier": "major",
    "kind": "buff",
-   "description": "Increases weapon damage by 20%.",
+   "description": "Increases Weapon and Spell Damage by 20%.",
    "value": 20,
    "unit": "pct",
    "sources": {
@@ -182,7 +186,10 @@
      "Wield Soul"
     ],
     "potions": [
-     "Increase Weapon Power Potion"
+     "Increase Weapon Power Potion",
+     "Increase Spell Power Potion",
+     "Increase Spell Resist Poison",
+     "Increase Spell Resist Potion"
     ]
    }
   },
@@ -703,67 +710,6 @@
    }
   },
   {
-   "key": "minor_prophecy",
-   "name": "Minor Prophecy",
-   "group": "Prophecy",
-   "tier": "minor",
-   "kind": "buff",
-   "description": "Increases spell critical by 1314.",
-   "value": 1314,
-   "unit": "flat",
-   "sources": {
-    "abilities": [
-     "Exploitation"
-    ],
-    "potions": [
-     "Spell Critical Poison"
-    ]
-   }
-  },
-  {
-   "key": "major_prophecy",
-   "name": "Major Prophecy",
-   "group": "Prophecy",
-   "tier": "major",
-   "kind": "buff",
-   "description": "Increases spell critical by 2629.",
-   "value": 2629,
-   "unit": "flat",
-   "sources": {
-    "abilities": [
-     "Bound Armaments",
-     "Expert Hunter",
-     "Grim Focus",
-     "Inferno",
-     "Lotus Flower",
-     "Magelight",
-     "Roar",
-     "Shocking Siphon",
-     "Sun Fire"
-    ],
-    "sets": [
-     "Oakensoul Ring",
-     "Toothrow",
-     "Treasure Hunter"
-    ],
-    "scribing": [
-     "Savagery and Prophecy on Banner Bearer",
-     "Elemental Explosion",
-     "Smash",
-     "Soul Burst",
-     "Torchbearer",
-     "Trample",
-     "Traveling Knife",
-     "Ulfsild's Contingency",
-     "Vault",
-     "Wield Soul"
-    ],
-    "potions": [
-     "Spell Critical Potion"
-    ]
-   }
-  },
-  {
    "key": "minor_protection",
    "name": "Minor Protection",
    "group": "Protection",
@@ -918,7 +864,7 @@
    "group": "Savagery",
    "tier": "minor",
    "kind": "buff",
-   "description": "Increases weapon critical by 1314.",
+   "description": "Increases Weapon and Spell Critical by 1314.",
    "value": 1314,
    "unit": "flat",
    "sources": {
@@ -926,7 +872,8 @@
      "Hemorrhage"
     ],
     "potions": [
-     "Weapon Critical Poison"
+     "Weapon Critical Poison",
+     "Spell Critical Poison"
     ]
    }
   },
@@ -936,7 +883,7 @@
    "group": "Savagery",
    "tier": "major",
    "kind": "buff",
-   "description": "Increases weapon critical by 2629.",
+   "description": "Increases Weapon and Spell Critical by 2629.",
    "value": 2629,
    "unit": "flat",
    "sources": {
@@ -969,7 +916,8 @@
      "Wield Soul"
     ],
     "potions": [
-     "Weapon Critical Potion"
+     "Weapon Critical Potion",
+     "Spell Critical Potion"
     ]
    }
   },
@@ -1023,73 +971,6 @@
      "Roaring Opportunist",
      "Tooth of Lokkestiiz",
      "War Machine"
-    ]
-   }
-  },
-  {
-   "key": "minor_sorcery",
-   "name": "Minor Sorcery",
-   "group": "Sorcery",
-   "tier": "minor",
-   "kind": "buff",
-   "description": "Increases spell damage by 10%.",
-   "value": 10,
-   "unit": "pct",
-   "sources": {
-    "abilities": [
-     "Illuminate"
-    ],
-    "potions": [
-     "Increase Spell Power Poison"
-    ]
-   }
-  },
-  {
-   "key": "major_sorcery",
-   "name": "Major Sorcery",
-   "group": "Sorcery",
-   "tier": "major",
-   "kind": "buff",
-   "description": "Increases spell damage by 20%.",
-   "value": 20,
-   "unit": "pct",
-   "sources": {
-    "abilities": [
-     "Betty Netch",
-     "Biting Jabs",
-     "Degeneration",
-     "Drain Power",
-     "Hidden Blade",
-     "Hircine's Bounty",
-     "Molten Weapons",
-     "Momentum",
-     "Pariah's Resolve",
-     "Skeletal Mage",
-     "Surge",
-     "Tome-Bearer's Inspiration",
-     "Venom Arrow"
-    ],
-    "sets": [
-     "Dreugh King Slayer",
-     "Oakensoul Ring",
-     "Rattlecage"
-    ],
-    "scribing": [
-     "Brutality and Sorcery on Banner Bearer",
-     "Elemental Explosion",
-     "Smash",
-     "Soul Burst",
-     "Torchbearer",
-     "Trample",
-     "Traveling Knife",
-     "Ulfsild's Contingency",
-     "Vault",
-     "Wield Soul"
-    ],
-    "potions": [
-     "Increase Spell Power Potion",
-     "Increase Spell Resist Poison",
-     "Increase Spell Resist Potion"
     ]
    }
   },

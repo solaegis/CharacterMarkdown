@@ -19,6 +19,7 @@ from typing import Any
 from urllib.parse import quote, unquote
 
 from .normalize import normalize_sets
+from .patches import apply_all as apply_patches
 from .paths import DATA_DIR, REPORTS_DIR, SET_PAGES, SUPPORT_PAGES, WIKI_CACHE, slugify
 from .reconcile import load_dump, reconcile
 from .wikitext import (
@@ -527,16 +528,22 @@ def _write(name: str, payload: Any) -> Path:
 
 
 def _envelope(
-    kind: str, items: list[dict[str, Any]], sources: list[dict[str, Any]]
+    kind: str,
+    items: list[dict[str, Any]],
+    sources: list[dict[str, Any]],
+    patches: list[str] | None = None,
 ) -> dict[str, Any]:
+    source: dict[str, Any] = {
+        "wiki": "en.uesp.net",
+        "max_revid": max((s["revid"] for s in sources), default=None),
+        "pages": len(sources),
+    }
+    if patches:
+        source["patches"] = patches
     return {
         "schema_version": SCHEMA_VERSION,
         "kind": kind,
-        "source": {
-            "wiki": "en.uesp.net",
-            "max_revid": max((s["revid"] for s in sources), default=None),
-            "pages": len(sources),
-        },
+        "source": source,
         "count": len(items),
         "items": items,
     }
@@ -562,11 +569,18 @@ def run() -> int:
     traits = parse_traits(support["Online:Traits"])
     mundus = parse_mundus(support["Online:Mundus Stones"])
     enchants = parse_enchants(support["Online:Glyphs"], glyph_pages)
+    patched = apply_patches(sets, buffs, mundus)
 
-    _write("sets.json", _envelope("sets", sets, [p for p in set_pages if p["expanded"]]))
-    _write("buffs.json", _envelope("buffs", buffs, [support["Online:Buffs"]]))
+    _write(
+        "sets.json",
+        _envelope("sets", sets, [p for p in set_pages if p["expanded"]], patched["sets"]),
+    )
+    _write("buffs.json", _envelope("buffs", buffs, [support["Online:Buffs"]], patched["buffs"]))
     _write("traits.json", _envelope("traits", traits, [support["Online:Traits"]]))
-    _write("mundus.json", _envelope("mundus", mundus, [support["Online:Mundus Stones"]]))
+    _write(
+        "mundus.json",
+        _envelope("mundus", mundus, [support["Online:Mundus Stones"]], patched["mundus"]),
+    )
     _write(
         "enchants.json",
         _envelope("enchants", enchants, [support["Online:Glyphs"], *glyph_pages.values()]),
@@ -584,6 +598,9 @@ def run() -> int:
             f"{len(recon['game_only'])} game-only, {len(recon['wiki_only'])} wiki-only",
             file=sys.stderr,
         )
+    for kind, ids in patched.items():
+        if ids:
+            print(f"  patched {kind}.json: {', '.join(ids)}", file=sys.stderr)
     cov = norm["coverage"]
     print(
         f"✓ parse: {len(sets)} sets, {len(buffs)} buffs, {len(traits)} traits, "

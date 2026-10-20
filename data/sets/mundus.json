@@ -4,16 +4,19 @@
  "source": {
   "wiki": "en.uesp.net",
   "max_revid": 3590732,
-  "pages": 1
+  "pages": 1,
+  "patches": [
+   "u51"
+  ]
  },
  "count": 13,
  "items": [
   {
    "key": "the_apprentice",
    "stone": "The Apprentice",
-   "effect": "Increases Spell Damage",
-   "value": 238,
-   "full_divines_value": 389
+   "effect": "Increases Experience and Inspiration gained (no combat stat)",
+   "value": null,
+   "full_divines_value": null
   },
   {
    "key": "the_atronach",
@@ -101,7 +104,7 @@
   {
    "key": "the_warrior",
    "stone": "The Warrior",
-   "effect": "Increases Weapon Damage",
+   "effect": "Increases Weapon and Spell Damage",
    "value": 238,
    "full_divines_value": 389
   }

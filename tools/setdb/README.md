@@ -18,7 +18,21 @@ task setdb:test       # normalizer + reconciler tests
 | parse | `parse.py`, `wikitext.py` | cache → `data/sets/{sets,buffs,traits,mundus,enchants}.json` + `reports/parse_report.md` |
 | normalize | `normalize.py` | bonus text → typed `effects[]` + `coverage`; queue in `reports/unmodeled.md` |
 | reconcile | `reconcile.py` | SavedVariables `/cm sets:dump` → set IDs, game-verified text (`reports/reconcile.md`) |
+| patches | `patches.py` | game-patch overlays for changes UESP hasn't caught up with; listed in each file's `source.patches` |
 | validate | `validate.py` | JSON → `schema.json` + cross-file checks |
+
+## Patch overlays
+
+When a game update lands before UESP's pages do, `patches.py` rewrites the parsed records
+after normalization. Each patch only touches records that still carry the pre-patch wiki
+text, so it becomes a no-op once the wiki is updated (then delete it). A build prints
+`patched <file>.json: <id>` for every patch that changed something.
+
+- **`u51`** (Update 51, 2026-09-28):
+  - Sorcery folds into Brutality (Weapon and Spell Damage) and Prophecy into Savagery (Weapon and Spell Critical).
+  - Set grants are remapped, and a grant that duplicates an identical one is dropped. The raw `text`/`tx` still reads "Brutality and Sorcery".
+  - The Warrior is hybrid. The Apprentice gives Experience and Inspiration only, so its `value` is `null`.
+  - Illuminate and Exploitation are not merged: those passives got new buffs.
 
 ## Fetch behaviour
 

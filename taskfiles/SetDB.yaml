@@ -34,7 +34,7 @@ tasks:
   test:
     desc: Run set DB tests (normalizer grammar, SavedVariables reader, reconciliation)
     cmds:
-      - uv run --group setdb python -m unittest tools.setdb.test_normalize tools.setdb.test_reconcile tools.setdb.test_digest
+      - uv run --group setdb python -m unittest tools.setdb.test_normalize tools.setdb.test_reconcile tools.setdb.test_digest tools.setdb.test_patches
 
   digest:
     desc: "Write the compact LLM digest data/sets/llm_digest.jsonl. Options: -- --types trial,dungeon --no-text --out <path>"
