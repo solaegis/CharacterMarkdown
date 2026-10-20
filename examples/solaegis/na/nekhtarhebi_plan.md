@@ -15,6 +15,7 @@ As a Redguard who has claimed the title of **Dark Executioner**, Nekhtarhebi vie
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Lawful Evil** — Dark Executioner — Code of the Scythe; harvest of the unjust under grim discipline |
 | **Primary Stat** | 64 points in **Stamina** (Current) |
 | **Mundus Stone** | **The Thief** (Critical Strike Chance) |
 | **Food** | **Braised Rabbit with Spring Vegetables** (Max Health + Max Stamina) |

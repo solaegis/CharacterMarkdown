@@ -16,6 +16,7 @@ Karakedi doesn't just pick physical locks in Alinor; he is a specialist in "unlo
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Neutral Evil** — Master of Keys — Dark Brotherhood locksmith; murder as craft |
 | **Primary Stat** | 64 points in **Stamina** |
 | **Mundus Stone** | **The Thief** (Critical Strike Chance) |
 | **Food** | **Braised Rabbit with Spring Vegetables** (Max Health + Max Stamina) |

@@ -14,6 +14,7 @@ Masisi views the wilderness of Summerset not as a battlefield, but as a vast, di
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Lawful Neutral** — Gilded Artisan — Imperial order, efficiency, and the ledger of materials |
 | **Primary Stat** | 64 points in **Stamina** (Infinite sprint/stealth sustain) |
 | **Mundus Stone** | **The Steed** (Movement Speed & Health Recovery) |
 | **Farming Gear** | **Night's Silence** (Sneak Speed) + **Adept Rider** (Permanent Major Expedition) |

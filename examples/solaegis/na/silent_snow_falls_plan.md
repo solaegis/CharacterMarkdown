@@ -12,6 +12,7 @@ Designed specifically to solo world bosses, clear delves, and dominate normal/ve
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **True Neutral** — Mire apothecary — Hist toxin and bloom without crusade or malice |
 | **Primary Stat** | 64 points in **Magicka** — **live:** 64 Magicka; **25,023** Magicka · **3,153** Spell Power · **21,372** Health · **29.4%** Spell Crit · **773** Mag Recovery |
 | **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** equipped |
 | **Vampirism** | **Cured** — do not re-infect; healing passives and overland fire bosses conflict with vampirism |
@@ -429,6 +430,8 @@ If nothing above is owned and you want a single premium purchase:
 | **Armored warhorses / Auroran knights** | Too knightly-templar; breaks the swamp scholar silhouette. |
 | **Mechanical or Daedric mounts** | Breaks nature/toxin fantasy unless intentionally ironic. |
 
+**Favorites (ESO Favorite Collectibles / Collections):** Skulltooth Coastal Durzog, Wormwrithe Bear-Lizard, Shadowghost Guar, Noweyr Steed, Tessellated Guar, Green Narsis Guar — mire / swamp-adjacent owned set (**Swamp Senche** Ideal — add when unlocked); enable random favorite mount when 2+ are favorited.
+
 ### Pet
 
 | **Pet** | **Why** |
@@ -437,6 +440,8 @@ If nothing above is owned and you want a single premium purchase:
 | **Hist Guar** | Reinforces Argonian / Hist identity alongside Elder Argonian gear styling. |
 | **Alik'r Dune-Hound** | Confirmed owned — desert scout aesthetic if traveling Alik'r routes. |
 | **Fungal or moss-themed pets** | If owned, reinforce the nature-toxin / mycelium fantasy. |
+
+**Favorites:** Verdigris Haj Mota, Wormwrithe Haj Mota Hatchling, Hot Pepper Bantam Guar, Haunted House Cat, Sylvan Nixad, Coldharbour Bantam Guar (if owned), Spectral Mudcrab — swamp / Hist / toxin familiars; summon a random favorite vanity pet when 2+ are set.
 
 ### Dye and style
 

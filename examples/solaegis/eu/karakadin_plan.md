@@ -12,13 +12,15 @@ Designed for solo overland and public dungeons on craftable gear. Unlock Bahtra 
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Neutral Good** — Redemptive necromancer — passage for the lost, never dominion or Soul Trap |
 | **Primary Stat** | 64 points in **Magicka** — **live:** **35 Mag** / 0 Health / 0 Stam · pools **24,014** HP / **34,249** Mag / **23,246** Stam · **target:** 64 Mag at CP160 |
 | **Mundus Stone** | **The Thief** (+Critical Chance) while crit is low — **live:** The Shadow (early; swap to Thief, return to Shadow once crit chance is comfortable) |
 | **Vampirism** | **Cured** — vampires subvert the cycle of life and death by unnatural means to attain immortality; she will not take the bite |
+| **Trinity** | **Grave Lord** + **Bone Tyrant** + **Living Death** KEEP — **live:** all three native ✓ · **decision:** redemptive-necromancer identity; Bone Tyrant's passives are the glass caster's survival |
 | **Sets** | **5 Law of Julianos + 5 Clever Alchemist** (100% craftable, all Light) — **live:** Wisdom of Vanus 5/5 (+ scrap shoulders/waist/ring) · **target:** Julianos + Clever Alchemist |
 | **Bars** | Front: **Lightning Dest** ("Bonefire") · Back: **Inferno Dest** ("Dust Veil") — **live:** Dest Main / Dest Backup (weapon order correct; fix duplicate morphs) |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Magicka Recovery) or **Witty Blue Entremet** while leveling |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Crit + Mag) — procs Clever Alchemist |
+| **Potion** | **Magicka power potion** (Restore Magicka + Major Brutality + Major Savagery; U51 renamed potions, so pick it by its effects). Procs Clever Alchemist; its Major Brutality duplicates Skeletal Arcanist, so the crit and the proc are the value |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** between pulls |
 | **Staff/Weapon Enchant** | Front Lightning: **Shock Damage** (Infused / Crusher) · Back Inferno: **Flame Damage** or **Absorb Magicka** |
 | **Companion** | **Primary (now):** **Bastian Hallix** (tank, Level 8/20) · **Secondary:** **Mirri Elendis** · **Goal (20/20 @ CP160):** **Zerith-var** |
@@ -61,7 +63,17 @@ She is a woman of the Alik’r who turned loss into craft, and craft into mercy 
 
 ## Trinity configuration
 
+### Subclassing decision (required)
+
 Subclass unlocks at **Level 50** via Bahtra at-Hunding (**"A Study in Discipline"**). Unlocking the quest does **not** mean you must subclass. **Default trinity = all three native Necromancer lines.** See [docs/subclassing.md](../../../docs/subclassing.md).
+
+**This build's decision: KEEP all three native lines.**
+
+- **Grave Lord** is the damage and corpse engine.
+- **Living Death** is the redemptive half of the fiction: Spirit Guardian and Resistant Flesh (Major Protection) keep her alive without a restoration staff.
+- **Bone Tyrant** is the only pillar a foreign line could plausibly replace, since its actives are optional here. Its passives (Death Gleaning resource return, Health Avarice, Last Gasp, Disdain Harm) are what keep a solo light-armor caster alive, though. A foreign damage line (for example **Storm Calling** or **Herald of the Tome**) would trade that survival for a damage gain that solo overland doesn't need.
+
+Re-evaluate at CP160 with a gold-gear export. If Bone Tyrant's actives are still unslotted then, it's the pillar to test first.
 
 ```mermaid
 graph TD
@@ -128,7 +140,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 | **2** | Grave Lord | Sacrificial Bones → **Grave Lord's Sacrifice** | +15% Necro/DoT self-buff; seeds corpse | **Live** — slotted |
 | **3** | Grave Lord | Flame Skull → **Ricochet Skull** | Magicka spammable; 3rd skull AoE while Sacrifice is up | **Live** — slotted |
 | **4** | Grave Lord | Boneyard → **Unnerving Boneyard** | AoE DoT + Major Breach | **Live** — slotted |
-| **5** | Grave Lord | Skeletal Mage → **Skeletal Arcanist** | Major Brutality/Sorcery + shock AoE (**slot 5 both bars**) | **Respec** — live unmorphed Mage both bars |
+| **5** | Grave Lord | Skeletal Mage → **Skeletal Arcanist** | Major Brutality + shock AoE (**slot 5 both bars**) | **Respec** — live unmorphed Mage both bars |
 | **6 (Ult)** | Grave Lord | Frozen Colossus → **Glacial Colossus** | Magicka Colossus; Major Vulnerability open | **Live** — Glacial Colossus |
 
 #### Back Bar (Inferno Dest): "Dust Veil"
@@ -158,7 +170,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 ```mermaid
 flowchart TD
-    summon["Summon Skeletal Arcanist (slot 5)"] --> potion["Optional: Essence of Spell Power"]
+    summon["Summon Skeletal Arcanist (slot 5)"] --> potion["Optional: Magicka power potion"]
     potion --> back["Back: Glacial Colossus + Spirit Guardian + Resistant Flesh"]
     back --> swap["Swap front Bonefire"]
     swap --> setup["Blockade of Storms + Grave Lord's Sacrifice + Unnerving Boneyard"]
@@ -172,14 +184,14 @@ flowchart TD
 
 #### Solo combat tips
 
-1. **Skeletal Arcanist in slot 5 on both bars** — summon once; refresh when the 20s timer falls; Major Brutality/Sorcery stays up.
+1. **Skeletal Arcanist in slot 5 on both bars** — summon once; refresh when the 20s timer falls; Major Brutality stays up.
 2. **Glacial Colossus opens every boss** — Major Vulnerability first, every hard pull.
 3. **Spirit Guardian before the scrap** — passage ward + heal; refresh when it falls; its expire seeds a corpse.
 4. **Blockade of Storms + Grave Lord's Sacrifice + Unnerving Boneyard** — plant Bonefire before skull spam.
 5. **Detonating Siphon spends corpses** — Sacrifice skeleton death, Guardian expire, enemy death, or Boneyard economy; do not cast into empty ground.
 6. **Ricochet Skull is the barrage** — third cast AoEs while Sacrifice is active; weave light attacks for magicka return.
 7. **Resistant Flesh** before world bosses — Major Protection; swap back when HP dips.
-8. **Potion on hard pulls** once Clever Alchemist is on — Essence of Spell Power procs the 5-piece.
+8. **Potion on hard pulls** once Clever Alchemist is on — any potion procs the 5-piece.
 
 ### Passive skills
 
@@ -249,7 +261,7 @@ graph LR
 
 | **Set** | **5-Piece Bonus** | **Role** |
 | :--- | :--- | :--- |
-| **Clever Alchemist** | Potion in combat → +675 Weapon/Spell Damage (20s) | Boss open with Essence of Spell Power |
+| **Clever Alchemist** | Potion in combat → +675 Weapon/Spell Damage (20s) | Boss open with a Magicka power potion |
 | **Law of Julianos** | +300 Spell Critical; +10% Critical Damage | Baseline burst for Skull, Blockade, Colossus |
 
 > [!NOTE]

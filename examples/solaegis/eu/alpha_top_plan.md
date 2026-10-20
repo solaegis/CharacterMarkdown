@@ -12,16 +12,18 @@ Designed for solo overland and public dungeons on craftable gear. Unlock Bahtra 
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Chaotic Good** — Independent Marshal — left doctrine to win his way for the people he still protects |
 | **Primary Stat** | 64 points in **Stamina** — **live:** 0 Mag / 0 Health / **53 Stam** · pools **29,335** HP / **23,455** Mag / **27,439** Stam · **target:** 64 Stam at CP160 |
 | **Mundus Stone** | **The Thief** (+Critical Chance) — ✅ **live** |
 | **Vampirism** | **Cured** — frost armor and overland fire fights reject the crawl |
+| **Trinity** | **Animal Companions** + **Green Balance** + **Winter's Embrace** KEEP — **live:** all three native ✓ · **decision:** no foreign line beats a native pillar for solo overland on craftable gear yet |
 | **Sets** | **5 Order's Wrath + 5 Hunding's Rage** (100% craftable, all Medium) — **live:** Wilderqueen's Arch 3/5 + Beekeeper 2 / Prophet bow (2) / Trainee / Shadow Dancer / Twin Sisters scrap · **target:** OW + Hunding's |
 | **Bars** | Front: **Dual Wield** ("Close Quarters") · Back: **Bow** ("Fire Discipline") — **live:** DW Main / Bow Backup (weapon order correct) |
 | **Food** | **Dubious Camoran Throne** (Max Health + Max Stam + Stam Recovery) or **Artaeum Pickled Fish Bowl** while leveling |
-| **Potion** | **Essence of Weapon Power** (Stam restore + Major Savagery; its Major Brutality duplicates Blue Betty, so only the crit is new: +2,629 rating ≈ **+7.5%** damage at live stats) |
+| **Potion** | **Stamina power potion** (Restore Stamina + Major Brutality + Major Savagery; U51 renamed potions, so pick it by its effects). Its Major Brutality duplicates Blue Betty, so only the crit is new: +2,629 rating ≈ **+7.5%** damage at live stats |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** / **Escapist's Poison** between pulls |
 | **Staff/Weapon Enchant** | Front swords: **Poison** / **Absorb Stamina** / **Flame** · Back bow: **Disease Damage** or **Weapon Damage** |
-| **Companion** | **Primary (now):** **Bastian Hallix** (tank / adjutant) · **Secondary:** **Mirri Elendis** · **Goal (20/20 @ CP160):** **Tanlorin** |
+| **Companion** | **Primary (now):** **Bastian Hallix** (tank / adjutant) · **Secondary:** **Mirri Elendis** · **Goal (20/20 @ CP160):** **Isobel Veloise** (Breton knight-errant) |
 | **Primary Mount** | **Snow Bear** (owned) · **Alt:** **Sorrel Horse** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **Golden Eagle** (owned) · **Alt:** **Alik'r Dune-Hound** — see [Collectibles](#collectibles) |
 | **Costume** | **Covenant Scout** (owned) · **Alt:** **Red Rook Armor** / **Austere Warden Outfit** / **Shrouded Armor** — see [Collectibles](#collectibles) |
@@ -36,6 +38,8 @@ High Rock taught him doctrine. The Covenant taught him politics. Neither could h
 
 **Alpha Top** left the war room with a clean break: no resignation speech, no farewell toast — only a private ledger of every battle he had already won on paper and a promise to himself that the next campaign would answer to *him*. In the field he commands a regiment that needs no muster roll: the **Betty** is quartermaster (Major Brutality on schedule), the **Eternal Guardian** is heavy company, **Fetcher** skirmishers soften the line, and the **bow** is artillery from the back bar — fire discipline before the **swords** close the hunt.
 
+His affinity runs to **birds and bears**. The **Golden Eagle** is his eye over the hunting ground; the **Snow Bear** is his road company; the **Eternal Guardian** is the same frost-country weight on the battlefield. Scout and bruiser, sky and shoulder — that is the regiment he trusts.
+
 He travels light in **Covenant Scout** kit — staff-college doctrine without parade plate. Lion Guard steel stays on the Outfit Station when he wants the old world to remember who trained him. The difference is simple: he no longer asks permission to win.
 
 > [!TIP]
@@ -43,7 +47,7 @@ He travels light in **Covenant Scout** kit — staff-college doctrine without pa
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Alpha Top — The Independent Marshal. Covenant prodigy gone independent hunter — beasts as companies, frost as kit, swords on the front, bow as back-bar artillery. Native Warden only (Animal Companions / Green Balance / Winter's Embrace) — unlock Bahtra at 50, do not auto-subclass. Target: 5 Order's Wrath + 5 Hunding's Rage (medium), @masisi. Front Dual Wield: Expansive Frost Cloak, Deep Fissure, Cutting Dive, Rending Slashes, Blue Betty (slot 5); ult Eternal Guardian. Back Bow: Endless Hail, Poison Injection, Fetcher Infection, Budding Seeds, Blue Betty (slot 5); ult Eternal Guardian (Guardian's Wrath = bear special). 64 Stam. Mundus: The Thief. Companion: Bastian now; Tanlorin @ 20/20. Costume: Covenant Scout / Snow Bear / Golden Eagle.
+> Alpha Top — The Independent Marshal. Covenant prodigy gone independent hunter — birds and bears as company (Golden Eagle, Snow Bear, Eternal Guardian), frost as kit, swords on the front, bow as back-bar artillery. Native Warden only (Animal Companions / Green Balance / Winter's Embrace) — unlock Bahtra at 50, do not auto-subclass. Target: 5 Order's Wrath + 5 Hunding's Rage (medium), @masisi. Front Dual Wield: Expansive Frost Cloak, Deep Fissure, Cutting Dive, Rending Slashes, Blue Betty (slot 5); ult Eternal Guardian. Back Bow: Endless Hail, Poison Injection, Fetcher Infection, Budding Seeds, Blue Betty (slot 5); ult Eternal Guardian (Guardian's Wrath = bear special). 64 Stam. Mundus: The Thief. Companion: Bastian now; Isobel @ 20/20. Costume: Covenant Scout / Snow Bear / Golden Eagle.
 
 > [!TIP]
 > **Flavor Pet:** **Golden Eagle** (owned) — falconer's eye over the hunting ground. **Alt:** **Alik'r Dune-Hound** for pack hunts. See [Collectibles](#collectibles).
@@ -55,7 +59,17 @@ He travels light in **Covenant Scout** kit — staff-college doctrine without pa
 
 ## Trinity configuration
 
+### Subclassing decision (required)
+
 Subclass unlocks at **Level 50** via Bahtra at-Hunding (**"A Study in Discipline"**). Unlocking the quest does **not** mean you must subclass. **Default trinity = all three native Warden lines.** See [docs/subclassing.md](../../../docs/subclassing.md).
+
+**This build's decision: KEEP all three native lines.** Each pillar carries something a solo overland marshal has no other source for:
+
+- **Animal Companions** is the damage core and supplies **Major/Minor Breach** (Deep Fissure) and **Major Brutality** (Blue Betty) without a group.
+- **Green Balance** is the only self-healing on a Dual Wield / Bow kit with no restoration staff and no healer.
+- **Winter's Embrace** gives **Major Resolve** (Expansive Frost Cloak) and the frost-armor passives that keep a medium-armor melee standing.
+
+The likeliest challenger is a crit-focused stamina line such as **Assassination** (Nightblade), but it would have to replace either the only self-heals or the only self-applied Major Resolve. Re-evaluate at CP160 with a gold-gear export.
 
 ```mermaid
 graph TD
@@ -115,7 +129,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 | **2** | Animal Companions | Scorch → **Deep Fissure** | AoE shalk + Major/Minor Breach | **Live** — slotted (sibling **Subterranean Assault** is Stam/Poison if Mag runs dry) |
 | **3** | Animal Companions | Dive → **Cutting Dive** | Stam dive / bleed + Off Balance from range | **Live** — slotted (sibling **Screaming Cliff Racer** is Mag WD buff) |
 | **4** | Dual Wield | Twin Slashes → **Rending Slashes** | Melee bleed DoT + LA weave | **Live** — slotted (sibling **Blood Craze**; **not** Bloodthirst / Flurry) |
-| **5** | Animal Companions | Betty Netch → **Blue Betty** | Major Brutality / Sorcery + Stam restore (**slot 5 both bars**) | **Live** — slotted |
+| **5** | Animal Companions | Betty Netch → **Blue Betty** | Major Brutality (Weapon + Spell Damage since U51) + Stam restore (**slot 5 both bars**) | **Live** — slotted |
 | **6 (Ult)** | Animal Companions | Feral Guardian → **Eternal Guardian** | **Ultimate** — persistent bear; press again for **Guardian's Wrath** | **Live** — Eternal Guardian (UI may show Guardian's Wrath) |
 
 #### Back Bar (Bow): "Fire Discipline"
@@ -154,7 +168,7 @@ flowchart TD
 3. **Swap to Close Quarters** — keep **Expansive Frost Cloak** up (slot 1), **Deep Fissure** for Breach, **Cutting Dive** as Stam filler / Off Balance from range, **Rending Slashes** weave.
 4. **Blue Betty in slot 5 on both bars** so the buff survives weapon swaps; Cloak stays front for melee.
 5. **Guardian's Wrath** (press Ult with the bear out) on elites and world-boss opens — not a separate bar skill.
-6. Potion **Essence of Weapon Power** on hard pulls once Hunding's / Order's Wrath are on.
+6. **Stamina power potion** on hard pulls once Hunding's / Order's Wrath are on.
 
 ### Passive skills
 
@@ -321,7 +335,7 @@ Budget: **112 Warfare / 112 Craft / 112 Fitness** (336 total). **Live: 281 spent
 Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bolstered, etc.) — never player sets (no Hunding's, no Divines). Buy white basics from vendors; farm Superior+ while the companion is summoned.
 
 > [!NOTE]
-> **Live export:** Companions unlocked — **Bastian Hallix**, **Mirri Elendis**, **Tanlorin**, **Zerith-var**. No companion levels/gear detail in the profile; treat as early kit.
+> **Live export:** no companion levels or gear in the profile; treat as early kit. The account has every companion, so picks are best fit, not what the export happens to list.
 
 ### Companion picks
 
@@ -329,7 +343,7 @@ Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bo
 | :--- | :--- | :--- | :--- | :--- |
 | **Primary (now)** | **Bastian Hallix** | Tank / support | Former staff-office peer — the adjutant who still believes in doctrine | Frontline for a glass-ish stam melee hunter |
 | **Secondary** | **Mirri Elendis** | DPS / loot | Cynical excavator on independent campaigns | Swap for rapport / DPS |
-| **Goal (20/20 @ CP160)** | **Tanlorin** | DPS / utility | Unbound agent energy matching a marshal off the books | Fully geared Aggressive Companion's set |
+| **Goal (20/20 @ CP160)** | **Isobel Veloise** | Tank / melee | A Breton who wants to be a knight, following a Breton marshal who walked away from the chain of command; she still believes in the ideals he stopped trusting | Fully geared frontline to replace Bastian for hard world bosses |
 
 ### Primary now — Bastian Hallix
 
@@ -347,10 +361,10 @@ Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bo
 2. Fill empty slots with shield / heal / interrupt utilities as ranks allow.
 3. Ultimate: tank or group-support ult when available.
 
-Level Bastian toward **20/20** while Alpha Top levels; rotate Mirri/Tanlorin for XP when rapport or content needs it.
+Level Bastian toward **20/20** while Alpha Top levels; rotate Mirri for XP when rapport or content needs it, and start levelling **Isobel** alongside him.
 
 > [!TIP]
-> **Goal — Tanlorin:** Summon when you want an unbound second on the independent campaign. Medium **Companion's** Aggressive gear; full bar before hard world bosses.
+> **Goal — Isobel Veloise:** the knight-errant who follows a marshal with no army. **Heavy** Companion's, One Hand and Shield, Bolstered / Quickened; full bar before hard world bosses, then she takes over from Bastian.
 
 ---
 
@@ -358,11 +372,13 @@ Level Bastian toward **20/20** while Alpha Top levels; rotate Mirri/Tanlorin for
 
 All picks are **owned** on the live [alpha_top.md](alpha_top.md) export.
 
+**Affinity — birds and bears:** keep primary mount and flavor pet in that frame (**Snow Bear** + **Golden Eagle**); the **Eternal Guardian** bear closes the same theme in combat. Prefer bird/bear alts when swapping for Favorites or variety; dogs and horses stay secondary.
+
 ### Mount
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Primary (owned)** | **[Snow Bear](https://en.uesp.net/wiki/Online:Snow_Bear)** — frost-country beast for a Winter's Embrace hunter; the biggest animal in his company |
+| **Primary (owned)** | **[Snow Bear](https://en.uesp.net/wiki/Online:Snow_Bear)** — frost-country bear for a Winter's Embrace hunter; the biggest animal in his company |
 | **Alt (owned)** | **[Sorrel Horse](https://en.uesp.net/wiki/Online:Sorrel_Horse)** — quiet field hunter's horse for long stalks |
 | **Backup (owned)** | **[Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)** — heavy chase when the quarry is armored |
 | **Former primary** | **[Skulltooth Coastal Durzog](https://en.uesp.net/wiki/Online:Skulltooth_Coastal_Durzog)** — handed to [Sea-Wolf](sea_wolf_plan.md) as his coastal pack-hunter |
@@ -432,7 +448,7 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 ### Phase 3 — Polish
 
 17. Motifs / dyes: Lion Guard / Covenant steel-blue palette on Outfit Station; keep **Covenant Scout** as costume.
-18. Level **Tanlorin** (and Mirri) toward **20/20**; farm Companion's Aggressive / Bolstered gear.
+18. Level **Isobel** (and Mirri) toward **20/20**; farm Companion's Aggressive / Bolstered gear.
 19. Finish Craft **Liquid Efficiency**; re-export with `/cm` or `/cm coach` when live matches this plan.
 
 ### Finish

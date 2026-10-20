@@ -63,6 +63,7 @@ graph TD
 
 | **Attribute**    | **Recommendation**                                                                                                      |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Alignment** | **Chaotic Neutral** — Sandstorm heretic — necromancy as harvest outside Redguard law |
 | **Primary Stat** | 64 points in **Stamina** (Max physical scaling and survivability)                                                       |
 | **Mundus Stone** | **The Thief** (Critical Strike Chance — Crucial to trigger *Critical Surge* heals)                                      |
 | **Food**         | **Braised Rabbit with Spring Vegetables** (Max Health + Max Stamina) or **Dubious Camoran Throne** (Stamina + Recovery) |

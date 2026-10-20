@@ -12,6 +12,7 @@ This guide transforms Heka-Ankh into the **Apex Executioner**, a peak **Uber Tie
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Lawful Neutral** — Apex Executioner — Tu'whacca's law by steel; exile who still sentences the guilty |
 | **Primary Stat** | 64 points in **Stamina** — **live:** 64 Stamina (24,695 Stamina · 2,403 Weapon Power · 20,261 Health · ~15,219 Magicka) · **target:** 64 Stamina |
 | **Mundus Stone** | **The Thief** (+Critical Chance) until target gear — **live:** The Thief · **after CP160 craft:** test **The Shadow** (+Critical Damage); keep Thief if Night Mother's Major Breach uptime slips |
 | **Vampirism** | **Cured** — Redguard warriors rely on living vigor and martial stamina |
@@ -384,6 +385,8 @@ Heka-Ankh rides a formidable War Horse appropriate for a Redguard executioner.
 > [!TIP]
 > **Ideal mount (any source):** **Dune Stalker Senche** — fierce desert predator carrying the executioner across Alik'r sands.
 
+**Favorites (ESO Favorite Collectibles / Collections):** Dwarven War Horse, Hammerfell Camel, Pyrodraconic Camel-Lizard, Rahd-m'Athra, Ebon Dwarven Horse — desert / brass war mounts; owned thematic set only; enable random favorite mount when 2+ are favorited.
+
 ### Pet
 
 #### Primary (owned): Alik'r Jackal
@@ -395,6 +398,8 @@ Heka-Ankh rides a formidable War Horse appropriate for a Redguard executioner.
 
 > [!TIP]
 > **Ideal pet (any source):** **Sand Wisp** — desert spirit guiding the executioner — or **Alik'r Dune-Hound** — predator that tracks prey across open sand before the blade falls.
+
+**Favorites:** Jackal, Alik'r Dune-Hound, Dusky Fennec Fox — desert hunt companions (use **Jackal** if Collections lists that name instead of Alik'r Jackal); summon a random favorite vanity pet when 2+ are set.
 
 ### Dye and style
 

@@ -15,6 +15,7 @@ Karakum no longer just burns; he **hunts** from the between-spaces. As the Shado
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Chaotic Neutral** — Searing Stalker — primal hunt and void sandstorm without a moral code |
 | **Primary Stat** | 64 points in **Stamina** (Confirmed Respec) |
 | **Mundus Stone** | **The Thief** (Critical Strike Chance — Essential for the Stalker's lethality) |
 | **Food** | **Braised Rabbit with Spring Vegetables** (Max Health + Max Stamina) |

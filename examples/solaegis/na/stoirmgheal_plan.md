@@ -12,6 +12,7 @@ Both armories share one craftable body and jewelry loadout (**5 Order's Wrath + 
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Neutral Good** — Sovereign of the Altar — life-mage who heals the migration and the wounded |
 | **Primary Stat** | 64 points in **Magicka** — **live:** 64 / 0 / 0 · **25,632** Magicka · **3,214** Spell Power · **18,319** Health · **12,520** Stamina · **32.5%** Spell Crit |
 | **Mundus Stone** | **Armory 1 (overland):** **The Apprentice** (+Spell Damage) — **live:** The Atronach; swap when ready · **Armory 2 (healer WW):** **The Atronach** (Magicka Recovery) |
 | **Vampirism** | **N/A / cured** — healer and overland fire content both prefer no vamp stages |
@@ -391,11 +392,15 @@ Spend idle **Fitness** first (largest unspent pool), then Warfare presets, then 
 | **Faunfrolic Great Elk** | Owned ✅ | Primary — "grown" nature silhouette with the Fawn |
 | **Sapiarchic Senche-Serval** | Ideal backup | Matches Sapiarch / Ancestral High Elf visual identity |
 
+**Favorites (ESO Favorite Collectibles / Collections):** Faunfrolic Great Elk, Sapiarchic Senche-Serval, Noweyr Steed, Snow Bear, Yorgrim River Ram — nature / Sapiarch / storm-priest set; owned thematic set only; enable random favorite mount when 2+ are favorited.
+
 ### Pet
 
 | **Pet** | **Status** | **Notes** |
 | :--- | :--- | :--- |
 | **Ambersheen Vale Fawn** | Owned ✅ | Flavor pet for Metempsychosis / nature cycle |
+
+**Favorites:** Ambersheen Vale Fawn, Autumnal Indrik, Sylvan Nixad, Echalette, Orchid Whisper Moth, Psijic Mascot Bear Cub — Metempsychosis / nature cycle; summon a random favorite vanity pet when 2+ are set.
 
 ### Costume
 

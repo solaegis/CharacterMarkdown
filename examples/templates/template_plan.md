@@ -1,8 +1,8 @@
 # Build Plan - {CharacterName}: {Archetype Title} ({Build Tag})
 
-> **Character profile:** [{slug}.md](../{account}/{location}/{slug}.md) — Level {N} {Race} {Class}, CP {budget}, @{Account} ({Server}).
+> **Character profile:** [{slug}.md](../{account}/{location}/{slug}.md) — Level {N} {Gender} {Race} {Class}, CP {budget}, @{Account} ({Server}). Pronouns: **{she/her | he/him | they/them}**.
 
-{One to two paragraphs: elevator pitch — what this build is, **subclassing decision** (KEEP all three native with rationale, or which foreign lines SUBCLASS and why they clearly beat the natives they replace), what content it targets (solo overland, PvP, tank, etc.), and any live-vs-target transition note.}
+{One to two paragraphs: elevator pitch — what this build is, **subclassing decision** (KEEP all three native with rationale, or which foreign lines SUBCLASS and why they clearly beat the natives they replace), what content it targets (solo overland, PvP, tank, etc.), and any live-vs-target transition note. Use the pronouns declared above for this character throughout the plan.}
 
 ---
 
@@ -10,9 +10,12 @@
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Gender / Pronouns** | **{Female / Male}** (from profile) — **{she/her / he/him / they/them}** — use these in Roleplay, pitch, and any third-person prose |
+| **Alignment** | **{Lawful Good / Neutral Good / Chaotic Good / Lawful Neutral / True Neutral / Chaotic Neutral / Lawful Evil / Neutral Evil / Chaotic Evil}** — D&D nine-box; one line of fiction rationale (drives Favorites tone, Roleplay voice, Custom Title) |
 | **Primary Stat** | 64 points in **{Stat}** — **live:** {current spread/pools} · **target:** {pools at CP160} |
 | **Mundus Stone** | **{Mundus}** — {why}; **live:** {equipped or changing} |
-| **Vampirism** | **{Cured / Stage N / N/A}** — {rationale if relevant} |
+| **Vampirism** | **{Active — Stage N / Cured / Never}** — {rationale if relevant; live vs target if curing or infecting} |
+| **Lycanthropy** | **{Active / Cured / Never}** — {rationale if relevant; mutually exclusive with active vampirism} |
 | **Trinity** | **{Line A}** + **{Line B}** KEEP · **{Line C}** {KEEP / SUBCLASS (replaces **{Native}**)} — **live:** {current lines} · **decision:** {one-line why} |
 | **Sets** | **{Set A + Set B}** (100% craftable unless exception documented) — **live:** {current} · **target:** {end state} |
 | **Bars** | Front: {weapon} ("{bar name}") · Back: {weapon} ("{bar name}") |
@@ -33,7 +36,7 @@
 
 ## Roleplay: {Identity Title}
 
-{Character identity prose — who they are in Tamriel, how the build reads in fiction.}
+{Character identity prose — who they are in Tamriel, how the build reads in fiction. Match **Gender / Pronouns** from Build at a glance (default from profile Gender: Female → she/her, Male → he/him; use they/them only when the player asks).}
 
 > [!TIP]
 > **Suggested Custom Title:** `{≤100 characters for LAM Custom Title}`
@@ -369,6 +372,17 @@ Recommend companions in **three tiers**: who fits **right now** (roleplay + what
 > [!TIP]
 > **Ideal mount (any source):** **{Mount Name}** — {why this is the perfect thematic pick across **all** ESO mounts, even if not on account yet}. **Acquisition:** {Crown Store, achievement, event, stablemaster gold, etc.}.
 
+#### Favorites (ESO Favorite Collectibles / Collections)
+
+With **ESO Favorite Collectibles** installed, set Collections → Mounts favorites on this character so random-favorite / Favorites subcategory match the build. Prefer **owned** mounts only; keep the list thematic (not the whole stable). Primary mount should always be favorited.
+
+| **Favorite mounts** | **Why in the set** |
+| :--- | :--- |
+| **{Primary mount}** | Primary overland silhouette |
+| **{Sibling / theme match}** | Same fiction family for random-favorite rotation |
+
+<!-- Authors: name every owned mount that should stay favorited; clear off-theme favorites in-game when applying. -->
+
 <!-- Optional -->
 <!-- #### Crown budget option -->
 <!-- If nothing owned fits and the player will spend Crowns, name one premium buy and why. -->
@@ -393,6 +407,15 @@ Vanity pets are **cosmetic only** — pick the **best owned pet** for roleplay f
 
 > [!TIP]
 > **Ideal pet (any source):** **{Pet Name}** — {why this is the perfect thematic pick across **all** ESO vanity pets, even if not owned}. **Acquisition:** {Crown Store, achievement, daily login, DLC collector's edition, etc.}.
+
+#### Favorites (ESO Favorite Collectibles / Collections)
+
+Favorite **owned** vanity pets that match the character’s fiction (ESO Favorite Collectibles Favorites subcategory / random pet if enabled). Include the primary flavor pet; add 1–few thematic siblings, not the full menagerie.
+
+| **Favorite pets** | **Why in the set** |
+| :--- | :--- |
+| **{Primary pet}** | Primary companion critter |
+| **{Sibling / theme match}** | Same fiction family for Favorites rotation |
 
 ### Costume
 
@@ -451,12 +474,13 @@ Follow this transition list to unlock the full power of **{Archetype Name}**. Ge
 ### Phase 3 — Polish
 
 8. **[Phase 3]** {transmute, gold-out, enchant pass}
-9. ...
+9. **Favorites (ESO Favorite Collectibles):** Collections → set mount/pet favorites per [Collectibles](#collectibles) Favorites tables; clear off-theme favorites on this character.
+10. ...
 
 ### Finish
 
-10. **Companion:** Run **{primary now}** for current content; level **{goal companion}** toward **20/20**; farm or purchase **companion-only** gear per [Companion Strategy](#companion-strategy-{anchor-slug}) (separate from player Phase 2 craft); keep **{secondary}** rapport-ready for swap situations noted there.
-11. **Regenerate profile:** Run `/cm` in-game and update [{slug}.md](../{account}/{location}/{slug}.md) when the build is live.
+11. **Companion:** Run **{primary now}** for current content; level **{goal companion}** toward **20/20**; farm or purchase **companion-only** gear per [Companion Strategy](#companion-strategy-{anchor-slug}) (separate from player Phase 2 craft); keep **{secondary}** rapport-ready for swap situations noted there.
+12. **Regenerate profile:** Run `/cm` in-game and update [{slug}.md](../{account}/{location}/{slug}.md) when the build is live.
 
 {Closing flavor line.}
 

@@ -14,6 +14,7 @@ As **Dextera Dei** ("The Right Hand of God"), your purpose has evolved from deli
 
 | **Attribute**    | **Recommendation**                                                                |
 | :--------------- | :-------------------------------------------------------------------------------- |
+| **Alignment** | **Lawful Good** — Divine Bastion — Right Hand of God as sanctuary shield |
 | **Primary Stat** | **64 points in Health** [COMPLETED]                                              |
 | **Mundus Stone** | **The Atronach** (Magicka Recovery) [CURRENTLY EQUIPPED]                          |
 | **Vampirism**    | **Stage 4** (Essential for the *Undeath* damage reduction)                        |

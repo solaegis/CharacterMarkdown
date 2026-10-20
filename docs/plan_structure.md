@@ -16,7 +16,7 @@ Canonical layout for Solaegis character build plans under `examples/{account}/{l
 | `silent_snow_falls_plan.md` | Build Plan | **Canonical** | Structure exemplar |
 | `kellen_dysart_plan.md` | Build Plan | **Canonical** | Includes Custom Title + Build Notes |
 | `stoirmgheal_plan.md` | Walkthrough | Legacy | Pillar/trinity split; visual identity before CP |
-| `hya_cinthe_plan.md` | Walkthrough | Legacy | Same legacy pattern as Stoirmgheal |
+| `hya_cinthe_plan.md` | Build Plan | **Canonical** | Mag Arcanist Pride Father (solo leads/overland); Herald+Curative KEEP, Dark Magic SUBCLASS; craftable Tide-Born + Order's Wrath + Trainee; Scribing + Antiquities |
 | `karakedi_plan.md` | Walkthrough | Legacy | Gear before combat; subclass table inside rotation |
 | `dolu_tenasi_plan.md` | Build Plan | Mixed | Has trinity H2 but old section order |
 | `dextera_dei_plan.md` | Walkthrough | Legacy | Duplicate vampire H2; aesthetic outside Collectibles |
@@ -103,7 +103,9 @@ H2  Companion Strategy: "{Companion Theme}"
 H2  Collectibles
     H3  Mount
         Primary + backups + avoid-thematically tables
+        Favorites (ESO Favorite Collectibles / Collections) — owned thematic mount favorites
     H3  Pet
+        Primary + options + Favorites (ESO Favorite Collectibles / Collections)
     H3  Costume
         Primary + alt / situational; distinguish from Outfit Station motifs
     H3  Dye and style
@@ -126,8 +128,8 @@ H2  Next Steps & In-Game Action Checklist
 | Element | Required | Guidance |
 | :--- | :---: | :--- |
 | Title | Yes | `Build Plan - {Name}: {Archetype} ({Tag})` — prefer over legacy `Walkthrough -` |
-| Profile link | Yes | Blockquote linking to paired `{slug}.md` with level, race, class, CP, account |
-| Pitch | Yes | 1–2 paragraphs: **subclassing decision** (KEEP-all with rationale, or which lines SUBCLASS and why), content target, playstyle hook |
+| Profile link | Yes | Blockquote linking to paired `{slug}.md` with level, **gender**, race, class, CP, account, and **pronouns** |
+| Pitch | Yes | 1–2 paragraphs: **subclassing decision** (KEEP-all with rationale, or which lines SUBCLASS and why), content target, playstyle hook; use the declared pronouns for the character |
 
 ### Build at a glance
 
@@ -135,9 +137,12 @@ Single summary table. Include **live** vs **target** labels when the profile exp
 
 | Row (typical) | Notes |
 | :--- | :--- |
+| Gender / Pronouns | From profile **Gender** (Female / Male); pronouns **she/her**, **he/him**, or **they/them** — required so Roleplay and third-person prose stay consistent |
+| Alignment | D&D nine-box (**Lawful/Neutral/Chaotic** × **Good/Neutral/Evil**); required — one short fiction rationale; keep Favorites / Roleplay / Custom Title consistent with it |
 | Primary Stat | Attribute spread + key pools at CP160 |
 | Mundus Stone | Target; note if live differs |
-| Vampirism | Cured / Stage N / N/A |
+| Vampirism | **Active — Stage N** / **Cured** / **Never** (profile Overview exports the same three states) |
+| Lycanthropy | **Active** / **Cured** / **Never** (mutually exclusive with active vampirism; cured skill line can remain) |
 | Trinity | Three lines with KEEP / SUBCLASS; live vs target; one-line decision |
 | Sets | Craftable pairing; **100% craftable** unless documented exception |
 | Bars | Front + back weapon types and bar nicknames |
@@ -153,7 +158,7 @@ Follow with **Read next:** inline anchor links to every major H2.
 
 | Element | Required | Guidance |
 | :--- | :---: | :--- |
-| Identity prose | Yes | Who the character is in fiction; how the build reads |
+| Identity prose | Yes | Who the character is in fiction; how the build reads — use **Gender / Pronouns** from the glance table (profile Gender defaults: Female → she/her, Male → he/him; they/them only when the player asks) |
 | Suggested Custom Title | Yes | ≤100 characters; backtick-wrapped for LAM Custom Title |
 | Build Notes | Yes | ≤1,900 characters; single paste block for LAM Build Notes |
 | Flavor Pet | Optional tip | Short tip; full mount/pet/costume/dye detail lives under Collectibles |
@@ -214,12 +219,14 @@ Mount, pet, and visual identity **always** live here — never between Gear and 
 
 | H3 | Content |
 | :--- | :--- |
-| **Mount** | Primary, backups, avoid-thematically |
-| **Pet** | Thematic matches |
+| **Mount** | Primary, backups, avoid-thematically; **Favorites (ESO Favorite Collectibles / Collections)** list of owned thematic mounts |
+| **Pet** | Thematic matches; **Favorites (ESO Favorite Collectibles / Collections)** list of owned thematic vanity pets |
 | **Costume** | Primary full-body costume + alt; owned vs ideal; not Outfit Station motifs |
 | **Dye and style** | Motif table + dye palette (when not in costume, or weapons) |
 
 Before locking **primaries**, read [`collectibles_companion_ledger.md`](collectibles_companion_ledger.md) for that megaserver: **account collectible tiers**, then the character’s **shortlist**, then the **primary** table. Prefer the most appropriate **owned** pick; when two options are roughly equal, prefer one that is not already a primary on that megaserver. Alts/ideals may share popular picks. Update the ledger row when the plan is created or heavily revised; do not mass-rebalance other plans solely for diversity.
+
+**Favorites:** Live stack uses **ESO Favorite Collectibles** (`solaegis/eso-favorite-collectibles`, fork of IsJusta Favorite Collectibles). New/heavily revised plans must name which **owned** mounts and vanity pets stay favorited on that character (for Favorites subcategory / random-favorite). Keep lists thematic and short; always include the primary mount and flavor pet. Apply in Collections in-game; document the target set in the plan (do not invent unowned favorites).
 
 ### Next Steps & In-Game Action Checklist
 
@@ -305,6 +312,8 @@ When reviewing any `{slug}_plan.md`:
 - [ ] H2 order matches canonical sequence (or documented crafter variant)
 - [ ] Profile link and paired `{slug}.md` exist
 - [ ] Build at a glance labels **live** vs **target** where they differ
+- [ ] Gender / Pronouns present (profile Gender + she/her · he/him · they/them); Roleplay and pitch use those pronouns
+- [ ] Alignment present (D&D nine-box + brief rationale); Favorites / Roleplay tone match it
 - [ ] Roleplay includes Custom Title (≤100) and Build Notes (≤1,900)
 - [ ] Trinity = one mermaid + one table; **subclassing evaluated and documented** (KEEP-all is valid only with rationale; SUBCLASS needs proof + replaced native)
 - [ ] Skill bars match equipped weapons; ultimates on slot 6; summons on slot 5 (both bars, same ability) when used; morph names from UI
@@ -312,7 +321,7 @@ When reviewing any `{slug}_plan.md`:
 - [ ] Gear is craftable; crafting handoff references @masisi
 - [ ] CP recommendations use [`champion_points_reference.md`](../examples/templates/champion_points_reference.md) names, max points, and slottable/passive type
 - [ ] Companion gear is companion-specific; Companion Primary / Secondary / Goal stages present
-- [ ] Mount / pet / costume / dye under Collectibles only; primaries owned; ledger tiers + shortlist + primary table consulted/updated ([`collectibles_companion_ledger.md`](collectibles_companion_ledger.md))
+- [ ] Mount / pet / costume / dye under Collectibles only; primaries owned; ledger tiers + shortlist + primary table consulted/updated ([`collectibles_companion_ledger.md`](collectibles_companion_ledger.md)); ESO Favorite Collectibles mount/pet **Favorites** lists present (owned-only, thematic)
 - [ ] Single phased checklist at end
 - [ ] Plan file not edited when implementing from an attached plan (update profile + artifacts only)
 

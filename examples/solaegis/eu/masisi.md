@@ -4,7 +4,7 @@
 
 # Masisi (The Ra Gada Artisan)
 
-![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-337-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-50-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-346-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Dragonknight-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Redguard Dragonknight • Daggerfall Covenant Alliance**
 
@@ -50,11 +50,11 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Level** | 50 |
-| **Champion Points** | 337 |
+| **Champion Points** | 346 |
 | **Gender** | Male |
 | **Account** | @SOLAEGIS |
-| **Age** | 12d 9h 15m |
 | **ESO Plus** | ✅ Active |
+| **Age** | 12d 19h 13m |
 
 
 </div><div>
@@ -62,7 +62,7 @@
 | **Attribute** | **Value** |
 | --- | --- |
 | **Attributes** | 🔵 0 / ❤️ 0 / ⚡ 64 |
-| **Available Champion Points** | ⚒️ 13 - ⚔️ 17 - 💪 15 |
+| **Available Champion Points** | ⚒️ 2 - ⚔️ 1 - 💪 2 |
 | **Subclass** | Assassination (Nightblade) [Full] |
 | **Race** | [Redguard](https://en.uesp.net/wiki/Online:Redguard) |
 | **Class** | [Dragonknight](https://en.uesp.net/wiki/Online:Dragonknight) |
@@ -73,11 +73,11 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Location** | [Summerset](https://en.uesp.net/wiki/Online:Summerset) (Alinor) |
 | **🪨 Mundus Stone** | [The Steed](https://en.uesp.net/wiki/Online:The_Steed_(Mundus_Stone)) |
 | **Title** | [The Ra Gada Artisan](https://en.uesp.net/wiki/Online:The_Ra_Gada_Artisan) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **🍖 Active Buffs** | Other: [Increase All Primary Stats](https://en.uesp.net/wiki/Online:Increase_All_Primary_Stats), [Gallop](https://en.uesp.net/wiki/Online:Gallop), [Major Prophecy](https://en.uesp.net/wiki/Online:Major_Prophecy), [Major Savagery](https://en.uesp.net/wiki/Online:Major_Savagery) |
+| **Location** | [Shadowfen](https://en.uesp.net/wiki/Online:Shadowfen) (Stillrise Wayshrine) |
+| **🍖 Active Buffs** | Other: [Increase All Primary Stats](https://en.uesp.net/wiki/Online:Increase_All_Primary_Stats), [Gallop](https://en.uesp.net/wiki/Online:Gallop), [Major Savagery](https://en.uesp.net/wiki/Online:Major_Savagery) |
 
 
 </div><div>
@@ -88,11 +88,11 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 32,000 |
+| 💰 **Gold** | 32,619 |
 | ⚔️ **Alliance Points** | 160,500 |
 | 🔮 **Tel Var** | 10,500 |
 | 💎 **Transmute Crystals** | 176 |
-| 📜 **Writs** | 0 |
+| 📜 **Writs** | 1 |
 | 🎫 **Event Tickets** | 0 |
 | 👑 **Crowns** | 190 |
 | 💠 **Gems** | 140 |
@@ -121,7 +121,7 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 > [!WARNING]
 > **Attention Needed**
-> - 🎯 **7 skill points available** - Ready to spend
+> - 🎯 **4 skill points available** - Ready to spend
 
 ---
 
@@ -139,7 +139,7 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 💚 **Resources** | Health | 24,376 |
+| 💚 **Resources** | Health | 24,460 |
 |  | Magicka | 16,105 |
 |  | Stamina | 27,399 |
 | ⚔️ **Offensive** | Weapon Power | 2,827 |
@@ -150,8 +150,8 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🎯 **Critical** | Weapon Crit | 10,628 (48.5%) |
-|  | Spell Crit | 10,628 (48.5%) |
+| 🎯 **Critical** | Weapon Crit | 10,788 (49.2%) |
+|  | Spell Crit | 10,788 (49.2%) |
 | ⚔️ **Penetration** | Physical | 1,930 |
 |  | Spell | 1,930 |
 
@@ -160,9 +160,9 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🛡️ **Defensive** | Physical Resist | 14,217 (85%) |
-|  | Spell Resist | 14,217 (85%) |
-| ♻️ **Recovery** | Health | 714 |
+| 🛡️ **Defensive** | Physical Resist | 14,667 (85.4%) |
+|  | Spell Resist | 14,667 (85.4%) |
+| ♻️ **Recovery** | Health | 748 |
 |  | Magicka | 604 |
 |  | Stamina | 749 |
 
@@ -194,20 +194,20 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **Resistance** | **Value** |
 |:---|---:|
-| 🔥 **Flame** | 21.5% |
-| ⚡ **Shock** | 21.5% |
-| ❄️ **Frost** | 21.5% |
-| 🔮 **Magic** | 21.5% |
-| 🦠 **Disease** | 21.5% |
-| ☠️ **Poison** | 21.5% |
-| 🩸 **Bleed** | 21.5% |
+| 🔥 **Flame** | 22.2% |
+| ⚡ **Shock** | 22.2% |
+| ❄️ **Frost** | 22.2% |
+| 🔮 **Magic** | 22.2% |
+| 🦠 **Disease** | 22.2% |
+| ☠️ **Poison** | 22.2% |
+| 🩸 **Bleed** | 22.2% |
 
 </div>
 <div>
 
 | **Damage Type** | **Bonus** |
 |:---|---:|
-| 💥 **Critical Damage** | 88% |
+| 💥 **Critical Damage** | 93% |
 | ⚔️ **Physical** | 0 |
 | 🔥 **Flame** | 0 |
 | ⚡ **Shock** | 0 |
@@ -284,29 +284,30 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 337 | 292 | 45 |
+| 346 | 341 | 5 |
 
 
-> ✨ **Enlightened** - 1,188,119 XP bonus remaining
+> ✨ **Enlightened** - 1,084,751 XP bonus remaining
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
 | **⚒️ Craft** | **Assigned Points** |
 | --- | ---: |
-| ██████████░░ 88% | 100/113 points |
+| ███████████░ 98% | 114/116 points |
 | **[Fortune's Favor](https://en.uesp.net/wiki/Online:Fortune's_Favor)** | 50 points |
 | **[Gilded Fingers](https://en.uesp.net/wiki/Online:Gilded_Fingers)** | 50 points |
+| **[Steed's Blessing](https://en.uesp.net/wiki/Online:Steed's_Blessing)** | 14 points |
 
 
 </div><div>
 
 | **⚔️ Warfare** | **Assigned Points** |
 | --- | ---: |
-| ██████████░░ 84% | 95/112 points |
-| **[Precision](https://en.uesp.net/wiki/Online:Precision)** | 10 points |
+| ███████████░ 99% | 114/115 points |
+| **[Precision](https://en.uesp.net/wiki/Online:Precision)** | 20 points |
 | **[Fighting Finesse](https://en.uesp.net/wiki/Online:Fighting_Finesse)** | 50 points |
-| **[Piercing](https://en.uesp.net/wiki/Online:Piercing)** | 10 points |
+| **[Piercing](https://en.uesp.net/wiki/Online:Piercing)** | 19 points |
 | **[Master-at-Arms](https://en.uesp.net/wiki/Online:Master-at-Arms)** | 25 points |
 
 
@@ -314,9 +315,10 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **💪 Fitness** | **Assigned Points** |
 | --- | ---: |
-| ██████████░░ 86% | 97/112 points |
+| ███████████░ 98% | 113/115 points |
 | **[Rejuvenation](https://en.uesp.net/wiki/Online:Rejuvenation)** | 50 points |
-| **[Boundless Vitality](https://en.uesp.net/wiki/Online:Boundless_Vitality)** | 47 points |
+| **[Fortified](https://en.uesp.net/wiki/Online:Fortified)** | 13 points |
+| **[Boundless Vitality](https://en.uesp.net/wiki/Online:Boundless_Vitality)** | 50 points |
 
 
 </div>
@@ -338,22 +340,6 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 ### ✅ Maxed Skills
 
 <details>
-<summary>⭐ Racial (1 skill line maxed)</summary>
-
-**[Redguard Skills](https://en.uesp.net/wiki/Online:Redguard)**
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ [Wayfarer](https://en.uesp.net/wiki/Online:Wayfarer) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
-- ✅ [Martial Training](https://en.uesp.net/wiki/Online:Martial_Training) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
-- ✅ [Conditioning](https://en.uesp.net/wiki/Online:Conditioning) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
-- ✅ [Adrenaline Rush](https://en.uesp.net/wiki/Online:Adrenaline_Rush) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
-</details>
-
-</details>
-
-<details>
 <summary>⚔️ Weapon (2 skill lines maxed)</summary>
 
 **[Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield)**, **[Bow](https://en.uesp.net/wiki/Online:Bow)**
@@ -371,6 +357,57 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 - ✅ [Ranger](https://en.uesp.net/wiki/Online:Ranger) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
 - ✅ [Hawk Eye](https://en.uesp.net/wiki/Online:Hawk_Eye) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
 - ✅ [Hasty Retreat](https://en.uesp.net/wiki/Online:Hasty_Retreat) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
+</details>
+
+</details>
+
+<details>
+<summary>⚒️ Craft (4 skill lines maxed)</summary>
+
+**[Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing)**, **[Clothing](https://en.uesp.net/wiki/Online:Clothing)**, **[Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting)**, **[Woodworking](https://en.uesp.net/wiki/Online:Woodworking)**
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ [Metalworking](https://en.uesp.net/wiki/Online:Metalworking) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- 🔒 [Keen Eye: Ore](https://en.uesp.net/wiki/Online:Keen_Eye:_Ore) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- ✅ [Miner Hireling](https://en.uesp.net/wiki/Online:Miner_Hireling) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- ✅ [Metal Extraction](https://en.uesp.net/wiki/Online:Metal_Extraction) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- 🔒 [Metallurgy](https://en.uesp.net/wiki/Online:Metallurgy) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- ✅ [Temper Expertise](https://en.uesp.net/wiki/Online:Temper_Expertise) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- ✅ [Tailoring](https://en.uesp.net/wiki/Online:Tailoring) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- 🔒 [Keen Eye: Cloth](https://en.uesp.net/wiki/Online:Keen_Eye:_Cloth) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- ✅ [Outfitter Hireling](https://en.uesp.net/wiki/Online:Outfitter_Hireling) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- ✅ [Unraveling](https://en.uesp.net/wiki/Online:Unraveling) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- 🔒 [Stitching](https://en.uesp.net/wiki/Online:Stitching) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- ✅ [Tannin Expertise](https://en.uesp.net/wiki/Online:Tannin_Expertise) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- ✅ [Engraver](https://en.uesp.net/wiki/Online:Engraver) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- 🔒 [Keen Eye: Jewelry](https://en.uesp.net/wiki/Online:Keen_Eye:_Jewelry) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- ✅ [Jewelry Extraction](https://en.uesp.net/wiki/Online:Jewelry_Extraction) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- 🔒 [Lapidary Research](https://en.uesp.net/wiki/Online:Lapidary_Research) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- ✅ [Platings Expertise](https://en.uesp.net/wiki/Online:Platings_Expertise) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- ✅ [Woodworking](https://en.uesp.net/wiki/Online:Woodworking) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Keen Eye: Wood](https://en.uesp.net/wiki/Online:Keen_Eye:_Wood) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Lumberjack Hireling](https://en.uesp.net/wiki/Online:Lumberjack_Hireling) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- ✅ [Wood Extraction](https://en.uesp.net/wiki/Online:Wood_Extraction) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Carpentry](https://en.uesp.net/wiki/Online:Carpentry) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- ✅ [Resin Expertise](https://en.uesp.net/wiki/Online:Resin_Expertise) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+</details>
+
+</details>
+
+<details>
+<summary>⭐ Racial (1 skill line maxed)</summary>
+
+**[Redguard Skills](https://en.uesp.net/wiki/Online:Redguard)**
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ [Wayfarer](https://en.uesp.net/wiki/Online:Wayfarer) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
+- ✅ [Martial Training](https://en.uesp.net/wiki/Online:Martial_Training) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
+- ✅ [Conditioning](https://en.uesp.net/wiki/Online:Conditioning) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
+- ✅ [Adrenaline Rush](https://en.uesp.net/wiki/Online:Adrenaline_Rush) *(from [Redguard Skills](https://en.uesp.net/wiki/Online:Redguard))*
 </details>
 
 </details>
@@ -401,41 +438,6 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>⚒️ Craft (4 skill lines maxed)</summary>
-
-**[Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing)**, **[Clothing](https://en.uesp.net/wiki/Online:Clothing)**, **[Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting)**, **[Woodworking](https://en.uesp.net/wiki/Online:Woodworking)**
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ [Metalworking](https://en.uesp.net/wiki/Online:Metalworking) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Keen Eye: Ore](https://en.uesp.net/wiki/Online:Keen_Eye:_Ore) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Miner Hireling](https://en.uesp.net/wiki/Online:Miner_Hireling) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- ✅ [Metal Extraction](https://en.uesp.net/wiki/Online:Metal_Extraction) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Metallurgy](https://en.uesp.net/wiki/Online:Metallurgy) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- ✅ [Temper Expertise](https://en.uesp.net/wiki/Online:Temper_Expertise) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- ✅ [Tailoring](https://en.uesp.net/wiki/Online:Tailoring) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Keen Eye: Cloth](https://en.uesp.net/wiki/Online:Keen_Eye:_Cloth) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Outfitter Hireling](https://en.uesp.net/wiki/Online:Outfitter_Hireling) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- ✅ [Unraveling](https://en.uesp.net/wiki/Online:Unraveling) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Stitching](https://en.uesp.net/wiki/Online:Stitching) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- ✅ [Tannin Expertise](https://en.uesp.net/wiki/Online:Tannin_Expertise) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- ✅ [Engraver](https://en.uesp.net/wiki/Online:Engraver) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- 🔒 [Keen Eye: Jewelry](https://en.uesp.net/wiki/Online:Keen_Eye:_Jewelry) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- ✅ [Jewelry Extraction](https://en.uesp.net/wiki/Online:Jewelry_Extraction) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- 🔒 [Lapidary Research](https://en.uesp.net/wiki/Online:Lapidary_Research) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- ✅ [Platings Expertise](https://en.uesp.net/wiki/Online:Platings_Expertise) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- ✅ [Woodworking](https://en.uesp.net/wiki/Online:Woodworking) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Keen Eye: Wood](https://en.uesp.net/wiki/Online:Keen_Eye:_Wood) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Lumberjack Hireling](https://en.uesp.net/wiki/Online:Lumberjack_Hireling) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- ✅ [Wood Extraction](https://en.uesp.net/wiki/Online:Wood_Extraction) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Carpentry](https://en.uesp.net/wiki/Online:Carpentry) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- ✅ [Resin Expertise](https://en.uesp.net/wiki/Online:Resin_Expertise) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-</details>
-
-</details>
-
-<details>
 <summary>⚔️ Class (4 skill lines maxed)</summary>
 
 **[Ardent Flame](https://en.uesp.net/wiki/Online:Ardent_Flame)**, **[Draconic Power](https://en.uesp.net/wiki/Online:Draconic_Power)**, **[Earthen Heart](https://en.uesp.net/wiki/Online:Earthen_Heart)**, **[Class Mastery](https://en.uesp.net/wiki/Online:Class_Mastery)**
@@ -444,9 +446,9 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 <summary>✨ Passives</summary>
 
 - ✅ [Combustion](https://en.uesp.net/wiki/Online:Combustion) *(from [Ardent Flame](https://en.uesp.net/wiki/Online:Ardent_Flame))*
+
+
 - ✅ [Traumatic Burns](https://en.uesp.net/wiki/Online:Traumatic_Burns) *(from [Ardent Flame](https://en.uesp.net/wiki/Online:Ardent_Flame))*
-
-
 - ✅ [Fan the Flames](https://en.uesp.net/wiki/Online:Fan_the_Flames) *(from [Ardent Flame](https://en.uesp.net/wiki/Online:Ardent_Flame))*
 - ✅ [A Soul Ablaze](https://en.uesp.net/wiki/Online:A_Soul_Ablaze) *(from [Ardent Flame](https://en.uesp.net/wiki/Online:Ardent_Flame))*
 - 🔒 [Burnished Scales](https://en.uesp.net/wiki/Online:Burnished_Scales) *(from [Draconic Power](https://en.uesp.net/wiki/Online:Draconic_Power))*
@@ -467,39 +469,6 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 ### 📈 In-Progress Skills
-
-<details>
-<summary>🌍 World (1 skill line in progress)</summary>
-
-- **[Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain)**: Rank 20 ██████████ 100%
-
-<details>
-<summary>✨ Passives</summary>
-
-- 🔒 [Improved Hiding](https://en.uesp.net/wiki/Online:Improved_Hiding) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Light Fingers](https://en.uesp.net/wiki/Online:Light_Fingers) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Trafficker](https://en.uesp.net/wiki/Online:Trafficker) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Locksmith](https://en.uesp.net/wiki/Online:Locksmith) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Kickback](https://en.uesp.net/wiki/Online:Kickback) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-</details>
-
-</details>
-
-<details>
-<summary>⚔️ Class (1 skill line in progress)</summary>
-
-- **[Assassination](https://en.uesp.net/wiki/Online:Assassination)**: Rank 39 █░░░░░░░░░ 15%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ [Master Assassin](https://en.uesp.net/wiki/Online:Master_Assassin) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
-- ✅ [Executioner](https://en.uesp.net/wiki/Online:Executioner) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
-- ✅ [Pressure Points](https://en.uesp.net/wiki/Online:Pressure_Points) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
-- 🔒 [Hemorrhage](https://en.uesp.net/wiki/Online:Hemorrhage) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
-</details>
-
-</details>
 
 <details>
 <summary>⚔️ Weapon (4 skill lines in progress)</summary>
@@ -537,30 +506,11 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🛡️ Armor (1 skill line in progress)</summary>
-
-- **[Light Armor](https://en.uesp.net/wiki/Online:Light_Armor)**: Rank 29 ████░░░░░░ 48%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ [Light Armor Bonuses](https://en.uesp.net/wiki/Online:Light_Armor_Bonuses) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Light Armor Penalties](https://en.uesp.net/wiki/Online:Light_Armor_Penalties) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Grace](https://en.uesp.net/wiki/Online:Grace) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Evocation](https://en.uesp.net/wiki/Online:Evocation) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Concentration](https://en.uesp.net/wiki/Online:Concentration) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-</details>
-
-</details>
-
-<details>
 <summary>⚒️ Craft (3 skill lines in progress)</summary>
 
-- **[Alchemy](https://en.uesp.net/wiki/Online:Alchemy)**: Rank 15 ████░░░░░░ 46%
-- **[Enchanting](https://en.uesp.net/wiki/Online:Enchanting)**: Rank 12 ███████░░░ 77%
-- **[Provisioning](https://en.uesp.net/wiki/Online:Provisioning)**: Rank 12 ░░░░░░░░░░ 0%
+- **[Alchemy](https://en.uesp.net/wiki/Online:Alchemy)**: Rank 16 ███░░░░░░░ 35%
+- **[Enchanting](https://en.uesp.net/wiki/Online:Enchanting)**: Rank 13 ░░░░░░░░░░ 3%
+- **[Provisioning](https://en.uesp.net/wiki/Online:Provisioning)**: Rank 12 ██████░░░░ 65%
 
 <details>
 <summary>✨ Passives</summary>
@@ -591,8 +541,8 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 <summary>🏰 Guild (4 skill lines in progress)</summary>
 
 - **[Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood)**: Rank 2 ███████░░░ 70%
-- **[Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild)**: Rank 8 ██████░░░░ 61%
-- **[Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild)**: Rank 7 █████░░░░░ 57%
+- **[Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild)**: Rank 8 ██████░░░░ 69%
+- **[Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild)**: Rank 7 ███████░░░ 76%
 - **[Undaunted](https://en.uesp.net/wiki/Online:Undaunted)**: Rank 2 █████░░░░░ 50%
 
 <details>
@@ -616,6 +566,58 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 - 🔒 [Might of the Guild](https://en.uesp.net/wiki/Online:Might_of_the_Guild) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
 - 🔒 [Undaunted Command](https://en.uesp.net/wiki/Online:Undaunted_Command) *(from [Undaunted](https://en.uesp.net/wiki/Online:Undaunted))*
 - 🔒 [Undaunted Mettle](https://en.uesp.net/wiki/Online:Undaunted_Mettle) *(from [Undaunted](https://en.uesp.net/wiki/Online:Undaunted))*
+</details>
+
+</details>
+
+<details>
+<summary>🛡️ Armor (1 skill line in progress)</summary>
+
+- **[Light Armor](https://en.uesp.net/wiki/Online:Light_Armor)**: Rank 29 ████░░░░░░ 48%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ [Light Armor Bonuses](https://en.uesp.net/wiki/Online:Light_Armor_Bonuses) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- ✅ [Light Armor Penalties](https://en.uesp.net/wiki/Online:Light_Armor_Penalties) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Grace](https://en.uesp.net/wiki/Online:Grace) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Evocation](https://en.uesp.net/wiki/Online:Evocation) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Concentration](https://en.uesp.net/wiki/Online:Concentration) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+</details>
+
+</details>
+
+<details>
+<summary>🌍 World (1 skill line in progress)</summary>
+
+- **[Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain)**: Rank 20 ██████████ 100%
+
+<details>
+<summary>✨ Passives</summary>
+
+- 🔒 [Improved Hiding](https://en.uesp.net/wiki/Online:Improved_Hiding) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Light Fingers](https://en.uesp.net/wiki/Online:Light_Fingers) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Trafficker](https://en.uesp.net/wiki/Online:Trafficker) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Locksmith](https://en.uesp.net/wiki/Online:Locksmith) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Kickback](https://en.uesp.net/wiki/Online:Kickback) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+</details>
+
+</details>
+
+<details>
+<summary>⚔️ Class (1 skill line in progress)</summary>
+
+- **[Assassination](https://en.uesp.net/wiki/Online:Assassination)**: Rank 41 ██░░░░░░░░ 24%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ [Master Assassin](https://en.uesp.net/wiki/Online:Master_Assassin) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
+- ✅ [Executioner](https://en.uesp.net/wiki/Online:Executioner) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
+- ✅ [Pressure Points](https://en.uesp.net/wiki/Online:Pressure_Points) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
+- ✅ [Hemorrhage](https://en.uesp.net/wiki/Online:Hemorrhage) *(from [Assassination](https://en.uesp.net/wiki/Online:Assassination))*
 </details>
 
 </details>
@@ -658,7 +660,7 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **1** | **2** | **3** | **4** | **5** | **⚡** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| [Swift Assault](https://en.uesp.net/wiki/Online:Swift_Assault) | [Spinning Steel](https://en.uesp.net/wiki/Online:Spinning_Steel) | [Internal Conflict](https://en.uesp.net/wiki/Online:Internal_Conflict) | [Starfall](https://en.uesp.net/wiki/Online:Starfall) | [Extinguishing Breath](https://en.uesp.net/wiki/Online:Extinguishing_Breath) | [Empty] |
+| [Swift Assault](https://en.uesp.net/wiki/Online:Swift_Assault) | [Shattered Spirit](https://en.uesp.net/wiki/Online:Shattered_Spirit) | [Internal Conflict](https://en.uesp.net/wiki/Online:Internal_Conflict) | [Starfall](https://en.uesp.net/wiki/Online:Starfall) | [Extinguishing Breath](https://en.uesp.net/wiki/Online:Extinguishing_Breath) | [Empty] |
 
 | **Slot** | **Item** | **Quality** | **Trait** |
 | --- | --- | --- | --- |
@@ -674,7 +676,7 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 > [!WARNING]
 > **Attention Needed**
-> - 👥 **Companion underleveled**: Tanlorin (Level 14/20) - Needs XP
+> - 👥 **Companion underleveled**: Tanlorin (Level 15/20) - Needs XP
 > - 👥 **Companion outdated gear**: 9 pieces below level - Upgrade equipment
 > - 👥 **Companion empty ability slots**: 1 - Assign abilities
 
@@ -695,24 +697,25 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🖌️ Body Markings (4 of 330)</summary>
+<summary>🖌️ Body Markings (5 of 333)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 1% (4/330) |
+| ░░░░░░░░░░░░░░░░░░░░ 1% (5/333) |
 
 - [Bright-Throat Yolk Body Tattoo](https://en.uesp.net/wiki/Online:Bright-Throat_Yolk_Body_Tattoo)
 - [Dragonsmoke Body Markings](https://en.uesp.net/wiki/Online:Dragonsmoke_Body_Markings)
 - [Elder Dragon Body Marks](https://en.uesp.net/wiki/Online:Elder_Dragon_Body_Marks)
+- [Hagmatron's Body Markings](https://en.uesp.net/wiki/Online:Hagmatron's_Body_Markings)
 - [Windcaller Body Markings](https://en.uesp.net/wiki/Online:Windcaller_Body_Markings)
 </details>
 
 <details>
-<summary>👗 Costumes (25 of 323)</summary>
+<summary>👗 Costumes (25 of 329)</summary>
 
 | Progress |
 | --- |
-| █░░░░░░░░░░░░░░░░░░░ 7% (25/323) |
+| █░░░░░░░░░░░░░░░░░░░ 7% (25/329) |
 
 - [Austere Warden Outfit](https://en.uesp.net/wiki/Online:Austere_Warden_Outfit)
 - [Bloodthorn Robes](https://en.uesp.net/wiki/Online:Bloodthorn_Robes)
@@ -734,6 +737,8 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 - [Phaer Mercenary Armor](https://en.uesp.net/wiki/Online:Phaer_Mercenary_Armor)
 - [Quendelunn Veiled Heritance Garb](https://en.uesp.net/wiki/Online:Quendelunn_Veiled_Heritance_Garb)
 - [Red Rook Armor](https://en.uesp.net/wiki/Online:Red_Rook_Armor)
+
+
 - [Sea Drake Garb](https://en.uesp.net/wiki/Online:Sea_Drake_Garb)
 - [Servant's Robes](https://en.uesp.net/wiki/Online:Servant's_Robes)
 - [Shrouded Armor](https://en.uesp.net/wiki/Online:Shrouded_Armor)
@@ -742,54 +747,70 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-
-
-<summary>🗣️ Emotes (6 of 235)</summary>
+<summary>🗣️ Emotes (22 of 239)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 2% (6/235) |
+| █░░░░░░░░░░░░░░░░░░░ 9% (22/239) |
 
+- [Air the Heir](https://en.uesp.net/wiki/Online:Air_the_Heir)
+- [Arrow to the Knee](https://en.uesp.net/wiki/Online:Arrow_to_the_Knee)
 - [Belly Laugh](https://en.uesp.net/wiki/Online:Belly_Laugh)
+- [Cat Contemplation](https://en.uesp.net/wiki/Online:Cat_Contemplation)
 - [Come Get Some](https://en.uesp.net/wiki/Online:Come_Get_Some)
+- [Elite Seat](https://en.uesp.net/wiki/Online:Elite_Seat)
+- [Feline Hygiene](https://en.uesp.net/wiki/Online:Feline_Hygiene)
 - [Go Quietly](https://en.uesp.net/wiki/Online:Go_Quietly)
+- [Happy Face](https://en.uesp.net/wiki/Online:Happy_Face)
 - [Kiss This](https://en.uesp.net/wiki/Online:Kiss_This)
+- [Leaning Scholar](https://en.uesp.net/wiki/Online:Leaning_Scholar)
+- [Missing Sweetroll](https://en.uesp.net/wiki/Online:Missing_Sweetroll)
+- [Offer Weapon](https://en.uesp.net/wiki/Online:Offer_Weapon)
+- [Pedlar Beckoning](https://en.uesp.net/wiki/Online:Pedlar_Beckoning)
+- [Play Ragnar the Red](https://en.uesp.net/wiki/Online:Play_Ragnar_the_Red)
+- [Sad Face](https://en.uesp.net/wiki/Online:Sad_Face)
+- [Sitting Scholar](https://en.uesp.net/wiki/Online:Sitting_Scholar)
+- [Standing Scholar](https://en.uesp.net/wiki/Online:Standing_Scholar)
+- [Ta-Dah!](https://en.uesp.net/wiki/Online:Ta-Dah!)
 - [Teatime](https://en.uesp.net/wiki/Online:Teatime)
+- [Wait the Great](https://en.uesp.net/wiki/Online:Wait_the_Great)
 - [Wash Your Damn Hands](https://en.uesp.net/wiki/Online:Wash_Your_Damn_Hands)
 </details>
 
 <details>
-<summary>👓 Facial Accessories (4 of 140)</summary>
+<summary>👓 Facial Accessories (5 of 144)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 2% (4/140) |
+| ░░░░░░░░░░░░░░░░░░░░ 3% (5/144) |
 
 - [Beaded Skull Chaplet](https://en.uesp.net/wiki/Online:Beaded_Skull_Chaplet)
 - [Eternal Hunger Coronal](https://en.uesp.net/wiki/Online:Eternal_Hunger_Coronal)
+- [Jester's Deadly Headband](https://en.uesp.net/wiki/Online:Jester's_Deadly_Headband)
 - [Magicka Brow Medallion](https://en.uesp.net/wiki/Online:Magicka_Brow_Medallion)
 - [Shrouded Crown](https://en.uesp.net/wiki/Online:Shrouded_Crown)
 </details>
 
 <details>
-<summary>💇 Hair Styles (0 of 157)</summary>
+<summary>💇 Hair Styles (0 of 159)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 0% (0/157) |
+| ░░░░░░░░░░░░░░░░░░░░ 0% (0/159) |
 
 *No hair styles owned*
 </details>
 
 <details>
-<summary>🎩 Hats (9 of 167)</summary>
+<summary>🎩 Hats (10 of 170)</summary>
 
 | Progress |
 | --- |
-| █░░░░░░░░░░░░░░░░░░░ 5% (9/167) |
+| █░░░░░░░░░░░░░░░░░░░ 5% (10/170) |
 
 - [Arkthzand Anfractuosity Shroud](https://en.uesp.net/wiki/Online:Arkthzand_Anfractuosity_Shroud)
 - [Bonding Rite Headdress](https://en.uesp.net/wiki/Online:Bonding_Rite_Headdress)
+- [Colovian Filigreed Hood](https://en.uesp.net/wiki/Online:Colovian_Filigreed_Hood)
 - [Crown of Misrule](https://en.uesp.net/wiki/Online:Crown_of_Misrule)
 - [Dwarven Crested Hood](https://en.uesp.net/wiki/Online:Dwarven_Crested_Hood)
 - [Firesong Obsidian Mask](https://en.uesp.net/wiki/Online:Firesong_Obsidian_Mask)
@@ -800,11 +821,11 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🖍️ Head Markings (6 of 385)</summary>
+<summary>🖍️ Head Markings (6 of 390)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 1% (6/385) |
+| ░░░░░░░░░░░░░░░░░░░░ 1% (6/390) |
 
 - [Bright-Throat Woad Face Tattoo](https://en.uesp.net/wiki/Online:Bright-Throat_Woad_Face_Tattoo)
 - [Clockwork Apostle Face Imprints](https://en.uesp.net/wiki/Online:Clockwork_Apostle_Face_Imprints)
@@ -815,56 +836,71 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>📚 Lorebooks (216 of 1949)</summary>
+<summary>📚 Lorebooks (258 of 1949)</summary>
 
 | Category | Collected | Total | Progress |
 |:---------|:----------|:------|:--------|
-| **Shalidor's Library** | 150 | 297 | ██████████░░░░░░░░░░ 50% |
-| **Crafting Motifs** | 66 | 1652 | ░░░░░░░░░░░░░░░░░░░░ 3% |
-| **Total** | 216 | 1949 | ██░░░░░░░░░░░░░░░░░░ 11% |
+| **Shalidor's Library** | 157 | 297 | ██████████░░░░░░░░░░ 52% |
+| **Crafting Motifs** | 101 | 1652 | █░░░░░░░░░░░░░░░░░░░ 6% |
+| **Total** | 258 | 1949 | ██░░░░░░░░░░░░░░░░░░ 13% |
 
 </details>
 
 <details>
-<summary>🔮 Mementos (17 of 205)</summary>
+<summary>🔮 Mementos (23 of 206)</summary>
 
 | Progress |
 | --- |
-| █░░░░░░░░░░░░░░░░░░░ 8% (17/205) |
+| ██░░░░░░░░░░░░░░░░░░ 11% (23/206) |
 
 - [Antiquarian's Eye](https://en.uesp.net/wiki/Online:Antiquarian's_Eye)
+- [Archaic Lore Tablets](https://en.uesp.net/wiki/Online:Archaic_Lore_Tablets)
 - [Battered Bear Trap](https://en.uesp.net/wiki/Online:Battered_Bear_Trap)
 - [Blackfeather Court Whistle](https://en.uesp.net/wiki/Online:Blackfeather_Court_Whistle)
 - [Breda's Bottomless Mead Mug](https://en.uesp.net/wiki/Online:Breda's_Bottomless_Mead_Mug)
 - [Cherry Blossom Branch](https://en.uesp.net/wiki/Online:Cherry_Blossom_Branch)
+- [Dark Lady's Headrest](https://en.uesp.net/wiki/Online:Dark_Lady's_Headrest)
 - [Dragonhorn Curio](https://en.uesp.net/wiki/Online:Dragonhorn_Curio)
 - [Glanir's Smoke Bomb](https://en.uesp.net/wiki/Online:Glanir's_Smoke_Bomb)
+- [Hoard of the Schemers](https://en.uesp.net/wiki/Online:Hoard_of_the_Schemers)
 - [Jester's Scintillator](https://en.uesp.net/wiki/Online:Jester's_Scintillator)
 - [Jubilee Cake 2020](https://en.uesp.net/wiki/Online:Jubilee_Cake_2020)
 - [Jubilee Cake 2021](https://en.uesp.net/wiki/Online:Jubilee_Cake_2021)
 - [Mire Drum](https://en.uesp.net/wiki/Online:Mire_Drum)
 - [Nanwen's Sword](https://en.uesp.net/wiki/Online:Nanwen's_Sword)
+- [Orb of Magnus](https://en.uesp.net/wiki/Online:Orb_of_Magnus)
+- [Psijic Scrying Talisman](https://en.uesp.net/wiki/Online:Psijic_Scrying_Talisman)
 - [Remnant of Meridia's Light](https://en.uesp.net/wiki/Online:Remnant_of_Meridia's_Light)
 - [Sea Sload Dorsal Fin](https://en.uesp.net/wiki/Online:Sea_Sload_Dorsal_Fin)
+- [Temperamental Grimoire](https://en.uesp.net/wiki/Online:Temperamental_Grimoire)
 - [The Pie of Misrule](https://en.uesp.net/wiki/Online:The_Pie_of_Misrule)
 - [Witchmother's Whistle](https://en.uesp.net/wiki/Online:Witchmother's_Whistle)
 - [Wyrd Elemental Plume](https://en.uesp.net/wiki/Online:Wyrd_Elemental_Plume)
 </details>
 
 <details>
-<summary>🐴 Mounts (8 of 732)</summary>
+<summary>🐴 Mounts (17 of 748)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 1% (8/732) |
+| ░░░░░░░░░░░░░░░░░░░░ 2% (17/748) |
 
+- [Amenos Ornaug](https://en.uesp.net/wiki/Online:Amenos_Ornaug)
+- [Battlefield Nightmare Senche](https://en.uesp.net/wiki/Online:Battlefield_Nightmare_Senche)
+- [Bleakrock Snowdog](https://en.uesp.net/wiki/Online:Bleakrock_Snowdog)
+- [Bloodshadow Wraith Steed](https://en.uesp.net/wiki/Online:Bloodshadow_Wraith_Steed)
+- [Crypt Warden Death Hound](https://en.uesp.net/wiki/Online:Crypt_Warden_Death_Hound)
 - [Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)
+- [Hammerfell Camel](https://en.uesp.net/wiki/Online:Hammerfell_Camel)
+- [Hermitage Servitor](https://en.uesp.net/wiki/Online:Hermitage_Servitor)
 - [Nightmare Senche](https://en.uesp.net/wiki/Online:Nightmare_Senche)
 - [Noweyr Steed](https://en.uesp.net/wiki/Online:Noweyr_Steed)
 - [Psijic Escort Charger](https://en.uesp.net/wiki/Online:Psijic_Escort_Charger)
 - [Pyrodraconic Camel-Lizard](https://en.uesp.net/wiki/Online:Pyrodraconic_Camel-Lizard)
 - [Rahd-m'Athra](https://en.uesp.net/wiki/Online:Rahd-m'Athra)
+- [Senche-raht](https://en.uesp.net/wiki/Online:Senche-raht)
 - [Skulltooth Coastal Durzog](https://en.uesp.net/wiki/Online:Skulltooth_Coastal_Durzog)
+- [Snow Bear](https://en.uesp.net/wiki/Online:Snow_Bear)
 - [Sorrel Horse](https://en.uesp.net/wiki/Online:Sorrel_Horse)
 </details>
 
@@ -879,25 +915,31 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🐾 Pets (37 of 710)</summary>
+<summary>🐾 Pets (44 of 725)</summary>
 
 | Progress |
 | --- |
-| █░░░░░░░░░░░░░░░░░░░ 5% (37/710) |
+| █░░░░░░░░░░░░░░░░░░░ 6% (44/725) |
 
 - [Abecean Ratter Cat](https://en.uesp.net/wiki/Online:Abecean_Ratter_Cat)
 - [Akaviri Potentate Bear Cub](https://en.uesp.net/wiki/Online:Akaviri_Potentate_Bear_Cub)
 - [Alik'r Dune-Hound](https://en.uesp.net/wiki/Online:Alik'r_Dune-Hound)
 - [Ambersheen Vale Fawn](https://en.uesp.net/wiki/Online:Ambersheen_Vale_Fawn)
+- [Ashen Scar Jerboa](https://en.uesp.net/wiki/Online:Ashen_Scar_Jerboa)
+- [Aurora Firepot Spider](https://en.uesp.net/wiki/Online:Aurora_Firepot_Spider)
+- [Balfiera Senche Cub](https://en.uesp.net/wiki/Online:Balfiera_Senche_Cub)
 - [Blue Dragon Imp](https://en.uesp.net/wiki/Online:Blue_Dragon_Imp)
+- [Cipher's Eye Pocket Watcher](https://en.uesp.net/wiki/Online:Cipher's_Eye_Pocket_Watcher)
 - [Coldharbour Bantam Guar](https://en.uesp.net/wiki/Online:Coldharbour_Bantam_Guar)
 - [Covenant Breton Terrier](https://en.uesp.net/wiki/Online:Covenant_Breton_Terrier)
 - [Craglorn Welwa](https://en.uesp.net/wiki/Online:Craglorn_Welwa)
 - [Crimson Torchbug](https://en.uesp.net/wiki/Online:Crimson_Torchbug)
+- [Death Hound](https://en.uesp.net/wiki/Online:Death_Hound)
 - [Dominion Breton Terrier](https://en.uesp.net/wiki/Online:Dominion_Breton_Terrier)
 - [Dwarven Spider](https://en.uesp.net/wiki/Online:Dwarven_Spider)
 - [Dwarven War Dog](https://en.uesp.net/wiki/Online:Dwarven_War_Dog)
 - [Echalette](https://en.uesp.net/wiki/Online:Echalette)
+- [Fledgling Gryphon](https://en.uesp.net/wiki/Online:Fledgling_Gryphon)
 - [Fledgling Terror Bird](https://en.uesp.net/wiki/Online:Fledgling_Terror_Bird)
 - [Golden Eagle](https://en.uesp.net/wiki/Online:Golden_Eagle)
 - [Green Dragon Imp](https://en.uesp.net/wiki/Online:Green_Dragon_Imp)
@@ -907,6 +949,7 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 - [Imgakin Monkey](https://en.uesp.net/wiki/Online:Imgakin_Monkey)
 - [Infernium Dwarven Spiderling](https://en.uesp.net/wiki/Online:Infernium_Dwarven_Spiderling)
 - [Jackal](https://en.uesp.net/wiki/Online:Jackal)
+- [Jewel-Feathered Sep Adder](https://en.uesp.net/wiki/Online:Jewel-Feathered_Sep_Adder)
 - [Long-Winged Bat](https://en.uesp.net/wiki/Online:Long-Winged_Bat)
 - [Mottled Sheep](https://en.uesp.net/wiki/Online:Mottled_Sheep)
 - [Nenalata Ayleid Wolf Pup](https://en.uesp.net/wiki/Online:Nenalata_Ayleid_Wolf_Pup)
@@ -925,31 +968,31 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>💍 Piercings (0 of 67)</summary>
+<summary>💍 Piercings (0 of 69)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 0% (0/67) |
+| ░░░░░░░░░░░░░░░░░░░░ 0% (0/69) |
 
 *No piercings owned*
 </details>
 
 <details>
-<summary>✨ Polymorphs (1 of 46)</summary>
+<summary>✨ Polymorphs (1 of 47)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 2% (1/46) |
+| ░░░░░░░░░░░░░░░░░░░░ 2% (1/47) |
 
 - [Boneman](https://en.uesp.net/wiki/Online:Boneman)
 </details>
 
 <details>
-<summary>🎭 Skins (0 of 113)</summary>
+<summary>🎭 Skins (0 of 115)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 0% (0/113) |
+| ░░░░░░░░░░░░░░░░░░░░ 0% (0/115) |
 
 *No skins owned*
 </details>
@@ -962,8 +1005,8 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 93 | 200 | ████░░░░░░ 46% |
-| Bank | 203 | 480 | ████░░░░░░ 42% |
+| Backpack | 143 | 200 | ███████░░░ 71% |
+| Bank | 236 | 480 | ████░░░░░░ 49% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 ---
@@ -973,55 +1016,69 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 ## 🔨 Crafting Knowledge
 
 <details>
-<summary>🎨 Crafting Motifs (0 of 118 Completed)</summary>
+<summary>🎨 Crafting Motifs (1 of 118 Completed)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 0% (0/118) |
+| ░░░░░░░░░░░░░░░░░░░░ 0% (1/118) |
 
 **Completed:**
+- ✅ Thieves Guild Style
 
 **In Progress:**
-- 🚧 Dwemer Style (6/14)
+- 🚧 Dwemer Style (7/14)
+- 🚧 Glass Style (1/14)
 - 🚧 Xivkyn Style (1/14)
 - 🚧 Daggerfall Covenant Style (1/14)
+- 🚧 Ebonheart Pact Style (2/14)
 - 🚧 Ra Gada Style (3/14)
 - 🚧 Assassins League Style (6/14)
-- 🚧 Thieves Guild Style (10/14)
-- 🚧 Draugr Style (1/14)
+- 🚧 Draugr Style (5/14)
 - 🚧 Skinchanger Style (1/14)
 - 🚧 House Telvanni Style (1/14)
 - 🚧 Ashlander Style (1/14)
 - 🚧 House Hlaalu Style (2/14)
 - 🚧 House Redoran Style (1/14)
-- 🚧 Ebonshadow Style (1/14)
+- 🚧 Apostle Style (1/14)
+- 🚧 Ebonshadow Style (2/14)
+- 🚧 Worm Cult Style (1/14)
 - 🚧 Psijic Style (5/14)
 - 🚧 Sapiarch Style (4/14)
 - 🚧 Pyandonean Style (1/14)
-- 🚧 Dremora Style (5/14)
+- 🚧 Dremora Style (6/14)
 - 🚧 Honor Guard Style (1/14)
 - 🚧 Coldsnap Style (1/14)
-- 🚧 Pellitine Style (1/14)
+- 🚧 Pellitine Style (3/14)
 - 🚧 Stags of Z'en Style (1/14)
-- 🚧 New Moon Priest Style (8/14)
+- 🚧 New Moon Priest Style (10/14)
 - 🚧 Shield of Senchal Style (1/14)
+- 🚧 Icereach Coven Style (1/14)
 - 🚧 Blackreach Vanguard Style (1/14)
+- 🚧 Ancestral Nord Style (3/14)
+- 🚧 Ancestral High Elf Style (1/14)
 - 🚧 Hazardous Alchemy Style (1/14)
-- 🚧 Lucent Sentinel Style (1/14)
+- 🚧 Ancestral Akaviri Style (1/14)
+- 🚧 House Hexos Style (1/14)
+- 🚧 True-Sworn Style (1/14)
+- 🚧 Blessed Inheritor Style (1/14)
+- 🚧 Lucent Sentinel Style (2/14)
+- 🚧 Stirk Fellowship Style (2/14)
+- 🚧 Tide-Born Style (1/14)
+- 🚧 Koldane Cartel Style (2/14)
 
 </details>
 
 <details>
-<summary>📜 Recipe Knowledge (443 Known)</summary>
+<summary>📜 Recipe Knowledge (457 Known)</summary>
 
-**Total Known Recipes:** 443
+**Total Known Recipes:** 457
 
 ### 🍽️ Recipes by Category
 
 <details>
-<summary>🍽️ Alcoholic Drinks (16 recipes)</summary>
+<summary>🍽️ Alcoholic Drinks (17 recipes)</summary>
 
-*16 recipes known in this category*
+*17 recipes known in this category*
 
 </details>
 
@@ -1054,16 +1111,16 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🍽️ Dining (31 recipes)</summary>
+<summary>🍽️ Dining (32 recipes)</summary>
 
-*31 recipes known in this category*
+*32 recipes known in this category*
 
 </details>
 
 <details>
-<summary>🍽️ Entremet (4 recipes)</summary>
+<summary>🍽️ Entremet (5 recipes)</summary>
 
-*4 recipes known in this category*
+*5 recipes known in this category*
 
 </details>
 
@@ -1082,16 +1139,16 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🍽️ Gourmet (3 recipes)</summary>
+<summary>🍽️ Gourmet (4 recipes)</summary>
 
-*3 recipes known in this category*
+*4 recipes known in this category*
 
 </details>
 
 <details>
-<summary>🍽️ Hearth (97 recipes)</summary>
+<summary>🍽️ Hearth (99 recipes)</summary>
 
-*97 recipes known in this category*
+*99 recipes known in this category*
 
 </details>
 
@@ -1110,9 +1167,9 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🍽️ Liqueurs (7 recipes)</summary>
+<summary>🍽️ Liqueurs (8 recipes)</summary>
 
-*7 recipes known in this category*
+*8 recipes known in this category*
 
 </details>
 
@@ -1124,9 +1181,9 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🍽️ Parlor (34 recipes)</summary>
+<summary>🍽️ Parlor (36 recipes)</summary>
 
-*34 recipes known in this category*
+*36 recipes known in this category*
 
 </details>
 
@@ -1138,16 +1195,16 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🍽️ Savouries (5 recipes)</summary>
+<summary>🍽️ Savouries (6 recipes)</summary>
 
-*5 recipes known in this category*
+*6 recipes known in this category*
 
 </details>
 
 <details>
-<summary>🍽️ Structures (22 recipes)</summary>
+<summary>🍽️ Structures (23 recipes)</summary>
 
-*22 recipes known in this category*
+*23 recipes known in this category*
 
 </details>
 
@@ -1194,9 +1251,9 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 </details>
 
 <details>
-<summary>🍽️ Workshop (17 recipes)</summary>
+<summary>🍽️ Workshop (20 recipes)</summary>
 
-*17 recipes known in this category*
+*20 recipes known in this category*
 
 </details>
 
@@ -1207,15 +1264,15 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | Profession | Progress |
 | --- | --- |
-| ⚒️ Blacksmithing | ████████████░░░ 80% |
-| 🧵 Clothing | ████████████░░░ 80% |
+| ⚒️ Blacksmithing | ████████████░░░ 81% |
+| 🧵 Clothing | ████████████░░░ 81% |
 | 🪵 Woodworking | █████████████░░ 88% |
 | 💎 Jewelry | ████████████░░░ 83% |
 
 #### ⚒️ Blacksmithing
 - Axe: 7/9 traits
 - Mace: 6/9 traits
-- Sword: 7/9 traits
+- Sword: 8/9 traits
 - Battle Axe: 8/9 traits
 - Maul: 7/9 traits
 - Greatsword: 7/9 traits
@@ -1240,7 +1297,7 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 - Boots: 7/9 traits
 - Bracers: 7/9 traits
 - Helmet: 8/9 traits
-- Guards: 6/9 traits
+- Guards: 7/9 traits
 - Arm Cops: 7/9 traits
 - Belt: 7/9 traits
 
@@ -1265,9 +1322,9 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 ## 🧥 Outfit Styles
 
 <details>
-<summary>🧥 Acquired Styles (1787 Unlocked)</summary>
+<summary>🧥 Acquired Styles (2063 Unlocked)</summary>
 
-**Total Unlocked:** 1787
+**Total Unlocked:** 2063
 
 *Detailed list disabled. Enable 'Detailed Styles' in settings to see all acquired styles.*
 
@@ -1281,20 +1338,20 @@ Masisi does not treat Summerset as a battlefield. To a Redguard artisan raised o
 
 | **Guild Name** | **Rank** | **Members** | **Alliance** |
 | --- | --- | ---: | --- |
-| **Autumn Rose** | \|cb54952Member | 388 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
-| **BeamMeUp** | BeamMeUp-User | 447 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
-| **Pacrooti's Hirelings EU** | \|c4400FFTrader | 478 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
+| **Autumn Rose** | \|cb54952Member | 386 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **BeamMeUp** | BeamMeUp-User | 466 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Pacrooti's Hirelings EU** | \|c4400FFTrader | 488 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
 | **Sleepless Wanderer** | Roamer | 480 | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **Song of Sun and Moon** | New Moon | 498 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Song of Sun and Moon** | New Moon | 488 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
 
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-56,740%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-60,338%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 9/26/2026 • Version: 2.3.0-11-g54451ef</sub>
+<sub>Generated on 10/2/2026 • Version: 2.3.0-20-g22f07dd</sub>
 
 </div>

@@ -12,6 +12,7 @@ Built entirely on **craftable sets** and CP 1020, this build is designed to solo
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Lawful Neutral** — Storm Sovereign — divine judgment and mercy above mortal factions |
 | **Primary Stat** | 64 points in **Magicka** — **live:** 44 Magicka / 20 Health · **25,772** Magicka · **2,875** Spell Power · **25,657** Health · **target:** 64 Magicka |
 | **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** The Atronach; swap for DPS gain |
 | **Vampirism** | **Cured** — fire damage from overland bosses conflicts with vampirism; divine beings don't crawl |
@@ -479,6 +480,8 @@ The Storm Sovereign rides something that makes the world pause. Choose the **bes
 > [!TIP]
 > **Ideal mount (any source):** **Flame Atronach Senche** — already owned; no Crown upgrade required. A Daedric elemental steed for a sovereign who commands summoned forces.
 
+**Favorites (ESO Favorite Collectibles / Collections):** Flame Atronach Senche, Nightmare Senche, Psijic Escort Charger, Pyrodraconic Camel-Lizard, Rahd-m'Athra, Sapiarchic Senche-Serval, Wormwrithe Bear-Lizard, Noble Riverhold Senche-Lion, Snow Bear, Faunfrolic Great Elk, Noweyr Steed, Ashbone Sabre Cat, Rubyflare Torchnix, Nix-Ox War-Steed, Shadowghost Guar, Spotted Duneracer Senche-raht, Ebon Dwarven Horse, Dwarven War Horse, Midnight Steed — god / regal / mythical owned set; enable random favorite mount when 2+ are favorited.
+
 ### Pet
 
 Vanity pets are **cosmetic only** — pick the **best owned pet** for roleplay from the profile's **Collectibles → Pets** section.
@@ -500,6 +503,8 @@ Vanity pets are **cosmetic only** — pick the **best owned pet** for roleplay f
 
 > [!TIP]
 > **Ideal pet (any source):** **Golden Eagle** — already owned; classical storm-god herald. **Acquisition:** account unlock (no further purchase needed).
+
+**Favorites:** Golden Eagle, Autumnal Indrik, Blue Dragon Imp, Green Dragon Imp, Coldharbour Dremnaken Runt, Frost Atronach Kagouti Calf, Long-Winged Bat, Mad God's Tomeshell, Psijic Mascot Bear Cub, Psijic Mascot Guar Calf, Psijic Mascot Pony, Scintillant Dovah-Fly, Stonefire Scamp, Steam-Driven Brassilisk, Verdigris Haj Mota, Wormwrithe Haj Mota Hatchling, Noweyr Pony, Viridescent Dragon Frog, Grisly Banekin Mummy, Haunted House Cat — regal / mythical owned set; summon a random favorite vanity pet when 2+ are set.
 
 ### Dye and style
 

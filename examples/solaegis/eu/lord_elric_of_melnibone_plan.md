@@ -14,19 +14,21 @@ Built on **craftable** sets for solo overland and public dungeons.
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Chaotic Neutral** — Pale Emperor — Stormbringer chaos; empire and sorrow without a tidy moral pole |
 | **Primary Stat** | 64 points in **Magicka** — **live:** 51 Magicka / 0 Health / 0 Stamina · **26,866** Magicka · **23,834** Health · **target:** 64 Magicka at CP160 |
-| **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** The Apprentice ✅ |
+| **Mundus Stone** | **The Warrior** (+Weapon and Spell Damage since U51) — **live:** The Apprentice. Since U51 it gives Experience and Inspiration, not damage: keep it while levelling if you'd rather level faster, then swap to **The Warrior** at Level 50 (it now carries the old +238 / +389 Spell Damage) |
 | **Vampirism** | **Cured** — overland fire and Pale Emperor fiction both reject the crawl |
+| **Trinity** | **Storm Calling** + **Daedric Summoning** KEEP · **Grave Lord** SUBCLASS (replaces **Dark Magic**) at Level 50 — **live:** all three native (bridge, Level 40) · **decision:** Pestilent Colossus Major Vulnerability beats Crystal Fragments burst |
 | **Sets** | **5 Law of Julianos** (both weapons + 3 jewelry) **+ 5 Night Mother's Gaze** (Light body) — 100% craftable · **live:** 5 Armor of the Trainee + 1 Wisdom of Vanus (fine while leveling) |
 | **Penetration** | **Live: 350** Spell Penetration — far below an 18,200-resistance target. Unlock **Light Armor → Concentration** first (≈ **+13.7%** damage with 7 light pieces), then Night Mother's Gaze Major Breach |
 | **Bars** | Front: **Two-Handed Greatsword** ("Stormbringer") · Back: Lightning Destruction ("The Dreaming City") — **live:** bridge bars slotted ✅ |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Health + Magicka Recovery) or **Witty Blue Entremet** while leveling |
-| **Potion** | **Essence of Spell Power** — its Major Sorcery duplicates **Critical Surge**, so the value is Major Prophecy (Spell Crit); tri-stat potions are equally fine |
+| **Potion** | **Magicka power potion** (Restore Magicka + Major Brutality + Major Savagery; U51 renamed potions, so pick it by its effects). Its Major Brutality duplicates **Critical Surge**, so the value is Major Savagery (crit); tri-stat potions are equally fine |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** on Stormbringer between pulls |
 | **Staff/Weapon Enchant** | Front greatsword: **Absorb Magicka** or **Shock** · Back staff: **Crusher** (Minor Breach, stacks with the Major Breach from Night Mother's Gaze) |
 | **Companion** | **Primary (now):** **Mirri Elendis** (DPS) at companion **8/20** · **Secondary:** **Tanlorin** · **Goal (20/20 @ CP160):** **Zerith-var** (death-aspect lieutenant) |
 | **Primary Mount** | **Nightmare Senche** (owned) · **Ideal:** **Nightmare Senche** — see [Collectibles](#collectibles) |
-| **Flavor Pet** | **Long-Winged Bat** (owned) · **Ideal:** **Long-Winged Bat** — see [Collectibles](#collectibles) |
+| **Flavor Pet** | **Long-Winged Bat** (owned) · **Alt:** **Death Hound** (owned) — see [Collectibles](#collectibles) |
 | **Costume** | **Mannimarco** (owned) · **Alt:** **Court of Bedlam** — see [Collectibles](#collectibles) |
 
 **Read next:** [Roleplay](#roleplay-the-pale-emperor) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-stormbringer-cycle) · [Gear and crafting](#gear-and-crafting-the-ruby-throne-regalia) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-imperial-retinue) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
@@ -44,7 +46,7 @@ Elric carries **Abyssal Champion** the way other men carry scars — earned, not
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Lord Elric of Melniboné — The Pale Emperor. Solo overland magicka pet Sorcerer; Stormbringer = front Two-Handed greatsword (Magicka class skills only — no stam 2H spam). Back: Lightning staff. Matriarch slot 5 both bars (no resto). Bridge: Boundless Storm, Critical Surge, Crystal Fragments, Daedric Prey, Matriarch. Uber: Grave Lord replaces Dark Magic — Boundless Storm, Critical Surge, Grave Lord's Sacrifice, Daedric Prey, Matriarch, Greater Storm Atronach / back Blockade, Crushing Shock, Inner Light, Endless Fury, Pestilent Colossus. 5 Julianos (greatsword + staff + jewelry) + 5 Night Mother's Gaze (light body), @masisi. 64 Mag. Mundus: The Apprentice. Mirri now; Zerith-var @ 20/20. Mannimarco / Nightmare Senche / Long-Winged Bat.
+> Lord Elric of Melniboné — The Pale Emperor. Solo overland magicka pet Sorcerer; Stormbringer = front Two-Handed greatsword (Magicka class skills only — no stam 2H spam). Back: Lightning staff. Matriarch slot 5 both bars (no resto). Bridge: Boundless Storm, Critical Surge, Crystal Fragments, Daedric Prey, Matriarch. Uber: Grave Lord replaces Dark Magic — Boundless Storm, Critical Surge, Grave Lord's Sacrifice, Daedric Prey, Matriarch, Greater Storm Atronach / back Blockade, Crushing Shock, Inner Light, Endless Fury, Pestilent Colossus. 5 Julianos (greatsword + staff + jewelry) + 5 Night Mother's Gaze (light body), @masisi. 64 Mag. Mundus: The Warrior. Mirri now; Zerith-var @ 20/20. Mannimarco / Nightmare Senche / Long-Winged Bat.
 
 > [!TIP]
 > **Flavor Pet:** **Long-Winged Bat** (owned) — nocturnal familiar of a twilight emperor. **Alt:** **Blue Dragon Imp**. See [Collectibles](#collectibles).
@@ -56,7 +58,15 @@ Elric carries **Abyssal Champion** the way other men carry scars — earned, not
 
 ## Trinity configuration
 
+### Subclassing decision (required)
+
 Leveling (L40–49) keeps all three **native** Sorcerer lines. At Level 50, complete Bahtra at-Hunding’s **"A Study in Discipline"** (Adventure Camp outside Riften, Evermore, or Dune) and replace **Dark Magic** with **Grave Lord**. See [docs/subclassing.md](../../../docs/subclassing.md).
+
+**This build's decision: one SUBCLASS row.**
+
+- **KEEP Storm Calling:** the Stormbringer front bar (Boundless Storm, Critical Surge) and the lightning back bar are built on it.
+- **KEEP Daedric Summoning:** Twilight Matriarch is the build's only heal (slot 5, both bars) and Greater Storm Atronach is the ultimate.
+- **SUBCLASS Dark Magic → Grave Lord:** Dark Magic contributes one slot of burst (Crystal Fragments) on this kit. Grave Lord brings **Pestilent Colossus**, the kit's only source of **Major Vulnerability**, plus Grave Lord's Sacrifice and the death-economy passives that fit the pale-emperor fiction. **Proof:** one debuff that raises all damage the target takes outweighs one burst slot.
 
 ```mermaid
 graph TD
@@ -94,6 +104,9 @@ graph TD
 | **Servants** | **Daedric Summoning** | Sorcerer (native) | **KEEP** | Twilight Matriarch Restore slot **5 both bars**; Greater Storm Atronach ultimate |
 | **Reckoning** | **Grave Lord** | Necromancer (subclass) | **SUBCLASS** (replaces **Dark Magic**) | Pestilent Colossus Major Vulnerability; Grave Lord's Sacrifice; death-economy passives |
 
+> [!IMPORTANT]
+> **Pre-50 bridge (all native Sorcerer):** until Bahtra, **Dark Magic** holds slot 4 with **Crystal Fragments** and the ultimate is **Greater Storm Atronach**. **At Level 50:** subclass **Grave Lord**, unslot every Dark Magic active, and take **Pestilent Colossus** as the back-bar ultimate. Grave Lord starts at rank 1, so level it on overland before relying on Colossus for bosses.
+
 > [!NOTE]
 > **Herald of the Tome** is rejected for this character — stronger parse beam, weaker pale-emperor / death fiction. Do not dual-path.
 
@@ -122,7 +135,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
 | :--- | :--- | :--- | :--- | :--- |
 | **1** | Storm Calling | Lightning Form → **Boundless Storm** | Major Resolve, AoE shock, Minor Expedition | ✅ Live |
-| **2** | Storm Calling | Surge → **Critical Surge** | Major Sorcery + heal on crit | ✅ Live |
+| **2** | Storm Calling | Surge → **Critical Surge** | Major Brutality + heal on crit | ✅ Live |
 | **3** | Daedric Summoning | Daedric Curse → **Daedric Prey** | Damage amp | ✅ Live |
 | **4** | Dark Magic | Crystal Blast → **Crystal Fragments** | Magicka burst / proc | ✅ Live — bridge until Uber |
 | **5** | Daedric Summoning | Summon Twilight Matriarch → **Twilight Matriarch Restore** | **Summon** (same slot 5 both bars) | ✅ Live |
@@ -149,7 +162,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 | **Slot** | **Class/Line** | **Base → Morph** | **Role** |
 | :--- | :--- | :--- | :--- |
 | **1** | Storm Calling (Sorc) | Lightning Form → **Boundless Storm** | Major Resolve, AoE shock pulse, Minor Expedition |
-| **2** | Storm Calling (Sorc) | Surge → **Critical Surge** | Major Sorcery + heal on critical |
+| **2** | Storm Calling (Sorc) | Surge → **Critical Surge** | Major Brutality + heal on critical |
 | **3** | Grave Lord (Necro) | Sacrificial Bones → **Grave Lord's Sacrifice** | Death-aspect self-buff (**Magicka**) |
 | **4** | Daedric Summoning (Sorc) | Daedric Curse → **Daedric Prey** | Damage amp after Colossus |
 | **5** | Daedric Summoning (Sorc) | Summon Twilight Matriarch → **Twilight Matriarch Restore** | **Summon** (same slot 5 both bars) |
@@ -173,7 +186,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 ```mermaid
 flowchart TD
-    A["Drink Essence of Spell Power"] --> B["Back: Pestilent Colossus + Elemental Blockade"]
+    A["Drink Magicka power potion"] --> B["Back: Pestilent Colossus + Elemental Blockade"]
     B --> C["Swap to Stormbringer"]
     C --> D["Boundless Storm + Critical Surge + Grave Lord's Sacrifice + Daedric Prey"]
     D --> E["Light attacks; refresh Storm / Surge / Sacrifice / Prey"]
@@ -187,11 +200,11 @@ flowchart TD
 
 1. **Pestilent Colossus opens every Uber boss fight** from the lightning bar — Major Vulnerability first.
 2. **Stormbringer is always the front bar.** Weave light attacks between Magicka skills; do not lean on stamina 2H skills.
-3. **Boundless Storm + Critical Surge stay up** on the sword bar — Resolve, Sorcery, and on-crit healing.
+3. **Boundless Storm + Critical Surge stay up** on the sword bar — Resolve, Brutality, and on-crit healing.
 4. **Twilight Matriarch never leaves.** Slot 5 both bars; press her heal when you or Mirri dip.
 5. **Elemental Blockade** lives on the lightning bar — drop it, swap to Stormbringer, refresh when it expires.
 6. **Grave Lord's Sacrifice** on Stormbringer after buffs; Magicka-only — no Blighted Blastbones.
-7. **Crit feeds the Breach.** Once Night Mother's Gaze is on, every critical hit applies Major Breach (4s) — keep Boundless Storm and Blockade ticking so it rarely drops. Potion on boss pulls for Major Prophecy.
+7. **Crit feeds the Breach.** Once Night Mother's Gaze is on, every critical hit applies Major Breach (4s) — keep Boundless Storm and Blockade ticking so it rarely drops. Potion on boss pulls for Major Savagery.
 8. **Endless Fury / Crushing Shock** from the lightning bar as needed; **Greater Storm Atronach** from Stormbringer mid-fight.
 
 ### Passive skills
@@ -439,6 +452,7 @@ Level Mirri toward **20/20** while Elric levels; start **Zerith-var** XP in para
 | **Attribute** | **Detail** |
 | :--- | :--- |
 | **Primary (owned)** | **[Long-Winged Bat](https://en.uesp.net/wiki/Online:Long-Winged_Bat)** — nocturnal familiar |
+| **Alt (owned)** | **[Death Hound](https://en.uesp.net/wiki/Online:Death_Hound_(pet))** — a barrow hound for the death-aspect days after Grave Lord (new 2026-09-29) |
 | **Alt (owned)** | **[Blue Dragon Imp](https://en.uesp.net/wiki/Online:Blue_Dragon_Imp)** — storm familiar |
 | **Alt (owned)** | **[Vermilion Scuttler](https://en.uesp.net/wiki/Online:Vermilion_Scuttler)** — ruby-throne vermin |
 | **Alt (owned)** | **[Coldharbour Bantam Guar](https://en.uesp.net/wiki/Online:Coldharbour_Bantam_Guar)** — Daedric court pet |
@@ -489,7 +503,7 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 
 ### Phase 2 — Bahtra Uber + craft target
 
-11. **Level 50:** Bahtra at-Hunding — subclass **Grave Lord**, replace **Dark Magic**.
+11. **Level 50:** Bahtra at-Hunding — subclass **Grave Lord**, replace **Dark Magic**. Mundus **The Apprentice → The Warrior**.
 12. **Respec to Uber bars:** Front — swap Crystal Fragments for **Grave Lord's Sacrifice**. Back — swap the ultimate for **Pestilent Colossus**.
 13. Spend skill points on Grave Lord passives (**Reusable Parts**, **Death Knell** first).
 14. **@masisi (CP160):** craft **5 Night Mother's Gaze** (Light chest, hands, waist, legs, feet; Divines) and **Law of Julianos** on the **greatsword**, **lightning staff**, necklace and both rings (Infused weapons, Arcane jewelry, Spell Damage jewelry glyphs). Head/shoulders: any Light Divines pieces.

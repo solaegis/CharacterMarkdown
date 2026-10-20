@@ -12,6 +12,7 @@ Designed for solo overland and public dungeons on craftable gear. Until CP160, l
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Lawful Evil** — Serpent Clan enforcer — contract, hierarchy, clean professional kills |
 | **Primary Stat** | 64 points in **Stamina** — **live:** 0 Mag / 0 Health / **33 Stam** · pools **25,605** HP / **20,162** Mag / **24,895** Stam · **target:** 64 Stam at CP160 |
 | **Mundus Stone** | **The Lover** (+Penetration) — **live:** The Lover ✓ · beats The Thief by ~+2% now and ~+3.5% at CP160 (4,489 pen vs 1,982 crit rating with 7 gold Divines); Shadowy Disguise already guarantees the opener crit |
 | **Vampirism** | **Cured / N/A** — predator kit does not need the crawl; fire fights reject it |
@@ -19,12 +20,12 @@ Designed for solo overland and public dungeons on craftable gear. Until CP160, l
 | **Sets** | **5 Hunding's Rage + 5 Order's Wrath** (100% craftable, all Medium) — **live:** levelling drops (fine until CP160) · **target:** Hunding's + Order's Wrath at CP160 gold |
 | **Bars** | Front: **Dual Wield** ("The Claim") · Back: **Bow** ("The Trail") — **live:** Dual Wield Main / Bow Backup ✓ |
 | **Food** | **Dubious Camoran Throne** (Max Health + Max Stam + Stam Recovery) or **Artaeum Pickled Fish Bowl** while leveling |
-| **Potion** | **Essence of Weapon Power** (Major Brutality + Stam; its Major Savagery duplicates **Camouflaged Hunter** once that is slotted) |
+| **Potion** | **Stamina power potion** (Major Brutality + Stam; U51 renamed potions, so pick by effects; its Major Savagery duplicates **Camouflaged Hunter** once that is slotted) |
 | **Weapon Poisons** | **Crown Lethal Poison** / **Gradual Ravage Health** — trail damage; DK **Combustion** refunds only on **Burning** from a slotted Ardent Flame ability (not Poisoned) |
 | **Staff/Weapon Enchant** | Front daggers/swords: **Poison** / **Absorb Stamina** / **Flame** · Back bow: **Disease Damage** or **Weapon Damage** |
-| **Companion** | **Primary (now):** **Tanlorin** (DPS / unbound agent) at live Level **5/20** · **Secondary:** **Bastian Hallix** (soft wall) · **Goal (20/20 @ CP160):** **Tanlorin** fully geared |
+| **Companion** | **Primary (now):** **Sharp-as-Night** (Argonian mercenary, bow DPS) · **Secondary:** **Tanlorin** (unbound agent, live Level **5/20**) · **Goal (20/20 @ CP160):** **Sharp-as-Night** fully geared |
 | **Primary Mount** | **Rahd-m'Athra** (owned) · **Alt:** **Nightmare Senche** / **Skulltooth Coastal Durzog** — see [Collectibles](#collectibles) |
-| **Flavor Pet** | **Verdigris Haj Mota** (owned) · **Alt:** **Alik'r Dune-Hound** / **Blue Dragon Imp** — see [Collectibles](#collectibles) |
+| **Flavor Pet** | **Jewel-Feathered Sep Adder** (owned) · **Alt:** **Verdigris Haj Mota** / **Alik'r Dune-Hound** — see [Collectibles](#collectibles) |
 | **Costume** | **Shrouded Armor** (owned) · **Alt:** **Red Rook Armor** / **Bloodthorn Robes** — see [Collectibles](#collectibles) |
 
 **Read next:** [Roleplay](#roleplay-the-serpent-clan-enforcer) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-claim-and-trail) · [Gear and crafting](#gear-and-crafting-the-serpents-contract) · [Champion points](#champion-point-mapping-cp-336) · [Companion](#companion-strategy-the-unbound-agent) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
@@ -39,7 +40,7 @@ He does not speechify. He does not swagger. He arrives, confirms the contract, a
 
 **Ardent Flame** is the Society's quiet toxin — **Searing Claw** and a **Standard of Might** planted like a territorial mark (support banner, not a DoT puddle). **Draconic Power** is the armor of a hunter who expects the prey to fight back — **Disintegrating Dragonfire** for the Breach, **Blood of the Green Dragon**, scales that do not apologize. **Shadow** is the Serpent Clan gift, taken early: Shadowy Disguise as the cloak, Refreshing Path as the trail through darkness. Earthen Heart was useful stone for a young enforcer with a shield; it left the kit when Shadow arrived.
 
-Companions are assets. Tanlorin is the unbound agent who understands jobs that never make the guild board. Bastian is a soft wall when the contract goes loud. **Rahd-m'Athra** is the void-cat of night contracts; a **Verdigris Haj Mota** rides the trail like a Saxhleel hunting partner. Shrouded Armor is the silhouette of work done between lanterns.
+Companions are assets. **Sharp-as-Night** is another Saxhleel who works alone for coin and doesn't ask why; Tanlorin is the unbound agent who understands jobs that never make the guild board. **Rahd-m'Athra** is the void-cat of night contracts; a **Jewel-Feathered Sep Adder**, the Hist's own gift, senses danger on the trail before he does. Shrouded Armor is the silhouette of work done between lanterns.
 
 He is a loyal enforcer. He is also something older and colder that learned to wear Saxhleel skin until the job is done.
 
@@ -48,10 +49,10 @@ He is a loyal enforcer. He is also something older and colder that learned to we
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Zirhli — Serpent Clan Enforcer. Mid-tier Serpent Society professional: grim, persistent, organized crime muscle who hunts like a Yautja Serpent Clan predator — stealth and cunning before the kill. Keep Ardent Flame + Draconic Power; Shadow subclass (replaces Earthen Heart — cloak/crit beats stone utility). Target: 5 Hunding's Rage + 5 Order's Wrath (medium), @masisi. Front Dual Wield: Bloodthirst, Shadowy Disguise, Rending Slashes, Disintegrating Dragonfire, Camouflaged Hunter; ult Standard of Might. Back Bow: Endless Hail, Poison Injection, Refreshing Path, Searing Claw, Blood of the Green Dragon; ult Take Flight. 64 Stam. Mundus: The Lover. Companion: Tanlorin now; Bastian soft wall. Costume: Shrouded Armor · mount Rahd-m'Athra · pet Verdigris Haj Mota.
+> Zirhli — Serpent Clan Enforcer. Mid-tier Serpent Society professional: grim, persistent, organized crime muscle who hunts like a Yautja Serpent Clan predator — stealth and cunning before the kill. Keep Ardent Flame + Draconic Power; Shadow subclass (replaces Earthen Heart — cloak/crit beats stone utility). Target: 5 Hunding's Rage + 5 Order's Wrath (medium), @masisi. Front Dual Wield: Bloodthirst, Shadowy Disguise, Rending Slashes, Disintegrating Dragonfire, Camouflaged Hunter; ult Standard of Might. Back Bow: Endless Hail, Poison Injection, Refreshing Path, Searing Claw, Blood of the Green Dragon; ult Take Flight. 64 Stam. Mundus: The Lover. Companion: Sharp-as-Night, a fellow Saxhleel blade for hire. Costume: Shrouded Armor · mount Rahd-m'Athra · pet Jewel-Feathered Sep Adder.
 
 > [!TIP]
-> **Flavor Pet:** **Verdigris Haj Mota** (owned) — Argonian swamp-serpent hunting partner. **Alt:** **Alik'r Dune-Hound** or **Blue Dragon Imp**. See [Collectibles](#collectibles).
+> **Flavor Pet:** **Jewel-Feathered Sep Adder** (owned) — a Hist-given serpent that senses danger first; the Serpent Clan's own emblem. **Alt:** **Verdigris Haj Mota** or **Alik'r Dune-Hound**. See [Collectibles](#collectibles).
 
 > [!TIP]
 > **Costume:** **Shrouded Armor** — cloaked enforcer silhouette. **Alt:** **Red Rook Armor** or **Bloodthorn Robes**. Pair **Shrouded Crown** when you want the full shroud. Full picks under [Collectibles](#collectibles).
@@ -62,7 +63,7 @@ He is a loyal enforcer. He is also something older and colder that learned to we
 
 ### Subclassing decision (required)
 
-**Live:** Zirhli already runs **Shadow** as his subclass (taken before Level 50; line rank 27). Subclassing does **not** mean you must swap two lines. **Default = class-identity-first:** keep native Dragonknight lines unless a foreign line clearly outperforms the pillar it replaces. See [docs/subclassing.md](../../../docs/subclassing.md).
+**Live:** Zirhli already runs **Shadow** as his subclass (taken before Level 50; line rank 27). Subclassing is normally unlocked at **Level 50** via Bahtra at-Hunding (**"A Study in Discipline"**); this account already has it, so there's no pre-50 bridge to plan. Subclassing does **not** mean you must swap two lines. **Default = class-identity-first:** keep native Dragonknight lines unless a foreign line clearly outperforms the pillar it replaces. See [docs/subclassing.md](../../../docs/subclassing.md).
 
 **This build's decision:** **KEEP Ardent Flame** and **Draconic Power** (flame toxin + armored predator are the DK identity of the hunt). **SUBCLASS Shadow** replaces **Earthen Heart** because Shadowy Disguise + Refreshing Path + Shadow passives deliver stealth, guaranteed crit, and recovery that stone utility does not for a Dual Wield + Bow stalker. See [docs/dragonknight_u49.md](../../../docs/dragonknight_u49.md) for post–Update 49 DK names and line ownership.
 
@@ -126,7 +127,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 | **2** | Shadow | Shadow Cloak → **Shadowy Disguise** | Stealth / guaranteed crit open | **Live** ✓ |
 | **3** | Dual Wield | Twin Slashes → **Rending Slashes** | Melee bleed DoT + LA weave | **Live** ✓ |
 | **4** | Dual Wield | Flurry → **Bloodthirst** | Stam spammable + heal on hit | **Live** ✓ |
-| **5** | Fighters Guild | Expert Hunter → **Camouflaged Hunter** | Major Savagery / Prophecy + stealth synergy | **Later** — Fighters Guild rank 5; live slot: **Blood of the Green Dragon** |
+| **5** | Fighters Guild | Expert Hunter → **Camouflaged Hunter** | Major Savagery + stealth synergy (U51: no longer breaks stealth) | **Later** — Fighters Guild rank 5; live slot: **Blood of the Green Dragon** |
 | **6 (Ult)** | Ardent Flame | Dragonknight Standard → **Standard of Might** | Support banner — WD/SD + DR; stand in it | **Live** — Dragonknight Standard (morph to Might) |
 
 #### Back Bar (Bow): "The Trail"
@@ -157,12 +158,12 @@ flowchart TD
 
 #### Solo combat tips
 
-1. **Cloak first** — Shadowy Disguise before the open so the first heavy hits crit.
+1. **Cloak first** — Shadowy Disguise before the open so the first heavy hits crit. **U51 stealth rules:** Bow skills and most Nightblade skills keep you hidden, but most other skills break it, so open from cloak with **Endless Hail**, **Poison Injection** and **Refreshing Path**. Cast **Searing Claw** and **Blood of the Green Dragon** after the opener. Weapon-poison and other proc hits no longer get the sneak crit.
 2. **Trail before Claim** — Endless Hail, Poison Injection, Searing Claw, Refreshing Path, Blood of the Green Dragon from the bow; then swap.
 3. **Claim weave** — Disintegrating Dragonfire for Major Breach, Camouflaged Hunter for Savagery, Rending Slashes DoT, Bloodthirst light-attack weave.
 4. **Burning / Combustion** — keep an Ardent Flame ability slotted so **Combustion** refunds on **Burning** (Searing Claw / Disintegrating Dragonfire). Weapon poisons are trail damage, not Combustion fuel.
 5. **Standard of Might** on bosses and world bosses — plant and fight inside the banner; **Take Flight** to close or finish runners.
-6. Potion **Essence of Weapon Power** on hard pulls once Hunding's / Order's Wrath are on.
+6. **Stamina power potion** on hard pulls once Hunding's / Order's Wrath are on.
 
 ### Passive skills
 
@@ -328,42 +329,36 @@ Budget: **112 Warfare / 112 Craft / 112 Fitness** (336 total). **Live: 334 spent
 Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bolstered, etc.) — never player sets (no Hunding's, no Divines). Buy white basics from vendors; farm Superior+ while the companion is summoned. **Not** part of the @masisi player-gear handoff.
 
 > [!NOTE]
-> **Live export:** no companion summoned (latest export) — Tanlorin was **Level 5/20** with **level 1 Companion's gear** and **three empty ability slots** when last seen. Prioritize companion XP, gear upgrades, and bar fill per [Checklist](#next-steps--in-game-action-checklist).
+> **Live export:** no companion summoned (latest export). Tanlorin was **Level 5/20** with **level 1 Companion's gear** and **three empty ability slots** when last seen. The account has every companion, so the primary is the best fit, not the one already levelled: start Sharp-as-Night from Level 1 and keep Tanlorin as the swap.
 
 ### Companion picks
 
 | **Tier** | **Companion** | **Role** | **Roleplay fit** | **Mechanical fit** |
 | :--- | :--- | :--- | :--- | :--- |
-| **Primary (now)** | **Tanlorin** | DPS / utility | Unbound agent who understands off-books contracts | Already summoned — level and gear |
-| **Secondary** | **Bastian Hallix** | Tank / soft wall | Reliable muscle when the job goes loud | Frontline while Tanlorin levels |
-| **Goal (20/20 @ CP160)** | **Tanlorin** | DPS / utility | Same agent at full trust | Fully geared Aggressive Companion's set |
+| **Primary (now)** | **Sharp-as-Night** | Ranged DPS | Argonian mercenary who works alone and keeps his thoughts to himself, a fellow Saxhleel professional | Bow DPS that mirrors The Trail |
+| **Secondary** | **Tanlorin** | DPS / utility | Unbound agent who understands off-books contracts | Already Level 5; swap in for variety or rapport |
+| **Goal (20/20 @ CP160)** | **Sharp-as-Night** | Ranged DPS | Same blade for hire at full trust | Fully geared Aggressive Companion's set |
 
-### Primary now — Tanlorin
+### Primary now — Sharp-as-Night
 
 | **Setting** | **Recommendation** |
 | :--- | :--- |
 | **Role** | **Ranged DPS** (Bow) to match The Trail |
 | **Gear Weight** | **Medium** Companion's (Superior+ drops) |
 | **Traits** | **Aggressive** (damage) · **Quickened** (ult gen) · **Bolstered** on one piece if squishy |
-| **Loadout** | Companion's Bow + medium body; fill empty skill slots |
-| **Acquisition** | Vendor whites → farm Superior+ with Tanlorin summoned |
+| **Loadout** | Companion's Bow + medium body; fill every skill slot as it unlocks |
+| **Acquisition** | Vendor whites → farm Superior+ with Sharp-as-Night summoned |
 
 **Support skill bar (target):**
 
-1. Piercing Arrow / Sniper's Mark style bow pressure
-2. Internal Conflict (already live)
-3. Starfall (already live)
-4. Fill empty slots with damage / heal companions skills as unlocked
-5. Ultimate when available
+1. Bow pressure skills first, as they unlock.
+2. An AoE damage skill for the packs Zirhli trails.
+3. A self-heal or shield so he survives without Bastian.
+4. Fill the remaining slots with damage as ranks allow.
+5. Ultimate when available.
 
-### Secondary — Bastian Hallix
-
-| **Setting** | **Recommendation** |
-| :--- | :--- |
-| **Role** | **Tank** (One Hand and Shield) |
-| **Gear Weight** | **Heavy** Companion's |
-| **Traits** | **Bolstered** / **Quickened** |
-| **When to swap** | World bosses, delves that go loud, while Tanlorin is underleveled |
+> [!TIP]
+> **Secondary — Tanlorin:** same Bow / medium kit (Aggressive / Quickened). Summon when Sharp-as-Night's rapport needs a break. For a world boss that goes loud, **Bastian Hallix** (Heavy, One Hand and Shield, Bolstered) is the soft-wall fallback.
 
 ---
 
@@ -382,10 +377,10 @@ Companions use **Companion's** weapons and armor only (Quickened, Aggressive, Bo
 
 | **Pick** | **Pet** | **Notes** |
 | :--- | :--- | :--- |
-| **Primary** | **Verdigris Haj Mota** | Owned — Saxhleel swamp-serpent partner (diversified vs EU Dune-Hound primary) |
+| **Primary** | **Jewel-Feathered Sep Adder** | Owned (new 2026-09-29) — a Hist-given serpent that "senses danger before its companion"; the Serpent Clan made literal |
+| **Alt** | **Verdigris Haj Mota** | Owned — Saxhleel swamp-serpent partner (previous primary) |
 | **Alt** | **Alik'r Dune-Hound** | Owned — trail hound |
 | **Alt** | **Blue Dragon Imp** | Owned — scaled familiar |
-| **Alt** | **Dwarven Spider** | Owned — serpentine mechanical |
 
 ### Costume
 
@@ -419,31 +414,32 @@ Done: Stamina attributes · Dual Wield / Bow · Shadow subclass · The Lover · 
 1. **Spend the last 2 Warfare CP** → **Deadly Aim** (or Thaumaturge).
 2. **Spend the 1 skill point:** a morph as soon as a skill hits rank IV — **Path of Darkness → Refreshing Path**, then **Dragonknight Standard → Standard of Might**, then **Dragon Leap → Take Flight**. If none is ready: **Twin Blade and Blunt** → **Agility** → **Shadow Barrier / Dark Vigor** → **Hawk Eye**.
 3. **Attributes:** keep every point in **Stamina**.
-4. **Open every pull with Disintegrating Dragonfire** — its Major Breach is the biggest single damage lever at 4,872 live pen (~+10%). Then Shadowy Disguise → Bow bar Endless Hail + Searing Claw → swap and Bloodthirst weave.
+4. **Open every pull with Disintegrating Dragonfire** — its Major Breach is the biggest single damage lever at 4,872 live pen (~+10%). Then Shadowy Disguise → Bow bar Endless Hail + Lethal Arrow (both stealth-safe since U51) → Searing Claw → swap and Bloodthirst weave.
 5. **Food:** Max Stamina + Max Health (bi-/tri-stat) · **potions:** Weapon Power for hard pulls · **weapon poisons** on both bars.
 6. **Optional, only if cheap:** Max Stamina glyphs on armor, **Absorb Stamina** in place of Absorb Magicka on the off hand, Sharpened on the next weapon you craft or keep.
-7. **Collectibles:** equip **Shrouded Armor**, **Rahd-m'Athra**, **Verdigris Haj Mota**; enable **Assassin** personality.
+7. **Collectibles:** equip **Shrouded Armor**, **Rahd-m'Athra**, **Jewel-Feathered Sep Adder**; enable **Assassin** personality.
+8. **Companion:** summon **Sharp-as-Night** and level him from here; replace his Level 1 whites as Superior+ drops appear.
 
 ### Phase 1 — Level to 50 (interim)
 
-8. Wear the best drops you find; prefer **medium**. No need to chase sets before CP160.
-9. Rank **Dual Wield**, **Bow**, **Ardent Flame**, **Draconic Power**, **Shadow**, Medium Armor, **Fighters Guild** (for Camouflaged Hunter).
-10. Morph toward **Refreshing Path**, **Standard of Might**, **Take Flight**, **Poison Injection**, **Camouflaged Hunter**; then swap Camouflaged Hunter into front slot 5 and Poison Injection into back slot 2.
-11. Optional: commission @masisi for **level-scaled** Hunding's / Order's Wrath.
+9. Wear the best drops you find; prefer **medium**. No need to chase sets before CP160.
+10. Rank **Dual Wield**, **Bow**, **Ardent Flame**, **Draconic Power**, **Shadow**, Medium Armor, **Fighters Guild** (for Camouflaged Hunter).
+11. Morph toward **Refreshing Path**, **Standard of Might**, **Take Flight**, **Poison Injection**, **Camouflaged Hunter**; then swap Camouflaged Hunter into front slot 5 and Poison Injection into back slot 2.
+12. Optional: commission @masisi for **level-scaled** Hunding's / Order's Wrath.
 
 ### Phase 2 — Craft (target, CP160)
 
-12. **@masisi:** craft **5 Hunding's Rage + 5 Order's Wrath** (medium, Divines, Bloodthirsty jewelry, Sharpened weapons) at CP160 gold.
-13. Grow Warfare into **Thaumaturge / Deadly Aim** and Fitness **Fortified** as CP rises.
+13. **@masisi:** craft **5 Hunding's Rage + 5 Order's Wrath** (medium, Divines, Bloodthirsty jewelry, Sharpened weapons) at CP160 gold.
+14. Grow Warfare into **Thaumaturge / Deadly Aim** and Fitness **Fortified** as CP rises.
 
 ### Phase 3 — Polish
 
-14. Motifs / dyes: charcoal + serpent green on Outfit Station; keep **Shrouded Armor** as costume.
-15. Level **Tanlorin** to **20/20**; farm Companion's Aggressive / Bolstered / Quickened gear (Bow kit).
-16. Finish Craft **Sustaining Shadows 50**; later **Liquid Efficiency**; re-export with `/cm` or `/cm coach` when live matches this plan.
+15. Motifs / dyes: charcoal + serpent green on Outfit Station; keep **Shrouded Armor** as costume.
+16. Level **Sharp-as-Night** to **20/20**; farm Companion's Aggressive / Bolstered / Quickened gear (Bow kit).
+17. Finish Craft **Sustaining Shadows 50**; later **Liquid Efficiency**; re-export with `/cm` or `/cm coach` when live matches this plan.
 
 ### Finish
 
-17. Regenerate profile with `/cm` and update [zirhli.md](zirhli.md) when attributes, subclass, Mundus, gear, bars, and costume match this plan.
+18. Regenerate profile with `/cm` and update [zirhli.md](zirhli.md) when attributes, subclass, Mundus, gear, bars, and costume match this plan.
 
 The contract is clear. The trail does not break.

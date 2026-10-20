@@ -6,6 +6,8 @@
 
 **Nord Warden • Ebonheart Pact Alliance**
 
+| **Account** | @SOLAEGIS |
+| **Server** | [NA Megaserver](https://en.uesp.net/wiki/Online:Megaservers) |
 
 </div>
 

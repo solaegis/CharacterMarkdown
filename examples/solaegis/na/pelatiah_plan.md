@@ -12,6 +12,7 @@ By pairing native **Dawn's Wrath** solar destruction with **Restoring Light** di
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Lawful Good** — Solar Dawn emissary — divine light and Imperial magistrate oath |
 | **Primary Stat** | 64 points in **Magicka** — **live:** 64 Magicka (21,823 Magicka · 2,260 Spell Power · 23,422 Health) · **target:** 64 Magicka |
 | **Mundus Stone** | **The Shadow** (+Critical Damage) — **live:** The Shadow (equipped) |
 | **Vampirism** | **Cured** — solar judgment rejects vampiric blood corruption |
@@ -349,6 +350,8 @@ Pelatiah rides a grand Imperial steed appropriate for a high-ranking magistrate.
 > [!TIP]
 > **Ideal mount (any source):** **Grand Imperial Warhorse** — majestic armored stallion adorned with Imperial heraldry.
 
+**Favorites (ESO Favorite Collectibles / Collections):** Imperial Horse, Dwarven War Horse, Ebon Dwarven Horse, Midnight Steed, Psijic Escort Charger — Imperial / magistrate steeds; owned thematic set only; enable random favorite mount when 2+ are favorited.
+
 ### Pet
 
 #### Primary (owned): Imperial War Mastiff
@@ -360,6 +363,8 @@ Pelatiah rides a grand Imperial steed appropriate for a high-ranking magistrate.
 
 > [!TIP]
 > **Ideal pet (any source):** **Solar Imperial Eagle** — divine herald of Auri-El / Stendarr.
+
+**Favorites:** Bravil Retriever, Dwarven War Dog, Golden Eagle, Covenant Breton Terrier — Imperial court / war-dog set (add **Imperial War Mastiff** if Collections shows it unlocked); summon a random favorite vanity pet when 2+ are set.
 
 ### Dye and style
 

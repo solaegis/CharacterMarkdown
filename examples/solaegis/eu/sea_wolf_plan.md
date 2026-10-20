@@ -1,6 +1,6 @@
 # Build Plan - Sea-Wolf: The Wolf of the Iliac Bay (Uber Warden Tank, Craftable)
 
-> **Character profile:** [sea_wolf.md](sea_wolf.md). **Being recreated:** the current export is the Level 5 Nord Dragonknight (Ebonheart Pact) you're replacing. Re-export with `/cm` once the Nord **Warden** in the **Daggerfall Covenant** exists.
+> **Character profile:** [sea_wolf.md](sea_wolf.md): Level 14 Nord **Warden**, **Daggerfall Covenant**, CP 340, The Lord already attuned (export 2026-09-29).
 
 **Sea-Wolf** (saga name **Hastein**) is a Nord longship captain who raided the Breton coasts of the Iliac Bay, then took a Breton king's offer to raid his enemies instead. He's Tamriel's answer to **Hastein**, the Viking chief who raided the Frankish coast for thirty years and fought alongside the Breton king Salomon. The build is an **Uber-tier group tank** on a **Warden** base. The one native line it keeps is **Winter's Embrace**. At Level 50 it **subclasses Draconic Power** (replacing Animal Companions) and **Bone Tyrant** (replacing Green Balance). That combination won a scored search of all **1,330** three-line combinations (see [Trinity](#trinity-configuration)).
 
@@ -13,6 +13,7 @@
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
 | **Race / Alliance** | **Nord** · **Daggerfall Covenant**: the sea-wolf who sold his shield wall to the Breton kings (account has Any Race, Any Alliance) |
+| **Alignment** | **Lawful Neutral** — Iliac raider under contract — loyalty to crew, shield wall, and the deal |
 | **Primary Stat** | 64 points in **Health**. Move up to 15 into Stamina only if block sustain runs dry in veteran content |
 | **Mundus Stone** | **The Lord** (+2,225 Max Health). Armor uses Sturdy, not Divines |
 | **Vampirism** | **Cured / N/A** |
@@ -27,7 +28,7 @@
 | **Flavor Pet** | **Nenalata Ayleid Wolf Pup** (owned): the pack's youngest · **Alt:** **Abecean Ratter Cat** (the ship's cat) |
 | **Costume** | **Sea Drake Garb** (owned): sea-raider's kit · **Alt:** **Noble Clan-Chief** (the jarl at home) · **Markings:** Skald's Face Branding + Windcaller Body Markings |
 
-**Read next:** [Roleplay](#roleplay-the-sea-wolf) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-shield-wall-and-northern-sea) · [Gear and crafting](#gear-and-crafting-the-fellowship-hauberk) · [Champion points](#champion-point-mapping-cp-339) · [Companion](#companion-strategy-the-ships-mender) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-sea-wolf) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-shield-wall-and-northern-sea) · [Gear and crafting](#gear-and-crafting-the-fellowship-hauberk) · [Champion points](#champion-point-mapping-cp-340) · [Companion](#companion-strategy-the-ships-mender) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -269,7 +270,7 @@ A tank needs **resistances to the cap**, **Max Health** so healers have room to 
 | :--- | ---: | ---: | :--- | :--- |
 | **12 Fellowship's Fortitude** | +7,425 | **+6,020** | **Major Protection** | **Target.** Supplies Major Protection full-time, so no skill slot has to |
 | 10 Fellowship + monster set | +7,425 | +6,020 | Monster 2pc | Rejected: needs Major Protection from a skill, and a dungeon drop breaks the craftable rule |
-| 5 Fortified Brass + 5 Hist Bark | +9,408 | +2,412 | +1,096 Stamina; Major Evasion while bracing (duplicates Chains of Devastation) | Bridge only, if @masisi can't craft Fellowship yet |
+| 5 Fortified Brass + 5 Hist Bark | +7,921 | +2,412 | +1,096 Stamina; Major Evasion while bracing (duplicates Chains of Devastation) | Bridge only, if @masisi can't craft Fellowship yet |
 | Aetherial Ascension (5pc) | +10,351 | +1,206 | **+20% Block cost** (text) | Rejected: the drawback is a direct tank penalty |
 
 > [!NOTE]
@@ -322,9 +323,9 @@ A tank needs **resistances to the cap**, **Max Health** so healers have room to 
 
 ---
 
-## Champion Point Mapping (CP 339)
+## Champion Point Mapping (CP 340)
 
-Budget: **113 Warfare / 113 Fitness / 113 Craft** (339 total). **Live: 0 spent, all 339 available.** Below 900 CP there are **3 slottable stars per discipline**. Star names, max points and stage sizes come from [champion_points_reference.md](../../templates/champion_points_reference.md). Walk the prerequisites in-game.
+Budget: **113 Warfare / 113 Fitness / 114 Craft** (340 total). **Live: 331 spent, 9 available** (Craft 6, Fitness 3); see the respec notes under each tree. Below 900 CP there are **3 slottable stars per discipline**. Star names, max points and stage sizes come from [champion_points_reference.md](../../templates/champion_points_reference.md). Walk the prerequisites in-game.
 
 ### Warfare (Blue — 110 of 113)
 
@@ -337,6 +338,8 @@ Budget: **113 Warfare / 113 Fitness / 113 Craft** (339 total). **Live: 0 spent, 
 
 *Next as CP grows:* **Duelist's Rebuff** or **Unassailable** in the other two slots.
 
+**Live respec:** Warfare is full (113) but 30 points sit in damage/sustain passives a tank doesn't need (**Precision 10**, **Piercing 10**, **Tireless Discipline 10**) and **Hardy** has 0. Move Precision + Piercing → **Hardy 20**, and 7 from Tireless Discipline → **Quick Recovery 20**.
+
 ### Fitness (Red — 110 of 113)
 
 | **Star** | **Type** | **Spend** | **Benefit** |
@@ -345,7 +348,9 @@ Budget: **113 Warfare / 113 Fitness / 113 Craft** (339 total). **Live: 0 spent, 
 | **Fortified** | Slottable | 50 | +1,730 Armor. **Trim first** if resistances pass the cap |
 | **Bastion** | Slottable | 10 | +3% damage shield strength (Shimmering Shield, Bone Surge) |
 
-*Next:* top **Bastion** to 50 (+15%), then **Hero's Vigor** (+560 Max Health) and **Juggernaut**.
+*Next:* top **Bastion** to 50 (+15%), then **Hero's Vigor** (+560 Max Health, passive). **Juggernaut** is slottable, so it only fits by replacing one of the three slotted stars.
+
+**Live respec:** Fitness has **Tireless Guardian 10** (passive) and no Bastion. Move those 10 into **Bastion** and slot it; the 3 unspent points wait for the next stage.
 
 ### Craft (Green — 110 of 113)
 
@@ -356,6 +361,8 @@ Budget: **113 Warfare / 113 Fitness / 113 Craft** (339 total). **Live: 0 spent, 
 | **Steadfast Enchantment** | Passive | 30 | Enchantment durability (3 of 5 stages) |
 
 *Next:* **Liquid Efficiency (50)** once Steadfast Enchantment and Rationer are done.
+
+**Live:** Craft is on **Fortune's Favor 50 / Gilded Fingers 50 / Sustaining Shadows 8** (gold and loot). That's a non-combat choice, so keep it if you'd rather farm gold than ride faster.
 
 ---
 
@@ -382,6 +389,17 @@ The shield wall holds aggro; the ship's mender keeps it standing.
 
 **Support skill bar:** slot the companion Restoration Staff heals as they unlock, then an area heal, then a buff. Keep one damage skill so Mirri still contributes when you're at full health.
 
+#### Re-kit from the current setup
+
+**Live (2026-09-29 export):** Mirri is **Level 8/20** on a **bow damage kit**: Companion's Bow (Quickened), Piercing Arrow · Warp Strike · Masque of Torment · Blood Transfusion, **2 empty slots**, and **Level 1 Normal** armor on all 7 pieces. She has no heals, so right now she's a second damage dealer, not the ship's mender.
+
+1. **Weapon:** equip a **Companion's Restoration Staff** (vendor white is fine to start). Her Restoration Staff line starts at rank 1 and only ranks while it's equipped, so do this first.
+2. **Skills:** put the first staff heal in an **empty slot** straight away. As the line ranks, replace **Piercing Arrow** and **Warp Strike** (bow skills, dead without the bow) with the area heal and a buff. Keep **one** damage skill from her own lines, per the bar note above.
+3. **Armor:** replace the Level 1 pieces with gear at her level. Take any Superior+ drop while she's summoned; aim for **Soothing** on most pieces and **Quickened** on the staff, since the bow's Quickened trait doesn't carry over.
+4. **Level:** keep her summoned in the normal dungeons you queue for as tank. She levels alongside the Undaunted pledges in Phase 1.
+
+Re-check her bar in the next `/cm` export: **no empty slots** and **no bow skills** means the re-kit is done.
+
 ---
 
 ## Collectibles
@@ -395,6 +413,7 @@ Every pick is **owned** and comes from the EU account pool (`sea_wolf.md`, per [
 | **Primary** | **Bleakrock Snowdog** | Owned (bought 2026-09-27). The sea-wolf's wolf: a snow-hound from Bleakrock Isle, a Nord island off Skyrim's coast. Not a primary on any other EU plan |
 | **Backup** | **Skulltooth Coastal Durzog** | Owned. A coastal pack-hunter for shore raids |
 | **Alt** | **Sorrel Horse** | Owned. A plain horse "borrowed" from a Breton stable |
+| **Considered** | **Crypt Warden Death Hound** | Owned; the game files it as a wolf. It's the account's second wolf mount, but its undead look fits a crypt-keeper better than a sea-raider, so the Snowdog stays primary |
 | **Avoid thematically** | **Psijic Escort Charger** / **Dwarven War Horse** | Too orderly and too landlocked for a raider |
 
 ### Pet
@@ -441,42 +460,40 @@ Outfit Station motifs on the crafted Fellowship's Fortitude pieces are separate 
 
 ## Next Steps & In-Game Action Checklist
 
-### Phase 0 — Today (recreate as a Warden)
+### Phase 0 — Now (Level 14)
 
-1. **Delete the Level 5 Dragonknight** "Sea-Wolf" to free the name. It has nothing worth keeping: the 339 CP, collectibles and the Bleakrock Snowdog are account-wide. Move any gold or items to the bank first.
-2. **Create Sea-Wolf:** **Nord**, **Warden**, **Daggerfall Covenant**.
-3. Put every attribute point into **Health**.
-4. **Spend all 339 CP** per [Champion Point Mapping](#champion-point-mapping-cp-339). It's the biggest power gain available at low level.
-5. **Get a sword and shield** for the front bar and an **Ice Staff** for the back. One Hand and Shield and Destruction Staff only rank while equipped. **Puncture** is the taunt.
-6. **First skill points:** **Puncture**, then **Winter's Embrace** (Frost Cloak, working toward **Ice Fortress**), then Green Balance heals as they unlock.
-7. **Riding:** train **Speed** first while levelling, then **Stamina**.
-8. Equip **Sea Drake Garb**, **Skald's Face Branding**, **Windcaller Body Markings**, **Bleakrock Snowdog** and **Nenalata Ayleid Wolf Pup**.
-9. Export with `/cm` and save over [sea_wolf.md](sea_wolf.md).
+Done: Nord Warden in the Covenant, Health attributes, The Lord, Ice Fortress and **Pierce Armor** slotted, heavy armor on all 7 body slots, `/cm` export.
+
+1. **Respec CP** per the live notes in [Champion Point Mapping](#champion-point-mapping-cp-340): Hardy and Quick Recovery in Warfare, Bastion in Fitness.
+2. **Spend the 2 skill points:** **Frozen Gate** (the pull), then Green Balance for **Living Vines** (Green Balance and Animal Companions are still rank 1). Swap **Consuming Trap**, **Winter's Revenge** and **Low Slash** out for them and **Inner Fire** as it unlocks; none of the three is on the plan's bars.
+3. **Weapons:** a **sword and shield** on the front bar (the last export shows a Lightning Staff equipped, which turns off Pierce Armor), and an **Ice Staff**, not Lightning, for the back bar, which unlocks at **Level 15**.
+4. **Riding:** train **Speed** first while levelling, then **Stamina**.
+5. Equip **Sea Drake Garb**, **Skald's Face Branding**, **Windcaller Body Markings**, **Bleakrock Snowdog** and **Nenalata Ayleid Wolf Pup** if not already on.
+6. **Re-kit Mirri as the healer** per [Re-kit from the current setup](#re-kit-from-the-current-setup): Restoration Staff in place of the bow, heals into the empty slots, gear at her level.
 
 ### Phase 1 — Level to 50 (native Warden bridge)
 
-10. Run the [pre-50 bridge bars](#pre-50-bridge-bars-native-warden): Ice Fortress, Shimmering Shield, Frozen Device, Green Balance heals, Sleet Storm and Feral Guardian, plus the weapon and Undaunted skills that carry over.
-11. Morph **Ice Fortress**, **Shimmering Shield** and **Sleet Storm** as soon as Winter's Embrace ranks allow. They're on the final bars, so this progress is never wasted.
-12. Commission level-scaled **12 Fellowship's Fortitude** (heavy) from @masisi. Use **Fortified Brass + Hist Bark** if Fellowship isn't craftable yet.
-13. Run the **Undaunted** pledges to unlock **Inner Beast** and **Bone Surge**. Queue as tank in normal random dungeons.
+7. Run the [pre-50 bridge bars](#pre-50-bridge-bars-native-warden): Ice Fortress, Shimmering Shield, Frozen Device, Green Balance heals, Sleet Storm and Feral Guardian, plus the weapon and Undaunted skills that carry over.
+8. Morph **Ice Fortress**, **Shimmering Shield** and **Sleet Storm** as soon as Winter's Embrace ranks allow. They're on the final bars, so this progress is never wasted.
+9. Commission level-scaled **12 Fellowship's Fortitude** (heavy) from @masisi. Use **Fortified Brass + Hist Bark** if Fellowship isn't craftable yet.
+10. Run the **Undaunted** pledges to unlock **Inner Beast** and **Bone Surge**. Queue as tank in normal random dungeons.
 
 ### Phase 2 — Level 50: subclass and craft the target
 
-14. Check **Maturation**'s tooltip first (see the [re-test note](#subclassing-decision-required)). If it grants you Minor Toughness, the Green Balance alternative ties this plan. For the least grind, take the **one-subclass route**: subclass **only Bone Tyrant** now and decide on Draconic Power later.
-15. Complete Bahtra's **"A Study in Discipline"**. **Subclass Draconic Power** (replacing Animal Companions) and **Bone Tyrant** (replacing Green Balance). Unslot every Animal Companions and Green Balance active.
-16. Level both new lines in normal dungeons until **Chains of Devastation**, **Blood of the Elder Dragon**, **Empowering Grasp**, **Bone Armor** and **Bone Goliath Transformation** are unlocked and morphed.
-17. **@masisi:** craft gold **12 Fellowship's Fortitude** (heavy · Sturdy · Healthy jewelry · Defending sword · Sturdy shield · Decisive Ice Staff).
-18. Mundus → **The Lord**.
-19. Export with `/cm` and check **resistances** against the ~33,000 cap. Tune per the [set rationale note](#set-rationale).
+11. Check **Maturation**'s tooltip first (see the [re-test note](#subclassing-decision-required)). If it grants you Minor Toughness, the Green Balance alternative ties this plan. For the least grind, take the **one-subclass route**: subclass **only Bone Tyrant** now and decide on Draconic Power later.
+12. Complete Bahtra's **"A Study in Discipline"**. **Subclass Draconic Power** (replacing Animal Companions) and **Bone Tyrant** (replacing Green Balance). Unslot every Animal Companions and Green Balance active.
+13. Level both new lines in normal dungeons until **Chains of Devastation**, **Blood of the Elder Dragon**, **Empowering Grasp**, **Bone Armor** and **Bone Goliath Transformation** are unlocked and morphed.
+14. **@masisi:** craft gold **12 Fellowship's Fortitude** (heavy · Sturdy · Healthy jewelry · Defending sword · Sturdy shield · Decisive Ice Staff).
+15. Export with `/cm` and check **resistances** against the ~33,000 cap. Tune per the [set rationale note](#set-rationale).
 
 ### Phase 3 — Polish
 
-20. Rank **Assault** in Cyrodiil for **Aggressive Horn** (Major Force for the group) on the back-bar ult, and **Support** to unlock the **Banner Bearer** grimoire. If the account has Gold Road, scribe it with the **Minor Heroism** script and swap it in for Bone Surge (see [Scribing](#scribing)).
-21. Top **Bastion** to 50, then fill the open Warfare slots with **Duelist's Rebuff** / **Unassailable**.
-22. Level **Mirri Elendis** to **20/20** and farm Soothing / Quickened Companion's gear.
+16. Rank **Assault** in Cyrodiil for **Aggressive Horn** (Major Force for the group) on the back-bar ult, and **Support** to unlock the **Banner Bearer** grimoire. If the account has Gold Road, scribe it with the **Minor Heroism** script and swap it in for Bone Surge (see [Scribing](#scribing)).
+17. Top **Bastion** to 50, then fill the open Warfare slots with **Duelist's Rebuff** / **Unassailable**.
+18. Level **Mirri Elendis** to **20/20** and farm Soothing / Quickened Companion's gear.
 
 ### Finish
 
-23. Regenerate the profile with `/cm`, update [sea_wolf.md](sea_wolf.md), and re-check the plan against the live stats.
+19. Regenerate the profile with `/cm`, update [sea_wolf.md](sea_wolf.md), and re-check the plan against the live stats.
 
 The pack lives while the strongest stands at the front.

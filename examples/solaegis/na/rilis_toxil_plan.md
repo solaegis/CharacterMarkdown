@@ -13,6 +13,7 @@ Rilis Toxil is a **High Elf scholar of unmaking**—a magicka necromancer who tr
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **True Neutral** — Apocryphal mystic — knowledge and reckoning before loyalty or cruelty |
 | **Primary Stat** | 64 points in **Magicka** — **live:** 64 Magicka / 0 Health / 0 Stamina @ L50 · **28,483** Magicka ✅ |
 | **Mundus Stone** | **The Apprentice** (+Spell Damage) until gold gear — **live:** The Apprentice ✅ · **after CP160 craft:** test **The Thief** once Order's Wrath + Death Knell crit stacks |
 | **Vampirism** | **Cured** — no stage; mystic scholar, not a blood cultist |
@@ -465,6 +466,8 @@ When Sharp is **20/20**, he remains the **only** end-state companion: a ranged b
 | [Midnight Steed](https://en.uesp.net/wiki/Online:Midnight_Steed) | ✅ | Grave-night aesthetic; austere scholar's mount |
 | [Nightmare Senche](https://en.uesp.net/wiki/Online:Nightmare_Senche) | ✅ | Death-domain drama for necromancer roleplay |
 
+**Favorites (ESO Favorite Collectibles / Collections):** Sapiarchic Senche-Serval, Psijic Escort Charger, Nightmare Senche, Midnight Steed — Sapiarch / mystic set; owned thematic set only; enable random favorite mount when 2+ are favorited.
+
 ### Pet
 
 #### Primary (owned): Dwarven Spider
@@ -480,6 +483,8 @@ When Sharp is **20/20**, he remains the **only** end-state companion: a ranged b
 | :--- | :--- |
 | [Coldharbour Dremnaken Runt](https://en.uesp.net/wiki/Online:Coldharbour_Dremnaken_Runt) (owned) | Daedric death-domain familiar |
 | [Blue Dragon Imp](https://en.uesp.net/wiki/Online:Blue_Dragon_Imp) (owned) | Arcane crackle — lightning-bar synergy |
+
+**Favorites:** Dwarven Spider, Coldharbour Dremnaken Runt, Blue Dragon Imp, Mad God's Tomeshell, Infernium Dwarven Spiderling, Steam-Driven Brassilisk — clockwork / death-domain familiars; summon a random favorite vanity pet when 2+ are set.
 
 ### Dye and style
 

@@ -17,6 +17,7 @@ Masisi remains the EU account’s **Primary Artisan, Master Farmer, and Resource
 
 | **Attribute**            | **Recommendation**                                                                                                                                                                                                              |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Alignment**            | **Lawful Neutral** — Ra Gada Artisan — caravan discipline, forge order, clear the path when needed                                                                                                                              |
 | **Primary Stat**         | 64 points in **Stamina** — **live:** 0 Mag / 0 Health / 64 Stam · **target:** keep 64 Stam                                                                                                                                      |
 | **Mundus Stone**         | **The Steed** end-game (not Thief/Warrior) — base **10% move / 238 HP rec**; full Divines → **~16% / 389** (`data/sets/mundus.json`). **live:** The Steed (**done** — keep)                                                      |
 | **Vampirism**            | **Cured / N/A** — daylight node routes and writ hubs                                                                                                                                                                            |
@@ -24,7 +25,7 @@ Masisi remains the EU account’s **Primary Artisan, Master Farmer, and Resource
 | **Sets**                 | **End-game:** **5 Hunding’s (body) + 5 Night Mother’s Gaze (jewelry + weapons)**, all craftable — **live:** Order’s 5 (both bars) + Hunding **4/5** · **next:** Hunding **legs** Divines (+300 WD), then NMG jewelry/daggers/bow replace Order’s |
 | **Bars**                 | Front: **Dual Wield** ("Forge Blade") · Back: **Bow** ("Survey Path") — **Endless Hail** + **Incapacitating Strike** live; unlock Assault **Continuous Attack** for Gallop; morph **Inferno → Flames of Oblivion** |
 | **Food**                 | **Artaeum Takeaway Broth** or dual-resource stew — assume **EsoAutoProvision** keeps food/drink up from backpack                                                                                                                |
-| **Potion**               | **Essence of Weapon Power** for packs/PD; **Essence of Speed** between dense node stretches                                                                                                                                     |
+| **Potion**               | **Stamina power potion** (Brutality + Savagery; U51 renamed potions) for packs/PD; **Essence of Speed** between dense node stretches                                                                                                                                     |
 | **Weapon Poisons**       | Optional **Damage Health** / **Escapist’s** on DW for public-dungeon trash                                                                                                                                                      |
 | **Staff/Weapon Enchant** | **Priority:** glyph all blank slots (glyph NMG pieces as they’re crafted, not the Order’s pieces they replace). Jewelry: **Increase Physical Harm** (174 WD; Infused rings ≈ **+278 WD** each). Armor: **Max Stamina** (868 head/chest/legs, 347 on the four small slots). DW: **Weapon Damage** / **Absorb Stamina**. Bow: Absorb Stam or WD |
 | **Companion**            | **Primary (now):** **Tanlorin** (support / CC) at companion **9/20** · **Secondary:** **Mirri Elendis** (loot rapport) · **Goal (20/20):** **Zerith-var** (DPS escort for filler pulls)                                         |
@@ -46,7 +47,7 @@ Masisi does not treat Summerset as a battlefield — but he will not leave a sur
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Masisi — The Ra Gada Artisan. EU @SOLAEGIS master crafter and hybrid scout: end-game **5 Hunding’s Rage + 5 Night Mother’s Gaze** (craftable), 64 Stamina, The Steed, Divines, Dual Wield front / Bow back, Endless Hail, Continuous Attack (Gallop). Trinity: Ardent Flame + Assassination + Earthen Heart. Next: Hunding legs (+300 WD), NMG jewelry/weapons + Bloodthirsty neck, full glyphs, Craft CP Steed’s Blessing / Master Gatherer / Gifted Rider → Plentiful Harvest / Meticulous Disassembly. EsoAutoProvision keeps food/drink up. Supplies roster gear (Elric and others). Tanlorin now · Zerith-var Goal. Psijic Escort Charger · Psijic Mascot Bear Cub · Imperial Chancellor.
+> Masisi — The Ra Gada Artisan. EU @SOLAEGIS master crafter and hybrid scout: end-game **5 Hunding’s Rage + 5 Night Mother’s Gaze** (craftable), 64 Stamina, The Steed, Divines, Dual Wield front / Bow back, Endless Hail, Continuous Attack (Gallop). Trinity: Ardent Flame + Assassination + Earthen Heart. Next: Hunding legs (+300 WD), NMG jewelry/weapons + Bloodthirsty neck, full glyphs, Craft CP Steed's Blessing / Master Gatherer / Gifted Rider → Plentiful Harvest / Meticulous Disassembly. EsoAutoProvision keeps food/drink up. Supplies roster gear (Elric and others). Tanlorin now · Zerith-var Goal. Psijic Escort Charger · Psijic Mascot Bear Cub · Imperial Chancellor.
 >
 > **Live:** replace any older Build Notes with the hybrid text above.
 
@@ -81,7 +82,7 @@ graph TD
 
 | **Pillar**        | **Line**          | **Origin**            | **Slot action**                            | **Function**                                                             |
 | ----------------- | ----------------- | --------------------- | ------------------------------------------ | ------------------------------------------------------------------------ |
-| **Forge-fire**    | **Ardent Flame**  | Dragonknight (native) | **KEEP**                                   | Flame DoTs, Combustion refunds, Major Prophecy/Savagery buff, banner ult |
+| **Forge-fire**    | **Ardent Flame**  | Dragonknight (native) | **KEEP**                                   | Flame DoTs, Combustion refunds, Major Savagery buff, banner ult |
 | **Caravan steel** | **Assassination** | Nightblade (subclass) | **SUBCLASS** (replaces **Draconic Power**) | Gap-close / AoE pressure, execute ult — pack and PD kill speed           |
 | **Stone ward**    | **Earthen Heart** | Dragonknight (native) | **KEEP**                                   | Igneous Shield, Earthshield Mantle, stone sustain while harvesting       |
 
@@ -121,12 +122,12 @@ Clear the camp, harvest the node, remount. Melee is always **front**; Bow is alw
 | **2**       | Soul Magic    | Soul Trap → **Consuming Trap**                                    | Resource return on kill                 | **Live**                                         |
 | **3**       | Bow           | Snipe → **Lethal Arrow**                                          | Ranged poke / opener                    | **Live**                                         |
 | **4**       | Bow           | Volley → **Endless Hail**                                         | Ground AoE rain for packs / PD filler   | **Live**                                         |
-| **5**       | Ardent Flame  | Inferno → **Flames of Oblivion**                                  | Major Prophecy / Savagery while slotted | **Live:** Inferno — morph                        |
+| **5**       | Ardent Flame  | Inferno → **Flames of Oblivion**                                  | Major Savagery while slotted            | **Live:** Inferno — morph                        |
 | **6 (Ult)** | Ardent Flame  | Dragonknight Standard → **Standard of Might**                     | Support banner (WD/SD + DR) while clearing | **Live** preferred (alt: Shifting Standard for AoE) |
 
 
 > [!IMPORTANT]
-> **Slot order matches live** ([masisi.md](masisi.md)). Keep **Endless Hail**. Morph **Inferno → Flames of Oblivion** when ready. Mount speed from Assault **Continuous Attack** (permanent Gallop; no Maneuver on bar). Foot speed: Steed + Steed’s Blessing + remount.
+> **Slot order matches live** ([masisi.md](masisi.md)). Keep **Endless Hail**. Morph **Inferno → Flames of Oblivion** when ready. Mount speed from Assault **Continuous Attack** (permanent Gallop; no Maneuver on bar). Foot speed: Steed + Steed's Blessing + remount.
 >
 > Keep every **Draconic Power** skill off the bars. Heal with **Resolving Vigor** + companion.
 
@@ -281,21 +282,6 @@ Masisi crafts this kit **for himself** — no external crafter.
 
 Budget ≈ **100–112** per constellation with **45** unspent live. **Live:** Craft Fortune’s Favor **50** + Gilded Fingers **50**; Warfare Fighting Finesse **50** / Master-at-Arms **25** / Precision **10** / Piercing **10**; Fitness Boundless Vitality **47** / Rejuvenation **50**.
 
-### Craft (Green — farmer end-game)
-
-
-| **Star**             | **Type**  | **Respec now**  | **Grow into**           | **Notes**          |
-| -------------------- | --------- | --------------- | ----------------------- | ------------------ |
-| **Steed’s Blessing** | Slottable | **50**          | Keep slotted            | Between-node speed |
-| **Master Gatherer**  | Slottable | **30** (2 × 15) | **75**                  | Harvest speed      |
-| **Gifted Rider**     | Slottable | **10**          | Keep or replace later   | Mount speed filler |
-| *(unspent)*          | —         | **7+**          | Master Gatherer stage 3 | Use live unspent   |
-
-
-Then: **Plentiful Harvest (50)** → **Meticulous Disassembly (50)** → Inspiration Boost while leveling Alchemy / Enchanting / Provisioning → gold passives (**Fortune’s Favor / Gilded Fingers**) only after farmer stars are funded.
-
-**Drop live:** Fortune’s Favor (50) and Gilded Fingers (50) until crafts are capped and farmer stars are funded. This remains the highest-priority farmer fix — set DB does not change Craft CP; gold passives still do nothing for nodes.
-
 ### Warfare (Blue — filler end-game)
 
 
@@ -318,10 +304,34 @@ As CP grows: finish Master-at-Arms 50; add **Wrathful Strikes** or **Deadly Aim*
 | **Rejuvenation**                   | Slottable | **50**     | Recovery — **live**                               |
 | **Bloody Renewal** or **Celerity** | Slottable | Remaining  | Stam return on kills / move speed as points allow |
 
+### Craft (Green — farmer end-game)
+
+
+| **Star**             | **Type**  | **Respec now**  | **Grow into**           | **Notes**          |
+| -------------------- | --------- | --------------- | ----------------------- | ------------------ |
+| **Steed's Blessing** | Slottable | **50**          | Keep slotted            | Between-node speed |
+| **Master Gatherer**  | Slottable | **30** (2 × 15) | **75**                  | Harvest speed      |
+| **Gifted Rider**     | Slottable | **10**          | Keep or replace later   | Mount speed filler |
+| *(unspent)*          | —         | **7+**          | Master Gatherer stage 3 | Use live unspent   |
+
+
+Then: **Plentiful Harvest (50)** → **Meticulous Disassembly (50)** → Inspiration Boost while leveling Alchemy / Enchanting / Provisioning → gold passives (**Fortune’s Favor / Gilded Fingers**) only after farmer stars are funded.
+
+**Drop live:** Fortune’s Favor (50) and Gilded Fingers (50) until crafts are capped and farmer stars are funded. This remains the highest-priority farmer fix — set DB does not change Craft CP; gold passives still do nothing for nodes.
 
 ---
 
-## Companion strategy: The Scholarly Escort
+## Companion Strategy: "The Scholarly Escort"
+
+Companions use **Companion's** weapons and armor only, with companion-only traits. Never player sets (no Hunding's, no Night Mother's Gaze). **Not** part of the player crafting handoff.
+
+### Companion picks
+
+| **Tier** | **Companion** | **Role** | **Roleplay fit** | **Mechanical fit** |
+| :--- | :--- | :--- | :--- | :--- |
+| **Primary (now)** | **Tanlorin** | Support / CC | Alchemical bent suits a crafter's road life | Crowd control and light heals while Masisi harvests |
+| **Secondary** | **Mirri Elendis** | DPS / loot | Treasure sense on survey and node routes | Swap in for loot routes and rapport |
+| **Goal (20/20 @ CP160)** | **Zerith-var** | DPS | Escort for filler pulls on damage-heavy days | Fully geared Companion's DPS kit |
 
 ### Tanlorin: The Alchemical Assistant (Primary now)
 
@@ -415,7 +425,7 @@ Tanlorin’s alchemy bent matches a crafter’s road life. Keep Tanlorin as the 
 
 Live snapshot (CP **337**): Steed + Assassination + DW front / Bow back / Endless Hail / Incapacitating Strike **done**; Order’s 5 (both bars) + Hunding **4/5** (feet done); Craft CP still gold; Tanlorin **9/20**; **7** SP free; **glyphs blank** on crafted pieces.
 
-1. **Craft CP respec** — remove Fortune’s Favor / Gilded Fingers; slot **Steed’s Blessing 50**, **Master Gatherer 30**, **Gifted Rider 10** (use live unspent for the rest).
+1. **Craft CP respec** — remove Fortune’s Favor / Gilded Fingers; slot **Steed's Blessing 50**, **Master Gatherer 30**, **Gifted Rider 10** (use live unspent for the rest).
 2. **Spend SP** — **Hemorrhage** first (+10% Critical Damage ≈ +3.3%), then Keen Eye Ore / Continuous Attack; Twin Blade, Master Assassin, Executioner, Pressure Points **already done**.
 3. **Finish Hunding’s 5** — craft medium Divines **legs** + Max Stam glyph; replace Trainee heavy legs (**+300 WD**).
 4. **Glyph Hunding body** — Max Stam on all five. Leave Order’s jewelry/weapons unglyphed; they’re being replaced.
@@ -432,7 +442,7 @@ Live snapshot (CP **337**): Steed + Assassination + DW front / Bow back / Endles
 1. Fill shoulders + waist: Trainee shoulder + plain Divines waist, **or** 2pc Threads of War (pen); transmute Well-fitted → Divines.
 2. Confirm every combat slot is glyphed (jewelry Physical Harm on Infused rings especially).
 3. Daily writs on Masisi; Keen Eye + first hirelings; push Alchemy / Enchanting / Provisioning.
-4. Confirm Divines + Steed + Steed’s Blessing feel on survey routes.
+4. Confirm Divines + Steed + Steed's Blessing feel on survey routes.
 
 ### Phase 2 — CP grow + gold temper (end-game kit)
 

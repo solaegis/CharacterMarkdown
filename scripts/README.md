@@ -48,6 +48,8 @@ python3 scripts/trim.py --dry-run file1.md file2.md
 
 **Purpose**: Verify example character markdown files match ESO SavedVariables using `(account, location, slug)` identity.
 
+**Source of truth**: `CharacterMarkdown.lua` megaserver namespaces (`NA Megaserver` / `EU Megaserver` under each `@account`). `ZO_Ingame.lua` is used only to confirm the character still exists (ZO does not encode megaserver).
+
 **Usage**:
 ```bash
 task examples:check
@@ -56,9 +58,14 @@ task examples:check:audit   # allow orphan example files
 uv run scripts/check_example_characters.py \
   --saved-variables "$HOME/Documents/Elder Scrolls Online/live/SavedVariables" \
   --examples examples
+
+# Optional: delete profiles absent from both CM and ZO (and paired _plan.md)
+uv run scripts/check_example_characters.py --delete-orphans
 ```
 
 **Checks**: SV coverage, orphan profiles, duplicate triples, path/metadata alignment, lowercase underscore filenames, plan link resolution.
+
+**Related**: `scripts/prune_stale_savedvars.py` rebuilds/prunes live SavedVariables (CharacterMarkdown PCD, stale character ids, ZO NameChange).
 
 ## Other Scripts
 

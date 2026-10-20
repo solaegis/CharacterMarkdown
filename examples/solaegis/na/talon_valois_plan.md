@@ -20,6 +20,7 @@ This guide represents the absolute peak of the **Solaegis Subclassing System** f
 
 | **Attribute**    | **Recommendation**                                                                |
 | :--------------- | :-------------------------------------------------------------------------------- |
+| **Alignment** | **Neutral Evil** — Eternal Silencer — void assassin; erasure without creed |
 | **Primary Stat** | **64 points in Stamina** (Fuels your burst and your blade)                       |
 | **Mundus Stone** | **The Shadow** (Critical Damage) - Already Active                                |
 | **Food**         | **Braised Rabbit with Spring Vegetables** (Max Health + Max Stamina)             |

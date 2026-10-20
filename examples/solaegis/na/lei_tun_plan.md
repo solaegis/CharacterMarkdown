@@ -12,6 +12,7 @@ Designed for high-critical solo overland and veteran arena combat, this build pa
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Neutral Good** — Abyssal Tide-Warden — coast guardian who binds the trench to protect Alinor |
 | **Primary Stat** | 64 points in **Magicka** — **live:** 51 Mag / 0 Health / 0 Stam (1 unspent) · **target:** 64 Magicka (CP160) |
 | **Mundus Stone** | **The Shadow** — +11% Critical Damage & Critical Healing; **live:** The Shadow (equipped) |
 | **Vampirism** | **N/A (Cleaned)** — Warden resource regeneration and frost armor thrive on living vitality |
@@ -363,6 +364,8 @@ Summerset travel demands an agile, majestic feline mount that reflects High Elve
 > [!TIP]
 > **Ideal mount (any source):** **Abyssal Quasigriff** — The ultimate sea-and-sky apex mount for an Abyssal Champion in Summerset. **Acquisition:** Crown Store / Event tickets.
 
+**Favorites (ESO Favorite Collectibles / Collections):** Sapiarchic Senche-Serval, Highland Spotted Lynx, Noble Riverhold Senche-Lion, Senche-Leopard, Spotted Duneracer Senche-raht — Summerset Khajiit / feline set; owned thematic set only; enable random favorite mount when 2+ are favorited.
+
 ### Pet
 
 Vanity pets provide visual flavor alongside Lei-Tun.
@@ -383,6 +386,8 @@ Vanity pets provide visual flavor alongside Lei-Tun.
 
 > [!TIP]
 > **Ideal pet (any source):** **Sea Sload Dorsal Fin** or **Wormwrithe Haj Mota Hatchling**. **Acquisition:** Summerset achievements / Crown Crates.
+
+**Favorites:** Abecean Ratter Cat, Verdigris Haj Mota, Dusky Fennec Fox, Sylvan Nixad, Psijic Mascot Bear Cub — coastal / nature companions; summon a random favorite vanity pet when 2+ are set.
 
 ### Dye and style
 

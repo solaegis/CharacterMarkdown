@@ -6,7 +6,7 @@
 
 **Gear rule:** everything is **crafted** by @masisi except the **monster helm + shoulders**, which are the end goal. Mythics, trial and PvP sets are out of scope.
 
-**Live → target:** profile export at **Level 17, CP 338**: Trainee and quest gear, Mundus The Thief, back bar empty. Below Level 50 the gear advice is **best-now**, not a gap against the target. See [Live now](#live-now-level-17). Set % values are modelled on assumed CP160 stats until a CP160 export exists.
+**Live → target:** profile export at **Level 17, CP 338**: Trainee and quest gear, Mundus The Thief, back bar empty. Below Level 50 the gear advice is **best-now**, not a gap against the target. See [Phase 0](#phase-0--today-level-17). Set % values are modelled on assumed CP160 stats until a CP160 export exists.
 
 ---
 
@@ -14,6 +14,7 @@
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **True Neutral** — Erasing Ledger — Apocrypha craft and accounts, not crusade |
 | **Primary Stat** | 64 **Magicka** — **live:** 20 Magicka (every point so far) ✅ |
 | **Mundus Stone** | **The Shadow** (+11% Crit Damage; 17% with 7× Divines) — **live:** The Thief (keep while levelling) |
 | **Vampirism** | **Cured** |
@@ -23,14 +24,14 @@
 | **Bars** | Front **Lightning Dest** ("Secret Beam") · Back **Inferno Dest** ("Rune Script") — **live:** front 5/5 slotted, **back bar empty** |
 | **Content** | Group dungeons and trials; assumes the tank or support supplies Major/Minor Breach |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Magicka Recovery) |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Spell Critical + Magicka) |
+| **Potion** | Any **Restore Magicka** potion. Since U51 a power potion's Major Brutality and Major Savagery both duplicate Inspired Scholarship and Inner Light, so only the restore is new |
 | **Staff Enchants** | Front Lightning: **Shock** · Back Inferno: **Flame** |
-| **Companion** | **Primary (now):** **Mirri Elendis** · **Secondary:** **Bastian Hallix** · **Goal (20/20):** **Tanlorin** (solo play only; no companions in group content) |
-| **Primary Mount** | **Dwarven War Horse** (owned) · **Alt:** **Noweyr Steed** |
-| **Flavor Pet** | **Scintillant Dovah-Fly** (owned) · **Alt:** **Blue Dragon Imp** |
+| **Companion** | **Primary (now):** **Azandar al-Cybiades** (scholar-mage) · **Secondary:** **Bastian Hallix** · **Goal (20/20 @ CP160):** **Azandar al-Cybiades** (solo play only; no companions in group content) |
+| **Primary Mount** | **Hermitage Servitor** (owned) · **Alt:** **Dwarven War Horse** |
+| **Flavor Pet** | **Cipher's Eye Pocket Watcher** (owned) · **Alt:** **Scintillant Dovah-Fly** |
 | **Costume** | **Court of Bedlam** (owned) · **Alt:** **Bloodthorn Robes** |
 
-**Read next:** [Roleplay](#roleplay-the-erasing-ledger) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-crowded-page) · [Gear and crafting](#gear-and-crafting-the-erasure-regalia) · [Champion points](#champion-point-mapping) · [Companion](#companion-strategy-the-ink-and-shield) · [Collectibles](#collectibles) · [Live now](#live-now-level-17) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-the-erasing-ledger) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-crowded-page) · [Gear and crafting](#gear-and-crafting-the-erasure-regalia) · [Champion points](#champion-point-mapping-cp-338) · [Companion](#companion-strategy-the-ink-and-shield) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
@@ -40,17 +41,17 @@ Elsweyr taught him that secrets are not toys — they are **ledgers**. **S'Katib
 
 Alone on the road he writes carefully: a rune here, a beam there, one debt settled at a time. In company the ledger changes. A tank holds the margin, a healer keeps the ink wet, and the scribe is free to do what Apocrypha's language was always best at: **erasure**. Crowds are only long sentences. Blockade is the underline, the runes are the red ink, and Fatecarver strikes the whole line through.
 
-He is not a carnival prophet and he is not a pale Altmer courtier wearing stolen death. He does not wear the armor of trials or the trophies of Cyrodiil. He wears what a Khajiit scribe can **commission**: honest crafted cloth from @masisi's forge, and one day a trophy helm taken from something that tried to eat him in the sewers of Wayrest. The **Court of Bedlam** silhouette is borrowed pageantry for a cat who writes in tentacle-script; the **Dwarven War Horse** is a scholar's road-engine, not a parade mount.
+He is not a carnival prophet and he is not a pale Altmer courtier wearing stolen death. He does not wear the armor of trials or the trophies of Cyrodiil. He wears what a Khajiit scribe can **commission**: honest crafted cloth from @masisi's forge, and one day a trophy helm taken from something that tried to eat him in the sewers of Wayrest. The **Court of Bedlam** silhouette is borrowed pageantry for a cat who writes in tentacle-script; he rides a **Hermitage Servitor**, an unblinking thing that stepped out of Apocrypha after a reckless reading and will not leave him. A Watcher rides his shoulder, the eye-familiar Arcanists keep, and he has not yet decided what to name it.
 
 > [!TIP]
 > **Suggested Custom Title:** `Erasing Ledger · Scribe of Secrets`
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> S'Katib-Asrar — The Erasing Ledger (group AoE). Khajiit Magicka Arcanist; KEEP Herald + Soldier + Curative, no subclass. Crafted by @masisi: 5 Tide-Born Wildstalker (light body, Divines, Magicka glyphs) + 5 Order's Wrath (neck + 2 rings Bloodthirsty/Spell Damage, Lightning + Inferno staves Precise). End goal: 2 Slimecraw head + shoulders (alt Molag Kena if the group has Minor Berserk). 64 Mag. Mundus: The Shadow. Front Lightning ("Secret Beam"): Blockade of Storms, Cephaliarch's Flail, Pragmatic Fatecarver, Escalating Runeblades, Inspired Scholarship; ult The Languid Eye. Back Inferno ("Rune Script"): Fulminating Rune, Runeguard of Freedom, Evolving Runemend, Inner Light, Fleet-Footed Gate (Runic Sunder if no tank breach); ult The Languid Eye. Costume: Court of Bedlam · Dwarven War Horse · Scintillant Dovah-Fly.
+> S'Katib-Asrar — The Erasing Ledger (group AoE). Khajiit Magicka Arcanist; KEEP Herald + Soldier + Curative, no subclass. Crafted by @masisi: 5 Tide-Born Wildstalker (light body, Divines, Magicka glyphs) + 5 Order's Wrath (neck + 2 rings Bloodthirsty/Spell Damage, Lightning + Inferno staves Precise). End goal: 2 Slimecraw head + shoulders (alt Molag Kena if the group has Minor Berserk). 64 Mag. Mundus: The Shadow. Front Lightning ("Secret Beam"): Blockade of Storms, Cephaliarch's Flail, Pragmatic Fatecarver, Escalating Runeblades, Inspired Scholarship; ult The Languid Eye. Back Inferno ("Rune Script"): Fulminating Rune, Runeguard of Freedom, Evolving Runemend, Inner Light, Fleet-Footed Gate (Runic Sunder if no tank breach); ult The Languid Eye. Costume: Court of Bedlam · Hermitage Servitor · Cipher's Eye Pocket Watcher. Companion: Azandar, a fellow scholar of forbidden texts.
 
 > [!TIP]
-> **Flavor Pet:** **Scintillant Dovah-Fly** (owned) — ink-mote familiar for a rune scribe. **Alt:** **Blue Dragon Imp**. See [Collectibles](#collectibles).
+> **Flavor Pet:** **Cipher's Eye Pocket Watcher** (owned) — the Apocrypha Watcher that Arcanist Morian Zenas kept as a pet. **Alt:** **Scintillant Dovah-Fly**, an ink-mote familiar. See [Collectibles](#collectibles).
 
 > [!TIP]
 > **Costume:** **Court of Bedlam** — Apocrypha-adjacent court silhouette without Misrule carnival framing. **Alt:** **Bloodthorn Robes**. Full picks under [Collectibles](#collectibles).
@@ -126,7 +127,7 @@ Open on the **back bar** with rune, armor and buffs; swap to the **front bar** f
 | **2** | Herald of the Tome | Abyssal Impact → **Cephaliarch's Flail** | Crux generator (cone) |
 | **3** | Herald of the Tome | Fatecarver → **Pragmatic Fatecarver** | Channelled AoE beam; spends Crux |
 | **4** | Herald of the Tome | Runeblades → **Escalating Runeblades** | Crux filler |
-| **5** | Herald of the Tome | Tome-Bearer's Inspiration → **Inspired Scholarship** | Major Sorcery / Brutality (`buffs.json` source) |
+| **5** | Herald of the Tome | Tome-Bearer's Inspiration → **Inspired Scholarship** | Major Brutality (`buffs.json` source). Since U51 it only procs off **Arcanist** skills, not Blockade or Inner Light |
 | **Ult** | Herald of the Tome | The Unblinking Eye → **The Languid Eye** | AoE beam ult for big pulls |
 
 #### Back Bar (Inferno Dest): "Rune Script"
@@ -136,7 +137,7 @@ Open on the **back bar** with rune, armor and buffs; swap to the **front bar** f
 | **1** | Herald of the Tome | The Imperfect Ring → **Fulminating Rune** | AoE DoT on the stack point |
 | **2** | Soldier of Apocrypha | Runic Defense → **Runeguard of Freedom** | Armor / survivability |
 | **3** | Curative Runeforms | Runemend → **Evolving Runemend** | Self-heal |
-| **4** | Mages Guild | Magelight → **Inner Light** | Major Prophecy / Savagery (`buffs.json` source) |
+| **4** | Mages Guild | Magelight → **Inner Light** | Major Savagery (`buffs.json` source) |
 | **5** | Curative Runeforms | Apocryphal Gate → **Fleet-Footed Gate** | Reposition. **Flex:** Soldier **Runic Sunder** if the tank doesn't apply Major Breach (a second Major Breach adds 0) |
 | **Ult** | Herald of the Tome | **The Languid Eye** | Same ult both bars |
 
@@ -165,7 +166,7 @@ flowchart TD
 3. **The Languid Eye** on big trash pulls, not on a lone elite.
 4. **Interrupt** casters with bash when the tank misses them; dead casters are faster than healed casters.
 5. **Light attacks between casts.** Required if you run **Molag Kena**.
-6. **Potion on the pull** once the Divines gear is in: Essence of Spell Power.
+6. **Potion on the pull** once the Divines gear is in: a Restore Magicka potion (the buffs are already covered).
 7. Solo overland uses the same bars; swap Fleet-Footed Gate for **Remedy Cascade** if you need more healing.
 
 ### Passive skills
@@ -300,7 +301,7 @@ Until Slimecraw drops, wear a crafted **head + shoulders** pair for its 2pc line
 
 ---
 
-## Champion Point Mapping
+## Champion Point Mapping (CP 338)
 
 **Live:** 338 CP (113 / 113 / 112 per discipline). 309 spent, **29 unspent**. Below 900 total CP there are **3 slottable stars per discipline**. Star names and stage sizes come from [champion_points_reference.md](../../templates/champion_points_reference.md). A star only pays out at a completed stage, so don't leave points in half a stage.
 
@@ -339,19 +340,34 @@ Until Slimecraw drops, wear a crafted **head + shoulders** pair for its 2pc line
 
 ## Companion Strategy: "The Ink and Shield"
 
-Companions are for **solo** levelling and overland only; group content has no companions. They use **Companion's** gear only (Quickened, Aggressive, Bolstered, etc.), never player sets.
+Companions are for **solo** levelling and overland only; group content has no companions. They use **Companion's** weapons and armor only (Quickened, Aggressive, Bolstered, etc.), never player sets (no Order's Wrath, no Divines). Buy white basics from vendors; farm Superior+ while the companion is summoned. **Not** part of the @masisi player-gear handoff.
 
-| **Tier** | **Companion** | **Role** | **Roleplay fit** |
-| :--- | :--- | :--- | :--- |
-| **Primary (now)** | **Mirri Elendis** | DPS / loot | Cynical excavator who tolerates forbidden ledgers |
-| **Secondary** | **Bastian Hallix** | Tank / support | Soft wall when the page turns lethal |
-| **Goal (20/20)** | **Tanlorin** | Support / strange peer | Stranger who can stand Apocrypha ink without sermons |
+### Companion picks
 
-| **Setting (Mirri)** | **Recommendation** |
+| **Tier** | **Companion** | **Role** | **Roleplay fit** | **Mechanical fit** |
+| :--- | :--- | :--- | :--- | :--- |
+| **Primary (now)** | **Azandar al-Cybiades** | Ranged magic DPS | Redguard scholar-mage who chases forbidden knowledge; the one companion who reads the same books | Second caster from range while the back bar fills; speeds solo levelling |
+| **Secondary** | **Bastian Hallix** | Tank / support | Soft wall when the page turns lethal | Holds aggro off a light-armor caster on hard overland pulls |
+| **Goal (20/20 @ CP160)** | **Azandar al-Cybiades** | Ranged magic DPS | Same scholar at full trust | Fully geared Companion's kit for solo world bosses |
+
+### Primary now — Azandar al-Cybiades
+
+| **Setting** | **Recommendation** |
 | :--- | :--- |
-| **Role** | DPS (Dual Wield or Bow as available) |
-| **Gear** | Medium **Companion's**, Aggressive / Quickened |
-| **Acquisition** | Vendor whites now; Superior+ from bosses/overland with Mirri summoned |
+| **Role** | **Ranged DPS** (Companion's Destruction Staff) |
+| **Gear Weight** | **Light** Companion's (or Superior+ drops) |
+| **Gear Trait** | **Aggressive** / **Quickened**; **Bolstered** on one piece if he dies too often |
+| **Loadout** | Full **Companion's** set; replace vendor Level 1 whites |
+| **Acquisition** | Vendor whites now; Superior+ from bosses/overland with Azandar summoned |
+
+**Support skill bar:**
+
+1. Keep the damage skills he already has unlocked.
+2. Fill empty slots with AoE damage first (packs are the content), then utility as ranks allow.
+3. Ultimate: his damage ultimate once unlocked.
+
+> [!TIP]
+> **Secondary — Bastian:** Heavy Companion's, Bolstered / Soothing, for pulls that hit harder than the scribe can shrug off. **Mirri Elendis** (Medium, Aggressive) is the loot-route alternative.
 
 ---
 
@@ -363,7 +379,8 @@ Primaries locked from the **EU owned pool** ([docs/collectibles_companion_ledger
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Primary (owned)** | **[Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)** — scholar's road-engine |
+| **Primary (owned)** | **[Hermitage Servitor](https://en.uesp.net/wiki/Online:Hermitage_Servitor)** — an unblinking thing drawn out of Apocrypha by a reckless reading; it won't leave |
+| **Alt (owned)** | **[Dwarven War Horse](https://en.uesp.net/wiki/Online:Dwarven_War_Horse)** — scholar's road-engine (previous primary) |
 | **Alt (owned)** | **[Noweyr Steed](https://en.uesp.net/wiki/Online:Noweyr_Steed)** — pale long-road alternate |
 | **Backup (owned)** | **[Sorrel Horse](https://en.uesp.net/wiki/Online:Sorrel_Horse)** — quiet travel |
 
@@ -371,9 +388,9 @@ Primaries locked from the **EU owned pool** ([docs/collectibles_companion_ledger
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Primary (owned)** | **[Scintillant Dovah-Fly](https://en.uesp.net/wiki/Online:Scintillant_Dovah-Fly)** — ink-mote familiar for a rune scribe |
+| **Primary (owned)** | **[Cipher's Eye Pocket Watcher](https://en.uesp.net/wiki/Online:Cipher%27s_Eye_Pocket_Watcher)** — the Apocrypha Watcher that Arcanist Morian Zenas kept as a pet |
+| **Alt (owned)** | **[Scintillant Dovah-Fly](https://en.uesp.net/wiki/Online:Scintillant_Dovah-Fly)** — ink-mote familiar for a rune scribe (previous primary) |
 | **Alt (owned)** | **[Blue Dragon Imp](https://en.uesp.net/wiki/Online:Blue_Dragon_Imp)** — small Apocrypha-adjacent familiar |
-| **Alt (owned)** | **[Haunted House Cat](https://en.uesp.net/wiki/Online:Haunted_House_Cat)** — only if the Dovah-Fly feels wrong |
 
 ### Costume
 
@@ -397,7 +414,9 @@ Primaries locked from the **EU owned pool** ([docs/collectibles_companion_ledger
 
 ---
 
-## Live now (Level 17)
+## Next Steps & In-Game Action Checklist
+
+### Phase 0 — Today (Level 17)
 
 From the Level 17 export. Levelling gear is expected at this stage; this is what helps **now**.
 
@@ -411,35 +430,32 @@ From the Level 17 export. Levelling gear is expected at this stage; this is what
 | **Mundus** | The Thief | ✅ Keep until the Divines pieces arrive, then The Shadow |
 | **Riding** | Training available | Train **Speed** daily |
 
----
+1. **Fill the back bar** (table above); ult on both bars.
+2. Spend the 29 CP as in the table above.
+3. Keep all attribute points in **Magicka**; stay **cured**; Mundus **The Thief**.
+4. Summon **Azandar** for solo levelling; equip **Court of Bedlam**, **Hermitage Servitor**, **Cipher's Eye Pocket Watcher**.
+5. Paste the **Custom Title** and **Build Notes** into LAM.
 
-## Next Steps & In-Game Action Checklist
+### Phase 1 — Level to 50 (interim craft)
 
-### Phase 1 — Now (Level 17 → 50)
-
-1. **Fill the back bar** ([Live now](#live-now-level-17)); ult on both bars.
-2. Spend the 29 CP as in [Live now](#live-now-level-17).
-3. Rank **Herald of the Tome**, **Soldier of Apocrypha**, **Curative Runeforms**, Destruction Staff, Light Armor, Mages Guild; morph toward the [skill bars](#skill-bars).
-4. Keep all attribute points in **Magicka**; stay **cured**; Mundus **The Thief**.
-5. Summon **Mirri** for solo levelling; equip **Court of Bedlam**, **Dwarven War Horse**, **Scintillant Dovah-Fly**.
-6. Paste the **Custom Title** and **Build Notes** into LAM.
-
-### Phase 2 — Level 40–50 bridge
-
+6. Rank **Herald of the Tome**, **Soldier of Apocrypha**, **Curative Runeforms**, Destruction Staff, Light Armor, Mages Guild; morph toward the [skill bars](#skill-bars).
 7. **@masisi:** check trait requirements at **Tide-Born Foundry** and **Steadfast Hammer and Saw**; research what's missing.
-8. Commission one **purple level-scaled** set: Order's Wrath (neck, 2 rings, both staves) + 5 Tide-Born light body, plus Hunding's Rage head + shoulders.
+8. Around Level 40–45, commission one **purple level-scaled** set: Order's Wrath (neck, 2 rings, both staves) + 5 Tide-Born light body, plus Hunding's Rage head + shoulders.
 9. **Level 50:** complete Bahtra **"A Study in Discipline"** for availability only; keep all native lines.
 
-### Phase 3 — CP160 gold
+### Phase 2 — Craft (target, CP160 gold)
 
 10. Craft gold **Order's Wrath** first (5pc on both bars), then **5 Tide-Born** (Divines, Magicka glyphs).
 11. Mundus → **The Shadow**.
 12. Farm **Slimecraw** in veteran Wayrest Sewers I; glyph the monster pieces once they're gold.
 13. Transmute jewelry to **Bloodthirsty** when Slaughterstone is available.
-14. `/cm` export and re-run the calculator with live stats. Confirm Tide-Born's direct-damage share and Slimecraw vs Molag Kena for your group.
 
-### Phase 4 — Polish
+### Phase 3 — Polish
 
-15. Warfare: Thaumaturge 50, then Master-at-Arms; Fitness: Fortified 50; Craft: toward **Liquid Efficiency**.
-16. Level **Tanlorin** toward 20/20 for solo play.
-17. Outfit Station: Khajiit / Anequina motifs + ink-violet palette over the Slimecraw pieces.
+14. Warfare: Thaumaturge 50, then Master-at-Arms; Fitness: Fortified 50; Craft: toward **Liquid Efficiency**.
+15. Outfit Station: Khajiit / Anequina motifs + ink-violet palette over the Slimecraw pieces.
+
+### Finish
+
+16. Level **Azandar** toward 20/20 for solo play; keep his bar free of empty slots.
+17. `/cm` export and re-run the calculator with live stats. Confirm Tide-Born's direct-damage share and Slimecraw vs Molag Kena for your group.

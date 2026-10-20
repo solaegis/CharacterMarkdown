@@ -12,18 +12,19 @@ Designed for solo overland and public dungeons on craftable gear. **Stage 3 Vamp
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Neutral Evil** — Pale Ascendant — ruthless climb; power as the only apology |
 | **Primary Stat** | 64 points in **Magicka** — **live:** **38 Mag** / 0 Health / 0 Stam · pools **23,632** HP / **29,138** Mag / **15,976** Stam · **1 unspent point** · **target:** 64 Mag at CP160 |
-| **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** already Apprentice; keep |
+| **Mundus Stone** | **The Warrior** (+Weapon and Spell Damage since U51) — **live:** The Apprentice. Since U51 it gives Experience and Inspiration, not damage: keep it while levelling if you'd rather level faster, then swap to **The Warrior** at Level 50 (it now carries the old Spell Damage) |
 | **Vampirism** | **Stage 3 Vampire** — Undeath survivability; accept fire vulnerability |
 | **Trinity** | **Dark Magic** + **Storm Calling** KEEP · **Grave Lord** SUBCLASS (replaces **Daedric Summoning**) at Level 50 — **live:** all three native (bridge) |
 | **Sets** | **5 New Moon Acolyte + 5 Law of Julianos** (100% craftable, all Light) + **Oblivion's Foe** staves — **live:** Wisdom of Vanus 5/5 (+ scrap) · **target:** New Moon Acolyte + Julianos |
 | **Bars** | Front: **Lightning Dest** ("Crystal Verdict") · Back: **Inferno Dest** ("Black Mandate") — **live:** Dest Main / **Resto** Backup (**replace resto with Inferno Dest**) |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Magicka Recovery) or **Witty Blue Entremet** while leveling |
-| **Potion** | **Essence of Spell Power** — the value is **Major Sorcery**; its Major Prophecy is already covered by Inner Light |
+| **Potion** | **Magicka power potion** (Restore Magicka + Major Brutality + Major Savagery; U51 renamed potions, so pick it by its effects). The value is **Major Brutality**; its Major Savagery is already covered by Inner Light |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** between pulls |
 | **Staff/Weapon Enchant** | Front Lightning: **Shock** (Infused) · Back Inferno: **Flame** or **Absorb Magicka** |
 | **Companion** | **Primary (now):** **Bastian Hallix** (tank) · **Secondary:** **Mirri Elendis** · **Goal (20/20 @ CP160):** **Tanlorin** |
-| **Primary Mount** | **Psijic Escort Charger** (owned) · **Alt:** **Noweyr Steed** — see [Collectibles](#collectibles) |
+| **Primary Mount** | **Bloodshadow Wraith Steed** (owned) · **Alt:** **Psijic Escort Charger** / **Noweyr Steed** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **Coldharbour Bantam Guar** (owned) · **Alt:** **Blue Dragon Imp** — see [Collectibles](#collectibles) |
 | **Costume** | **Mannimarco** (owned) · **Alt:** **Court of Bedlam** / **Bloodthorn Robes** — see [Collectibles](#collectibles) |
 
@@ -39,7 +40,7 @@ He is not kind. He is not loyal. He is **ruthless**, **cold**, and **ambitious**
 
 **Dark Magic** is the true craft: Crystal Weapon as a blade of will, Haunting Curse as a leash, Suppression Field as the moment he owns the battlefield and silence answers him. Storm Calling is weather bent to ambition, not thunder for show. Early on he wraps brittle ribs in **Bound Aegis** — borrowed Daedric armor, a scaffold. When the road allows, he **outgrows** petless Summoning and steals **Grave Lord** death-aspect mastery: Sacrifice as a self-offering of power, Colossus as Major Vulnerability forced onto the world. Another price of ascent. He does not keep Daedra as pets to look grand.
 
-Companions are useful. Bastian is a soft wall. Mirri is a cynical pair of eyes. Tanlorin, when ready, is a stranger who understands that strange ambition is not a costume. The Psijic charger is the mount of a man who intends to outgrow every order that tried to teach him patience.
+Companions are useful. Bastian is a soft wall. Mirri is a cynical pair of eyes. Tanlorin, when ready, is a stranger who understands that strange ambition is not a costume. He rides a **Bloodshadow Wraith Steed**: an Exemplar mount that mirrors its rider, turned to a wraith by too much bloodthirsty killing. It is the mount of a man who would sacrifice his humanity for power, and it shows.
 
 He is a frail High Elf who decided the only cure for a weak body is to become something the world cannot refuse.
 
@@ -48,7 +49,7 @@ He is a frail High Elf who decided the only cure for a weak body is to become so
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Taranis Kotu — The Pale Ascendant. Frail-bodied High Elf MagSorc; ruthless, cold, ambitious anti-hero seeking godlike power at any cost — even humanity. Stage 3 Vampire for Undeath survivability, not theater. Keep Dark Magic + Storm Calling; at 50 subclass Grave Lord (replaces Daedric Summoning — petless Bound Aegis bridge only until then). Target: 5 New Moon Acolyte + 5 Law of Julianos (light) + Oblivion's Foe staves, @masisi. Front Lightning Dest: Blockade of Storms, Crystal Weapon, Haunting Curse, Endless Fury, Grave Lord's Sacrifice; ult Suppression Field. Back Inferno Dest: Lightning Flood, Hurricane, Inner Light, Dark Conversion, Crushing Shock; ult Glacial Colossus. 64 Mag. Mundus: The Apprentice. Companion: Bastian now; Tanlorin @ 20/20. Costume: Mannimarco / Psijic Escort Charger / Coldharbour Bantam Guar.
+> Taranis Kotu — The Pale Ascendant. Frail-bodied High Elf MagSorc; ruthless, cold, ambitious anti-hero seeking godlike power at any cost — even humanity. Stage 3 Vampire for Undeath survivability, not theater. Keep Dark Magic + Storm Calling; at 50 subclass Grave Lord (replaces Daedric Summoning — petless Bound Aegis bridge only until then). Target: 5 New Moon Acolyte + 5 Law of Julianos (light) + Oblivion's Foe staves, @masisi. Front Lightning Dest: Blockade of Storms, Crystal Weapon, Haunting Curse, Endless Fury, Grave Lord's Sacrifice; ult Suppression Field. Back Inferno Dest: Lightning Flood, Hurricane, Inner Light, Dark Conversion, Crushing Shock; ult Glacial Colossus. 64 Mag. Mundus: The Warrior. Companion: Bastian now; Tanlorin @ 20/20. Costume: Mannimarco / Bloodshadow Wraith Steed / Coldharbour Bantam Guar.
 
 > [!TIP]
 > **Flavor Pet:** **Coldharbour Bantam Guar** (owned) — Coldharbour familiar for a man bargaining with inhuman power. **Alt:** **Blue Dragon Imp**. See [Collectibles](#collectibles).
@@ -59,6 +60,8 @@ He is a frail High Elf who decided the only cure for a weak body is to become so
 ---
 
 ## Trinity configuration
+
+### Subclassing decision (required)
 
 Subclass unlocks at **Level 50** via Bahtra at-Hunding (**"A Study in Discipline"**). For The Pale Ascendant, that unlock is the moment to **replace petless Daedric Summoning** — Bound Aegis alone does not justify the pillar when **Grave Lord** offers Colossus Major Vulnerability and Sacrifice. Keep native **Dark Magic** (signature) and **Storm Calling**. See [docs/subclassing.md](../../../docs/subclassing.md).
 
@@ -142,7 +145,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 | :--- | :--- | :--- | :--- | :--- |
 | **1** | Storm Calling | Lightning Splash → **Lightning Flood** | AoE shock DoT | **Unlock/morph** |
 | **2** | Storm Calling | Lightning Form → **Hurricane** | Major Resolve + AoE shock (replaces Bound Aegis) | **Post-50 target** — bridge may use Boundless Storm |
-| **3** | Mages Guild | Magelight → **Inner Light** | +Max Magicka, Major Prophecy + Savagery; Might of the Guild path | **Live** — keep **one** copy here |
+| **3** | Mages Guild | Magelight → **Inner Light** | +Max Magicka, Major Savagery; Might of the Guild path | **Live** — keep **one** copy here |
 | **4** | Dark Magic | Dark Exchange → **Dark Conversion** | Magicka sustain | **Unlock/morph** |
 | **5** | Destruction Staff | Force Shock → **Crushing Shock** | Interrupt / weave filler | **Respec** — move Force Shock morph here |
 | **6 (Ult)** | Grave Lord (subclass) | Frozen Colossus → **Glacial Colossus** | Major Vulnerability open | **Post-50** — bridge: Suppression Field |
@@ -157,7 +160,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 ```mermaid
 flowchart TD
-    potion["Optional: Essence of Spell Power (Major Sorcery)"] --> colo["Back: Glacial Colossus"]
+    potion["Optional: Magicka power potion (Major Brutality)"] --> colo["Back: Glacial Colossus"]
     colo --> back["Hurricane + Lightning Flood + Inner Light"]
     back --> sustain["Dark Conversion if Mag dips"]
     sustain --> swap["Swap front Crystal Verdict"]
@@ -179,11 +182,11 @@ flowchart TD
 2. **Hurricane** up before the scrap — frail body needs Major Resolve without Bound Aegis.
 3. **Lightning Flood** from Black Mandate, then swap front.
 4. **Grave Lord's Sacrifice + Blockade of Storms + Haunting Curse** before Crystal Weapon spam.
-5. **Crystal Weapon** is the barrage — weave light attacks for magicka return.
+5. **Crystal Weapon** is the barrage (3 charges since U51) — weave light attacks for magicka return.
 6. **Endless Fury** on low targets — do not waste it on full-health trash.
 7. **Suppression Field** when adds overwhelm or a dangerous cast must die mid-cast.
 8. **Dark Conversion** between pulls or mid-fight if Mag dips; food + Dest heavies still matter.
-9. **Potion on hard pulls** — Essence of Spell Power for Major Sorcery; New Moon Acolyte's +5% ability cost makes the magicka restore matter too.
+9. **Potion on hard pulls** — Magicka power potion for Major Brutality; New Moon Acolyte's +5% ability cost makes the magicka restore matter too.
 10. **Vampire Stage 3:** Undeath cuts damage taken at low health; respect fire vulnerability.
 
 ### Passive skills
@@ -193,7 +196,7 @@ flowchart TD
 #### Sorcerer — Dark Magic
 
 * **[Unholy Knowledge](https://en.uesp.net/wiki/Online:Unholy_Knowledge)** / **[Blood Magic](https://en.uesp.net/wiki/Online:Blood_Magic)** / **[Persistence](https://en.uesp.net/wiki/Online:Persistence):** ✅ Live.
-* Unlock **[Exploitation](https://en.uesp.net/wiki/Online:Exploitation)**; morph **Crystal Weapon**, **Haunting Curse**, **Dark Conversion**, **Suppression Field**.
+* Unlock **[Exploitation](https://en.uesp.net/wiki/Online:Exploitation)** (U51: a group **Offensive Penetration** buff, about 2,974, in place of Minor Prophecy); morph **Crystal Weapon**, **Haunting Curse**, **Dark Conversion**, **Suppression Field**.
 
 #### Necromancer — Grave Lord (Subclass, replaces Daedric Summoning)
 
@@ -414,7 +417,8 @@ All picks are **owned** on the live [taranis_kotu.md](taranis_kotu.md) export.
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Primary (owned)** | **[Psijic Escort Charger](https://en.uesp.net/wiki/Online:Psijic_Escort_Charger)** — Altmer mage / Summerset power-seeker mount |
+| **Primary (owned)** | **[Bloodshadow Wraith Steed](https://en.uesp.net/wiki/Online:Bloodshadow_Wraith_Steed)** — an Exemplar that turned wraith from its rider's bloodthirst; the price of ambition, worn openly. Also ends the Psijic Escort Charger primary shared with masisi |
+| **Alt (owned)** | **[Psijic Escort Charger](https://en.uesp.net/wiki/Online:Psijic_Escort_Charger)** — Altmer mage / Summerset power-seeker mount (previous primary) |
 | **Alt (owned)** | **[Noweyr Steed](https://en.uesp.net/wiki/Online:Noweyr_Steed)** — pale/spectral fit for Stage 3 Vampire + Pale Ascendant |
 | **Backup (owned)** | **[Sorrel Horse](https://en.uesp.net/wiki/Online:Sorrel_Horse)** — quiet long-road horse |
 
@@ -466,10 +470,10 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 7. **Spend remaining skill points** — Exploitation, Expert Mage, Dest Destruction Expert, Light Prodigy / Concentration as needed.
 8. **Attributes:** spend the **1 unspent point** and keep dumping into **Magicka** toward **64**.
 9. **Allocate CP** per [Champion Point Mapping](#champion-point-mapping-cp-336) (live is 0 spent).
-10. **Mundus:** keep **The Apprentice**.
+10. **Mundus:** The Apprentice is fine while levelling (U51: it gives Experience, not damage); swap to **The Warrior** at Level 50.
 11. **Vampire Stage 3** — take the bite for Undeath survivability; note fire vulnerability.
 12. **Bastian:** Companion's gear upgrades; fill empty slots; keep summoned for XP.
-13. **Collectibles:** equip **Mannimarco**, **Psijic Escort Charger**, **Coldharbour Bantam Guar**.
+13. **Collectibles:** equip **Mannimarco**, **Bloodshadow Wraith Steed**, **Coldharbour Bantam Guar**.
 14. Paste **Custom Title** `Pale Ascendant` and Build Notes into LAM.
 15. **Do not subclass yet** — Bound Aegis bridge until Level 50.
 

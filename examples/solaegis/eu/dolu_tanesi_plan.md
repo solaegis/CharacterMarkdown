@@ -16,14 +16,15 @@ Distinct from NA **Dolu-tenasi** (Sandstorm Reaper necromancer) — different me
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
+| **Alignment** | **Lawful Neutral** — Life broker — severe ledger of vitality; privately loyal, publicly austere |
 | **Primary Stat** | 64 points in **Magicka** — **live:** **27 Mag** / 0 Health / 0 Stam · pools **31,422** HP / **26,407** Mag / **21,721** Stam · **target:** 64 Mag at CP160 |
-| **Mundus Stone** | **The Apprentice** (+Spell Damage) — **live:** not shown · +238 Spell Damage, **+389** with 7× Divines. Calc: +6.7% vs Thief +4.7% / Shadow +3.1% at est. CP160 stats |
+| **Mundus Stone** | **The Warrior** (+Weapon and Spell Damage since U51) — **live:** not shown · +238 Spell Damage, **+389** with 7× Divines. Calc: +6.7% vs Thief +4.7% / Shadow +3.1% at est. CP160 stats. U51 moved this bonus off The Apprentice, which now gives only Experience |
 | **Vampirism** | **Cured / N/A** — life-broker identity is living siphon, not undeath; keep daylight roads |
 | **Trinity** | **Assassination** + **Shadow** + **Siphoning** KEEP — **live:** all three native · **decision:** class-identity life broker; Siphoning is the theme |
 | **Sets** | **5 Law of Julianos + 5 Clever Alchemist** (100% craftable, all Light) — **live:** Order of Diagna 2/5 + Marauder's Haste 1/5 + Trainee 1/5 (no live bonuses worth keeping) · **target:** Julianos + Clever Alchemist on armor + jewelry; staves any set |
 | **Bars** | Front: **Lightning Dest** ("Black Quill") · Back: **Restoration** ("Mercy Draft") |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka + Magicka Recovery) or **Witty Blue Entremet** while leveling |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Crit + Mag) — procs Clever Alchemist |
+| **Potion** | **Magicka power potion** (Restore Magicka + Major Brutality + Major Savagery; U51 renamed potions, so pick it by its effects). Procs Clever Alchemist |
 | **Weapon Poisons** | Optional **Gradual Ravage Health** on Dest between pulls |
 | **Staff/Weapon Enchant** | Front Lightning: **Shock** glyph (Sharpened trait) · Back Resto: **Absorb Magicka** — **live:** Charged staves with Shock glyphs (bridge OK) |
 | **Companion** | **Primary (now):** **Mirri Elendis** (DPS peer) · **Secondary:** **Bastian Hallix** (ward / tank-heal) · **Goal (20/20 @ CP160):** **Tanlorin** |
@@ -50,7 +51,7 @@ He is not a carnival prophet. He is a life broker in austere robes, and the quil
 
 > [!NOTE]
 > **Build Notes (paste into LAM Build Notes):**
-> Dolu-tanesi — The Life Broker. Dunmer Magicka Nightblade who steals and gives life; Severus-coded austere potions professor (not Misrule). KEEP Assassination + Shadow + Siphoning — no subclass. Dest Lightning front ("Black Quill"): Funnel Health, Force Pulse, Ambush when unlocked, Blockade of Storms, Mirage; ult Incapacitating Strike. Resto back ("Mercy Draft"): Radiating Regeneration, Illustrious Healing, Overflowing Altar, Dark Cloak, Siphoning Attacks; ult Soul Siphon. 64 Mag, The Apprentice. Target: 5 Law of Julianos + 5 Clever Alchemist (light) via @masisi. Costume: Austere Warden · Noweyr Steed · Haunted House Cat. Companion: Mirri now · Tanlorin Goal.
+> Dolu-tanesi — The Life Broker. Dunmer Magicka Nightblade who steals and gives life; Severus-coded austere potions professor (not Misrule). KEEP Assassination + Shadow + Siphoning — no subclass. Dest Lightning front ("Black Quill"): Funnel Health, Force Pulse, Ambush when unlocked, Blockade of Storms, Mirage; ult Incapacitating Strike. Resto back ("Mercy Draft"): Radiating Regeneration, Illustrious Healing, Overflowing Altar, Dark Cloak, Siphoning Attacks; ult Soul Siphon. 64 Mag, The Warrior. Target: 5 Law of Julianos + 5 Clever Alchemist (light) via @masisi. Costume: Austere Warden · Noweyr Steed · Haunted House Cat. Companion: Mirri now · Tanlorin Goal.
 
 > [!TIP]
 > **Flavor Pet:** **Haunted House Cat** (owned) — potions-classroom familiar. **Alt:** **Housecat**. See [Collectibles](#collectibles).
@@ -139,7 +140,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 ```mermaid
 flowchart TD
-    potion["Optional: Essence of Spell Power"] --> back["Back: Radiating Regen + Illustrious + Altar"]
+    potion["Optional: Magicka power potion"] --> back["Back: Radiating Regen + Illustrious + Altar"]
     back --> cloak["Dark Cloak / Path up"]
     cloak --> swap["Swap front Black Quill"]
     swap --> mirage["Mirage up"]
@@ -165,7 +166,7 @@ flowchart TD
 6. **Soul Siphon** when the party (or you + companion) needs a life draft — signature give.
 7. **Incapacitating Strike** on elites / executes — accounts closed.
 8. **Dark Cloak** when pressure spikes; do not cloak as a DPS crutch.
-9. **Potion on hard pulls** once Clever Alchemist is on — Essence of Spell Power procs the 5-piece.
+9. **Potion on hard pulls** once Clever Alchemist is on — any potion procs the 5-piece.
 10. **Attributes:** keep dumping into **Magicka** toward **64**.
 
 ### Passive skills
@@ -239,7 +240,7 @@ graph LR
 
 | **Set** | **Bonuses (CP160 gold)** | **Role** |
 | :--- | :--- | :--- |
-| **Clever Alchemist** | 2pc +1,206 Max Health · 3pc +1,206 Max Health · 4pc +129 W/S Damage · **5pc** potion in combat → +675 W/S Damage (20s) | Potions-classroom proc with Essence of Spell Power |
+| **Clever Alchemist** | 2pc +1,206 Max Health · 3pc +1,206 Max Health · 4pc +129 W/S Damage · **5pc** potion in combat → +675 W/S Damage (20s) | Potions-classroom proc with a Magicka power potion |
 | **Law of Julianos** | 2pc +657 Crit · 3pc +1,096 Max Magicka · 4pc +657 Crit · **5pc +300 W/S Damage** | Always-on baseline for Funnel Health, Force Pulse, Blockade |
 
 **Value (calc, est. CP160 stats):** Julianos 5pc **+5.1%** always on · Clever Alchemist 5pc **+5.2%** at ~45% uptime (20s buff on a ~45s potion cooldown), **+9.2%** if kept near 80%.
@@ -281,7 +282,7 @@ graph LR
 | **Crafter** | EU account artisan **[Masisi](masisi.md)** / [masisi_plan.md](masisi_plan.md) |
 | **Style** | **Dark Elf** / **Morag Tong** / **Ancient Elf** body; austere black-green trim (Outfit Station — not primary costume) |
 | **Set station** | Clever Alchemist: **No Shira Workshop** (Hew's Bane) — 7 traits · Julianos: **Boreal Forge** (Wrothgar) — 6 traits |
-| **Traits** | **Divines** armor (7× boosts Apprentice 238 → 389) · **Arcane** jewelry · **Sharpened** front staff · **Powered** back staff |
+| **Traits** | **Divines** armor (7× boosts The Warrior 238 → 389) · **Arcane** jewelry · **Sharpened** front staff · **Powered** back staff |
 | **Interim** | Live linen + scrap; ask @masisi for **level-scaled** purple Julianos (then Clever Alchemist) while under CP160 |
 | **Quality** | Purple bridge → **gold at CP160** when traits ready |
 
@@ -430,7 +431,7 @@ Distinguish **Costume** (Collectibles) from Outfit Station motifs on crafted gea
 6. Unlock **Siphoning Attacks** for the empty back slot 5 — do not duplicate Funnel Health.
 7. **Attributes:** keep dumping into **Magicka** toward **64** (live 27).
 8. **Spend the 27 banked CP** per [Champion Point Mapping](#champion-point-mapping-cp-336): Precision +6, Gilded Fingers +5, Quick Recovery +10.
-9. **Mundus:** take **The Apprentice**.
+9. **Mundus:** **The Apprentice** while levelling (U51: Experience, not damage), then **The Warrior** at Level 50.
 10. **Mirri:** Companion's gear upgrades; fill empty slots; keep summoned for XP.
 11. **Collectibles:** equip **Austere Warden Outfit**, **Noweyr Steed**, **Haunted House Cat**.
 12. Paste **Custom Title** `Life Broker · Potions Master` and Build Notes into LAM.
