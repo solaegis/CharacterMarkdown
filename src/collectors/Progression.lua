@@ -37,17 +37,39 @@ local function CollectProgressionData()
     -- Available Champion Points (unspent) from API
     progression.availableChampionPoints = championPoints.unspent or 0
 
-    -- Vampire/Werewolf status from API
-    if buffData.special then
+    -- Vampire/Werewolf: Active / Cured / Never (GetPlayerCurseType + skill-line history)
+    local curseStatus = nil
+    if CM.api and CM.api.combat and CM.api.combat.GetCurseStatus then
+        curseStatus = CM.api.combat.GetCurseStatus()
+    end
+    if curseStatus then
+        progression.vampireStatus = curseStatus.vampireStatus or "never"
+        progression.werewolfStatus = curseStatus.werewolfStatus or "never"
+        progression.vampireStage = curseStatus.vampireStage or 0
+        progression.werewolfStage = curseStatus.werewolfStage or 0
+        progression.isVampire = curseStatus.isVampire or false
+        progression.isWerewolf = curseStatus.isWerewolf or false
+        progression.hasVampireSkillLine = curseStatus.hasVampireSkillLine or false
+        progression.hasWerewolfSkillLine = curseStatus.hasWerewolfSkillLine or false
+    elseif buffData.special then
+        -- Fallback: buff-only (cannot distinguish Cured vs Never)
         progression.isVampire = buffData.special.isVampire or false
         progression.isWerewolf = buffData.special.isWerewolf or false
         progression.vampireStage = buffData.special.vampireStage or 0
         progression.werewolfStage = buffData.special.werewolfStage or 0
+        progression.vampireStatus = progression.isVampire and "active" or "never"
+        progression.werewolfStatus = progression.isWerewolf and "active" or "never"
+        progression.hasVampireSkillLine = progression.isVampire
+        progression.hasWerewolfSkillLine = progression.isWerewolf
     else
         progression.isVampire = false
         progression.isWerewolf = false
         progression.vampireStage = 0
         progression.werewolfStage = 0
+        progression.vampireStatus = "never"
+        progression.werewolfStatus = "never"
+        progression.hasVampireSkillLine = false
+        progression.hasWerewolfSkillLine = false
     end
 
     -- Enlightenment from API

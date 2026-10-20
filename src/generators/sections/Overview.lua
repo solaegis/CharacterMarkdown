@@ -11,6 +11,46 @@ local table_insert = table.insert
 
 local markdown = (CM.utils and CM.utils.markdown) or nil
 
+--- Format Vampirism / Lycanthropy display: Active (with stage), Cured, or Never.
+local function FormatCurseStatusLabel(status, stage)
+    if status == "active" then
+        if stage and stage > 0 then
+            return string_format("**Active** — Stage %d", stage)
+        end
+        return "**Active**"
+    elseif status == "cured" then
+        return "**Cured**"
+    end
+    return "**Never**"
+end
+
+--- Always-visible curse rows for Overview (not gated by includeProgression).
+-- @param progressionData table|nil
+-- @return string|nil vampLabel, string|nil wwLabel
+local function GetCurseStatusLabels(progressionData)
+    if not progressionData then
+        return nil, nil
+    end
+    local vampireStatus = progressionData.vampireStatus
+    local werewolfStatus = progressionData.werewolfStatus
+    if not vampireStatus then
+        if progressionData.isVampire then
+            vampireStatus = "active"
+        else
+            vampireStatus = "never"
+        end
+    end
+    if not werewolfStatus then
+        if progressionData.isWerewolf then
+            werewolfStatus = "active"
+        else
+            werewolfStatus = "never"
+        end
+    end
+    return FormatCurseStatusLabel(vampireStatus, progressionData.vampireStage),
+        FormatCurseStatusLabel(werewolfStatus, progressionData.werewolfStage)
+end
+
 -- =====================================================
 -- GENERAL SUBSECTION
 -- =====================================================
@@ -198,20 +238,6 @@ local function GenerateGeneral(
                 })
             end
 
-            if progressionData.isVampire then
-                local stage = progressionData.vampireStage or 1
-                table_insert(allRows, {
-                    "**Vampire/Werewolf Status**",
-                    string_format("🧛 Vampire Stage %d", stage),
-                })
-            elseif progressionData.isWerewolf then
-                local stage = progressionData.werewolfStage or 1
-                table_insert(allRows, {
-                    "**Vampire/Werewolf Status**",
-                    string_format("🐺 Werewolf Stage %d", stage),
-                })
-            end
-
             if progressionData.enlightenment then
                 local current = progressionData.enlightenment.current or 0
                 local max = progressionData.enlightenment.max or 0
@@ -260,6 +286,13 @@ local function GenerateGeneral(
             local CreateMundusLink = CM.links and CM.links.CreateMundusLink
             local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name)) or mundusData.name
             table_insert(allRows, { "**🪨 Mundus Stone**", mundusText })
+        end
+
+        -- Vampirism / Lycanthropy (always when progression collected — Active, Cured, or Never)
+        local vampLabel, wwLabel = GetCurseStatusLabels(progressionData)
+        if vampLabel and wwLabel then
+            table_insert(allRows, { "**Vampirism**", vampLabel })
+            table_insert(allRows, { "**Lycanthropy**", wwLabel })
         end
 
         -- Active Buffs
@@ -520,14 +553,6 @@ local function GenerateGeneral(
                     )
             end
 
-            if progressionData.isVampire then
-                local stage = progressionData.vampireStage or 1
-                result = result .. string_format("|| **Vampire/Werewolf Status** | 🧛 Vampire Stage %d |\n", stage)
-            elseif progressionData.isWerewolf then
-                local stage = progressionData.werewolfStage or 1
-                result = result .. string_format("|| **Vampire/Werewolf Status** | 🐺 Werewolf Stage %d |\n", stage)
-            end
-
             if progressionData.enlightenment then
                 local current = progressionData.enlightenment.current or 0
                 local max = progressionData.enlightenment.max or 0
@@ -581,6 +606,14 @@ local function GenerateGeneral(
             local CreateMundusLink = CM.links and CM.links.CreateMundusLink
             local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name)) or mundusData.name
             result = result .. string_format("|| **🪨 Mundus Stone** | %s |\n", mundusText)
+        end
+
+        do
+            local vampLabel, wwLabel = GetCurseStatusLabels(progressionData)
+            if vampLabel and wwLabel then
+                result = result .. string_format("|| **Vampirism** | %s |\n", vampLabel)
+                result = result .. string_format("|| **Lycanthropy** | %s |\n", wwLabel)
+            end
         end
 
         if
@@ -772,14 +805,6 @@ local function GenerateGeneral(
                 )
             end
 
-            if progressionData.isVampire then
-                local stage = progressionData.vampireStage or 1
-                table.insert(lines, string_format("**Vampire/Werewolf Status:** 🧛 Vampire Stage %d", stage))
-            elseif progressionData.isWerewolf then
-                local stage = progressionData.werewolfStage or 1
-                table.insert(lines, string_format("**Vampire/Werewolf Status:** 🐺 Werewolf Stage %d", stage))
-            end
-
             if progressionData.enlightenment then
                 local current = progressionData.enlightenment.current or 0
                 local max = progressionData.enlightenment.max or 0
@@ -835,6 +860,14 @@ local function GenerateGeneral(
             local CreateMundusLink = CM.links and CM.links.CreateMundusLink
             local mundusText = (CreateMundusLink and CreateMundusLink(mundusData.name)) or mundusData.name
             table.insert(lines, string_format("**Mundus Stone:** %s", mundusText))
+        end
+
+        do
+            local vampLabel, wwLabel = GetCurseStatusLabels(progressionData)
+            if vampLabel and wwLabel then
+                table.insert(lines, string_format("**Vampirism:** %s", vampLabel))
+                table.insert(lines, string_format("**Lycanthropy:** %s", wwLabel))
+            end
         end
 
         if

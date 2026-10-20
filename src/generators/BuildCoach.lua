@@ -201,6 +201,15 @@ local function AppendIdentity(parts, data)
     table_insert(parts, string_format("- **Level:** %s\n", FormatNumber(c.level or 0)))
     table_insert(parts, string_format("- **CP total:** %s\n", FormatNumber(c.cp or (data.cp and data.cp.total) or 0)))
     table_insert(parts, string_format("- **Mundus:** %s\n", SafeStr(mundusName, "(none)")))
+    local progression = data.progression or {}
+    local vampStatus = progression.vampireStatus or (progression.isVampire and "active") or "never"
+    local wwStatus = progression.werewolfStatus or (progression.isWerewolf and "active") or "never"
+    local vampLabel = vampStatus
+    if vampStatus == "active" and progression.vampireStage and progression.vampireStage > 0 then
+        vampLabel = string_format("active — Stage %d", progression.vampireStage)
+    end
+    table_insert(parts, string_format("- **Vampirism:** %s\n", vampLabel))
+    table_insert(parts, string_format("- **Lycanthropy:** %s\n", wwStatus))
     if role and role ~= "" and role ~= "None" then
         table_insert(parts, string_format("- **Role:** %s\n", role))
     end

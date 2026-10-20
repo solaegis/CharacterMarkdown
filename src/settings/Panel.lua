@@ -830,7 +830,7 @@ function CM.Settings.Panel:AddProgressionSection(options)
     table.insert(controls, {
         type = "checkbox",
         name = "Include Progression Data",
-        tooltip = "Show skill points, attribute points, achievement points, available CP, vampire/werewolf status, and enlightenment\n(~200-400 chars)",
+        tooltip = "Show skill points, attribute points, achievement points, available CP, and enlightenment\n(~200-400 chars). Vampirism and Lycanthropy (Active / Cured / Never) always appear in Overview.",
         getFunc = function()
             return CM.settings.includeProgression
         end,

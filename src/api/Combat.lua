@@ -68,11 +68,118 @@ function api.GetRegenStats()
     }
 end
 
+--- Discover World skill lines that remain after a cure (Vampire / Werewolf).
+-- Werewolf uses IsWerewolfSkillLineById; Vampire matches localized line name.
+-- @return boolean hasVampireLine, boolean hasWerewolfLine
+local function GetDiscoveredCurseSkillLines()
+    local hasVampireLine = false
+    local hasWerewolfLine = false
+    local skillTypeWorld = SKILL_TYPE_WORLD
+    if not skillTypeWorld or not GetNumSkillLines then
+        return hasVampireLine, hasWerewolfLine
+    end
+
+    local numSkillLines = CM.SafeCall(GetNumSkillLines, skillTypeWorld) or 0
+    for skillLineIndex = 1, numSkillLines do
+        local success, _, _, _, discovered =
+            CM.SafeCallMulti(GetSkillLineDynamicInfo, skillTypeWorld, skillLineIndex)
+        if success and discovered then
+            local skillLineId = CM.SafeCall(GetSkillLineId, skillTypeWorld, skillLineIndex)
+            if skillLineId then
+                local isWerewolfLine = false
+                if IsWerewolfSkillLineById then
+                    isWerewolfLine = CM.SafeCall(IsWerewolfSkillLineById, skillLineId) == true
+                end
+                if isWerewolfLine then
+                    hasWerewolfLine = true
+                else
+                    local name = CM.SafeCall(GetSkillLineNameById, skillLineId)
+                    if name and name:find("Vampir") then
+                        hasVampireLine = true
+                    end
+                end
+            end
+        end
+    end
+
+    return hasVampireLine, hasWerewolfLine
+end
+
+--- Parse vampire stage from an active buff name (e.g. "Vampire Stage 3").
+local function ParseVampireStageFromBuffName(buffName)
+    if not buffName then
+        return 0
+    end
+    local stage = buffName:match("Stage (%d)")
+    if stage then
+        return tonumber(stage) or 0
+    end
+    if buffName:find("Vampir") then
+        return 1
+    end
+    return 0
+end
+
+--- Authoritative curse status: Active / Cured / Never for Vampire and Werewolf.
+-- Active uses GetPlayerCurseType(); Cured = skill line discovered but curse cleared.
+-- @return table { vampireStatus, werewolfStatus, vampireStage, isVampire, isWerewolf, ... }
+function api.GetCurseStatus()
+    local curseNone = CURSE_TYPE_NONE or 0
+    local curseVampire = CURSE_TYPE_VAMPIRE or 1
+    local curseWerewolf = CURSE_TYPE_WEREWOLF or 2
+    local curseType = CM.SafeCall(GetPlayerCurseType) or curseNone
+
+    local hasVampireLine, hasWerewolfLine = GetDiscoveredCurseSkillLines()
+
+    local vampireStage = 0
+    if curseType == curseVampire then
+        local numBuffs = CM.SafeCall(GetNumBuffs, "player") or 0
+        for i = 1, numBuffs do
+            local success, buffName = CM.SafeCallMulti(GetUnitBuffInfo, "player", i)
+            if success and buffName then
+                local stage = ParseVampireStageFromBuffName(buffName)
+                if stage > vampireStage then
+                    vampireStage = stage
+                end
+            end
+        end
+        if vampireStage == 0 then
+            vampireStage = 1
+        end
+    end
+
+    local vampireStatus = "never"
+    if curseType == curseVampire then
+        vampireStatus = "active"
+    elseif hasVampireLine then
+        vampireStatus = "cured"
+    end
+
+    local werewolfStatus = "never"
+    if curseType == curseWerewolf then
+        werewolfStatus = "active"
+    elseif hasWerewolfLine then
+        werewolfStatus = "cured"
+    end
+
+    return {
+        vampireStatus = vampireStatus,
+        werewolfStatus = werewolfStatus,
+        vampireStage = vampireStage,
+        werewolfStage = (werewolfStatus == "active") and 1 or 0,
+        isVampire = vampireStatus == "active",
+        isWerewolf = werewolfStatus == "active",
+        hasVampireSkillLine = hasVampireLine or (vampireStatus == "active"),
+        hasWerewolfSkillLine = hasWerewolfLine or (werewolfStatus == "active"),
+        curseType = curseType,
+    }
+end
+
 function api.GetBuffs()
     local numBuffs = CM.SafeCall(GetNumBuffs, "player") or 0
     local buffs = {}
 
-    -- Special state tracking
+    -- Special state tracking (buff-inferred; prefer GetCurseStatus for Active/Cured/Never)
     local isVampire = false
     local vampireStage = 0
     local isWerewolf = false
@@ -91,16 +198,11 @@ function api.GetBuffs()
             })
 
             -- Check for Vamp/WW state
-            if buffName:find("Vampir") then
+            local stage = ParseVampireStageFromBuffName(buffName)
+            if stage > 0 then
                 isVampire = true
-                -- Try to parse stage
-                local stage = buffName:match("Stage (%d)")
-                if stage then
-                    vampireStage = tonumber(stage)
-                end
-                -- Fallback to stage 1 if name contains Vampire but no stage number parsed yet
-                if vampireStage == 0 then
-                    vampireStage = 1
+                if stage > vampireStage then
+                    vampireStage = stage
                 end
             end
 
