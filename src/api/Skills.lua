@@ -415,33 +415,39 @@ function api.GetSkillPassives(skillType, skillLineIndex)
     local passives = {}
 
     for abilityIndex = 1, numAbilities do
-        local success, abilityName, icon, _, passive, _, purchased, _, _ =
+        local success, abilityName, icon, _, passive, _, purchased, _, infoRank =
             CM.SafeCallMulti(GetSkillAbilityInfo, skillType, skillLineIndex, abilityIndex)
 
         if success and abilityName and passive then
-            local currentRank = 0
+            local currentRank = (type(infoRank) == "number" and infoRank) or 0
+            local maxRank = nil
 
-            -- For passives, we need to check if they are purchased and their rank
-            if purchased then
-                local successUpgrade, upgradeRank, _ =
-                    CM.SafeCallMulti(GetSkillAbilityUpgradeInfo, skillType, skillLineIndex, abilityIndex)
-                currentRank = (successUpgrade and upgradeRank) or 0
+            -- UpgradeInfo: current + max (nilable when unpurchased / no upgrades)
+            local successUpgrade, upgradeRank, upgradeMax =
+                CM.SafeCallMulti(GetSkillAbilityUpgradeInfo, skillType, skillLineIndex, abilityIndex)
+            if successUpgrade then
+                if type(upgradeRank) == "number" then
+                    currentRank = upgradeRank
+                end
+                if type(upgradeMax) == "number" then
+                    maxRank = upgradeMax
+                end
             end
 
-            -- Get max rank for the passive
-            -- There isn't a direct API for max rank of a passive, but usually it's 2 or 3.
-            -- We can try to deduce it or just report current rank.
-            -- Actually GetSkillAbilityUpgradeInfo returns current level.
-            -- GetSkillAbilityNextUpgradeInfo might help?
+            if not maxRank then
+                local numRanks = CM.SafeCall(GetNumPassiveSkillRanks, skillType, skillLineIndex, abilityIndex)
+                if type(numRanks) == "number" then
+                    maxRank = numRanks
+                end
+            end
 
-            -- Let's just store what we have.
-            -- We can get the link using the abilityId if we can find it.
-            -- GetSkillAbilityId(skillType, skillLineIndex, abilityIndex, recursive)
             local abilityId = CM.SafeCall(GetSkillAbilityId, skillType, skillLineIndex, abilityIndex, false)
 
             table.insert(passives, {
                 name = abilityName,
                 rank = currentRank,
+                currentRank = currentRank,
+                maxRank = maxRank,
                 purchased = purchased,
                 abilityId = abilityId,
                 icon = icon,

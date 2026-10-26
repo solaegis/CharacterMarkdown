@@ -356,7 +356,7 @@ local function GenerateAllianceWarSkills(skillProgressionData)
                     name = passive.name,
                     abilityId = passive.abilityId,
                     purchased = passive.purchased,
-                    currentRank = passive.currentRank,
+                    currentRank = passive.currentRank or passive.rank,
                     maxRank = passive.maxRank,
                     skillLineName = skill.name,
                 })
