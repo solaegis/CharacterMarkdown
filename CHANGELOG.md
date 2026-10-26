@@ -12,8 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **AI / Build Coach export**: `/cm coach` (aliases `ai`, `build-coach`; `/markdown` is an alias for `/cm`) emits a compact paste schema (identity, bars, sets, collectibles, CP, notes, gaps) for ChatGPT/Claude; LAM **Preset: AI / Build Coach** for lean normal exports
 - **Build Coach Collectibles**: `/cm coach` includes active mount/costume/pet/personality plus owned mounts, pets, and costumes; Appearance API reports active vanity pet; AI / Build Coach preset enables `includeCollectibles`, `showCollectiblesDetailed`, and `includeAppearance`
 - **Armory Builds (first-class)**: saved loadouts export gear (sets, traits, quality, slot state), skill bars (front/back with ultimates), attributes, and mundus without restoring the build; CP discipline totals only
+- **Curse status**: Overview and Build Coach report Vampirism and Lycanthropy as Active (vampire includes Stage N), Cured, or Never
 
 ### Changed
+- **Chunking complete**: `/cm` and regenerate still print the chat ready line and also show a center-screen announcement (Lazy Writ Crafter style)
+- **Passive ranks**: Character Progress and Alliance War passive lists show `(current/max)` for multi-rank passives (e.g. Grace, Chemistry)
 - **Slash command**: `/cm` is preferred; `/markdown` remains a full alias for the same command
 - **ESOUI PC packaging**: release manifest is `CharacterMarkdown.txt` (not `.addon`); CI and local builds share whitelist `build-copy.sh`; ZIP validation rejects hidden/dev paths
 - **Account SavedVariables**: server-scoped via `GetWorldName()` namespace so NA/EU/PTS settings do not overwrite each other (with flat-layout migration)
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Armory Builds**: graduated from BETA; Solo PvE / PvP presets still enable `includeArmoryBuilds` (factory default remains Off)
 
 ### Fixed
+- **Regenerate**: no longer writes a Generating placeholder into the window (it sat under the color bar and buttons)
 - **Armory Builds**: section no longer always shows "No armory data available" (flat collector payload now accepted by the generator)
 
 ## [2.3.0] - 2026-08-03

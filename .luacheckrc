@@ -232,6 +232,7 @@ read_globals = {
     "GetCraftedAbilityScriptDisplayName",
     "GetSkillLineXPInfo",
     "GetSkillAbilityUpgradeInfo",
+    "GetNumPassiveSkillRanks",
     "GetUnitTitle",
     "GetTitles",
     "GetNumDailyPledges",
@@ -811,6 +812,9 @@ read_globals = {
     -- ESO UI GLOBALS
     -- ===========================================
     "SOUNDS",
+    "CENTER_SCREEN_ANNOUNCE",
+    "CSA_CATEGORY_LARGE_TEXT",
+    "CENTER_SCREEN_ANNOUNCE_TYPE_CHAMPION_POINT_GAINED",
     "SYSTEMS",
     "MENU_CATEGORY_ADDONS",
     "ZO_SceneManager_ToggleUIModeBinding",

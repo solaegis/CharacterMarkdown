@@ -63,6 +63,38 @@ local function PrintSuccess(text)
     PrintWithProxy(TAG_COLOR_SUCCESS, nil, text)
 end
 
+-- Center-screen announcement matching Lazy Writ Crafter ResetWarning.showAnnouncement
+function CM.AnnounceMarkdownReady(chunkCount, sizeKb, subtitle)
+    if not CENTER_SCREEN_ANNOUNCE or not CSA_CATEGORY_LARGE_TEXT then
+        return
+    end
+
+    local title = "Character Markdown ready"
+    local secondText = subtitle
+    if (not secondText or secondText == "") and type(chunkCount) == "number" and type(sizeKb) == "number" then
+        secondText = string.format("%d chunk%s, %.1f KB", chunkCount, chunkCount == 1 and "" or "s", sizeKb)
+    end
+
+    local sound = SOUNDS and SOUNDS.CHAMPION_POINT_GAINED or nil
+    local msg = CM.SafeCall(CENTER_SCREEN_ANNOUNCE.CreateMessageParams, CENTER_SCREEN_ANNOUNCE, CSA_CATEGORY_LARGE_TEXT, sound)
+    if not msg then
+        return
+    end
+
+    if msg.SetText then
+        msg:SetText(title, secondText)
+    end
+    if msg.SetCSAType and CENTER_SCREEN_ANNOUNCE_TYPE_CHAMPION_POINT_GAINED then
+        msg:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_CHAMPION_POINT_GAINED)
+    end
+    if msg.MarkSuppressIconFrame then
+        msg:MarkSuppressIconFrame()
+    end
+    if CENTER_SCREEN_ANNOUNCE.DisplayMessage then
+        CM.SafeCall(CENTER_SCREEN_ANNOUNCE.DisplayMessage, CENTER_SCREEN_ANNOUNCE, msg)
+    end
+end
+
 CM.utils = CM.utils or {}
 CM.utils.chat = {
     IsLibChatMessageAvailable = IsLibChatMessageAvailable,
@@ -71,6 +103,7 @@ CM.utils.chat = {
     PrintWarn = PrintWarn,
     PrintError = PrintError,
     PrintSuccess = PrintSuccess,
+    AnnounceMarkdownReady = CM.AnnounceMarkdownReady,
 }
 
 return CM.utils.chat

@@ -97,6 +97,18 @@ local function GenerateOutput(formatter)
                         sizeKb
                     )
                 )
+                if CM.AnnounceMarkdownReady then
+                    CM.AnnounceMarkdownReady(
+                        chunkCount,
+                        sizeKb,
+                        string.format(
+                            "window opened (%d chunk%s, %.1f KB)",
+                            chunkCount,
+                            chunkCount == 1 and "" or "s",
+                            sizeKb
+                        )
+                    )
+                end
             else
                 CM.Warn("Window display not available")
                 CM.Info("Markdown copied to clipboard")

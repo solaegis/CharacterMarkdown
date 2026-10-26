@@ -660,17 +660,30 @@ function CharacterMarkdown_RegenerateMarkdown()
 
     CM.DebugPrint("UI", "Regenerating markdown...")
 
-    -- Show generating feedback immediately so the UI does not appear frozen
-    if CharacterMarkdown_ShowGeneratingPlaceholder then
-        CharacterMarkdown_ShowGeneratingPlaceholder(CM.currentFormatter or "markdown")
-    else
-        ClearChunks()
-        ResetSelectionState()
-        if editBoxControl then
-            editBoxControl:SetText("")
-            editBoxControl._originalText = ""
-            UpdateOverlayVisibility()
-        end
+    -- Keep current markdown visible. A generating placeholder in the EditBox
+    -- sits under the color bar and buttons and cannot be read.
+    if windowControl then
+        windowControl._isGenerating = true
+    end
+    local regenerateButton = CharacterMarkdownWindowButtonContainerRegenerateButton
+    local selectAllButton = CharacterMarkdownWindowButtonContainerSelectAllButton
+    local prevButton = CharacterMarkdownWindowNavigationContainerPrevChunkButton
+    local nextButton = CharacterMarkdownWindowNavigationContainerNextChunkButton
+    if regenerateButton then
+        regenerateButton:SetEnabled(false)
+        regenerateButton:SetAlpha(0.5)
+    end
+    if selectAllButton then
+        selectAllButton:SetEnabled(false)
+        selectAllButton:SetAlpha(0.5)
+    end
+    if prevButton then
+        prevButton:SetEnabled(false)
+        prevButton:SetAlpha(0.5)
+    end
+    if nextButton then
+        nextButton:SetEnabled(false)
+        nextButton:SetAlpha(0.5)
     end
 
     local function PresentRegenerated(markdown)
@@ -710,9 +723,21 @@ function CharacterMarkdown_RegenerateMarkdown()
                 sizeKb
             )
         )
+        if CM.AnnounceMarkdownReady then
+            CM.AnnounceMarkdownReady(
+                chunkCount,
+                sizeKb,
+                string.format(
+                    "regenerated (%d chunk%s, %.1f KB)",
+                    chunkCount,
+                    chunkCount == 1 and "" or "s",
+                    sizeKb
+                )
+            )
+        end
     end
 
-    -- Defer generation so the placeholder can paint; prefer shared async-aware Run
+    -- Defer generation so the disabled-button state can paint; prefer shared async-aware Run
     zo_callLater(function()
         if CM.formatters.Run then
             CM.formatters.Run(PresentRegenerated, function(err)
