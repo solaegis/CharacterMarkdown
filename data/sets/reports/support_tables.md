@@ -6,9 +6,9 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
 
 | Table | Rows | Verified |
 |---|---:|---:|
-| passives | 239 | 116 |
-| skills | 680 | 590 |
-| cp_stars | 118 | 74 |
+| passives | 262 | 129 |
+| skills | 630 | 599 |
+| cp_stars | 118 | 75 |
 | consumables | 22 | 17 |
 
 ## Warnings (6)
@@ -20,22 +20,52 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
 - consumable Essence of Stamina: U51 potion drafted without a UESP page
 - consumable Essence of Immovability: U51 potion drafted without a UESP page
 
-## Partial normalization (314)
+## Partial normalization (355)
 
 - **Aedric Spear / Piercing Spear** rank 1 (partial): WITH AN AEDRIC SPEAR ABILITY SLOTTED Increases your Critical Damage by 6%. Increases your damage done to blocking players by 6%.
   - free-text condition on damage_done_pct: blocking
 - **Aedric Spear / Piercing Spear** rank 2 (partial): WITH AN AEDRIC SPEAR ABILITY SLOTTED Increases your Critical Damage by 12%. Increases your damage done to blocking players by 12%.
   - free-text condition on damage_done_pct: blocking
-- **Aedric Spear / Spear Wall** rank 1 (partial): WHEN ACTIVATING AN AEDRIC SPEAR ABILITY Gain Minor Berserk and Minor Protection for 3 seconds, increasing damage done and reducing damage taken by 5%.
-  - timed minor_berserk without a trigger
-  - timed minor_protection without a trigger
-- **Aedric Spear / Spear Wall** rank 2 (partial): WHEN ACTIVATING AN AEDRIC SPEAR ABILITY Gain Minor Berserk and Minor Protection for 6 seconds, increasing damage done and reducing damage taken by 5%.
-  - timed minor_berserk without a trigger
-  - timed minor_protection without a trigger
 - **Aedric Spear / Balanced Warrior** rank 1 (none): Increases your Armor for each Templar ability slotted. Increases your Weapon Damage and Spell Damage based on your total Armor and number of Templar abilities slotted. 1% Armor 38 Weapon and Spell Damage
   - no payload: Increases your Weapon Damage and Spell Damage based on your total Armor and number of Temp
 - **Aedric Spear / Balanced Warrior** rank 2 (none): Increases your Armor for each Templar ability slotted. Increases your Weapon Damage and Spell Damage based on your total Armor and number of Templar abilities slotted. 2% Armor 78 Weapon and Spell Damage
   - no payload: Increases your Weapon Damage and Spell Damage based on your total Armor and number of Temp
+- **Alchemy / Solvent Proficiency** rank 1 (none): Allows the Alchemist to use Natural Water and Grease to make Level 3 potions and poisons and Clear Water and Ichor to make Level 10 potions and poisons.
+  - no payload: Allows the Alchemist to use Natural Water and Grease to make Level 3 potions and poisons a
+- **Alchemy / Solvent Proficiency** rank 2 (none): Allows the Alchemist to use Pristine Water and Slime to make Level 20 potions and poisons.
+  - no payload: Allows the Alchemist to use Pristine Water and Slime to make Level 20 potions and poisons.
+- **Alchemy / Solvent Proficiency** rank 3 (none): Allows the Alchemist to use Cleansed Water and Gall to make Level 30 potions and poisons.
+  - no payload: Allows the Alchemist to use Cleansed Water and Gall to make Level 30 potions and poisons.
+- **Alchemy / Solvent Proficiency** rank 4 (none): Allows the Alchemist to use Filtered Water and Terebinthine to make Level 40 potions and poisons.
+  - no payload: Allows the Alchemist to use Filtered Water and Terebinthine to make Level 40 potions and p
+- **Alchemy / Solvent Proficiency** rank 5 (none): Allows the Alchemist to use Purified Water and Pitch-Bile to make Champion 10 potions and poisons.
+  - no payload: Allows the Alchemist to use Purified Water and Pitch-Bile to make Champion 10 potions and 
+- **Alchemy / Solvent Proficiency** rank 6 (none): Allows the Alchemist to use Cloud Mist and Tarblack to make Champion 50 potions and poisons.
+  - no payload: Allows the Alchemist to use Cloud Mist and Tarblack to make Champion 50 potions and poison
+- **Alchemy / Solvent Proficiency** rank 7 (none): Allows the Alchemist to use Star Dew and Night-Oil to make Champion 100 potions and poisons.
+  - no payload: Allows the Alchemist to use Star Dew and Night-Oil to make Champion 100 potions and poison
+- **Alchemy / Solvent Proficiency** rank 8 (none): Allows the Alchemist to use Lorkhan's Tears and Alkahest to make Champion 150 potions and poisons.
+  - no payload: Allows the Alchemist to use Lorkhan's Tears and Alkahest to make Champion 150 potions and 
+- **Alchemy / Keen Eye: Reagents** rank 1 (none): Herbs and fungi in the world will be easier to see when you are 20 meters or closer.
+  - no payload: Herbs and fungi in the world will be easier to see when you are 20 meters or closer.
+- **Alchemy / Keen Eye: Reagents** rank 2 (none): Herbs and fungi in the world will be easier to see when you are 30 meters or closer.
+  - no payload: Herbs and fungi in the world will be easier to see when you are 30 meters or closer.
+- **Alchemy / Keen Eye: Reagents** rank 3 (none): Herbs and fungi in the world will be easier to see when you are 40 meters or closer.
+  - no payload: Herbs and fungi in the world will be easier to see when you are 40 meters or closer.
+- **Alchemy / Chemistry** rank 1 (none): Produces 1 extra potion or 4 extra poisons per crafting attempt.
+  - no payload: Produces 1 extra potion or 4 extra poisons per crafting attempt.
+- **Alchemy / Chemistry** rank 2 (none): Produces 2 extra potions or 8 extra poisons per crafting attempt.
+  - no payload: Produces 2 extra potions or 8 extra poisons per crafting attempt.
+- **Alchemy / Chemistry** rank 3 (none): Produces 3 extra potions or 12 extra poisons per crafting attempt.
+  - no payload: Produces 3 extra potions or 12 extra poisons per crafting attempt.
+- **Alchemy / Laboratory Use** rank 1 (none): Allows the use of up to 3 reagents while mixing Potions or Poisons.
+  - no payload: Allows the use of up to 3 reagents while mixing Potions or Poisons.
+- **Alchemy / Snakeblood** rank 1 (none): Reduces duration of negative effects in potions by 50% when consumed.
+  - no payload: Reduces duration of negative effects in potions by 50% when consumed.
+- **Alchemy / Snakeblood** rank 2 (none): Reduces duration of negative effects in potions by 80% when consumed.
+  - no payload: Reduces duration of negative effects in potions by 80% when consumed.
+- **Alchemy / Snakeblood** rank 3 (none): Reduces duration of negative effects in potions by 100% when consumed.
+  - no payload: Reduces duration of negative effects in potions by 100% when consumed.
 - **Animal Companions / Bond with Nature** rank 1 (none): Anytime one of your Animal Companion skills end, you are healed for 765 Health.
   - no payload: Anytime one of your Animal Companion skills end, you are healed for 765 Health.
 - **Animal Companions / Bond with Nature** rank 2 (none): Anytime one of your Animal Companion skills end, you are healed for 1530 Health.
@@ -55,12 +85,6 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
 - **Argonian / Amphibian** rank 1 (none): Increases your experience gain with the Restoration Staff skill line by 15%. Increases your swimming speed by 50%.
   - no payload: Increases your experience gain with the Restoration Staff skill line by 15%.
   - no payload: Increases your swimming speed by 50%.
-- **Argonian / Argonian Resistance** rank 1 (partial): Increases your Max Health by 333 and your Disease and Poison Resistance by 660.
-  - unconsumed ['660'] in: Increases your Max Health by 333 and your Disease and Poison Resistance by 660.
-- **Argonian / Argonian Resistance** rank 2 (partial): Increases your Max Health by 666 and your Disease and Poison Resistance by 1320.
-  - unconsumed ['1320'] in: Increases your Max Health by 666 and your Disease and Poison Resistance by 1320.
-- **Argonian / Argonian Resistance** rank 3 (partial): Increases your Max Health by 1000 and your Disease and Poison Resistance by 2310.
-  - unconsumed ['2310'] in: Increases your Max Health by 1000 and your Disease and Poison Resistance by 2310.
 - **Assassination / Master Assassin** rank 1 (partial): Increases your Critical Chance rating against enemies you are flanking by 724, increasing your chance to critically strike by 3.3%.
   - unconsumed ['3.3'] in: Increases your Critical Chance against enemies you are flanking by 724, increasing your ch
   - free-text condition on weapon_crit: flanking
@@ -73,15 +97,11 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - unconsumed ['1'] in: Increases your Critical Chance by 219 for each Nightblade ability slotted, increasing your
 - **Assassination / Pressure Points** rank 2 (partial): Increases your Critical Chance rating by 438 for each Nightblade ability slotted, increasing your chance to critically strike by 2% per ability.
   - unconsumed ['2'] in: Increases your Critical Chance by 438 for each Nightblade ability slotted, increasing your
-- **Assassination / Hemorrhage** rank 1 (partial): WITH AN ASSASSINATION ABILITY SLOTTED Increases your Critical Damage by 5%. Critically striking in any form grants you and your group Minor Savagery, increasing Critical Chance by 6% for 10 seconds.
-  - timed minor_savagery without a trigger
-- **Assassination / Hemorrhage** rank 2 (partial): WITH AN ASSASSINATION ABILITY SLOTTED Increases your Critical Damage by 10%. Critically striking in any form grants you and your group Minor Savagery, increasing Critical Chance by 6% for 20 seconds.
-  - timed minor_savagery without a trigger
 - **Assault / Continuous Attack** rank 1 (partial): Increases your Weapon Damage and Spell Damage by 5% and Health, Magicka, and Stamina by 10% for 10 minutes after you capture a Lumber Mill, Farm, Mine, or Keep. Gain Gallop at all times, increasing your Mount Speed by 15%.
-  - unconsumed ['10', '10'] in: Increases your Weapon Damage and Spell Damage by 5% and Health, Magicka, and Stamina by 10
+  - unconsumed ['10'] in: Increases your Weapon Damage and Spell Damage by 5% and Health, Magicka, and Stamina by 10
   - no payload: Gain Gallop at all times, increasing your Mount Speed by 15%.
 - **Assault / Continuous Attack** rank 2 (partial): Increases your Weapon Damage and Spell Damage by 10% and Health, Magicka, and Stamina by 20% for 10 minutes after you capture a Lumber Mill, Farm, Mine, or Keep. Gain Gallop at all times, increasing your Mount Speed by 15%.
-  - unconsumed ['20', '10'] in: Increases your Weapon Damage and Spell Damage by 10% and Health, Magicka, and Stamina by 2
+  - unconsumed ['20'] in: Increases your Weapon Damage and Spell Damage by 10% and Health, Magicka, and Stamina by 2
   - no payload: Gain Gallop at all times, increasing your Mount Speed by 15%.
 - **Assault / Reach** rank 1 (none): Increases the range of long-range abilities by 2 meters while near a keep or outpost. Any ability with a range greater than 28 meters is affected.
   - no payload: Increases the range of long-range abilities by 2 meters while near a keep or outpost.
@@ -101,10 +121,6 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - free-text condition on dot_damage_pct: take
   - free-text condition on damage_done_pct: take
   - unrecognized while-condition: Reduce the damage you take from damage over time abilities by 15% whil
-- **Bow / Hasty Retreat** rank 1 (partial): WITH BOW EQUIPPED Grants you Major Expedition for 2 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%.
-  - timed major_expedition without a trigger
-- **Bow / Hasty Retreat** rank 2 (partial): WITH BOW EQUIPPED Grants you Major Expedition for 4 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%.
-  - timed major_expedition without a trigger
 - **Breton / Opportunist** rank 1 (partial): Increases your experience gain with the Light Armor skill line by 15%. Increases your Alliance Points gained by 1%.
   - free-text condition on physical_resistance: experience gain light skill line
   - free-text condition on spell_resistance: experience gain light skill line
@@ -238,6 +254,36 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - no payload: Gives you an 8% damage bonus when attacking stunned, immobilized, or silenced enemies.
 - **Dual Wield / Ruffian** rank 2 (none): WHILE USING DUAL WIELDING ATTACKS Gives you an 15% damage bonus when attacking stunned, immobilized, or silenced enemies.
   - no payload: Gives you an 15% damage bonus when attacking stunned, immobilized, or silenced enemies.
+- **Enchanting / Potency Improvement** rank 1 (none): Allows the use of Jora, Porade, Jode and Notade Potency Runestones to make Glyphs of levels 1-15.
+  - no payload: Allows the use of Jora, Porade, Jode and Notade Potency Runestones to make Glyphs of level
+- **Enchanting / Potency Improvement** rank 2 (none): Allows the use of Jera, Jejora, Ode and Tade Potency Runestones to make Glyphs of levels 10-25.
+  - no payload: Allows the use of Jera, Jejora, Ode and Tade Potency Runestones to make Glyphs of levels 1
+- **Enchanting / Potency Improvement** rank 3 (none): Allows the use of Odra, Pojora, Jayde and Edode Potency Runestones to make Glyphs of levels 20-35.
+  - no payload: Allows the use of Odra, Pojora, Jayde and Edode Potency Runestones to make Glyphs of level
+- **Enchanting / Potency Improvement** rank 4 (none): Allows the use of Edora, Jaera, Pojode, and Rekude Potency Runestones to make Glyphs of levels 30-45.
+  - no payload: Allows the use of Edora, Jaera, Pojode, and Rekude Potency Runestones to make Glyphs of le
+- **Enchanting / Potency Improvement** rank 5 (none): Allows the use of Pora, Denara, Hade and Idode Potency Runestones to make Glyphs from level 40 to Champion 30.
+  - no payload: Allows the use of Pora, Denara, Hade and Idode Potency Runestones to make Glyphs from leve
+- **Enchanting / Potency Improvement** rank 6 (none): Allows the use of Rera and Pode Potency Runestones to make Glyphs of Champion 30-50.
+  - no payload: Allows the use of Rera and Pode Potency Runestones to make Glyphs of Champion 30-50.
+- **Enchanting / Potency Improvement** rank 7 (none): Allows the use of Derado and Kedeko Potency Runestones to make Glyphs of Champion 50-70.
+  - no payload: Allows the use of Derado and Kedeko Potency Runestones to make Glyphs of Champion 50-70.
+- **Enchanting / Potency Improvement** rank 8 (none): Allows the use of Rekura and Rede Potency Runestones to make Glyphs of Champion 70-90.
+  - no payload: Allows the use of Rekura and Rede Potency Runestones to make Glyphs of Champion 70-90.
+- **Enchanting / Potency Improvement** rank 9 (none): Allows the use of Kura and Kude Potency Runestones to make Glyphs of Champion 100-140.
+  - no payload: Allows the use of Kura and Kude Potency Runestones to make Glyphs of Champion 100-140.
+- **Enchanting / Keen Eye: Rune Stones** rank 1 (none): Runes in the world will be easier to see when you are 20 meters or closer.
+  - no payload: Runes in the world will be easier to see when you are 20 meters or closer.
+- **Enchanting / Keen Eye: Rune Stones** rank 2 (none): Runes in the world will be easier to see when you are 30 meters or closer.
+  - no payload: Runes in the world will be easier to see when you are 30 meters or closer.
+- **Enchanting / Keen Eye: Rune Stones** rank 3 (none): Runes in the world will be easier to see when you are 40 meters or closer.
+  - no payload: Runes in the world will be easier to see when you are 40 meters or closer.
+- **Enchanting / Runestone Extraction** rank 1 (none): Increases the chance of extracting each type of Runestone by 3%.
+  - no payload: Increases the chance of extracting each type of Runestone by 3%.
+- **Enchanting / Runestone Extraction** rank 2 (none): Increases the chance of extracting each type of Runestone by 6%.
+  - no payload: Increases the chance of extracting each type of Runestone by 6%.
+- **Enchanting / Runestone Extraction** rank 3 (none): Increases the chance of extracting each type of Runestone by 10%.
+  - no payload: Increases the chance of extracting each type of Runestone by 10%.
 - **Excavation / Hand Brush** rank 1 (none): Removes 1 layer of soil or rock from a 1x1 area. Generates: 1 Intuition Maximum Intuition: 2.
   - no payload: Removes 1 layer of soil or rock from a 1x1 area.
   - no payload: Generates: 1 Intuition Maximum Intuition: 2.
@@ -284,12 +330,6 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - free-text condition on weapon_crit: under
   - free-text condition on spell_crit: under
   - free-text condition on max_health: under
-- **Grave Lord / Rapid Rot** rank 1 (partial): Increases your damage done with damage over time effects by 5%.
-  - free-text condition on dot_damage_pct: effects
-  - free-text condition on damage_done_pct: effects
-- **Grave Lord / Rapid Rot** rank 2 (partial): Increases your damage done with damage over time effects by 10%.
-  - free-text condition on dot_damage_pct: effects
-  - free-text condition on damage_done_pct: effects
 - **Green Balance / Nature's Gift** rank 1 (partial): When you overheal yourself or an ally with a Green Balance ability, you gain 125 Magicka and 125 Stamina, up to once every 1 second.
   - unconsumed ['125'] in: When you overheal yourself or an ally with a Green Balance ability, you gain 125 Magicka a
 - **Green Balance / Nature's Gift** rank 2 (partial): When you overheal yourself or an ally with a Green Balance ability, you gain 250 Magicka and 250 Stamina, up to once every 1 second.
@@ -437,6 +477,56 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - free-text condition on physical_resistance: experience gain heavy skill line
   - free-text condition on spell_resistance: experience gain heavy skill line
   - no payload: Increases your crafting inspiration gained by 10%.
+- **Provisioning / Recipe Improvement** rank 1 (none): Allows the making of up to level 19 Recipes.
+  - no payload: Allows the making of up to level 19 Recipes.
+- **Provisioning / Recipe Improvement** rank 2 (none): Allows the making of up to level 29 Recipes.
+  - no payload: Allows the making of up to level 29 Recipes.
+- **Provisioning / Recipe Improvement** rank 3 (none): Allows the making of up to level 39 Recipes.
+  - no payload: Allows the making of up to level 39 Recipes.
+- **Provisioning / Recipe Improvement** rank 4 (none): Allows the making of up to level 49 Recipes.
+  - no payload: Allows the making of up to level 49 Recipes.
+- **Provisioning / Recipe Improvement** rank 5 (none): Allows the making of up to Champion 50 Recipes.
+  - no payload: Allows the making of up to Champion 50 Recipes.
+- **Provisioning / Recipe Improvement** rank 6 (none): Allows the making of up to Champion 150 Recipes.
+  - no payload: Allows the making of up to Champion 150 Recipes.
+- **Provisioning / Gourmand** rank 1 (none): Adds 5 minutes to the duration of any eaten food.
+  - no payload: Adds 5 minutes to the duration of any eaten food.
+- **Provisioning / Gourmand** rank 2 (none): Adds 10 minutes to the duration of any eaten food.
+  - no payload: Adds 10 minutes to the duration of any eaten food.
+- **Provisioning / Gourmand** rank 3 (none): Adds 20 minutes to the duration of any eaten food.
+  - no payload: Adds 20 minutes to the duration of any eaten food.
+- **Provisioning / Connoisseur** rank 1 (none): Adds 5 minutes to the duration of any consumed drink.
+  - no payload: Adds 5 minutes to the duration of any consumed drink.
+- **Provisioning / Connoisseur** rank 2 (none): Adds 10 minutes to the duration of any consumed drink.
+  - no payload: Adds 10 minutes to the duration of any consumed drink.
+- **Provisioning / Connoisseur** rank 3 (none): Adds 20 minutes to the duration of any consumed drink.
+  - no payload: Adds 20 minutes to the duration of any consumed drink.
+- **Provisioning / Chef** rank 1 (none): Creates 1 extra serving for each food recipe made.
+  - no payload: Creates 1 extra serving for each food recipe made.
+- **Provisioning / Chef** rank 2 (none): Creates 2 extra servings for each food recipe made.
+  - no payload: Creates 2 extra servings for each food recipe made.
+- **Provisioning / Chef** rank 3 (none): Creates 3 extra servings for each food recipe made.
+  - no payload: Creates 3 extra servings for each food recipe made.
+- **Provisioning / Brewer** rank 1 (none): Creates 1 extra serving for each drink recipe made.
+  - no payload: Creates 1 extra serving for each drink recipe made.
+- **Provisioning / Brewer** rank 2 (none): Creates 2 extra servings for each drink recipe made.
+  - no payload: Creates 2 extra servings for each drink recipe made.
+- **Provisioning / Brewer** rank 3 (none): Creates 3 extra servings for each drink recipe made.
+  - no payload: Creates 3 extra servings for each drink recipe made.
+- **Psijic Order / Spell Orb** rank 1 (partial): When you cast a Psijic Order ability while you are in combat, you generate a spell charge for 10 seconds. When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing 1537 Magic Damage. This effect scales off your highest offensive stats.
+  - no payload: When you cast a Psijic Order ability while you are in combat, you generate a spell charge 
+  - unconsumed ['5'] in: When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing
+  - unknown trigger: you reach 5 spell charges
+- **Psijic Order / Spell Orb** rank 2 (partial): When you cast a Psijic Order ability while you are in combat, you generate a spell charge for 10 seconds. When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing 3071 Magic Damage. This effect scales off your highest offensive stats.
+  - no payload: When you cast a Psijic Order ability while you are in combat, you generate a spell charge 
+  - unconsumed ['5'] in: When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing
+  - unknown trigger: you reach 5 spell charges
+- **Psijic Order / Concentrated Barrier** rank 1 (partial): While you have a Psijic Order ability slotted and are Bracing, you gain a damage shield that absorbs 2500 damage. This damage shield recharges back to full strength after you spend 10 seconds not Bracing.
+  - no payload: This damage shield recharges back to full strength after you spend 10 seconds not Bracing.
+- **Psijic Order / Concentrated Barrier** rank 2 (partial): While you have a Psijic Order ability slotted and are Bracing, you gain a damage shield that absorbs 5000 damage. This damage shield recharges back to full strength after you spend 10 seconds not Bracing.
+  - no payload: This damage shield recharges back to full strength after you spend 10 seconds not Bracing.
+- **Psijic Order / Deliberation** rank 1 (partial): While you are casting or channeling a Psijic Order ability you reduce your damage taken by 30%.
+  - unrecognized while-condition: While you are casting or channeling a Psijic Order ability you reduce 
 - **Redguard / Wayfarer** rank 1 (none): Increases your experience gain with the One Hand and Shield skill line by 15%. Increases the duration of any eaten food by 15 minutes.
   - no payload: Increases your experience gain with the One Hand and Shield skill line by 15%.
   - no payload: Increases the duration of any eaten food by 15 minutes.
@@ -620,12 +710,6 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - no payload: Increases your Stealth Detection radius by 2 meters.
 - **Wood Elf / Hunter's Eye** rank 3 (partial): Increases your Stealth Detection radius by 3 meters. Increases your Movement Speed by 5% and your Physical Penetration and Spell Penetration by 950.
   - no payload: Increases your Stealth Detection radius by 3 meters.
-- **Wood Elf / Resist Affliction** rank 1 (partial): Increases your Max Stamina by 600 and your Disease and Poison Resistance by 660.
-  - unconsumed ['660'] in: Increases your Max Stamina by 600 and your Disease and Poison Resistance by 660.
-- **Wood Elf / Resist Affliction** rank 2 (partial): Increases your Max Stamina by 1200 and your Disease and Poison Resistance by 1320.
-  - unconsumed ['1320'] in: Increases your Max Stamina by 1200 and your Disease and Poison Resistance by 1320.
-- **Wood Elf / Resist Affliction** rank 3 (partial): Increases your Max Stamina by 2000 and your Disease and Poison Resistance by 2310.
-  - unconsumed ['2310'] in: Increases your Max Stamina by 2000 and your Disease and Poison Resistance by 2310.
 - **Ardent Flame / Dragonknight Standard** (partial): Call down a battle standard for 15 seconds, rallying you and group members inside the area, increasing Weapon Damage and Spell Damage by 300 and reducing damage taken by 10%. An ally near the standard can activate the Shackle Synergy synergy, dealing 9225 Flame Damage to enemies in the area and immobilizing them for 5 seconds.
   - timed weapon_damage without a trigger
   - timed spell_damage without a trigger
@@ -704,9 +788,13 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - timed major_resolve without a trigger
   - unconsumed ['5', '65'] in: Also grants you immunity to knockback and disabling effects for 6 seconds, but reduces you
   - free-text condition on block_mitigation_pct: potency snare
-- **Restoration Staff / Healing Springs** (partial): Call upon restoring spirits with your staff, healing you and your allies in the target area for 12672 Health over 10 seconds. Increases your Magicka by 15 for each target affected, stacking up to 20 times.
+- **Psijic Order / Introspection** (partial): Focus your body and mind into a meditative state, healing for 1800 Health and restoring 1500 Magicka and Stamina every 1 second. Maintaining the channel increases the Health restored by 10% every tick, up to a maximum of 50%. You will remain in a meditative state until you toggle this ability off or are interrupted.
   - heal without a trigger
-- **Revitalizing Researcher / Zone of Recuperation** (partial): Azandar outlines a domain of eldritch power, healing them and their allies standing within for 525 Health over 8 seconds and granting 150 Health, Magicka, and Stamina Recovery.
+  - resource_restore without a trigger
+  - resource_restore without a trigger
+  - unconsumed ['50'] in: Maintaining the channel increases the Health restored by 10% every tick, up to a maximum o
+  - free-text condition on max_health: restored
+- **Restoration Staff / Healing Springs** (partial): Call upon restoring spirits with your staff, healing you and your allies in the target area for 12672 Health over 10 seconds. Increases your Magicka by 15 for each target affected, stacking up to 20 times.
   - heal without a trigger
 - **Soldier of Apocrypha / Unbreakable Fate** (partial): Forge defiant runic armor around you, granting 5% Block Mitigation and Major Resolve for 20 seconds, increasing your Armor by 5948 for 20 seconds. Consume Crux to gain 5% additional Block Mitigation per Crux spent. While the armor persists, taking damage applies Minor Breach, reducing the Armor of your attacker by 2974 for 6 seconds.
   - timed major_resolve without a trigger
@@ -768,9 +856,6 @@ confirms them. See docs/SET_SUPPORT_TABLES.md for the spot-check list.
   - free-text condition on healing_done_pct: heals
 - **Swift Renewal** (partial): Increases your Healing Done with healing over time effects by 2% per stage
   - free-text condition on healing_done_pct: healing effects
-- **Thaumaturge** (partial): Increases your damage done with damage over time effects by 3% per stage.
-  - free-text condition on dot_damage_pct: effects
-  - free-text condition on damage_done_pct: effects
 - **Reaving Blows** (none): When you deal Direct Damage you heal for 7% of the damage done.
   - no payload: When you deal Direct Damage you heal for 7% of the damage done.
 - **Last Stand** (partial): When you take damage below 20% Health you gain Major Heroism, granting 3 Ultimate every 1.5 seconds for 9 seconds. This effect can occur once every 9 seconds.

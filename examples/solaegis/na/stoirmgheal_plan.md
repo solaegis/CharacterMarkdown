@@ -20,7 +20,7 @@ Both armories share one craftable body and jewelry loadout (**5 Order's Wrath + 
 | **Armory 1 bars** | Front: Lightning Destruction ("The Harvest Storm") · Back: Restoration ("The Verdant Refuge") — **work this first** |
 | **Armory 2 bars** | Front: Restoration ("The Altar") · Back: Lightning Destruction ("The Conduit") — build after overland is solid |
 | **Food** | **Witchmother's Potent Brew** or **Clockwork Citrus Filet** (Max Magicka + Magicka Recovery) · hard pulls: **Bewitched Sugar Skulls** |
-| **Potion** | **Essence of Spell Power** (Major Sorcery / Prophecy / Intellect) · flex: **Tri-Restoration** / Crown Tri-Restoration |
+| **Potion** | **Essence of Heroism** (U51: Major Brutality + Major Savagery) · flex: **Tri-Restoration** / Crown Tri-Restoration |
 | **Weapon Poisons** | Optional on destruction bar between overland pulls: **Gradual Ravage Health IX** |
 | **Staff Enchant** | Lightning: **Infused** + **Shock Damage** (or Spell Damage) · Resto: **Powered** or **Precise** + **Absorb Magicka** / **Decrease Spell Cost** |
 | **Companion** | **Primary (overland):** **Tanlorin** (tank/anchor) · **Group healer:** dismiss in organized content · companion-only gear |
@@ -234,7 +234,7 @@ Create two named builds (Armory slots + matching Wizard's Wardrobe profiles):
 | **Altar Healer** | Resto front · Lightning back | Armory 1 bars | Healer Warfare set | **The Atronach** | Shared OW + WV (include or omit—identical) |
 | **Storm Overland** | Lightning front · Resto back | Armory 2 bars | Overland Warfare set | **The Apprentice** | Same pieces; Armory swaps which staff is front |
 
-Food/potion can be saved per WW profile if you use different consumables; default both to Witchmother's / Clockwork Citrus + Essence of Spell Power.
+Food/potion can be saved per WW profile if you use different consumables; default both to Witchmother's / Clockwork Citrus + Essence of Heroism.
 
 ---
 

@@ -102,7 +102,6 @@
      "Dark Conversion",
      "Dark Deal",
      "Dark Exchange",
-     "Fate Omen's Inspiration",
      "Hircine's Rage"
     ],
     "passives": [
@@ -567,8 +566,10 @@
      "Speed Potion or Poison"
     ],
     "skills": [
+     "Accelerate",
      "Bird of Prey",
      "Boundless Storm",
+     "Channeled Acceleration",
      "Deceptive Predator",
      "Elude",
      "Elusive Mist",
@@ -579,6 +580,7 @@
      "Path of Darkness",
      "Protect the Brood",
      "Quick Cloak",
+     "Race Against Time",
      "Rapid Maneuver",
      "Refreshing Path",
      "Retreating Maneuver",
@@ -629,10 +631,13 @@
      "Vault"
     ],
     "skills": [
+     "Accelerate",
      "Barbed Trap",
+     "Channeled Acceleration",
      "Deafening Roar",
      "Ferocious Roar",
      "Lightweight Beast Trap",
+     "Race Against Time",
      "Roar",
      "Stalwart Guard",
      "Trap Beast"
@@ -982,7 +987,6 @@
      "Bound Armor",
      "Circle of Protection",
      "Dark Cloak",
-     "Dark Moon Totem",
      "Deafening Roar",
      "Elemental Ring",
      "Ice Fortress",
@@ -997,6 +1001,7 @@
      "Runic Defense",
      "Shadow Cloak",
      "Shadowy Disguise",
+     "Temporal Guard",
      "Turn Evil"
     ],
     "passives": [
@@ -1159,11 +1164,10 @@
      "Ice Fortress",
      "Immovable",
      "Lightning Form",
-     "Perigean Armor",
+     "Mend Spirit",
      "Restoring Focus",
      "Rune Focus",
      "Shatterspike Mantle",
-     "Sleetmail",
      "Summoner's Armor",
      "Unbreakable Fate",
      "Unstoppable",
@@ -1502,6 +1506,7 @@
      "Breach on Wield Soul"
     ],
     "skills": [
+     "Crushing Weapon",
      "Disintegrating Dragonfire",
      "Elemental Drain",
      "Elemental Susceptibility",
@@ -1513,7 +1518,6 @@
      "Razor Caltrops",
      "Reaper's Mark",
      "Rip and Tear",
-     "Sepulchral Chill",
      "Unnerving Boneyard",
      "Weakness to Elements"
     ]
@@ -1668,7 +1672,6 @@
     "skills": [
      "Blood Sacrifice",
      "Lethal Arrow",
-     "Penance of Lorkhaj",
      "Render Flesh",
      "Resistant Flesh"
     ]
@@ -1824,7 +1827,6 @@
      "Ulfsild's Contingency"
     ],
     "skills": [
-     "Blade of the Crossing",
      "Elemental Drain",
      "Siphon Spirit"
     ]
@@ -1880,7 +1882,6 @@
      "Runic Embrace",
      "Runic Jolt",
      "Runic Sunder",
-     "Scathing Rune",
      "Shadow Image",
      "Summon Shade",
      "Sun Shield"
@@ -2044,7 +2045,6 @@
      "Fetcher Infection",
      "Fossilize",
      "Growing Swarm",
-     "Infest",
      "Inner Beast",
      "Lotus Fan",
      "Rune of Eldritch Horror",
@@ -2052,7 +2052,6 @@
      "Rune of the Colorless Pool",
      "Swarm",
      "Teleport Strike",
-     "Tendrils of the Colorless Sea",
      "Unnerving Boneyard"
     ]
    }
@@ -2081,8 +2080,7 @@
     "skills": [
      "Frozen Colossus",
      "Glacial Colossus",
-     "Pestilent Colossus",
-     "Vigorous Tentacular Eruption"
+     "Pestilent Colossus"
     ]
    }
   },

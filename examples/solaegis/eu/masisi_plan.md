@@ -135,7 +135,7 @@ Clear the camp, harvest the node, remount. Melee is always **front**; Bow is alw
 
 ```mermaid
 flowchart TD
-    A["Eat/drink via EAP · pot Weapon Power or Speed"] --> B["Back: Inferno or Flames · Endless Hail · Consuming Trap · Igneous Shield"]
+    A["Eat/drink via EAP · pot Essence of Heroism or Speed"] --> B["Back: Inferno or Flames · Endless Hail · Consuming Trap · Igneous Shield"]
     B --> C["Swap front"]
     C --> D["Deadly Cloak · Lotus Fan · Searing Claw"]
     D --> E["Weave LA + Rapid Strikes · Death Stroke or Incapacitating on elites"]
@@ -144,7 +144,7 @@ flowchart TD
 ```
 
 
-1. **Pre-stretch:** Let **EsoAutoProvision** keep food/drink up; pot **Essence of Speed** for empty road or **Weapon Power** before public-dungeon / dense camps.
+1. **Pre-stretch:** Let **EsoAutoProvision** keep food/drink up; pot **Essence of Speed** for empty road or **Essence of Heroism** before public-dungeon / dense camps.
 2. **Banner / buff:** Refresh **Inferno** (morph to **Flames of Oblivion** when ready) and drop **Endless Hail** + **Consuming Trap** on the pack before swapping front.
 3. **Pack clear:** Cloak → Lotus Fan → Searing Claw → Rapid Strikes weave under Hail; **Death Stroke** / **Incapacitating Strike** on the elite or when the pack is half dead.
 4. **Public dungeon filler:** Same; keep **Igneous Shield** for boss trash; do not stand and parse — clear the room that blocks the route, leave.

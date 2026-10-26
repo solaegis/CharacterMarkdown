@@ -4,12 +4,12 @@
  "source": {
   "wiki": "en.uesp.net",
   "max_revid": 3652147,
-  "pages": 511,
+  "pages": 472,
   "patches": [
    "u51"
   ]
  },
- "count": 239,
+ "count": 262,
  "items": [
   {
    "key": "piercing_spear",
@@ -157,11 +157,13 @@
        "unit": null,
        "scope": "self",
        "kind": "buff_grant",
-       "condition": {
-        "type": "text",
-        "text": "when activating an aedric spear ability"
+       "condition": null,
+       "trigger": {
+        "on": "cast_skill",
+        "chance": null,
+        "cooldown_s": null,
+        "skill_line": "Aedric Spear"
        },
-       "trigger": null,
        "duration_s": 3,
        "stacks": null,
        "damage": null,
@@ -176,11 +178,13 @@
        "unit": null,
        "scope": "self",
        "kind": "buff_grant",
-       "condition": {
-        "type": "text",
-        "text": "when activating an aedric spear ability"
+       "condition": null,
+       "trigger": {
+        "on": "cast_skill",
+        "chance": null,
+        "cooldown_s": null,
+        "skill_line": "Aedric Spear"
        },
-       "trigger": null,
        "duration_s": 3,
        "stacks": null,
        "damage": null,
@@ -200,11 +204,13 @@
        "unit": null,
        "scope": "self",
        "kind": "buff_grant",
-       "condition": {
-        "type": "text",
-        "text": "when activating an aedric spear ability"
+       "condition": null,
+       "trigger": {
+        "on": "cast_skill",
+        "chance": null,
+        "cooldown_s": null,
+        "skill_line": "Aedric Spear"
        },
-       "trigger": null,
        "duration_s": 6,
        "stacks": null,
        "damage": null,
@@ -219,11 +225,13 @@
        "unit": null,
        "scope": "self",
        "kind": "buff_grant",
-       "condition": {
-        "type": "text",
-        "text": "when activating an aedric spear ability"
+       "condition": null,
+       "trigger": {
+        "on": "cast_skill",
+        "chance": null,
+        "cooldown_s": null,
+        "skill_line": "Aedric Spear"
        },
-       "trigger": null,
        "duration_s": 6,
        "stacks": null,
        "damage": null,
@@ -236,7 +244,7 @@
     }
    ],
    "patch": "u51",
-   "verified": false,
+   "verified": true,
    "uesp": "https://en.uesp.net/wiki/Online:Spear_Wall"
   },
   {
@@ -360,6 +368,513 @@
    "patch": "u51",
    "verified": false,
    "uesp": "https://en.uesp.net/wiki/Online:Balanced_Warrior"
+  },
+  {
+   "key": "solvent_proficiency",
+   "name": "Solvent Proficiency",
+   "category": "skill_line",
+   "line": "Alchemy",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Natural Water and Grease to make Level 3 potions and poisons and Clear Water and Ichor to make Level 10 potions and poisons."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Pristine Water and Slime to make Level 20 potions and poisons."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Cleansed Water and Gall to make Level 30 potions and poisons."
+      }
+     ]
+    },
+    {
+     "rank": 4,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Filtered Water and Terebinthine to make Level 40 potions and poisons."
+      }
+     ]
+    },
+    {
+     "rank": 5,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Purified Water and Pitch-Bile to make Champion 10 potions and poisons."
+      }
+     ]
+    },
+    {
+     "rank": 6,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Cloud Mist and Tarblack to make Champion 50 potions and poisons."
+      }
+     ]
+    },
+    {
+     "rank": 7,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Star Dew and Night-Oil to make Champion 100 potions and poisons."
+      }
+     ]
+    },
+    {
+     "rank": 8,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the Alchemist to use Lorkhan's Tears and Alkahest to make Champion 150 potions and poisons."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Solvent_Proficiency"
+  },
+  {
+   "key": "reagents",
+   "name": "Keen Eye: Reagents",
+   "category": "skill_line",
+   "line": "Alchemy",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Herbs and fungi in the world will be easier to see when you are 20 meters or closer."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Herbs and fungi in the world will be easier to see when you are 30 meters or closer."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Herbs and fungi in the world will be easier to see when you are 40 meters or closer."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Keen_Eye%3A_Reagents"
+  },
+  {
+   "key": "medicinal_use",
+   "name": "Medicinal Use",
+   "category": "skill_line",
+   "line": "Alchemy",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "potion_duration_pct",
+       "value": 10,
+       "unit": "pct",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "When using potions, resulting effects last 10% longer."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "potion_duration_pct",
+       "value": 20,
+       "unit": "pct",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "When using potions, resulting effects last 20% longer."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "potion_duration_pct",
+       "value": 30,
+       "unit": "pct",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "When using potions, resulting effects last 30% longer."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Medicinal_Use"
+  },
+  {
+   "key": "chemistry",
+   "name": "Chemistry",
+   "category": "skill_line",
+   "line": "Alchemy",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Produces 1 extra potion or 4 extra poisons per crafting attempt."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Produces 2 extra potions or 8 extra poisons per crafting attempt."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Produces 3 extra potions or 12 extra poisons per crafting attempt."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Chemistry"
+  },
+  {
+   "key": "laboratory_use",
+   "name": "Laboratory Use",
+   "category": "skill_line",
+   "line": "Alchemy",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of up to 3 reagents while mixing Potions or Poisons."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Laboratory_Use"
+  },
+  {
+   "key": "snakeblood",
+   "name": "Snakeblood",
+   "category": "skill_line",
+   "line": "Alchemy",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Reduces duration of negative effects in potions by 50% when consumed."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Reduces duration of negative effects in potions by 80% when consumed."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Reduces duration of negative effects in potions by 100% when consumed."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Snakeblood"
   },
   {
    "key": "bond_with_nature",
@@ -954,6 +1469,38 @@
      "rank": 1,
      "effects": [
       {
+       "stat": "disease_resistance",
+       "value": 660,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Health by 333 and your Disease and Poison Resistance by 660."
+      },
+      {
+       "stat": "poison_resistance",
+       "value": 660,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Health by 333 and your Disease and Poison Resistance by 660."
+      },
+      {
        "stat": "max_health",
        "value": 333,
        "unit": "flat",
@@ -974,6 +1521,38 @@
     {
      "rank": 2,
      "effects": [
+      {
+       "stat": "disease_resistance",
+       "value": 1320,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Health by 666 and your Disease and Poison Resistance by 1320."
+      },
+      {
+       "stat": "poison_resistance",
+       "value": 1320,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Health by 666 and your Disease and Poison Resistance by 1320."
+      },
       {
        "stat": "max_health",
        "value": 666,
@@ -996,6 +1575,38 @@
      "rank": 3,
      "effects": [
       {
+       "stat": "disease_resistance",
+       "value": 2310,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Health by 1000 and your Disease and Poison Resistance by 2310."
+      },
+      {
+       "stat": "poison_resistance",
+       "value": 2310,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Health by 1000 and your Disease and Poison Resistance by 2310."
+      },
+      {
        "stat": "max_health",
        "value": 1000,
        "unit": "flat",
@@ -1015,7 +1626,7 @@
     }
    ],
    "patch": "u51",
-   "verified": false,
+   "verified": true,
    "uesp": "https://en.uesp.net/wiki/Online:Argonian_Resistance"
   },
   {
@@ -1535,13 +2146,17 @@
        "stat": "minor_savagery",
        "value": null,
        "unit": null,
-       "scope": "self",
+       "scope": "group",
        "kind": "buff_grant",
        "condition": {
         "type": "skill_slotted",
         "value": "Assassination"
        },
-       "trigger": null,
+       "trigger": {
+        "on": "deal_crit",
+        "chance": null,
+        "cooldown_s": null
+       },
        "duration_s": 10,
        "stacks": null,
        "damage": null,
@@ -1578,13 +2193,17 @@
        "stat": "minor_savagery",
        "value": null,
        "unit": null,
-       "scope": "self",
+       "scope": "group",
        "kind": "buff_grant",
        "condition": {
         "type": "skill_slotted",
         "value": "Assassination"
        },
-       "trigger": null,
+       "trigger": {
+        "on": "deal_crit",
+        "chance": null,
+        "cooldown_s": null
+       },
        "duration_s": 20,
        "stacks": null,
        "damage": null,
@@ -1597,7 +2216,7 @@
     }
    ],
    "patch": "u51",
-   "verified": false,
+   "verified": true,
    "uesp": "https://en.uesp.net/wiki/Online:Hemorrhage"
   },
   {
@@ -1614,15 +2233,18 @@
        "value": 5,
        "unit": "pct",
        "scope": "self",
-       "kind": "static",
+       "kind": "proc",
        "condition": null,
-       "trigger": null,
-       "duration_s": null,
+       "trigger": {
+        "on": "capture_objective",
+        "text": "capture a Lumber Mill, Farm, Mine, or Keep"
+       },
+       "duration_s": 600,
        "stacks": null,
        "damage": null,
        "buff_ref": null,
-       "uptime_est": 1.0,
-       "uptime_source": "static",
+       "uptime_est": null,
+       "uptime_source": null,
        "raw": "Increases your Weapon Damage and Spell Damage by 5% and Health, Magicka, and Stamina by 10% for 10 minutes after you capture a Lumber Mill, Farm, Mine, or Keep. Gain Gallop at all times, increasing your Mount Speed by 15%."
       },
       {
@@ -1630,15 +2252,18 @@
        "value": 5,
        "unit": "pct",
        "scope": "self",
-       "kind": "static",
+       "kind": "proc",
        "condition": null,
-       "trigger": null,
-       "duration_s": null,
+       "trigger": {
+        "on": "capture_objective",
+        "text": "capture a Lumber Mill, Farm, Mine, or Keep"
+       },
+       "duration_s": 600,
        "stacks": null,
        "damage": null,
        "buff_ref": null,
-       "uptime_est": 1.0,
-       "uptime_source": "static",
+       "uptime_est": null,
+       "uptime_source": null,
        "raw": "Increases your Weapon Damage and Spell Damage by 5% and Health, Magicka, and Stamina by 10% for 10 minutes after you capture a Lumber Mill, Farm, Mine, or Keep. Gain Gallop at all times, increasing your Mount Speed by 15%."
       },
       {
@@ -1667,15 +2292,18 @@
        "value": 10,
        "unit": "pct",
        "scope": "self",
-       "kind": "static",
+       "kind": "proc",
        "condition": null,
-       "trigger": null,
-       "duration_s": null,
+       "trigger": {
+        "on": "capture_objective",
+        "text": "capture a Lumber Mill, Farm, Mine, or Keep"
+       },
+       "duration_s": 600,
        "stacks": null,
        "damage": null,
        "buff_ref": null,
-       "uptime_est": 1.0,
-       "uptime_source": "static",
+       "uptime_est": null,
+       "uptime_source": null,
        "raw": "Increases your Weapon Damage and Spell Damage by 10% and Health, Magicka, and Stamina by 20% for 10 minutes after you capture a Lumber Mill, Farm, Mine, or Keep. Gain Gallop at all times, increasing your Mount Speed by 15%."
       },
       {
@@ -1683,15 +2311,18 @@
        "value": 10,
        "unit": "pct",
        "scope": "self",
-       "kind": "static",
+       "kind": "proc",
        "condition": null,
-       "trigger": null,
-       "duration_s": null,
+       "trigger": {
+        "on": "capture_objective",
+        "text": "capture a Lumber Mill, Farm, Mine, or Keep"
+       },
+       "duration_s": 600,
        "stacks": null,
        "damage": null,
        "buff_ref": null,
-       "uptime_est": 1.0,
-       "uptime_source": "static",
+       "uptime_est": null,
+       "uptime_source": null,
        "raw": "Increases your Weapon Damage and Spell Damage by 10% and Health, Magicka, and Stamina by 20% for 10 minutes after you capture a Lumber Mill, Farm, Mine, or Keep. Gain Gallop at all times, increasing your Mount Speed by 15%."
       },
       {
@@ -2654,51 +3285,17 @@
         "type": "weapon_equipped",
         "value": "Bow"
        },
-       "trigger": null,
+       "trigger": {
+        "on": "dodge",
+        "chance": null,
+        "cooldown_s": null
+       },
        "duration_s": 2,
        "stacks": null,
        "damage": null,
        "buff_ref": "major_expedition",
        "uptime_est": null,
        "uptime_source": null,
-       "raw": "WITH BOW EQUIPPED Grants you Major Expedition for 2 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%."
-      },
-      {
-       "stat": "major_expedition",
-       "value": null,
-       "unit": null,
-       "scope": "self",
-       "kind": "buff_grant",
-       "condition": {
-        "type": "weapon_equipped",
-        "value": "Bow"
-       },
-       "trigger": null,
-       "duration_s": null,
-       "stacks": null,
-       "damage": null,
-       "buff_ref": "major_expedition",
-       "uptime_est": 1.0,
-       "uptime_source": "static",
-       "raw": "WITH BOW EQUIPPED Grants you Major Expedition for 2 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%."
-      },
-      {
-       "stat": "movement_speed_pct",
-       "value": 30,
-       "unit": "pct",
-       "scope": "self",
-       "kind": "conditional",
-       "condition": {
-        "type": "weapon_equipped",
-        "value": "Bow"
-       },
-       "trigger": null,
-       "duration_s": null,
-       "stacks": null,
-       "damage": null,
-       "buff_ref": null,
-       "uptime_est": 1.0,
-       "uptime_source": "static",
        "raw": "WITH BOW EQUIPPED Grants you Major Expedition for 2 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%."
       }
      ]
@@ -2716,7 +3313,11 @@
         "type": "weapon_equipped",
         "value": "Bow"
        },
-       "trigger": null,
+       "trigger": {
+        "on": "dodge",
+        "chance": null,
+        "cooldown_s": null
+       },
        "duration_s": 4,
        "stacks": null,
        "damage": null,
@@ -2724,50 +3325,12 @@
        "uptime_est": null,
        "uptime_source": null,
        "raw": "WITH BOW EQUIPPED Grants you Major Expedition for 4 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%."
-      },
-      {
-       "stat": "major_expedition",
-       "value": null,
-       "unit": null,
-       "scope": "self",
-       "kind": "buff_grant",
-       "condition": {
-        "type": "weapon_equipped",
-        "value": "Bow"
-       },
-       "trigger": null,
-       "duration_s": null,
-       "stacks": null,
-       "damage": null,
-       "buff_ref": "major_expedition",
-       "uptime_est": 1.0,
-       "uptime_source": "static",
-       "raw": "WITH BOW EQUIPPED Grants you Major Expedition for 4 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%."
-      },
-      {
-       "stat": "movement_speed_pct",
-       "value": 30,
-       "unit": "pct",
-       "scope": "self",
-       "kind": "conditional",
-       "condition": {
-        "type": "weapon_equipped",
-        "value": "Bow"
-       },
-       "trigger": null,
-       "duration_s": null,
-       "stacks": null,
-       "damage": null,
-       "buff_ref": null,
-       "uptime_est": 1.0,
-       "uptime_source": "static",
-       "raw": "WITH BOW EQUIPPED Grants you Major Expedition for 4 seconds after you use Roll Dodge. Major Expedition increases your Movement Speed by 30%."
       }
      ]
     }
    ],
    "patch": "u51",
-   "verified": false,
+   "verified": true,
    "uesp": "https://en.uesp.net/wiki/Online:Hasty_Retreat"
   },
   {
@@ -7075,6 +7638,404 @@
    "uesp": "https://en.uesp.net/wiki/Online:Mountain_Giant"
   },
   {
+   "key": "potency_improvement",
+   "name": "Potency Improvement",
+   "category": "skill_line",
+   "line": "Enchanting",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Jora, Porade, Jode and Notade Potency Runestones to make Glyphs of levels 1-15."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Jera, Jejora, Ode and Tade Potency Runestones to make Glyphs of levels 10-25."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Odra, Pojora, Jayde and Edode Potency Runestones to make Glyphs of levels 20-35."
+      }
+     ]
+    },
+    {
+     "rank": 4,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Edora, Jaera, Pojode, and Rekude Potency Runestones to make Glyphs of levels 30-45."
+      }
+     ]
+    },
+    {
+     "rank": 5,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Pora, Denara, Hade and Idode Potency Runestones to make Glyphs from level 40 to Champion 30."
+      }
+     ]
+    },
+    {
+     "rank": 6,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Rera and Pode Potency Runestones to make Glyphs of Champion 30-50."
+      }
+     ]
+    },
+    {
+     "rank": 7,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Derado and Kedeko Potency Runestones to make Glyphs of Champion 50-70."
+      }
+     ]
+    },
+    {
+     "rank": 8,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Rekura and Rede Potency Runestones to make Glyphs of Champion 70-90."
+      }
+     ]
+    },
+    {
+     "rank": 9,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the use of Kura and Kude Potency Runestones to make Glyphs of Champion 100-140."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Potency_Improvement"
+  },
+  {
+   "key": "aspect_improvement",
+   "name": "Aspect Improvement",
+   "category": "skill_line",
+   "line": "Enchanting",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": []
+    },
+    {
+     "rank": 2,
+     "effects": []
+    },
+    {
+     "rank": 3,
+     "effects": []
+    },
+    {
+     "rank": 4,
+     "effects": []
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Aspect_Improvement"
+  },
+  {
+   "key": "rune_stones",
+   "name": "Keen Eye: Rune Stones",
+   "category": "skill_line",
+   "line": "Enchanting",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Runes in the world will be easier to see when you are 20 meters or closer."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Runes in the world will be easier to see when you are 30 meters or closer."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Runes in the world will be easier to see when you are 40 meters or closer."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Keen_Eye%3A_Rune_Stones"
+  },
+  {
+   "key": "hireling_enchanting",
+   "name": "Hireling",
+   "category": "skill_line",
+   "line": "Enchanting",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": []
+    },
+    {
+     "rank": 2,
+     "effects": []
+    },
+    {
+     "rank": 3,
+     "effects": []
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Hireling_(Enchanting)"
+  },
+  {
+   "key": "runestone_extraction",
+   "name": "Runestone Extraction",
+   "category": "skill_line",
+   "line": "Enchanting",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Increases the chance of extracting each type of Runestone by 3%."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Increases the chance of extracting each type of Runestone by 6%."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Increases the chance of extracting each type of Runestone by 10%."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Runestone_Extraction"
+  },
+  {
    "key": "hand_brush",
    "name": "Hand Brush",
    "category": "skill_line",
@@ -8160,37 +9121,15 @@
        "value": 5,
        "unit": "pct",
        "scope": "self",
-       "kind": "conditional",
-       "condition": {
-        "type": "text",
-        "text": "effects"
-       },
+       "kind": "static",
+       "condition": null,
        "trigger": null,
        "duration_s": null,
        "stacks": null,
        "damage": null,
        "buff_ref": null,
-       "uptime_est": null,
-       "uptime_source": null,
-       "raw": "Increases your damage done with damage over time effects by 5%."
-      },
-      {
-       "stat": "damage_done_pct",
-       "value": 5,
-       "unit": "pct",
-       "scope": "self",
-       "kind": "conditional",
-       "condition": {
-        "type": "text",
-        "text": "effects"
-       },
-       "trigger": null,
-       "duration_s": null,
-       "stacks": null,
-       "damage": null,
-       "buff_ref": null,
-       "uptime_est": null,
-       "uptime_source": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
        "raw": "Increases your damage done with damage over time effects by 5%."
       }
      ]
@@ -8203,44 +9142,22 @@
        "value": 10,
        "unit": "pct",
        "scope": "self",
-       "kind": "conditional",
-       "condition": {
-        "type": "text",
-        "text": "effects"
-       },
+       "kind": "static",
+       "condition": null,
        "trigger": null,
        "duration_s": null,
        "stacks": null,
        "damage": null,
        "buff_ref": null,
-       "uptime_est": null,
-       "uptime_source": null,
-       "raw": "Increases your damage done with damage over time effects by 10%."
-      },
-      {
-       "stat": "damage_done_pct",
-       "value": 10,
-       "unit": "pct",
-       "scope": "self",
-       "kind": "conditional",
-       "condition": {
-        "type": "text",
-        "text": "effects"
-       },
-       "trigger": null,
-       "duration_s": null,
-       "stacks": null,
-       "damage": null,
-       "buff_ref": null,
-       "uptime_est": null,
-       "uptime_source": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
        "raw": "Increases your damage done with damage over time effects by 10%."
       }
      ]
     }
    ],
    "patch": "u51",
-   "verified": false,
+   "verified": true,
    "uesp": "https://en.uesp.net/wiki/Online:Rapid_Rot"
   },
   {
@@ -14437,6 +15354,785 @@
    "uesp": "https://en.uesp.net/wiki/Online:Swift_Warrior"
   },
   {
+   "key": "recipe_improvement",
+   "name": "Recipe Improvement",
+   "category": "skill_line",
+   "line": "Provisioning",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the making of up to level 19 Recipes."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the making of up to level 29 Recipes."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the making of up to level 39 Recipes."
+      }
+     ]
+    },
+    {
+     "rank": 4,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the making of up to level 49 Recipes."
+      }
+     ]
+    },
+    {
+     "rank": 5,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the making of up to Champion 50 Recipes."
+      }
+     ]
+    },
+    {
+     "rank": 6,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Allows the making of up to Champion 150 Recipes."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Recipe_Improvement"
+  },
+  {
+   "key": "recipe_quality",
+   "name": "Recipe Quality",
+   "category": "skill_line",
+   "line": "Provisioning",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": []
+    },
+    {
+     "rank": 2,
+     "effects": []
+    },
+    {
+     "rank": 3,
+     "effects": []
+    },
+    {
+     "rank": 4,
+     "effects": []
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Recipe_Quality"
+  },
+  {
+   "key": "gourmand",
+   "name": "Gourmand",
+   "category": "skill_line",
+   "line": "Provisioning",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Adds 5 minutes to the duration of any eaten food."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Adds 10 minutes to the duration of any eaten food."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Adds 20 minutes to the duration of any eaten food."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Gourmand"
+  },
+  {
+   "key": "connoisseur",
+   "name": "Connoisseur",
+   "category": "skill_line",
+   "line": "Provisioning",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Adds 5 minutes to the duration of any consumed drink."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Adds 10 minutes to the duration of any consumed drink."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Adds 20 minutes to the duration of any consumed drink."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Connoisseur"
+  },
+  {
+   "key": "chef",
+   "name": "Chef",
+   "category": "skill_line",
+   "line": "Provisioning",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Creates 1 extra serving for each food recipe made."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Creates 2 extra servings for each food recipe made."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Creates 3 extra servings for each food recipe made."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Chef"
+  },
+  {
+   "key": "brewer",
+   "name": "Brewer",
+   "category": "skill_line",
+   "line": "Provisioning",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Creates 1 extra serving for each drink recipe made."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Creates 2 extra servings for each drink recipe made."
+      }
+     ]
+    },
+    {
+     "rank": 3,
+     "effects": [
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Creates 3 extra servings for each drink recipe made."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Brewer"
+  },
+  {
+   "key": "hireling_provisioning",
+   "name": "Hireling",
+   "category": "skill_line",
+   "line": "Provisioning",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": []
+    },
+    {
+     "rank": 2,
+     "effects": []
+    },
+    {
+     "rank": 3,
+     "effects": []
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Hireling_(Provisioning)"
+  },
+  {
+   "key": "see_the_unseen",
+   "name": "See the Unseen",
+   "category": "guild",
+   "line": "Psijic Order",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": []
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:See_the_Unseen"
+  },
+  {
+   "key": "clairvoyance",
+   "name": "Clairvoyance",
+   "category": "guild",
+   "line": "Psijic Order",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "ability_cost_pct",
+       "value": -8,
+       "unit": "pct",
+       "scope": "self",
+       "kind": "conditional",
+       "condition": {
+        "type": "skill_line",
+        "name": "Psijic Order"
+       },
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Reduces the cost of your Psijic Order abilities by 8%."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "ability_cost_pct",
+       "value": -15,
+       "unit": "pct",
+       "scope": "self",
+       "kind": "conditional",
+       "condition": {
+        "type": "skill_line",
+        "name": "Psijic Order"
+       },
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "Reduces the cost of your Psijic Order abilities by 15%."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Clairvoyance"
+  },
+  {
+   "key": "spell_orb",
+   "name": "Spell Orb",
+   "category": "guild",
+   "line": "Psijic Order",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "proc_damage",
+       "value": 1537,
+       "unit": "flat",
+       "scope": "target",
+       "kind": "damage",
+       "condition": null,
+       "trigger": {
+        "on": "other",
+        "chance": null,
+        "cooldown_s": null,
+        "text": "you reach 5 spell charges"
+       },
+       "duration_s": null,
+       "stacks": null,
+       "damage": {
+        "type": "magic"
+       },
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "When you cast a Psijic Order ability while you are in combat, you generate a spell charge for 10 seconds. When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing 1537 Magic Damage. This effect scales off your highest offensive stats."
+      },
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "When you cast a Psijic Order ability while you are in combat, you generate a spell charge for 10 seconds. When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing 1537 Magic Damage. This effect scales off your highest offensive stats."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "proc_damage",
+       "value": 3071,
+       "unit": "flat",
+       "scope": "target",
+       "kind": "damage",
+       "condition": null,
+       "trigger": {
+        "on": "other",
+        "chance": null,
+        "cooldown_s": null,
+        "text": "you reach 5 spell charges"
+       },
+       "duration_s": null,
+       "stacks": null,
+       "damage": {
+        "type": "magic"
+       },
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "When you cast a Psijic Order ability while you are in combat, you generate a spell charge for 10 seconds. When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing 3071 Magic Damage. This effect scales off your highest offensive stats."
+      },
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "When you cast a Psijic Order ability while you are in combat, you generate a spell charge for 10 seconds. When you reach 5 spell charges, you launch a spell orb at the closest enemy to you dealing 3071 Magic Damage. This effect scales off your highest offensive stats."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Spell_Orb"
+  },
+  {
+   "key": "concentrated_barrier",
+   "name": "Concentrated Barrier",
+   "category": "guild",
+   "line": "Psijic Order",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "damage_shield",
+       "value": 2500,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "shield",
+       "condition": {
+        "type": "skill_slotted",
+        "value": "Psijic Order"
+       },
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "While you have a Psijic Order ability slotted and are Bracing, you gain a damage shield that absorbs 2500 damage. This damage shield recharges back to full strength after you spend 10 seconds not Bracing."
+      },
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "While you have a Psijic Order ability slotted and are Bracing, you gain a damage shield that absorbs 2500 damage. This damage shield recharges back to full strength after you spend 10 seconds not Bracing."
+      }
+     ]
+    },
+    {
+     "rank": 2,
+     "effects": [
+      {
+       "stat": "damage_shield",
+       "value": 5000,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "shield",
+       "condition": {
+        "type": "skill_slotted",
+        "value": "Psijic Order"
+       },
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "While you have a Psijic Order ability slotted and are Bracing, you gain a damage shield that absorbs 5000 damage. This damage shield recharges back to full strength after you spend 10 seconds not Bracing."
+      },
+      {
+       "stat": "unmodeled",
+       "value": null,
+       "unit": null,
+       "scope": "self",
+       "kind": "unmodeled",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": null,
+       "uptime_source": null,
+       "raw": "While you have a Psijic Order ability slotted and are Bracing, you gain a damage shield that absorbs 5000 damage. This damage shield recharges back to full strength after you spend 10 seconds not Bracing."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Concentrated_Barrier"
+  },
+  {
+   "key": "deliberation",
+   "name": "Deliberation",
+   "category": "guild",
+   "line": "Psijic Order",
+   "ranks": [
+    {
+     "rank": 1,
+     "effects": [
+      {
+       "stat": "damage_taken_pct",
+       "value": -30,
+       "unit": "pct",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "While you are casting or channeling a Psijic Order ability you reduce your damage taken by 30%."
+      }
+     ]
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Deliberation"
+  },
+  {
    "key": "wayfarer",
    "name": "Wayfarer",
    "category": "race",
@@ -20005,6 +21701,38 @@
      "rank": 1,
      "effects": [
       {
+       "stat": "disease_resistance",
+       "value": 660,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Stamina by 600 and your Disease and Poison Resistance by 660."
+      },
+      {
+       "stat": "poison_resistance",
+       "value": 660,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Stamina by 600 and your Disease and Poison Resistance by 660."
+      },
+      {
        "stat": "max_stamina",
        "value": 600,
        "unit": "flat",
@@ -20025,6 +21753,38 @@
     {
      "rank": 2,
      "effects": [
+      {
+       "stat": "disease_resistance",
+       "value": 1320,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Stamina by 1200 and your Disease and Poison Resistance by 1320."
+      },
+      {
+       "stat": "poison_resistance",
+       "value": 1320,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Stamina by 1200 and your Disease and Poison Resistance by 1320."
+      },
       {
        "stat": "max_stamina",
        "value": 1200,
@@ -20047,6 +21807,38 @@
      "rank": 3,
      "effects": [
       {
+       "stat": "disease_resistance",
+       "value": 2310,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Stamina by 2000 and your Disease and Poison Resistance by 2310."
+      },
+      {
+       "stat": "poison_resistance",
+       "value": 2310,
+       "unit": "flat",
+       "scope": "self",
+       "kind": "static",
+       "condition": null,
+       "trigger": null,
+       "duration_s": null,
+       "stacks": null,
+       "damage": null,
+       "buff_ref": null,
+       "uptime_est": 1.0,
+       "uptime_source": "static",
+       "raw": "Increases your Max Stamina by 2000 and your Disease and Poison Resistance by 2310."
+      },
+      {
        "stat": "max_stamina",
        "value": 2000,
        "unit": "flat",
@@ -20066,7 +21858,7 @@
     }
    ],
    "patch": "u51",
-   "verified": false,
+   "verified": true,
    "uesp": "https://en.uesp.net/wiki/Online:Resist_Affliction"
   }
  ]

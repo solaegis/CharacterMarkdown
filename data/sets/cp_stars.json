@@ -1458,42 +1458,20 @@
      "value": 6,
      "unit": "pct",
      "scope": "self",
-     "kind": "conditional",
-     "condition": {
-      "type": "text",
-      "text": "effects"
-     },
+     "kind": "static",
+     "condition": null,
      "trigger": null,
      "duration_s": null,
      "stacks": null,
      "damage": null,
      "buff_ref": null,
-     "uptime_est": null,
-     "uptime_source": null,
-     "raw": "Increases your damage done with damage over time effects by 3% per stage."
-    },
-    {
-     "stat": "damage_done_pct",
-     "value": 6,
-     "unit": "pct",
-     "scope": "self",
-     "kind": "conditional",
-     "condition": {
-      "type": "text",
-      "text": "effects"
-     },
-     "trigger": null,
-     "duration_s": null,
-     "stacks": null,
-     "damage": null,
-     "buff_ref": null,
-     "uptime_est": null,
-     "uptime_source": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
      "raw": "Increases your damage done with damage over time effects by 3% per stage."
     }
    ],
    "patch": "u51",
-   "verified": false,
+   "verified": true,
    "uesp": "https://en.uesp.net/wiki/Online:Thaumaturge"
   },
   {

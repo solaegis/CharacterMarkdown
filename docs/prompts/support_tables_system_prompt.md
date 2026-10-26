@@ -3,11 +3,11 @@
 Use this prompt with Claude to draft the supporting tables a marginal-value ESO build
 advisor still needs. It does **not** regenerate the set database.
 
-> Passives, skills, food/drink and CP stars are now fetched from UESP by
-> `task setdb:support-fetch` + `task setdb:support-parse`. Use this prompt only for what that
-> can't supply: `caps` citations, U51 potions, or a `buffs_sources` delta for something UESP
-> hasn't documented. A Claude-drafted passives/skills/cp_stars file is overwritten on the next
-> `support-parse`.
+> Passives, skills, food/drink and CP stars are fetched from UESP by
+> `task setdb:support-fetch` + `task setdb:support-parse`, and their buff sources are merged
+> automatically. Use this prompt only as a fallback for **potions** (U51 rows UESP doesn't
+> document yet) and **caps** citations. A Claude-drafted passives/skills/cp_stars file is
+> overwritten on the next `support-parse`.
 
 Ingest, validation, and in-game spot-checks: [`docs/SET_SUPPORT_TABLES.md`](../SET_SUPPORT_TABLES.md).
 

@@ -415,7 +415,7 @@ Done: Stamina attributes · Dual Wield / Bow · Shadow subclass · The Lover · 
 2. **Spend the 1 skill point:** a morph as soon as a skill hits rank IV — **Path of Darkness → Refreshing Path**, then **Dragonknight Standard → Standard of Might**, then **Dragon Leap → Take Flight**. If none is ready: **Twin Blade and Blunt** → **Agility** → **Shadow Barrier / Dark Vigor** → **Hawk Eye**.
 3. **Attributes:** keep every point in **Stamina**.
 4. **Open every pull with Disintegrating Dragonfire** — its Major Breach is the biggest single damage lever at 4,872 live pen (~+10%). Then Shadowy Disguise → Bow bar Endless Hail + Lethal Arrow (both stealth-safe since U51) → Searing Claw → swap and Bloodthirst weave.
-5. **Food:** Max Stamina + Max Health (bi-/tri-stat) · **potions:** Weapon Power for hard pulls · **weapon poisons** on both bars.
+5. **Food:** Max Stamina + Max Health (bi-/tri-stat) · **potions:** Essence of Heroism for hard pulls · **weapon poisons** on both bars.
 6. **Optional, only if cheap:** Max Stamina glyphs on armor, **Absorb Stamina** in place of Absorb Magicka on the off hand, Sharpened on the next weapon you craft or keep.
 7. **Collectibles:** equip **Shrouded Armor**, **Rahd-m'Athra**, **Jewel-Feathered Sep Adder**; enable **Assassin** personality.
 8. **Companion:** summon **Sharp-as-Night** and level him from here; replace his Level 1 whites as Superior+ drops appear.

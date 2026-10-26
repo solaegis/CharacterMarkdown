@@ -138,7 +138,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 ```mermaid
 flowchart TD
-    A["Food via EAP · pot Weapon Power"] --> B["Back: Flames · Rending · Tornado · Leeching"]
+    A["Food via EAP · pot Essence of Heroism"] --> B["Back: Flames · Rending · Tornado · Leeching"]
     B --> C["Lotus Fan into pack · swap front"]
     C --> D["Deadly Cloak · Focus · Searing Claw"]
     D --> E["Weave LA + Rapid Strikes"]
@@ -149,7 +149,7 @@ flowchart TD
 
 #### Solo combat tips
 
-1. **Wind Form setup:** Weapon Power potion; refresh **Flames of Oblivion** and **Leeching Strikes**; apply **Rending Slashes**; **Steel Tornado** through the pack; **Lotus Fan** to close or re-center.
+1. **Wind Form setup:** Essence of Heroism; refresh **Flames of Oblivion** and **Leeching Strikes**; apply **Rending Slashes**; **Steel Tornado** through the pack; **Lotus Fan** to close or re-center.
 2. **Open Hand:** Deadly Cloak → Relentless Focus → Searing Claw → **Light Attack + Rapid Strikes** weave under the DoTs.
 3. Do **not** spam Lotus Fan or Tornado as the fist replacement — **Rapid Strikes** is the face skill.
 4. **Heavy Attack** on either bar when stamina dips; Redguard **Adrenaline Rush** helps mid-scrape.

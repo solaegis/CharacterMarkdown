@@ -5,6 +5,7 @@ from __future__ import annotations
 import unittest
 
 from .support import (
+    COMPANION_LINES,
     _buff_ctx,
     _food_effects,
     _gate,
@@ -33,6 +34,9 @@ BUFFS = [
     buff("major", "Brutality"),
     buff("major", "Savagery"),
     buff("major", "Breach", "debuff"),
+    buff("minor", "Force"),
+    buff("minor", "Berserk"),
+    buff("minor", "Protection"),
 ]
 CTX = _buff_ctx(BUFFS)
 
@@ -61,8 +65,46 @@ MAGICKA_MASTERY = """{{Online Skill Summary
 }}"""  # fmt: skip
 
 
+ACCELERATE = """{{Online Skill Summary
+|line=Psijic Order
+|desc=Cost: {{ESO Magicka Link|{{Nowrap|[4050 / 3960 / 3870 / 3780]}}}}.<br>Bend time and space around you to gain [[Online:Major Expedition|Major Expedition]] for '''4''' seconds and [[Online:Minor Force|Minor Force]] for '''20''' seconds, increasing your [[Online:Movement Speed|Movement Speed]] by '''30'''% and [[Online:Critical Damage|Critical Damage]] by '''10'''%.
+|desc1=Casting Time: 1.3 seconds, Cost: {{ESO Magicka Link|{{Nowrap|[3780 / 3690 / 3600 / 3510]}}}}.<br>Bend time and space around you to gain Major Expedition for '''12''' seconds and Minor Force for '''1''' minute, increasing your Movement Speed by '''30'''% and Critical Damage by '''10'''%.
+|desc2=Bend time and space around you to gain Major Expedition for '''4''' seconds and Minor Force for '''20''' seconds, increasing your Movement Speed by '''30'''% and Critical Damage by '''10'''%. Activating this ability removes all snares and immobilizations from you and grants immunity to them for '''{{Nowrap|[2 / 2.7 / 3.3 / 4]}}''' seconds.
+|cost={{ESO Magicka Link|3780}}
+|attrib=Magicka
+|morph1name=Channeled Acceleration
+|morph2name=Race Against Time
+}}"""  # fmt: skip
+
+MEDICINAL_USE = """{{Online Skill Summary
+|line=Alchemy
+|type=Passive
+|desc=When using [[Online:Potions|potion]]s, resulting effects last 10% longer.
+|desc2=When using potions, resulting effects last 20% longer.
+|desc3=When using potions, resulting effects last 30% longer.
+}}"""  # fmt: skip
+
+CONCENTRATION = """{{Online Skill Summary
+|line=Light Armor
+|type=Passive
+|desc=Increases your {{ESO Physical Penetration Link|||y}} and {{ESO Spell Penetration Link}} by '''469''' for each piece of [[Online:Light Armor|Light Armor]] worn.
+|desc2=Increases your {{ESO Physical Penetration Link|||y}} and {{ESO Spell Penetration Link}} by '''939''' for each piece of Light Armor worn.
+}}"""  # fmt: skip
+
+
 def page(title: str, wikitext: str) -> dict:
     return {"title": title, "revid": 1, "wikitext": wikitext, "fragments": {}}
+
+
+def line_index(line: str, category: str, passive=(), active=()) -> dict:
+    return {
+        "lines": {
+            line: {
+                "category": category, "class": None, "passive": list(passive),
+                "active": list(active), "ultimate": [],
+            }
+        }
+    }  # fmt: skip
 
 
 class Text(unittest.TestCase):
@@ -213,6 +255,116 @@ class Tables(unittest.TestCase):
         e = items[0]["effects"][0]
         self.assertEqual((e["stat"], e["value"]), ("damage_done_pct", 6))
         self.assertTrue(items[0]["verified"])
+
+
+class Hardening(unittest.TestCase):
+    def test_accelerate_morphs_grant_minor_force(self):
+        index = line_index("Psijic Order", "guild", active=["Accelerate"])
+        pages = {"Online:Accelerate": page("Online:Accelerate", ACCELERATE)}
+        items, _, _ = parse_skills(index, pages, CTX)
+        by = {i["name"]: i for i in items}
+        for name in ("Accelerate", "Channeled Acceleration", "Race Against Time"):
+            self.assertEqual(by[name]["buffs_granted"], ["major_expedition", "minor_force"], name)
+            self.assertTrue(by[name]["verified"], name)
+        self.assertEqual(by["Accelerate"]["cost"], 3780)
+        # "Casting Time: …, Cost: …" header carries the morph's own cost
+        self.assertEqual(by["Channeled Acceleration"]["cost"], 3510)
+
+    def test_medicinal_use_duration_ranks(self):
+        index = line_index("Alchemy", "skill_line", passive=["Medicinal Use"])
+        pages = {"Online:Medicinal Use": page("Online:Medicinal Use", MEDICINAL_USE)}
+        items, _, _ = parse_passives(index, pages, CTX)
+        p = items[0]
+        self.assertTrue(p["verified"])
+        self.assertEqual(
+            [[(e["stat"], e["value"]) for e in r["effects"]] for r in p["ranks"]],
+            [
+                [("potion_duration_pct", 10)],
+                [("potion_duration_pct", 20)],
+                [("potion_duration_pct", 30)],
+            ],
+        )
+
+    def test_concentration_is_per_light_piece(self):
+        index = line_index("Light Armor", "skill_line", passive=["Concentration"])
+        pages = {"Online:Concentration": page("Online:Concentration", CONCENTRATION)}
+        items, _, _ = parse_passives(index, pages, CTX)
+        effects = items[0]["ranks"][1]["effects"]
+        self.assertEqual(len(effects), 1)
+        e = effects[0]
+        self.assertEqual((e["stat"], e["value"]), ("offensive_penetration", 939))
+        self.assertEqual(e["stacks"], {"per": "piece of Light Armor worn"})
+        self.assertTrue(items[0]["verified"])
+
+    def test_thaumaturge_is_dot_only(self):
+        star = {
+            "id": 27, "name": "Thaumaturge", "constellation": "warfare", "slottable": True,
+            "stages": 2, "points_per_stage": 25, "max_points": 50, "prerequisites": [],
+        }  # fmt: skip
+        text = (
+            "{{Online Champion 2.0 Summary\n|desc=Increases your damage done with damage over "
+            "time effects by 3% per stage.\n}}"
+        )
+        items, _, _ = parse_cp(
+            [star], {"Online:Thaumaturge": page("Online:Thaumaturge", text)}, CTX
+        )
+        self.assertEqual(
+            [(e["stat"], e["value"], e["condition"]) for e in items[0]["effects"]],
+            [("dot_damage_pct", 6, None)],
+        )
+        self.assertTrue(items[0]["verified"])
+
+    def test_activation_gate_becomes_trigger(self):
+        effects, coverage, _ = _normalize(
+            "WHEN ACTIVATING AN AEDRIC SPEAR ABILITY Gain Minor Berserk and Minor Protection for "
+            "6 seconds, increasing damage done and reducing damage taken by 5%.",
+            CTX,
+        )
+        self.assertEqual(coverage, "full")
+        self.assertEqual([e["buff_ref"] for e in effects], ["minor_berserk", "minor_protection"])
+        for e in effects:
+            self.assertEqual(e["trigger"]["on"], "cast_skill")
+            self.assertEqual(e["duration_s"], 6)
+            self.assertIsNone(e["condition"])
+
+    def test_buff_restatement_is_not_a_second_grant(self):
+        effects, coverage, _ = _normalize(
+            "WITH BOW EQUIPPED Grants you Major Expedition for 4 seconds after you use Roll "
+            "Dodge. Major Expedition increases your Movement Speed by 30%.",
+            CTX,
+        )
+        self.assertEqual(coverage, "full")
+        self.assertEqual(len(effects), 1)
+        self.assertEqual(effects[0]["trigger"]["on"], "dodge")
+
+    def test_disease_and_poison_resist(self):
+        effects, coverage, _ = _normalize(
+            "Increases your Max Health by 1000 and your Disease and Poison Resistance by 2310.", CTX
+        )
+        self.assertEqual(coverage, "full")
+        self.assertEqual(
+            sorted((e["stat"], e["value"]) for e in effects),
+            [("disease_resistance", 2310), ("max_health", 1000), ("poison_resistance", 2310)],
+        )
+
+    def test_capture_window_is_not_always_on(self):
+        effects, _, _ = _normalize(
+            "Increases your Weapon Damage and Spell Damage by 10% for 10 minutes after you "
+            "capture a Lumber Mill, Farm, Mine, or Keep.",
+            CTX,
+        )
+        self.assertTrue(effects)
+        for e in effects:
+            self.assertEqual(e["kind"], "proc")
+            self.assertEqual(e["duration_s"], 600)
+            self.assertEqual(e["trigger"]["on"], "capture_objective")
+
+    def test_companion_lines_skipped_at_parse(self):
+        self.assertIn("Ardent Warrior", COMPANION_LINES)
+        index = line_index("Ardent Warrior", "class", active=["Accelerate"])
+        pages = {"Online:Accelerate": page("Online:Accelerate", ACCELERATE)}
+        items, _, _ = parse_skills(index, pages, CTX)
+        self.assertEqual(items, [])
 
 
 class Merge(unittest.TestCase):

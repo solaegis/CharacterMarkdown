@@ -4,7 +4,7 @@
   "source": {
     "wiki": "en.uesp.net",
     "max_revid": null,
-    "pages": 0,
+    "pages": 5,
     "patches": [
       "u51"
     ]
@@ -16,7 +16,7 @@
       "name": "Critical rating per 1% chance",
       "value": 219,
       "unit": "flat",
-      "notes": "Displayed crit % already includes rating. Extra rating / 219 = extra crit %.",
+      "notes": "Displayed crit % already includes rating. Extra rating / 219 = extra crit %. UESP Online:Weapon Critical (effect) / Spell Critical (effect) give crit% = 10 + 100 × rating / 21912 at CP160, i.e. 219.12 rating per 1%; 219 itself is not stated, so this stays unverified until an in-game check.",
       "patch": "u51",
       "verified": false,
       "uesp": null
@@ -26,7 +26,7 @@
       "name": "Target resistance per 1% mitigation",
       "value": 660,
       "unit": "flat",
-      "notes": "mitigation% = max(0, resist - pen) / 660, not R/(R+660). Caps at mitigation_cap.",
+      "notes": "mitigation% = max(0, resist - pen) / 660, not R/(R+660). Caps at mitigation_cap. UESP Online:Spell Resistance / Physical Resistance state 33,000 resistance = 50% (implies 660 per 1%), but Online:Penetration says 18,200 armor resists 36.4% (implies 500 per 1%). Pages disagree and 660 is not stated; check in game.",
       "patch": "u51",
       "verified": false,
       "uesp": null
@@ -36,27 +36,27 @@
       "name": "PvE resistance mitigation cap",
       "value": 50,
       "unit": "pct",
-      "notes": "50% incoming damage reduction from resistance. 33000 resist at 660 per 1%.",
+      "notes": "50% incoming damage reduction from resistance. 33000 resist at 660 per 1%. Cited: Online:Spell Resistance and Online:Physical Resistance — caps at 33,000 for players, reducing damage taken by 50%.",
       "patch": "u51",
-      "verified": false,
-      "uesp": null
+      "verified": true,
+      "uesp": "https://en.uesp.net/wiki/Online:Spell_Resistance"
     },
     {
       "key": "crit_damage_cap",
       "name": "Critical damage cap",
       "value": 125,
       "unit": "pct",
-      "notes": "Total crit damage including the 50% base (1.5x). Bonus crit damage caps at +75%. docs/formulas.md is wrong where it says there is no cap.",
+      "notes": "Total crit damage including the 50% base (1.5x). Bonus crit damage caps at +75%. docs/formulas.md is wrong where it says there is no cap. Cited: Online:Critical Damage — base 50%, capped at 125%.",
       "patch": "u51",
-      "verified": false,
-      "uesp": null
+      "verified": true,
+      "uesp": "https://en.uesp.net/wiki/Online:Critical_Damage"
     },
     {
       "key": "resource_per_power",
       "name": "Max resource per 1 Weapon or Spell Damage",
       "value": 10.5,
       "unit": "ratio",
-      "notes": "1 Weapon/Spell Damage ≈ 10.5 of the matching max resource (U33+ hybrid).",
+      "notes": "1 Weapon/Spell Damage ≈ 10.5 of the matching max resource (U33+ hybrid). No UESP page states 10.5 (searched Spell Damage, Weapon Damage, Attributes and full-text search). Check in game: tooltip damage per 1 Spell Damage vs per 10.5 Max Magicka.",
       "patch": "u51",
       "verified": false,
       "uesp": null
@@ -66,30 +66,30 @@
       "name": "Standard PvE dummy resistance",
       "value": 18200,
       "unit": "flat",
-      "notes": "Target resist for 6M / 21M dummy and most PvE ranking. Overpenetration above this is wasted.",
+      "notes": "Target resist for 6M / 21M dummy and most PvE ranking. Overpenetration above this is wasted. Cited: Online:Build Editor — default target resistance for most vet dungeon bosses is 18200 (Online:Penetration also uses 18,200 NPC armor).",
       "patch": "u51",
-      "verified": false,
-      "uesp": null
+      "verified": true,
+      "uesp": "https://en.uesp.net/wiki/Online:Build_Editor"
     },
     {
       "key": "armor_glyph_small_piece_pct",
       "name": "Armor glyph value on small pieces",
       "value": 40,
       "unit": "pct",
-      "notes": "Full glyph on head/chest/legs; 40% on shoulders/hands/waist/feet (e.g. Stamina 868 vs 347).",
+      "notes": "Full glyph on head/chest/legs; 40% on shoulders/hands/waist/feet (e.g. Stamina 868 vs 347). Cited: Online:Glyph of Stamina (also Health/Magicka) — shoulder, hand, belt and foot armor receive 40% of the benefit.",
       "patch": "u51",
-      "verified": false,
-      "uesp": null
+      "verified": true,
+      "uesp": "https://en.uesp.net/wiki/Online:Glyph_of_Stamina"
     },
     {
       "key": "two_hander_set_pieces",
       "name": "Set pieces from a two-handed weapon",
       "value": 2,
       "unit": "pieces",
-      "notes": "Bow, staff, and 2H count as 2 set pieces. Only the active-bar weapons count.",
+      "notes": "Bow, staff, and 2H count as 2 set pieces. Only the active-bar weapons count. Cited: Online:Patch/4.0.0 — Two Handed, Bow, Destruction Staff and Restoration Staff weapons count for two pieces towards any item set bonus.",
       "patch": "u51",
-      "verified": false,
-      "uesp": null
+      "verified": true,
+      "uesp": "https://en.uesp.net/wiki/Online:Patch/4.0.0"
     }
   ]
 }

@@ -19,7 +19,7 @@ This guide transforms Heka-Ankh into the **Apex Executioner**, a peak **Uber Tie
 | **Sets** | **5 Night Mother's Gaze + 5 Hunding's Rage** (100% craftable) — **live:** Hawk's Eye 3 / Briarheart 2 / Night Mother 1 / misc · **target:** NM (daggers + jewelry) + Hunding (4 armor + bow) + crafted head/shoulders/waist |
 | **Bars** | Front: Dual Wield Daggers ("The Executioner's Daggers") · Back: Bow ("The Executioner's Sight") — **live:** 2H Greatsword front + Bow back (transitional; mixed mag skills) · **target:** DW + Bow |
 | **Food** | **Artaeum Takeaway Broth** (primary — tri-stat + recovery feeds Dark Deal magicka) · overland alt: **Garlic Cod with Potato Crust** or **Dubious Camoran Throne** |
-| **Potion** | **Essence of Weapon Power** (Major Brutality + Major Savagery + Stamina Recovery) — pair with **Medicinal Use III** |
+| **Potion** | **Essence of Heroism** (U51: Major Brutality + Major Savagery) — pair with **Medicinal Use III** |
 | **Weapon Poisons** | None (use weapon glyphs) |
 | **Staff/Weapon Enchant** | Front: **Weapon Damage** (MH) + **Poison Damage** (OH) · Back bow: **Poison Damage** (Infused) |
 | **Companion** | **Primary (now):** **Mirri Elendis** (Ranged/Support, Resto staff) at live CP **1033** + companion **15/20** · **Secondary:** **Zerith-var** (Necromancer Escort) · **Goal (20/20 @ CP160):** **Isobel Veloise** (shields + heals for world bosses) |
@@ -132,7 +132,7 @@ Document **slotted morph names as shown in the skills UI** (not unmorphed base o
 | **6 (Ult)** | Fighters Guild | Dawnbreaker -> **Flawless Dawnbreaker** | Physical burst ultimate + passive Weapon Damage boost |
 
 > [!NOTE]
-> **Major Brutality** comes from **Essence of Weapon Power** (and Medicinal Use uptime)—not from a slotted **Rally**. That frees the Fortress slot for **Hardened Armor**.
+> **Major Brutality** comes from **Essence of Heroism** (and Medicinal Use uptime)—not from a slotted **Rally**. That frees the Fortress slot for **Hardened Armor**.
 
 > [!NOTE]
 > **Until Flawless Dawnbreaker is unlocked** (Fighters Guild quest / rank): do **not** put **Pestilent Colossus** on both bars (duplicate morph). Interim back-bar ultimate: keep **Camouflaged Hunter** / **Barbed Trap** for FG passives and use **Pestilent Colossus** on the front bar only until Dawnbreaker is morphable.
@@ -149,7 +149,7 @@ flowchart TD
     classDef swap fill:#E65100,stroke:#FFB74D,color:#FFF3E3
     classDef frontbar fill:#1A237E,stroke:#7986CB,color:#E8EAF6
 
-    A["Drink Essence of Weapon Power"]:::start --> B["Back: Hunter + Hardened Armor + Hail + Trap + Archer"]:::backbar
+    A["Drink Essence of Heroism"]:::start --> B["Back: Hunter + Hardened Armor + Hail + Trap + Archer"]:::backbar
     B --> C["Swap front — Blighted Blastbones + Rapid Strikes weave"]:::swap
     C --> D["Stamina below 50%? Dark Deal Magicka to Stamina"]:::frontbar
     D --> E["HP low? Resolving Vigor"]:::frontbar
@@ -182,7 +182,7 @@ Heka-Ankh has **48 Skill Points available**. Spend in this priority order; fully
 #### Guild, Crafting, Alliance & Race Passives
 
 * **Fighters Guild:** **Intimidating Presence**, **Slayer** (III), **Banish the Wicked** (III) — Passive physical damage per slotted Fighters Guild skill (**Camouflaged Hunter**, **Barbed Trap**, **Flawless Dawnbreaker**).
-* **Alchemy:** **Medicinal Use** (III) — **Mandatory** — potion effects last 100% longer (pairs with Essence of Weapon Power).
+* **Alchemy:** **Medicinal Use** (III) — **Mandatory** — potion effects last 100% longer (pairs with Essence of Heroism).
 * **Alliance War — Assault:** **Continuous Attack** (II) — Major Gallop (already unlocked live) · **Reach** (II) — +2% damage per second in combat (long boss fights).
 * **Redguard:** **Wayfarer** (III), **Martial Training** (III), **Conditioning** (III), **Adrenaline Rush** (III) — Reduces skill costs and restores Stamina on melee light attacks.
 * **Medium Armor:** **Dexterity** (II), **Wind Walker** (II), **Improved Sneak** (II), **Agility** (II), **Athletics** (II) — Physical critical chance and Stamina recovery.
@@ -426,7 +426,7 @@ Follow this transition list to activate **The Apex Executioner**.
 5. **Morphs:** Morph **Frozen Colossus → Pestilent Colossus**; unlock and morph **Flawless Dawnbreaker** (FG); slot **Camouflaged Hunter** and **Barbed Trap**.
 6. **Action Bars:** Slot front/back per [Skill bars](#skill-bars); unslot Avid Boneyard, Time Stop, Dizzying Swing, Executioner.
 7. **Respec Skills:** Spend 48 available Skill Points per [Passive skills](#passive-skills)—prioritize **Medicinal Use III**, **Reach**, Bow passives, Dual Wield, subclass passives.
-8. **Food / Potion:** Stock **Artaeum Takeaway Broth** and **Essence of Weapon Power**.
+8. **Food / Potion:** Stock **Artaeum Takeaway Broth** and **Essence of Heroism**.
 
 ### Phase 1 — Craft (interim)
 

@@ -44,6 +44,42 @@ LINE_CATEGORIES = {
     "Category:Online-Skill Lines-Guild": "guild",
 }
 
+# Lines UESP files outside the skill-line categories above (Psijic Order is under
+# Online-Factions), and the crafting lines whose passives touch combat
+# (Medicinal Use, food duration, glyph potency).
+EXTRA_LINES = {
+    "Online:Psijic Order": "guild",
+    "Online:Alchemy": "skill_line",
+    "Online:Provisioning": "skill_line",
+    "Online:Enchanting": "skill_line",
+}
+
+# Companion class lines sit in Online-Skill Lines-Class next to the player ones.
+# UESP has no companion category to exclude, so they are named here.
+COMPANION_LINES = {
+    "Ardent Warrior",
+    "Beasts of the Hunt",
+    "Blazing Might",
+    "Brilliant Shield",
+    "Deadly Assassin",
+    "Empathic Fighter",
+    "Guardian's Commitment",
+    "Healing Grace",
+    "Lightning Caller",
+    "Living Shade",
+    "Mischievous Caster",
+    "Playful Schemer",
+    "Quill Knight",
+    "Remedy of Atonement",
+    "Revitalizing Researcher",
+    "Scholar of Apocrypha",
+    "Soul Thief",
+    "Verdant Growth",
+    "Warrior's Banishment",
+    "Winter's Bite",
+}
+COMPANION_CATEGORY = "Category:Online-Skill Lines-Companion"
+
 CLASS_LINES = {
     "Dragonknight": ["Ardent Flame", "Draconic Power", "Earthen Heart"],
     "Nightblade": ["Assassination", "Shadow", "Siphoning"],
@@ -114,7 +150,8 @@ _SECTION_RE = re.compile(r"^=+\s*(.*?)\s*=+\s*$", re.M)
 _RANKS_RE = re.compile(r"\[\s*(-?\d+(?:\.\d+)?)(?:\s*/\s*-?\d+(?:\.\d+)?)+\s*\]")
 _RANKS_LAST_RE = re.compile(r"\[\s*(?:-?\d+(?:\.\d+)?\s*/\s*)+(-?\d+(?:\.\d+)?)\s*\]")
 _HEADER_RE = re.compile(
-    r"^(?:(?:Cost|Duration|Area|Range|Radius|Target|Cast Time|Channel Time)\s*:[^\n]*)$", re.I
+    r"^(?:(?:Cost|Duration|Area|Range|Radius|Target|Cast(?:ing)? Time|Channel(?:ing)? Time)\s*:[^\n]*)$",
+    re.I,
 )
 _COST_NOTE_RE = re.compile(r"^Cost Determined by Highest Max Resource\s*", re.I)
 _COST_RE = re.compile(r"(\d[\d,]*)\s+(Magicka|Stamina|Health|Ultimate)\b", re.I)
@@ -131,6 +168,10 @@ U51_ALIAS = {"sorcery": "brutality", "prophecy": "savagery"}
 def _page_url(title: str) -> str:
     name = title.split(":", 1)[-1].replace(" ", "_")
     return "https://en.uesp.net/wiki/Online:" + urllib.parse.quote(name, safe="_'(),-")
+
+
+def _line_name(title: str) -> str:
+    return title.split(":", 1)[-1]
 
 
 def _sections(wikitext: str) -> dict[str, list[str]]:
@@ -206,8 +247,14 @@ def fetch() -> int:
     titles: dict[str, str] = {}
     for cat, category in LINE_CATEGORIES.items():
         for t in client.category_members(cat, namespace=144):
-            if "(Companion)" not in t:
-                titles[t] = category
+            titles[t] = category
+    titles.update(EXTRA_LINES)
+    companions = set(client.category_members(COMPANION_CATEGORY, namespace=144))
+    titles = {
+        t: c
+        for t, c in titles.items()
+        if "(Companion)" not in t and t not in companions and _line_name(t) not in COMPANION_LINES
+    }
     print(f"skill lines: {len(titles)}", file=sys.stderr)
     lines, n = sync_pages(client, sorted(titles), CACHE / "lines", "fragments")
     print(f"  fetched {n}", file=sys.stderr)
@@ -284,6 +331,26 @@ REWRITES: list[tuple[re.Pattern[str], str]] = [
         r"\1. Your ",
     ),
     (re.compile(r"\bCritical Chance rating\b"), "Critical Chance"),
+    # Thaumaturge: "damage done with damage over time effects" is DoT damage only
+    (
+        re.compile(r"\bdamage done with damage over time effects\b", re.I),
+        "damage over time damage",
+    ),
+    # Hasty Retreat: "Grants you Major Expedition for 4 seconds after you use Roll Dodge."
+    (
+        re.compile(r"^(Grants? you (?:Major|Minor) [^.]+?) after you ([^.,]+)\.", re.M),
+        r"After you \2, \1.",
+    ),
+    # Hemorrhage: "Critically striking in any form grants ..."
+    (
+        re.compile(r"\bCritically striking in any form grants\b"),
+        "When you deal Critical Damage, grant",
+    ),
+    # "Major Expedition increases your Movement Speed by 30%." restates the buff
+    (
+        re.compile(r"(?:(?<=\. )|^)(?:Major|Minor) [A-Z][a-z]+ (?:increases|reduces) [^.]*\.\s*"),
+        "",
+    ),
     # "grants you and your group 2974 Offensive Penetration for 20 seconds"
     (
         re.compile(
@@ -341,6 +408,11 @@ _SOFT_GATES: list[tuple[re.Pattern[str], dict[str, Any], str]] = [
 ]
 
 
+# All-caps activation gates become a leading trigger clause the set grammar reads
+# ("WHEN ACTIVATING AN AEDRIC SPEAR ABILITY Gain ..." -> "When you activate ...,").
+_TRIGGER_GATE_RE = re.compile(r"^WHEN (?:ACTIVATING|CASTING|USING) (AN? .+? ABILITY)$")
+
+
 def _gate(text: str) -> tuple[dict[str, Any] | None, str]:
     """Split a gate clause off the tooltip -> (condition, rest)."""
     for rx, cond, repl in _SOFT_GATES:
@@ -355,6 +427,12 @@ def _gate(text: str) -> tuple[dict[str, Any] | None, str]:
     if not m:
         return None, text
     clause, rest = m.group(1), text[m.end() :]
+    t = _TRIGGER_GATE_RE.match(clause)
+    if t:
+        what = t.group(1).lower()
+        what = re.sub(r"\b(an?) (.+) ability$", lambda g: f"{g[1]} {g[2].title()} ability", what)
+        what = what.replace("'S", "'s")
+        return None, f"When you activate {what}, {rest[:1].lower()}{rest[1:]}"
     for rx, ctype in _GATES:
         g = rx.match(clause)
         if g:
@@ -412,10 +490,60 @@ def _normalize(
     return _tidy(effects, text), coverage, issues
 
 
+def _plain_effect(stat: str, value: float, unit: str, raw: str) -> dict[str, Any]:
+    return {
+        "stat": stat, "value": value, "unit": unit, "scope": "self", "kind": "static",
+        "condition": None, "trigger": None, "duration_s": None, "stacks": None,
+        "damage": None, "buff_ref": None, "uptime_est": 1.0, "uptime_source": "static",
+        "raw": raw,
+    }  # fmt: skip
+
+
+# Passive stats the set grammar has no rule for: (pattern, stats, unit). The match
+# is cut from the text before normalizing, so its number counts as consumed.
+SPECIAL_STATS: list[tuple[re.Pattern[str], list[str], str]] = [
+    (
+        re.compile(r"When using potions, resulting effects last (\d+)% longer\.?", re.I),
+        ["potion_duration_pct"],
+        "pct",
+    ),
+    (
+        re.compile(r",? and your Disease and Poison Resistance by (\d+)", re.I),
+        ["disease_resistance", "poison_resistance"],
+        "flat",
+    ),
+]
+# "... for 10 minutes after you capture a Lumber Mill, Farm, Mine, or Keep."
+_CAPTURE_RE = re.compile(r"\s+for (\d+) minutes after you (capture [^.]+?)(?=\.)", re.I)
+
+
 def _normalize_segment(
     body: str, gate: dict[str, Any] | None, ctx: Any
 ) -> tuple[list[dict[str, Any]], str, list[str]]:
-    effects, coverage, issues = normalize_bonus(_rewrite(body), ctx)
+    special: list[dict[str, Any]] = []
+    for rx, stats, unit in SPECIAL_STATS:
+        m = rx.search(body)
+        if m:
+            value = int(m.group(1))
+            special += [_plain_effect(st, value, unit, body) for st in stats]
+            body = (body[: m.start()] + body[m.end() :]).strip()
+    capture = _CAPTURE_RE.search(body)
+    if capture:
+        body = body[: capture.start()] + body[capture.end() :]
+    if body.strip(" ."):
+        effects, coverage, issues = normalize_bonus(_rewrite(body), ctx)
+    else:
+        effects, coverage, issues = [], "full", []
+    if capture:
+        # A timed window after an objective capture, not an always-on stat
+        for e in effects:
+            if e["kind"] in ("static", "conditional"):
+                e["kind"] = "proc"
+                e["trigger"] = {"on": "capture_objective", "text": capture.group(2)}
+                e["duration_s"] = int(capture.group(1)) * 60
+                e["uptime_est"] = None
+                e["uptime_source"] = None
+    effects = special + effects
     for e in effects:
         if gate and e["kind"] != "unmodeled":
             c = e["condition"]
@@ -442,6 +570,13 @@ def _tidy(effects: list[dict[str, Any]], text: str) -> list[dict[str, Any]]:
             e["scope"] = "group"
             if e["kind"] == "conditional":
                 e["kind"] = "static"
+        # "grants you and your group Minor Savagery": a group buff
+        if e["kind"] == "buff_grant" and e["buff_ref"]:
+            name = e["buff_ref"].replace("_", " ")
+            for sentence in split_sentences(text):
+                low = sentence.lower()
+                if "your group" in low and name in low[low.index("your group") :]:
+                    e["scope"] = "group"
         if "flanking" in text and e["kind"] in ("static", "conditional") and not e["condition"]:
             e["condition"] = {"type": "flanking"}
             e["kind"] = "conditional"
@@ -530,6 +665,8 @@ def parse_passives(
     issues: list[dict[str, Any]] = []
     aliases = index.get("aliases", {})
     for line, info in sorted(index["lines"].items()):
+        if line in COMPANION_LINES:
+            continue
         for name in info["passive"]:
             title = aliases.get(f"Online:{name}", f"Online:{name}")
             page = pages.get(title)
@@ -615,6 +752,8 @@ def parse_skills(
     warnings: list[str] = []
     issues: list[dict[str, Any]] = []
     for line, info in sorted(index["lines"].items()):
+        if line in COMPANION_LINES:
+            continue
         for kind in ("ultimate", "active"):
             for name in info[kind]:
                 title = index.get("aliases", {}).get(f"Online:{name}", f"Online:{name}")

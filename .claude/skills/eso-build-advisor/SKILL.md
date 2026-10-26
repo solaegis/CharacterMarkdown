@@ -18,7 +18,9 @@ the repo workflow around it.
 - **Existing plan (if any):** `examples/<account>/<na|eu>/<slug>_plan.md`. Layout rules:
   `docs/plan_structure.md` (canonical layout, section order).
 - **Data:** `data/sets/llm_digest.jsonl` (+ `buffs.json`, `traits.json`, `mundus.json`,
-  `enchants.json`, `caps.json`). Support-table ingest: `docs/SET_SUPPORT_TABLES.md`.
+  `enchants.json`, `caps.json`), and the support tables `passives.json`, `skills.json`,
+  `consumables.json`, `cp_stars.json`, read through `query_support.py`. Pipeline:
+  `docs/SET_SUPPORT_TABLES.md`.
   If `data/sets/sets.json` is newer than the digest, run `task setdb:build`.
 
 ## Tools (run from the repo root)
@@ -31,6 +33,23 @@ python3 .claude/skills/eso-build-advisor/scripts/query_sets.py --craftable --sta
 python3 .claude/skills/eso-build-advisor/scripts/query_sets.py --type monster --stat weapon_damage --weight M
 python3 .claude/skills/eso-build-advisor/scripts/query_sets.py --craftable --text "Major Breach"
 ```
+
+**Look up passives, skills, food/potions, CP and buff sources**, not from memory:
+
+```bash
+python3 .claude/skills/eso-build-advisor/scripts/query_support.py --kind buff --name major_brutality   # every source of a buff
+python3 .claude/skills/eso-build-advisor/scripts/query_support.py --kind skills --name "Boundless Storm"  # morph buffs + cost
+python3 .claude/skills/eso-build-advisor/scripts/query_support.py --kind skills --buff minor_force        # who grants it
+python3 .claude/skills/eso-build-advisor/scripts/query_support.py --kind passives --line Breton --all-ranks
+python3 .claude/skills/eso-build-advisor/scripts/query_support.py --kind consumables --name "Garlic Cod"
+python3 .claude/skills/eso-build-advisor/scripts/query_support.py --kind cp --name "Fighting Finesse"
+```
+
+- Rows with `verified: false` are hidden by default. A draft's numbers are not facts. If you
+  need one, rerun with `--include-drafts --raw`, quote its tooltip text, and say it's unverified.
+- **Potions (U51):** Essence of Spell Power and Essence of Weapon Power are gone. They were
+  replaced by **Essence of Heroism** (Major Brutality + Major Savagery). Never recommend the
+  old names. The potion rows are drafts with no restore amounts, so don't quote restore numbers.
 
 **Value a change** against the character's live stats. Always-on deltas go before `|`;
 proc/debuff deltas go after it, at an uptime (`@0-1`):
@@ -46,9 +65,10 @@ python3 .claude/skills/eso-build-advisor/scripts/value_calc.py \
 - `power` = the higher of Weapon/Spell Damage; `res` = the matching max resource;
   `crit_pct` = the displayed crit % (it already includes rating); `cd` = Critical Damage %;
   `pen` = penetration; `dmg` = % damage done.
-- Before crediting a buff, de-duplicate it: if the character already has Major/Minor X from
-  skills, CP, passives or potions, a set granting X adds 0. Check `buffs.json` sources and the
-  profile's Active Buffs.
+- Before crediting a set's Major/Minor X, de-duplicate it. Run
+  `query_support.py --kind buff --name <key>` for its sources. Then check the live bars
+  (`--kind skills --name …`), passives, food and CP against them, plus the profile's Active
+  Buffs. If the character already has X, a set granting X adds 0.
 - Report the % from the calculator and the key inputs. Try uptime 0.8 as well as 1.0 for
   procs, and say whether the conclusion survives.
 
@@ -59,6 +79,8 @@ python3 .claude/skills/eso-build-advisor/scripts/value_calc.py \
    "craftable only", "solo farmer", roleplay identity). They override raw DPS.
 2. **Audit the numbers in the plan** against the data. Every set bonus, trait value, glyph
    value and mundus value the plan quotes must match `query_sets.py` / the JSON tables.
+   Every passive, skill buff, food, potion or CP number must match `query_support.py`.
+   Food picks are looked up by name (`--kind consumables`), never recalled from memory.
 3. **Diagnose:** which bonuses are live on each bar, buffs duplicated, stats over caps (crit
    damage 125%, pen vs 18,200) or badly under-invested (e.g. pen far below 18,200).
 4. **Shortlist and value:** query candidates that respect the constraints and slot legality;
@@ -97,5 +119,6 @@ python3 .claude/skills/eso-build-advisor/scripts/value_calc.py \
 Give the verdict first (agree / agree with fixes / disagree), then factual errors (with the data
 that disproves them), then judgment calls (with calculator %), then what you changed. Keep
 constants honest: read `data/sets/caps.json` (via `value_calc.py`). Rows with
-`verified: false` are still seed values — flag them as re-check-after-patch. See
-`docs/SET_SUPPORT_TABLES.md`.
+`verified: false` are still seed values: flag them as re-check-after-patch. Quote only
+`verified: true` numbers from the support tables. For a draft row, quote its raw text and
+say it's unverified. See `docs/SET_SUPPORT_TABLES.md`.

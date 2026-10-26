@@ -20,7 +20,7 @@ Rilis Toxil is a **High Elf scholar of unmaking**—a magicka necromancer who tr
 | **Sets** | **5 Order's Wrath + 5 Law of Julianos** (100% craftable, all Light) — **live:** Trainee 5/5 + scrap · **open:** Phase 2 @masisi handoff |
 | **Bars** | Front: Lightning Destruction Staff ("The Unmaking") · Back: Restoration Staff ("The Mystic's Veil") |
 | **Food** | **Witty Blue Entremet** (Max Magicka + Recovery) or **Bewitched Sugar Skulls** on world bosses |
-| **Potion** | **Essence of Spell Power** on every world boss — **live:** **Medicinal Use** still locked (Alchemy Phase 3) |
+| **Potion** | **Essence of Heroism** on every world boss — **live:** **Medicinal Use** still locked (Alchemy Phase 3) |
 | **Weapon Poisons** | **Gradual Ravage Health IX** on destruction bar between pulls |
 | **Staff/Weapon Enchant** | Front: **Shock Damage** (Infused) · Back: **Absorb Magicka** on long bosses, or **Reduce Spell Cost** for general overland |
 | **Companion** | **Primary (now):** **Sharp-as-Night** (bodyguard / ranged DPS) **16/20** @ CP **1039** · **Secondary:** **Bastian Hallix** (emergency heals) · **Goal:** Sharp **20/20** + Superior+ companion gear |
@@ -160,7 +160,7 @@ flowchart TD
     classDef frontbar fill:#1A237E,stroke:#7986CB,color:#E8EAF6
     classDef corpse fill:#37474F,stroke:#90A4AE,color:#ECEFF1
 
-    A["Optional: Essence of Spell Power"]:::start --> B["Back: Pestilent Colossus + Combat Prayer + Healing Springs + Resistant Flesh"]:::backbar
+    A["Optional: Essence of Heroism"]:::start --> B["Back: Pestilent Colossus + Combat Prayer + Healing Springs + Resistant Flesh"]:::backbar
     B --> C["Spirit Guardian"]:::backbar
     C --> D["Swap to front bar"]:::swap
     D --> E["Blockade of Storms + Grave Lord's Sacrifice"]:::frontbar
@@ -239,7 +239,7 @@ Phase 0 skill-point backlog is cleared (**Rapid Rot**, **Corpse Consumption**, *
 
 #### Craft — Alchemy
 
-* Rank **[Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use) 3/3** next (still **locked** on live) so Spell Power pots last through world bosses.
+* Rank **[Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use) 3/3** next (still **locked** on live) so Essence of Heroism lasts through world bosses.
 
 ---
 
@@ -532,7 +532,7 @@ Follow this list to finish **The Apocryphal Mystic**. Phase 0–1 are **done** o
 ### Phase 3 — Polish (open)
 
 17. **[Phase 3]** Apply **High Elf** / **Psijic Order** motifs. Dye: Sapiarch gold, apocrypha indigo, bone-white trim.
-18. **[Phase 3]** Rank **Medicinal Use 3/3** (still locked). Stock **Essence of Spell Power**. After gold OW+Julianos: test mundus **The Thief**.
+18. **[Phase 3]** Rank **Medicinal Use 3/3** (still locked). Stock **Essence of Heroism**. After gold OW+Julianos: test mundus **The Thief**.
 19. ~~Spirit Guardian on back bar~~ ✅ · Keep ranking Bone Tyrant / MG passives; grind MG past rank 4 for **Might of the Guild**.
 
 ### Finish (open)

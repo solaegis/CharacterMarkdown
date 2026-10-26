@@ -19,7 +19,7 @@ Designed specifically to solo world bosses, clear delves, and dominate normal/ve
 | **Sets** | **5 Clever Alchemist + 5 Law of Julianos** (100% craftable) — **live:** both 5-piece sets equipped (gold) |
 | **Bars** | Front: Lightning Destro ("Toxic Bloom") · Back: Restoration ("Mycelium Sanctum") |
 | **Food** | **Witty Blue Entremet** (Max Magicka + Magicka Recovery) or **Bewitched Sugar Skulls** (Tri-Stat + Health Recovery) |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Crit) or **Tri-Restoration** for hard world bosses |
+| **Potion** | **Essence of Heroism** (U51: Major Brutality + Major Savagery) or **Tri-Restoration** for hard world bosses |
 | **Weapon Poisons** | **Escapist's Poison IX** / **Gradual Ravage Health IX** on destruction bar between pulls |
 | **Staff Enchant** | Front: **Poisoned Weapon** or **Fiery Weapon**; Back: **Absorb Magicka** or **Reduce Spell Cost** |
 | **Companion** | **Sharp-as-Night** (ranged DPS); **Mirri Elendis** fallback for hard world bosses |
@@ -119,7 +119,7 @@ flowchart TD
     classDef swap fill:#E65100,stroke:#FFB74D,color:#FFF3E3
     classDef frontbar fill:#4A148C,stroke:#CE93D8,color:#F3E5F5
 
-    A["Drink Spell Power potion"]:::start --> B["Back: Budding Seeds + Extended Ritual + Combat Prayer"]:::backbar
+    A["Drink Essence of Heroism"]:::start --> B["Back: Budding Seeds + Extended Ritual + Combat Prayer"]:::backbar
     B --> C["Swap to front bar"]:::swap
     C --> D["Blockade + Avid Boneyard + Blighted Blastbones"]:::frontbar
     D --> E["Weave light attacks + Crushing Shock"]:::frontbar
@@ -240,7 +240,7 @@ graph LR
 
 | **Set** | **5-Piece Bonus** | **Role in the Build** |
 | :--- | :--- | :--- |
-| **Clever Alchemist** | Drink a potion in combat → **+675 Weapon and Spell Damage** for 20 seconds | Open every pull with **Essence of Spell Power**; Argonian racial + **Liquid Efficiency** CP keep uptime high |
+| **Clever Alchemist** | Drink a potion in combat → **+675 Weapon and Spell Damage** for 20 seconds | Open every pull with **Essence of Heroism**; Argonian racial + **Liquid Efficiency** CP keep uptime high |
 | **Law of Julianos** | +300 spell crit; **+10% spell critical damage** | Baseline burst; crit-heal synergy with **Fighting Finesse** CP |
 
 > [!NOTE]
@@ -467,7 +467,7 @@ Follow this transition list to unlock the full power of **The Verdant Venomancer
 2. **Align skill bars:** Respec actives to match [Skill bars](#skill-bars)—morph **Force Pulse** → **Crushing Shock**, **Cleansing Ritual** → **Extended Ritual**, **Secluded Grove** → **Enchanted Forest** (front bar **Blockade** and **Pestilent Colossus** are already live).
 3. **Finish passives:** Spend **5 available skill points** on morphs and passives listed in [Combat kit](#combat-kit-the-bloom-miasma-cycle). Join **Mages Guild**, **Undaunted**, and **Fighters Guild** enclaves if not already done.
 4. **CP polish:** Spend **9 available CP** (⚒️ 1 / ⚔️ 2 / 💪 6 on export) finishing **Piercing** and **Mystic Tenacity**, or full respec to [Champion Point Mapping](#champion-point-mapping-cp-966) for combat focus.
-5. **Alchemy:** Rank **Medicinal Use 3/3**. Stock **Essence of Spell Power** potions; drink on pull to proc **Clever Alchemist**.
+5. **Alchemy:** Rank **Medicinal Use 3/3**. Stock **Essence of Heroism** potions; drink on pull to proc **Clever Alchemist**.
 
 ### Phase 1 — Craft (interim)
 

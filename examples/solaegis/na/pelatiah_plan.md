@@ -19,7 +19,7 @@ By pairing native **Dawn's Wrath** solar destruction with **Restoring Light** di
 | **Sets** | **5 Law of Julianos + 5 Order's Wrath** (100% craftable) — **live:** Trainee 5/5 + Julianos 1/5 + Grace of Gloom 1/5 · **target:** Julianos + Order's Wrath |
 | **Bars** | Front: Inferno Staff ("The Solar Dominion") · Back: Restoration Staff ("The Sacred Sanctuary") |
 | **Food** | **Solitude Salmon Millet Soup** (Max Magicka + Max Health) or **Bewitched Sugar Skulls** for hard encounters |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Spell Crit + Magicka Recovery) |
+| **Potion** | **Essence of Heroism** (U51: Major Brutality + Major Savagery) |
 | **Weapon Poisons** | None (use staff glyphs) |
 | **Staff/Weapon Enchant** | Front: **Flame Damage** (Fiery Weapon); Back: **Absorb Magicka** or **Weapon Damage** |
 | **Companion** | **Primary (now):** **Bastian Hallix** (Tank/Support) at live CP **742** + companion **16/20** · **Secondary:** **Isobel Veloise** (Holy Knight) · **Goal (20/20 @ CP160):** **Bastian Hallix** (Tank/Support) |
@@ -130,7 +130,7 @@ flowchart TD
     classDef swap fill:#E65100,stroke:#FFB74D,color:#FFF3E3
     classDef frontbar fill:#1A237E,stroke:#7986CB,color:#E8EAF6
 
-    A["Drink Essence of Spell Power"]:::start --> B["Back: Elemental Susceptibility + Channeled Focus + Unstable Wall"]:::backbar
+    A["Drink Essence of Heroism"]:::start --> B["Back: Elemental Susceptibility + Channeled Focus + Unstable Wall"]:::backbar
     B --> C["Swap to front bar"]:::swap
     C --> D["Channeled Acceleration + Solar Barrage + Vampire's Bane"]:::frontbar
     D --> E["Crushing Shock + Light Attacks; refresh Barrage and Wall"]:::frontbar

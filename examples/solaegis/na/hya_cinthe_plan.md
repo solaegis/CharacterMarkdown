@@ -21,7 +21,7 @@ Combat is a **solo-first Magicka Uber**: **Herald of the Tome** KEEP (Fatecarver
 | **Sets** | **5 Tide-Born Wildstalker** + **5 Order's Wrath** + **2 Armor of the Trainee** — **100% craftable** · **live:** Trainee / Night Mother / Death's Wind / Julianos mix · **target:** gold craftable only (no Slimecraw / no dungeon sets) |
 | **Bars** | Front: Lightning Destruction Staff ("Father's Beam") · Back: Inferno Destruction Staff ("Ink Bargain") |
 | **Food** | **Witchmother's Potent Brew** (Max Magicka / Health / Mag Recovery) |
-| **Potion** | **Essence of Spell Power** (Spell Crit / Spell Power / Magicka) |
+| **Potion** | **Essence of Heroism** (U51: Major Brutality + Major Savagery) |
 | **Weapon Poisons** | Optional Absorb Magicka / Breach poisons on dig bosses; not required |
 | **Staff/Weapon Enchant** | Front: **Flame Damage** (Infused) · Back: **Crushing** (Infused) for Major Breach uptime with Elemental Drain |
 | **Companion** | **Primary (now):** **Tanlorin** (live) · **Secondary:** **Azandar al-Cybiades** (scholar / Scrying rapport) · **Goal (20/20 @ CP160):** **Bastian Hallix** (tank companion for world bosses and hard digs) |
@@ -48,7 +48,7 @@ His primary life is patient and solitary: **lead-runner**, overland walker, anti
 
 > [!NOTE]
 > **Build Notes (paste into LAM Custom Title / Build Notes):**
-> Pride Father — solo Mag Arcanist Abi / old soul. Herald + Curative KEEP; Dark Magic SUBCLASS (drops Soldier + Assassination). Father's Beam (Lightning): Blockade, Cephaliarch's Flail, Pragmatic Fatecarver, Escalating Runeblades, Recuperative Treatise, The Languid Eye. Ink Bargain (Inferno): Fulminating Rune, Dark Deal, Evolving Runemend, Elemental Drain, Contingency (or Fleet-Footed Gate), The Languid Eye (same morph both bars). Gear: 5 Tide-Born Wildstalker + 5 Order's Wrath + 2 Trainee — craftable only via @masisi (no monster). 64 Magicka. Mundus Shadow. Cure vamp. Spell Power pots. Scribing Contingency (Minor Force). Antiquities lead-runner. Companion: Tanlorin now; Azandar for Scrying; Bastian goal tank. Mount Ja'zennji Siir Fox; pet Abecean Ratter Cat; costume Hollow Moon Garb.
+> Pride Father — solo Mag Arcanist Abi / old soul. Herald + Curative KEEP; Dark Magic SUBCLASS (drops Soldier + Assassination). Father's Beam (Lightning): Blockade, Cephaliarch's Flail, Pragmatic Fatecarver, Escalating Runeblades, Recuperative Treatise, The Languid Eye. Ink Bargain (Inferno): Fulminating Rune, Dark Deal, Evolving Runemend, Elemental Drain, Contingency (or Fleet-Footed Gate), The Languid Eye (same morph both bars). Gear: 5 Tide-Born Wildstalker + 5 Order's Wrath + 2 Trainee — craftable only via @masisi (no monster). 64 Magicka. Mundus Shadow. Cure vamp. Essence of Heroism pots. Scribing Contingency (Minor Force). Antiquities lead-runner. Companion: Tanlorin now; Azandar for Scrying; Bastian goal tank. Mount Ja'zennji Siir Fox; pet Abecean Ratter Cat; costume Hollow Moon Garb.
 
 > [!TIP]
 > **Flavor Pet:** **Abecean Ratter Cat** (owned; Neutral Good + cat affinity). **Ideal:** **Dusky Fennec Fox**. **Desk toy:** **Cipher's Eye Pocket Watcher** — see [Collectibles](#collectibles).
@@ -134,7 +134,7 @@ Document **slotted morph names as shown in the skills UI**. Each morph appears a
 
 ### Passive skills
 
-Prioritise: all **Herald of the Tome** combat passives; **Curative Runeforms** heal/cost passives; **Dark Magic** cost and Dark Deal passives; **Destruction Staff** Tri Focus / Ancient Knowledge / Destruction Expert; **Light Armor** (concentration / recovery); **Mages Guild** (Inner Light passive path — Major Savagery comes from Spell Power potion if Inner Light is not slotted); **Undaunted** Mettle; racial **Khajiit** Feline Ambush / robust.
+Prioritise: all **Herald of the Tome** combat passives; **Curative Runeforms** heal/cost passives; **Dark Magic** cost and Dark Deal passives; **Destruction Staff** Tri Focus / Ancient Knowledge / Destruction Expert; **Light Armor** (concentration / recovery); **Mages Guild** (Inner Light passive path — Major Savagery comes from Essence of Heroism if Inner Light is not slotted); **Undaunted** Mettle; racial **Khajiit** Feline Ambush / robust.
 
 ### Scribing
 
@@ -146,7 +146,7 @@ Hya does not "cast a skill" in fiction — he **binds luminous ink to a prepared
 2. **Unlock path:** Own the **Gold Road** chapter → complete the **Ulfsild / Scholarium** questline until the Scribing altar unlocks.
 3. **Ink economy:** Luminous Ink drops from Scholarium content, dailies, and general play — check Journal / Scholarium vendors and solo-friendly overland sources. Exact drop tables change; farm what he can run alone.
 4. **Script hunting:** Class scripts vs skill-line scripts. In the UI, read Focus (what the skill *does*), Signature (extra clause), Affix (usually a Major/Minor buff or utility).
-5. **Anti-recipes for this build:** Do **not** scribe Affixes that grant **Major Brutality / Sorcery** or **Major Savagery / Prophecy** — **Recuperative Treatise** and Spell Power potions already cover those. Do not double Minor Force if another source already owns it.
+5. **Anti-recipes for this build:** Do **not** scribe Affixes that grant **Major Brutality / Sorcery** or **Major Savagery / Prophecy** — **Recuperative Treatise** and Essence of Heroism potions already cover those. Do not double Minor Force if another source already owns it.
 
 #### This build's recipe card — Contingency
 
@@ -309,7 +309,7 @@ Beginner track for Pride Father as the account's **lead runner**:
 ### Phase 3 — Polish (ink, leads, companion)
 
 11. **[Phase 3]** Bind **Contingency** recipe; daily green→blue lead habit; level **Bastian** toward 20/20 with Companion's tank gear; run Scrying sessions with **Azandar**.
-12. **Food / pots:** Stock Witchmother's + Spell Power essences.
+12. **Food / pots:** Stock Witchmother's + Essence of Heroism.
 13. **Regenerate profile:** `/cm` and update [hya_cinthe.md](hya_cinthe.md) when bars, CP, and gear match.
 
 May the ink hold, Abi. The pride looks to you.

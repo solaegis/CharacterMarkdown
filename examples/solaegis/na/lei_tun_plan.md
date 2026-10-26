@@ -19,7 +19,7 @@ Designed for high-critical solo overland and veteran arena combat, this build pa
 | **Sets** | **Law of Julianos** (5pc) + **Order's Wrath** (5pc) + **Armor of the Trainee** (2pc) — 100% craftable · **live:** Trainee (5/5) + Shadow Dancer (2/5) · **target:** Julianos + Order's Wrath (CP160) |
 | **Bars** | Front: Lightning Destruction Staff ("Abyssal Surge Bar") · Back: Restoration Staff ("Tidal Reef Restoration Bar") |
 | **Food** | **Witchmother's Potent Brew** (+Max Magicka, +Max Health, +Magicka Recovery) |
-| **Potion** | **Essence of Health (Tri-Stat)** or **Essence of Spell Power** (Spell Crit/Power/Magicka) |
+| **Potion** | **Essence of Health (Tri-Stat)** or **Essence of Heroism** (U51: Major Brutality + Major Savagery) |
 | **Weapon Poisons** | None (Infused/Charged weapon enchantments active) |
 | **Staff/Weapon Enchant** | Front: Flame Damage / Shock Damage Enchantment · Back: Weapon and Spell Damage Enchantment |
 | **Companion** | **Primary (now):** **Ember** (Magicka DPS/Utility) at companion **1/20** · **Secondary:** **Azandar al-Cybiades** (Arcanist Lore) · **Goal (20/20 @ CP160):** **Sharp-as-Night** (Warden Frontline Tank) |
