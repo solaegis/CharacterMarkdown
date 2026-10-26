@@ -108,7 +108,7 @@ Rules:
 | Slug | Primary Mount | Flavor Pet | Costume | Comp Primary | Comp Secondary | Comp Goal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | heka_ankh | Dwarven War Horse | Alik'r Jackal | *(missing)* | Mirri Elendis | Zerith-var | Isobel Veloise |
-| kellen_dysart | Flame Atronach Senche | Golden Eagle | *(missing)* | Zerith-var | Isobel Veloise | Isobel Veloise |
+| brontanax | Flame Atronach Senche | Golden Eagle | *(missing)* | Zerith-var | Isobel Veloise | Isobel Veloise |
 | lei_tun | Sapiarchic Senche-Serval | Abecean Ratter Cat | *(missing)* | Ember | Azandar al-Cybiades | Sharp-as-Night |
 | pelatiah | Imperial Horse | Imperial War Mastiff | *(missing)* | Bastian Hallix | Isobel Veloise | Bastian Hallix |
 | rilis_toxil | Sapiarchic Senche-Serval | Dwarven Spider | *(missing)* | Sharp-as-Night | Bastian Hallix | Sharp-as-Night |
@@ -135,7 +135,7 @@ NA: `dextera_dei`, `dolu_tenasi`, `hya_cinthe`, `karakedi`, `karakum`, `masisi`,
 - **NA mount:** Sapiarchic Senche-Serval (`lei_tun`, `rilis_toxil`)
 - **EU mount:** Psijic Escort Charger (`masisi`, `taranis_kotu`); Nightmare Senche (`lord_elric_of_melnibone`, `zirhli`)
 - **EU costume:** Mannimarco (`lord_elric_of_melnibone`, `taranis_kotu`)
-- **Pets:** Golden Eagle appears as primary on NA `kellen_dysart` and EU `alpha_top` (separate megaserver pools — OK)
+- **Pets:** Golden Eagle appears as primary on NA `brontanax` and EU `alpha_top` (separate megaserver pools — OK)
 
 ## Success criteria
 

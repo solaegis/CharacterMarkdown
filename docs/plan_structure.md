@@ -14,16 +14,19 @@ Canonical layout for Solaegis character build plans under `examples/{account}/{l
 | File | Title style | Layout tier | Notes |
 | :--- | :--- | :--- | :--- |
 | `silent_snow_falls_plan.md` | Build Plan | **Canonical** | Structure exemplar |
-| `kellen_dysart_plan.md` | Build Plan | **Canonical** | Includes Custom Title + Build Notes |
+| `brontanax_plan.md` | Build Plan | **Canonical** | Includes Custom Title + Build Notes |
 | `stoirmgheal_plan.md` | Walkthrough | Legacy | Pillar/trinity split; visual identity before CP |
 | `hya_cinthe_plan.md` | Build Plan | **Canonical** | Mag Arcanist Pride Father (solo leads/overland); Herald+Curative KEEP, Dark Magic SUBCLASS; craftable Tide-Born + Order's Wrath + Trainee; Scribing + Antiquities |
-| `karakedi_plan.md` | Walkthrough | Legacy | Gear before combat; subclass table inside rotation |
+| `karakedi_plan.md` | Build Plan | **Canonical** | Uber stam NB (Assassination KEEP, Storm + Herald SUBCLASS); Order's Wrath + Hunding's Rage |
+| `heka_ankh_plan.md` | Build Plan | **Canonical** | Peak stam Necro (KEEP all three natives, Psijic Crushing Weapon); Order's Wrath + Hunding's Rage |
 | `dolu_tenasi_plan.md` | Build Plan | Mixed | Has trinity H2 but old section order |
 | `dextera_dei_plan.md` | Walkthrough | Legacy | Duplicate vampire H2; aesthetic outside Collectibles |
 | `talon_valois_plan.md` | Walkthrough | Legacy | Incomplete CP; dye under gear |
 | `karakum_plan.md` | Walkthrough | Legacy | Werewolf alt bar; no Collectibles H2 |
 | `nekhtarhebi_plan.md` | Walkthrough | Legacy | Gear-first; no Collectibles H2 |
 | `masisi_plan.md` | Build Plan | **Canonical** | Hybrid farmer-DPS (Hunding’s + Night Mother’s Gaze, craftable; Assassination subclass) |
+| `pelatiah_plan.md` | Build Plan | **Canonical** | Magicka Templar KEEP-all (Spear + Dawn + Light); dest Inferno/Lightning; Julianos + Order's Wrath |
+| `laetha_plan.md` | Build Plan | **Canonical** | Uber mag Dark Executioner (Dark Magic KEEP, Siphoning + Grave Lord SUBCLASS); Julianos + Order's Wrath dest/resto; nix-ox + Stonefire Scamp + Dark Seducer |
 | `dolu_tanesi_plan.md` (EU) | Build Plan | **Canonical** | Magicka life-broker NB; KEEP all native; Julianos + Clever Alchemist; distinct from NA `dolu_tenasi` |
 | `lord_elric_of_melnibone_plan.md` (EU) | Build Plan | **Canonical** | Magicka pet Sorc with 2H front bar; Grave Lord at 50; Julianos (weapons + jewelry) + Night Mother's Gaze, craftable |
 | `taranis_kotu_plan.md` (EU) | Build Plan | **Canonical** | Magicka control Sorc, Dest/Dest; Grave Lord at 50; New Moon Acolyte + Julianos + Oblivion's Foe staves, craftable |
@@ -146,13 +149,42 @@ Single summary table. Include **live** vs **target** labels when the profile exp
 | Trinity | Three lines with KEEP / SUBCLASS; live vs target; one-line decision |
 | Sets | Craftable pairing; **100% craftable** unless documented exception |
 | Bars | Front + back weapon types and bar nicknames |
-| Food / Potion / Poisons / Enchants | Consumables and bar enchants |
+| Food | Best for **this** kit (live stats, bars, sustain) — see [Food picks](#food-picks) |
+| Potion / Poisons / Enchants | Consumables and bar enchants |
 | Companion | Primary + fallback |
 | Primary Mount | Name + anchor to Collectibles |
 | Flavor Pet | Owned + ideal; detail under Collectibles |
 | Costume | Primary full-body costume + alt; detail under Collectibles |
 
 Follow with **Read next:** inline anchor links to every major H2.
+
+#### Food picks
+
+Food is **best for this build**, not a generic “best magicka food” or “best stamina food.” Read the paired profile (**Character Stats**, **Advanced Stats**, **Active Buffs**, slotted costs) and name the recipe that closes *this* kit’s gap. Write a one-line why on the glance row.
+
+Diagnose in order:
+
+1. What do the **slotted skills** spend (not the attribute label alone — a 64 Magicka character with a stamina morph still needs that pool)?
+2. Is **Health** too low for the planned content?
+3. Is **recovery already enough** (race, resto/heal bar, glyphs, CP, potions, current food)?
+4. Does **dodge / block / break-free** fail on the fights this plan targets?
+5. Does a **set** require a food buff vs a drink buff?
+
+Max Magicka/Stamina feeds the damage formula (~1 Spell/Weapon Damage per 10.5 matching max resource). Recovery food/drink wins only when that diagnosis says sustain is the limiter.
+
+Use **real recipe names only**. There is no **Witty Blue Entremet**. Provisioning **Entremet** is Max Magicka + Max Stamina, not Magicka + Magicka Recovery.
+
+Candidate menu after the diagnosis — do not auto-pick from primary stat:
+
+| When this build needs | Recipe | Buff (CP160) | Duration | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Health + Magicka pools, cheap | **Solitude Salmon-Millet Soup** (Fish + Tomato + Millet) | +5,395 Health, +4,936 Magicka | 1h | Same pools as Pickled; writ mats or ~15–20g NA |
+| Health + Stamina pools, cheap | **Garlic Cod with Potato Crust** (Fish + Potato + Garlic) | +5,395 Health, +4,936 Stamina | 1h | Only if the kit actually spends Stamina |
+| Same mag pools, 2h convenience | **Artaeum Pickled Fish Bowl** | +5,414 Health, +4,938 Magicka | 2h | Buy finished (~600g NA); do not craft for gold |
+| Extra Stamina for dodge/break-free | **Bewitched Sugar Skulls** | +4,620 Health, +4,250 Mag/Stam, +462 Health Recovery | 2h | Boss / roll food when the plan’s Stamina pool is the failure |
+| Proven sustain hole | Clockwork Citrus Filet, Artaeum Takeaway Broth, Ghastly Eye Bowl, Lava Foot Soup-and-Saltrice | Recovery-heavy | 2h | Perfect Roe / Mother of Pearl — use only when step 3 fails |
+
+Cooking the CP150 savouries needs **Recipe Improvement VI** (Provisioning 50). Have **@masisi** cook or buy stacks; do not assume the combat character can provision them. **Rationer** adds +10 minutes per stage (max +30 at 30 points) — duration only, not which recipe.
 
 ### Roleplay
 
@@ -208,6 +240,7 @@ Follow with **Read next:** inline anchor links to every major H2.
 ### Companion Strategy
 
 - Companion **gear is separate** from player gear — only **Companion's** weapons/armor with **companion-only traits** (Quickened, Aggressive, Bolstered, etc.).
+- Companion equipment has **no item level** — only **quality** (Fine / Superior / Epic) and trait matter. Ignore profile `(Level 1)` / “below level” warnings; those are API false positives.
 - No fictional **"Companion's {player set}"** names, player sets (Julianos, Clever Alchemist, Divines), or **5-piece set bonuses** on companions.
 - Acquisition: merchant white basics + **Superior+** drops while companion is active — **not** player crafting handoff from Gear and crafting.
 - Include role, gear weight, trait, loadout, acquisition, and a numbered support skill bar.
@@ -318,6 +351,7 @@ When reviewing any `{slug}_plan.md`:
 - [ ] Trinity = one mermaid + one table; **subclassing evaluated and documented** (KEEP-all is valid only with rationale; SUBCLASS needs proof + replaced native)
 - [ ] Skill bars match equipped weapons; ultimates on slot 6; summons on slot 5 (both bars, same ability) when used; morph names from UI
 - [ ] Glance table includes **Trinity** row (live vs target)
+- [ ] Food is chosen for **this** kit (live stats, what the bars spend, sustain/health/dodge) with a one-line why; real recipe from the candidate menu — no invented names, no generic mag/stam default, no Clockwork / recovery drinks unless sustain is proven short
 - [ ] Gear is craftable; crafting handoff references @masisi
 - [ ] CP recommendations use [`champion_points_reference.md`](../examples/templates/champion_points_reference.md) names, max points, and slottable/passive type
 - [ ] Companion gear is companion-specific; Companion Primary / Secondary / Goal stages present
@@ -334,6 +368,6 @@ When reviewing any `{slug}_plan.md`:
 | `examples/templates/template_plan.md` | Copy-paste skeleton for new plans |
 | `examples/templates/build_plan_template.md` | Alias / legacy name; points to `template_plan.md` |
 | `examples/solaegis/na/silent_snow_falls_plan.md` | Filled canonical exemplar |
-| `examples/solaegis/na/kellen_dysart_plan.md` | Canonical + Custom Title / Build Notes |
+| `examples/solaegis/na/brontanax_plan.md` | Canonical + Custom Title / Build Notes |
 | `examples/solaegis/na/masisi_plan.md` | Crafter-variant exemplar |
 | `AGENTS.md` | Agent rules for plan implementation |

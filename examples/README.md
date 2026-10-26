@@ -26,13 +26,13 @@ All live under `examples/solaegis/na/`:
 | Slug | Display name |
 | --- | --- |
 | `alpha_top` | Alpha Top |
+| `brontanax` | Brontanax |
 | `dextera_dei` | Dextera Dei |
 | `dolu_tenasi` | Dolu-tenasi |
 | `heka_ankh` | Heka-Ankh |
 | `hya_cinthe` | Hya'cinthe |
 | `karakedi` | Karakedi |
 | `karakum` | Karakum |
-| `kellen_dysart` | Kellen Dysart |
 | `laetha` | Lætha |
 | `lei_tun` | Lei-Tun |
 | `lord_elric_of_melnibone` | Lord Elric of Melniboné |

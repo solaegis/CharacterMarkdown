@@ -1,8 +1,8 @@
-# Build Plan - Kellen Dysart: The Storm Sovereign (Olympian God Overland)
+# Build Plan - Brontanax: The Storm Sovereign
 
-> **Character profile:** [kellen_dysart.md](kellen_dysart.md) — Level 50 Breton Sorcerer, CP 1020, @SOLAEGIS (NA).
+> **Character profile:** [brontanax.md](brontanax.md) — Level 50 Breton Sorcerer, CP 1020, @SOLAEGIS (NA).
 
-Kellen Dysart is no mere sorcerer—he is the embodiment of divine thunder made mortal. This guide transforms the **Grand Sorcerer** into **The Storm Sovereign**, an Olympian-tier archetype for solo overland dominance. By merging his native **Storm Calling** lightning sovereignty with the **Daedric Summoning** tradition of commanding celestial servants, and replacing the minor hedge-magic of Dark Magic with the **Grave Lord** death-aspect of the Necromancer, Kellen becomes a walking act of divine judgment: atronachs at his flank, lightning from his hand, and the power to strip an enemy of all protection before delivering the final bolt.
+Brontanax is no mere sorcerer—he is the embodiment of divine thunder made mortal. This guide transforms the **Grand Sorcerer** into **The Storm Sovereign**, an Olympian-tier archetype for solo overland dominance. By merging his native **Storm Calling** lightning sovereignty with the **Daedric Summoning** tradition of commanding celestial servants, and replacing the minor hedge-magic of Dark Magic with the **Grave Lord** death-aspect of the Necromancer, Brontanax becomes a walking act of divine judgment: atronachs at his flank, lightning from his hand, and the power to strip an enemy of all protection before delivering the final bolt.
 
 Built entirely on **craftable sets** and CP 1020, this build is designed to solo world bosses, dominate public dungeons, and clear every overland zone with authority befitting a god.
 
@@ -18,8 +18,8 @@ Built entirely on **craftable sets** and CP 1020, this build is designed to solo
 | **Vampirism** | **Cured** — fire damage from overland bosses conflicts with vampirism; divine beings don't crawl |
 | **Sets** | **5 Law of Julianos + 5 Clever Alchemist** (100% craftable, all Light Armor) — **live:** Fortified Brass 5/5 Legendary · **target:** Julianos + Clever Alchemist |
 | **Bars** | Front: Lightning Destruction Staff ("The Storm Throne") · Back: Restoration Staff ("The Celestial Sanctum") |
-| **Food** | **Witty Blue Entremet** (Max Magicka + Magicka Recovery) or **Bewitched Sugar Skulls** for hard world bosses |
-| **Potion** | **Essence of Spell Power** (Spell Damage + Crit) — procs Clever Alchemist on pull |
+| **Food** | **Solitude Salmon-Millet Soup** (Max Health + Max Magicka, 1h) — live **22,002** Health / **30,014** Magicka / **1,883** Mag Recovery; every slotted damage skill costs Magicka, so pool food beats recovery. 2h: buy **Artaeum Pickled Fish Bowl** (same pools; do not craft). World-boss dodge on **14,307** Stamina: **Bewitched Sugar Skulls** |
+| **Potion** | **Essence of Heroism** (U51: Major Brutality + Major Savagery) — procs Clever Alchemist on pull |
 | **Weapon Poisons** | **Gradual Ravage Health IX** on destruction bar between pulls |
 | **Staff/Weapon Enchant** | Front: **Shock Damage** or **Fiery Weapon**; Back: **Absorb Magicka** or **Reduce Spell Cost** |
 | **Companion** | **Primary (now):** **Zerith-var** (DPS) at live CP **1020** + companion **10/20** · **Secondary:** **Isobel Veloise** (support — world bosses, Olympian herald) · **Goal (20/20 @ CP160):** **Isobel Veloise** (support DPS) |
@@ -32,18 +32,18 @@ Built entirely on **craftable sets** and CP 1020, this build is designed to solo
 
 ## 🎭 Roleplay: The Storm Sovereign
 
-The Olympian gods did not ask permission before reshaping the world. Neither does Kellen Dysart.
+The Olympian gods did not ask permission before reshaping the world. Neither does Brontanax.
 
-He carries the title **Grand Sorcerer**, but that label is insufficient. Kellen is a **Storm Sovereign**—one of those rare Bretons who studies magic not to serve it, but to *become* it. He does not summon atronachs; he dispatches celestial servants with the casual authority of a god assigning labors. He does not cast lightning; lightning is simply his language.
+He carries the title **Grand Sorcerer**, but that label is insufficient. Brontanax is a **Storm Sovereign**—one of those rare Bretons who studies magic not to serve it, but to *become* it. He does not summon atronachs; he dispatches celestial servants with the casual authority of a god assigning labors. He does not cast lightning; lightning is simply his language.
 
-In the divine mythology of Tamriel's Olympians, each power corresponds to a domain: Zeus claimed the sky, Hades claimed the dead, Hermes claimed passage. Kellen's design is the full triumvirate. His Storm Calling is the sky in wrath. His Twilight Matriarch is divine mercy—a healer sent from on high. And his Grave Lord subclass is the death-aspect acknowledged: every god of thunder is also, inevitably, a god of endings.
+In the divine mythology of Tamriel's Olympians, each power corresponds to a domain: Zeus claimed the sky, Hades claimed the dead, Hermes claimed passage. Brontanax's design is the full triumvirate. His Storm Calling is the sky in wrath. His Twilight Matriarch is divine mercy—a healer sent from on high. And his Grave Lord subclass is the death-aspect acknowledged: every god of thunder is also, inevitably, a god of endings.
 
 > [!TIP]
 > **Suggested Custom Title:** `God of Thunder, Arbiter of Storm`
 
 > [!NOTE]
 > **Build Notes (paste into LAM Custom Title / Build Notes):**
-> Kellen Dysart — The Storm Sovereign. Olympian-tier solo overland Sorcerer. 5 Law of Julianos + 5 Clever Alchemist, all craftable light armor. Front: Boundless Storm, Elemental Blockade, Crushing Shock, Grave Lord's Sacrifice, Twilight Matriarch Restore (slot 5 both bars), Greater Storm Atronach ult. Back: Combat Prayer, Healing Springs, Inner Light, Endless Fury, Matriarch slot 5, Pestilent Colossus ult. Grave Lord replaces Dark Magic — no Dark Magic actives. 64 Magicka (pure mag). Mundus: The Apprentice. Companion: Zerith-var now; Isobel @ 20/20 goal. @masisi crafts all 12 slots.
+> Brontanax — The Storm Sovereign. Olympian-tier solo overland Sorcerer. 5 Law of Julianos + 5 Clever Alchemist, all craftable light armor. Front: Boundless Storm, Elemental Blockade, Crushing Shock, Grave Lord's Sacrifice, Twilight Matriarch Restore (slot 5 both bars), Greater Storm Atronach ult. Back: Combat Prayer, Healing Springs, Inner Light, Endless Fury, Matriarch slot 5, Pestilent Colossus ult. Grave Lord replaces Dark Magic — no Dark Magic actives. 64 Magicka (pure mag). Mundus: The Apprentice. Companion: Zerith-var now; Isobel @ 20/20 goal. @masisi crafts all 12 slots.
 
 > [!TIP]
 > **Flavor Pet:** **Golden Eagle** from the character's Collectibles export. **Ideal (any source):** **Golden Eagle** — Zeus's divine messenger; **Blue Dragon Imp** (owned) is the best lightning-familiar backup. See [Collectibles](#collectibles) for mount, pet, and dye details.
@@ -52,7 +52,7 @@ In the divine mythology of Tamriel's Olympians, each power corresponds to a doma
 
 ## Trinity configuration
 
-By completing Bahtra at-Hunding's milestone quest **"A Study in Discipline"** at Level 50, Kellen unlocks the **Uber Tier (Triple Hybrid)** architecture. Replace **Dark Magic** to forge the storm-and-sovereignty loop. See [docs/subclassing.md](../../../docs/subclassing.md) for the Solaegis Trinity / subclassing model.
+By completing Bahtra at-Hunding's milestone quest **"A Study in Discipline"** at Level 50, Brontanax unlocks the **Uber Tier (Triple Hybrid)** architecture. Replace **Dark Magic** to forge the storm-and-sovereignty loop. See [docs/subclassing.md](../../../docs/subclassing.md) for the Solaegis Trinity / subclassing model.
 
 ```mermaid
 graph TD
@@ -142,7 +142,7 @@ flowchart TD
     classDef swap fill:#E65100,stroke:#FFB74D,color:#FFF3E3
     classDef frontbar fill:#1A237E,stroke:#7986CB,color:#E8EAF6
 
-    A["Drink Essence of Spell Power"]:::start --> B["Back: Pestilent Colossus + Combat Prayer + Healing Springs"]:::backbar
+    A["Drink Essence of Heroism"]:::start --> B["Back: Pestilent Colossus + Combat Prayer + Healing Springs"]:::backbar
     B --> C["Swap to front bar"]:::swap
     C --> D["Boundless Storm + Elemental Blockade + Grave Lord's Sacrifice"]:::frontbar
     D --> E["Crushing Shock + light attacks; refresh Blockade and Sacrifice"]:::frontbar
@@ -275,7 +275,7 @@ graph LR
 
 | **Set** | **5-Piece Bonus** | **Role in the Build** |
 | :--- | :--- | :--- |
-| **Clever Alchemist** | Drink potion in combat → **+675 Weapon and Spell Damage** for 20 seconds | Open every boss pull with Essence of Spell Power; Breton sustain + Liquid Efficiency CP keeps uptime high |
+| **Clever Alchemist** | Drink potion in combat → **+675 Weapon and Spell Damage** for 20 seconds | Open every boss pull with Essence of Heroism; Breton sustain + Liquid Efficiency CP keeps uptime high |
 | **Law of Julianos** | +300 Spell Critical; **+10% Critical Damage** | Baseline burst amplifier; crit-heal synergy with Fighting Finesse CP star |
 
 > [!NOTE]
@@ -285,7 +285,7 @@ graph LR
 > **Lower-trait fallback:** If 7-trait Clever Alchemist research is not ready on @masisi, craft **5 Shacklebreaker** (6 traits, Vvardenfell) on head/shoulders/chest/legs/waist — flat Max Magicka + Magicka Recovery + Spell Damage with no proc mechanic required.
 
 > [!NOTE]
-> **Current gear (Fortified Brass, Legendary):** Fortified Brass is excellent defensive gear with strong Physical/Spell Resistance. Kellen should continue wearing it through Phase 1. The target loadout is Phase 2 only — coordinate with @masisi when ready.
+> **Current gear (Fortified Brass, Legendary):** Fortified Brass is excellent defensive gear with strong Physical/Spell Resistance. Brontanax should continue wearing it through Phase 1. The target loadout is Phase 2 only — coordinate with @masisi when ready.
 
 ### Target loadout
 
@@ -408,11 +408,11 @@ Recommend companions in **three tiers**: who fits **right now** at live CP and c
 | :--- | :--- | :--- | :--- | :--- |
 | **Primary (now)** | **Zerith-var** | DPS | Cosmic lieutenant beside a self-sufficient storm sovereign — a fierce second, not a chaplain | At **10/20** with starter gear: extra damage on overland pulls; you self-heal via Twilight Matriarch and Healing Springs |
 | **Secondary** | **Isobel Veloise** | Support DPS | Olympian knight-herald — heroic champion attending the storm-god | Swap for hard world bosses: shields, burst heals, **Rally** stacks with Combat Prayer even before she is maxed |
-| **Goal (20/20 @ CP160)** | **Isobel Veloise** | Support DPS | Divine herald at full rank — faith and martial conviction mirror Kellen's authority | At **20/20** + full **heavy** companion armor (**Quickened** / **Bolstered**) + **Companion's Bow**: best survivability for solo world bosses with the target rotation |
+| **Goal (20/20 @ CP160)** | **Isobel Veloise** | Support DPS | Divine herald at full rank — faith and martial conviction mirror Brontanax's authority | At **20/20** + full **heavy** companion armor (**Quickened** / **Bolstered**) + **Companion's Bow**: best survivability for solo world bosses with the target rotation |
 
 ### Goal companion — Isobel Veloise: The Knight-Herald
 
-When both Kellen and Isobel are capped, she is the end-state pick: a paladin-knight herald whose shields and heals let the Storm Sovereign stay on the destruction bar while **Pestilent Colossus** vulnerability does its work.
+When both Brontanax and Isobel are capped, she is the end-state pick: a paladin-knight herald whose shields and heals let the Storm Sovereign stay on the destruction bar while **Pestilent Colossus** vulnerability does its work.
 
 | **Setting** | **Recommendation** |
 | :--- | :--- |
@@ -424,16 +424,16 @@ When both Kellen and Isobel are capped, she is the end-state pick: a paladin-kni
 
 #### Isobel's support skill bar (goal @ 20/20)
 
-1. **Shield of the Knight** (Class → Knight's Duty): Damage shield for Kellen when he takes heavy hits.
-2. **Mending Incantation** (Class → Steadfast): Burst heal for Kellen when below 50% Health.
+1. **Shield of the Knight** (Class → Knight's Duty): Damage shield for Brontanax when he takes heavy hits.
+2. **Mending Incantation** (Class → Steadfast): Burst heal for Brontanax when below 50% Health.
 3. **Arcing Shot** (Weapon → Bow): Ranged single-target damage — she stays at range safely.
 4. **Blessed Armor** (Class → Knight's Duty): Self-sustain passive buff; keeps Isobel alive.
-5. **Rally** (Class → Steadfast): Minor Berserk buff for Kellen — stacks with Combat Prayer.
+5. **Rally** (Class → Steadfast): Minor Berserk buff for Brontanax — stacks with Combat Prayer.
 6. *Ultimate:* **Knight's Champion** or class ultimate for world boss burn phases.
 
 ### Primary now — Zerith-var
 
-**Zerith-var** is already active and fits the **lone sovereign with a lethal lieutenant** read: Kellen does not need a healer herald when Twilight Matriarch and the restoration bar exist. Finish leveling him toward **20/20**, replace his level-1 defaults with **Superior+** **Companion's** heavy armor (**Aggressive** or **Shattering** traits) and a **Companion's Greatsword** from drops (companion must be active), and fill his empty ultimate slots. **Start leveling Isobel in parallel** so she is ready for world-boss swaps and the goal tier.
+**Zerith-var** is already active and fits the **lone sovereign with a lethal lieutenant** read: Brontanax does not need a healer herald when Twilight Matriarch and the restoration bar exist. Finish leveling him toward **20/20**, replace his level-1 defaults with **Superior+** **Companion's** heavy armor (**Aggressive** or **Shattering** traits) and a **Companion's Greatsword** from drops (companion must be active), and fill his empty ultimate slots. **Start leveling Isobel in parallel** so she is ready for world-boss swaps and the goal tier.
 
 > [!TIP]
 > **Secondary — Isobel Veloise:** Summon her instead of Zerith-var when a world boss focuses your companion or when you want shields and **Rally** on top of Combat Prayer. If Isobel's AI dies repeatedly, swap back to Zerith-var and self-sustain — you trade herald fiction for kill speed.
@@ -456,7 +456,7 @@ The Storm Sovereign rides something that makes the world pause. Choose the **bes
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Why** | A Daedric elemental construct ridden as a steed — the ultimate statement of mastery over summoned forces; storm-lightning Kellen astride fire-born amber reads as sovereignty over every element |
+| **Why** | A Daedric elemental construct ridden as a steed — the ultimate statement of mastery over summoned forces; storm-lightning Brontanax astride fire-born amber reads as sovereignty over every element |
 | **Acquisition** | Owned ✅ |
 | **Dye pass** | **Imperial gold** or **midnight sapphire** on any barding trim — divine gold and storm-blue against the amber fire |
 
@@ -533,7 +533,7 @@ Follow this transition list to unlock the full power of **The Storm Sovereign**.
 5. **Respec actives — back bar:** **Combat Prayer** (1) · **Healing Springs** (2) · **Inner Light** (3, morph **Magelight**) · **Endless Fury** (4, morph **Mages' Fury**) · **Twilight Matriarch Restore** (5) · **Pestilent Colossus** (ult, morph **Frozen Colossus**).
 6. **Unlock Grave Lord passives:** Spend **2 available skill points** on Grave Lord passives — **Reusable Parts** and **Death Knell** first.
 7. **Allocate 285 CP:** Warfare — **Eldritch Insight** (20), **Flawless Ritual** (40), **War Mage** (30), 10 flex; Fitness — unslot **Bloody Renewal**, slot **Siphoning Spells** (50), **Hero's Vigor** (10), **Mystic Tenacity** (40), **Tumbling** (5); Craft — **Steadfast Enchantment** (10), **Rationer** (10), **Liquid Efficiency** (50, auto passive — do not slot), **Wanderer** (10).
-8. **Stock potions:** Obtain **Essence of Spell Power** (Spell Damage + Crit) for boss pulls. Craft or purchase from guild stores. Rank **Medicinal Use 3/3** if not already maxed.
+8. **Stock food and potions:** Eat **Solitude Salmon-Millet Soup** daily (Fish + Tomato + Millet) — have **@masisi** cook or buy stacks (~15–20g NA). Live Magicka Recovery is already **1,883** (Breton, resto bar, Siphoning Spells); drop the current **All Primary Stat Recovery** meal. Optional 2h: buy **Artaeum Pickled Fish Bowl** (~600g) — do not spend Clam Gall to craft it. Keep **Bewitched Sugar Skulls** only if dodge / break-free fails on world bosses. Potions: **Essence of Heroism** (U51: Major Brutality + Major Savagery) for boss pulls to proc Clever Alchemist. Rank **Medicinal Use 3/3** if not already maxed.
 
 ### Phase 1 — Craft (interim)
 
@@ -542,7 +542,7 @@ Follow this transition list to unlock the full power of **The Storm Sovereign**.
 ### Phase 2 — Craft (target)
 
 10. **[Phase 2]** Coordinate with **@masisi**: craft **5 Clever Alchemist + 5 Law of Julianos**, all Light Armor, Divines trait, Max Magicka enchants on armor, Arcane on jewelry. Staves: Lightning Destro + Restoration, both Julianos, Infused, Shock Damage / Absorb Magicka enchants.
-11. **[Phase 2]** Use Kellen's **452 Transmute Crystals** to fix any non-Divines armor traits from the craft.
+11. **[Phase 2]** Use Brontanax's **452 Transmute Crystals** to fix any non-Divines armor traits from the craft.
 
 ### Phase 3 — Polish
 
@@ -553,6 +553,6 @@ Follow this transition list to unlock the full power of **The Storm Sovereign**.
 
 14. **Collectibles:** Equip **Flame Atronach Senche** as primary mount. Slot the **Golden Eagle** pet.
 15. **Companion:** Run **Zerith-var** for current content; level **Isobel Veloise** toward **20/20**; farm or purchase **companion-only** gear per [Companion Strategy](#-companion-strategy-the-divine-herald) (separate from player Phase 2 craft); keep **Isobel** rapport-ready for world-boss swaps noted there.
-16. **Regenerate Profile:** Run `/cm` in-game and update [kellen_dysart.md](kellen_dysart.md) when bars, CP, Mundus, and gear match this plan.
+16. **Regenerate Profile:** Run `/cm` in-game and update [brontanax.md](brontanax.md) when bars, CP, Mundus, and gear match this plan.
 
 The storm answers only to its sovereign. Let Tamriel remember why.

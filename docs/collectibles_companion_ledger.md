@@ -170,13 +170,15 @@ Profiles with no parseable Mounts/Pets/Costumes details (ownership still account
 | Slug | Primary Mount | Flavor Pet | Costume | Companion Primary | Companion Secondary | Companion Goal | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | hya_cinthe | Ja'zennji Siir Fox | Abecean Ratter Cat | Hollow Moon Garb | Tanlorin | Azandar al-Cybiades | Bastian Hallix | Mag Arcanist Pride Father (solo scribe/antiquarian); NG + cats Favorites; Watcher desk toy only; diversified off lei_tun/rilis Sapiarchic; Hollow Moon not Bedlam primary |
-| heka_ankh | Dwarven War Horse | Alik'r Jackal | — | Mirri Elendis | Zerith-var | Isobel Veloise | incomplete glance (no costume row); profile Collectibles incomplete |
-| kellen_dysart | Flame Atronach Senche | Golden Eagle | — | Zerith-var | Isobel Veloise | Isobel Veloise | incomplete glance (no costume row); shortlist S aligns |
+| heka_ankh | Dwarven War Horse | Alik'r Dune-Hound | Forebear Dishdasha | Mirri Elendis | Zerith-var | Isobel Veloise | Peak necro (Psijic Peak); EFC Favorites include Pyrodraconic; Grim Harvester alt |
+| brontanax | Flame Atronach Senche | Golden Eagle | — | Zerith-var | Isobel Veloise | Isobel Veloise | incomplete glance (no costume row); shortlist S aligns |
 | lei_tun | Sapiarchic Senche-Serval | Abecean Ratter Cat | — | Ember | Azandar al-Cybiades | Sharp-as-Night | incomplete glance (no costume row) |
-| pelatiah | Imperial Horse | Imperial War Mastiff | — | Bastian Hallix | Isobel Veloise | Bastian Hallix | incomplete glance (no costume row); profile Collectibles incomplete; Imperial War Mastiff not in NA pet pool export |
+| pelatiah | Imperial Horse | Bravil Retriever | Imperial Chancellor | Bastian Hallix | Isobel Veloise | Bastian Hallix | KEEP-all magplar; Mastiff Ideal (not in NA pet pool); Golden Eagle favorited not flavor (brontanax primary) |
 | rilis_toxil | Sapiarchic Senche-Serval | Dwarven Spider | — | Sharp-as-Night | Bastian Hallix | Sharp-as-Night | incomplete glance (no costume row); shares mount primary with lei_tun |
 | silent_snow_falls | Swamp Senche | — | — | Sharp-as-Night | Mirri Elendis | — | incomplete glance; Swamp Senche **not** in current owned mount pool — treat as Ideal until export confirms |
 | stoirmgheal | Faunfrolic Great Elk | Ambersheen Vale Fawn | Crystal Tower Sapiarchs' Gown | Tanlorin | (dismiss in group) | — | incomplete companion Goal; Crystal Tower gown not in owned costume pool — Ideal/alt |
+| karakedi | Rahd-m'Athra | Haunted House Cat | Black Hand Robe | Ember | Sharp-as-Night | Ember | Uber stam NB; EFC Random Favorite among Rahd-m'Athra + Senche/Lynx; unused NA primaries |
+| laetha | Nix-Ox War-Steed | Stonefire Scamp | Dark Seducer | Sharp-as-Night | Zerith-var | Zerith-var | Uber mag Dark Executioner; user-named nix-ox / scamp / open-face Seducer override scholar shortlist; scars worn as taunt; Sharp loner quiet now; Zerith Goal (older brother she bitches about) |
 
 ### NA frequency (primaries appearing more than once)
 
@@ -223,11 +225,11 @@ Shortlists below cover ledgered plans plus Not-yet-ledgered slugs that have usab
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
-| Mount | Dwarven War Horse, Hammerfell Camel | Pyrodraconic Camel-Lizard, Rahd-m'Athra | Profile Collectibles incomplete; Ideal Dune Stalker Senche unowned |
-| Pet | Alik'r Dune-Hound | Jackal, Dusky Fennec Fox | Ideal Alik'r Jackal / Sand Wisp — Jackal is closest owned |
-| Costume | Forebear Dishdasha, Grim Harvester | Crown Dishdasha, Imperial Chancellor | No glance costume yet |
+| Mount | Dwarven War Horse, Hammerfell Camel | Pyrodraconic Camel-Lizard, Rahd-m'Athra | Glance primary Dwarven War Horse; Ideal Dune Stalker Senche unowned; EFC Favorites include owned Pyrodraconic |
+| Pet | Alik'r Dune-Hound | Jackal, Dusky Fennec Fox | Glance flavor Alik'r Dune-Hound (NA S, unused as a NA primary) |
+| Costume | Forebear Dishdasha, Grim Harvester | Crown Dishdasha, Imperial Chancellor | Glance primary Forebear Dishdasha |
 
-#### kellen_dysart
+#### brontanax
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
@@ -248,8 +250,8 @@ Shortlists below cover ledgered plans plus Not-yet-ledgered slugs that have usab
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
 | Mount | Imperial Horse | Dwarven War Horse, Midnight Steed | Profile Collectibles incomplete |
-| Pet | Golden Eagle, Bravil Retriever | Dwarven War Dog, Tan-adjacent N/A | Imperial War Mastiff not in pool |
-| Costume | Imperial Chancellor, Lion Guard Knight | Seventh Legion Armor, Satakalaaam Imperial Armor | No glance costume yet |
+| Pet | Golden Eagle, Bravil Retriever | Dwarven War Dog, Tan-adjacent N/A | Flavor pet is Bravil Retriever; Mastiff Ideal (not in pool) |
+| Costume | Imperial Chancellor, Lion Guard Knight | Seventh Legion Armor, Satakalaaam Imperial Armor | Glance costume Imperial Chancellor |
 
 #### rilis_toxil
 
@@ -303,9 +305,9 @@ Shortlists below cover ledgered plans plus Not-yet-ledgered slugs that have usab
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
-| Mount | Rahd-m'Athra, Sapiarchic Senche-Serval | Highland Spotted Lynx, Nightmare Senche | Khajiit NB |
-| Pet | Haunted House Cat, Long-Winged Bat | Dusky Fennec Fox, Abecean Ratter Cat | |
-| Costume | Black Hand Robe, Thieves Guild Leathers | Shrouded Armor, Hollow Moon Garb | |
+| Mount | Rahd-m'Athra, Sapiarchic Senche-Serval | Highland Spotted Lynx, Nightmare Senche | Khajiit NB; glance primary Rahd-m'Athra |
+| Pet | Haunted House Cat, Long-Winged Bat | Dusky Fennec Fox, Abecean Ratter Cat | Glance flavor Haunted House Cat |
+| Costume | Black Hand Robe, Thieves Guild Leathers | Shrouded Armor, Hollow Moon Garb | Glance primary Black Hand Robe |
 
 #### karakum
 
@@ -343,9 +345,9 @@ Shortlists below cover ledgered plans plus Not-yet-ledgered slugs that have usab
 
 | Kind | S | A | Notes |
 | :--- | :--- | :--- | :--- |
-| Mount | Psijic Escort Charger, Sapiarchic Senche-Serval | Flame Atronach Senche, Noweyr Steed | High Elf Sorc |
-| Pet | Golden Eagle, Long-Winged Bat | Blue Dragon Imp, Psijic Mascot Bear Cub | |
-| Costume | Mannimarco, Mages Guild Formal Robes | Court of Bedlam, Quendelunn Veiled Heritance Garb | |
+| Mount | Nix-Ox War-Steed (primary) | Rubyflare Torchnix | Prefers nix-oxen; EFC mountThemes nix / nix-ox; Death Hound is non-ride backup only |
+| Pet | Stonefire Scamp (primary) | Long-Winged Bat, Blue Dragon Imp | Fire familiar; do not primary Golden Eagle / Haunted House Cat |
+| Costume | Dark Seducer (primary) | Golden Saint, Elven Hero Armor | Scars stay visible; no veil/hood primaries |
 
 #### tziyad
 
@@ -357,7 +359,7 @@ Shortlists below cover ledgered plans plus Not-yet-ledgered slugs that have usab
 
 ### Incomplete collectibles exports (NA)
 
-Profiles with no parseable Mounts/Pets/Costumes details: `heka_ankh`, `pelatiah`.
+Profiles with no parseable Mounts/Pets/Costumes details: `pelatiah`.
 
 ---
 
@@ -365,7 +367,7 @@ Profiles with no parseable Mounts/Pets/Costumes details: `heka_ankh`, `pelatiah`
 
 Plans without full glance collectible rows (add when next touched):
 
-**NA:** `dextera_dei`, `dolu_tenasi`, `hya_cinthe`, `karakedi`, `karakum`, `masisi`, `nekhtarhebi`, `talon_valois`
+**NA:** `dextera_dei`, `dolu_tenasi`, `hya_cinthe`, `karakum`, `masisi`, `nekhtarhebi`, `talon_valois`
 
 **EU:** *(none — all current EU combat plans are in the table above)*
 

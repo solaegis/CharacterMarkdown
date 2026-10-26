@@ -4,7 +4,7 @@
 
 # Alpha Top (Legionary)
 
-![Level](<https://img.shields.io/badge/Level-42-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-349-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Warden-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
+![Level](<https://img.shields.io/badge/Level-43-blue?style=flat>) ![CP](<https://img.shields.io/badge/CP-372-purple?style=flat>) ![Class](<https://img.shields.io/badge/Class-Warden-green?style=flat>) ![ESO+](<https://img.shields.io/badge/ESO+-Active-gold?style=flat>)
 
 **Breton Warden • Daggerfall Covenant Alliance**
 
@@ -48,20 +48,22 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Level** | 42 |
-| **Champion Points** | 349 |
+| **Level** | 43 |
+| **Champion Points** | 372 |
 | **Gender** | Male |
+| **Vampirism** | **Never** |
 | **Account** | @SOLAEGIS |
-| **Age** | 3d 3h 21m |
-| **ESO Plus** | ✅ Active |
+| **Age** | 3d 4h 36m |
+| **Lycanthropy** | **Never** |
 
 
 </div><div>
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Attributes** | 🔵 0 / ❤️ 0 / ⚡ 53 |
-| **Available Champion Points** | ⚒️ 21 - ⚔️ 26 - 💪 21 |
+| **ESO Plus** | ✅ Active |
+| **Attributes** | 🔵 0 / ❤️ 0 / ⚡ 54 |
+| **Available Champion Points** | ⚒️ 8 - ⚔️ 9 - 💪 8 |
 | **Race** | [Breton](https://en.uesp.net/wiki/Online:Breton) |
 | **Class** | [Warden](https://en.uesp.net/wiki/Online:Warden) |
 | **Title** | [Legionary](https://en.uesp.net/wiki/Online:Legionary) |
@@ -72,11 +74,11 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| **Location** | [Summerset](https://en.uesp.net/wiki/Online:Summerset) (Alinor) |
 | **Subclass** | None — Animal Companions / Green Balance / Winter's Embrace [None] |
 | **🪨 Mundus Stone** | [The Thief](https://en.uesp.net/wiki/Online:The_Thief_(Mundus_Stone)) |
 | **Alliance** | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **🍖 Active Buffs** | Other: [Gallop](https://en.uesp.net/wiki/Online:Gallop), [Eternal Guardian](https://en.uesp.net/wiki/Online:Eternal_Guardian) |
+| **Location** | [Alik'r Desert](https://en.uesp.net/wiki/Online:Alik'r_Desert) (Myrkwasa Dolmen) |
+| **🍖 Active Buffs** | Other: [Witchmother's Brew](https://en.uesp.net/wiki/Online:Witchmother's_Brew), [Increase All Primary Stats](https://en.uesp.net/wiki/Online:Increase_All_Primary_Stats), [Gallop](https://en.uesp.net/wiki/Online:Gallop), [Eternal Guardian](https://en.uesp.net/wiki/Online:Eternal_Guardian), [Fetcher Infection](https://en.uesp.net/wiki/Online:Fetcher_Infection) |
 
 
 </div><div>
@@ -87,10 +89,10 @@
 
 | **Attribute** | **Value** |
 | --- | --- |
-| 💰 **Gold** | 75,703 |
+| 💰 **Gold** | 58,285 |
 | ⚔️ **Alliance Points** | 20,000 |
 | 🔮 **Tel Var** | 0 |
-| 💎 **Transmute Crystals** | 176 |
+| 💎 **Transmute Crystals** | 276 |
 | 📜 **Writs** | 0 |
 | 🎫 **Event Tickets** | 0 |
 | 👑 **Crowns** | 190 |
@@ -112,7 +114,7 @@
 
 > [!WARNING]
 > **Attention Needed**
-> - 🎯 **7 skill points available** - Ready to spend
+> - 🎯 **9 skill points available** - Ready to spend
 
 ---
 
@@ -130,19 +132,19 @@
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 💚 **Resources** | Health | 23,345 |
-|  | Magicka | 18,728 |
-|  | Stamina | 22,712 |
-| ⚔️ **Offensive** | Weapon Power | 2,576 |
-|  | Spell Power | 2,576 |
+| 💚 **Resources** | Health | 28,087 |
+|  | Magicka | 23,178 |
+|  | Stamina | 27,356 |
+| ⚔️ **Offensive** | Weapon Power | 2,543 |
+|  | Spell Power | 2,543 |
 
 
 </div><div>
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🎯 **Critical** | Weapon Crit | 4,359 (19.9%) |
-|  | Spell Crit | 4,359 (19.9%) |
+| 🎯 **Critical** | Weapon Crit | 4,343 (19.8%) |
+|  | Spell Crit | 4,343 (19.8%) |
 | ⚔️ **Penetration** | Physical | 700 |
 |  | Spell | 700 |
 
@@ -151,11 +153,11 @@
 
 | **Category** | **Stat** | **Value** |
 | --- | --- | ---: |
-| 🛡️ **Defensive** | Physical Resist | 10,167 (82.8%) |
-|  | Spell Resist | 12,477 (85.5%) |
-| ♻️ **Recovery** | Health | 646 |
-|  | Magicka | 1,600 |
-|  | Stamina | 1,858 |
+| 🛡️ **Defensive** | Physical Resist | 9,933 (82.2%) |
+|  | Spell Resist | 12,243 (85%) |
+| ♻️ **Recovery** | Health | 642 |
+|  | Magicka | 1,572 |
+|  | Stamina | 1,827 |
 
 
 </div>
@@ -171,10 +173,10 @@
 
 | **Ability** | **Cost/Value** |
 |:---|---:|
-| ⚔️ **Light Attack** | 3,484 dmg |
-| ⚔️ **Heavy Attack** | 6,968 dmg |
-| ⚔️ **Bash** | 719 cost, 4,994 dmg |
-| 🛡️ **Block** | 1,740 cost, 50% mit, 40% spd |
+| ⚔️ **Light Attack** | 3,637 dmg |
+| ⚔️ **Heavy Attack** | 7,274 dmg |
+| ⚔️ **Bash** | 719 cost, 5,456 dmg |
+| 🛡️ **Block** | 1,732 cost, 50% mit, 40% spd |
 | 🔓 **Break Free** | 4,860 cost |
 | 🏃 **Dodge Roll** | 3,038 cost |
 | 🐾 **Sneak** | 64 cost, 0% spd |
@@ -185,20 +187,20 @@
 
 | **Resistance** | **Value** |
 |:---|---:|
-| 🔥 **Flame** | 18.9% |
-| ⚡ **Shock** | 18.9% |
-| ❄️ **Frost** | 18.9% |
-| 🔮 **Magic** | 18.9% |
-| 🦠 **Disease** | 15.4% |
-| ☠️ **Poison** | 15.4% |
-| 🩸 **Bleed** | 15.4% |
+| 🔥 **Flame** | 18.5% |
+| ⚡ **Shock** | 18.5% |
+| ❄️ **Frost** | 18.5% |
+| 🔮 **Magic** | 18.5% |
+| 🦠 **Disease** | 15% |
+| ☠️ **Poison** | 15% |
+| 🩸 **Bleed** | 15% |
 
 </div>
 <div>
 
 | **Damage Type** | **Bonus** |
 |:---|---:|
-| 💥 **Critical Damage** | 80% |
+| 💥 **Critical Damage** | 84% |
 | ⚔️ **Physical** | 0 |
 | 🔥 **Flame** | 0 |
 | ⚡ **Shock** | 0 |
@@ -216,7 +218,7 @@
 |:---|---:|
 | 💚 **Healing Done** | 0 |
 | 💖 **Healing Taken** | 0 |
-| ✨ **Critical Healing** | 60% |
+| ✨ **Critical Healing** | 64% |
 
 </div>
 </div>
@@ -229,7 +231,7 @@
 
 | **1** | **2** | **3** | **4** | **5** | **⚡** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| [Expansive Frost Cloak](https://en.uesp.net/wiki/Online:Expansive_Frost_Cloak) | [Deep Fissure](https://en.uesp.net/wiki/Online:Deep_Fissure) | [Cutting Dive](https://en.uesp.net/wiki/Online:Cutting_Dive) | [Rending Slashes](https://en.uesp.net/wiki/Online:Rending_Slashes) | [Blue Betty](https://en.uesp.net/wiki/Online:Blue_Betty) | [Guardian's Wrath](https://en.uesp.net/wiki/Online:Guardian's_Wrath) |
+| [Deep Fissure](https://en.uesp.net/wiki/Online:Deep_Fissure) | [Expansive Frost Cloak](https://en.uesp.net/wiki/Online:Expansive_Frost_Cloak) | [Cutting Dive](https://en.uesp.net/wiki/Online:Cutting_Dive) | [Rending Slashes](https://en.uesp.net/wiki/Online:Rending_Slashes) | [Blue Betty](https://en.uesp.net/wiki/Online:Blue_Betty) | [Guardian's Wrath](https://en.uesp.net/wiki/Online:Guardian's_Wrath) |
 
 ### 🔮 Back Bar (Backup)
 
@@ -246,11 +248,11 @@
 | **Set** | **Progress** |
 | --- | --- |
 | ⚪ **[Twin Sisters Set](https://en.uesp.net/wiki/Online:Twin_Sisters_Set)** | `1/5` ██░░░░░░░░ 20% |
-| ⚪ **[Shadow Dancer's Raiment Set](https://en.uesp.net/wiki/Online:Shadow_Dancer's_Raiment_Set)** | `1/5` ██░░░░░░░░ 20% |
-| 🟠 **[Wilderqueen's Arch Set](https://en.uesp.net/wiki/Online:Wilderqueen's_Arch_Set)** | `3/5` ██████░░░░ 60% |
-| ⚪ **[Prophet's Set](https://en.uesp.net/wiki/Online:Prophet's_Set)** | `1/5` ██░░░░░░░░ 20% |
-| ⚪ **[Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set)** | `1/5` ██░░░░░░░░ 20% |
 | 🔴 **[Beekeeper's Gear Set](https://en.uesp.net/wiki/Online:Beekeeper's_Gear_Set)** | `2/5` ████░░░░░░ 40% |
+| ⚪ **[Armor of the Trainee Set](https://en.uesp.net/wiki/Online:Armor_of_the_Trainee_Set)** | `1/5` ██░░░░░░░░ 20% |
+| ⚪ **[Shadow Dancer's Raiment Set](https://en.uesp.net/wiki/Online:Shadow_Dancer's_Raiment_Set)** | `1/5` ██░░░░░░░░ 20% |
+| ⚪ **[Prophet's Set](https://en.uesp.net/wiki/Online:Prophet's_Set)** | `1/5` ██░░░░░░░░ 20% |
+| 🟠 **[Wilderqueen's Arch Set](https://en.uesp.net/wiki/Online:Wilderqueen's_Arch_Set)** | `3/5` ██████░░░░ 60% |
 
 ### 📋 Equipment Details
 
@@ -278,17 +280,17 @@
 
 | **Total** | **Spent** | **Available** |
 | :---: | :---: | :---: |
-| 349 | 281 | 68 |
+| 372 | 347 | 25 |
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
 <div>
 
 | **⚒️ Craft** | **Assigned Points** |
 | --- | ---: |
-| █████████░░░ 82% | 96/117 points |
-| **[Out of Sight](https://en.uesp.net/wiki/Online:Out_of_Sight)** | 20 points |
+| ███████████░ 93% | 116/124 points |
+| **[Out of Sight](https://en.uesp.net/wiki/Online:Out_of_Sight)** | 30 points |
 | **[Fortune's Favor](https://en.uesp.net/wiki/Online:Fortune's_Favor)** | 10 points |
-| **[Fleet Phantom](https://en.uesp.net/wiki/Online:Fleet_Phantom)** | 6 points |
+| **[Fleet Phantom](https://en.uesp.net/wiki/Online:Fleet_Phantom)** | 16 points |
 | **[Gilded Fingers](https://en.uesp.net/wiki/Online:Gilded_Fingers)** | 10 points |
 | **[Steed's Blessing](https://en.uesp.net/wiki/Online:Steed's_Blessing)** | 50 points |
 
@@ -297,8 +299,9 @@
 
 | **⚔️ Warfare** | **Assigned Points** |
 | --- | ---: |
-| █████████░░░ 77% | 90/116 points |
+| ███████████░ 92% | 115/124 points |
 | **[Precision](https://en.uesp.net/wiki/Online:Precision)** | 20 points |
+| **[Fighting Finesse](https://en.uesp.net/wiki/Online:Fighting_Finesse)** | 25 points |
 | **[Piercing](https://en.uesp.net/wiki/Online:Piercing)** | 20 points |
 | **[Master-at-Arms](https://en.uesp.net/wiki/Online:Master-at-Arms)** | 50 points |
 
@@ -307,9 +310,10 @@
 
 | **💪 Fitness** | **Assigned Points** |
 | --- | ---: |
-| █████████░░░ 81% | 95/116 points |
+| ███████████░ 93% | 116/124 points |
 | **[Rejuvenation](https://en.uesp.net/wiki/Online:Rejuvenation)** | 50 points |
-| **[Boundless Vitality](https://en.uesp.net/wiki/Online:Boundless_Vitality)** | 45 points |
+| **[Fortified](https://en.uesp.net/wiki/Online:Fortified)** | 16 points |
+| **[Boundless Vitality](https://en.uesp.net/wiki/Online:Boundless_Vitality)** | 50 points |
 
 
 </div>
@@ -339,11 +343,11 @@
 <summary>✨ Passives</summary>
 
 - ✅ [Medium Armor Bonuses](https://en.uesp.net/wiki/Online:Medium_Armor_Bonuses) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- ✅ [Dexterity](https://en.uesp.net/wiki/Online:Dexterity) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- ✅ [Wind Walker](https://en.uesp.net/wiki/Online:Wind_Walker) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- ✅ [Improved Sneak](https://en.uesp.net/wiki/Online:Improved_Sneak) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- ✅ [Agility](https://en.uesp.net/wiki/Online:Agility) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
-- ✅ [Athletics](https://en.uesp.net/wiki/Online:Athletics) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
+- ✅ [Dexterity](https://en.uesp.net/wiki/Online:Dexterity) (3/3) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
+- ✅ [Wind Walker](https://en.uesp.net/wiki/Online:Wind_Walker) (2/2) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
+- ✅ [Improved Sneak](https://en.uesp.net/wiki/Online:Improved_Sneak) (2/2) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
+- ✅ [Agility](https://en.uesp.net/wiki/Online:Agility) (2/2) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
+- ✅ [Athletics](https://en.uesp.net/wiki/Online:Athletics) (2/2) *(from [Medium Armor](https://en.uesp.net/wiki/Online:Medium_Armor))*
 </details>
 
 </details>
@@ -356,10 +360,10 @@
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ [Bond with Nature](https://en.uesp.net/wiki/Online:Bond_with_Nature) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
-- ✅ [Savage Beast](https://en.uesp.net/wiki/Online:Savage_Beast) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
-- ✅ [Flourish](https://en.uesp.net/wiki/Online:Flourish) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
-- ✅ [Advanced Species](https://en.uesp.net/wiki/Online:Advanced_Species) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
+- ✅ [Bond with Nature](https://en.uesp.net/wiki/Online:Bond_with_Nature) (2/2) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
+- ✅ [Savage Beast](https://en.uesp.net/wiki/Online:Savage_Beast) (2/2) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
+- ✅ [Flourish](https://en.uesp.net/wiki/Online:Flourish) (2/2) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
+- ✅ [Advanced Species](https://en.uesp.net/wiki/Online:Advanced_Species) (2/2) *(from [Animal Companions](https://en.uesp.net/wiki/Online:Animal_Companions))*
 </details>
 
 </details>
@@ -367,60 +371,121 @@
 ### 📈 In-Progress Skills
 
 <details>
-<summary>⚒️ Craft (7 skill lines in progress)</summary>
+<summary>🏰 Guild (4 skill lines in progress)</summary>
 
-- **[Alchemy](https://en.uesp.net/wiki/Online:Alchemy)**: Rank 15 █░░░░░░░░░ 18%
-- **[Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing)**: Rank 13 █████████░ 94%
-- **[Clothing](https://en.uesp.net/wiki/Online:Clothing)**: Rank 17 █████████░ 92%
-- **[Enchanting](https://en.uesp.net/wiki/Online:Enchanting)**: Rank 7 ████░░░░░░ 40%
-- **[Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting)**: Rank 8 █████████░ 98%
-- **[Provisioning](https://en.uesp.net/wiki/Online:Provisioning)**: Rank 9 ██████░░░░ 67%
-- **[Woodworking](https://en.uesp.net/wiki/Online:Woodworking)**: Rank 19 █████████░ 90%
+- **[Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood)**: Rank 2 ██░░░░░░░░ 20%
+- **[Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild)**: Rank 5 █░░░░░░░░░ 10%
+- **[Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild)**: Rank 4 ██░░░░░░░░ 23%
+- **[Undaunted](https://en.uesp.net/wiki/Online:Undaunted)**: Rank 2 █████░░░░░ 50%
 
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ [Solvent Proficiency](https://en.uesp.net/wiki/Online:Solvent_Proficiency) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
-- 🔒 [Keen Eye: Reagents](https://en.uesp.net/wiki/Online:Keen_Eye:_Reagents) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
-- 🔒 [Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
-- 🔒 [Chemistry](https://en.uesp.net/wiki/Online:Chemistry) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
+- ✅ [Blade of Woe](https://en.uesp.net/wiki/Online:Blade_of_Woe) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
+- 🔒 [Scales of Pitiless Justice](https://en.uesp.net/wiki/Online:Scales_of_Pitiless_Justice) (0/4) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
+- 🔒 [Padomaic Sprint](https://en.uesp.net/wiki/Online:Padomaic_Sprint) (0/4) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
+- 🔒 [Shadowy Supplier](https://en.uesp.net/wiki/Online:Shadowy_Supplier) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
+- 🔒 [Shadow Rider](https://en.uesp.net/wiki/Online:Shadow_Rider) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
+- 🔒 [Spectral Assassin](https://en.uesp.net/wiki/Online:Spectral_Assassin) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
+- ✅ [Intimidating Presence](https://en.uesp.net/wiki/Online:Intimidating_Presence) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
+- 🔒 [Slayer](https://en.uesp.net/wiki/Online:Slayer) (0/3) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
+- 🔒 [Banish the Wicked](https://en.uesp.net/wiki/Online:Banish_the_Wicked) (0/3) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
+- 🔒 [Skilled Tracker](https://en.uesp.net/wiki/Online:Skilled_Tracker) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
+- 🔒 [Bounty Hunter](https://en.uesp.net/wiki/Online:Bounty_Hunter) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
+- ✅ [Persuasive Will](https://en.uesp.net/wiki/Online:Persuasive_Will) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
+- 🔒 [Mage Adept](https://en.uesp.net/wiki/Online:Mage_Adept) (0/2) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
+- 🔒 [Everlasting Magic](https://en.uesp.net/wiki/Online:Everlasting_Magic) (0/2) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
+- 🔒 [Magicka Controller](https://en.uesp.net/wiki/Online:Magicka_Controller) (0/2) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
+- 🔒 [Might of the Guild](https://en.uesp.net/wiki/Online:Might_of_the_Guild) (0/2) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
+- 🔒 [Undaunted Command](https://en.uesp.net/wiki/Online:Undaunted_Command) (0/2) *(from [Undaunted](https://en.uesp.net/wiki/Online:Undaunted))*
+- 🔒 [Undaunted Mettle](https://en.uesp.net/wiki/Online:Undaunted_Mettle) (0/2) *(from [Undaunted](https://en.uesp.net/wiki/Online:Undaunted))*
+</details>
+
+</details>
+
+<details>
+<summary>🛡️ Armor (2 skill lines in progress)</summary>
+
+- **[Light Armor](https://en.uesp.net/wiki/Online:Light_Armor)**: Rank 26 ░░░░░░░░░░ 4%
+- **[Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor)**: Rank 24 ████████░░ 80%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ [Light Armor Bonuses](https://en.uesp.net/wiki/Online:Light_Armor_Bonuses) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- ✅ [Light Armor Penalties](https://en.uesp.net/wiki/Online:Light_Armor_Penalties) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Grace](https://en.uesp.net/wiki/Online:Grace) (0/3) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Evocation](https://en.uesp.net/wiki/Online:Evocation) (0/2) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) (0/2) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) (0/2) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- 🔒 [Concentration](https://en.uesp.net/wiki/Online:Concentration) (0/2) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
+- ✅ [Heavy Armor Bonuses](https://en.uesp.net/wiki/Online:Heavy_Armor_Bonuses) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- ✅ [Heavy Armor Penalties](https://en.uesp.net/wiki/Online:Heavy_Armor_Penalties) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Resolve](https://en.uesp.net/wiki/Online:Resolve) (0/3) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Constitution](https://en.uesp.net/wiki/Online:Constitution) (0/2) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Juggernaut](https://en.uesp.net/wiki/Online:Juggernaut) (0/2) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Revitalize](https://en.uesp.net/wiki/Online:Revitalize) (0/2) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+- 🔒 [Rapid Mending](https://en.uesp.net/wiki/Online:Rapid_Mending) (0/2) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
+</details>
+
+</details>
+
+<details>
+<summary>⚒️ Craft (7 skill lines in progress)</summary>
+
+- **[Alchemy](https://en.uesp.net/wiki/Online:Alchemy)**: Rank 15 ███████░░░ 79%
+- **[Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing)**: Rank 14 ██░░░░░░░░ 23%
+- **[Clothing](https://en.uesp.net/wiki/Online:Clothing)**: Rank 18 ██░░░░░░░░ 21%
+- **[Enchanting](https://en.uesp.net/wiki/Online:Enchanting)**: Rank 7 ██████░░░░ 63%
+- **[Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting)**: Rank 9 ███░░░░░░░ 30%
+- **[Provisioning](https://en.uesp.net/wiki/Online:Provisioning)**: Rank 10 ██░░░░░░░░ 28%
+- **[Woodworking](https://en.uesp.net/wiki/Online:Woodworking)**: Rank 20 ░░░░░░░░░░ 0%
+
+<details>
+<summary>✨ Passives</summary>
+
+
+- ✅ [Solvent Proficiency](https://en.uesp.net/wiki/Online:Solvent_Proficiency) (1/8) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
+- 🔒 [Keen Eye: Reagents](https://en.uesp.net/wiki/Online:Keen_Eye:_Reagents) (0/3) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
+- 🔒 [Medicinal Use](https://en.uesp.net/wiki/Online:Medicinal_Use) (0/3) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
+- 🔒 [Chemistry](https://en.uesp.net/wiki/Online:Chemistry) (0/3) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
 - 🔒 [Laboratory Use](https://en.uesp.net/wiki/Online:Laboratory_Use) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
-- 🔒 [Snakeblood](https://en.uesp.net/wiki/Online:Snakeblood) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
-- ✅ [Metalworking](https://en.uesp.net/wiki/Online:Metalworking) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Keen Eye: Ore](https://en.uesp.net/wiki/Online:Keen_Eye:_Ore) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Miner Hireling](https://en.uesp.net/wiki/Online:Miner_Hireling) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Metal Extraction](https://en.uesp.net/wiki/Online:Metal_Extraction) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Metallurgy](https://en.uesp.net/wiki/Online:Metallurgy) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- 🔒 [Temper Expertise](https://en.uesp.net/wiki/Online:Temper_Expertise) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
-- ✅ [Tailoring](https://en.uesp.net/wiki/Online:Tailoring) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Keen Eye: Cloth](https://en.uesp.net/wiki/Online:Keen_Eye:_Cloth) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Outfitter Hireling](https://en.uesp.net/wiki/Online:Outfitter_Hireling) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Unraveling](https://en.uesp.net/wiki/Online:Unraveling) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Stitching](https://en.uesp.net/wiki/Online:Stitching) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- 🔒 [Tannin Expertise](https://en.uesp.net/wiki/Online:Tannin_Expertise) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
-- ✅ [Potency Improvement](https://en.uesp.net/wiki/Online:Potency_Improvement) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
-- ✅ [Aspect Improvement](https://en.uesp.net/wiki/Online:Aspect_Improvement) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
-- 🔒 [Keen Eye: Rune Stones](https://en.uesp.net/wiki/Online:Keen_Eye:_Rune_Stones) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
-- 🔒 [Enchanter Hireling](https://en.uesp.net/wiki/Online:Enchanter_Hireling) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
-- 🔒 [Runestone Extraction](https://en.uesp.net/wiki/Online:Runestone_Extraction) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
-- ✅ [Engraver](https://en.uesp.net/wiki/Online:Engraver) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- 🔒 [Keen Eye: Jewelry](https://en.uesp.net/wiki/Online:Keen_Eye:_Jewelry) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- 🔒 [Jewelry Extraction](https://en.uesp.net/wiki/Online:Jewelry_Extraction) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- 🔒 [Lapidary Research](https://en.uesp.net/wiki/Online:Lapidary_Research) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- 🔒 [Platings Expertise](https://en.uesp.net/wiki/Online:Platings_Expertise) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
-- ✅ [Recipe Improvement](https://en.uesp.net/wiki/Online:Recipe_Improvement) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
-- ✅ [Recipe Quality](https://en.uesp.net/wiki/Online:Recipe_Quality) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
-- 🔒 [Gourmand](https://en.uesp.net/wiki/Online:Gourmand) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
-- 🔒 [Connoisseur](https://en.uesp.net/wiki/Online:Connoisseur) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
-- 🔒 [Chef](https://en.uesp.net/wiki/Online:Chef) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
-- 🔒 [Brewer](https://en.uesp.net/wiki/Online:Brewer) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
-- 🔒 [Forager Hireling](https://en.uesp.net/wiki/Online:Forager_Hireling) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
-- ✅ [Woodworking](https://en.uesp.net/wiki/Online:Woodworking) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Keen Eye: Wood](https://en.uesp.net/wiki/Online:Keen_Eye:_Wood) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Lumberjack Hireling](https://en.uesp.net/wiki/Online:Lumberjack_Hireling) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Wood Extraction](https://en.uesp.net/wiki/Online:Wood_Extraction) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Carpentry](https://en.uesp.net/wiki/Online:Carpentry) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
-- 🔒 [Resin Expertise](https://en.uesp.net/wiki/Online:Resin_Expertise) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Snakeblood](https://en.uesp.net/wiki/Online:Snakeblood) (0/3) *(from [Alchemy](https://en.uesp.net/wiki/Online:Alchemy))*
+- ✅ [Metalworking](https://en.uesp.net/wiki/Online:Metalworking) (1/10) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- 🔒 [Keen Eye: Ore](https://en.uesp.net/wiki/Online:Keen_Eye:_Ore) (0/3) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- 🔒 [Miner Hireling](https://en.uesp.net/wiki/Online:Miner_Hireling) (0/3) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- 🔒 [Metal Extraction](https://en.uesp.net/wiki/Online:Metal_Extraction) (0/3) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- 🔒 [Metallurgy](https://en.uesp.net/wiki/Online:Metallurgy) (0/4) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- 🔒 [Temper Expertise](https://en.uesp.net/wiki/Online:Temper_Expertise) (0/3) *(from [Blacksmithing](https://en.uesp.net/wiki/Online:Blacksmithing))*
+- ✅ [Tailoring](https://en.uesp.net/wiki/Online:Tailoring) (1/10) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- 🔒 [Keen Eye: Cloth](https://en.uesp.net/wiki/Online:Keen_Eye:_Cloth) (0/3) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- 🔒 [Outfitter Hireling](https://en.uesp.net/wiki/Online:Outfitter_Hireling) (0/3) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- 🔒 [Unraveling](https://en.uesp.net/wiki/Online:Unraveling) (0/3) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- 🔒 [Stitching](https://en.uesp.net/wiki/Online:Stitching) (0/4) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- 🔒 [Tannin Expertise](https://en.uesp.net/wiki/Online:Tannin_Expertise) (0/3) *(from [Clothing](https://en.uesp.net/wiki/Online:Clothing))*
+- ✅ [Potency Improvement](https://en.uesp.net/wiki/Online:Potency_Improvement) (1/10) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
+- ✅ [Aspect Improvement](https://en.uesp.net/wiki/Online:Aspect_Improvement) (1/4) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
+- 🔒 [Keen Eye: Rune Stones](https://en.uesp.net/wiki/Online:Keen_Eye:_Rune_Stones) (0/3) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
+- 🔒 [Enchanter Hireling](https://en.uesp.net/wiki/Online:Enchanter_Hireling) (0/3) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
+- 🔒 [Runestone Extraction](https://en.uesp.net/wiki/Online:Runestone_Extraction) (0/3) *(from [Enchanting](https://en.uesp.net/wiki/Online:Enchanting))*
+- ✅ [Engraver](https://en.uesp.net/wiki/Online:Engraver) (1/5) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- 🔒 [Keen Eye: Jewelry](https://en.uesp.net/wiki/Online:Keen_Eye:_Jewelry) (0/3) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- 🔒 [Jewelry Extraction](https://en.uesp.net/wiki/Online:Jewelry_Extraction) (0/3) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- 🔒 [Lapidary Research](https://en.uesp.net/wiki/Online:Lapidary_Research) (0/4) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- 🔒 [Platings Expertise](https://en.uesp.net/wiki/Online:Platings_Expertise) (0/3) *(from [Jewelry Crafting](https://en.uesp.net/wiki/Online:Jewelry_Crafting))*
+- ✅ [Recipe Improvement](https://en.uesp.net/wiki/Online:Recipe_Improvement) (1/6) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
+- ✅ [Recipe Quality](https://en.uesp.net/wiki/Online:Recipe_Quality) (1/4) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
+- 🔒 [Gourmand](https://en.uesp.net/wiki/Online:Gourmand) (0/3) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
+- 🔒 [Connoisseur](https://en.uesp.net/wiki/Online:Connoisseur) (0/3) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
+- 🔒 [Chef](https://en.uesp.net/wiki/Online:Chef) (0/3) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
+- 🔒 [Brewer](https://en.uesp.net/wiki/Online:Brewer) (0/3) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
+- 🔒 [Forager Hireling](https://en.uesp.net/wiki/Online:Forager_Hireling) (0/3) *(from [Provisioning](https://en.uesp.net/wiki/Online:Provisioning))*
+- ✅ [Woodworking](https://en.uesp.net/wiki/Online:Woodworking) (1/10) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Keen Eye: Wood](https://en.uesp.net/wiki/Online:Keen_Eye:_Wood) (0/3) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Lumberjack Hireling](https://en.uesp.net/wiki/Online:Lumberjack_Hireling) (0/3) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Wood Extraction](https://en.uesp.net/wiki/Online:Wood_Extraction) (0/3) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Carpentry](https://en.uesp.net/wiki/Online:Carpentry) (0/4) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
+- 🔒 [Resin Expertise](https://en.uesp.net/wiki/Online:Resin_Expertise) (0/3) *(from [Woodworking](https://en.uesp.net/wiki/Online:Woodworking))*
 </details>
 
 </details>
@@ -430,139 +495,44 @@
 
 - **[Two Handed](https://en.uesp.net/wiki/Online:Two_Handed)**: Rank 5 ░░░░░░░░░░ 0%
 - **[One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield)**: Rank 7 ░░░░░░░░░░ 6%
-- **[Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield)**: Rank 38 ███████░░░ 76%
-
-
-- **[Bow](https://en.uesp.net/wiki/Online:Bow)**: Rank 46 ███░░░░░░░ 39%
+- **[Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield)**: Rank 40 ███░░░░░░░ 34%
+- **[Bow](https://en.uesp.net/wiki/Online:Bow)**: Rank 47 ░░░░░░░░░░ 3%
 - **[Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff)**: Rank 5 ░░░░░░░░░░ 2%
 - **[Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff)**: Rank 4 ████░░░░░░ 40%
 
 <details>
 <summary>✨ Passives</summary>
 
-- 🔒 [Forceful](https://en.uesp.net/wiki/Online:Forceful) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
-- 🔒 [Heavy Weapons](https://en.uesp.net/wiki/Online:Heavy_Weapons) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
-- 🔒 [Balanced Blade](https://en.uesp.net/wiki/Online:Balanced_Blade) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
-- 🔒 [Follow Up](https://en.uesp.net/wiki/Online:Follow_Up) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
-- 🔒 [Battle Rush](https://en.uesp.net/wiki/Online:Battle_Rush) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
-- 🔒 [Fortress](https://en.uesp.net/wiki/Online:Fortress) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
-- 🔒 [Sword and Board](https://en.uesp.net/wiki/Online:Sword_and_Board) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
-- 🔒 [Deadly Bash](https://en.uesp.net/wiki/Online:Deadly_Bash) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
-- 🔒 [Deflect Bolts](https://en.uesp.net/wiki/Online:Deflect_Bolts) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
-- 🔒 [Battlefield Mobility](https://en.uesp.net/wiki/Online:Battlefield_Mobility) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
-- ✅ [Focused Killer](https://en.uesp.net/wiki/Online:Focused_Killer) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
-- ✅ [Ambidextrous](https://en.uesp.net/wiki/Online:Ambidextrous) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
-- ✅ [Controlled Fury](https://en.uesp.net/wiki/Online:Controlled_Fury) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
-- ✅ [Ruffian](https://en.uesp.net/wiki/Online:Ruffian) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
-- 🔒 [Twin Blade and Blunt](https://en.uesp.net/wiki/Online:Twin_Blade_and_Blunt) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
-- ✅ [Vinedusk Training](https://en.uesp.net/wiki/Online:Vinedusk_Training) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
-- ✅ [Accuracy](https://en.uesp.net/wiki/Online:Accuracy) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
-- ✅ [Ranger](https://en.uesp.net/wiki/Online:Ranger) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
-- ✅ [Hawk Eye](https://en.uesp.net/wiki/Online:Hawk_Eye) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
-- ✅ [Hasty Retreat](https://en.uesp.net/wiki/Online:Hasty_Retreat) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
-- 🔒 [Tri Focus](https://en.uesp.net/wiki/Online:Tri_Focus) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- 🔒 [Penetrating Magic](https://en.uesp.net/wiki/Online:Penetrating_Magic) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- 🔒 [Elemental Force](https://en.uesp.net/wiki/Online:Elemental_Force) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- 🔒 [Ancient Knowledge](https://en.uesp.net/wiki/Online:Ancient_Knowledge) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- 🔒 [Destruction Expert](https://en.uesp.net/wiki/Online:Destruction_Expert) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
-- 🔒 [Essence Drain](https://en.uesp.net/wiki/Online:Essence_Drain) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-- 🔒 [Restoration Expert](https://en.uesp.net/wiki/Online:Restoration_Expert) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-- 🔒 [Cycle of Life](https://en.uesp.net/wiki/Online:Cycle_of_Life) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-- 🔒 [Absorb](https://en.uesp.net/wiki/Online:Absorb) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-- 🔒 [Restoration Master](https://en.uesp.net/wiki/Online:Restoration_Master) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
-</details>
-
-</details>
-
-<details>
-<summary>⭐ Racial (1 skill line in progress)</summary>
-
-- **[Breton Skills](https://en.uesp.net/wiki/Online:Breton)**: Rank 42 ██████░░░░ 64%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ [Opportunist](https://en.uesp.net/wiki/Online:Opportunist) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
-- ✅ [Gift of Magnus](https://en.uesp.net/wiki/Online:Gift_of_Magnus) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
-- ✅ [Spell Attunement](https://en.uesp.net/wiki/Online:Spell_Attunement) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
-- ✅ [Magicka Mastery](https://en.uesp.net/wiki/Online:Magicka_Mastery) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
-</details>
-
-</details>
-
-<details>
-<summary>🏰 Guild (4 skill lines in progress)</summary>
-
-- **[Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood)**: Rank 2 ██░░░░░░░░ 20%
-- **[Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild)**: Rank 4 ████████░░ 83%
-- **[Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild)**: Rank 4 ██░░░░░░░░ 23%
-- **[Undaunted](https://en.uesp.net/wiki/Online:Undaunted)**: Rank 2 █████░░░░░ 50%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ [Blade of Woe](https://en.uesp.net/wiki/Online:Blade_of_Woe) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Scales of Pitiless Justice](https://en.uesp.net/wiki/Online:Scales_of_Pitiless_Justice) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Padomaic Sprint](https://en.uesp.net/wiki/Online:Padomaic_Sprint) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Shadowy Supplier](https://en.uesp.net/wiki/Online:Shadowy_Supplier) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Shadow Rider](https://en.uesp.net/wiki/Online:Shadow_Rider) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- 🔒 [Spectral Assassin](https://en.uesp.net/wiki/Online:Spectral_Assassin) *(from [Dark Brotherhood](https://en.uesp.net/wiki/Online:Dark_Brotherhood))*
-- ✅ [Intimidating Presence](https://en.uesp.net/wiki/Online:Intimidating_Presence) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
-- 🔒 [Slayer](https://en.uesp.net/wiki/Online:Slayer) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
-- 🔒 [Banish the Wicked](https://en.uesp.net/wiki/Online:Banish_the_Wicked) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
-- 🔒 [Skilled Tracker](https://en.uesp.net/wiki/Online:Skilled_Tracker) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
-- 🔒 [Bounty Hunter](https://en.uesp.net/wiki/Online:Bounty_Hunter) *(from [Fighters Guild](https://en.uesp.net/wiki/Online:Fighters_Guild))*
-- ✅ [Persuasive Will](https://en.uesp.net/wiki/Online:Persuasive_Will) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
-- 🔒 [Mage Adept](https://en.uesp.net/wiki/Online:Mage_Adept) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
-- 🔒 [Everlasting Magic](https://en.uesp.net/wiki/Online:Everlasting_Magic) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
-- 🔒 [Magicka Controller](https://en.uesp.net/wiki/Online:Magicka_Controller) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
-- 🔒 [Might of the Guild](https://en.uesp.net/wiki/Online:Might_of_the_Guild) *(from [Mages Guild](https://en.uesp.net/wiki/Online:Mages_Guild))*
-- 🔒 [Undaunted Command](https://en.uesp.net/wiki/Online:Undaunted_Command) *(from [Undaunted](https://en.uesp.net/wiki/Online:Undaunted))*
-- 🔒 [Undaunted Mettle](https://en.uesp.net/wiki/Online:Undaunted_Mettle) *(from [Undaunted](https://en.uesp.net/wiki/Online:Undaunted))*
-</details>
-
-</details>
-
-<details>
-<summary>🛡️ Armor (2 skill lines in progress)</summary>
-
-- **[Light Armor](https://en.uesp.net/wiki/Online:Light_Armor)**: Rank 24 ███░░░░░░░ 31%
-- **[Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor)**: Rank 24 ████████░░ 80%
-
-<details>
-<summary>✨ Passives</summary>
-
-- ✅ [Light Armor Bonuses](https://en.uesp.net/wiki/Online:Light_Armor_Bonuses) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Light Armor Penalties](https://en.uesp.net/wiki/Online:Light_Armor_Penalties) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Grace](https://en.uesp.net/wiki/Online:Grace) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Evocation](https://en.uesp.net/wiki/Online:Evocation) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Spell Warding](https://en.uesp.net/wiki/Online:Spell_Warding) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Prodigy](https://en.uesp.net/wiki/Online:Prodigy) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- 🔒 [Concentration](https://en.uesp.net/wiki/Online:Concentration) *(from [Light Armor](https://en.uesp.net/wiki/Online:Light_Armor))*
-- ✅ [Heavy Armor Bonuses](https://en.uesp.net/wiki/Online:Heavy_Armor_Bonuses) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- ✅ [Heavy Armor Penalties](https://en.uesp.net/wiki/Online:Heavy_Armor_Penalties) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Resolve](https://en.uesp.net/wiki/Online:Resolve) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Constitution](https://en.uesp.net/wiki/Online:Constitution) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Juggernaut](https://en.uesp.net/wiki/Online:Juggernaut) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Revitalize](https://en.uesp.net/wiki/Online:Revitalize) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-- 🔒 [Rapid Mending](https://en.uesp.net/wiki/Online:Rapid_Mending) *(from [Heavy Armor](https://en.uesp.net/wiki/Online:Heavy_Armor))*
-</details>
-
-</details>
-
-<details>
-<summary>🌍 World (1 skill line in progress)</summary>
-
-- **[Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain)**: Rank 11 ██░░░░░░░░ 20%
-
-<details>
-<summary>✨ Passives</summary>
-
-- 🔒 [Improved Hiding](https://en.uesp.net/wiki/Online:Improved_Hiding) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Light Fingers](https://en.uesp.net/wiki/Online:Light_Fingers) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Trafficker](https://en.uesp.net/wiki/Online:Trafficker) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Locksmith](https://en.uesp.net/wiki/Online:Locksmith) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
-- 🔒 [Kickback](https://en.uesp.net/wiki/Online:Kickback) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Forceful](https://en.uesp.net/wiki/Online:Forceful) (0/2) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
+- 🔒 [Heavy Weapons](https://en.uesp.net/wiki/Online:Heavy_Weapons) (0/2) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
+- 🔒 [Balanced Blade](https://en.uesp.net/wiki/Online:Balanced_Blade) (0/2) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
+- 🔒 [Follow Up](https://en.uesp.net/wiki/Online:Follow_Up) (0/2) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
+- 🔒 [Battle Rush](https://en.uesp.net/wiki/Online:Battle_Rush) (0/2) *(from [Two Handed](https://en.uesp.net/wiki/Online:Two_Handed))*
+- 🔒 [Fortress](https://en.uesp.net/wiki/Online:Fortress) (0/2) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
+- 🔒 [Sword and Board](https://en.uesp.net/wiki/Online:Sword_and_Board) (0/2) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
+- 🔒 [Deadly Bash](https://en.uesp.net/wiki/Online:Deadly_Bash) (0/2) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
+- 🔒 [Deflect Bolts](https://en.uesp.net/wiki/Online:Deflect_Bolts) (0/2) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
+- 🔒 [Battlefield Mobility](https://en.uesp.net/wiki/Online:Battlefield_Mobility) (0/2) *(from [One Hand and Shield](https://en.uesp.net/wiki/Online:One_Hand_and_Shield))*
+- ✅ [Focused Killer](https://en.uesp.net/wiki/Online:Focused_Killer) (2/2) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
+- ✅ [Ambidextrous](https://en.uesp.net/wiki/Online:Ambidextrous) (2/2) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
+- ✅ [Controlled Fury](https://en.uesp.net/wiki/Online:Controlled_Fury) (2/2) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
+- ✅ [Ruffian](https://en.uesp.net/wiki/Online:Ruffian) (1/2) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
+- 🔒 [Twin Blade and Blunt](https://en.uesp.net/wiki/Online:Twin_Blade_and_Blunt) (0/2) *(from [Dual Wield](https://en.uesp.net/wiki/Online:Dual_Wield))*
+- ✅ [Vinedusk Training](https://en.uesp.net/wiki/Online:Vinedusk_Training) (2/2) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
+- ✅ [Accuracy](https://en.uesp.net/wiki/Online:Accuracy) (2/2) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
+- ✅ [Ranger](https://en.uesp.net/wiki/Online:Ranger) (2/2) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
+- ✅ [Hawk Eye](https://en.uesp.net/wiki/Online:Hawk_Eye) (1/2) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
+- ✅ [Hasty Retreat](https://en.uesp.net/wiki/Online:Hasty_Retreat) (1/2) *(from [Bow](https://en.uesp.net/wiki/Online:Bow))*
+- 🔒 [Tri Focus](https://en.uesp.net/wiki/Online:Tri_Focus) (0/2) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Penetrating Magic](https://en.uesp.net/wiki/Online:Penetrating_Magic) (0/2) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Elemental Force](https://en.uesp.net/wiki/Online:Elemental_Force) (0/2) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Ancient Knowledge](https://en.uesp.net/wiki/Online:Ancient_Knowledge) (0/2) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Destruction Expert](https://en.uesp.net/wiki/Online:Destruction_Expert) (0/2) *(from [Destruction Staff](https://en.uesp.net/wiki/Online:Destruction_Staff))*
+- 🔒 [Essence Drain](https://en.uesp.net/wiki/Online:Essence_Drain) (0/2) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
+- 🔒 [Restoration Expert](https://en.uesp.net/wiki/Online:Restoration_Expert) (0/2) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
+- 🔒 [Cycle of Life](https://en.uesp.net/wiki/Online:Cycle_of_Life) (0/2) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
+- 🔒 [Absorb](https://en.uesp.net/wiki/Online:Absorb) (0/2) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
+- 🔒 [Restoration Master](https://en.uesp.net/wiki/Online:Restoration_Master) (0/2) *(from [Restoration Staff](https://en.uesp.net/wiki/Online:Restoration_Staff))*
 </details>
 
 </details>
@@ -570,20 +540,53 @@
 <details>
 <summary>⚔️ Class (2 skill lines in progress)</summary>
 
-- **[Green Balance](https://en.uesp.net/wiki/Online:Green_Balance)**: Rank 38 ░░░░░░░░░░ 1%
-- **[Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace)**: Rank 37 █████████░ 92%
+- **[Green Balance](https://en.uesp.net/wiki/Online:Green_Balance)**: Rank 38 ██████░░░░ 69%
+- **[Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace)**: Rank 38 ██████░░░░ 60%
 
 <details>
 <summary>✨ Passives</summary>
 
-- ✅ [Accelerated Growth](https://en.uesp.net/wiki/Online:Accelerated_Growth) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
-- ✅ [Nature's Gift](https://en.uesp.net/wiki/Online:Nature's_Gift) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
-- ✅ [Emerald Moss](https://en.uesp.net/wiki/Online:Emerald_Moss) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
-- 🔒 [Maturation](https://en.uesp.net/wiki/Online:Maturation) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
-- ✅ [Glacial Presence](https://en.uesp.net/wiki/Online:Glacial_Presence) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
-- ✅ [Frozen Armor](https://en.uesp.net/wiki/Online:Frozen_Armor) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
-- ✅ [Icy Aura](https://en.uesp.net/wiki/Online:Icy_Aura) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
-- 🔒 [Piercing Cold](https://en.uesp.net/wiki/Online:Piercing_Cold) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
+- ✅ [Accelerated Growth](https://en.uesp.net/wiki/Online:Accelerated_Growth) (2/2) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
+- ✅ [Nature's Gift](https://en.uesp.net/wiki/Online:Nature's_Gift) (2/2) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
+- ✅ [Emerald Moss](https://en.uesp.net/wiki/Online:Emerald_Moss) (2/2) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
+- 🔒 [Maturation](https://en.uesp.net/wiki/Online:Maturation) (0/2) *(from [Green Balance](https://en.uesp.net/wiki/Online:Green_Balance))*
+- ✅ [Glacial Presence](https://en.uesp.net/wiki/Online:Glacial_Presence) (2/2) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
+- ✅ [Frozen Armor](https://en.uesp.net/wiki/Online:Frozen_Armor) (2/2) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
+- ✅ [Icy Aura](https://en.uesp.net/wiki/Online:Icy_Aura) (2/2) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
+- 🔒 [Piercing Cold](https://en.uesp.net/wiki/Online:Piercing_Cold) (0/2) *(from [Winter's Embrace](https://en.uesp.net/wiki/Online:Winter's_Embrace))*
+</details>
+
+</details>
+
+<details>
+<summary>🌍 World (1 skill line in progress)</summary>
+
+- **[Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain)**: Rank 11 ███░░░░░░░ 32%
+
+<details>
+<summary>✨ Passives</summary>
+
+- 🔒 [Improved Hiding](https://en.uesp.net/wiki/Online:Improved_Hiding) (0/4) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Light Fingers](https://en.uesp.net/wiki/Online:Light_Fingers) (0/4) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Trafficker](https://en.uesp.net/wiki/Online:Trafficker) (0/4) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Locksmith](https://en.uesp.net/wiki/Online:Locksmith) (0/4) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+- 🔒 [Kickback](https://en.uesp.net/wiki/Online:Kickback) (0/4) *(from [Legerdemain](https://en.uesp.net/wiki/Online:Legerdemain))*
+</details>
+
+</details>
+
+<details>
+<summary>⭐ Racial (1 skill line in progress)</summary>
+
+- **[Breton Skills](https://en.uesp.net/wiki/Online:Breton)**: Rank 43 ███████░░░ 70%
+
+<details>
+<summary>✨ Passives</summary>
+
+- ✅ [Opportunist](https://en.uesp.net/wiki/Online:Opportunist) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
+- ✅ [Gift of Magnus](https://en.uesp.net/wiki/Online:Gift_of_Magnus) (3/3) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
+- ✅ [Spell Attunement](https://en.uesp.net/wiki/Online:Spell_Attunement) (3/3) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
+- ✅ [Magicka Mastery](https://en.uesp.net/wiki/Online:Magicka_Mastery) (2/3) *(from [Breton Skills](https://en.uesp.net/wiki/Online:Breton))*
 </details>
 
 </details>
@@ -643,7 +646,7 @@
 
 > [!WARNING]
 > **Attention Needed**
-> - 👥 **Companion underleveled**: Bastian Hallix (Level 8/20) - Needs XP
+> - 👥 **Companion underleveled**: Bastian Hallix (Level 9/20) - Needs XP
 > - 👥 **Companion outdated gear**: 9 pieces below level - Upgrade equipment
 > - 👥 **Companion empty ability slots**: 2 - Assign abilities
 
@@ -664,13 +667,14 @@
 </details>
 
 <details>
-<summary>🖌️ Body Markings (5 of 333)</summary>
+<summary>🖌️ Body Markings (6 of 333)</summary>
 
 | Progress |
 | --- |
-| ░░░░░░░░░░░░░░░░░░░░ 1% (5/333) |
+| ░░░░░░░░░░░░░░░░░░░░ 1% (6/333) |
 
 - [Bright-Throat Yolk Body Tattoo](https://en.uesp.net/wiki/Online:Bright-Throat_Yolk_Body_Tattoo)
+- [Chevalier's Honor Body Tattoo](https://en.uesp.net/wiki/Online:Chevalier's_Honor_Body_Tattoo)
 - [Dragonsmoke Body Markings](https://en.uesp.net/wiki/Online:Dragonsmoke_Body_Markings)
 - [Elder Dragon Body Marks](https://en.uesp.net/wiki/Online:Elder_Dragon_Body_Marks)
 - [Hagmatron's Body Markings](https://en.uesp.net/wiki/Online:Hagmatron's_Body_Markings)
@@ -720,6 +724,7 @@
 | --- |
 | █░░░░░░░░░░░░░░░░░░░ 9% (22/239) |
 
+
 - [Air the Heir](https://en.uesp.net/wiki/Online:Air_the_Heir)
 - [Arrow to the Knee](https://en.uesp.net/wiki/Online:Arrow_to_the_Knee)
 - [Belly Laugh](https://en.uesp.net/wiki/Online:Belly_Laugh)
@@ -738,8 +743,6 @@
 - [Sad Face](https://en.uesp.net/wiki/Online:Sad_Face)
 - [Sitting Scholar](https://en.uesp.net/wiki/Online:Sitting_Scholar)
 - [Standing Scholar](https://en.uesp.net/wiki/Online:Standing_Scholar)
-
-
 - [Ta-Dah!](https://en.uesp.net/wiki/Online:Ta-Dah!)
 - [Teatime](https://en.uesp.net/wiki/Online:Teatime)
 - [Wait the Great](https://en.uesp.net/wiki/Online:Wait_the_Great)
@@ -809,8 +812,8 @@
 
 | Category | Collected | Total | Progress |
 |:---------|:----------|:------|:--------|
-| **Crafting Motifs** | 1 | 1652 | ░░░░░░░░░░░░░░░░░░░░ 0% |
 | **Shalidor's Library** | 52 | 297 | ███░░░░░░░░░░░░░░░░░ 17% |
+| **Crafting Motifs** | 1 | 1652 | ░░░░░░░░░░░░░░░░░░░░ 0% |
 | **Total** | 53 | 1949 | ░░░░░░░░░░░░░░░░░░░░ 2% |
 
 </details>
@@ -886,11 +889,11 @@
 </details>
 
 <details>
-<summary>🐾 Pets (44 of 725)</summary>
+<summary>🐾 Pets (46 of 725)</summary>
 
 | Progress |
 | --- |
-| █░░░░░░░░░░░░░░░░░░░ 6% (44/725) |
+| █░░░░░░░░░░░░░░░░░░░ 6% (46/725) |
 
 - [Abecean Ratter Cat](https://en.uesp.net/wiki/Online:Abecean_Ratter_Cat)
 - [Akaviri Potentate Bear Cub](https://en.uesp.net/wiki/Online:Akaviri_Potentate_Bear_Cub)
@@ -905,6 +908,7 @@
 - [Covenant Breton Terrier](https://en.uesp.net/wiki/Online:Covenant_Breton_Terrier)
 - [Craglorn Welwa](https://en.uesp.net/wiki/Online:Craglorn_Welwa)
 - [Crimson Torchbug](https://en.uesp.net/wiki/Online:Crimson_Torchbug)
+- [Dawngold Corgi](https://en.uesp.net/wiki/Online:Dawngold_Corgi)
 - [Death Hound](https://en.uesp.net/wiki/Online:Death_Hound)
 - [Dominion Breton Terrier](https://en.uesp.net/wiki/Online:Dominion_Breton_Terrier)
 - [Dwarven Spider](https://en.uesp.net/wiki/Online:Dwarven_Spider)
@@ -916,6 +920,7 @@
 - [Green Dragon Imp](https://en.uesp.net/wiki/Online:Green_Dragon_Imp)
 - [Haunted House Cat](https://en.uesp.net/wiki/Online:Haunted_House_Cat)
 - [Hay-Crown Chub Loon](https://en.uesp.net/wiki/Online:Hay-Crown_Chub_Loon)
+- [Hew's Bane Hyena Cub](https://en.uesp.net/wiki/Online:Hew's_Bane_Hyena_Cub)
 - [Housecat](https://en.uesp.net/wiki/Online:Housecat)
 - [Imgakin Monkey](https://en.uesp.net/wiki/Online:Imgakin_Monkey)
 - [Infernium Dwarven Spiderling](https://en.uesp.net/wiki/Online:Infernium_Dwarven_Spiderling)
@@ -976,8 +981,8 @@
 
 | **Storage** | **Used** | **Max** | **Capacity** |
 | --- | ---: | ---: | --- |
-| Backpack | 91 | 200 | ████░░░░░░ 45% |
-| Bank | 199 | 480 | ████░░░░░░ 41% |
+| Backpack | 136 | 200 | ██████░░░░ 68% |
+| Bank | 220 | 480 | ████░░░░░░ 45% |
 | Crafting Bag | ∞ | ∞ | ESO Plus |
 
 ---
@@ -1001,9 +1006,9 @@
 </details>
 
 <details>
-<summary>📜 Recipe Knowledge (103 Known)</summary>
+<summary>📜 Recipe Knowledge (105 Known)</summary>
 
-**Total Known Recipes:** 103
+**Total Known Recipes:** 105
 
 ### 🍽️ Recipes by Category
 
@@ -1085,6 +1090,13 @@
 </details>
 
 <details>
+<summary>🍽️ Ragout (1 recipes)</summary>
+
+*1 recipes known in this category*
+
+</details>
+
+<details>
 <summary>🍽️ Structures (4 recipes)</summary>
 
 *4 recipes known in this category*
@@ -1113,9 +1125,9 @@
 </details>
 
 <details>
-<summary>🍽️ Tonics (7 recipes)</summary>
+<summary>🍽️ Tonics (8 recipes)</summary>
 
-*7 recipes known in this category*
+*8 recipes known in this category*
 
 </details>
 
@@ -1147,8 +1159,8 @@
 
 | Profession | Progress |
 | --- | --- |
-| ⚒️ Blacksmithing | ██████████░░░░░ 68% |
-| 🧵 Clothing | ██████████░░░░░ 70% |
+| ⚒️ Blacksmithing | ██████████░░░░░ 69% |
+| 🧵 Clothing | ██████████░░░░░ 71% |
 | 🪵 Woodworking | ████████████░░░ 83% |
 | 💎 Jewelry | ██████░░░░░░░░░ 44% |
 
@@ -1159,7 +1171,7 @@
 - Battle Axe: 6/9 traits
 - Maul: 7/9 traits
 - Greatsword: 6/9 traits
-- Dagger: 7/9 traits
+- Dagger: 8/9 traits
 - Cuirass: 6/9 traits
 - Sabatons: 7/9 traits
 - Gauntlets: 6/9 traits
@@ -1178,7 +1190,7 @@
 - Sash: 7/9 traits
 - Jack: 5/9 traits
 - Boots: 6/9 traits
-- Bracers: 7/9 traits
+- Bracers: 8/9 traits
 - Helmet: 6/9 traits
 - Guards: 7/9 traits
 - Arm Cops: 7/9 traits
@@ -1205,9 +1217,9 @@
 ## 🧥 Outfit Styles
 
 <details>
-<summary>🧥 Acquired Styles (2082 Unlocked)</summary>
+<summary>🧥 Acquired Styles (2222 Unlocked)</summary>
 
-**Total Unlocked:** 2082
+**Total Unlocked:** 2222
 
 *Detailed list disabled. Enable 'Detailed Styles' in settings to see all acquired styles.*
 
@@ -1221,20 +1233,20 @@
 
 | **Guild Name** | **Rank** | **Members** | **Alliance** |
 | --- | --- | ---: | --- |
-| **Autumn Rose** | \|cb54952Member | 373 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
-| **BeamMeUp** | BeamMeUp-User | 486 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
-| **Pacrooti's Hirelings EU** | \|c4400FFTrader | 494 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
-| **Sleepless Wanderer** | Roamer | 482 | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
-| **Song of Sun and Moon** | New Moon | 493 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Autumn Rose** | \|cb54952Member | 351 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **BeamMeUp** | BeamMeUp-User | 496 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
+| **Pacrooti's Hirelings EU** | \|c4400FFTrader | 499 | [Aldmeri Dominion](https://en.uesp.net/wiki/Online:Aldmeri_Dominion) |
+| **Sleepless Wanderer** | Roamer | 484 | [Daggerfall Covenant](https://en.uesp.net/wiki/Online:Daggerfall_Covenant) |
+| **Song of Sun and Moon** | New Moon | 495 | [Ebonheart Pact](https://en.uesp.net/wiki/Online:Ebonheart_Pact) |
 
 ---
 
 <div align="center">
 
-![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-56,793%20chars-purple?style=flat>)
+![Format](<https://img.shields.io/badge/Format-MARKDOWN-blue?style=flat>) ![Size](<https://img.shields.io/badge/Size-58,306%20chars-purple?style=flat>)
 
 **⚔️ CharacterMarkdown by @solaegis**
 
-<sub>Generated on 10/6/2026 • Version: 2.3.0-27-g180c6ef</sub>
+<sub>Generated on 10/22/2026 • Version: 2.3.0-31-gd90afb8</sub>
 
 </div>

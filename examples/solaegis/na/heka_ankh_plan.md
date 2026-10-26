@@ -1,10 +1,10 @@
-# Build Plan - Heka-Ankh: Apex Executioner (Uber Tier Triple Hybrid)
+# Build Plan - Heka-Ankh: Dark Executioner (Peak Necromancer)
 
-> **Character profile:** [heka_ankh.md](heka_ankh.md) — Level 50 Redguard Necromancer, CP 1033, @SOLAEGIS (NA).
+> **Character profile:** [heka_ankh.md](heka_ankh.md) — Level 50 Female Redguard Necromancer, CP 1117, @SOLAEGIS (NA). Pronouns: **she/her**.
 
-Heka-Ankh is an exile of the Alik'r Desert who rejected traditional Redguard taboos regarding death magic, reframing necromancy not as dark worship, but as a strict martial discipline. Carrying the title **Dark Executioner**, she serves the Ebonheart Pact as a brutal martial arbiter who cleanses corrupted battlefields with dual steel, judgment arrows, and bound spirits.
+Heka-Ankh is an exile of the Alik'r who treats necromancy as law, not heresy. She **KEEP**s all three native lines — **Grave Lord**, **Bone Tyrant**, and **Living Death** — because this is a **Peak Necromancer**, not an Uber hybrid. No Dark Deal, no Hurricane, no foreign class pillar. Class Mastery stays on.
 
-This guide transforms Heka-Ankh into the **Apex Executioner**, a peak **Uber Tier (Triple Hybrid)** Stamina build. By combining native **Grave Lord** execution magic with **Dark Magic** (Sorcerer subclass — *Dark Deal* "Stamina Printer") and **Draconic Power** (Dragonknight subclass — *Hardened Armor* & *Iron Skin* mitigation), Heka-Ankh achieves unlimited stamina sustain and impenetrable defense. Armed with **Dual Wield Daggers** for close verdicts and a **Bow** for the long judgment of **Endless Hail**, she marks, rains, and executes—powered by craftable **Night Mother's Gaze** and **Hunding's Rage**, forged by `@masisi`.
+The locked kit is **Psijic Peak**: **Crushing Weapon** is the Major Breach (not Camouflaged Hunter, not Night Mother's Gaze). Dual Wield daggers are front; Bow is back. Live she is still on a 2H / Bow bridge with Time Stop and Witchmother's Brew. The rewrite is bars, food, potions, CP, and a craftable 5+5 — not a Bahtra respec.
 
 ---
 
@@ -12,360 +12,378 @@ This guide transforms Heka-Ankh into the **Apex Executioner**, a peak **Uber Tie
 
 | **Attribute** | **Recommendation** |
 | :--- | :--- |
-| **Alignment** | **Lawful Neutral** — Apex Executioner — Tu'whacca's law by steel; exile who still sentences the guilty |
-| **Primary Stat** | 64 points in **Stamina** — **live:** 64 Stamina (24,695 Stamina · 2,403 Weapon Power · 20,261 Health · ~15,219 Magicka) · **target:** 64 Stamina |
-| **Mundus Stone** | **The Thief** (+Critical Chance) until target gear — **live:** The Thief · **after CP160 craft:** test **The Shadow** (+Critical Damage); keep Thief if Night Mother's Major Breach uptime slips |
-| **Vampirism** | **Cured** — Redguard warriors rely on living vigor and martial stamina |
-| **Sets** | **5 Night Mother's Gaze + 5 Hunding's Rage** (100% craftable) — **live:** Hawk's Eye 3 / Briarheart 2 / Night Mother 1 / misc · **target:** NM (daggers + jewelry) + Hunding (4 armor + bow) + crafted head/shoulders/waist |
-| **Bars** | Front: Dual Wield Daggers ("The Executioner's Daggers") · Back: Bow ("The Executioner's Sight") — **live:** 2H Greatsword front + Bow back (transitional; mixed mag skills) · **target:** DW + Bow |
-| **Food** | **Artaeum Takeaway Broth** (primary — tri-stat + recovery feeds Dark Deal magicka) · overland alt: **Garlic Cod with Potato Crust** or **Dubious Camoran Throne** |
-| **Potion** | **Essence of Heroism** (U51: Major Brutality + Major Savagery) — pair with **Medicinal Use III** |
-| **Weapon Poisons** | None (use weapon glyphs) |
-| **Staff/Weapon Enchant** | Front: **Weapon Damage** (MH) + **Poison Damage** (OH) · Back bow: **Poison Damage** (Infused) |
-| **Companion** | **Primary (now):** **Mirri Elendis** (Ranged/Support, Resto staff) at live CP **1033** + companion **15/20** · **Secondary:** **Zerith-var** (Necromancer Escort) · **Goal (20/20 @ CP160):** **Isobel Veloise** (shields + heals for world bosses) |
-| **Primary Mount** | **Dwarven War Horse** (owned) · **Ideal:** **Dune Stalker Senche** — see [Collectibles](#collectibles) |
-| **Flavor Pet** | **Alik'r Jackal** (owned) · **Ideal:** **Sand Wisp** or **Alik'r Dune-Hound** — see [Collectibles](#collectibles) |
+| **Gender / Pronouns** | **Female** (from profile) — **she/her** |
+| **Alignment** | **Lawful Neutral** — Dark Executioner — Tu'whacca's clock by steel; exile who still sentences the living |
+| **Primary Stat** | 64 points in **Stamina** — **live:** 0 / 0 / 64 (Witchmother's: 18,892 Health · 19,368 Magicka · 24,695 Stamina · Weapon Power 2,873 · crit 25.3% · pen 350 · crit dmg 64%) · **target:** 64 Stamina on **Garlic Cod with Potato Crust** |
+| **Mundus Stone** | **The Thief** (+1,212 crit; +1,982 with 7× Divines) — **live:** The Thief. Do not take The Warrior for damage (hybrid +238 / +389 WD+SD). The Apprentice is XP only |
+| **Vampirism** | **Never** — profile Never, not Cured. Do not infect for Curative Curse |
+| **Lycanthropy** | **Never** — mutually exclusive with active vampirism; she has neither |
+| **Trinity** | **Grave Lord** + **Bone Tyrant** + **Living Death** KEEP — **live:** same, subclass none · **decision:** Peak / true necromancer; completing Bahtra is optional and must not swap lines |
+| **Sets** | **5 Order's Wrath + 5 Hunding's Rage** (100% craftable) — **live:** Hawk's Eye 3 / Briarheart 2 / NMG 1 shoulder / Trainee bow / Fine frost 2H · **target:** 7 Order's body + Hunding jewelry and both weapon bars |
+| **Bars** | Front: Dual Wield daggers ("The Executioner's Daggers") · Back: Bow ("The Executioner's Sight") — **live:** 2H + Bow bridge |
+| **Food** | **Garlic Cod with Potato Crust** — +5,395 Health / +4,936 Stamina / 60 min (verified). Live Witchmother's is a Magicka drink on a stamina bar. **Bewitched Sugar Skulls** only if world-boss dodge fails |
+| **Potion** | **Essence of Health** once Archer + Siphon are up (draft: Major Fortitude; no restore amounts). **Essence of Heroism** only as a bridge while those skills are down. Never Essence of Weapon/Spell Power |
+| **Weapon Poisons** | Optional Damage Health on the daggers; not required |
+| **Staff/Weapon Enchant** | Front: **Poison** MH / **Poison** or **Flame** OH · Back: **Glyph of Crushing** (Infused) |
+| **Companion** | **Primary (now):** **Mirri Elendis** (healer) at live CP **1117** + companion **15/20** · **Secondary:** **Zerith-var** · **Goal (20/20 @ CP160):** **Isobel Veloise** |
+| **Primary Mount** | **Dwarven War Horse** (owned) · **Ideal:** **Dune Stalker Senche** (unowned) — see [Collectibles](#collectibles) |
+| **Flavor Pet** | **Alik'r Dune-Hound** (owned) · **Ideal:** **Alik'r Dune-Hound** — see [Collectibles](#collectibles) |
+| **Costume** | **Forebear Dishdasha** (owned) · **Alt:** **Grim Harvester** — see [Collectibles](#collectibles) |
 
-**Read next:** [Roleplay](#roleplay-apex-executioner) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-apex-reckoning-cycle) · [Gear and crafting](#gear-and-crafting-executioners-mail) · [Champion points](#champion-point-mapping-cp-1033) · [Companion](#companion-strategy-the-executioners-retinue) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
+**Read next:** [Roleplay](#roleplay-dark-executioner) · [Trinity configuration](#trinity-configuration) · [Combat kit](#combat-kit-the-executioners-clock) · [Gear and crafting](#gear-and-crafting-orders-and-hunding) · [Champion points](#champion-point-mapping-cp-1117) · [Companion](#companion-strategy-the-executioners-retinue) · [Collectibles](#collectibles) · [Checklist](#next-steps--in-game-action-checklist)
 
 ---
 
-## Roleplay: Apex Executioner
+## Roleplay: Dark Executioner
 
-To the superstitious nobles of Hegathe and Sentinel, touching the dead is an unforgivable sin against Tu'whacca. Heka-Ankh saw that superstition for what it was: weak hesitation that left Redguard warriors vulnerable to liches and Daedric invaders. Exiled from her homeland, she took up the title **Dark Executioner** and pledged her judgment to the Ebonheart Pact.
+The profile title is already **Dark Executioner**. Heka-Ankh left the Alik'r with the Forebear silhouette still on her shoulders and Tu'whacca's law still in her mouth. She does not hide from death. She clocks it. Bones, corpses, and the Psijic imbue are the same sentence written three ways: the guilty are marked, the hour is called, the body is spent.
 
-Heka-Ankh treats necromancy, archery, and sorcery as **one martial discipline**—not separate arts, but phases of a sentence. She does not pray for stamina; she uses **Dark Deal** to convert disciplined magicka into flesh and breath, a living engine that never tires. She does not charge blindly; she **marks** the condemned from afar with **Camouflaged Hunter**, lays **Barbed Trap** as cursed ground, and calls **Endless Hail**—judgment rain that falls long after she has already moved. Only then does she harden her flesh with **Hardened Armor**, loose **Blighted Blastbones** into the front line, and cross the sand with **dual daggers** to deliver the final verdict: **Whirling Blades** for the dying, **Pestilent Colossus** for the guilty who thought they could stand.
-
-Those who mistake her exile for weakness learn that Tu'whacca's law travels by arrow, disease, and steel alike.
-
-**Mirri Elendis** scouts the wastes at her flank today—a Dunmer hunter who understands that some hunts require distance first. Heka-Ankh's end-state retinue is **Isobel Veloise**, a knight of oaths who chose to guard an exile rather than condemn her: faith and execution, shield and blade, standing shoulder to shoulder when world bosses demand it. **Zerith-var** remains the necromancer escort when a second blade is needed and no herald is required.
+She keeps every native necromancer line because the exile's argument is that necromancy *is* the discipline. A borrowed Storm or Dark Magic pillar would make her someone else's executioner. Crushing Weapon is the time-mark — not a vampire sneak, not a wolf's pack hunt.
 
 > [!TIP]
 > **Suggested Custom Title:** `Dark Executioner of the Alik'r Sands`
 
 > [!NOTE]
 > **Build Notes (paste into LAM Custom Title / Build Notes):**
-> Heka-Ankh — Apex Executioner. Uber Tier Triple Hybrid Stamina. 5 Night Mother's Gaze (daggers + jewelry) + 5 Hunding's Rage (armor + bow), 100% craftable. Front DW Daggers: Rapid Strikes, Blighted Blastbones, Whirling Blades, Dark Deal, Resolving Vigor, Pestilent Colossus ult. Back Bow: Endless Hail, Camouflaged Hunter, Barbed Trap, Hardened Armor, Skeletal Archer, Flawless Dawnbreaker ult. Subclass Sorcerer Dark Magic (Dark Deal) + DK Draconic Power (Hardened Armor). 64 Stamina. Mundus: The Thief (test Shadow after CP160 gear). Food: Artaeum Takeaway Broth on bosses. Companion: Mirri Elendis now (15/20); Isobel Veloise goal @20/20; Zerith-var secondary. @masisi crafts all 12 slots.
+> Heka-Ankh keeps the sentence and the clock. She is a Redguard necromancer of the Alik'r: Grave Lord, Bone Tyrant, and Living Death stay hers — no foreign class line. Dual Wield daggers front, bow back. Crushing Weapon is the mark of time (Major Breach), then the bones. 64 Stamina. The Thief. Never vampire, never wolf. Food: Garlic Cod with Potato Crust. Potion: Essence of Health once Archer and Siphon are up. Gear: seven Order's Wrath body, Hunding's Rage on jewelry and both weapon bars, crafted by @masisi. Companion: Mirri heals today; Zerith when the dead need a priest; Isobel when the sentence must look like a knight. Mount: Dwarven War Horse (Favorites rotate). Pet: Alik'r Dune-Hound. Costume: Forebear Dishdasha.
 
 > [!TIP]
-> **Flavor Pet:** **Alik'r Jackal** from the character's Collectibles export. **Ideal (any source):** **Sand Wisp** — desert spirit guiding the executioner — or **Alik'r Dune-Hound** — predator that tracks prey across open sand before the blade falls. See [Collectibles](#collectibles) for mount, pet, and dye details.
+> **Flavor Pet:** **Alik'r Dune-Hound** — desert hound at the executioner's heel. **Ideal (any source):** **Alik'r Dune-Hound**. See [Collectibles](#collectibles).
+
+> [!TIP]
+> **Costume:** **Forebear Dishdasha** — Alik'r civilian law, not a cult robe. **Alt:** **Grim Harvester**. Full picks under [Collectibles](#collectibles).
 
 ---
 
 ## Trinity configuration
 
-By completing Bahtra at-Hunding's milestone quest **"A Study in Discipline"** at Level 50, Heka-Ankh unlocks the **Uber Tier (Triple Hybrid)** architecture. Heka-Ankh replaces **Living Death** with **Dark Magic** (Stamina Printer) and **Bone Tyrant** with **Draconic Power** (Dragon Fortification) to achieve the ultimate Trinity of Power. See [docs/subclassing.md](../../../docs/subclassing.md) for the Solaegis Trinity / subclassing model.
+### Subclassing decision (required)
 
-> [!IMPORTANT]
-> **Live export is not subclassed yet.** [heka_ankh.md](heka_ankh.md) still shows **Living Death** and **Bone Tyrant** ranked. Complete **"A Study in Discipline"**, then subclass **Dark Magic** (replaces Living Death) and **Draconic Power** (replaces Bone Tyrant) before the target bars work. Native Living Death is wrong for a 64-Stamina Dark Deal engine—unslot **Avid Boneyard**, **Time Stop**, and other mag Living Death skills once the Uber Tier is active.
+Subclass unlocks at **Level 50** via Bahtra at-Hunding (**"A Study in Discipline"**). Unlocking the quest makes subclassing *available* — it does **not** mean she must swap lines. See [docs/subclassing.md](../../../docs/subclassing.md).
+
+**This build's decision:** **KEEP all three native lines.** Peak / true necromancer. Dark Deal / Hurricane would parse higher on paper and would stop being a necromancer. Live export is already Grave Lord / Bone Tyrant / Living Death with subclass none. Completing Bahtra later is optional; **do not swap lines**.
 
 ```mermaid
 graph TD
-    classDef death fill:#37474F,stroke:#90A4AE,stroke-width:2px,color:#ECEFF1
-    classDef engine fill:#1A237E,stroke:#7986CB,stroke-width:2px,color:#E8EAF6
-    classDef dragon fill:#B71C1C,stroke:#EF9A9A,stroke-width:2px,color:#FFEBEE
-    classDef core fill:#B71C1C,stroke:#FFD700,stroke-width:3px,color:#FFF3E3
-
-    A["Grave Lord - Necromancer"]:::death --> D["Apex Executioner"]:::core
-    B["Dark Magic - Sorcerer subclass"]:::engine --> D
-    C["Draconic Power - Dragonknight subclass"]:::dragon --> D
-
-    subgraph Execution ["Martial Execution"]
-        A1["Blighted Blastbones"]
-        A2["Skeletal Archer"]
-        A3["Pestilent Colossus"]
-    end
-
-    subgraph StaminaPrinter ["The Engine"]
-        B1["Dark Deal (Stamina Printer)"]
-        B2["Blood Magic passive"]
-    end
-
-    subgraph DragonFortress ["The Fortress"]
-        C1["Hardened Armor"]
-        C2["Iron Skin passive"]
-    end
+    A["Grave Lord - Necromancer KEEP"] --> D["Dark Executioner"]
+    B["Bone Tyrant - Necromancer KEEP"] --> D
+    C["Living Death - Necromancer KEEP"] --> D
 ```
 
 | **Pillar** | **Line** | **Origin** | **Slot action** | **Function** |
 | :--- | :--- | :--- | :--- | :--- |
-| **Martial Execution** | **Grave Lord** | Necromancer (native) | **KEEP** | Disease burst (**Blighted Blastbones**), persistent archery (**Skeletal Archer**), and **Pestilent Colossus** |
-| **The Engine** | **Dark Magic** | Sorcerer (subclass) | **SUBCLASS** (replaces **Living Death**) | **Dark Deal** converts Magicka into instant Stamina & Health; fuel Magicka with **Artaeum Takeaway Broth** + **Siphoning Spells** CP |
-| **The Fortress** | **Draconic Power** | Dragonknight (subclass) | **SUBCLASS** (replaces **Bone Tyrant**) | **Hardened Armor** (Major Resolve + damage shield) and **Iron Skin** passive (+10% block mitigation) |
+| **Weapon** | **Grave Lord** | Necromancer (native) | **KEEP** | **Blighted Blastbones** (Major Defile), **Skeletal Archer** (Major Brutality), **Detonating Siphon** (Major Savagery + 3% damage while slotted), **Pestilent Colossus** (Major Vulnerability). **Dismember** +3,271 pen while a Grave Lord ability is *active* |
+| **Fortress** | **Bone Tyrant** | Necromancer (native) | **KEEP** | **Summoner's Armor** (Bone Armor morph): Major + Minor Resolve (+5,948 / +2,974). One Bone Tyrant slotted also feeds **Health Avarice** (+3% healing taken). Not Bone Goliath as the main ult |
+| **Death** | **Living Death** | Necromancer (native) | **KEEP** | **Spirit Guardian** (Spirit Mender morph) — Living Death slot and corpse economy. `skills.json` models no mitigation percent; keep the morph anyway. **Near-Death Experience** is healing-ability crit vs wounded, not a +12% damage-crit |
+
+> [!IMPORTANT]
+> **Do not subclass by default.** Only replace a native line later if a foreign line clearly outperforms it on the same content with craftable gear already correct. This plan forbids that swap.
 
 ---
 
-## Combat kit: The Apex Reckoning Cycle
+## Combat kit: The Executioner's Clock
 
-Open on the Bow back bar: **Camouflaged Hunter** → **Hardened Armor** → **Endless Hail** → **Barbed Trap** → refresh **Skeletal Archer**, then swap to Dual Wield Daggers. Front bar: release **Blighted Blastbones**, weave **Rapid Strikes**, press **Dark Deal** whenever Stamina dips below 50%, and slice through low-HP targets with **Whirling Blades**. Open hard pulls with **Pestilent Colossus**; finish with **Flawless Dawnbreaker** from the bow bar when ultimate is ready.
+Open on the bow: Armor, Archer, Crushing Weapon, Hail. Swap to the daggers: Trap, Blastbones, Siphon, Rapid Strikes. Melee is front; bow is back. Spirit Guardian and Skeletal Archer are **not** Daedric summons — one bar each is legal. One corpse spender: **Detonating Siphon** (unslot Avid Boneyard).
 
 ### Skill bars
 
-Document **slotted morph names as shown in the skills UI** (not unmorphed base or wiki-only labels). Each morph appears at most once across bars. Bars match equipped weapon types (Dual Wield Daggers front, Bow back).
+Document **slotted morph names as shown in the skills UI**. Each morph appears at most once. Bars match the target weapons (daggers front, bow back).
 
-> [!NOTE]
-> **Unslot from live export:** **Dizzying Swing**, **Executioner** (2H), unmorphed **Frozen Colossus** (morph to **Pestilent Colossus**), **Avid Boneyard**, **Time Stop**. Live already has a bow on the back bar—keep the weapon type, replace skills with the target table below. Acquire **Dual Wield daggers** for the front bar (live front is still a greatsword).
+#### Front Bar (Dual Wield): "The Executioner's Daggers"
 
-#### Front Bar (Dual Wield Daggers): "The Executioner's Daggers"
-
-| **Slot** | **Class/Line** | **Base -> Morph** | **Role** |
-| :--- | :--- | :--- | :--- |
-| **1** | Dual Wield | Flurry -> **Rapid Strikes** | Single-target physical spammable + **Twin Blade & Blunt** (+10.6% Crit Chance) |
-| **2** | Grave Lord (Necromancer) | Sacrificial Bones -> **Blighted Blastbones** | Stamina disease burst + **Major Defile** + corpse creation |
-| **3** | Dual Wield | Whirlwind -> **Whirling Blades** | Stamina AoE execute (+100% damage scaling on low HP targets) |
-| **4** | Dark Magic (Subclass) | Dark Exchange -> **Dark Deal** | **Stamina Printer** (converts Magicka to instant Stamina + Health) |
-| **5** | Alliance War (Assault) | Vigor -> **Resolving Vigor** | Primary Stamina burst self-heal |
-| **6 (Ult)** | Grave Lord (Necromancer) | Frozen Colossus -> **Pestilent Colossus** | **Major Vulnerability** (+20% damage taken by enemies) |
-
-> [!TIP]
-> **Boss flex (optional):** On long single-target world bosses, swap slot 3 **Whirling Blades → Steel Cyclone** (same Whirlwind morph sibling) for better sustained single-target pressure. Keep **Whirling Blades** as default for overland execute themes.
+| **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
+| :--- | :--- | :--- | :--- | :--- |
+| **1** | Dual Wield | Flurry → **Rapid Strikes** | Stamina spammable (2,430) | Respec (live Dizzying Swing) |
+| **2** | Grave Lord | Sacrificial Bones → **Blighted Blastbones** | Corpse + Major Defile (1,836 stam) | Live |
+| **3** | Fighters Guild | Trap Beast → **Barbed Trap** | Minor Force (+10% crit damage); 3,240 stam | Respec (live Rally) — do not leave Trap on the back bar |
+| **4** | Grave Lord | Shocking Siphon → **Detonating Siphon** | Corpse spend; Major Savagery; **+3% damage done while slotted** (0 cost) | Respec (live Executioner) |
+| **5** | Assault | Vigor → **Resolving Vigor** | Burst heal (2,984 stam). Minor Resolve overlaps Summoner's Armor — keep for the heal | Live |
+| **6 (Ult)** | Grave Lord | Frozen Colossus → **Pestilent Colossus** | 150 Ultimate; Major Vulnerability | Respec (live Frozen Colossus) |
 
 #### Back Bar (Bow): "The Executioner's Sight"
 
-| **Slot** | **Class/Line** | **Base -> Morph** | **Role** |
-| :--- | :--- | :--- | :--- |
-| **1** | Bow | Volley -> **Endless Hail** | Ground stamina DoT (persists after bar swap) |
-| **2** | Fighters Guild | Expert Hunter -> **Camouflaged Hunter** | **Major Savagery** + Magicka restore (fuels Dark Deal) |
-| **3** | Fighters Guild | Trap Beast -> **Barbed Trap** | FG DoT; enables **Slayer** with Dawnbreaker |
-| **4** | Draconic Power (Subclass) | Spiked Armor -> **Hardened Armor** | **Major Resolve** (+5,948 Armor) + protective damage shield |
-| **5** | Grave Lord (Necromancer) | Skeletal Mage -> **Skeletal Archer** | Persistent stamina pet + escalating physical damage |
-| **6 (Ult)** | Fighters Guild | Dawnbreaker -> **Flawless Dawnbreaker** | Physical burst ultimate + passive Weapon Damage boost |
+| **Slot** | **Class/Line** | **Base → Morph** | **Role** | **Profile** |
+| :--- | :--- | :--- | :--- | :--- |
+| **1** | Bow | Volley → **Endless Hail** | AoE Physical DoT (2,700 stam) | Live |
+| **2** | Psijic Order | Imbue Weapon → **Crushing Weapon** | Major Breach (−5,948); 2,700 stam | Respec (live Time Stop — **unslot**; 7,830 mag) |
+| **3** | Grave Lord | Skeletal Mage → **Skeletal Archer** | Major Brutality (2,525 stam) | Live — **do not drop** for Trap or Hunter |
+| **4** | Bone Tyrant | Bone Armor → **Summoner's Armor** | Major + Minor Resolve (2,700 mag) | Respec (live second Vigor) |
+| **5** | Living Death | Spirit Mender → **Spirit Guardian** | Living Death slot + corpse (4,320 mag) | Respec |
+| **6 (Ult)** | Fighters Guild | Dawnbreaker → **Flawless Dawnbreaker** | Back ult; FG rank 10 | Respec (live duplicate Frozen Colossus) |
 
-> [!NOTE]
-> **Major Brutality** comes from **Essence of Heroism** (and Medicinal Use uptime)—not from a slotted **Rally**. That frees the Fortress slot for **Hardened Armor**.
+**Whirling Blades** is a later trash/execute flex, not a buff pillar. Do not put it on the target front bar — that slot is **Barbed Trap** so Archer can stay on the back bar (Major Brutality).
 
-> [!NOTE]
-> **Until Flawless Dawnbreaker is unlocked** (Fighters Guild quest / rank): do **not** put **Pestilent Colossus** on both bars (duplicate morph). Interim back-bar ultimate: keep **Camouflaged Hunter** / **Barbed Trap** for FG passives and use **Pestilent Colossus** on the front bar only until Dawnbreaker is morphable.
-
-> [!NOTE]
-> **Survivability variant (DW + 2H — legacy charge doctrine):** Prefer shield stacking over hail DoT? Back bar **Two-Handed Greatsword**: **Stampede**, **Carve**, **Rally**, **Hardened Armor**, **Skeletal Archer**, **Flawless Dawnbreaker**. Stronger shields and gap-close; lower peak overland/boss DPS than Endless Hail + Trap. Keep as an Armory alt, not the primary target.
+**Phase 0 bridge** (skills she has; 2H front until placeholder daggers): Dizzying Swing / Blastbones / Rally / Executioner / Vigor / Frozen→Pestilent · Hail / Archer / **unslot Time Stop** / Trap when bought / Crushing Weapon at Psijic 3. Rally covers Brutality until Archer is recast on the target back bar.
 
 ### Rotation and combat tips
 
 ```mermaid
 flowchart TD
-    classDef start fill:#B71C1C,stroke:#EF9A9A,stroke-dasharray:5 5,color:#FFEBEE
-    classDef backbar fill:#4A148C,stroke:#CE93D8,color:#F3E5F5
-    classDef swap fill:#E65100,stroke:#FFB74D,color:#FFF3E3
-    classDef frontbar fill:#1A237E,stroke:#7986CB,color:#E8EAF6
-
-    A["Drink Essence of Heroism"]:::start --> B["Back: Hunter + Hardened Armor + Hail + Trap + Archer"]:::backbar
-    B --> C["Swap front — Blighted Blastbones + Rapid Strikes weave"]:::swap
-    C --> D["Stamina below 50%? Dark Deal Magicka to Stamina"]:::frontbar
-    D --> E["HP low? Resolving Vigor"]:::frontbar
-    E --> F["Low HP targets? Whirling Blades execute"]:::frontbar
-    F --> G["Boss pull? Pestilent Colossus then Dawnbreaker"]:::frontbar
+    A["Summoner's Armor + Spirit Guardian"] --> B["Archer + Crushing Weapon + Hail"]
+    B --> C["Swap to daggers"]
+    C --> D["Barbed Trap + Blastbones + Siphon"]
+    D --> E["Rapid Strikes weaves; refresh Trap / bones / imbue / Hail"]
+    E --> F["HP low? Resolving Vigor"]
+    F --> G["Execute: Pestilent Colossus"]
 ```
 
 #### Solo combat tips
 
-1. **The Stamina Printer:** **Dark Deal** converts Magicka into Stamina and Health instantly. Keep Magicka topped with **Artaeum Takeaway Broth**, **Camouflaged Hunter** restores, and **Siphoning Spells** CP on kills—press Dark Deal whenever Stamina dips below ~50%.
-2. **Mark → rain → execute:** Never skip back-bar setup. **Endless Hail** and **Barbed Trap** tick while you dagger-weave on the front bar; that is the peak-DPS loop.
-3. **Fortress layering:** **Hardened Armor** (Major Resolve + shield) plus **Resolving Vigor** covers burst. The 2H **Carve** shield stack is only on the survivability variant.
-4. **Do not finish Eldritch Insight:** Live Warfare has mag-focused points—redirect to stamina CP below.
+1. **Breach is the imbue.** Crushing Weapon is the only Major Breach on this kit. Refresh it each window (2,700 stam). Night Mother's Gaze 5pc is worth **0** while it is up. `skills.json` models Major Breach only — do not quote an extra weapon-attack percent.
+2. **Archer stays.** Skeletal Archer is the verified Major Brutality source. Rally is 2H-only. Essence of Heroism is a **draft** potion — do not make the peak kit depend on it.
+3. **Siphon is the Savagery and the +3%.** Detonating Siphon is also the only main-bar corpse spender. Do not also slot Avid Boneyard.
+4. **Keep a Grave Lord ability active** so **Dismember** (+3,271 pen) stays on. Archer, Siphon (20s), Blastbones, and Colossus all count.
+5. **Do not sneak-open on Crushing Weapon.** The UESP page says the imbue cannot conceal; the support table does not model that line. Treat it as a loud mark.
+6. **Bank leftover skill points.** Do not buy **Reach**. **Continuous Attack** waits on Alliance rank (Assault is live only as Vigor). Eldritch Insight: leave **10** (refund the extra 7).
 
 ### Passive skills
 
-Heka-Ankh has **48 Skill Points available**. Spend in this priority order; fully rank (Rank II/III) where noted.
+**49 skill points** available. Spend in this order; fully rank where noted. Quote only `verified: true` numbers. Draft passives: buy the class ones, quote the raw tooltip, mark unverified.
 
-#### Necromancer & Subclass Passives
+#### Necromancer — Grave Lord
 
-* **Grave Lord:** **Reusable Parts** (II), **Death Knell** (II), **Dismember** (II), **Rapid Rot** (II) — Boost critical chance against low HP targets and physical DoT damage.
-* **Dark Magic (Subclass):** **Unholy Knowledge** (II), **Blood Magic** (II), **Persistence** (II) — Reduces skill costs and heals whenever a Dark Magic ability is cast.
-* **Draconic Power (Subclass):** **Iron Skin** (II), **Burning Heart** (II), **Elder Dragon** (II) — Boosts block mitigation and health recovery per slotted draconic ability.
+* **Dismember (II):** live. +3,271 offensive pen while a Grave Lord ability is active.
+* **Rapid Rot (0/2 → II):** +10% DoT (Hail, Siphon, Blastbones, Trap, Colossus).
+* **Reusable Parts (II), Death Knell (II):** live. Draft rows — Reusable Parts: next Bones / Mage / Mender costs 66% less when one dies. Death Knell: +20% crit vs enemies under 33% Health (unverified parse; quote the tooltip).
 
-#### Weapon Passives
+#### Necromancer — Bone Tyrant
 
-* **Dual Wield:** **Slaughter** (II), **Dual Wield Expert** (II), **Controlled Fury** (II), **Ruffian** (II), **Twin Blade and Blunt** (II) — **+10.6% Crit Chance** with dual daggers.
-* **Bow:** **Vinedusk Training** (II), **Accuracy** (II), **Ranger** (II), **Hawk Eye** (II), **Hasty Retreat** (II) — ranged DoT and mobility for Endless Hail / Trap loops.
+* **Last Gasp (II):** +2,412 Max Health.
+* **Health Avarice (II):** +3% healing taken per Bone Tyrant ability slotted (one slotted = +3%).
+* **Death Gleaning (II):** +666 Magicka and Stamina on kill while a Bone Tyrant ability is slotted and you are in combat.
+* **Disdain Harm (II):** draft — "Reduce the damage you take from damage over time abilities by 15% while you have a Bone Tyrant ability active."
 
-#### Guild, Crafting, Alliance & Race Passives
+#### Necromancer — Living Death
 
-* **Fighters Guild:** **Intimidating Presence**, **Slayer** (III), **Banish the Wicked** (III) — Passive physical damage per slotted Fighters Guild skill (**Camouflaged Hunter**, **Barbed Trap**, **Flawless Dawnbreaker**).
-* **Alchemy:** **Medicinal Use** (III) — **Mandatory** — potion effects last 100% longer (pairs with Essence of Heroism).
-* **Alliance War — Assault:** **Continuous Attack** (II) — Major Gallop (already unlocked live) · **Reach** (II) — +2% damage per second in combat (long boss fights).
-* **Redguard:** **Wayfarer** (III), **Martial Training** (III), **Conditioning** (III), **Adrenaline Rush** (III) — Reduces skill costs and restores Stamina on melee light attacks.
-* **Medium Armor:** **Dexterity** (II), **Wind Walker** (II), **Improved Sneak** (II), **Agility** (II), **Athletics** (II) — Physical critical chance and Stamina recovery.
-* **Heavy Armor:** **Resolve** (III), **Constitution** (II), **Juggernaut** (II) — Resistance and Health for the heavy head piece.
+* **Near-Death Experience (II):** healing-ability Critical Chance up to 12% vs wounded (raw tooltip). **Not** +12% weapon/spell crit.
+* **Corpse Consumption (II):** +10 Ultimate on consume corpse.
+* **Curative Curse (II):** draft — +12% healing done while you have a negative effect. Do not take vampire to proc it.
+* **Undead Confederate (II):** draft — +155 Health/Magicka/Stamina while Bones, Mage, or Mender is active.
+
+#### Weapon — Dual Wield / Bow
+
+* Dual Wield rank 38. Buy **Focused Killer**, **Ambidextrous**, **Controlled Fury** (−15% Dual Wield ability cost), **Ruffian** (draft: +15% vs stunned/immobilized/silenced) as ranks allow.
+* **Twin Blade and Blunt** waits on Dual Wield 41: daggers +657 Weapon and Spell Critical each condition.
+* Bow: **Vinedusk Training**, **Accuracy** (+1,314 crit on bow), **Ranger** (−15% Bow ability cost) live. Finish **Hawk Eye (1/2 → II)** (+5% damage per stack on light/heavy, max 5). **Hasty Retreat (II)** later (Major Expedition on dodge).
+
+#### Armor — Medium (6) + Heavy head (1)
+
+* Medium passives live maxed: **Wind Walker** +4% Max Stamina and −2% stamina-ability cost per medium (6 pieces → +24% / −12%); **Agility** +2% WD/SD per medium (+12%).
+* Do not dump points into unused Light or 5-piece Heavy lines.
+
+#### Guild — Fighters Guild / Psijic / Alchemy
+
+* FG 9: **Slayer (III)** live. Finish **Banish the Wicked (2/3)**. **Flawless Dawnbreaker** at rank 10.
+* Psijic 2: **See the Unseen** live. Rank 2→3, buy **Imbue Weapon → Crushing Weapon**. Later **Clairvoyance (II)** −15% Psijic cost. Spell Orb / Concentrated Barrier are drafts — optional after the imbue.
+* **Medicinal Use (0/3 → III):** +30% potion duration.
+
+#### Race — Redguard
+
+* **Martial Training (III), Conditioning (III)** (+2,000 Max Stamina), **Adrenaline Rush (III)** (+1,005 Stamina on damage) live.
+* **Wayfarer:** draft — +15 minutes food duration. Already unlocked; do not treat the extra duration as a verified number.
+
+#### Alliance — Assault
+
+* **Resolving Vigor** is slotted. Take **Continuous Attack** when Alliance rank allows (draft: Gallop always; 10% WD/SD after capturing an objective). Do not spend filler on **Reach**.
 
 ---
 
-## Gear and crafting: Executioner's Mail
+## Gear and crafting: Order's and Hunding
 
-Built 100% on **craftable sets**, this loadout pairs **Night Mother's Gaze** with **Hunding's Rage** for Major Breach on crit, Weapon Critical, and raw Weapon Damage—**exactly 5 + 5 pieces** (plus three crafted no-set armor slots).
+100% craftable. A bow counts as **2** set pieces on the active bar (`caps.json`, verified). Armor and jewelry count on both bars; weapons do not. Correct 5+5 is **7 Order's Wrath body** + **Hunding jewelry + both weapon bars** — the same pattern @masisi already crafts for Karakedi. The old "4 Hunding armor + Hunding bow = 5" split is wrong on the front bar (no bow → 4 Hunding).
 
 ### Set rationale
 
 ```mermaid
 graph LR
-    subgraph NightMothers ["5pc Night Mothers Gaze"]
-        N1["Daggers MH + OH"]
-        N2["Neck + Ring x2"]
-        N3["Major Breach on Crit"]
+    subgraph OrdersWrath ["5pc Order's Wrath"]
+        O1["2/4pc +657 Weapon/Spell Crit each"]
+        O2["3pc +129 Weapon/Spell Damage"]
+        O3["5pc +943 Crit and +8% Crit Damage"]
     end
-    subgraph Hundings ["5pc Hundings Rage"]
-        H1["Chest Legs Feet Hands"]
-        H2["Bow"]
-        H3["+300 Weapon Damage"]
+    subgraph Hundings ["5pc Hunding's Rage"]
+        H1["2/4pc +657 Weapon/Spell Crit each"]
+        H2["3pc +1096 Max Stamina"]
+        H3["5pc +300 Weapon/Spell Damage"]
     end
-    subgraph Crafted ["Crafted no-set"]
-        C1["Head Heavy Divines"]
-        C2["Shoulders Med"]
-        C3["Waist Med"]
-    end
-    NightMothers --> Hundings
+    OrdersWrath --> Hundings
 ```
 
 | **Set** | **5-Piece Bonus** | **Role in the Build** |
 | :--- | :--- | :--- |
-| **Night Mother's Gaze** | Critical damage applies **Major Breach** (-5,948 Armor) for 4s | Guarantees physical penetration on DW crit weaves without a dedicated debuff skill |
-| **Hunding's Rage** | Adds 300 Weapon Damage & 1485 Weapon Critical | Core flat physical power for daggers and bow DoTs |
+| **Order's Wrath** | +943 Critical Chance and **+8% Critical Damage / Critical Healing** (2/4pc +657 crit; 3pc +129 WD/SD) | Crit-damage 5pc once Breach is a skill. Thief mundus feeds it |
+| **Hunding's Rage** | +300 Weapon and Spell Damage (2/4pc +657 crit; 3pc +1,096 Stamina) | Always-on WD floor on jewelry and both bars |
 
 > [!NOTE]
-> **Rejected alternatives:** **Spriggan's** breach leans on heavy attacks (poor fit for DW light weave). **Order's Wrath** adds crit damage but no Major Breach. **Briarheart** is strong but **not craftable**—out of scope for @masisi handoff.
+> **Why not Night Mother's Gaze?** Crushing Weapon already applies Major Breach (−5,948). NMG 5pc is the same debuff on crit — worth **0** while the imbue is up. `value_calc.py` at est. CP160 (`crit 48% · cd 88% · pen 1,500 · power 3,600 · stam 28,000`): dropping Order's 5pc is **−5.12%**; swapping Order's 5pc for NMG while Breach is already up is the same **−5.12%**. NMG only beats Order's if there is **no** skill Breach (**+4.61%** @0.85 / **+4.04%** @0.8) — that is the discarded Living Peak package.
+>
+> **Why 1 heavy head?** Live Health is 18,892. One heavy Divines head keeps six medium pieces (Wind Walker / Agility math above) without going full heavy.
+
+**Buff ledger (solo; do not double-count):**
+
+- Major Breach: Crushing Weapon.
+- Major Brutality: Skeletal Archer.
+- Major Savagery: Detonating Siphon.
+- Major + Minor Resolve: Summoner's Armor. Essence of Immovability would overlap Major Resolve.
+- Minor Force: Barbed Trap (10% crit damage).
+- Caps (quote verified only): dummy resist **18,200**, crit-damage cap **125%**, bow/2H = **2** pieces, small-piece armor glyphs **40%** (868 vs 347 Stamina).
+
+Pen vs 18,200 (honest shortfall): Breach 5,948 + Dismember 3,271 + Piercing 700 + Glyph of Crushing 1,622 + live sheet ~350 ≈ **11.9k**. Craftable-only; do not invent extra pen. Thief stays.
+
+Crit damage vs 125: base 50 + Order's 8 + Fighting Finesse 8 + Minor Force 10 + Backstabber 10 (flank) = **86**. Room.
 
 ### Target loadout
 
 | **Slot** | **Set** | **Weight** | **Trait** | **Enchantment** | **Quality** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Head** | Crafted (no set) | Heavy | Divines | Max Stamina | Epic / Gold |
-| **Shoulders** | Crafted (no set) | Medium | Divines | Max Stamina | Epic / Gold |
-| **Chest** | Hunding's Rage | Medium | Divines | Max Stamina | Epic / Gold |
-| **Hands** | Hunding's Rage | Medium | Divines | Max Stamina | Epic / Gold |
-| **Waist** | Crafted (no set) | Medium | Divines | Max Stamina | Epic / Gold |
-| **Legs** | Hunding's Rage | Medium | Divines | Max Stamina | Epic / Gold |
-| **Feet** | Hunding's Rage | Medium | Divines | Max Stamina | Epic / Gold |
-| **Neck** | Night Mother's Gaze | Jewelry | Bloodthirsty | Weapon Damage | Epic / Gold |
-| **Ring 1** | Night Mother's Gaze | Jewelry | Bloodthirsty | Weapon Damage | Epic / Gold |
-| **Ring 2** | Night Mother's Gaze | Jewelry | Bloodthirsty | Weapon Damage | Epic / Gold |
-| **Front Main Hand** | Night Mother's Gaze (Dagger) | Metal | Precise | Weapon Damage | Epic / Gold |
-| **Front Off Hand** | Night Mother's Gaze (Dagger) | Metal | Precise | Poison Damage | Epic / Gold |
-| **Back Weapon** | Hunding's Rage (Bow) | Wood | Infused | Poison Damage | Epic / Gold |
+| **Head** | Order's Wrath | Heavy | Divines | Max Stamina (full 868) | Purple → Gold |
+| **Shoulders** | Order's Wrath | Medium | Divines | Max Stamina (40% = 347) | Purple → Gold |
+| **Chest** | Order's Wrath | Medium | Divines | Max Stamina (full 868) | Purple → Gold |
+| **Hands** | Order's Wrath | Medium | Divines | Max Stamina (347) | Purple → Gold |
+| **Waist** | Order's Wrath | Medium | Divines | Max Stamina (347) | Purple → Gold |
+| **Legs** | Order's Wrath | Medium | Divines | Max Stamina (full 868) | Purple → Gold |
+| **Feet** | Order's Wrath | Medium | Divines | Max Stamina (347) | Purple → Gold |
+| **Neck** | Hunding's Rage | Jewelry | Bloodthirsty | Increase Physical Harm (174 WD) | Purple → Gold |
+| **Ring 1** | Hunding's Rage | Jewelry | Bloodthirsty | Increase Physical Harm (174 WD) | Purple → Gold |
+| **Ring 2** | Hunding's Rage | Jewelry | Bloodthirsty | Increase Physical Harm (174 WD) | Purple → Gold |
+| **Front Main** | Hunding's Rage (Dagger) | 1H | Precise | Glyph of Poison (2,534) | Purple → Gold |
+| **Front Off** | Hunding's Rage (Dagger) | 1H | Precise | Glyph of Poison or Flame (2,534) | Purple → Gold |
+| **Back Weapon** | Hunding's Rage (Bow) | 2H | Infused | Glyph of Crushing (1,622; Infused +30%) | Purple → Gold |
 
-**Piece count check:** Night Mother's Gaze = **5** (2 daggers + neck + 2 rings) · Hunding's Rage = **5** (chest, hands, legs, feet, bow) · Crafted no-set = **3** (head, shoulders, waist).
+**Front bar — Dual Wield:** Precise is +3.6% Weapon/Spell Critical per dagger (gold 1H). Bloodthirsty jewelry is up to +350 WD under 90% Health — value at roughly half.
 
-**Front bar — Dual Daggers:** Precise traits push Critical Chance for 100% Night Mother's Major Breach uptime. Poison off-hand aligns with disease/DoT + **Thaumaturge** CP.
+**Back bar — Bow:** Two-hander = 2 Hunding pieces. Infused (+30% enchant, −50% cooldown) on Crushing is the pen glyph that carries after swap.
 
-**Back bar — Bow:** Infused Poison glyph fires frequently inside **Endless Hail** / Trap windows.
+Interim: Night's Silence or leftover Hawk's Eye / Trainee only until Order's and Hunding mats land. Do not gold the Fine frost greatsword.
 
 ### Crafting handoff (@masisi)
 
 | **Detail** | **Recommendation** |
 | :--- | :--- |
-| **Style** | Redguard / Pyandonean Heavy |
-| **Set station** | Night Mother's Gaze (Stormhaven — 6 traits) · Hunding's Rage (Bangkorai — 6 traits) |
-| **Traits** | Divines (Armor), Bloodthirsty (Jewelry), Precise (Daggers), Infused (Bow) |
-| **Interim (pre-CP160)** | Night's Silence (2 traits) as bridge set if mats are limited |
-| **Quality path** | Purple (Epic) standard → Gold (Legendary) **Daggers & Bow** first |
+| **Style** | Yokudan / Redguard / Forebear — Alik'r civilian law |
+| **Set station** | Order's Wrath (High Isle, Steadfast Hammer and Saw — 3 traits) · Hunding's Rage (overland stations — 6 traits) |
+| **Traits** | Divines (armor), Bloodthirsty (jewelry), Precise (both daggers), Infused (bow) |
+| **Interim (pre-CP160)** | Placeholder Hunding / Order's purple; keep the Trainee bow until the Infused Hunding bow exists |
+| **Quality path** | Purple all 12 + weapons → gold weapons first, then jewelry, then body |
 
 > [!NOTE]
-> **Research gate:** Coordinate with @masisi before gold-quality CP160 work. See [`masisi.md`](masisi.md) for account crafter status.
+> **Research gate:** Coordinate with @masisi before gold CP160 work. He already crafts this pairing for Karakedi. See [`masisi.md`](masisi.md).
 
 ---
 
-## Champion Point Mapping (CP 1033)
+## Champion Point Mapping (CP 1117)
 
 > [!NOTE]
-> **Star catalog:** Use exact star names, constellation (discipline), max points, and slottable/passive type from [`champion_points_reference.md`](../../templates/champion_points_reference.md).
+> **Star catalog:** Exact names, max points, and slottable vs passive from [`champion_points_reference.md`](../../templates/champion_points_reference.md) (YAML: [`champion_points.yaml`](../../templates/champion_points.yaml)). **4** slotted stars per discipline at 900+ total CP. Walk `prerequisites` (ancestor minimums before children).
 
-Full CP budget: **344 Warfare / 344 Fitness / 345 Craft** (1033 total).
+Full CP budget: **372 Warfare / 373 Craft / 372 Fitness** (1117 total). Live: **217 / 151 / 155** spent, **155 / 222 / 217** free.
 
-**Live export (~523 spent / ~510 available):** Warfare has partial **Precision** / **Piercing** / **Quick Recovery**, slotted **Master-at-Arms**, **Deadly Aim**, **Backstabber**, and mag-leaning **Eldritch Insight** (17)—**do not finish Eldritch Insight**. Fitness has **Boundless Vitality**, **Rejuvenation**, and partial **Siphoning Spells** (17)—**finish Siphoning Spells to 50**. Remove **Backstabber** (flanking rarely applies face-to-face on world bosses).
+### Warfare (Blue — 372 Points)
 
-**Planning rules:**
-- **Per-discipline cap:** ~344 CP per discipline at CP 1033.
-- **Slotted stars:** **4 per discipline** (at 900+ total CP limit).
-
-### Warfare (Blue — 344 Points)
+Live slotted: Master-at-Arms, Deadly Aim, Backstabber. **Add Fighting Finesse** (Precision 10 already unlocks it). Finish Precision 10→20 and Piercing 10→20. Eldritch Insight **17→10** (refund 7; Piercing and Quick Recovery need 10). Tireless Discipline is a Piercing ancestor in the YAML — spend it to 40 for +520 Max Stamina (verified). Then Battle Mastery 20 → Mighty.
 
 | **Slotted Star** | **Spend** | **Benefit** |
 | :--- | :--- | :--- |
-| **Master-at-Arms** | 50 points | Direct Damage — Rapid Strikes, Blastbones, Dawnbreaker — **live: already maxed** |
-| **Deadly Aim** | 50 points | Single-Target Damage — world bosses — **live: already maxed** |
-| **Fighting Finesse** | 50 points | Critical Damage and Critical Healing — **[NEW]** slot |
-| **Thaumaturge** | 50 points | Damage-over-Time — Endless Hail, Barbed Trap, Blastbones disease, Archer — **[NEW]** replaces live **Backstabber** |
+| **Fighting Finesse** | 50 points | +8% Critical Damage and Critical Healing (verified) |
+| **Master-at-Arms** | 50 points | +6% direct damage (verified; ignore the YAML 15% note) |
+| **Deadly Aim** | 50 points | +6% single-target (verified) |
+| **Backstabber** | 50 points | +10% crit damage vs flanked targets (verified) — keep live |
 
-> [!TIP]
-> **Boss-hunting swap:** For pure world-boss execute windows, swap **Thaumaturge → Exploiter** (+damage vs low HP). For holistic overland (mobs die fast; DoTs always tick), keep **Thaumaturge**.
+**Passives (no slot needed):**
 
-**Passives (no slot needed — 144 points):**
+* **Precision (10/20 → 20/20):** +320 Weapon/Spell Critical at max (verified)
+* **Piercing (10/20 → 20/20):** +700 offensive pen at max (verified)
+* **Eldritch Insight (17 → 10/20):** leave 10; refund 7. Do not dump to 0
+* **Quick Recovery (10/20 → 20/20):** +2% healing taken (verified)
+* **Preparation (20/20):** live. Draft tooltip: −5% damage taken from non-player attacks per stage
+* **Tireless Discipline (0 → 40/40):** +520 Max Stamina (verified)
+* **Battle Mastery (20/40) → Mighty (30/30):** martial status then +WD/SD to martial attacks — leftover Warfare after the stars above
 
-* **Precision (20/20):** +326 Critical Chance — **live: finish from 10**
-* **Piercing (20/20):** +700 Armor Penetration — **live: finish from 10**
-* **Preparation (20/20):** Reduces damage taken from non-player attacks by 10% — **live: already maxed**
-* **Quick Recovery (20/20):** +4% Healing Taken — **live: finish from 10**
-* **Mighty (30/30):** +100 Physical, Bleed, and Disease Damage
-* **Battle Mastery (34/40):** +136 Weapon and Spell Damage
-* **Redirect Eldritch Insight (17):** unslot / refund into passives above — wrong for pure stamina
+### Fitness (Red — 372 Points)
 
-### Fitness (Red — 344 Points)
-
-| **Slotted Star** | **Spend** | **Benefit** |
-| :--- | :--- | :--- |
-| **Boundless Vitality** | 50 points | +1,400 Max Health — **live: already maxed** |
-| **Rejuvenation** | 50 points | +90 Health, Magicka, and Stamina Recovery — **live: already maxed** |
-| **Fortified** | 50 points | +1,731 Armor — **[NEW]** slot |
-| **Siphoning Spells** | 50 points | Restore Magicka on kill — fuels **Dark Deal** on overland chains — **live: finish from 17 to 50** |
-
-**Passives (no slot needed — 144 points):**
-
-* **Sprinter (20/20):** Reduces Sprint cost by 40 — **live: finish from 10**
-* **Hasty (16/16):** +6% Sprint speed — **live: finish from 8**
-* **Hero's Vigor (20/20):** +560 Max Health — **live: already maxed**
-* **Tumbling (30/30):** Reduces Roll Dodge cost by 240
-* **Defiance (20/20):** Reduces Break Free cost by 220
-* **Mystic Tenacity (20/20):** Reduces status effect duration by 15%
-* **Savage Defense (18/30):** Reduces Block cost by 36
-
-> [!NOTE]
-> **Celerity** is QoL movement, not a Fitness slottable priority for this build—**Siphoning Spells** wins the fourth slot for the Dark Deal engine.
-
-### Craft (Green — 345 Points)
+Unslot **Siphoning Spells 17** (draft on-kill Magicka restore — wrong resource). Keep **Boundless Vitality 50** and **Rejuvenation 50** (do not quote the support-table Health parse). **Add Fortified** (+1,730 physical/spell resist, verified). Finish **Hasty 8→16** so **Celerity** unlocks (YAML: Hasty 10).
 
 | **Slotted Star** | **Spend** | **Benefit** |
 | :--- | :--- | :--- |
-| **Steed's Blessing** | 50 points | +20% Movement Speed out of combat — **live: already maxed** |
-| **War Mount** | 75 points | Removes stamina cost of mounting out of combat — **[NEW]** |
-| **Gifted Rider** | 50 points | +20% Mount Speed — **[NEW]** |
-| **Master Gatherer** | 75 points | Reduces harvesting time by 50% — **[NEW]** |
+| **Boundless Vitality** | 50 points | +1,400 Max Health (verified) |
+| **Fortified** | 50 points | +1,730 Physical and Spell Resistance (verified) |
+| **Rejuvenation** | 50 points | Already slotted — recovery; no Health number from the table |
+| **Celerity** | 50 points | +10% movement speed (verified) |
 
-**Passives (no slot needed — 95 points):**
+**Passives:**
 
-* **Fortune's Favor (50/50):** +50% Gold found in treasure chests — **live: already maxed**
-* **Gilded Fingers (50/50):** +10% Gold drops — **live: finish from 50 if already maxed; otherwise complete**
-* **Breakfall (10/50):** Reduces fall damage by 10% — **live: 1**; top up as points allow
+* **Hero's Vigor (20/20):** live
+* **Hasty (8/16 → 16/16):** Celerity ancestor
+* **Sprinter (10/20):** live; finish if leftover
+* **Tumbling (0 → 30/30):** dodge cost — live dodge is 2,524
+* **Bloody Renewal** is the stamina on-kill analog of Siphoning and is also a **draft** — optional later, not a required fourth slot
+
+### Craft (Green — 373 Points)
+
+Live: Fortune's Favor 50, Gilded Fingers 50, Breakfall 1, Steed's Blessing 50. Walk ancestors before children. Combat-first path (food/potion), then gatherer/mount.
+
+| **Slotted Star** | **Spend** | **Benefit** |
+| :--- | :--- | :--- |
+| **Steed's Blessing** | 50 points | Out-of-combat move speed — live |
+| **Gifted Rider** | 50 points | After Master Gatherer 15 — mount speed |
+| **Master Gatherer** | 15+ of 75 | Harvest time; ancestor of Gifted Rider / Plentiful Harvest |
+| **War Mount** | 75 points | After Gifted Rider 10 + Plentiful Harvest 10 — last slotted when the tree is walked |
+
+**Passives (walk in order):**
+
+* **Wanderer (10)** ← Fortune's Favor 10 (have 50)
+* **Steadfast Enchantment (10)** ← Wanderer 10
+* **Rationer (30/30)** ← Steadfast 10 — +10 minutes food per stage (duration only)
+* **Liquid Efficiency (50)** ← Rationer 10
+* **Inspiration Boost (15)** ← Fortune's Favor 10 → **Meticulous Disassembly (50)**
+* **Treasure Hunter (50)** ← Meticulous 50 + Steadfast 10
+* Then Fade Away / Master Gatherer / **Plentiful Harvest (10)** / Gifted Rider / War Mount
+* Do not buy filler Craft stars to spend the last points. No Reach anywhere
 
 ---
 
 ## Companion Strategy: The Executioner's Retinue
 
-Companion gear is separate from player gear—companions equip **Companion's** weapons, armor, and jewelry with **companion-only traits** (Quickened, Aggressive, Bolstered). There are no player gear sets or 5-piece bonuses on companions.
+Companion gear is separate from player gear — companions equip **Companion's** weapons, armor, and jewelry with **companion-only traits** (Quickened, Aggressive, Bolstered). There are no player gear sets or 5-piece bonuses on companions.
 
 > [!NOTE]
-> **Live export:** **Mirri Elendis** — Level **15/20**, **Companion's Restoration Staff**, mostly Level-1 Fine/Superior armor, empty ultimate slot. Character **Level 50 / CP 1033**.
+> **Live export:** **Mirri Elendis** — Level **15/20**, Companion's Restoration Staff (Epic, cooldown trait), mix of Fine / Superior light, bar **Rejuvenation / Ghostly Evasion / Masque of Torment / Twilight Mantle / Crimson Font / empty ult**. Character **Level 50 / CP 1117**. Companion gear has **no item level** — ignore `(Level 1)` / outdated-gear warnings. Judge **quality** and trait. Assign the ult.
 
 ### Companion picks
 
 | **Tier** | **Companion** | **Role** | **Roleplay fit** | **Mechanical fit (at current stats)** |
 | :--- | :--- | :--- | :--- | :--- |
-| **Primary (now)** | **Mirri Elendis** | Ranged / Support | Dunmer scout who starts hunts at distance | At **15/20** with Resto staff: ranged support while Heka marks and executes; level her and replace Level-1 gear |
-| **Secondary** | **Zerith-var** | Necromancer Escort | Khajiit order warrior — second blade when no herald is needed | Extra DPS / skeletal synergy when self-heal is enough |
-| **Goal (20/20 @ CP160)** | **Isobel Veloise** | Support / Shields | Oath-knight who guards an exile rather than condemns her | Shields + burst heals let Heka stay on the dagger bar through Colossus windows on world bosses |
+| **Primary (now)** | **Mirri Elendis** | Healer | Antiquarian who will catalog the sentence | 15/20 resto already heals. Empty ult wastes the bar. Raise Fine pieces to Superior+ |
+| **Secondary** | **Zerith-var** | Necromancer escort | Priest of the moon who understands the dead | Swap when the kit is all corpses and Mirri's commentary wears thin |
+| **Goal (20/20 @ CP160)** | **Isobel Veloise** | Knight / shields | The sentence wearing a knight's face | Full 20/20 tank-heal. **Rapport:** she dislikes necromancy — dismiss before long corpse loops if her meter drops |
 
-### Goal companion — Isobel Veloise: Oath Herald
+### Goal companion — Isobel Veloise: The Knight's Face
 
-When Isobel is capped, she is the end-state pick: faith beside judgment—shields and heals while Heka delivers the sentence.
+When Heka-Ankh is the clock, Isobel is the public law.
 
 | **Setting** | **Recommendation** |
 | :--- | :--- |
-| **Role** | Support / Frontline herald |
-| **Gear Weight** | **Heavy** Companion Armor (survivability on world bosses) |
-| **Gear Trait** | **Quickened** (cooldowns) · **Bolstered** on chest/legs if she dies too often |
-| **Loadout** | Full **Companion's** heavy armor + **Companion's Sword and Shield** or **Companion's Bow** — companion-only items only |
-| **Acquisition** | White basics from merchant armorers; **Superior+** traited pieces from drops while Isobel is active. **Not** part of @masisi's player craft. |
+| **Role** | Shield / heal |
+| **Gear Weight** | Heavy |
+| **Gear Trait** | Bolstered / Quickened — companion-only |
+| **Loadout** | Full **heavy** Companion's armor + **Companion's Sword and Shield** or resto if she stays healer — all companion-only (no player sets) |
+| **Acquisition** | White basics from armorers; **Superior+** traited pieces from boss/overland drops while she is active. **Not** part of player [Gear and crafting](#gear-and-crafting-orders-and-hunding) |
+
+#### Isobel's support skill bar (goal @ 20/20)
+
+1. **Holy Ground:** Templar. Group heal / standing zone
+2. **Sun Shield:** Templar. Damage shield
+3. **Divine Protection:** emergency burst heal
+4. **Biting Armor:** taunt / armor
+5. **Fountain of Light:** sustain heal
+6. *Ultimate:* **Light's Champion** — burn / emergency
+
+### Primary now — Mirri Elendis
+
+She is already out and already on resto. Finish **15→20**, fill the empty companion ultimate from her healer line, and replace Fine light with Superior+ **Quickened** / heal-done traits while she is summoned. Start leveling Isobel on easy overland; keep Zerith ready when Mirri is dismissed.
 
 > [!TIP]
-> **Secondary — Zerith-var:** Summon him instead of Isobel when you want a lethal lieutenant and do not need herald shields. **Mirri** remains the live primary until Isobel is leveled—keep Mirri rapport and upgrade her gear in the meantime.
+> **Secondary — Zerith-var:** Summon him for necromancer-friendly commentary and a second corpse kit. He is the RP fit; Isobel is the world-boss shield.
 
 ---
 
@@ -373,83 +391,150 @@ When Isobel is capped, she is the end-state pick: faith beside judgment—shield
 
 ### Mount
 
-Heka-Ankh rides a formidable War Horse appropriate for a Redguard executioner.
+Overland she should look like a Forebear officer on a bronze machine-horse — Pact steel, Alik'r law. Do **not** pin one mount in-game; **ESO Favorite Collectibles** rotates the set below.
+
+> [!NOTE]
+> **Owned mounts (from profile):** 45 unlocked, including Dwarven War Horse, Ebon Dwarven Horse, Hammerfell Camel, Pyrodraconic Camel-Lizard, Rahd-m'Athra, Psijic Escort Charger.
 
 #### Primary (owned): Dwarven War Horse
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Why** | Heavy mechanical construct reflecting ancient brass authority |
-| **Acquisition** | Owned ✅ |
+| **Why** | Bronze clockwork on sand — the sentence rides a machine, not a carnival senche |
+| **Acquisition** | Owned |
+| **Dye pass** | Brass / charcoal / Alik'r tan |
+
+#### Other owned options
+
+| **Mount** | **Owned** | **Why** |
+| :--- | :--- | :--- |
+| **Hammerfell Camel** | ✅ | Alik'r civilian; backup desert read |
+| **Ebon Dwarven Horse** | ✅ | Darker sibling of the primary |
+| **Pyrodraconic Camel-Lizard** | ✅ | Owned S-tier; keep in Favorites, not the daily pin |
+
+#### Avoid thematically
+
+| **Mount type** | **Reason** |
+| :--- | :--- |
+| **Flame Atronach Senche / Nightmare Senche** | Other NA primaries; wrong silhouette for a Forebear executioner |
+| **Generic stable horses** | Starter beige |
 
 > [!TIP]
-> **Ideal mount (any source):** **Dune Stalker Senche** — fierce desert predator carrying the executioner across Alik'r sands.
+> **Ideal mount (any source):** **Dune Stalker Senche** — Alik'r cat on the sand. **Acquisition:** Crown Store / crates; unowned. Do not treat it as Primary.
 
-**Favorites (ESO Favorite Collectibles / Collections):** Dwarven War Horse, Hammerfell Camel, Pyrodraconic Camel-Lizard, Rahd-m'Athra, Ebon Dwarven Horse — desert / brass war mounts; owned thematic set only; enable random favorite mount when 2+ are favorited.
+#### Favorites (ESO Favorite Collectibles / Collections)
+
+| **Favorite mounts** | **Why in the set** |
+| :--- | :--- |
+| **Dwarven War Horse** | Primary overland silhouette |
+| **Hammerfell Camel** | Alik'r civilian |
+| **Ebon Dwarven Horse** | Dark brass sibling |
+| **Pyrodraconic Camel-Lizard** | Owned desert S |
+| **Rahd-m'Athra** | Night-sand alternate; Karakedi already primaries it — fine as a favorite here |
 
 ### Pet
 
-#### Primary (owned): Alik'r Jackal
+#### Primary (owned): Alik'r Dune-Hound
 
 | **Attribute** | **Detail** |
 | :--- | :--- |
-| **Why** | Desert scavenger symbolizing Tu'whacca's judgment over fallen foes |
-| **Acquisition** | Owned ✅ |
+| **Why** | NA S-tier desert hound; unused as a NA primary. Jackal is the lesser sibling |
+| **Acquisition** | Owned |
+
+#### Other owned options
+
+| **Pet** | **Why** |
+| :--- | :--- |
+| **Jackal** (owned) | Backup Alik'r canine |
+| **Dusky Fennec Fox** (owned) | Desert small-game |
 
 > [!TIP]
-> **Ideal pet (any source):** **Sand Wisp** — desert spirit guiding the executioner — or **Alik'r Dune-Hound** — predator that tracks prey across open sand before the blade falls.
+> **Ideal pet (any source):** **Alik'r Dune-Hound** — already owned. No Crown buy.
 
-**Favorites:** Jackal, Alik'r Dune-Hound, Dusky Fennec Fox — desert hunt companions (use **Jackal** if Collections lists that name instead of Alik'r Jackal); summon a random favorite vanity pet when 2+ are set.
+#### Favorites (ESO Favorite Collectibles / Collections)
+
+| **Favorite pets** | **Why in the set** |
+| :--- | :--- |
+| **Alik'r Dune-Hound** | Primary companion critter |
+| **Jackal** | Same fiction family |
+| **Dusky Fennec Fox** | Desert sibling |
+
+### Costume
+
+#### Primary: Forebear Dishdasha
+
+| **Attribute** | **Detail** |
+| :--- | :--- |
+| **Why** | Alik'r Forebear law — the exile still dresses as a citizen of the sands |
+| **Acquisition** | Owned |
+| **Dye notes** | Sand, charcoal, dull gold |
+
+#### Alt / situational
+
+| **Costume** | **When to wear** |
+| :--- | :--- |
+| **Grim Harvester** | Ritual / corpse nights |
+| **Crown Dishdasha** | Court / town |
+| **None (Outfit Station only)** | When showing 6-medium + heavy head weights |
+
+> [!TIP]
+> **Ideal costume (any source):** **Forebear Dishdasha** — already owned.
 
 ### Dye and style
 
-**Visual Theme: Executioner of the Sands**
+**Alik'r brass and charcoal** — Outfit Station when the costume is off.
 
 | **Slot** | **Style** | **Visual reasoning** |
 | :--- | :--- | :--- |
-| **Outfit** | Redguard Heavy / Pyandonean | Heavy bronze plates with crimson war wraps |
+| Body | Yokudan / Redguard | Desert civilian law |
+| Weapons | Dwarven or Yokudan | Clock + sentence |
+| Shield (companion only) | — | Player has no shield |
 
-**Dye palette:** **Obsidian Black** (primary armor), **Ancient Bronze** (metallic trim), **Blood Red** (war cloth).
+**Dye palette:** Alik'r tan, soot, aged brass.
 
 ---
 
 ## Next Steps & In-Game Action Checklist
 
-Follow this transition list to activate **The Apex Executioner**.
+Follow this list to unlock **Peak Necromancer (Psijic Peak)**. Gear phases are labeled inline.
 
 ### Phase 0 — Today (functional build)
 
-1. **Attributes:** Confirm 64 points in **Stamina**.
-2. **Mundus:** Keep **The Thief** until target gear is on; after CP160 craft, test **The Shadow**.
-3. **Subclass:** Complete Bahtra **"A Study in Discipline"**; subclass **Dark Magic** (replace Living Death) and **Draconic Power** (replace Bone Tyrant); unlock **Dark Deal** and **Hardened Armor**.
-4. **Weapons:** Craft/equip **Dual Wield Daggers** (front) and keep/upgrade a **Bow** (back)—live front is still a greatsword.
-5. **Morphs:** Morph **Frozen Colossus → Pestilent Colossus**; unlock and morph **Flawless Dawnbreaker** (FG); slot **Camouflaged Hunter** and **Barbed Trap**.
-6. **Action Bars:** Slot front/back per [Skill bars](#skill-bars); unslot Avid Boneyard, Time Stop, Dizzying Swing, Executioner.
-7. **Respec Skills:** Spend 48 available Skill Points per [Passive skills](#passive-skills)—prioritize **Medicinal Use III**, **Reach**, Bow passives, Dual Wield, subclass passives.
-8. **Food / Potion:** Stock **Artaeum Takeaway Broth** and **Essence of Heroism**.
+1. **Do not subclass.** Leave Grave Lord / Bone Tyrant / Living Death. Class Mastery stays on.
+2. **Unslot Time Stop.** 7,830 Magicka on a stamina bar.
+3. **Food:** eat **Garlic Cod with Potato Crust**. Stop Witchmother's for combat.
+4. **Psijic 2→3:** finish **Breaches of Frost and Fire** / dailies; buy **Imbue Weapon → Crushing Weapon**.
+5. **Bars (2H bridge until daggers):** keep Archer; add Trap when bought; morph **Pestilent Colossus**; buy **Summoner's Armor** and **Spirit Guardian**; buy **Detonating Siphon**; unslot Avid Boneyard and the duplicate Vigor.
+6. **Placeholder daggers** on the front bar as soon as Dual Wield can be worn. Melee front, bow back.
+7. **Passives today:** Rapid Rot II, Last Gasp II, Health Avarice II, Medicinal Use III, Near-Death Experience II. Bank the rest. No Reach. Eldritch **17→10**.
+8. **CP today:** slot **Fighting Finesse**; finish Precision and Piercing to 20; unslot Siphoning Spells; slot **Fortified**; finish Hasty to 16.
 
 ### Phase 1 — Craft (interim)
 
-9. **[Phase 1]** Request @masisi to craft interim **Night's Silence** pieces if materials for Night Mother's Gaze are limited.
+9. **[Phase 1]** Ask @masisi for purple **7 Order's Wrath body** (heavy Divines head, rest medium) and purple **Hunding jewelry + Precise daggers + Infused bow**.
+10. **[Phase 1]** Glyphs: Stamina on armor (full / 40%), Increase Physical Harm on jewelry, Poison on daggers, Crushing on the bow.
 
 ### Phase 2 — Craft (target)
 
-10. **[Phase 2]** Commission `@masisi` to craft **5pc Night Mother's Gaze** (2 daggers + jewelry) and **5pc Hunding's Rage** (chest, hands, legs, feet, bow) plus **crafted** Divines head/shoulders/waist per [Target loadout](#target-loadout).
+11. **[Phase 2]** Gold the Hunding daggers and bow first, then jewelry, then Order's body.
+12. **[Phase 2]** Dual Wield 41: **Twin Blade and Blunt**. FG 10: **Flawless Dawnbreaker**. Psijic: **Clairvoyance II**.
 
 ### Phase 3 — Polish
 
-11. **[Phase 3]** Upgrade **Daggers & Bow** to Gold (Legendary); apply Weapon Damage (MH) + Poison (OH/bow) glyphs.
-12. **[Phase 3]** Allocate exact 1033 CP budget per [Champion Point Mapping](#champion-point-mapping-cp-1033)—slot **Fighting Finesse** + **Thaumaturge**; max **Siphoning Spells**; remove **Backstabber** / stop **Eldritch Insight**.
+13. **[Phase 3]** Leftover CP: Tireless Discipline 40, Battle Mastery → Mighty, Celerity 50, Craft walk to Rationer / Liquid Efficiency then Master Gatherer → Gifted Rider → War Mount.
+14. **Favorites (ESO Favorite Collectibles):** Collections → set mount/pet favorites per [Collectibles](#collectibles); clear off-theme favorites. Do not pin one mount or pet.
 
 ### Finish
 
-13. **Companion:** Run **Mirri** and level **Isobel Veloise** toward **20/20**; farm **Companion's** traited gear (separate from player craft); fill empty ultimate slots. Use **Isobel** for world bosses; **Zerith-var** as secondary DPS escort.
-14. **Regenerate profile:** Run `/cm` in-game and update [heka_ankh.md](heka_ankh.md) when the build is live.
+15. **Companion:** Run **Mirri** for current content; fill her ult; level **Isobel** toward **20/20**; keep **Zerith** ready. Farm **companion-only** gear while the companion is active.
+16. **Regenerate profile:** `/cm` and update [heka_ankh.md](heka_ankh.md) when the build is live.
+
+The hour is called. Mark, rain, execute.
 
 ---
 
 ## Appendix: Champion Point star catalog
 
-All Warfare, Fitness, and Craft stars with constellation, type, and max points:
+All Warfare, Fitness, and Craft stars with constellation, type (Slottable/Passive), max points, and stage costs:
 
 **[`champion_points_reference.md`](../../templates/champion_points_reference.md)**

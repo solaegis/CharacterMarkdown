@@ -425,47 +425,16 @@ local function ValidateChampionPointsFormat(markdown)
         return false
     end
 
-    -- For Kellen Dysart specifically, validate expected values
-    -- This is a known test case: Craft=18, Warfare=43, Fitness=3
-    local isKellenDysart = string_find(markdown, "Kellen Dysart")
-    if isKellenDysart then
-        if craftCP == 18 and warfareCP == 43 and fitnessCP == 3 then
-            AddResult(
-                testName,
-                true,
-                string_format(
-                    "Kellen Dysart CP values correct: ⚒️ %d - ⚔️ %d - 💪 %d",
-                    craftCP,
-                    warfareCP,
-                    fitnessCP
-                )
-            )
-        else
-            AddResult(
-                testName,
-                false,
-                string_format(
-                    "Kellen Dysart CP values incorrect. Expected: ⚒️ 18 - ⚔️ 43 - 💪 3, Got: ⚒️ %d - ⚔️ %d - 💪 %d",
-                    craftCP,
-                    warfareCP,
-                    fitnessCP
-                )
-            )
-            return false
-        end
-    else
-        -- For other characters, just validate format is correct
-        AddResult(
-            testName,
-            true,
-            string_format(
-                "Champion Points format correct: ⚒️ %d - ⚔️ %d - 💪 %d",
-                craftCP,
-                warfareCP,
-                fitnessCP
-            )
+    AddResult(
+        testName,
+        true,
+        string_format(
+            "Champion Points format correct: ⚒️ %d - ⚔️ %d - 💪 %d",
+            craftCP,
+            warfareCP,
+            fitnessCP
         )
-    end
+    )
 
     return true
 end
@@ -518,74 +487,28 @@ local function ValidateInventoryValues(markdown)
         return false
     end
 
-    -- For Kellen Dysart specifically, validate expected values
-    local isKellenDysart = string_find(markdown, "Kellen Dysart")
-    if isKellenDysart then
-        -- Validate Backpack: 21/180
-        if backpackUsed ~= 21 or backpackMax ~= 180 then
+    if bankUsed and bankMax then
+        bankUsed = tonumber(bankUsed)
+        bankMax = tonumber(bankMax)
+        if bankUsed < 0 or bankMax < 0 or bankUsed > bankMax then
             AddResult(
                 testName,
                 false,
-                string_format(
-                    "Kellen Dysart Backpack incorrect. Expected: 21/180, Got: %d/%d",
-                    backpackUsed,
-                    backpackMax
-                )
+                string_format("Bank values invalid: Used=%d, Max=%d (used > max)", bankUsed, bankMax)
             )
             return false
         end
-
-        -- Validate Bank: 393/480
-        if bankUsed and bankMax then
-            bankUsed = tonumber(bankUsed)
-            bankMax = tonumber(bankMax)
-            if bankUsed ~= 393 or bankMax ~= 480 then
-                AddResult(
-                    testName,
-                    false,
-                    string_format("Kellen Dysart Bank incorrect. Expected: 393/480, Got: %d/%d", bankUsed, bankMax)
-                )
-                return false
-            end
-            AddResult(
-                testName,
-                true,
-                string_format(
-                    "Kellen Dysart inventory values correct: Backpack %d/%d, Bank %d/%d",
-                    backpackUsed,
-                    backpackMax,
-                    bankUsed,
-                    bankMax
-                )
-            )
-        else
-            AddResult(testName, true, string_format("Kellen Dysart Backpack correct: %d/%d", backpackUsed, backpackMax))
-        end
-    else
-        -- For other characters, just validate format and logic
-        if bankUsed and bankMax then
-            bankUsed = tonumber(bankUsed)
-            bankMax = tonumber(bankMax)
-            if bankUsed < 0 or bankMax < 0 or bankUsed > bankMax then
-                AddResult(
-                    testName,
-                    false,
-                    string_format("Bank values invalid: Used=%d, Max=%d (used > max)", bankUsed, bankMax)
-                )
-                return false
-            end
-        end
-        AddResult(
-            testName,
-            true,
-            string_format(
-                "Inventory values format correct: Backpack %d/%d%s",
-                backpackUsed,
-                backpackMax,
-                bankUsed and bankMax and string_format(", Bank %d/%d", bankUsed, bankMax) or ""
-            )
-        )
     end
+    AddResult(
+        testName,
+        true,
+        string_format(
+            "Inventory values format correct: Backpack %d/%d%s",
+            backpackUsed,
+            backpackMax,
+            bankUsed and bankMax and string_format(", Bank %d/%d", bankUsed, bankMax) or ""
+        )
+    )
 
     return true
 end

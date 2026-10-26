@@ -37,7 +37,7 @@ local ROSTER = {
     ["Hya'cinthe"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },
     ["Karakedi"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },
     ["Karakum"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },
-    ["Kellen Dysart"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },
+    ["Brontanax"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },
     ["Lætha"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },
     ["Lei-Tun"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },
     ["Nekhtarhebi"] = { account = "@SOLAEGIS", megaserver = "NA Megaserver" },

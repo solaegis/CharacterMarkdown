@@ -17,10 +17,9 @@ Reference build: [karakedi_plan.md](../solaegis/na/karakedi_plan.md).
 | Set | Pieces | Slots |
 | --- | ---: | --- |
 | [Order's Wrath](https://en.uesp.net/wiki/Online:Order%27s_Wrath) | 7 | Head, Shoulders, Chest, Hands, Waist, Legs, Feet |
-| [Hunding's Rage](https://en.uesp.net/wiki/Online:Hunding%27s_Rage_Set) | 5 | Main Hand, Off Hand, Necklace, Ring 1, Ring 2 |
-| [Agility](https://en.uesp.net/wiki/Online:Agility_Set) | 1 | Backup weapon (bow) |
+| [Hunding's Rage](https://en.uesp.net/wiki/Online:Hunding%27s_Rage_Set) | 6 | Main Hand, Off Hand, Necklace, Ring 1, Ring 2, Backup bow |
 
-Order's Wrath is crafted at **Steadfast Hammer and Saw** (High Isle). Hunding's Rage and Agility use their standard overworld crafting stations (attune a station or craft at the set’s location).
+Order's Wrath is crafted at **Steadfast Hammer and Saw** (High Isle). Hunding's Rage uses its standard overworld crafting stations (attune a station or craft at the set’s location). Live gold already matches this layout — jewelry glyphs only.
 
 ---
 
@@ -42,18 +41,16 @@ Order's Wrath is crafted at **Steadfast Hammer and Saw** (High Isle). Hunding's 
 
 | Slot | Set | Item type | Trait | Enchantment |
 | --- | --- | --- | --- | --- |
-| Main Hand | Hunding's Rage | Dagger | Nirnhoned | Poison |
+| Main Hand | Hunding's Rage | Dagger | Sharpened | Poison |
 | Off Hand | Hunding's Rage | Dagger | Charged | Flame |
 
 ---
 
-## Backup weapon — Agility (Woodworking)
+## Backup weapon — Hunding's Rage (Woodworking)
 
 | Slot | Set | Item type | Trait | Enchantment |
 | --- | --- | --- | --- | --- |
-| Backup Main Hand | Agility | Bow | Infused | Weapon Damage |
-
-Alternative from the plan: craft a **Hunding's Rage** bow instead of Agility if you prefer a single set on the bow (adjust set bonuses accordingly).
+| Backup Main Hand | Hunding's Rage | Bow | Infused | Weapon Damage |
 
 ---
 
@@ -61,9 +58,9 @@ Alternative from the plan: craft a **Hunding's Rage** bow instead of Agility if 
 
 | Slot | Set | Piece | Trait | Enchantment |
 | --- | --- | --- | --- | --- |
-| Necklace | Hunding's Rage | Necklace | Bloodthirsty | Weapon Damage |
-| Ring 1 | Hunding's Rage | Ring | Bloodthirsty | Weapon Damage |
-| Ring 2 | Hunding's Rage | Ring | Bloodthirsty | Weapon Damage |
+| Necklace | Hunding's Rage | Necklace | Bloodthirsty | Increase Physical Harm |
+| Ring 1 | Hunding's Rage | Ring | Bloodthirsty | Increase Physical Harm |
+| Ring 2 | Hunding's Rage | Ring | Bloodthirsty | Increase Physical Harm |
 
 ---
 
@@ -84,7 +81,7 @@ Alternative from the plan: craft a **Hunding's Rage** bow instead of Agility if 
 | Trait | Typical material |
 | --- | --- |
 | Divines (armor) | Sapphire |
-| Nirnhoned (weapon) | Fortified Nirnhoned |
+| Sharpened (weapon) | Adamantite |
 | Charged (weapon) | Amethyst |
 | Infused (weapon) | Jade |
 | Bloodthirsty (jewelry) | Zinc (requires Jewelry Trait Master) |

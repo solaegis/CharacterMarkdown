@@ -19,7 +19,7 @@
 | **Trinity** | **{Line A}** + **{Line B}** KEEP · **{Line C}** {KEEP / SUBCLASS (replaces **{Native}**)} — **live:** {current lines} · **decision:** {one-line why} |
 | **Sets** | **{Set A + Set B}** (100% craftable unless exception documented) — **live:** {current} · **target:** {end state} |
 | **Bars** | Front: {weapon} ("{bar name}") · Back: {weapon} ("{bar name}") |
-| **Food** | **{Food}** |
+| **Food** | **{Recipe that best serves this kit}** — {one-line why from live stats / bars / sustain} · see Food picks in `docs/plan_structure.md` |
 | **Potion** | **{Potion}** |
 | **Weapon Poisons** | {poisons if applicable} |
 | **Staff/Weapon Enchant** | Front: {enchant}; Back: {enchant} |
@@ -27,6 +27,14 @@
 | **Primary Mount** | **{Owned mount}** (owned) · **Ideal:** **{Ideal mount}** — see [Collectibles](#collectibles) |
 | **Flavor Pet** | **{Owned pet}** (owned) · **Ideal:** **{Ideal pet}** — see [Collectibles](#collectibles) |
 | **Costume** | **{Primary costume}** (owned / acquire) · **Alt:** **{Alt costume}** — see [Collectibles](#collectibles) |
+
+<!-- Authors: Food is for THIS build, not a generic magicka/stamina default. Diagnose live Character Stats + bars + Active Buffs, then pick a real recipe.
+     1) What do the slotted skills actually spend? 2) Is Health thin for the content? 3) Is recovery already enough (race, resto bar, glyphs, CP, potions)?
+     4) Does dodge/block/break-free fail on bosses? 5) Does a set require a food vs drink buff?
+     Candidate menu (use only if the diagnosis points there): Health+spent-resource savouries — Solitude Salmon-Millet Soup (mag) or Garlic Cod with Potato Crust (stam);
+     2h same mag pools — buy Artaeum Pickled Fish Bowl (do not craft); boss dodge — Bewitched Sugar Skulls.
+     Recovery food/drink (Clockwork Citrus, Takeaway Broth, Ghastly Eye, Lava Foot) only when this kit's sustain is proven short.
+     Do not invent names (no Witty Blue Entremet). Entremet = Magicka+Stamina, not Magicka+Recovery. RI VI / @masisi or buy stacks. -->
 
 <!-- Authors: before locking Primary Mount / Flavor Pet / Costume, consult docs/collectibles_companion_ledger.md (same megaserver). Diversify when roughly equal. Companions: always best-fit Primary / Secondary / Goal; update the ledger after edits. -->
 
@@ -295,7 +303,7 @@ Full CP budget: **{Warfare} Warfare / {Craft} Craft / {Fitness} Fitness** ({budg
 Recommend companions in **three tiers**: who fits **right now** (roleplay + what their kit actually delivers at **live** character CP and **live** companion level from the profile export), who to **swap to** as a secondary, and who is the **goal** pick when the companion is **20/20** and the character is **Level 50 / CP160**. **Companion gear is separate from player gear** — companions equip **Companion's** weapons, armor, and jewelry with **companion-only traits** (Quickened, Aggressive, Bolstered, etc.). There are **no player gear sets** on companions (no Law of Julianos, Clever Alchemist, Divines, or 5-piece bonuses). Buy white basics from merchants; farm **Superior+** pieces from drops while the companion is active. Never put player-crafted gear on a companion.
 
 > [!NOTE]
-> **Live export:** **{Active companion}** — Level **{N}/20**, **{gear summary — e.g. level 1 defaults, empty slots}**. Character **Level {N} / CP {budget}**. Rows below are keyed to these numbers, not to hypothetical end-game stats.
+> **Live export:** **{Active companion}** — Level **{N}/20**, **{gear summary — quality + traits, empty slots}**. Character **Level {N} / CP {budget}**. Companion gear has **no item level** — judge **quality** (and trait), not `(Level 1)` in the profile. Rows below are keyed to these numbers, not to hypothetical end-game stats.
 
 ### Companion picks
 
@@ -328,7 +336,7 @@ Recommend companions in **three tiers**: who fits **right now** (roleplay + what
 
 ### Primary now — {Primary Companion Name}
 
-{if different from goal: 2–3 sentences on why they are best **today** at live companion level and CP, and when to start leveling the goal companion. Replace level-1 defaults with **Superior+** **Companion's** gear from drops (companion must be active). If primary equals goal, note that they are already the pick and focus checklist items on XP/gear instead.}
+{if different from goal: 2–3 sentences on why they are best **today** at live companion level and CP, and when to start leveling the goal companion. Raise **quality** (Fine → Superior+ Epic) and aim companion traits from drops (companion must be active) — pieces are not “level 1.” If primary equals goal, note that they are already the pick and focus checklist items on XP/gear instead.}
 
 > [!TIP]
 > **Secondary — {Secondary Name}:** {When to summon them instead of primary or goal — e.g. Isobel dies on world bosses → Zerith-var DPS; Mirri heals when Sharp is underleveled. Include rapport or ethics gates if relevant.}
