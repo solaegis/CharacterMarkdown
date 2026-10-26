@@ -1,0 +1,4504 @@
+{
+ "schema_version": 1,
+ "kind": "cp_stars",
+ "source": {
+  "wiki": "en.uesp.net",
+  "max_revid": 3647909,
+  "pages": 123,
+  "patches": [
+   "u51"
+  ]
+ },
+ "count": 118,
+ "items": [
+  {
+   "id": 76,
+   "key": "friends_in_low_places",
+   "name": "Friends in Low Places",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 25,
+   "stages": 1,
+   "points_per_stage": 25,
+   "prerequisites": [],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Friends_in_Low_Places"
+  },
+  {
+   "id": 279,
+   "key": "discipline_artisan",
+   "name": "Discipline Artisan",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [],
+   "effects": [],
+   "patch": "u51",
+   "verified": false,
+   "uesp": null
+  },
+  {
+   "id": 84,
+   "key": "fade_away",
+   "name": "Fade Away",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Cutpurse's Art",
+     "min_points": 25
+    },
+    {
+     "star": "Meticulous Disassembly",
+     "min_points": 50
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Fade_Away"
+  },
+  {
+   "id": 68,
+   "key": "out_of_sight",
+   "name": "Out of Sight",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 3,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Friends in Low Places",
+     "min_points": 25
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Out_of_Sight_(champion)"
+  },
+  {
+   "id": 80,
+   "key": "shadowstrike",
+   "name": "Shadowstrike",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 75,
+   "stages": 1,
+   "points_per_stage": 75,
+   "prerequisites": [
+    {
+     "star": "Infamous",
+     "min_points": 25
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Shadowstrike"
+  },
+  {
+   "id": 90,
+   "key": "cutpurses_art",
+   "name": "Cutpurse's Art",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 25,
+   "stages": 1,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Shadowstrike",
+     "min_points": 75
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Cutpurse's_Art"
+  },
+  {
+   "id": 78,
+   "key": "master_gatherer",
+   "name": "Master Gatherer",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 75,
+   "stages": 5,
+   "points_per_stage": 15,
+   "prerequisites": [
+    {
+     "star": "Treasure Hunter",
+     "min_points": 25
+    },
+    {
+     "star": "Fade Away",
+     "min_points": 50
+    },
+    {
+     "star": "Meticulous Disassembly",
+     "min_points": 50
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Master_Gatherer"
+  },
+  {
+   "id": 79,
+   "key": "treasure_hunter",
+   "name": "Treasure Hunter",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Meticulous Disassembly",
+     "min_points": 50
+    },
+    {
+     "star": "Steadfast Enchantment",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Treasure_Hunter_(champion)"
+  },
+  {
+   "id": 89,
+   "key": "anglers_instincts",
+   "name": "Angler's Instincts",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 25,
+   "stages": 1,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Liquid Efficiency",
+     "min_points": 50
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Angler's_Instincts"
+  },
+  {
+   "id": 75,
+   "key": "steadfast_enchantment",
+   "name": "Steadfast Enchantment",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Wanderer",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Steadfast_Enchantment"
+  },
+  {
+   "id": 88,
+   "key": "reel_technique",
+   "name": "Reel Technique",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Angler's Instincts",
+     "min_points": 25
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Reel_Technique"
+  },
+  {
+   "id": 85,
+   "key": "rationer",
+   "name": "Rationer",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 3,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Steadfast Enchantment",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Rationer"
+  },
+  {
+   "id": 82,
+   "key": "war_mount",
+   "name": "War Mount",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 75,
+   "stages": 1,
+   "points_per_stage": 75,
+   "prerequisites": [
+    {
+     "star": "Gifted Rider",
+     "min_points": 10
+    },
+    {
+     "star": "Plentiful Harvest",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:War_Mount"
+  },
+  {
+   "id": 86,
+   "key": "liquid_efficiency",
+   "name": "Liquid Efficiency",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Rationer",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Liquid_Efficiency"
+  },
+  {
+   "id": 92,
+   "key": "gifted_rider",
+   "name": "Gifted Rider",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Master Gatherer",
+     "min_points": 15
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Gifted_Rider"
+  },
+  {
+   "id": 91,
+   "key": "homemaker",
+   "name": "Homemaker",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 25,
+   "stages": 1,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Reel Technique",
+     "min_points": 50
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Homemaker"
+  },
+  {
+   "id": 66,
+   "key": "steeds_blessing",
+   "name": "Steed's Blessing",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Steed's_Blessing"
+  },
+  {
+   "id": 70,
+   "key": "wanderer",
+   "name": "Wanderer",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Fortune's Favor",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "ability_cost_pct",
+     "value": -50,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "wayshrine usage"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of Wayshrine usage by 10% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Wanderer"
+  },
+  {
+   "id": 65,
+   "key": "sustaining_shadows",
+   "name": "Sustaining Shadows",
+   "constellation": "craft",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "movement_cost_pct",
+     "value": -50,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Reduces the cost of Sneak by 1% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Sustaining_Shadows"
+  },
+  {
+   "id": 81,
+   "key": "plentiful_harvest",
+   "name": "Plentiful Harvest",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Master Gatherer",
+     "min_points": 15
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Plentiful_Harvest"
+  },
+  {
+   "id": 83,
+   "key": "meticulous_disassembly",
+   "name": "Meticulous Disassembly",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Inspiration Boost",
+     "min_points": 15
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Meticulous_Disassembly"
+  },
+  {
+   "id": 72,
+   "key": "inspiration_boost",
+   "name": "Inspiration Boost",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 45,
+   "stages": 3,
+   "points_per_stage": 15,
+   "prerequisites": [
+    {
+     "star": "Fortune's Favor",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Inspiration_Boost"
+  },
+  {
+   "id": 71,
+   "key": "fortunes_favor",
+   "name": "Fortune's Favor",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Gilded Fingers",
+     "min_points": 0
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Fortune's_Favor"
+  },
+  {
+   "id": 77,
+   "key": "infamous",
+   "name": "Infamous",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 25,
+   "stages": 1,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Fleet Phantom",
+     "min_points": 8
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Infamous"
+  },
+  {
+   "id": 67,
+   "key": "fleet_phantom",
+   "name": "Fleet Phantom",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 40,
+   "stages": 5,
+   "points_per_stage": 8,
+   "prerequisites": [
+    {
+     "star": "Friends in Low Places",
+     "min_points": 25
+    }
+   ],
+   "effects": [
+    {
+     "stat": "movement_speed_pct",
+     "value": -25,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "penalty sneak"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the Movement Speed penalty of Sneak by 5% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Fleet_Phantom"
+  },
+  {
+   "id": 74,
+   "key": "gilded_fingers",
+   "name": "Gilded Fingers",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Gilded_Fingers"
+  },
+  {
+   "id": 69,
+   "key": "breakfall",
+   "name": "Breakfall",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Wanderer",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": -35,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "fall"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces your fall damage by 7% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Breakfall"
+  },
+  {
+   "id": 87,
+   "key": "soul_reservoir",
+   "name": "Soul Reservoir",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 1,
+   "points_per_stage": 30,
+   "prerequisites": [
+    {
+     "star": "Breakfall",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Soul_Reservoir"
+  },
+  {
+   "id": 1,
+   "key": "professional_upkeep",
+   "name": "Professional Upkeep",
+   "constellation": "craft",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "ability_cost_pct",
+     "value": -50,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "repairing armor"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of repairing your armor by 1% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Professional_Upkeep"
+  },
+  {
+   "id": 12,
+   "key": "fighting_finesse",
+   "name": "Fighting Finesse",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Precision",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "crit_damage_pct",
+     "value": 8,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Critical Damage and Critical Healing done by 4% per stage."
+    },
+    {
+     "stat": "crit_healing_pct",
+     "value": 8,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Critical Damage and Critical Healing done by 4% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Fighting_Finesse"
+  },
+  {
+   "id": 262,
+   "key": "from_the_brink",
+   "name": "From the Brink",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Blessed",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_shield",
+     "value": 11000,
+     "unit": "flat",
+     "scope": "group",
+     "kind": "shield",
+     "condition": {
+      "type": "target_health_below",
+      "pct": 25
+     },
+     "trigger": {
+      "on": "heal",
+      "chance": null,
+      "cooldown_s": 30
+     },
+     "duration_s": 6,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Whenever you heal yourself or an ally under 25% Health, you grant them a damage shield that absorbs up to 2200 damage per stage, for 6 seconds. This effect can occur once every 30 seconds per target."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:From_the_Brink"
+  },
+  {
+   "id": 263,
+   "key": "enlivening_overflow",
+   "name": "Enlivening Overflow",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Blessed",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Overhealing yourself or an ally grants them Health, Magicka, and Stamina Recovery equal to .5% of your Max Magicka, up to a cap of 150, for 6 seconds. This effect can occur once every 12 seconds per target."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Enlivening_Overflow"
+  },
+  {
+   "id": 261,
+   "key": "hope_infusion",
+   "name": "Hope Infusion",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Blessed",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "minor_heroism",
+     "value": null,
+     "unit": null,
+     "scope": "group",
+     "kind": "buff_grant",
+     "condition": {
+      "type": "target_health_below",
+      "pct": 50
+     },
+     "trigger": {
+      "on": "heal",
+      "chance": null,
+      "cooldown_s": 10
+     },
+     "duration_s": 1,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": "minor_heroism",
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Healing yourself or an ally under 50% Health grants them Minor Heroism for 1 second for every 300 Magicka Recovery you have. This effect can occur once every 10 seconds per target."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Hope_Infusion"
+  },
+  {
+   "id": 260,
+   "key": "salve_of_renewal",
+   "name": "Salve of Renewal",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Blessed",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "heal",
+     "value": 6400,
+     "unit": "flat",
+     "scope": "group",
+     "kind": "heal",
+     "condition": null,
+     "trigger": {
+      "on": "other",
+      "chance": null,
+      "cooldown_s": 10,
+      "text": "you remove a harmful effect from yourself or an ally"
+     },
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Whenever you remove a harmful effect from yourself or an ally, you sanctify the ground beneath them and heal them and allies within 8 meters for 1280 Health per stage. This effect can occur once every 10 seconds.",
+     "extra": {
+      "radius": 8
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Salve_of_Renewal"
+  },
+  {
+   "id": 24,
+   "key": "soothing_tide",
+   "name": "Soothing Tide",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Blessed",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "healing_done_pct",
+     "value": 10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "aoe_abilities"
+       },
+       {
+        "type": "text",
+        "text": "heals"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your Healing Done by area of effect heals by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Soothing_Tide"
+  },
+  {
+   "id": 9,
+   "key": "rejuvenator",
+   "name": "Rejuvenator",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Soothing Tide",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "weapon_damage",
+     "value": 205,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 41 Weapon and Spell Damage to your healing abilities per stage."
+    },
+    {
+     "stat": "spell_damage",
+     "value": 205,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 41 Weapon and Spell Damage to your healing abilities per stage."
+    },
+    {
+     "stat": "healing_done_pct",
+     "value": 205,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 41 Weapon and Spell Damage to your healing abilities per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Rejuvenator"
+  },
+  {
+   "id": 163,
+   "key": "foresight",
+   "name": "Foresight",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "ability_cost_pct",
+     "value": -75,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "proc",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "healing_abilities"
+       },
+       {
+        "type": "text",
+        "text": "used"
+       }
+      ]
+     },
+     "trigger": {
+      "on": "potion",
+      "chance": null,
+      "cooldown_s": null
+     },
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "After you drink a potion, the cost of your Magicka and Stamina healing abilities used within 6 seconds are reduced by 75%.",
+     "extra": {
+      "window": 6
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Foresight"
+  },
+  {
+   "id": 29,
+   "key": "cleansing_revival",
+   "name": "Cleansing Revival",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 1,
+   "points_per_stage": 50,
+   "prerequisites": [
+    {
+     "star": "Focused Mending",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Healing a target under 25% Health removes all harmful effects from them. This effect can occur once every 24 seconds."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Cleansing_Revival"
+  },
+  {
+   "id": 26,
+   "key": "focused_mending",
+   "name": "Focused Mending",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Blessed",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "healing_done_pct",
+     "value": 10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "single_target"
+       },
+       {
+        "type": "text",
+        "text": "heals"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your Healing Done with single target heals by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Focused_Mending"
+  },
+  {
+   "id": 28,
+   "key": "swift_renewal",
+   "name": "Swift Renewal",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Blessed",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "healing_done_pct",
+     "value": 10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "dot_only"
+       },
+       {
+        "type": "text",
+        "text": "healing effects"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your Healing Done with healing over time effects by 2% per stage"
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Swift_Renewal"
+  },
+  {
+   "id": 277,
+   "key": "exploiter",
+   "name": "Exploiter",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": 10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "target_status",
+      "value": "off balance"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your damage done against Off Balance enemies by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Exploiter"
+  },
+  {
+   "id": 276,
+   "key": "force_of_nature",
+   "name": "Force of Nature",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "offensive_penetration",
+     "value": 660,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": {
+      "per": "status effect your target has"
+     },
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Offensive Penetration by 660 for every status effect your target has."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Force_of_Nature_(champion)"
+  },
+  {
+   "id": 264,
+   "key": "master_at_arms",
+   "name": "Master-at-Arms",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": 6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "direct_only"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your damage done with direct damage attacks by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Master-at-Arms"
+  },
+  {
+   "id": 259,
+   "key": "weapons_expert",
+   "name": "Weapons Expert",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": 8,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "attack_type",
+      "attack": "light_and_heavy"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your damage done with Light and Heavy Attacks by 4% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Weapons_Expert"
+  },
+  {
+   "id": 25,
+   "key": "deadly_aim",
+   "name": "Deadly Aim",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": 6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "single_target"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increase your damage done with single target attacks by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Deadly_Aim"
+  },
+  {
+   "id": 23,
+   "key": "biting_aura",
+   "name": "Biting Aura",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": 6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "aoe_abilities"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your damage done with area of effect attacks by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Biting_Aura"
+  },
+  {
+   "id": 27,
+   "key": "thaumaturge",
+   "name": "Thaumaturge",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "dot_damage_pct",
+     "value": 6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "effects"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your damage done with damage over time effects by 3% per stage."
+    },
+    {
+     "stat": "damage_done_pct",
+     "value": 6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "effects"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your damage done with damage over time effects by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Thaumaturge"
+  },
+  {
+   "id": 30,
+   "key": "reaving_blows",
+   "name": "Reaving Blows",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Precision",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "When you deal Direct Damage you heal for 7% of the damage done."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Reaving_Blows"
+  },
+  {
+   "id": 8,
+   "key": "wrathful_strikes",
+   "name": "Wrathful Strikes",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Precision",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "weapon_damage",
+     "value": 205,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 41 Weapon and Spell Damage to your damaging abilities per stage."
+    },
+    {
+     "stat": "spell_damage",
+     "value": 205,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 41 Weapon and Spell Damage to your damaging abilities per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Wrathful_Strikes"
+  },
+  {
+   "id": 32,
+   "key": "occult_overload",
+   "name": "Occult Overload",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Precision",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "proc_damage",
+     "value": 5185,
+     "unit": "flat",
+     "scope": "enemy_aoe",
+     "kind": "damage",
+     "condition": null,
+     "trigger": {
+      "on": "kill",
+      "chance": null,
+      "cooldown_s": null
+     },
+     "duration_s": null,
+     "stacks": null,
+     "damage": {
+      "type": "oblivion"
+     },
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Whenever you kill an enemy under the effect of a status effect, they violently explode for 1037 Oblivion Damage per stage to all other enemies in a 4 meter radius, and applying a random status effect to each enemy hit. This effect can occur once every second.",
+     "extra": {
+      "radius": 4
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Occult_Overload"
+  },
+  {
+   "id": 31,
+   "key": "backstabber",
+   "name": "Backstabber",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Precision",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "crit_damage_pct",
+     "value": 10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "flanking"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Critical Damage done by 2% per stage against enemies you are flanking."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Backstabber"
+  },
+  {
+   "id": 265,
+   "key": "ironclad",
+   "name": "Ironclad",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Quick Recovery",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "direct_only"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Reduces your damage taken by direct damage attacks by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Ironclad"
+  },
+  {
+   "id": 13,
+   "key": "resilience",
+   "name": "Resilience",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Quick Recovery",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "crit_resistance",
+     "value": 660,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 132 Critical Resistance per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Resilience"
+  },
+  {
+   "id": 136,
+   "key": "enduring_resolve",
+   "name": "Enduring Resolve",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Quick Recovery",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Reduces your damage taken by damage over time attacks by 3% per stage."
+    },
+    {
+     "stat": "dot_damage_pct",
+     "value": -6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Reduces your damage taken by damage over time attacks by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Enduring_Resolve"
+  },
+  {
+   "id": 160,
+   "key": "reinforced",
+   "name": "Reinforced",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Riposte",
+     "min_points": 1
+    },
+    {
+     "star": "Bulwark",
+     "min_points": 1
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_shield",
+     "value": 5140,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "shield",
+     "condition": null,
+     "trigger": {
+      "on": "block",
+      "chance": null,
+      "cooldown_s": 10
+     },
+     "duration_s": 3,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "When you begin Bracing, you gain a damage shield that absorbs 5140 damage for 3 seconds. This effect can occur once every 10 seconds."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Reinforced"
+  },
+  {
+   "id": 162,
+   "key": "riposte",
+   "name": "Riposte",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Duelist's Rebuff",
+     "min_points": 1
+    }
+   ],
+   "effects": [
+    {
+     "stat": "attack_damage",
+     "value": 33,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "proc",
+     "condition": {
+      "type": "direct_only"
+     },
+     "trigger": {
+      "on": "block",
+      "chance": null,
+      "cooldown_s": 5
+     },
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "When you block an attack from an enemy within 7 meters, your next direct damage attack made within 5 seconds deals 33% additional damage. This effect can occur once every 5 seconds.",
+     "extra": {
+      "window": 5,
+      "radius": 7
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Riposte"
+  },
+  {
+   "id": 159,
+   "key": "bulwark",
+   "name": "Bulwark",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Unassailable",
+     "min_points": 25
+    }
+   ],
+   "effects": [
+    {
+     "stat": "physical_resistance",
+     "value": 1900,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "weapon_equipped",
+      "value": "Shield or Frost Staff"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While you have a Shield or Frost Staff equipped, your Spell and Physical Resistance is increased by 1900."
+    },
+    {
+     "stat": "spell_resistance",
+     "value": 1900,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "weapon_equipped",
+      "value": "Shield or Frost Staff"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While you have a Shield or Frost Staff equipped, your Spell and Physical Resistance is increased by 1900."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Bulwark"
+  },
+  {
+   "id": 161,
+   "key": "last_stand",
+   "name": "Last Stand",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Riposte",
+     "min_points": 1
+    },
+    {
+     "star": "Reinforced",
+     "min_points": 1
+    },
+    {
+     "star": "Cutting Defense",
+     "min_points": 1
+    }
+   ],
+   "effects": [
+    {
+     "stat": "major_heroism",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "buff_grant",
+     "condition": {
+      "type": "health_below",
+      "pct": 20
+     },
+     "trigger": {
+      "on": "take_damage",
+      "chance": null,
+      "cooldown_s": 9
+     },
+     "duration_s": 9,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": "major_heroism",
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "When you take damage below 20% Health you gain Major Heroism, granting 3 Ultimate every 1.5 seconds for 9 seconds. This effect can occur once every 9 seconds.",
+     "extra": {
+      "interval": 1.5
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Last_Stand"
+  },
+  {
+   "id": 33,
+   "key": "cutting_defense",
+   "name": "Cutting Defense",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Riposte",
+     "min_points": 1
+    },
+    {
+     "star": "Reinforced",
+     "min_points": 1
+    }
+   ],
+   "effects": [
+    {
+     "stat": "proc_damage",
+     "value": 504,
+     "unit": "flat",
+     "scope": "target",
+     "kind": "damage",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": {
+      "type": "magic"
+     },
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "You deal 504 Magic Damage to attackers whenever they damage you with a Direct Damage attack within 7 meters. This effect scales off the higher of your Physical or Spell Resistance and can activate your Weapon Enchantments and Poisons.",
+     "extra": {
+      "radius": 7
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Cutting_Defense"
+  },
+  {
+   "id": 11,
+   "key": "precision",
+   "name": "Precision",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "weapon_crit",
+     "value": 320,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 160 Critical Chance per stage."
+    },
+    {
+     "stat": "spell_crit",
+     "value": 320,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 160 Critical Chance per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Precision"
+  },
+  {
+   "id": 108,
+   "key": "blessed",
+   "name": "Blessed",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Precision",
+     "min_points": 10
+    },
+    {
+     "star": "Eldritch Insight",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "healing_done_pct",
+     "value": 2,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Healing Done by 1% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Blessed"
+  },
+  {
+   "id": 10,
+   "key": "piercing",
+   "name": "Piercing",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Precision",
+     "min_points": 10
+    },
+    {
+     "star": "Eldritch Insight",
+     "min_points": 10
+    },
+    {
+     "star": "Tireless Discipline",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "offensive_penetration",
+     "value": 700,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 350 Offensive Penetration per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Piercing"
+  },
+  {
+   "id": 17,
+   "key": "flawless_ritual",
+   "name": "Flawless Ritual",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 40,
+   "stages": 2,
+   "points_per_stage": 20,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your chance to apply a Magical status effect by 30% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Flawless_Ritual"
+  },
+  {
+   "id": 21,
+   "key": "war_mage",
+   "name": "War Mage",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 30,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Flawless Ritual",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "weapon_damage",
+     "value": 100,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "magical"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Grants 100 Weapon and Spell Damage to Magical attacks. Affects Magic, Flame, Frost, and Shock Damage."
+    },
+    {
+     "stat": "spell_damage",
+     "value": 100,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "magical"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Grants 100 Weapon and Spell Damage to Magical attacks. Affects Magic, Flame, Frost, and Shock Damage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:War_Mage_(champion)"
+  },
+  {
+   "id": 18,
+   "key": "battle_mastery",
+   "name": "Battle Mastery",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 40,
+   "stages": 2,
+   "points_per_stage": 20,
+   "prerequisites": [
+    {
+     "star": "Piercing",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your chance to apply a Martial status effect by 30% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Battle_Mastery"
+  },
+  {
+   "id": 22,
+   "key": "mighty",
+   "name": "Mighty",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 30,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Battle Mastery",
+     "min_points": 20
+    }
+   ],
+   "effects": [
+    {
+     "stat": "weapon_damage",
+     "value": 100,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "martial"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Grants 100 Weapon and Spell Damage to Martial attacks. Affects Physical, Poison, Disease, and Bleed Damage."
+    },
+    {
+     "stat": "spell_damage",
+     "value": 100,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "martial"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Grants 100 Weapon and Spell Damage to Martial attacks. Affects Physical, Poison, Disease, and Bleed Damage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Mighty"
+  },
+  {
+   "id": 6,
+   "key": "tireless_discipline",
+   "name": "Tireless Discipline",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 40,
+   "stages": 2,
+   "points_per_stage": 20,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "max_stamina",
+     "value": 520,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 260 Max Stamina per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Tireless_Discipline"
+  },
+  {
+   "id": 20,
+   "key": "quick_recovery",
+   "name": "Quick Recovery",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Eldritch Insight",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "healing_taken_pct",
+     "value": 2,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Healing Taken by 1% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Quick_Recovery"
+  },
+  {
+   "id": 14,
+   "key": "preparation",
+   "name": "Preparation",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Quick Recovery",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "vs_players"
+       },
+       {
+        "type": "text",
+        "text": "non"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces your damage taken from non-player attacks by 5% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Preparation"
+  },
+  {
+   "id": 15,
+   "key": "elemental_aegis",
+   "name": "Elemental Aegis",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Preparation",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": -2,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "take magical"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the damage you take from Magical attacks by 1% per stage. Affects Magic, Flame, Frost, and Shock Damage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Elemental_Aegis"
+  },
+  {
+   "id": 16,
+   "key": "hardy",
+   "name": "Hardy",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Preparation",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": -2,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "take martial"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the damage you take from Martial attacks by 1% per stage. Affects Physical, Poison, Disease, and Bleed Damage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Hardy"
+  },
+  {
+   "id": 99,
+   "key": "eldritch_insight",
+   "name": "Eldritch Insight",
+   "constellation": "warfare",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "max_magicka",
+     "value": 520,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 260 Max Magicka per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Eldritch_Insight"
+  },
+  {
+   "id": 134,
+   "key": "duelists_rebuff",
+   "name": "Duelist's Rebuff",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Eldritch Insight",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "single_target"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces your damage taken by single target attacks by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Duelist's_Rebuff"
+  },
+  {
+   "id": 133,
+   "key": "unassailable",
+   "name": "Unassailable",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Quick Recovery",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "aoe_abilities"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces your damage taken by area of effect attacks by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Unassailable"
+  },
+  {
+   "id": 5,
+   "key": "endless_endurance",
+   "name": "Endless Endurance",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "max_stamina",
+     "value": 1300,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Max Stamina by 26 per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Endless_Endurance"
+  },
+  {
+   "id": 4,
+   "key": "untamed_aggression",
+   "name": "Untamed Aggression",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "weapon_damage",
+     "value": 150,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Weapon and Spell Damage by 3 per stage."
+    },
+    {
+     "stat": "spell_damage",
+     "value": 150,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Weapon and Spell Damage by 3 per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Untamed_Aggression"
+  },
+  {
+   "id": 3,
+   "key": "arcane_supremacy",
+   "name": "Arcane Supremacy",
+   "constellation": "warfare",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "max_magicka",
+     "value": 1300,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases Max Magicka by 26 per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Arcane_Supremacy"
+  },
+  {
+   "id": 272,
+   "key": "thrill_of_the_hunt",
+   "name": "Thrill of the Hunt",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Hasty",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "major_expedition",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "buff_grant",
+     "condition": null,
+     "trigger": {
+      "on": "kill",
+      "chance": null,
+      "cooldown_s": null
+     },
+     "duration_s": 6,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": "major_expedition",
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Whenever you kill an enemy you gain Major Expedition for 3 seconds per stage, increasing your Movement Speed by 30%."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Thrill_of_the_Hunt"
+  },
+  {
+   "id": 270,
+   "key": "celerity",
+   "name": "Celerity",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hasty",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "movement_speed_pct",
+     "value": 10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Movement Speed by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Celerity"
+  },
+  {
+   "id": 271,
+   "key": "refreshing_stride",
+   "name": "Refreshing Stride",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hasty",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "magicka_recovery",
+     "value": 500,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "sprinting"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While Sprinting, you gain 100 Health and Magicka Recovery per stage."
+    },
+    {
+     "stat": "max_health",
+     "value": 500,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "sprinting"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While Sprinting, you gain 100 Health and Magicka Recovery per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Refreshing_Stride"
+  },
+  {
+   "id": 63,
+   "key": "shield_master",
+   "name": "Shield Master",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hero's Vigor",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "ability_cost_pct",
+     "value": -10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "text",
+      "text": "damage shield"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of your damage shield abilities by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Shield_Master"
+  },
+  {
+   "id": 46,
+   "key": "bastion",
+   "name": "Bastion",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Shield Master",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "effect_effectiveness_pct",
+     "value": 15,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases the effectiveness of your damage shields and damage against shielded enemies by 3% per stage.",
+     "extra": {
+      "applies_to": "your damage shields and damage against shielded enemies"
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Bastion"
+  },
+  {
+   "id": 57,
+   "key": "survival_instincts",
+   "name": "Survival Instincts",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Mystic Tenacity",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While afflicted with a Status Effect, your core combat skills cost 5% less per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Survival_Instincts"
+  },
+  {
+   "id": 56,
+   "key": "spirit_mastery",
+   "name": "Spirit Mastery",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Tempered Soul",
+     "min_points": 25
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Decreases the time it takes to resurrect an ally by 33%."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Spirit_Mastery"
+  },
+  {
+   "id": 61,
+   "key": "arcane_alacrity",
+   "name": "Arcane Alacrity",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Bastion",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While under the effects of a damage shield your dodge roll costs 160 less stamina per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Arcane_Alacrity"
+  },
+  {
+   "id": 48,
+   "key": "bloody_renewal",
+   "name": "Bloody Renewal",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hero's Vigor",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "restore_stamina",
+     "value": 1500,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "resource_restore",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Restore 300 Stamina per stage, whenever you kill an enemy."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Bloody_Renewal"
+  },
+  {
+   "id": 49,
+   "key": "strategic_reserve",
+   "name": "Strategic Reserve",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Hero's Vigor",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "health_recovery",
+     "value": 30,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": {
+      "per": "10 Ultimate you have"
+     },
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Gain 30 Health Recovery for every 10 Ultimate you have."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Strategic_Reserve"
+  },
+  {
+   "id": 274,
+   "key": "relentlessness",
+   "name": "Relentlessness",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Mystic Tenacity",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "major_protection",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "buff_grant",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": "major_protection",
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Being Stunned or Feared causes you to gain Major Protection for 3 seconds, reducing your damage taken by 10%."
+    },
+    {
+     "stat": "cc_fear",
+     "value": null,
+     "unit": null,
+     "scope": "target",
+     "kind": "debuff_apply",
+     "condition": null,
+     "trigger": null,
+     "duration_s": 3,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Being Stunned or Feared causes you to gain Major Protection for 3 seconds, reducing your damage taken by 10%."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Relentlessness"
+  },
+  {
+   "id": 275,
+   "key": "pains_refuge",
+   "name": "Pain's Refuge",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Mystic Tenacity",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -2,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": {
+      "per": "2 negative effects active on you"
+     },
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Reduces your damage taken by 2% for every 2 negative effects active on you, up to a maximum of 20%"
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Pain's_Refuge"
+  },
+  {
+   "id": 273,
+   "key": "sustained_by_suffering",
+   "name": "Sustained by Suffering",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Mystic Tenacity",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "health_recovery",
+     "value": 1500,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Health, Magicka, and Stamina Recovery by 30 per stage while under the effects of a negative effect."
+    },
+    {
+     "stat": "magicka_recovery",
+     "value": 1500,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Health, Magicka, and Stamina Recovery by 30 per stage while under the effects of a negative effect."
+    },
+    {
+     "stat": "stamina_recovery",
+     "value": 1500,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases your Health, Magicka, and Stamina Recovery by 30 per stage while under the effects of a negative effect."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Sustained_by_Suffering"
+  },
+  {
+   "id": 47,
+   "key": "siphoning_spells",
+   "name": "Siphoning Spells",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hero's Vigor",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "restore_magicka",
+     "value": 1500,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "resource_restore",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Restore 300 Magicka per stage, whenever you kill an enemy."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Siphoning_Spells"
+  },
+  {
+   "id": 62,
+   "key": "rousing_speed",
+   "name": "Rousing Speed",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Sprinter",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of Sprint by 50 Stamina per stage, while under the effects of Crowd Control Immunity."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Rousing_Speed"
+  },
+  {
+   "id": 268,
+   "key": "soothing_shield",
+   "name": "Soothing Shield",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Nimble Protector",
+     "min_points": 3
+    }
+   ],
+   "effects": [
+    {
+     "stat": "heal",
+     "value": 735,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "heal",
+     "condition": null,
+     "trigger": {
+      "on": "other",
+      "chance": 0.15,
+      "cooldown_s": null
+     },
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "When you successfully block an attack you have a 15% chance to restore 147 Health per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Soothing_Shield"
+  },
+  {
+   "id": 267,
+   "key": "bracing_anchor",
+   "name": "Bracing Anchor",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Nimble Protector",
+     "min_points": 3
+    }
+   ],
+   "effects": [
+    {
+     "stat": "block_mitigation_pct",
+     "value": 20,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "in_combat"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While in combat, increase the amount of damage you can block by 4% per stage, but reduces your Movement Speed by 16% at all stages."
+    },
+    {
+     "stat": "movement_speed_pct",
+     "value": -16,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "in_combat"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While in combat, increase the amount of damage you can block by 4% per stage, but reduces your Movement Speed by 16% at all stages."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Bracing_Anchor"
+  },
+  {
+   "id": 266,
+   "key": "ward_master",
+   "name": "Ward Master",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Nimble Protector",
+     "min_points": 3
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "blocking"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces your damage taken by 2% per stage while Blocking and under the effects of a Damage Shield."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Ward_Master"
+  },
+  {
+   "id": 60,
+   "key": "on_guard",
+   "name": "On Guard",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Tireless Guardian",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "block_mitigation_pct",
+     "value": 10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "cc_immune"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While under the effects of Crowd Control Immunity, increases the amount of damage you block by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:On_Guard"
+  },
+  {
+   "id": 51,
+   "key": "expert_evasion",
+   "name": "Expert Evasion",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Tumbling",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Your next Roll Dodge is free of cost. After consuming this effect, you cannot gain it again for 30 seconds."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Expert_Evasion"
+  },
+  {
+   "id": 52,
+   "key": "slippery",
+   "name": "Slippery",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Defiance",
+     "min_points": 10
+    }
+   ],
+   "effects": [],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Slippery"
+  },
+  {
+   "id": 64,
+   "key": "unchained",
+   "name": "Unchained",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [
+    {
+     "star": "Slippery",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "ability_cost_pct",
+     "value": -550,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "proc",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "resource_abilities",
+        "resource": "stamina"
+       },
+       {
+        "type": "text",
+        "text": "next used"
+       }
+      ]
+     },
+     "trigger": {
+      "on": "break_free",
+      "chance": null,
+      "cooldown_s": null
+     },
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "When you use Break Free, the cost of your next Stamina ability used within 5 seconds is reduced by 11% per stage.",
+     "extra": {
+      "window": 5
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Unchained"
+  },
+  {
+   "id": 59,
+   "key": "juggernaut",
+   "name": "Juggernaut",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Defiance",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_taken_pct",
+     "value": -5,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "cc_immune"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "While under the effects of Crowd Control Immunity, you take 1% less damage per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Juggernaut_(champion)"
+  },
+  {
+   "id": 54,
+   "key": "peace_of_mind",
+   "name": "Peace of Mind",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Defiance",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "health_recovery",
+     "value": 200,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "text",
+        "text": "under effects crowd control immunity"
+       },
+       {
+        "type": "cc_immune"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases Magicka and Health Recovery while under the effects of Crowd Control Immunity by 40 per stage."
+    },
+    {
+     "stat": "max_magicka",
+     "value": 200,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "text",
+        "text": "under effects crowd control immunity"
+       },
+       {
+        "type": "cc_immune"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases Magicka and Health Recovery while under the effects of Crowd Control Immunity by 40 per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Peace_of_Mind"
+  },
+  {
+   "id": 55,
+   "key": "hardened",
+   "name": "Hardened",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Defiance",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "effect_duration",
+     "value": 15,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "cc_immune"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases the duration of Crowd Control Immunity by 3% per stage.",
+     "extra": {
+      "applies_to": "Crowd Control Immunity"
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Hardened"
+  },
+  {
+   "id": 35,
+   "key": "rejuvenation",
+   "name": "Rejuvenation",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 5,
+   "points_per_stage": 10,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "max_health",
+     "value": 1.8,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": {
+      "per": "stage"
+     },
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 1.8 Health, Magicka, and Stamina Recovery per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Rejuvenation"
+  },
+  {
+   "id": 34,
+   "key": "fortified",
+   "name": "Fortified",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "physical_resistance",
+     "value": 1730,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 34.6 Armor per stage."
+    },
+    {
+     "stat": "spell_resistance",
+     "value": 1730,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 34.6 Armor per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Fortified"
+  },
+  {
+   "id": 2,
+   "key": "boundless_vitality",
+   "name": "Boundless Vitality",
+   "constellation": "fitness",
+   "slottable": true,
+   "max_points": 50,
+   "stages": 50,
+   "points_per_stage": 1,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "max_health",
+     "value": 1400,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 28 Max Health per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Boundless_Vitality"
+  },
+  {
+   "id": 38,
+   "key": "sprinter",
+   "name": "Sprinter",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of Sprint by 20 Stamina per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Sprinter"
+  },
+  {
+   "id": 42,
+   "key": "hasty",
+   "name": "Hasty",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 16,
+   "stages": 2,
+   "points_per_stage": 8,
+   "prerequisites": [
+    {
+     "star": "Sprinter",
+     "min_points": 10
+    },
+    {
+     "star": "Hero's Vigor",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "movement_speed_pct",
+     "value": 4,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "sprinting"
+       },
+       {
+        "type": "text",
+        "text": "when ing"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your movement speed when Sprinting by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Hasty"
+  },
+  {
+   "id": 113,
+   "key": "heros_vigor",
+   "name": "Hero's Vigor",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Mystic Tenacity",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "max_health",
+     "value": 560,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Grants 280 Max Health per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Hero's_Vigor"
+  },
+  {
+   "id": 58,
+   "key": "tempered_soul",
+   "name": "Tempered Soul",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 50,
+   "stages": 2,
+   "points_per_stage": 25,
+   "prerequisites": [
+    {
+     "star": "Piercing Gaze",
+     "min_points": 10
+    },
+    {
+     "star": "Survival Instincts",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Return to life after resurrection with 5% more resources per stage"
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Tempered_Soul"
+  },
+  {
+   "id": 45,
+   "key": "piercing_gaze",
+   "name": "Piercing Gaze",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 3,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hero's Vigor",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your Stealth Detection by 1 meter per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Piercing_Gaze"
+  },
+  {
+   "id": 53,
+   "key": "mystic_tenacity",
+   "name": "Mystic Tenacity",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hero's Vigor",
+     "min_points": 10
+    },
+    {
+     "star": "Tumbling",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "incoming_cc_duration",
+     "value": -10,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "self_status_effect"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the duration of Elemental Status Effects applied to you by 5% per stage.",
+     "extra": {
+      "applies_to": "Elemental Status Effects"
+     }
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Mystic_Tenacity"
+  },
+  {
+   "id": 39,
+   "key": "tireless_guardian",
+   "name": "Tireless Guardian",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Hasty",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of Block by 20 Stamina per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Tireless_Guardian"
+  },
+  {
+   "id": 40,
+   "key": "savage_defense",
+   "name": "Savage Defense",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 2,
+   "points_per_stage": 15,
+   "prerequisites": [
+    {
+     "star": "Tireless Guardian",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of Bash by 45 Stamina per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Savage_Defense"
+  },
+  {
+   "id": 50,
+   "key": "bashing_brutality",
+   "name": "Bashing Brutality",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [
+    {
+     "star": "Tireless Guardian",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "damage_done_pct",
+     "value": 120,
+     "unit": "flat",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "bash"
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your Bash damage by 60 per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Bashing_Brutality"
+  },
+  {
+   "id": 44,
+   "key": "nimble_protector",
+   "name": "Nimble Protector",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 6,
+   "stages": 2,
+   "points_per_stage": 3,
+   "prerequisites": [
+    {
+     "star": "Tireless Guardian",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "movement_speed_pct",
+     "value": 6,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "conditional",
+     "condition": {
+      "type": "all",
+      "of": [
+       {
+        "type": "text",
+        "text": "bracing"
+       },
+       {
+        "type": "blocking"
+       }
+      ]
+     },
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Increases your Movement Speed while Bracing by 3% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Nimble_Protector"
+  },
+  {
+   "id": 43,
+   "key": "fortification",
+   "name": "Fortification",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 15,
+   "prerequisites": [
+    {
+     "star": "Tireless Guardian",
+     "min_points": 10
+    }
+   ],
+   "effects": [
+    {
+     "stat": "block_mitigation_pct",
+     "value": 4,
+     "unit": "pct",
+     "scope": "self",
+     "kind": "static",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": 1.0,
+     "uptime_source": "static",
+     "raw": "Increases the amount of damage you can block by 2% per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": true,
+   "uesp": "https://en.uesp.net/wiki/Online:Fortification"
+  },
+  {
+   "id": 37,
+   "key": "tumbling",
+   "name": "Tumbling",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 30,
+   "stages": 2,
+   "points_per_stage": 15,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of Roll Dodge by 120 Stamina per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Tumbling"
+  },
+  {
+   "id": 128,
+   "key": "defiance",
+   "name": "Defiance",
+   "constellation": "fitness",
+   "slottable": false,
+   "max_points": 20,
+   "stages": 2,
+   "points_per_stage": 10,
+   "prerequisites": [],
+   "effects": [
+    {
+     "stat": "unmodeled",
+     "value": null,
+     "unit": null,
+     "scope": "self",
+     "kind": "unmodeled",
+     "condition": null,
+     "trigger": null,
+     "duration_s": null,
+     "stacks": null,
+     "damage": null,
+     "buff_ref": null,
+     "uptime_est": null,
+     "uptime_source": null,
+     "raw": "Reduces the cost of Break Free by 110 Stamina per stage."
+    }
+   ],
+   "patch": "u51",
+   "verified": false,
+   "uesp": "https://en.uesp.net/wiki/Online:Defiance_(champion)"
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.11'",
@@ -36,6 +36,7 @@ dev = [
 ]
 setdb = [
     { name = "jsonschema" },
+    { name = "pyyaml" },
 ]
 
 [package.metadata]
@@ -45,7 +46,10 @@ dev = [
     { name = "pre-commit", specifier = ">=3.6.0" },
     { name = "ruff", specifier = ">=0.3.0" },
 ]
-setdb = [{ name = "jsonschema", specifier = ">=4.20" }]
+setdb = [
+    { name = "jsonschema", specifier = ">=4.20" },
+    { name = "pyyaml", specifier = ">=6.0" },
+]
 
 [[package]]
 name = "distlib"

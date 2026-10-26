@@ -9,7 +9,7 @@ This lives outside `src/`, so it is never shipped in the addon zip.
 task setdb:refresh    # fetch (network, incremental) + parse + validate
 task setdb:build      # parse + normalize + validate from the local cache only
 task setdb:import     # in-game dump: /cm sets:dump, /reloadui, then this
-task setdb:test       # normalizer + reconciler tests
+task setdb:test       # normalizer, reconciler, digest, patch and support-table tests
 ```
 
 | Stage | Module | Input → output |
@@ -19,7 +19,20 @@ task setdb:test       # normalizer + reconciler tests
 | normalize | `normalize.py` | bonus text → typed `effects[]` + `coverage`; queue in `reports/unmodeled.md` |
 | reconcile | `reconcile.py` | SavedVariables `/cm sets:dump` → set IDs, game-verified text (`reports/reconcile.md`) |
 | patches | `patches.py` | game-patch overlays for changes UESP hasn't caught up with; listed in each file's `source.patches` |
-| validate | `validate.py` | JSON → `schema.json` + cross-file checks |
+| support | `support.py` | skill-line, skill, CP-star and food pages → `data/sets/{passives,skills,consumables,cp_stars}.json`, buff `sources` merged into `buffs.json`, `reports/support_tables.md` |
+| validate | `validate.py` | JSON → `schema.json` + cross-file checks (also optional `caps.json`, `passives.json`, `skills.json`, `consumables.json`, `cp_stars.json` when present) |
+
+Support tables have their own fetch/parse pair, separate from the set pipeline:
+
+```bash
+task setdb:support-fetch   # network, incremental (~600 pages first run)
+task setdb:support-parse   # offline: parse + merge buff sources + validate
+```
+
+`caps.json` stays hand-maintained, and so do the U51 potion rows: UESP has no per-potion
+pages for the merged traits yet. The Claude prompt in
+`docs/prompts/support_tables_system_prompt.md` covers those gaps. See
+`docs/SET_SUPPORT_TABLES.md`.
 
 ## Patch overlays
 

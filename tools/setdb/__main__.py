@@ -7,6 +7,8 @@ Commands:
   validate  check data/sets/*.json against schema.json (offline)
   build     parse + validate + digest
   digest    data/sets/sets.json -> compact LLM digest [--types a,b] [--no-text]
+  support-fetch  download passive/skill/CP/food pages for the support tables (network)
+  support-parse  cached pages -> passives/skills/cp_stars/consumables.json (offline)
 """
 
 from __future__ import annotations
@@ -36,6 +38,14 @@ def main(argv: list[str]) -> int:
         from . import digest, parse, validate
 
         return parse.run() or validate.run() or digest.run([])
+    if cmd == "support-fetch":
+        from . import support
+
+        return support.fetch()
+    if cmd == "support-parse":
+        from . import support, validate
+
+        return support.parse() or validate.run()
     if cmd == "digest":
         from . import digest
 

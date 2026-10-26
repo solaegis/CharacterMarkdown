@@ -14,6 +14,7 @@ dev = [
 # Set database pipeline (tools/setdb) — see docs/SET_DATABASE_PLAN.md
 setdb = [
     "jsonschema>=4.20",
+    "pyyaml>=6.0",
 ]
 
 [tool.ruff]
@@ -29,8 +30,10 @@ ignore = []
 "tools/setdb/*" = ["T20"]
 # Regex grammar and verbatim in-game bonus text don't wrap readably
 "tools/setdb/normalize.py" = ["T20", "E501"]
+"tools/setdb/support.py" = ["T20", "E501"]
 "tools/setdb/test_normalize.py" = ["E501"]
 "tools/setdb/test_reconcile.py" = ["E501"]
 "tools/setdb/test_digest.py" = ["E501"]
+"tools/setdb/test_support.py" = ["E501"]
 # Legend strings are read verbatim by the LLM
 "tools/setdb/digest.py" = ["T20", "E501"]

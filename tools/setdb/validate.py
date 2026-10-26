@@ -8,6 +8,14 @@ import sys
 from .paths import DATA_DIR, SCHEMA_FILE
 
 FILES = ["sets.json", "buffs.json", "traits.json", "mundus.json", "enchants.json"]
+# Claude-ingested support tables. Validated when present; no count floors.
+OPTIONAL_FILES = [
+    "caps.json",
+    "passives.json",
+    "skills.json",
+    "consumables.json",
+    "cp_stars.json",
+]
 
 # Sanity floors: a parse that drops below these has broken, not "found fewer".
 MIN_COUNTS = {
@@ -29,7 +37,9 @@ def run() -> int:
     validator = Draft202012Validator(json.loads(SCHEMA_FILE.read_text()))
     errors: list[str] = []
     docs = {}
-    for name in FILES:
+    required = list(FILES)
+    present_optional = [n for n in OPTIONAL_FILES if (DATA_DIR / n).exists()]
+    for name in required + present_optional:
         path = DATA_DIR / name
         if not path.exists():
             errors.append(f"{name}: missing")
@@ -41,12 +51,18 @@ def run() -> int:
             errors.append(f"{name}: {loc}: {err.message[:200]}")
         if doc.get("count") != len(doc.get("items", [])):
             errors.append(f"{name}: count {doc.get('count')} != {len(doc.get('items', []))} items")
-        if len(doc.get("items", [])) < MIN_COUNTS[name]:
-            errors.append(f"{name}: only {len(doc['items'])} items (floor {MIN_COUNTS[name]})")
+        floor = MIN_COUNTS.get(name)
+        if floor is not None and len(doc.get("items", [])) < floor:
+            errors.append(f"{name}: only {len(doc['items'])} items (floor {floor})")
         keys = [i.get("slug") or i.get("key") for i in doc.get("items", [])]
         dupes = sorted({k for k in keys if keys.count(k) > 1})
         if dupes:
             errors.append(f"{name}: duplicate keys {dupes[:10]}")
+        if name == "cp_stars.json":
+            ids = [i.get("id") for i in doc.get("items", [])]
+            id_dupes = sorted({i for i in ids if ids.count(i) > 1})
+            if id_dupes:
+                errors.append(f"{name}: duplicate ids {id_dupes[:10]}")
 
     if "sets.json" in docs:
         slugs = {s["slug"] for s in docs["sets.json"]["items"]}
@@ -57,9 +73,30 @@ def run() -> int:
             if not s["deprecated"] and not s["bonuses"]:
                 errors.append(f"sets.json: {s['slug']} has no bonuses")
 
+    if "buffs.json" in docs:
+        buff_keys = {b["key"] for b in docs["buffs.json"]["items"]}
+        for name in ("passives.json", "skills.json", "consumables.json", "cp_stars.json"):
+            if name not in docs:
+                continue
+            for item in docs[name]["items"]:
+                refs = list(item.get("buffs_granted") or [])
+                refs.extend(item.get("debuffs_applied") or [])
+                for rank in item.get("ranks") or []:
+                    for effect in rank.get("effects") or []:
+                        if effect.get("buff_ref"):
+                            refs.append(effect["buff_ref"])
+                for effect in item.get("effects") or []:
+                    if effect.get("buff_ref"):
+                        refs.append(effect["buff_ref"])
+                unknown = sorted({r for r in refs if r not in buff_keys})
+                if unknown:
+                    label = item.get("key") or item.get("name")
+                    errors.append(f"{name}: {label}: unknown buff_ref {unknown[:8]}")
+
+    checked = required + present_optional
     for e in errors:
         print(f"✗ {e}", file=sys.stderr)
     if errors:
         return 1
-    print(f"✓ validate: {len(FILES)} files OK", file=sys.stderr)
+    print(f"✓ validate: {len(checked)} files OK", file=sys.stderr)
     return 0

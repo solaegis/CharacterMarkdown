@@ -93,6 +93,20 @@
      "Smash",
      "Traveling Knife",
      "Vault"
+    ],
+    "skills": [
+     "Ambush",
+     "Bird of Prey",
+     "Camouflaged Hunter",
+     "Combat Prayer",
+     "Dark Conversion",
+     "Dark Deal",
+     "Dark Exchange",
+     "Fate Omen's Inspiration",
+     "Hircine's Rage"
+    ],
+    "passives": [
+     "Spear Wall"
     ]
    }
   },
@@ -121,6 +135,15 @@
      "Sea-Serpent's Coil",
      "Tharriker's Strike",
      "Unchained Aggressor"
+    ],
+    "skills": [
+     "Chains of Devastation",
+     "Greater Storm Atronach",
+     "Reaper's Mark",
+     "Summon Charged Atronach",
+     "Summon Storm Atronach",
+     "Werewolf Berserker",
+     "Wrecking Blow"
     ]
    }
   },
@@ -140,6 +163,9 @@
     "potions": [
      "Increase Weapon Power Poison",
      "Increase Spell Power Poison"
+    ],
+    "passives": [
+     "Elder Dragon"
     ]
    }
   },
@@ -190,6 +216,41 @@
      "Increase Spell Power Potion",
      "Increase Spell Resist Poison",
      "Increase Spell Resist Potion"
+    ],
+    "skills": [
+     "Betty Netch",
+     "Biting Jabs",
+     "Blue Betty",
+     "Bull Netch",
+     "Critical Surge",
+     "Degeneration",
+     "Drain Power",
+     "Flying Blade",
+     "Forward Momentum",
+     "Hidden Blade",
+     "Hircine's Bounty",
+     "Hircine's Fortitude",
+     "Hircine's Rage",
+     "Igneous Weapons",
+     "Inspired Scholarship",
+     "Molten Armaments",
+     "Molten Weapons",
+     "Momentum",
+     "Power Extraction",
+     "Power Surge",
+     "Rally",
+     "Recuperative Treatise",
+     "Sap Essence",
+     "Shrouded Daggers",
+     "Skeletal Arcanist",
+     "Skeletal Archer",
+     "Skeletal Mage",
+     "Surge",
+     "Tome-Bearer's Inspiration",
+     "Venom Arrow"
+    ],
+    "consumables": [
+     "Essence of Heroism"
     ]
    }
   },
@@ -221,6 +282,14 @@
      "Courage on Banner Bearer",
      "Mender's Bond",
      "Soul Burst"
+    ],
+    "skills": [
+     "Arcanist's Domain",
+     "Blood of the Elder Dragon",
+     "Pack Leader",
+     "Power Extraction",
+     "Reconstructive Domain",
+     "Zenas' Empowering Disc"
     ]
    }
   },
@@ -259,6 +328,9 @@
     "scribing": [
      "Empower on Mender's Bond",
      "Wield Soul"
+    ],
+    "skills": [
+     "Ferocious Roar"
     ]
    }
   },
@@ -290,6 +362,23 @@
      "Soul Burst",
      "Ulfsild's Contingency",
      "Vault"
+    ],
+    "skills": [
+     "Arcanist's Domain",
+     "Circle of Protection",
+     "Enchanted Growth",
+     "Forward Momentum",
+     "Momentum",
+     "Radiant Aura",
+     "Rally",
+     "Reconstructive Domain",
+     "Refreshing Path",
+     "Regenerative Ward",
+     "Repentance",
+     "Restoring Aura",
+     "Ring of Preservation",
+     "Turn Evil",
+     "Zenas' Empowering Disc"
     ]
    }
   },
@@ -315,6 +404,12 @@
     ],
     "potions": [
      "Restore Stamina Potion"
+    ],
+    "skills": [
+     "Blood of the Green Dragon"
+    ],
+    "consumables": [
+     "Essence of Stamina"
     ]
    }
   },
@@ -338,6 +433,12 @@
     "scribing": [
      "Evasion on Mender's Bond",
      "Torchbearer"
+    ],
+    "skills": [
+     "Deceptive Predator"
+    ],
+    "passives": [
+     "Circumvented Fate"
     ]
    }
   },
@@ -370,6 +471,20 @@
     "scribing": [
      "Evasion on Shield Throw",
      "Vault"
+    ],
+    "skills": [
+     "Blade Cloak",
+     "Blur",
+     "Chains of Devastation",
+     "Deadly Cloak",
+     "Deafening Roar",
+     "Elude",
+     "Elusive Mist",
+     "Evasion",
+     "Mirage",
+     "Phantasmal Escape",
+     "Quick Cloak",
+     "Shuffle"
     ]
    }
   },
@@ -399,6 +514,13 @@
      "Soul Burst",
      "Traveling Knife",
      "Vault"
+    ],
+    "skills": [
+     "Charging Maneuver",
+     "Concealed Weapon",
+     "Hasty Prayer",
+     "Hurricane",
+     "Quick Siphon"
     ]
    }
   },
@@ -443,6 +565,32 @@
     ],
     "potions": [
      "Speed Potion or Poison"
+    ],
+    "skills": [
+     "Bird of Prey",
+     "Boundless Storm",
+     "Deceptive Predator",
+     "Elude",
+     "Elusive Mist",
+     "Falcon's Swiftness",
+     "Fleet-Footed Gate",
+     "Fleetstep Wings",
+     "Frozen Retreat",
+     "Path of Darkness",
+     "Protect the Brood",
+     "Quick Cloak",
+     "Rapid Maneuver",
+     "Refreshing Path",
+     "Retreating Maneuver",
+     "Twisting Path",
+     "Wing Buffet"
+    ],
+    "passives": [
+     "Hasty Retreat",
+     "Padomaic Sprint"
+    ],
+    "cp": [
+     "Thrill of the Hunt"
     ]
    }
   },
@@ -479,6 +627,15 @@
      "Traveling Knife",
      "Ulfsild's Contingency",
      "Vault"
+    ],
+    "skills": [
+     "Barbed Trap",
+     "Deafening Roar",
+     "Ferocious Roar",
+     "Lightweight Beast Trap",
+     "Roar",
+     "Stalwart Guard",
+     "Trap Beast"
     ]
    }
   },
@@ -502,6 +659,10 @@
      "Grisly Gourmet",
      "The Saint and the Seducer",
      "Saxhleel Champion"
+    ],
+    "skills": [
+     "Aggressive Horn",
+     "Light's Champion"
     ]
    }
   },
@@ -522,6 +683,17 @@
     ],
     "sets": [
      "Oakensoul Ring"
+    ],
+    "skills": [
+     "Arcanist's Domain",
+     "Fire Keeper",
+     "Hearth and Home",
+     "Hearthfire",
+     "Radiant Aura",
+     "Reconstructive Domain",
+     "Repentance",
+     "Restoring Aura",
+     "Zenas' Empowering Disc"
     ]
    }
   },
@@ -545,6 +717,14 @@
     ],
     "potions": [
      "Restore Health Potion"
+    ],
+    "skills": [
+     "Blood of the Elder Dragon",
+     "Blood of the Green Dragon",
+     "Dragon Blood"
+    ],
+    "consumables": [
+     "Essence of Health"
     ]
    }
   },
@@ -581,6 +761,16 @@
     ],
     "potions": [
      "Heroism Potion"
+    ],
+    "skills": [
+     "Audacious Runemend",
+     "Fire Keeper",
+     "Hearth and Home",
+     "Hearthfire",
+     "Heroic Slash"
+    ],
+    "cp": [
+     "Hope Infusion"
     ]
    }
   },
@@ -609,6 +799,12 @@
      "Heroism on Trample"
     ],
     "champion": [
+     "Last Stand"
+    ],
+    "skills": [
+     "Shimmering Shield"
+    ],
+    "cp": [
      "Last Stand"
     ]
    }
@@ -639,6 +835,17 @@
      "Soul Burst",
      "Ulfsild's Contingency",
      "Vault"
+    ],
+    "skills": [
+     "Arcanist's Domain",
+     "Enchanted Growth",
+     "Radiant Aura",
+     "Reconstructive Domain",
+     "Refreshing Path",
+     "Regenerative Ward",
+     "Repentance",
+     "Restoring Aura",
+     "Zenas' Empowering Disc"
     ]
    }
   },
@@ -660,6 +867,9 @@
     ],
     "potions": [
      "Restore Magicka Potion"
+    ],
+    "consumables": [
+     "Essence of Magicka"
     ]
    }
   },
@@ -681,6 +891,12 @@
      "Healer's Habit",
      "Naga Shaman",
      "Oakensoul Ring"
+    ],
+    "skills": [
+     "Healthy Offering"
+    ],
+    "passives": [
+     "Sacred Ground"
     ]
    }
   },
@@ -706,6 +922,15 @@
     "potions": [
      "Increase Armor Poison",
      "Increase Armor Potion"
+    ],
+    "skills": [
+     "Fragmented Shield",
+     "Igneous Shield",
+     "Obsidian Shield"
+    ],
+    "passives": [
+     "Accelerated Growth",
+     "Essence Drain"
     ]
    }
   },
@@ -749,6 +974,33 @@
     ],
     "verses": [
      "Apocryphal Emissary 1st stack"
+    ],
+    "skills": [
+     "Agony Totem",
+     "Bone Totem",
+     "Bound Aegis",
+     "Bound Armor",
+     "Circle of Protection",
+     "Dark Cloak",
+     "Dark Moon Totem",
+     "Deafening Roar",
+     "Elemental Ring",
+     "Ice Fortress",
+     "Impulse",
+     "Protect the Brood",
+     "Pulsar",
+     "Ransack",
+     "Remote Totem",
+     "Ring of Preservation",
+     "Runeguard of Freedom",
+     "Runeguard of Still Waters",
+     "Runic Defense",
+     "Shadow Cloak",
+     "Shadowy Disguise",
+     "Turn Evil"
+    ],
+    "passives": [
+     "Spear Wall"
     ]
    }
   },
@@ -787,6 +1039,28 @@
     ],
     "scribing": [
      "Protection on Trample"
+    ],
+    "skills": [
+     "Blinding Flare",
+     "Bolstering Darkness",
+     "Consuming Darkness",
+     "Deaden Pain",
+     "Explosive Charge",
+     "Focused Charge",
+     "Glyphic of the Tides",
+     "Hearth and Home",
+     "Lingering Flare",
+     "Northern Storm",
+     "Pack Leader",
+     "Permafrost",
+     "Remembrance",
+     "Revealing Flare",
+     "Sleet Storm",
+     "Toppling Charge",
+     "Veil of Blades"
+    ],
+    "cp": [
+     "Relentlessness"
     ]
    }
   },
@@ -820,6 +1094,20 @@
     ],
     "verses": [
      "Apocryphal Emissary 2nd stack"
+    ],
+    "skills": [
+     "Beckoning Armor",
+     "Blessing of Protection",
+     "Blessing of Restoration",
+     "Bone Armor",
+     "Bound Aegis",
+     "Combat Prayer",
+     "Mirage",
+     "Resolving Vigor",
+     "Runeguard of Freedom",
+     "Runeguard of Still Waters",
+     "Runic Defense",
+     "Summoner's Armor"
     ]
    }
   },
@@ -855,6 +1143,38 @@
     "scribing": [
      "Resolve on Shield Throw",
      "Wield Soul"
+    ],
+    "skills": [
+     "Balance",
+     "Beckoning Armor",
+     "Boundless Storm",
+     "Channeled Focus",
+     "Cruxweaver Armor",
+     "Earthshield Mantle",
+     "Earthspike Mantle",
+     "Expansive Frost Cloak",
+     "Fatewoven Armor",
+     "Frost Cloak",
+     "Hurricane",
+     "Ice Fortress",
+     "Immovable",
+     "Lightning Form",
+     "Perigean Armor",
+     "Restoring Focus",
+     "Rune Focus",
+     "Shatterspike Mantle",
+     "Sleetmail",
+     "Summoner's Armor",
+     "Unbreakable Fate",
+     "Unstoppable",
+     "Unstoppable Brute"
+    ],
+    "passives": [
+     "Feral Cruelty",
+     "Shadow Barrier"
+    ],
+    "consumables": [
+     "Essence of Immovability"
     ]
    }
   },
@@ -874,6 +1194,9 @@
     "potions": [
      "Weapon Critical Poison",
      "Spell Critical Poison"
+    ],
+    "passives": [
+     "Hemorrhage"
     ]
    }
   },
@@ -918,6 +1241,35 @@
     "potions": [
      "Weapon Critical Potion",
      "Spell Critical Potion"
+    ],
+    "skills": [
+     "Bound Armaments",
+     "Camouflaged Hunter",
+     "Cauterize",
+     "Detonating Siphon",
+     "Evil Hunter",
+     "Expert Hunter",
+     "Ferocious Roar",
+     "Green Lotus",
+     "Grim Focus",
+     "Incinerate",
+     "Inferno",
+     "Inner Light",
+     "Lotus Blossom",
+     "Lotus Flower",
+     "Magelight",
+     "Merciless Resolve",
+     "Mystic Siphon",
+     "Radiant Magelight",
+     "Reflective Light",
+     "Relentless Focus",
+     "Roar",
+     "Shocking Siphon",
+     "Sun Fire",
+     "Vampire's Bane"
+    ],
+    "consumables": [
+     "Essence of Heroism"
     ]
    }
   },
@@ -992,6 +1344,9 @@
     ],
     "verses": [
      "Apocryphal Emissary 3rd stack"
+    ],
+    "passives": [
+     "Maturation"
     ]
    }
   },
@@ -1024,6 +1379,11 @@
     ],
     "potions": [
      "Vitality Poison"
+    ],
+    "skills": [
+     "Blood of the Green Dragon",
+     "Mystic Guard",
+     "Vibrant Shroud"
     ]
    }
   },
@@ -1056,6 +1416,11 @@
     ],
     "potions": [
      "Vitality Potion"
+    ],
+    "skills": [
+     "Bone Surge",
+     "Hircine's Fortitude",
+     "Soul Siphon"
     ]
    }
   },
@@ -1095,6 +1460,16 @@
     "potions": [
      "Breach Potion or Poison",
      "Increase Spell Resist Poison"
+    ],
+    "skills": [
+     "Cruxweaver Armor",
+     "Deep Fissure",
+     "Fatewoven Armor",
+     "Fossilize",
+     "Petrify",
+     "Pierce Armor",
+     "Shattering Rocks",
+     "Unbreakable Fate"
     ]
    }
   },
@@ -1125,6 +1500,22 @@
     ],
     "scribing": [
      "Breach on Wield Soul"
+    ],
+    "skills": [
+     "Disintegrating Dragonfire",
+     "Elemental Drain",
+     "Elemental Susceptibility",
+     "Mark Target",
+     "Pierce Armor",
+     "Piercing Mark",
+     "Puncture",
+     "Ransack",
+     "Razor Caltrops",
+     "Reaper's Mark",
+     "Rip and Tear",
+     "Sepulchral Chill",
+     "Unnerving Boneyard",
+     "Weakness to Elements"
     ]
    }
   },
@@ -1149,6 +1540,9 @@
     "scribing": [
      "Brittle on Elemental Explosion",
      "Mender's Bond"
+    ],
+    "skills": [
+     "Rune of the Colorless Pool"
     ]
    }
   },
@@ -1197,6 +1591,10 @@
     "potions": [
      "Cowardice Potion or Poison",
      "Increase Spell Power Poison"
+    ],
+    "skills": [
+     "Corrupting Pollen",
+     "Power Extraction"
     ]
    }
   },
@@ -1225,6 +1623,17 @@
     "scribing": [
      "Cowardice on Shield Throw",
      "Wield Soul"
+    ],
+    "skills": [
+     "Agony Totem",
+     "Aspect of Terror",
+     "Bone Totem",
+     "Chains of Dominance",
+     "Chains of Flame",
+     "Deafening Roar",
+     "Manifestation of Terror",
+     "Mass Hysteria",
+     "Remote Totem"
     ]
    }
   },
@@ -1255,6 +1664,13 @@
     "potions": [
      "Defile Potion or Poison",
      "Vitality Poison"
+    ],
+    "skills": [
+     "Blood Sacrifice",
+     "Lethal Arrow",
+     "Penance of Lorkhaj",
+     "Render Flesh",
+     "Resistant Flesh"
     ]
    }
   },
@@ -1282,6 +1698,13 @@
     ],
     "scribing": [
      "Defile on Wield Soul"
+    ],
+    "skills": [
+     "Blighted Blastbones",
+     "Corrupting Pollen",
+     "Dark Flare",
+     "Shifting Standard",
+     "Soul Harvest"
     ]
    }
   },
@@ -1367,6 +1790,16 @@
      "Lifesteal on Elemental Explosion",
      "Traveling Knife",
      "Vault"
+    ],
+    "skills": [
+     "Blood Altar",
+     "Force Siphon",
+     "Leeching Vines",
+     "Overflowing Altar",
+     "Quick Siphon",
+     "Runic Embrace",
+     "Sanguine Altar",
+     "Siphon Spirit"
     ]
    }
   },
@@ -1389,6 +1822,11 @@
      "Magickasteal on Elemental Explosion",
      "Soul Burst",
      "Ulfsild's Contingency"
+    ],
+    "skills": [
+     "Blade of the Crossing",
+     "Elemental Drain",
+     "Siphon Spirit"
     ]
    }
   },
@@ -1428,6 +1866,24 @@
     "potions": [
      "Maim Potion or Poison",
      "Increase Weapon Power Poison"
+    ],
+    "skills": [
+     "Blazing Shield",
+     "Choking Talons",
+     "Dark Shade",
+     "Deep Slash",
+     "Grave Grasp",
+     "Heroic Slash",
+     "Inner Beast",
+     "Low Slash",
+     "Radiant Ward",
+     "Runic Embrace",
+     "Runic Jolt",
+     "Runic Sunder",
+     "Scathing Rune",
+     "Shadow Image",
+     "Summon Shade",
+     "Sun Shield"
     ]
    }
   },
@@ -1461,6 +1917,21 @@
     "scribing": [
      "Maim on Shield Throw",
      "Wield Soul"
+    ],
+    "skills": [
+     "Deafening Roar",
+     "Destructive Clench",
+     "Empowering Grasp",
+     "Encase",
+     "Frozen Device",
+     "Nova",
+     "Shattering Spines",
+     "Solar Disturbance",
+     "Solar Prison",
+     "Vibrant Shroud"
+    ],
+    "passives": [
+     "Icy Aura"
     ]
    }
   },
@@ -1484,6 +1955,9 @@
     ],
     "verse": [
      "Tomefoolery"
+    ],
+    "skills": [
+     "Pulsar"
     ]
    }
   },
@@ -1562,6 +2036,24 @@
     "potions": [
      "Vulnerability Potion or Poison",
      "Protection Poison"
+    ],
+    "skills": [
+     "Ambush",
+     "Avid Boneyard",
+     "Boneyard",
+     "Fetcher Infection",
+     "Fossilize",
+     "Growing Swarm",
+     "Infest",
+     "Inner Beast",
+     "Lotus Fan",
+     "Rune of Eldritch Horror",
+     "Rune of Uncanny Adoration",
+     "Rune of the Colorless Pool",
+     "Swarm",
+     "Teleport Strike",
+     "Tendrils of the Colorless Sea",
+     "Unnerving Boneyard"
     ]
    }
   },
@@ -1585,6 +2077,12 @@
      "Umbral Edge",
      "Coup De Grâce",
      "Stonehulk Domination"
+    ],
+    "skills": [
+     "Frozen Colossus",
+     "Glacial Colossus",
+     "Pestilent Colossus",
+     "Vigorous Tentacular Eruption"
     ]
    }
   },

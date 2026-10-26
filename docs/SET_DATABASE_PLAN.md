@@ -37,7 +37,7 @@ the example `*_plan.md` files consume it.
 | 2 — Normalize effects | ✅ done | 3,956 effects. Stat lines 99.7% full (target 95%); signature lines 70.4% full (target 70%). Queue in `reports/unmodeled.md` |
 | 3 — In-game reconciliation | ✅ done | 702 sets matched to IDs; 2,485 / 2,490 bonus lines verified against the game; 5 flagged in `reports/reconcile.md` |
 | 4 — Uptime & curation | pending | Start with mythics (41.5% full) and class sets (28.6%) |
-| 5–6 | pending | |
+| 5–6 | pending | Phase 5 caps schema + seed + `value_calc.py` loader done; solver still pending. Ingest: `docs/SET_SUPPORT_TABLES.md` |
 
 ### Phase 3 workflow
 
@@ -208,9 +208,13 @@ when the class kit already grants it, which is the most common way naive set-ran
 - `enchants.json`: glyphs by slot type, at CP160 gold.
 - `mundus.json`: each stone's base value and how divines modifies it.
 - `caps.json`: target resistance (PvE 18200 dummy baseline), crit damage cap (125%), and the base crit and
-  crit-rating conversion. Every constant records the patch it was verified on.
-- `cp_stars.json`: slottable stars, with a stat and value where one exists. The repo already models the CP trees in
-  `ChampionDiagram.lua`, so we reuse those names.
+  crit-rating conversion. Every constant records the patch it was verified on. Seed is in-repo;
+  `value_calc.py` loads it. See `docs/SET_SUPPORT_TABLES.md`.
+- `passives.json` / `skills.json` / `consumables.json`: race/class/skill-line/guild passives, morph
+  buff-grants and costs (no coefficients), food/drink/potions. Claude-drafted via
+  `docs/prompts/support_tables_system_prompt.md`; ingest is `docs/SET_SUPPORT_TABLES.md`.
+- `cp_stars.json`: slottable stars, with a stat and value where one exists. Reuse
+  `examples/templates/champion_points.yaml` ids and names.
 
 ## Pipeline phases
 

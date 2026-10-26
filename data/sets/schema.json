@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/solaegis/CharacterMarkdown/data/sets/schema.json",
   "title": "CharacterMarkdown set database",
-  "description": "Envelope for data/sets/{sets,buffs,traits,mundus,enchants}.json. See docs/SET_DATABASE_PLAN.md.",
+  "description": "Envelope for data/sets/{sets,buffs,traits,mundus,enchants,caps,passives,skills,consumables,cp_stars}.json. See docs/SET_DATABASE_PLAN.md and docs/SET_SUPPORT_TABLES.md.",
   "type": "object",
   "required": [
     "schema_version",
@@ -22,7 +22,12 @@
         "buffs",
         "traits",
         "mundus",
-        "enchants"
+        "enchants",
+        "caps",
+        "passives",
+        "skills",
+        "consumables",
+        "cp_stars"
       ]
     },
     "source": {
@@ -148,6 +153,96 @@
           "items": {
             "items": {
               "$ref": "#/$defs/enchant"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "caps"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/cap"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "passives"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/passive"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "skills"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/skill"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "consumables"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/consumable"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "cp_stars"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/cp_star"
             }
           }
         }
@@ -889,6 +984,400 @@
           "items": {
             "type": "number"
           }
+        }
+      }
+    },
+    "uesp": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^https://en\\.uesp\\.net/wiki/Online:"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cap": {
+      "description": "One combat-math constant. value_calc.py reads the keys listed in docs/SET_SUPPORT_TABLES.md.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "name",
+        "value",
+        "unit",
+        "notes",
+        "patch",
+        "verified",
+        "uesp"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unit": {
+          "enum": [
+            "flat",
+            "pct",
+            "ratio",
+            "seconds",
+            "pieces",
+            null
+          ]
+        },
+        "notes": {
+          "type": "string"
+        },
+        "patch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "uesp": {
+          "$ref": "#/$defs/uesp"
+        }
+      }
+    },
+    "passive_rank": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "effects"
+      ],
+      "properties": {
+        "rank": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect"
+          }
+        }
+      }
+    },
+    "passive": {
+      "description": "Race, class, skill-line, or guild passive. Named buffs are buff_ref, never inlined.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "name",
+        "category",
+        "line",
+        "ranks",
+        "patch",
+        "verified",
+        "uesp"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "enum": [
+            "race",
+            "class",
+            "skill_line",
+            "guild"
+          ]
+        },
+        "line": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Race, class, skill line, or guild name as shown in-game (e.g. Breton, Light Armor)."
+        },
+        "ranks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/passive_rank"
+          }
+        },
+        "patch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "uesp": {
+          "$ref": "#/$defs/uesp"
+        }
+      }
+    },
+    "skill": {
+      "description": "Active or ultimate morph as buff/cost/resource only. No damage coefficients.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "name",
+        "base",
+        "skill_line",
+        "class",
+        "resource",
+        "cost",
+        "buffs_granted",
+        "debuffs_applied",
+        "effects",
+        "patch",
+        "verified",
+        "uesp"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Unmorphed skill name, or null if this is the base."
+        },
+        "skill_line": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "resource": {
+          "enum": [
+            "magicka",
+            "stamina",
+            "health",
+            "ultimate",
+            "none",
+            null
+          ]
+        },
+        "cost": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "buffs_granted": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "debuffs_applied": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect"
+          },
+          "description": "Non-buff stat grants only (e.g. Inner Light Max Magicka). Do not store coefficients."
+        },
+        "patch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "uesp": {
+          "$ref": "#/$defs/uesp"
+        }
+      }
+    },
+    "consumable": {
+      "description": "Food, drink, potion, or poison. Potion Major/Minor buffs go in buffs_granted.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "name",
+        "category",
+        "duration_s",
+        "effects",
+        "buffs_granted",
+        "notes",
+        "patch",
+        "verified",
+        "uesp"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "enum": [
+            "food",
+            "drink",
+            "potion",
+            "poison"
+          ]
+        },
+        "duration_s": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "Duration before Medicinal Use / Rationer."
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect"
+          }
+        },
+        "buffs_granted": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "notes": {
+          "type": "string"
+        },
+        "patch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "uesp": {
+          "$ref": "#/$defs/uesp"
+        }
+      }
+    },
+    "cp_prerequisite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "star",
+        "min_points"
+      ],
+      "properties": {
+        "star": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact star name from examples/templates/champion_points.yaml."
+        },
+        "min_points": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "cp_star": {
+      "description": "Champion Point star. id/name/max_points/prerequisites must match champion_points.yaml. effects are at max rank.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "key",
+        "name",
+        "constellation",
+        "slottable",
+        "max_points",
+        "stages",
+        "points_per_stage",
+        "prerequisites",
+        "effects",
+        "patch",
+        "verified",
+        "uesp"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "In-game championSkillId from champion_points.yaml."
+        },
+        "key": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constellation": {
+          "enum": [
+            "craft",
+            "warfare",
+            "fitness"
+          ]
+        },
+        "slottable": {
+          "type": "boolean"
+        },
+        "max_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stages": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "points_per_stage": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cp_prerequisite"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect"
+          },
+          "description": "Typed effects at max_points. Linear stars: value is the max; per-stage is value/stages."
+        },
+        "patch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "uesp": {
+          "$ref": "#/$defs/uesp"
         }
       }
     }

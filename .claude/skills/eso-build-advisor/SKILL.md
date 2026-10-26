@@ -18,7 +18,8 @@ the repo workflow around it.
 - **Existing plan (if any):** `examples/<account>/<na|eu>/<slug>_plan.md`. Layout rules:
   `docs/plan_structure.md` (canonical layout, section order).
 - **Data:** `data/sets/llm_digest.jsonl` (+ `buffs.json`, `traits.json`, `mundus.json`,
-  `enchants.json`). If `data/sets/sets.json` is newer than the digest, run `task setdb:build`.
+  `enchants.json`, `caps.json`). Support-table ingest: `docs/SET_SUPPORT_TABLES.md`.
+  If `data/sets/sets.json` is newer than the digest, run `task setdb:build`.
 
 ## Tools (run from the repo root)
 
@@ -95,5 +96,6 @@ python3 .claude/skills/eso-build-advisor/scripts/value_calc.py \
 
 Give the verdict first (agree / agree with fixes / disagree), then factual errors (with the data
 that disproves them), then judgment calls (with calculator %), then what you changed. Keep
-constants honest: the caps and conversions are general ESO knowledge, not yet part of the
-verified dataset (Phase 5 `caps.json`), so flag them as re-check-after-patch.
+constants honest: read `data/sets/caps.json` (via `value_calc.py`). Rows with
+`verified: false` are still seed values — flag them as re-check-after-patch. See
+`docs/SET_SUPPORT_TABLES.md`.

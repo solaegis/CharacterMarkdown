@@ -34,12 +34,22 @@ tasks:
   test:
     desc: Run set DB tests (normalizer grammar, SavedVariables reader, reconciliation)
     cmds:
-      - uv run --group setdb python -m unittest tools.setdb.test_normalize tools.setdb.test_reconcile tools.setdb.test_digest tools.setdb.test_patches
+      - uv run --group setdb python -m unittest tools.setdb.test_normalize tools.setdb.test_reconcile tools.setdb.test_digest tools.setdb.test_patches tools.setdb.test_support
 
   digest:
     desc: "Write the compact LLM digest data/sets/llm_digest.jsonl. Options: -- --types trial,dungeon --no-text --out <path>"
     cmds:
       - "{{.SETDB}} digest {{.CLI_ARGS}}"
+
+  support-fetch:
+    desc: Download/refresh UESP skill-line, skill, CP-star and food pages for the support tables (network)
+    cmds:
+      - "{{.SETDB}} support-fetch"
+
+  support-parse:
+    desc: Cached pages -> passives/skills/cp_stars/consumables.json + buff sources, then validate (offline)
+    cmds:
+      - "{{.SETDB}} support-parse"
 
   build:
     desc: Parse + validate + digest (offline; run setdb:fetch first to refresh)

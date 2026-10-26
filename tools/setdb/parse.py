@@ -570,6 +570,10 @@ def run() -> int:
     mundus = parse_mundus(support["Online:Mundus Stones"])
     enchants = parse_enchants(support["Online:Glyphs"], glyph_pages)
     patched = apply_patches(sets, buffs, mundus)
+    # Keep the skill/passive/consumable/CP sources the support tables added
+    from .support import merge_from_tables
+
+    merge_from_tables(buffs)
 
     _write(
         "sets.json",
