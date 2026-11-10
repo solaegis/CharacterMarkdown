@@ -62,20 +62,26 @@ The character profile template helps Claude understand your goals and current st
 In ESO, generate your character markdown:
 
 ```
-/cm github
+/cm
 ```
 
-**Important:** Use **GitHub format** (default) for Claude analysis. Other formats are too compact or lack structure.
+This produces the full profile, shaped by your current settings (`/cm settings`). For a shorter, advice-focused export, use the compact build-coach format instead:
+
+```
+/cm coach
+```
+
+**Tip:** `/cm coach` is a good default for build advice and keeps the paste small. Use the full `/cm` profile when you want Claude to see everything (achievements, collectibles, progression). The settings panel also has a **Preset: AI / Build Coach** for leaner full exports.
 
 ### Step 4: Upload and Analyze
 
 1. **Copy the markdown:**
-   - From the CharacterMarkdown window, click "Select All"
-   - Copy (Ctrl+C / Cmd+C)
+   - Large profiles are split into several chunks. Use the Next / Previous buttons (or PageDown / PageUp) in the CharacterMarkdown window to move between them.
+   - For each chunk: press Ctrl+A to select all, then Ctrl+C to copy (Space or Enter also copies the chunk on screen).
 
 2. **Paste into Claude:**
    - Start a new conversation or continue existing one
-   - Paste the markdown
+   - Paste the chunks in order (chunk 1 first); a multi-chunk profile can be pasted as one message or saved to a file and uploaded
    - Optionally upload your character profile if you created one
 
 3. **Ask for analysis:**
@@ -91,7 +97,7 @@ In ESO, generate your character markdown:
 **Goal:** Get a complete optimized build package
 
 **Steps:**
-1. Generate markdown: `/cm github`
+1. Generate markdown: `/cm` (or `/cm coach` for the compact export)
 2. Fill out character profile with goals
 3. Upload both to Claude
 4. Ask: "Create a complete optimized build for [playstyle]. Include gear sets, traits, enchants, skills, CP distribution, and rotation."
@@ -102,7 +108,7 @@ In ESO, generate your character markdown:
 **Goal:** Document and optimize a specific playstyle
 
 **Steps:**
-1. Generate markdown: `/cm github`
+1. Generate markdown: `/cm` (or `/cm coach` for the compact export)
 2. Fill out `playstyle_strategy.md` template
 3. Upload both to Claude
 4. Ask: "Review this playstyle strategy and optimize it. Update the template with your recommendations."
@@ -113,7 +119,7 @@ In ESO, generate your character markdown:
 **Goal:** Track improvements over time
 
 **Steps:**
-1. Generate markdown: `/cm github`
+1. Generate markdown: `/cm` (or `/cm coach` for the compact export)
 2. Upload to Claude with previous analysis
 3. Ask: "Compare this character to the previous analysis. What improvements have been made? What's next?"
 4. Update your character profile with changes
@@ -124,7 +130,7 @@ In ESO, generate your character markdown:
 **Goal:** Understand how patches affect your build
 
 **Steps:**
-1. Generate markdown: `/cm github`
+1. Generate markdown: `/cm` (or `/cm coach` for the compact export)
 2. Upload to Claude with patch notes
 3. Ask: "How do these patch changes affect my character? What adjustments should I make?"
 4. Get prioritized list of changes needed

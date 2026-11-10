@@ -1576,7 +1576,7 @@ function CM.Settings.Panel:AddLinkSettings(options)
 
     table.insert(options, {
         type = "header",
-        name = "External Links (GitHub format only)",
+        name = "External Links",
         width = "full",
     })
 
